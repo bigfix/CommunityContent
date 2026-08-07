@@ -1,34 +1,45 @@
-# CommunityContent
-Community Contributions for BigFix Content, stewards of BigFix.Me
+# BigFix Community Content Repository
+See important notices regarding HCL Terms of Use at [TERMS](TERMS).  These terms are adapted from the original legal terms created for the original bigfix.me site, and may reflect some features (such as confidential areas and NDA agreements) that may not be relevant to this repository.
 
-LICENSE and TERMS
-Submissions migrated from https://bigfix.me are generally licensed under the terms of the [Creative Commons Attribute-ShareAlike 3.0 license](https://creativecommons.org/licenses/by-sa/3.0/legalcode.txt).  Modifications or submissions updated in this repository after the initial port are updated to the [Creative Commons Attribute-ShareAlike 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt)
+## Purpose
 
-The following additional TERMS apply to content in this repository:
-The following are terms of a legal downloader agreement (the "Agreement") regarding Your download of Content (as defined below) from this Website. HCL may change these terms of use and other requirements and guidelines for use of this Website at its sole discretion. This Website may contain other proprietary notices and copyright information, the terms of which must be observed and followed. Any use of the Content in violation of this Agreement is strictly prohibited.
+This repository is intended to foster sharing and collaboration between BigFix customers, partners, and enthusiasts.  This is a modernized replacement for the BigFix.Me site that has operated from October 2012 to the present day.  The purpose of this repository is to continue the legacy of BigFix.Me and carry forward the collaboration using the modern conveniences and standardized tooling supplied by github.
 
-"Content" includes, but is not limited to, software, text and/or speech files, code, associated materials, media and /or documentation that You download from this Website. Content is licensed by the third party directly to You according the Creative Commons Attribution-ShareAlike (CC-BY-SA 3.0) licensing terms. HCL's decision to permit posting of third-party Content does not constitute an express or implied license from HCL to You or a recommendation or endorsement by HCL of any particular product, service, company or technology.
+## Organization
+
+Content in this repo should be organized in directory structures mirroring what one might expect from Custom Sites organization in a BigFix Deployment (which provides for ease of direct copies into a BigFix Deployment).  BigFix Platform content - Fixlets, Analyses, Tasks, ComputerGroups, etc. - should be submitted as .bes files for direct import to the Console; BigFix Inventory Signatures should be submitted as .xml files that can be directly uploaded or pasted into the BigFix Inventory interface; AI skills should be submitted as Markdown documents.
+
+While this certainly may change over time, an example expected structure may be represented as
+```
+/Content/BigFix Management/Task/Relay - Apply _BESClient_Relay_NameOverride.bes
+/Content/BigFix Management/Task/Relay - Remove _BESClient_Relay_NameOverride.bes
+/Content/BigFix Management/Analysis/Relay Properties.bes
+/Content/BigFix Management/Fixlet/BES Server - Apply directory exclusions for Defender scans - Windows.bes
+/Content/BigFix Management/Fixlet/BES Server - Remove directory exclusions for Defender scans - Windows.bes
+
+/Content/Windows Software/Task/Notepad++ - Install.bes
+/Content/Windows Software/Task/Notepad++ - UnInstall.bes
+/Content/Windows Software/Fixlet/Notepad++ - Upgrade.bes
+/Content/Windows Software/Analysis/Install Sofware List - Windows.bes
+
+/Content/Mac Software/Task/VSCode - Install.bes
+/Content/Mac Software/Task/VSCode - UnInstall.bes
+/Content/Mac Software/Fixlet/VSCode - Upgrade.bes
+
+/Content/BigFix Inventory Signatures/react-server-dom CVE-2025-55182,AFFECTED.xml
+/Content/BigFix Inventory Signatures/react-server-dom CVE-2025-55182,SAFE.xml
+
+/Content/AI Skills/Relevance-Generator-Skill.md
+/Content/AI Skills/Product-Release-Detector-Skill.md
+/Content/AI Skills/Fixlet-Generator-Skill.md
+/Content/AI Skills/BigFix-Operator-Skill.md
+```
+
+## Attribution
+For authorship attribution, if desired please include frontmatter in the content (for example, XML comments or Markdown frontmatter) embedded in the content itself; and/or, MIME fields in .bes content, provided that such tags are schema-conformant and do not interfere with the ability to import/export such content into a BigFix deployment.
 
 
-You understand that no assurances are provided that the Content does not infringe the intellectual property rights of any other entity. Neither HCL nor the provider (“Provider”) of the Content grants a patent license of any kind, whether expressed or implied or by estoppel. As a condition of exercising the rights and licenses granted under this Agreement, You assume sole responsibility to obtain any other intellectual property rights needed.
+## LEGAL AND LICENSE TERMS
+Submissions migrated from https://bigfix.me are generally licensed under the terms of the [Creative Commons Attribute-ShareAlike 3.0 license](https://creativecommons.org/licenses/by-sa/3.0/legalcode.txt).  Modifications or submissions updated in this repository after the initial port are updated to the [Creative Commons Attribute-ShareAlike 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/legalcode.txt) as defined at [LICENSE](LICENSE)
 
 
-The Provider of the Content is the party that submitted the Content for Posting and who represents and warrants that they own all of the Content, (or have obtained all written releases, authorizations and licenses from any other owner(s) necessary to grant HCL and downloaders this license with respect to portions of the Content not owned by the Provider). All information provided on or through this Website may be changed or updated without notice. You understand that HCL has no obligation to check information and /or Content on the Website and that the information and/or Content provided on this Web site may contain technical inaccuracies or typographical errors.
-
-
-HCL may, in its sole discretion, discontinue the Website, any service provided on or through the Website, as well as limit or discontinue access to any Content posted on the Website for any reason without notice. HCL may terminate this Agreement and Your rights to access, use and download Content from the Website at any time, with or without cause, immediately and without notice.
-
-
-ALL INFORMATION AND CONTENT IS PROVIDED ON AN "AS IS" BASIS. HCL MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, CONCERNING USE OF THE WEBSITE, THE CONTENT, OR THE COMPLETENESS OR ACCURACY OF THE CONTENT OR INFORMATION OBTAINED FROM THE WEBSITE. HCL SPECIFICALLY DISCLAIMS ALL WARRANTIES WITH REGARD TO THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. HCL DOES NOT WARRANT UNINTERRUPTED OR ERROR-FREE OPERATION OF ANY CONTENT. HCL IS NOT RESPONSIBLE FOR THE RESULTS OBTAINED FROM THE USE OF THE CONTENT OR INFORMATION OBTAINED FROM THE WEBSITE.
-
-
-LIMITATION OF LIABILITY. IN NO EVENT WILL HCL BE LIABLE TO ANY PARTY FOR ANY DIRECT, INDIRECT, SPECIAL OR OTHER CONSEQUENTIAL DAMAGES FOR ANY USE OF THIS WEBSITE, THE USE OF CONTENT FROM THIS WEBSITE, OR ON ANY OTHER HYPER LINKED WEB SITE, INCLUDING, WITHOUT LIMITATION, ANY LOST PROFITS, BUSINESS INTERRUPTION, LOSS OF PROGRAMS OR OTHER DATA ON YOUR INFORMATION HANDLING SYSTEM OR OTHERWISE, EVEN IF HCL IS EXPRESSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
-
-
-The laws of the State of New York, USA govern this Agreement, without reference to conflict of law principles. The "United Nations Convention on International Sale of Goods" does not apply. This Agreement may not be assigned by You. The parties agree to waive their right to a trial by jury.
-
-
-This Agreement is the complete and exclusive agreement between the parties and supersedes all prior agreements, oral or written, and all other communications relating to the subject matter hereof. For clarification, it is understood and You agree, that any additional agreement or license terms that may accompany the Content is invalid, void, and non-enforceable to any downloader of this Content including HCL.
-
-
-If any section of this Agreement is found by competent authority to be invalid, illegal or unenforceable in any respect for any reason, the validity, legality and enforceability of any such section in every other respect and the remainder of this Agreement shall continue in effect.
