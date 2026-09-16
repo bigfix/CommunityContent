@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:25"
+Publisher: "AS Software"
+ProductName: "AS OBGYN"
+Release: "7.8"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="AS OBGYN" vendor="AS Software" uniqueId="a0364120-c0f9-11e8-95b8-005056ae0d7c" version="7.8">
+    <Signature uniqueId="9ffa97b0-c0f9-11e8-95b7-005056ae0d7c" modified="2018-09-25T19:31:39Z" created="2018-09-25T19:31:39Z">
+      <AND>
+        <OR>
+          <File name="ASOBGYN.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

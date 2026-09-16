@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:37"
+Publisher: "Hewlett-Packard"
+ProductName: "Winivs"
+Release: "4.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Winivs" vendor="Hewlett-Packard" uniqueId="8d0b8bd0-f73d-11e8-b55f-005056ae0d7c" version="4.0">
+    <Signature uniqueId="8cd894f0-f73d-11e8-b55e-005056ae0d7c" modified="2018-12-03T20:53:56Z" created="2018-12-03T20:53:56Z">
+      <AND>
+        <OR>
+          <File name="WINIVS.EXE" size="" version="4.13"/>
+          <File name="WINIVS.EXE" size="860400" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

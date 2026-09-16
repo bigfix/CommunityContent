@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM Security Guardium Standard Activity Monitor for Databases 10.5
+
+The version included in the ISO Tag is 10.1 instead of 10.5. Signature based on the ISO SWID Tag file name containing proper version."
+Author: "ArturZ"
+uploadedOn: "2021-03-17 09:24:03"
+Publisher: "IBM"
+ProductName: "IBM Security Guardium Standard Activity Monitor for Databases"
+Release: "10.5"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-03-17T16:22:03Z">
+   <Software name="IBM Security Guardium Standard Activity Monitor for Databases" vendor="IBM" uniqueId="d95313a0-873c-11eb-8414-025041000001" version="10.5">
+    <Signature uniqueId="d939e650-873c-11eb-8414-025041000001" modified="2021-03-17T16:21:37Z" created="2021-03-17T16:21:37Z">
+      <AND>
+        <OR>
+          <File name="ibm.com_IBM_Security_Guardium_Standard_Activity_Monitor_for_Databases-10.5.0.swidtag" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

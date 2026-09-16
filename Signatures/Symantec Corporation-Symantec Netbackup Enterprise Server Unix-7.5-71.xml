@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:33"
+Publisher: "Symantec Corporation"
+ProductName: "Symantec Netbackup Enterprise Server Unix"
+Release: "7.5"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="Symantec Netbackup Enterprise Server Unix" vendor="Symantec Corporation" uniqueId="1ce27a40-b762-11e4-b659-005056007f46" version="7.5">
+    <Signature uniqueId="b7c4fa67-d9ab-4910-8b62-f87087f028f4" modified="2014-10-17T11:33:36Z" created="2014-10-17T11:33:36Z">
+      <AND>
+        <OR>
+         <PackageFilter name="NetBackup and Media Manager" vendor="" version="7.5.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

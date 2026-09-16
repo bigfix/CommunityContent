@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Identify all Telerik.Web.UI.dll installations and gather information about detailed version."
+Author: "magdalena.kunat"
+uploadedOn: "2021-12-14 07:38:27"
+Publisher: "Telerik Corporation"
+ProductName: "Telerik Web UI"
+Release: "2008.202x"
+Keywords: "Telerik UI, CVE-2019-18935"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-10-26T14:22:36Z">
+   <Software name="Telerik Web UI" vendor="Telerik Corporation" uniqueId="06cf7f64-3668-11ec-987f-2acd3b3921f7" version="2008.202x">
+    <Signature uniqueId="05aa294a-3668-11ec-987f-2acd3b3921f7" modified="2021-10-26T14:21:34Z" created="2021-10-26T14:21:34Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx name="Telerik.Web.UI.dll"/></Iterator><Instance><Variable export="true" name="DETAILED_VER"><WinFileInfo absolutePath="$(INSTALL_PATH)Telerik.Web.UI.dll" field="version"/></Variable><Variable export="true" name="IS_INSTALLED"><Compare relation="eq" type="string"><StringSlice endIndex="2" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="20"/></Compare></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

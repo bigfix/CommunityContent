@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "Milestone Systems A/S"
+ProductName: "Milestone XProtect Corporate Recording Server"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Milestone XProtect Corporate Recording Server" vendor="Milestone Systems A/S" uniqueId="d652cd80-fe36-11e8-b584-005056ae0d7c" version="2.0">
+    <Signature uniqueId="d5d40090-fe36-11e8-b583-005056ae0d7c" modified="2018-12-12T17:53:30Z" created="2018-12-12T17:53:30Z">
+      <AND>
+        <OR>
+          <File name="MilestoneXProtectRecordingServerInstaller_x64.exe" size="455187352" version=""/>
+          <File name="MilestoneXProtectRecordingServerInstaller_x64.exe" size="" version="2.2"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

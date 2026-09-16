@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:31"
+Publisher: "Mortara"
+ProductName: "Pyramis"
+Release: "6.7"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Pyramis" vendor="Mortara" uniqueId="b628d550-c0f5-11e8-95b3-005056ae0d7c" version="6.7">
+    <Signature uniqueId="b5c4bc50-c0f5-11e8-95b2-005056ae0d7c" modified="2018-09-25T19:03:38Z" created="2018-09-25T19:03:38Z">
+      <AND>
+        <OR>
+          <File name="PyramisWebSiteConfiguration.exe" size="" version="6.7"/>
+          <File name="PyramisWebSiteConfiguration.exe" size="344064" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

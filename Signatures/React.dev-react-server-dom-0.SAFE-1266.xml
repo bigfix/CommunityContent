@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Detection for react-server-components.  This signature detects react-server-components that have already been upgraded and are not vulnerable to CVE-2025-55182.
+
+<B> These signatures are rapid-release to accommodate the urgency of this issue </B>
+
+The signatures may not have been fully regression-tested on all platforms.  Please take care when adding custom signatures to BigFix Inventory."
+Author: "JasonWalker"
+uploadedOn: "2025-12-04 13:19:04"
+Publisher: "React.dev"
+ProductName: "react-server-dom"
+Release: "0.SAFE"
+Keywords: "react-server-components, CVE-2025-55182, npm"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2025-12-04T20:12:59Z">
+   <Software name="react-server-dom" vendor="React.dev" uniqueId="1c6e6810-d14d-11f0-b556-005056a83ca3" version="0.SAFE">
+    <Signature uniqueId="4e0087f0-d14d-11f0-b556-005056a83ca3" modified="2025-12-04T20:10:40Z" created="2025-12-04T20:10:40Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*\react-server-dom-turbopack\"><FindFilePathEx appendFileName="false" name="package.json"/></Vector></Iterator><Instance><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)\package.json" field="size" relation="le" value="512000"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)\package.json"/></Variable><Variable export="false" name="ver_line"><VectorToScalar><Substring inputString="$(file_read)" searchedString="&quot;version&quot;: &quot;"/></VectorToScalar></Variable><Variable name="DETAILED_VER"><StringCrop endString="&quot;" inputString="$(ver_line)" seekFrom="left" startString="&quot;version&quot;: &quot;"/></Variable><Variable name="IS_INSTALLED"><Or><Compare relation="lt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.0.0"/></Compare><Compare relation="gt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.2.0"/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="18b382f0-d14d-11f0-b556-005056a83ca3" modified="2025-12-04T20:09:13Z" created="2025-12-04T20:09:13Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*\react-server-dom-webpack\"><FindFilePathEx appendFileName="false" name="package.json"/></Vector></Iterator><Instance><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)\package.json" field="size" relation="le" value="512000"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)\package.json"/></Variable><Variable export="false" name="ver_line"><VectorToScalar><Substring inputString="$(file_read)" searchedString="&quot;version&quot;: &quot;"/></VectorToScalar></Variable><Variable name="DETAILED_VER"><StringCrop endString="&quot;" inputString="$(ver_line)" seekFrom="left" startString="&quot;version&quot;: &quot;"/></Variable><Variable name="IS_INSTALLED"><Or><Compare relation="lt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.0.0"/></Compare><Compare relation="gt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.2.0"/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="3666d040-d14d-11f0-b556-005056a83ca3" modified="2025-12-04T20:10:00Z" created="2025-12-04T20:10:00Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*\react-server-dom-parcel\"><FindFilePathEx appendFileName="false" name="package.json"/></Vector></Iterator><Instance><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)\package.json" field="size" relation="le" value="512000"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)\package.json"/></Variable><Variable export="false" name="ver_line"><VectorToScalar><Substring inputString="$(file_read)" searchedString="&quot;version&quot;: &quot;"/></VectorToScalar></Variable><Variable name="DETAILED_VER"><StringCrop endString="&quot;" inputString="$(ver_line)" seekFrom="left" startString="&quot;version&quot;: &quot;"/></Variable><Variable name="IS_INSTALLED"><Or><Compare relation="lt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.0.0"/></Compare><Compare relation="gt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="19.2.0"/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

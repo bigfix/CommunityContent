@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "KeyPrint"
+ProductName: "KeyPrint"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="KeyPrint" vendor="KeyPrint" uniqueId="51ba9690-f8b2-11e8-b573-005056ae0d7c" version="5.0">
+    <Signature uniqueId="51757740-f8b2-11e8-b572-005056ae0d7c" modified="2018-12-05T17:22:18Z" created="2018-12-05T17:22:18Z">
+      <AND>
+        <OR>
+          <File name="Printkey2000.exe" size="" version="5.1"/>
+          <File name="Printkey2000.exe" size="869376" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

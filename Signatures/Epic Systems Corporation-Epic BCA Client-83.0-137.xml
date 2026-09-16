@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Epic Systems Corporation"
+ProductName: "Epic BCA Client"
+Release: "83.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Epic BCA Client" vendor="Epic Systems Corporation" uniqueId="5be54250-f7db-11e8-b565-005056ae0d7c" version="83.0">
+    <Signature uniqueId="5ba50500-f7db-11e8-b564-005056ae0d7c" modified="2018-12-04T15:43:34Z" created="2018-12-04T15:43:34Z">
+      <AND>
+        <OR>
+          <File name="EpicBCAClient.exe" size="" version="83.1"/>
+          <File name="EpicBCAClient.exe" size="113504" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

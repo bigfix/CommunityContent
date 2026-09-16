@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM UrbanCode Deploy - Managed Node 7.0.4 and 7.0.5
+
+Detection limited to the 7.0.4 and 7.0.5 version, others should be reported with use of ISO SWID Tag.
+
+Detailed version reported via Component Detailed Version. "
+Author: "ArturZ"
+uploadedOn: "2021-04-01 01:01:50"
+Publisher: "IBM"
+ProductName: "IBM UrbanCode Deploy - Managed Node"
+Release: "7.0"
+Keywords: "detailed_version"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-04-01T08:00:18Z">
+   <Software name="IBM UrbanCode Deploy - Managed Node" vendor="IBM" uniqueId="bd0de210-92bd-11eb-8bd4-025041000001" version="7.0">
+    <Signature uniqueId="f84d93c0-92bd-11eb-8bd4-025041000001" modified="2021-04-01T07:43:37Z" created="2021-04-01T07:43:37Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*\lib\"><FindFilePathEx name="ucd.jar"/></Vector></Iterator><Instance><Variable export="false" name="file_exists"><FileExists absolutePath="$(INSTALL_PATH)../conf/installed.version"/></Variable><Condition withVariable="file_exists"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)..\conf\installed.version" field="size" relation="le" value="102400"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)..\conf\installed.version"/></Variable><Variable export="false" name="ucd_det"><VectorToScalar><Substring inputString="$(file_read)" searchedString="installed.version="/></VectorToScalar></Variable><Condition withVariable="ucd_det"><Action do="SKIP" onValue="false"/></Condition><Variable export="true" name="DETAILED_VER"><StringCrop endString="&#13;" inputString="$(ucd_det)" seekFrom="left" startString="installed.version="/></Variable><Variable export="true" name="IS_INSTALLED"><Or><Compare relation="eq" type="string"><StringSlice endIndex="6" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="7.0.4."/></Compare><Compare relation="eq" type="string"><StringSlice endIndex="6" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="7.0.5."/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="bc9f68d0-92bd-11eb-8bd4-025041000001" modified="2021-04-01T07:41:58Z" created="2021-04-01T07:41:58Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*/lib/"><FindFilePathEx name="ucd.jar"/></Vector></Iterator><Instance><Variable export="false" name="file_exists"><FileExists absolutePath="$(INSTALL_PATH)../conf/installed.version"/></Variable><Condition withVariable="file_exists"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)../conf/installed.version" field="size" relation="le" value="102400"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)../conf/installed.version"/></Variable><Variable export="false" name="ucd_det"><VectorToScalar><Substring inputString="$(file_read)" searchedString="installed.version="/></VectorToScalar></Variable><Condition withVariable="ucd_det"><Action do="SKIP" onValue="false"/></Condition><Variable export="true" name="DETAILED_VER"><StringCrop endString="&#13;" inputString="$(ucd_det)" seekFrom="left" startString="installed.version="/></Variable><Variable export="true" name="IS_INSTALLED"><Or><Compare relation="eq" type="string"><StringSlice endIndex="6" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="7.0.4."/></Compare><Compare relation="eq" type="string"><StringSlice endIndex="6" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="7.0.5."/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "AVEVA Group"
+ProductName: "CAD Centre PDMS"
+Release: "12.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="CAD Centre PDMS" vendor="AVEVA Group" uniqueId="09c886a0-dbaa-11e8-95d5-005056ae0d7c" version="12.0">
+    <Signature uniqueId="09a26100-dbaa-11e8-95d4-005056ae0d7c" modified="2018-10-29T18:39:58Z" created="2018-10-29T18:39:58Z">
+      <AND>
+        <OR>
+          <File name="pdms35setup.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

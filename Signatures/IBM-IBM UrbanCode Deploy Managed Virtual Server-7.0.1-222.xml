@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM urbancode Deploy (Agent, zOS Agent, Managed Virtual Server)"
+Author: "ssakunala"
+uploadedOn: "2020-09-21 13:23:13"
+Publisher: "IBM"
+ProductName: "IBM UrbanCode Deploy Managed Virtual Server"
+Release: "7.0.1"
+Keywords: "The custom signatures for Urbancode Deploy 6.2.5/6.2.6/6.2.7/7.0.0/7.0.1/7.0.2/7.0.3 (for Agent, zOS Agent and Managed Virtual Server)"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2020-08-27T20:38:52Z">
+   <Software name="IBM UrbanCode Deploy Managed Virtual Server" vendor="IBM" uniqueId="cfc1b400-e899-11ea-bb58-000c29da2d16" version="7.0.1">
+    <Signature uniqueId="cf991d60-e899-11ea-bb58-000c29da2d16" modified="2020-08-27T19:16:29Z" created="2020-08-27T19:16:29Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*?properties?version?"><FindFilePathEx appendFileName="false" name="*IBM_Urban?ode_Deploy_Managed_Virtual_Server?6*tag"/></Vector></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><FileExists absolutePath="$(INSTALL_PATH)../../conf/agent/installed.properties"/></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)../../conf/installed.version"/></Variable><Variable name="IS_INSTALLED"><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*installed.version=7.0.1*"><ValueOf value="$(file_read)"/></Vector></VectorToScalar><ValueOf value=""/></Compare></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM Tivoli Enterprise Portal Server 6.3  Search for first instance only. Windowns and Non-Windows deployments."
+Author: "ArturZ"
+uploadedOn: "2021-05-19 08:59:29"
+Publisher: "IBM"
+ProductName: "Tivoli Enterprise Portal Server"
+Release: "6.3"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-05-19T16:01:05Z">
+   <Software name="Tivoli Enterprise Portal Server" vendor="IBM" uniqueId="f8ffe5c0-b8ba-11eb-a91a-005056a83ca3" version="6.3">
+    <Signature uniqueId="f8649020-b8ba-11eb-a91a-005056a83ca3" modified="2021-05-19T15:57:53Z" created="2021-05-19T15:57:53Z">
+      <ExtendedSignature>
+        <![CDATA[<Variable name="INSTALL_PATH"><VectorAt index="1"><Vector filter="*ver*"><FindFilePathEx name="KMSWICMS.ver"/></Vector></VectorAt></Variable><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)\KCQWICMS.ver"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="ver = 630"/><Contains inputString="$(file_read)" position="contains" searchedString="Tivoli Enterprise Portal Server"/></And></Variable>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="f99d3730-b8ba-11eb-a91a-005056a83ca3" modified="2021-05-19T15:57:53Z" created="2021-05-19T15:57:53Z">
+      <ExtendedSignature>
+        <![CDATA[<Variable name="INSTALL_PATH"><VectorAt index="1"><Vector filter="*registry*"><FindFilePathEx appendFileName="true" name="cq*.ver"/></Vector></VectorAt></Variable><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="ver = 630"/><Contains inputString="$(file_read)" position="contains" searchedString="Tivoli Enterprise Portal Server"/></And></Variable>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

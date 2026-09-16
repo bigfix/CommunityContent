@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Epic Systems Corporation"
+ProductName: "Epic MyChart Webserver"
+Release: "8.3"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Epic MyChart Webserver" vendor="Epic Systems Corporation" uniqueId="4dcd46d0-b777-11e8-95ad-005056ae0d7c" version="8.3">
+    <Signature uniqueId="11eccef0-b5cf-11e8-a398-005056ae7c9c" modified="2018-09-13T17:05:58Z" created="2018-09-13T17:05:58Z">
+      <AND>
+        <OR>
+          <File name="Epic.MyChart.WebServerSetup.exe" size="" version="83.0"/>
+          <File name="Epic.MyChart.WebServerSetup.exe" size="123872" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

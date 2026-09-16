@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:01"
+Publisher: "Symantec"
+ProductName: "Symantec Netbackup Enterprise Client"
+Release: "7.6"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="Symantec Netbackup Enterprise Client" vendor="Symantec" uniqueId="3ff251a0-a541-11e4-9448-005056007f46" version="7.6">
+    <Signature uniqueId="3fafca60-a541-11e4-9447-005056007f46" modified="2015-01-26T09:53:58Z" created="2015-01-26T09:53:58Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Symantec NetBackup Client" vendor="Symantec Corporation" version="7.6"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

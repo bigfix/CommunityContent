@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-06-16 03:47:52"
+Publisher: "Symantec"
+ProductName: "Veritas Web Server"
+Release: "4.2"
+Keywords: "Solaris ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-05-20T15:38:24Z">
+   <Software name="Veritas Web Server" vendor="Symantec" uniqueId="8b3ecb10-feed-11e4-9d9a-005056007f46" version="4.2">
+    <Signature uniqueId="897a10a0-feed-11e4-9d9a-005056007f46" modified="2015-05-20T12:41:29Z" created="2015-05-20T12:41:29Z">
+      <AND>
+        <OR>
+         <PackageFilter name="VERITAS Web Server" vendor="VERITAS Software Corp." version="4.2*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

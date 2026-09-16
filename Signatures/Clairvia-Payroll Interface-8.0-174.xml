@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:31"
+Publisher: "Clairvia"
+ProductName: "Payroll Interface"
+Release: "8.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Payroll Interface" vendor="Clairvia" uniqueId="4b370350-f7e8-11e8-b569-005056ae0d7c" version="8.0">
+    <Signature uniqueId="4afdcae0-f7e8-11e8-b568-005056ae0d7c" modified="2018-12-04T17:16:09Z" created="2018-12-04T17:16:09Z">
+      <AND>
+        <OR>
+          <File name="PayRoll_Dialog.exe" size="" version="8.6"/>
+          <File name="PayRoll_Dialog.exe" size="24576" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

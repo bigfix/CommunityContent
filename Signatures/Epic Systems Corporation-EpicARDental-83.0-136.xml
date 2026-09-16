@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Epic Systems Corporation"
+ProductName: "EpicARDental"
+Release: "83.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="EpicARDental" vendor="Epic Systems Corporation" uniqueId="86752090-fd89-11e8-b582-005056ae0d7c" version="83.0">
+    <Signature uniqueId="8640a310-fd89-11e8-b581-005056ae0d7c" modified="2018-12-11T21:12:53Z" created="2018-12-11T21:12:53Z">
+      <AND>
+        <OR>
+          <File name="EpicARDentalTrtPln83.ocx" size="848856" version=""/>
+          <File name="EpicARDentalTrtPln83.ocx" size="" version="83.1"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

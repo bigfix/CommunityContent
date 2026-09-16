@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "GE Healthcare"
+ProductName: "Enterprise Archive"
+Release: "10.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Enterprise Archive" vendor="GE Healthcare" uniqueId="e5fad3a0-c5a0-11e8-95bc-005056ae0d7c" version="10.0">
+    <Signature uniqueId="e5bce040-c5a0-11e8-95bb-005056ae0d7c" modified="2018-10-01T17:39:07Z" created="2018-10-01T17:39:07Z">
+      <AND>
+        <OR>
+          <File name="EMCShell.exe" size="" version="6.0"/>
+          <File name="EMCShell.exe" size="83456" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

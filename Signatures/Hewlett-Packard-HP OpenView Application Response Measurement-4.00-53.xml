@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:55:03"
+Publisher: "Hewlett-Packard"
+ProductName: "HP OpenView Application Response Measurement"
+Release: "4.00"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T08:43:08Z">
+   <Software name="HP OpenView Application Response Measurement" vendor="Hewlett-Packard" uniqueId="9029e940-a21b-11e4-943f-005056007f46" version="4.00">
+    <Signature uniqueId="8fc58220-a21b-11e4-943f-005056007f46" modified="2015-01-22T09:46:38Z" created="2015-01-22T09:46:38Z">
+      <AND>
+        <OR>
+         <PackageFilter name="HPOvARM" vendor="Hewlett-Packard Company" version="4.00.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

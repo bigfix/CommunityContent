@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:36"
+Publisher: "(SECURITY)"
+ProductName: "Struts2 Core Jar"
+Release: "0.NOT 2.3.34 OR 2.5.13"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Struts2 Core Jar" vendor="(SECURITY)" uniqueId="20492a90-b776-11e8-95ad-005056ae0d7c" version="0.NOT 2.3.34 OR 2.5.13">
+    <Signature uniqueId="bfbd5b10-99f3-11e7-8040-0050560082fd" modified="2018-09-13T16:57:39Z" created="2018-09-13T16:57:39Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="struts2-core*.jar"/></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><Not><Or><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*2.5.13*"><ValueOf value="$(INSTALL_PATH)"/></Vector></VectorToScalar><ValueOf value=""/></Compare><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*2.3.34*"><ValueOf value="$(INSTALL_PATH)"/></Vector></VectorToScalar><ValueOf value=""/></Compare></Or></Not></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

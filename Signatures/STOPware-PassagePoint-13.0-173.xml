@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:30"
+Publisher: "STOPware"
+ProductName: "PassagePoint"
+Release: "13.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="PassagePoint" vendor="STOPware" uniqueId="03896ff0-f73b-11e8-b55e-005056ae0d7c" version="13.0">
+    <Signature uniqueId="033f95b0-f73b-11e8-b55d-005056ae0d7c" modified="2018-12-03T20:35:46Z" created="2018-12-03T20:35:46Z">
+      <AND>
+        <OR>
+          <File name="PassagePoint Client.exe" size="" version="13.2"/>
+          <File name="PassagePoint Client.exe" size="15721472" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

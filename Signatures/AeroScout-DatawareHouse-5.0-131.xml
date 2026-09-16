@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "AeroScout"
+ProductName: "DatawareHouse"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="DatawareHouse" vendor="AeroScout" uniqueId="24a2b3a0-d886-11e8-95cc-005056ae0d7c" version="5.0">
+    <Signature uniqueId="24564150-d886-11e8-95ca-005056ae0d7c" modified="2018-10-25T18:45:28Z" created="2018-10-25T18:45:28Z">
+      <AND>
+        <OR>
+          <File name="zic.exe" size="" version=""/>
+        </OR>
+        <OR>
+         <PackageFilter name="Mobile view 4 backup" vendor="AeroScout" version="5.0.5"/>
+         <PackageFilter name="DatawareHouse" vendor="AeroScout" version="5.0"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

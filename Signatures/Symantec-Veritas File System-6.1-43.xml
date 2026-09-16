@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:55:03"
+Publisher: "Symantec"
+ProductName: "Veritas File System"
+Release: "6.1"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T08:43:08Z">
+   <Software name="Veritas File System" vendor="Symantec" uniqueId="c9a36040-a223-11e4-9442-005056007f46" version="6.1">
+    <Signature uniqueId="c93bebe0-a223-11e4-9441-005056007f46" modified="2015-01-22T10:45:31Z" created="2015-01-22T10:45:31Z">
+      <AND>
+        <OR>
+         <PackageFilter name="VRTSvxfs" vendor="Symantec Corporation" version="6.1.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

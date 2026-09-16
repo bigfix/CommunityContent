@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Firebug Software"
+ProductName: "Firebug"
+Release: "3.5"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Firebug" vendor="Firebug Software" uniqueId="f334e630-f8a6-11e8-b56b-005056ae0d7c" version="3.5">
+    <Signature uniqueId="f2da4310-f8a6-11e8-b56a-005056ae0d7c" modified="2018-12-05T16:00:55Z" created="2018-12-05T16:00:55Z">
+      <AND>
+        <OR>
+          <File name="FirebugJanam3.5-FullSetup.exe" size="5433344" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

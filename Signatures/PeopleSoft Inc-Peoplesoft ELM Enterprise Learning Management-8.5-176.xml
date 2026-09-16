@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:31"
+Publisher: "PeopleSoft Inc"
+ProductName: "Peoplesoft ELM Enterprise Learning Management"
+Release: "8.5"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Peoplesoft ELM Enterprise Learning Management" vendor="PeopleSoft Inc" uniqueId="51531230-b777-11e8-95b0-005056ae0d7c" version="8.5">
+    <Signature uniqueId="0a1e2b80-91ce-11e8-b507-005056ae7c9c" modified="2018-09-13T17:05:58Z" created="2018-09-13T17:05:58Z">
+      <AND>
+        <OR>
+          <File name="check_roleusers_elm.sh" size="" version=""/>
+        </OR>
+        <OR>
+         <PackageFilter name="ELM" vendor="Peoplesoft" version="8.5"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

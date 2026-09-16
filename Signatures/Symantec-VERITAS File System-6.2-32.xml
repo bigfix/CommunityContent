@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:36"
+Publisher: "Symantec"
+ProductName: "VERITAS File System"
+Release: "6.2"
+Keywords: "Solaris ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T17:18:53Z">
+   <Software name="VERITAS File System" vendor="Symantec" uniqueId="40290fe0-a57f-11e4-9455-005056007f46" version="6.2">
+    <Signature uniqueId="3fe21bd0-a57f-11e4-9455-005056007f46" modified="2015-01-26T17:17:47Z" created="2015-01-26T17:17:47Z">
+      <AND>
+        <OR>
+         <PackageFilter name="VERITAS File System" vendor="VERITAS Software" version="6.2"/>
+         <PackageFilter name="VERITAS File System" vendor="VERITAS Software" version="6.2.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

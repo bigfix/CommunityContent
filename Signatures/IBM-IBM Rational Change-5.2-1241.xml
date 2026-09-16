@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Fixed signatures for Windows and UNIX platforms"
+Author: "Michal_Knapczyk"
+uploadedOn: "2021-12-13 01:00:43"
+Publisher: "IBM"
+ProductName: "IBM Rational Change"
+Release: "5.2"
+Keywords: "IBM, IBM Rational Change, 5.0"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-12-13T08:47:06Z">
+   <Software name="IBM Rational Change" vendor="IBM" uniqueId="2c1adf40-5bf0-11ec-a2a5-025041000001" version="5.2">
+    <Signature uniqueId="2bea8070-5bf0-11ec-a2a5-025041000001" modified="2021-12-13T08:39:23Z" created="2021-12-13T08:39:23Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="false" name="file_list"><Vector filter="*WEB-INF*wsconfig*system*"><FindFilePathEx name="resource_strings.properties"/></Vector></Iterator><Instance><Variable export="false" name="file_read"><ReadFile path="$(file_list)\resource_strings.properties"/></Variable><Variable export="false" name="file_read_var"><ReadFile path="$(file_list)\release"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="productName = IBM Rational Change"/><Contains inputString="$(file_read_var)" position="contains" searchedString="5.2"/></And></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="4464d420-5bf0-11ec-a2a5-025041000001" modified="2021-12-13T08:40:04Z" created="2021-12-13T08:40:04Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="false" name="file_list"><Vector filter="*WEB-INF*wsconfig*system*"><FindFilePathEx name="resource_strings.properties"/></Vector></Iterator><Instance><Variable export="false" name="file_read"><ReadFile path="$(file_list)/resource_strings.properties"/></Variable><Variable export="false" name="file_read_var"><ReadFile path="$(file_list)/release"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="productName = IBM Rational Change"/><Contains inputString="$(file_read_var)" position="contains" searchedString="5.2"/></And></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

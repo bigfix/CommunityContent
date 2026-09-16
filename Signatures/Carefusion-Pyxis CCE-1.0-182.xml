@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:32"
+Publisher: "Carefusion"
+ProductName: "Pyxis CCE"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Pyxis CCE" vendor="Carefusion" uniqueId="8587c690-f4c6-11e8-b67c-005056ae0d7c" version="1.0">
+    <Signature uniqueId="854e8e20-f4c6-11e8-b67b-005056ae0d7c" modified="2018-11-30T17:36:51Z" created="2018-11-30T17:36:51Z">
+      <AND>
+        <OR>
+          <File name="CCEPyxisAdapter.exe" size="3162552" version=""/>
+          <File name="CCEPyxisAdapter.exe" size="" version="1.0"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

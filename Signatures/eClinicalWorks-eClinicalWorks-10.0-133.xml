@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "eClinicalWorks"
+ProductName: "eClinicalWorks"
+Release: "10.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="eClinicalWorks" vendor="eClinicalWorks" uniqueId="baf71360-d155-11e8-95c2-005056ae0d7c" version="10.0">
+    <Signature uniqueId="bad5a8b0-d155-11e8-95c1-005056ae0d7c" modified="2018-10-16T15:11:17Z" created="2018-10-16T15:11:17Z">
+      <AND>
+        <OR>
+          <File name="eClinicalWorks.exe" size="" version="10.0"/>
+          <File name="eClinicalWorks.exe" size="33734656" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "IBM"
+ProductName: "Cognos"
+Release: "11.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Cognos" vendor="IBM" uniqueId="b300e330-de06-11e8-95df-005056ae0d7c" version="11.0">
+    <Signature uniqueId="b2bbc3e0-de06-11e8-95de-005056ae0d7c" modified="2018-11-01T18:48:18Z" created="2018-11-01T18:48:18Z">
+      <AND>
+        <OR>
+          <File name="cogconfigw.exe" size="" version="11.0"/>
+          <File name="cogconfigw.exe" size="67096" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

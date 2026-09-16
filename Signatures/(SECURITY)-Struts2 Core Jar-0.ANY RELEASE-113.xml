@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Apache Struts2 Core Jar see See https://forum.bigfix.com/t/locating-apache-struts/22752/2"
+Author: "ARZE"
+uploadedOn: "2017-09-13 05:29:10"
+Publisher: "(SECURITY)"
+ProductName: "Struts2 Core Jar"
+Release: "0.ANY RELEASE"
+Keywords: "apache struts2 core jar"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2017-09-13T12:23:31Z">
+   <Software name="Struts2 Core Jar" vendor="(SECURITY)" uniqueId="2da93600-9871-11e7-8040-0050560082fd" version="0.ANY RELEASE">
+    <Signature uniqueId="2d004bd0-9871-11e7-8040-0050560082fd" modified="2017-09-13T10:49:11Z" created="2017-09-13T10:49:11Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="struts2-core*.jar"/></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><FileExists absolutePath="$(INSTALL_PATH)"/></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

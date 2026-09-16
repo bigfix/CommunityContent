@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:25"
+Publisher: "AXIS Communications AB"
+ProductName: "Axis control panel launcher"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Axis control panel launcher" vendor="AXIS Communications AB" uniqueId="61f333a0-f7e5-11e8-b567-005056ae0d7c" version="1.0">
+    <Signature uniqueId="61be8f10-f7e5-11e8-b566-005056ae0d7c" modified="2018-12-04T16:55:19Z" created="2018-12-04T16:55:19Z">
+      <AND>
+        <OR>
+          <File name="AxisControlPanelLauncher.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

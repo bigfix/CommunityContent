@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Updated Agent signature to avoid duplicate detection"
+Author: "ssakunala"
+uploadedOn: "2021-05-19 13:33:03"
+Publisher: "IBM"
+ProductName: "IBM UrbanCode Deploy Agent"
+Release: "7.0.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2020-08-27T20:38:52Z">
+   <Software name="IBM UrbanCode Deploy Agent" vendor="IBM" uniqueId="b38ccd80-e892-11ea-bb58-000c29da2d16" version="7.0.0">
+    <Signature uniqueId="b379e1c0-e892-11ea-bb58-000c29da2d16" modified="2020-08-27T18:25:36Z" created="2020-08-27T18:25:36Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*?properties?version?"><FindFilePathEx appendFileName="false" name="*IBM_UrbanCode_Deploy_?gent*6*tag"/></Vector></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><FileExists absolutePath="$(INSTALL_PATH)../../conf/agent/installed.properties"/></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)../../conf/installed.version"/></Variable><Variable name="IS_INSTALLED"><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*installed.version=7.0.0*"><ValueOf value="$(file_read)"/></Vector></VectorToScalar><ValueOf value=""/></Compare></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

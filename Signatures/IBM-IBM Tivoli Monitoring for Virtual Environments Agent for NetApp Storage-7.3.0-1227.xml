@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM Tivoli Monitoring for Virtual Environments for Vmware VI 7.3.0"
+Author: "ArturZ"
+uploadedOn: "2021-03-29 08:44:10"
+Publisher: "IBM"
+ProductName: "IBM Tivoli Monitoring for Virtual Environments Agent for NetApp Storage"
+Release: "7.3.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-03-29T15:41:51Z">
+   <Software name="IBM Tivoli Monitoring for Virtual Environments Agent for NetApp Storage" vendor="IBM" uniqueId="4017b070-90a5-11eb-92de-025041000001" version="7.3.0">
+    <Signature uniqueId="3ff27530-90a5-11eb-92dd-025041000001" modified="2021-03-29T15:41:38Z" created="2021-03-29T15:41:38Z">
+      <AND>
+        <OR>
+          <File name="knu.IBM_Tivoli_Monitoring_for_Virtual_Environments_Agent_for_NetApp_Storage-7.3.0.swtag" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

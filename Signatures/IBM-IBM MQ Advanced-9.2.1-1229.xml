@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM MQ Advanced 9.2.1"
+Author: "ArturZ"
+uploadedOn: "2021-03-29 09:58:19"
+Publisher: "IBM"
+ProductName: "IBM MQ Advanced"
+Release: "9.2.1"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-03-29T16:56:07Z">
+   <Software name="IBM MQ Advanced" vendor="IBM" uniqueId="8b56cc10-90af-11eb-92df-025041000001" version="9.2.1">
+    <Signature uniqueId="8b333e80-90af-11eb-92de-025041000001" modified="2021-03-29T16:55:19Z" created="2021-03-29T16:55:19Z">
+      <AND>
+        <OR>
+          <File name="ibm.com_IBM_MQ_Advanced-9.2.1.swidtag" size="1458" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

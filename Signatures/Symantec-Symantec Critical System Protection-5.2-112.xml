@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-06-16 03:49:04"
+Publisher: "Symantec"
+ProductName: "Symantec Critical System Protection"
+Release: "5.2"
+Keywords: "AIX ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-05-20T15:38:24Z">
+   <Software name="Symantec Critical System Protection" vendor="Symantec" uniqueId="70346bc0-feef-11e4-9d9a-005056007f46" version="5.2">
+    <Signature uniqueId="6f82cf00-feef-11e4-9d9a-005056007f46" modified="2015-05-20T12:55:04Z" created="2015-05-20T12:55:04Z">
+      <AND>
+        <OR>
+         <PackageFilter name="SYMCcsp" vendor="Symantec Corporation" version="5.2.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

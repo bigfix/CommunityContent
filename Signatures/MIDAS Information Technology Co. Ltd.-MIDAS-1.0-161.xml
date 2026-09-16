@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "MIDAS Information Technology Co. Ltd."
+ProductName: "MIDAS"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="MIDAS" vendor="MIDAS Information Technology Co. Ltd." uniqueId="d222f3b0-fcbb-11e8-b577-005056ae0d7c" version="1.0">
+    <Signature uniqueId="d1c606a0-fcbb-11e8-b576-005056ae0d7c" modified="2018-12-10T20:40:24Z" created="2018-12-10T20:40:24Z">
+      <AND>
+        <OR>
+          <File name="SendMessages.exe" size="" version="1.1"/>
+          <File name="SendMessages.exe" size="40960" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

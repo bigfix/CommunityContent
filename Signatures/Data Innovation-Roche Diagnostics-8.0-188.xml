@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:35"
+Publisher: "Data Innovation"
+ProductName: "Roche Diagnostics"
+Release: "8.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Roche Diagnostics" vendor="Data Innovation" uniqueId="d9a0d8c0-db94-11e8-95d2-005056ae0d7c" version="8.0">
+    <Signature uniqueId="d94b17a0-db94-11e8-95d1-005056ae0d7c" modified="2018-10-29T16:08:18Z" created="2018-10-29T16:08:18Z">
+      <AND>
+        <OR>
+          <File name="setup.exe" size="" version="8.14"/>
+          <File name="setup.exe" size="1429575" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

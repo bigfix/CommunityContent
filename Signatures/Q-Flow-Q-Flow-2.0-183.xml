@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:32"
+Publisher: "Q-Flow"
+ProductName: "Q-Flow"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Q-Flow" vendor="Q-Flow" uniqueId="5dabf550-fd7d-11e8-b57d-005056ae0d7c" version="2.0">
+    <Signature uniqueId="5d58a530-fd7d-11e8-b57c-005056ae0d7c" modified="2018-12-11T19:45:51Z" created="2018-12-11T19:45:51Z">
+      <AND>
+        <OR>
+          <File name="ccsetup504.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

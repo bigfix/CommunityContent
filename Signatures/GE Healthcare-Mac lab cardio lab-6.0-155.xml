@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "GE Healthcare"
+ProductName: "Mac lab cardio lab"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Mac lab cardio lab" vendor="GE Healthcare" uniqueId="cce91a90-c5a3-11e8-95bd-005056ae0d7c" version="6.0">
+    <Signature uniqueId="ccb97f10-c5a3-11e8-95bc-005056ae0d7c" modified="2018-10-01T17:59:53Z" created="2018-10-01T17:59:53Z">
+      <AND>
+        <OR>
+          <File name="MLCLSetLang.exe" size="97280" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

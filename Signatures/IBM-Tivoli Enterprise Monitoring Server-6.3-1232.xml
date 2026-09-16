@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Tivoli Enterprise Monitoring Server 6.3
+
+Search for first instance only. Windowns and Non-Windows deployments."
+Author: "ArturZ"
+uploadedOn: "2021-04-30 10:09:48"
+Publisher: "IBM"
+ProductName: "Tivoli Enterprise Monitoring Server"
+Release: "6.3"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-04-30T17:08:10Z">
+   <Software name="Tivoli Enterprise Monitoring Server" vendor="IBM" uniqueId="14a05740-a9d6-11eb-b98f-005056a83ca3" version="6.3">
+    <Signature uniqueId="14092050-a9d6-11eb-b98f-005056a83ca3" modified="2021-04-30T17:04:09Z" created="2021-04-30T17:04:09Z">
+      <ExtendedSignature>
+        <![CDATA[<Variable name="INSTALL_PATH"><VectorAt index="1"><Vector filter="*ver*"><FindFilePathEx name="KMSWICMS.ver"/></Vector></VectorAt></Variable><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)\KMSWICMS.ver"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="ver = 630"/><Contains inputString="$(file_read)" position="contains" searchedString="Tivoli Enterprise Monitoring Server"/></And></Variable>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="2494f750-a9d6-11eb-b98f-005056a83ca3" modified="2021-04-30T17:04:36Z" created="2021-04-30T17:04:36Z">
+      <ExtendedSignature>
+        <![CDATA[<Variable name="INSTALL_PATH"><VectorAt index="1"><Vector filter="*registry*"><FindFilePathEx appendFileName="true" name="ms*.ver"/></Vector></VectorAt></Variable><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)"/></Variable><Variable export="true" name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="ver = 630"/><Contains inputString="$(file_read)" position="contains" searchedString="Tivoli Enterprise Monitoring Server"/></And></Variable>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

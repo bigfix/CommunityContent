@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "CIT signature that detects Mozilla Firefox (not ESR edition)"
+Author: "kamil.krawczyk"
+uploadedOn: "2022-06-28 06:25:07"
+Publisher: "Mozilla.org"
+ProductName: "Firefox"
+Release: "0.any_version"
+Keywords: "Mozilla Firefox"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2022-06-27T11:51:00Z">
+   <Software name="Firefox" vendor="Mozilla.org" uniqueId="4bf8c660-f60f-11ec-a0ae-025041000001" version="0.any_version">
+    <Signature uniqueId="4bdfe730-f60f-11ec-a0ae-025041000001" modified="2022-06-27T11:50:09Z" created="2022-06-27T11:50:09Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx name="firefox.exe"/></Iterator><Instance><Variable export="true" name="DETAILED_VER"><WinFileInfo absolutePath="$(INSTALL_PATH)firefox.exe" field="version"/></Variable><Condition withVariable="DETAILED_VER"><Action do="SKIP" onValue=""/></Condition><Variable export="false" name="esr"><PackageInfoMatch name="Mozilla Firefox*ESR*" vendor="*" version="*"/></Variable><Condition withVariable="esr"><Action do="SKIP" onValue="true"/></Condition><Variable export="true" name="IS_INSTALLED"><PackageInfoMatch name="Mozilla Firefox*" vendor="*" version="*"/></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

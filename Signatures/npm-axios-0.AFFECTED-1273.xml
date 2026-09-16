@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "npm axios, 0.AFFECTED"
+Author: "AdithyaES"
+uploadedOn: "2026-04-09 02:10:07"
+Publisher: "npm"
+ProductName: "axios"
+Release: "0.AFFECTED"
+Keywords: "npm axios, CVE-2026-25639, Supply Chain, Remote Access Trojan, AFFECTED versions"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2026-04-09T09:00:22Z">
+   <Software name="axios" vendor="npm" uniqueId="3841a5b0-33f0-11f1-8056-183d2dbcf02a" version="0.AFFECTED">
+    <Signature uniqueId="37e0e810-33f0-11f1-8056-183d2dbcf02a" modified="2026-04-09T08:43:44Z" created="2026-04-09T08:43:44Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*node_modules*axios*"><FindFilePathEx appendFileName="false" name="package.json"/></Vector></Iterator><Instance><Variable export="false" name="version_file_exists"><FileExists absolutePath="$(INSTALL_PATH)package.json"/></Variable><Condition withVariable="version_file_exists"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="size"><FileInfoCompare absolutePath="$(INSTALL_PATH)package.json" field="size" relation="le" value="5120000"/></Variable><Condition withVariable="size"><Action do="SKIP" onValue="false"/></Condition><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)package.json"/></Variable><Variable export="true" name="DETAILED_VER"><StringCrop endString="&quot;," inputString="$(file_read)" seekFrom="left" startString="&quot;version&quot;: &quot;"/></Variable><Variable export="true" name="IS_INSTALLED"><Or><And><Compare relation="ge" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="0"/></Compare><Compare relation="lt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="0.30.3"/></Compare></And><And><Compare relation="ge" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="1.0.0"/></Compare><Compare relation="lt" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="1.13.5"/></Compare></And><Compare relation="eq" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="0.30.4"/></Compare><Compare relation="eq" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value="1.14.1"/></Compare></Or></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

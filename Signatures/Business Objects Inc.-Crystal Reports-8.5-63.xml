@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:33"
+Publisher: "Business Objects Inc."
+ProductName: "Crystal Reports"
+Release: "8.5"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="Crystal Reports" vendor="Business Objects Inc." uniqueId="1b9e6180-b762-11e4-b659-005056007f46" version="8.5">
+    <Signature uniqueId="39aa5486-cd87-46e5-a1b9-f928071b1b64" modified="2014-10-17T10:07:59Z" created="2014-10-17T10:07:59Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Crystal Reports" vendor="Seagate Software, Inc." version="8.5*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

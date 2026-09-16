@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:02"
+Publisher: "CA"
+ProductName: "CA IT Client Manager Agent"
+Release: "6.0"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="CA IT Client Manager Agent" vendor="CA" uniqueId="f1387f70-a53c-11e4-9445-005056007f46" version="6.0">
+    <Signature uniqueId="f0cfab80-a53c-11e4-9445-005056007f46" modified="2015-01-26T09:23:08Z" created="2015-01-26T09:23:08Z">
+      <AND>
+        <OR>
+         <PackageFilter name="CA DSM Agent + Data Transport plugin" vendor="CA, Inc." version="12.8.*"/>
+         <PackageFilter name="CA DSM Agent + Software Delivery plugin*" vendor="CA, Inc." version="12.8.*"/>
+         <PackageFilter name="CA DSM Agent + Asset Management plugin*" vendor="CA, Inc." version="12.8.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "The CBORD Group Inc."
+ProductName: "CBORD Food and Nutrition Service Suite"
+Release: "11.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="CBORD Food and Nutrition Service Suite" vendor="The CBORD Group Inc." uniqueId="ec9e8800-dde2-11e8-95dd-005056ae0d7c" version="11.0">
+    <Signature uniqueId="ec6c7b80-dde2-11e8-95dc-005056ae0d7c" modified="2018-11-01T14:32:13Z" created="2018-11-01T14:32:13Z">
+      <AND>
+        <OR>
+          <File name="CBORDDataService.exe" size="" version="11.8"/>
+          <File name="CBORDDataService.exe" size="11264" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

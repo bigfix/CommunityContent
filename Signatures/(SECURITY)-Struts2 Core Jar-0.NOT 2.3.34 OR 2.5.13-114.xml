@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Apache Struts2 Core Jar See https://forum.bigfix.com/t/locating-apache-struts/22752/2 Publisher Name: (SECURITY) Component Name: Struts2 Core Jar Component Version: NOT 2.3.34 OR 2.5.13 This signature will detected any file matching pattern: struts2-core*.jar that is in different version (not have in it's filename) 2.3.34 OR 2.5.13."
+Author: "ARZE"
+uploadedOn: "2017-09-15 05:58:16"
+Publisher: "(SECURITY)"
+ProductName: "Struts2 Core Jar"
+Release: "0.NOT 2.3.34 OR 2.5.13"
+Keywords: "apache struts2 core jar"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2017-09-15T12:49:20Z">
+   <Software name="Struts2 Core Jar" vendor="(SECURITY)" uniqueId="c03a5340-99f3-11e7-8040-0050560082fd" version="0.NOT 2.3.34 OR 2.5.13">
+    <Signature uniqueId="bfbd5b10-99f3-11e7-8040-0050560082fd" modified="2017-09-15T08:56:23Z" created="2017-09-15T08:56:23Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="struts2-core*.jar"/></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><Not><Or><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*2.5.13*"><ValueOf value="$(INSTALL_PATH)"/></Vector></VectorToScalar><ValueOf value=""/></Compare><Compare relation="ne" type="string"><VectorToScalar><Vector filter="*2.3.34*"><ValueOf value="$(INSTALL_PATH)"/></Vector></VectorToScalar><ValueOf value=""/></Compare></Or></Not></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

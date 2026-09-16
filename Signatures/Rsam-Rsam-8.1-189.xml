@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:36"
+Publisher: "Rsam"
+ProductName: "Rsam"
+Release: "8.1"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Rsam" vendor="Rsam" uniqueId="4b9e58e0-b777-11e8-95ad-005056ae0d7c" version="8.1">
+    <Signature uniqueId="aacc5e80-b5d2-11e8-a399-005056ae7c9c" modified="2018-09-13T17:05:58Z" created="2018-09-13T17:05:58Z">
+      <AND>
+        <OR>
+          <File name="Rsam_Setup.exe" size="" version="8.1"/>
+          <File name="Rsam_Setup.exe" size="346624" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

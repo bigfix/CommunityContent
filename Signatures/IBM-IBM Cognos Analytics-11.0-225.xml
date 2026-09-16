@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "IBM Cognos Analytics 11.0 signature based on https://www.ibm.com/support/pages/how-determine-which-version-cognos-analytics-you-have-installed
+
+Due to https://www.ibm.com/support/pages/apar/PH07269 version 11.0 does not have ISO tag to be reported without signature.
+"
+Author: "ArturZ"
+uploadedOn: "2021-02-10 20:49:33"
+Publisher: "IBM"
+ProductName: "IBM Cognos Analytics"
+Release: "11.0"
+Keywords: "IBM Cognos Analytics"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-02-11T08:50:46Z">
+   <Software name="IBM Cognos Analytics" vendor="IBM" uniqueId="22aee0a0-6bb9-11eb-ae19-005056a83ca3" version="11.0">
+    <Signature uniqueId="22487db0-6bb9-11eb-ae19-005056a83ca3" modified="2021-02-10T16:00:45Z" created="2021-02-10T16:00:45Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx name="cmplst.txt"/></Iterator><Instance><Variable export="false" name="file_read"><ReadFile path="$(INSTALL_PATH)cmplst.txt"/></Variable><Variable export="false" name="version_line"><VectorAt index="1"><Substring inputString="$(file_read)" searchedString="kit_version=11.0."/></VectorAt></Variable><Variable export="false" name="ver_space"><StringCrop endString=" " inputString="$(version_line)" seekFrom="left" startString="kit_version="/></Variable><Variable name="DETAILED_VER"><StringCrop endString="&#13;" inputString="$(ver_space)" seekFrom="left" startString=""/></Variable><Variable name="IS_INSTALLED"><And><Contains inputString="$(file_read)" position="contains" searchedString="kit_name=IBM Cognos Analytics"/><Contains inputString="$(file_read)" position="contains" searchedString="kit_version=11.0."/></And></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

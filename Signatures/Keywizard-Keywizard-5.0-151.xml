@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "Keywizard"
+ProductName: "Keywizard"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Keywizard" vendor="Keywizard" uniqueId="11e5a750-fd7e-11e8-b57e-005056ae0d7c" version="5.0">
+    <Signature uniqueId="11a78ce0-fd7e-11e8-b57d-005056ae0d7c" modified="2018-12-11T19:50:53Z" created="2018-12-11T19:50:53Z">
+      <AND>
+        <OR>
+          <File name="kw55_3542_Net.exe" size="23705058" version=""/>
+          <File name="kw55_3542_Net.exe" size="" version="5.5"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

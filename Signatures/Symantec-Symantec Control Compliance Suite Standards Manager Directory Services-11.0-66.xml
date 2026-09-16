@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:33"
+Publisher: "Symantec"
+ProductName: "Symantec Control Compliance Suite Standards Manager Directory Services"
+Release: "11.0"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="Symantec Control Compliance Suite Standards Manager Directory Services" vendor="Symantec" uniqueId="1c3ceb70-b762-11e4-b659-005056007f46" version="11.0">
+    <Signature uniqueId="5c9a28a4-ceb2-474d-ba14-897bdc994bb9" modified="2014-09-19T10:35:02Z" created="2014-09-19T10:35:02Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Directory Support Service" vendor="Symantec Corporation" version="11.0*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

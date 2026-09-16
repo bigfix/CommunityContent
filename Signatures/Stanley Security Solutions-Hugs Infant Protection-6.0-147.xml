@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "Stanley Security Solutions"
+ProductName: "Hugs Infant Protection"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Hugs Infant Protection" vendor="Stanley Security Solutions" uniqueId="d31c43b0-f71c-11e8-b55b-005056ae0d7c" version="6.0">
+    <Signature uniqueId="d2e30b40-f71c-11e8-b55a-005056ae0d7c" modified="2018-12-03T16:59:40Z" created="2018-12-03T16:59:40Z">
+      <AND>
+        <OR>
+          <File name="Hugs.exe" size="" version="6.5"/>
+          <File name="Hugs.exe" size="3865600" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

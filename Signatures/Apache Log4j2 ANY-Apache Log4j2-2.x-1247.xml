@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "In case that you have applications, whose developers changed names of Log4J JAR files from original ones, you may need to do a more detailed audit of JAR libraries to understand which applications use Log4J. We created a signature that goes through all JARs witch pattern name *log4j*.jar and it is available at this link. Note that is such case BigFix Inventory will not report the detailed information, however the path of found JAR files will be available. Regular version displayed after discovery is 2.x. "
+Author: "lukasz.karasinski"
+uploadedOn: "2021-12-15 07:18:45"
+Publisher: "Apache Log4j2 ANY"
+ProductName: "Apache Log4j2"
+Release: "2.x"
+Keywords: "Apache Log4j2, CVE-2021-44228"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-12-15T12:00:00Z">
+  <Software name="Apache Log4j2" vendor="Apache Log4j2 ANY" uniqueId="a8a72108-e155-448e-b26a-09b5c153328f" version="2.x">
+    <Signature uniqueId="0f499637-aae9-4367-bd9d-6e6bac963846" modified="2021-12-15T12:00:00Z" created="2021-12-15T12:00:00Z">
+      <ExtendedSignature><![CDATA[<MultipleInstance><Iterator name="INSTALL_PATH" export="true"><FindFilePathEx name="*log4j*.jar" appendFileName="true"/></Iterator><Instance><Variable export="true" name="IS_INSTALLED"><ValueOf value="true"/></Variable></Instance></MultipleInstance>]]></ExtendedSignature>
+    </Signature>
+  </Software>
+</SoftwareIdentityCatalog>

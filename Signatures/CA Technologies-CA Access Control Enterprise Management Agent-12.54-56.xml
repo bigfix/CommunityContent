@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:33"
+Publisher: "CA Technologies"
+ProductName: "CA Access Control Enterprise Management Agent"
+Release: "12.54"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="CA Access Control Enterprise Management Agent" vendor="CA Technologies" uniqueId="1aec2880-b762-11e4-b659-005056007f46" version="12.54">
+    <Signature uniqueId="62b07f33-abc0-41c5-b6a9-bd0d4418eadd" modified="2014-10-09T07:01:10Z" created="2014-10-09T07:01:10Z">
+      <AND>
+        <OR>
+         <PackageFilter name="CA Access Control Enterprise Management" vendor="CA" version="12.54*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

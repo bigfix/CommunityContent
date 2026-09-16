@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Epic Systems Corporation"
+ProductName: "Epic"
+Release: "2017.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Epic" vendor="Epic Systems Corporation" uniqueId="4eaf1300-fd8e-11e8-b583-005056ae0d7c" version="2017.0">
+    <Signature uniqueId="4e867c60-fd8e-11e8-b582-005056ae0d7c" modified="2018-12-11T21:47:07Z" created="2018-12-11T21:47:07Z">
+      <AND>
+        <OR>
+          <File name="EpicSvcMaster.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>
