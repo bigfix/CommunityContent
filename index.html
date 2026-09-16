@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BigFix Content Viewer</title>
+<script>
+  // Runs before CSS paints so a saved theme choice applies with no flash.
+  // Absence of the attribute leaves theme selection to the
+  // prefers-color-scheme media query in pages/style.css.
+  (function () {
+    try {
+      var saved = localStorage.getItem("bigfix-theme");
+      if (saved === "light" || saved === "dark") {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css">
+<link rel="stylesheet" href="pages/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-logo-wrap"><img class="brand-logo" src="pages/BigFix_Color_Horizontal.svg" alt="BigFix"></span>
+      <span class="brand-title">Content Viewer</span>
+    </div>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a class="repo-link" id="repo-link" href="#" target="_blank" rel="noopener">github.com/bigfix/content</a>
+    </div>
+  </header>
+
+  <div class="layout" id="layout">
+    <aside class="sidebar">
+      <div class="sidebar-topbar">
+        <input type="search" id="search-box" placeholder="Filter files by name...">
+        <button id="sidebar-hide-btn" class="sidebar-hide-btn" type="button" title="Hide file list">&#9664;</button>
+      </div>
+      <div class="status-line">
+        <span id="status-text">Loading file list&hellip;</span>
+        <span class="status-actions">
+          <button id="collapse-all-btn" type="button" title="Collapse all folders">Collapse</button>
+          <button id="refresh-btn" type="button" title="Reload file list from GitHub">Refresh</button>
+        </span>
+      </div>
+      <div id="tree-root"></div>
+    </aside>
+
+    <button id="sidebar-show-btn" class="sidebar-show-btn" type="button" title="Show file list" hidden>&#9654;</button>
+
+    <main class="main" id="main">
+      <div class="placeholder">
+        <h2>Select a file to preview</h2>
+        <p>Choose a .bes fixlet, task, or analysis from the list on the left. Its Title, Description, Relevance and Action/Property content will render here.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="pages/vendor/hljs-bigfix-relevance.js"></script>
+  <script src="pages/app.js"></script>
+</body>
+</html>

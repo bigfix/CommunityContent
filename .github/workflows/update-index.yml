@@ -1,0 +1,83 @@
+name: Update content index
+
+# Keeps pages/index.json (the file listing consumed by the GitHub Pages viewer,
+# published from the repo root - see index.html there) up to date with the
+# .bes/.xml files in Sites/ and Signatures/. generate_index.py only reads
+# those two, so that's the only path that can actually change its output -
+# scoping the trigger to them also means a push that only updates
+# pages/index.json can't retrigger this run.
+#
+# Content ID assignment also happens here, deliberately, rather than at
+# PR-time: this runs on `push` to main, and pushes to a branch are processed
+# by GitHub one at a time, so reading-then-incrementing scripts/contentid.json
+# here can never race with another PR doing the same thing concurrently - the
+# way it could if two different PR branches each read the same starting
+# "nextid" before either had merged. Running post-merge also sidesteps a
+# separate limitation PR-time renaming would have had: the default
+# GITHUB_TOKEN cannot push a commit back to a fork's branch at all. The
+# rename step below runs BEFORE "Regenerate pages/index.json" specifically so
+# the index reflects the new (already-renamed) filenames, not the old ones.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Sites/**/*.bes"
+      - "Signatures/**/*.xml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: read
+
+# Cancel any running workflow on this same PR if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Generate the GitHub App Token
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CICD_APP_ID }}
+          private-key: ${{ secrets.CICD_APP_PRIVATE_KEY }}
+
+      # 2. Checkout the code using the generated token
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+
+      - name: Regenerate pages/index.json
+        id: regenerate_index
+        run: python pages/generate_index.py
+
+      - name: Commit and push if changed
+        env:
+          RENAMED: ${{ steps.assign_ids.outputs.renamed }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "nothing changed, nothing to commit"
+            exit 0
+          fi
+          if [ "${RENAMED:-0}" -gt 0 ]; then
+            message="Assign content ID(s) to $RENAMED new .bes file(s) and update content index [skip ci]"
+          else
+            message="Update content index [skip ci]"
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "$message"
+          git push origin HEAD:${{ github.ref_name }}
