@@ -1,0 +1,84 @@
+name: pull-request schema validation
+
+# Runs the four content-validation checks against a pull request to main,
+# each now its own composite action under .github/actions/ (this workflow
+# just checks out the PR head once and calls them, in order):
+#   1. .github/actions/validate-new-content-filenames - rejects any NEW .bes
+#      file, anywhere in the repo, whose name doesn't start with a plain
+#      letter (see that action's own file for the two reasons why)
+#   2. .github/actions/validate-bes-xsd                - BES.xsd schema
+#   3. .github/actions/validate-signatures-xsd         - signature.xsd schema
+#   4. .github/actions/validate-content-conventions    - BES conventions,
+#      ActionScript lint, and prefetch checks
+#
+# The `paths:` filter below includes "**/*.bes" (in addition to the two
+# scoped areas the other three checks care about) specifically so a new .bes
+# file added ANYWHERE still triggers this workflow at all - without it, a
+# stray .bes file outside Sites/*/Fixlets or Signatures/ would never even run
+# check #1 above, since GitHub wouldn't fire this workflow for it in the
+# first place.
+#
+# The order of the four `uses:` steps below IS the execution order - reorder
+# them to change it. Steps run sequentially and stop at the first failing one
+# by default, so putting the cheapest/fastest checks first (the filename
+# check needs no schema/interpreter at all; schema validation next) means an
+# obviously-broken file fails fast before the heavier Python-based
+# conventions checks run.
+#
+# Deliberately triggered by plain `pull_request`, not `pull_request_target`:
+# every one of these actions checks out and inspects the PR's own untrusted
+# content (including from forks), and validate-content-conventions actually
+# executes Python against it. `pull_request` keeps the default token
+# read-only with no secrets for that - see each action's own file for its
+# full security rationale, most importantly that the *checker* code always
+# comes from the PR's base commit, never the PR's own tree.
+on:
+  pull_request:
+    # labeled/unlabeled (beyond the default opened/synchronize/reopened) so
+    # toggling 'keep-content-ids' on an already-open PR, with no new commit,
+    # still re-runs this and updates the check_filenames result below.
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    branches: [main]
+    paths:
+      - "Sites/*/Fixlets/**"
+      - "Signatures/**"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+# Cancel any running workflow on this same PR if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  schema-validation:
+    name: Validate BigFix content filenames and schema conformance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+          # Deliberately NOT persist-credentials: false - every action below
+          # reuses this same injected, read-only credential for its own
+          # `git fetch` of the PR base. Nothing here ever runs PR-provided
+          # code with that credential in scope, so there's no untrusted step
+          # that could read it out of .git/config.
+
+      - name: Reject non-alphabetic leading characters on new .bes filenames
+        id: check_filenames
+        # 'keep-content-ids' means update-index.yml will leave this PR's new
+        # .bes files exactly as named instead of assigning them a fresh
+        # integer-ID prefix - so a leading digit here isn't a future
+        # collision with that scheme, it's the point of the label.
+        if: ${{ !contains(github.event.pull_request.labels.*.name, 'keep-content-ids') }}
+        uses: ./.github/actions/validate-new-content-filenames
+
+      - name: Validate content against BES.xsd (Sites/*/Fixlets)
+        uses: ./.github/actions/validate-bes-xsd
+
+      - name: Validate Signatures against signature.xsd (Signatures)
+        uses: ./.github/actions/validate-signatures-xsd

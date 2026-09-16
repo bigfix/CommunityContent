@@ -9,7 +9,7 @@ name: Update content index
 #
 # Content ID assignment also happens here, deliberately, rather than at
 # PR-time: this runs on `push` to main, and pushes to a branch are processed
-# by GitHub one at a time, so reading-then-incrementing scripts/contentid.json
+# by GitHub one at a time, so reading-then-incrementing pages/contentid.json
 # here can never race with another PR doing the same thing concurrently - the
 # way it could if two different PR branches each read the same starting
 # "nextid" before either had merged. Running post-merge also sidesteps a
@@ -57,6 +57,104 @@ jobs:
         with:
           python-version: "3.x"
 
+      # This workflow runs on `push`, deliberately (see the top of this
+      # file), so there is no github.event.pull_request here to read a label
+      # from directly. This maps the push's own commit back to the pull
+      # request it came from instead - the GitHub API for this is
+      # squash/rebase-merge-aware, so it still finds the right PR even though
+      # the commit on main isn't the PR head's own SHA. Empty/no result
+      # (a direct push, or workflow_dispatch against an arbitrary ref) is
+      # treated the same as "no opt-out label": IDs are assigned normally.
+      - name: Check whether the merged PR has 'keep-content-ids'
+        id: check_label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          labels=$(gh api "repos/${REPO}/commits/${SHA}/pulls" --jq '.[].labels[].name' 2>/dev/null || true)
+          if grep -qx "keep-content-ids" <<<"$labels"; then
+            echo "Found 'keep-content-ids' on the merged pull request; skipping content-ID assignment."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Assign content IDs to new .bes files
+        id: assign_ids
+        if: steps.check_label.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          contentid_path="pages/contentid.json"
+
+          if [ ! -f "$contentid_path" ]; then
+            echo "::error::$contentid_path not found; cannot assign content IDs." >&2
+            exit 1
+          fi
+
+          nextid=$(jq -er '.nextid' "$contentid_path") || {
+            echo "::error::$contentid_path does not have a 'nextid' field." >&2
+            exit 1
+          }
+          case "$nextid" in
+            ''|*[!0-9]*)
+              echo "::error::$contentid_path 'nextid' is not a non-negative integer: $nextid" >&2
+              exit 1
+              ;;
+          esac
+
+          # Every *.bes file anywhere beneath a "Fixlets" subdirectory of any
+          # site under Sites/ that doesn't already have a numeric ID prefix -
+          # sorted for a deterministic, reproducible assignment order. A file
+          # that already starts with "<digits>-" is left alone (this is what
+          # makes running this over an already-processed tree a safe no-op).
+          renamed=0
+          collisions=0
+          while IFS= read -r -d '' file; do
+            dir=$(dirname -- "$file")
+            base=$(basename -- "$file")
+
+            case "$base" in
+              [0-9]*-*) continue ;;
+            esac
+
+            newbase="${nextid}-${base}"
+            newfile="$dir/$newbase"
+            if [ -e "$newfile" ]; then
+              echo "::error::target filename already exists, skipping rename: $newfile" >&2
+              collisions=$((collisions + 1))
+              continue
+            fi
+
+            git mv -- "$file" "$newfile"
+            echo "Renamed: $file -> $newfile"
+            renamed=$((renamed + 1))
+            nextid=$((nextid + 1))
+          done < <(find Sites -type f -name '*.bes' -path '*/Fixlets/*' -print0 | sort -z)
+
+          echo "renamed=$renamed" >> "$GITHUB_OUTPUT"
+          echo "collisions=$collisions" >> "$GITHUB_OUTPUT"
+
+          if [ "$renamed" -gt 0 ]; then
+            jq --argjson n "$nextid" -c '.nextid = $n' "$contentid_path" > "$contentid_path.tmp"
+            mv "$contentid_path.tmp" "$contentid_path"
+            git add -- "$contentid_path"
+            echo "Assigned $renamed content ID(s); nextid is now $nextid."
+          else
+            echo "No new .bes files need a content ID."
+          fi
+
+          # Deliberately NOT `exit 1` here on a collision: whatever DID
+          # rename successfully above is staged and must still make it into
+          # pages/index.json and get committed+pushed below. The job is
+          # failed at the very end instead (see "Fail if any collisions
+          # occurred"), once that partial progress is safely saved - a
+          # collision needs a human either way, but it shouldn't cost the
+          # renames that worked.
+          if [ "$collisions" -gt 0 ]; then
+            echo "::error::$collisions file(s) could not be renamed due to a filename collision; see above." >&2
+          fi
 
       - name: Regenerate pages/index.json
         id: regenerate_index
@@ -81,3 +179,12 @@ jobs:
           git add -A
           git commit -m "$message"
           git push origin HEAD:${{ github.ref_name }}
+
+      - name: Fail if any collisions occurred
+        # steps.assign_ids.outputs.collisions is empty (not '0') when
+        # assign_ids was skipped via 'keep-content-ids' above - guard against
+        # that explicitly, since '' != '0' would otherwise be true too.
+        if: steps.assign_ids.outputs.collisions != '' && steps.assign_ids.outputs.collisions != '0'
+        run: |
+          echo "::error::${{ steps.assign_ids.outputs.collisions }} file(s) could not be assigned a content ID due to a filename collision. Whatever else succeeded above was still committed and pushed; the colliding file(s) need manual attention." >&2
+          exit 1

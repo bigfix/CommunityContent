@@ -1,0 +1,226 @@
+name: Run pre-commit with auto-fix and commit corrections
+description: >
+  Runs pre-commit against every file added or modified in the pull request
+  that triggered the calling workflow, letting its hooks' own default
+  auto-fix behavior run, then commits any resulting corrections back onto
+  the PR's own branch as a new "[bot] ..." commit.
+
+# Requires the CALLING WORKFLOW's checkout to have pinned `ref:` explicitly
+# to the PR's BASE commit (`github.event.pull_request.base.sha`) - see the
+# calling workflow. Under this action's plain-`pull_request` trigger, an
+# unoverridden checkout defaults to the PR's own merge ref, not the base
+# branch, so that pin is load-bearing, not cosmetic - without it, this
+# action's own definition (and the trust logic below) would be loaded from
+# the PR's own tree instead. This action then fetches and checks out the
+# PR's own branch itself, partway through its own steps, once it is already
+# running trusted code loaded from that base checkout - see
+# assign-content-ids's own file (the earlier, now-retired PR-time action
+# this one's checkout/push mechanics are copied from) for why that ordering
+# is safe: a composite action's steps are all resolved from disk at the
+# moment its `uses:` line is reached, not re-read per step.
+#
+# Security posture - PR content (including from forks) is untrusted input,
+# and this action both EXECUTES arbitrary hook code (pre-commit's whole job)
+# AND pushes a commit with a WRITE token - the two riskiest properties any
+# action in this repo has, combined:
+#   - CRITICAL: .pre-commit-config.yaml is read from the PR's *base* commit,
+#     NEVER from the PR's own tree (see "Fetch .pre-commit-config.yaml"
+#     below). This is the whole ballgame: that file is what decides which
+#     hook repositories, at which pinned revisions, pre-commit clones and
+#     executes. If a malicious PR could edit it, it could point a hook
+#     entry at an attacker-controlled repo (or add a brand new `repo: local`
+#     hook running any command at all) and have GitHub Actions clone and
+#     run that code WITH A WRITE TOKEN. Every hook actually pinned in the
+#     trusted config (pre-commit/pre-commit-hooks, jgstew/pre-commit-bigfix)
+#     is referenced by a fixed tag, so once the config itself is trusted,
+#     what it runs is too - pre-commit clones that exact pinned revision
+#     into its own isolated cache, never reading hook source from the PR's
+#     checked-out tree.
+#   - pre-commit itself is pinned to a fixed released version (not "latest
+#     at run time") for the same reproducibility/supply-chain reason.
+#   - Fork PRs are detected and skipped (with an explanatory log notice
+#     instead of a PR comment - see "Log that fork PRs need pre-commit run
+#     manually" below): the default GITHUB_TOKEN cannot push to a fork's
+#     branch regardless of trigger type or the "Allow edits from
+#     maintainers" checkbox (that grants access to human maintainers via the
+#     UI, not to the Actions bot identity) - there is no working default
+#     here to fall back to. A log notice, unlike a PR comment, needs no
+#     write permission, which matters here: under this action's calling
+#     workflow's plain `pull_request` trigger, a fork PR's token is forced
+#     read-only regardless of the `permissions:` declared there, so a
+#     `gh api ... issues/comments` call would simply fail.
+#   - A PR head ref name that starts with "-" is rejected outright before
+#     being used in any git command, as cheap insurance against it being
+#     misread as an option rather than a branch name. Every value taken from
+#     PR metadata is passed through `env:`, never interpolated directly into
+#     a `run:` script body, so a crafted branch name can't inject shell
+#     syntax either.
+#   - --auto-fix-network is NOT enabled for bes-actionscript-validate-prefetch
+#     (it's off by default regardless of how the hook is invoked, and
+#     nothing here overrides that): it would mean downloading whatever URL
+#     a malicious PR's prefetch line names, so it stays off.
+#   - Only the files the PR actually changed are ever touched (obtained from
+#     the GitHub API's file list, not by scanning the whole checkout) -
+#     matches every sibling action's scope in this repo.
+
+outputs:
+  fixed:
+    description: "1 if pre-commit modified any files and a fix commit was pushed, 0 otherwise"
+    value: ${{ steps.run.outputs.fixed }}
+  clean:
+    description: "1 if pre-commit reports success after any fixes were applied, 0 if unfixable issues remain"
+    value: ${{ steps.run.outputs.clean }}
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch .pre-commit-config.yaml as of the PR base (never the PR's own copy)
+      shell: bash
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      run: |
+        set -euo pipefail
+        git fetch --no-tags --depth=1 origin "$BASE_SHA"
+
+        if git cat-file -e "$BASE_SHA:.pre-commit-config.yaml" 2>/dev/null; then
+          git show "$BASE_SHA:.pre-commit-config.yaml" > "$RUNNER_TEMP/pre-commit-config.trusted.yaml"
+        elif [ -f .pre-commit-config.yaml ]; then
+          # Only true for the PR that first adds .pre-commit-config.yaml -
+          # there is no earlier trusted copy to fall back to yet, so (and
+          # only so) this one run uses the PR's own copy, under whatever
+          # review that introducing PR itself gets. Every subsequent PR
+          # validates against the by-then-merged, trusted base copy above
+          # instead.
+          echo "::warning::.pre-commit-config.yaml is not present on the PR base yet - falling back to the PR's own copy for this run only. This is expected solely for the PR that first introduces it."
+          cp .pre-commit-config.yaml "$RUNNER_TEMP/pre-commit-config.trusted.yaml"
+        else
+          echo "::error::.pre-commit-config.yaml not found on the PR base or the PR head; nothing to run." >&2
+          exit 1
+        fi
+
+    - name: Check whether the PR head is a fork
+      id: fork
+      shell: bash
+      env:
+        BASE_REPO: ${{ github.repository }}
+        HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      run: |
+        set -euo pipefail
+        if [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+          echo "is_fork=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "is_fork=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Log that fork PRs need pre-commit run manually
+      if: steps.fork.outputs.is_fork == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        # A log notice, not a PR comment: this job's token is forced
+        # read-only for a fork PR under the calling workflow's plain
+        # `pull_request` trigger, so a `gh api ... issues/comments` POST
+        # would just fail here. See this file's header for why that's the
+        # right trade rather than reaching for `pull_request_target`.
+        echo "::notice::This pull request comes from a fork, so this job can't push a pre-commit auto-fix commit back to it (GitHub Actions can never push to a fork's branch, regardless of token). Please install pre-commit locally (pre-commit install) and run 'pre-commit run --all-files', then push the result - or a maintainer can do so on your behalf."
+
+    - name: Checkout the PR branch (same-repo PRs only)
+      if: steps.fork.outputs.is_fork == 'false'
+      shell: bash
+      env:
+        HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        set -euo pipefail
+        case "$HEAD_REF" in
+          -*)
+            echo "::error::PR head ref name looks unsafe (starts with '-'): $HEAD_REF" >&2
+            exit 1
+            ;;
+        esac
+        git fetch --no-tags --depth=1 origin "$HEAD_SHA"
+        git checkout -B "$HEAD_REF" "$HEAD_SHA"
+
+    - name: List changed files in the PR
+      id: list
+      if: steps.fork.outputs.is_fork == 'false'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        # Renamed/added/modified files only - a removed file has nothing to
+        # lint. NUL-separated so no filename (spaces, quotes, unicode, a
+        # leading "-", ...) can be misread as extra shell tokens.
+        gh api \
+          --paginate \
+          "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          --jq '.[] | select(.status != "removed") | .filename' \
+          | tr '\n' '\0' > "$RUNNER_TEMP/changed-files.nul"
+
+        count=$(tr -cd '\0' < "$RUNNER_TEMP/changed-files.nul" | wc -c)
+        echo "count=$count" >> "$GITHUB_OUTPUT"
+        echo "$count changed file(s) to run pre-commit against."
+
+    - name: Set up Python
+      if: steps.fork.outputs.is_fork == 'false' && steps.list.outputs.count != '0'
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Install pre-commit
+      if: steps.fork.outputs.is_fork == 'false' && steps.list.outputs.count != '0'
+      shell: bash
+      run: python -m pip install --disable-pip-version-check "pre-commit==4.3.0"
+
+    - name: Run pre-commit (auto-fixing) and commit any corrections
+      id: run
+      if: steps.fork.outputs.is_fork == 'false' && steps.list.outputs.count != '0'
+      shell: bash
+      env:
+        HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      run: |
+        set -euo pipefail
+        mapfile -d '' files < "$RUNNER_TEMP/changed-files.nul"
+
+        # Composite-action steps run under `bash -e ...` from the runner
+        # itself, and `pre-commit run` returning nonzero (a hook applied a
+        # fix, or found an issue) is an expected outcome here, not a script
+        # error - but that's exactly the situation -e exists to abort on. A
+        # command as part of a `||`/`if` list is exempt from -e by
+        # definition, so guarding each pre-commit call this way is what lets
+        # the rest of the script - the commit/push, and pass 2 - still run
+        # afterward, while -e stays ON for everything else (git
+        # config/add/commit/push below): if one of THOSE fails for a real
+        # reason, the job needs to fail loudly, not silently lose the fix.
+        echo "::group::pre-commit (pass 1 - hooks may apply fixes here)"
+        pre-commit run --config "$RUNNER_TEMP/pre-commit-config.trusted.yaml" --files "${files[@]}" || true
+        echo "::endgroup::"
+
+        fixed=0
+        if [ -n "$(git status --porcelain)" ]; then
+          fixed=1
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "[bot] Apply pre-commit auto-fixes"
+          git push origin "HEAD:$HEAD_REF"
+        fi
+        echo "fixed=$fixed" >> "$GITHUB_OUTPUT"
+
+        echo "::group::pre-commit (pass 2 - confirms whether anything unfixable remains)"
+        if pre-commit run --config "$RUNNER_TEMP/pre-commit-config.trusted.yaml" --files "${files[@]}"; then
+          clean_exit=0
+        else
+          clean_exit=1
+        fi
+        echo "::endgroup::"
+
+        if [ "$clean_exit" -eq 0 ]; then
+          echo "clean=1" >> "$GITHUB_OUTPUT"
+        else
+          echo "clean=0" >> "$GITHUB_OUTPUT"
+        fi
+        exit "$clean_exit"

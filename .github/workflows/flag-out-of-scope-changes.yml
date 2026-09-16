@@ -1,0 +1,70 @@
+name: Flag changes outside expected content directories
+
+# Thin caller for .github/actions/flag-out-of-scope-changes - see that
+# action's own file for the full design (what counts as "out of scope", the
+# escaping rules for attacker-controlled filenames in annotations, and why
+# this never checks out or executes any PR content). This workflow supplies
+# only the trigger and the permissions/token the action needs.
+#
+# Why `pull_request_target` (unlike validate-pull-request.yml, which
+# deliberately uses plain `pull_request`): submitting a review and applying a
+# label both need a WRITE token, and the default GITHUB_TOKEN for a fork PR
+# under plain `pull_request` is forced read-only regardless of the
+# `permissions:` block below - there is no way to do this job under that
+# trigger. `pull_request_target` runs with the base repo's write token even
+# for fork PRs, which is exactly why it's usually dangerous: a workflow can
+# shoot itself in the foot by checking out and then running the PR's own code
+# with that write token.
+#
+# The checkout below is required - `uses: ./.github/actions/...` can't
+# resolve without the repo present on disk - but it deliberately takes NO
+# `ref:` override, so it checks out `actions/checkout`'s own default for
+# `pull_request_target`: the BASE branch, never the PR's head. That's what
+# keeps this safe: the action definition that runs with the write token is
+# always the already-reviewed one from main, never whatever a PR's own commit
+# might have rewritten it to. Nothing here reads or executes any PR file
+# CONTENT either way - only the PR's file-list METADATA from the GitHub API.
+#
+# This is a GATE, not a check: the final step always exits 0. Its effect is
+# entirely the review + label the action leaves behind - a human must
+# explicitly dismiss the review (and remove the label) afterward; this never
+# happens automatically, even once a later push removes the flagged change.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+# Cancel any running workflow on this same PR if a new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  flag-out-of-scope-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the base branch (never the PR's own tree)
+        uses: actions/checkout@v4
+        # No `ref:` override: this is what makes actions/checkout resolve to
+        # the base branch under pull_request_target instead of the PR head.
+
+      - name: Scan the pull request and flag anything out of scope
+        id: flag
+        uses: ./.github/actions/flag-out-of-scope-changes
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.flag.outputs.flagged }}" != "0" ]; then
+            echo "${{ steps.flag.outputs.flagged }} file(s) outside the expected content directories - requested changes and labeled needs-manual-review. A human must dismiss the review (and remove the label) after reviewing."
+          else
+            echo "No changes outside any Sites/*/Fixlets directory or the top-level Signatures/ directory."
+          fi
+          # Always succeed: this workflow's effect is the review/label the
+          # action above leaves behind, never its own pass/fail state. A
+          # genuine tooling/API error in the action's own steps still shows
+          # as a failed step in this run - only the job's overall conclusion
+          # is forced green here.
+          exit 0

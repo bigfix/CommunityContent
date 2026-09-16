@@ -1,0 +1,63 @@
+name: pre-commit validate content and apply auto-fixes
+
+# Thin caller for .github/actions/run-pre-commit-autofix - see that action's
+# own file for the full design (why .pre-commit-config.yaml must come from
+# the PR base, the fork-PR limitation, and why file bytes from the PR are
+# only ever fed to pinned, trusted hook code). This workflow supplies only
+# the trigger and the permissions/token the action needs.
+#
+# No `paths:` filter, deliberately: the generic hooks in
+# .pre-commit-config.yaml (check-yaml, trailing-whitespace, ...) are useful
+# on any file in the repo, not just BigFix content - e.g. the very workflow
+# and action YAML files under .github/ benefit from check-yaml.
+#
+# Why plain `pull_request`, not `pull_request_target`: this job never
+# actually needs a write token against a fork's own content - the default
+# GITHUB_TOKEN can't push to a fork's branch under EITHER trigger (that's a
+# hard platform limit pull_request_target does not lift), and
+# run-pre-commit-autofix already skips the push entirely for fork PRs. The
+# only thing pull_request_target bought here was a write-capable token to
+# post an informational comment on fork PRs - not worth running pre-commit's
+# hook code (against untrusted file bytes) with a write token and secrets in
+# scope, unconditionally, on every fork PR, just to get one comment. Under
+# plain `pull_request`: same-repo PRs still get the write permissions
+# declared below (the forced-read-only rule is fork-specific, not a blanket
+# `pull_request` restriction), so pushing the auto-fix commit works exactly
+# as before; fork PRs get a read-only token (no push was ever attempted for
+# them anyway) and now also sit behind the same "requires approval" gate as
+# validate-pull-request.yml before this job's hook code runs against their
+# files at all - the right posture for untrusted content, not a regression.
+#
+# The checkout below pins `ref:` to the PR's base commit EXPLICITLY - this is
+# not optional the way "no override" was under `pull_request_target`.
+# `pull_request_target` defaults an unoverridden checkout to the base branch;
+# plain `pull_request` instead defaults to the PR's own merge ref. Without
+# this explicit pin, `uses: ./.github/actions/run-pre-commit-autofix` would
+# load that action's own definition (and in turn its .pre-commit-config.yaml
+# trust logic) from the PR's own tree - exactly the "a PR rewrites the code
+# that's about to run with a write token" hole this repo's other actions are
+# careful to avoid.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: pre-commit-autofix-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit-autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the PR base commit (never the PR's own tree)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Run pre-commit and push any auto-fixes
+        uses: ./.github/actions/run-pre-commit-autofix

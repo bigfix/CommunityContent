@@ -1,0 +1,221 @@
+name: Scan download URLs with VirusTotal
+description: >
+  Extracts every download URL (prefetch/add prefetch item/add nohash prefetch
+  item/download/download now/curl/wget - the same detection logic as
+  .github/actions/validate-download-allowlist, shared via .github/actions/_lib) from
+  every *.bes file added or modified under any Sites/*/Fixlets directory in
+  the pull request that triggered the calling workflow, submits each one to
+  VirusTotal's public API, waits for a verdict, and posts (or updates) a
+  single pull-request comment summarizing the results. If any URL comes back
+  with at least one VirusTotal engine reporting it malicious, the
+  virustotal-flagged label is applied (created first if needed) and a
+  REQUEST_CHANGES review is submitted, in addition to the comment.
+
+# This action itself never checks out anything and never executes any byte of
+# PR content - every *.bes file is read once (via `git show <PR head
+# SHA>:<path>`, the same technique validate-download-allowlist and
+# flag-out-of-scope-changes use) and treated purely as data: parsed as XML
+# text, scanned with plain regexes (see .github/actions/_lib/bes_downloads.py)
+# to pull out URLs, which are then handed to VirusTotal - a third party -
+# for scanning. Nothing here ever downloads, opens, or executes the content
+# a URL points to; VirusTotal does that scanning on its own infrastructure.
+#
+# Security posture - PR content (including from forks) is untrusted input,
+# and this action needs both a WRITE token (to comment, label, and review)
+# and a SECRET (the VirusTotal API key), which raises the stakes the same way
+# it does for flag-out-of-scope-changes and validate-download-allowlist:
+#   - Intended to be called only from a `pull_request_target`-triggered
+#     workflow whose checkout takes NO `ref:` override, so it resolves to the
+#     BASE branch. The code that runs (this file, scan_and_submit.py,
+#     bes_downloads.py) is therefore always the already-reviewed version from
+#     main, never whatever a malicious PR's own commit might have rewritten
+#     any of them to.
+#   - The VirusTotal API key is never something this action reads, logs, or
+#     echoes directly - it's passed straight through to scan_and_submit.py as
+#     an environment variable and used only as an outbound `x-apikey` request
+#     header to api.virustotal.com. GitHub's own log-masking redacts any
+#     accidental echo of a value matching a registered secret.
+#   - A malicious pull request naming an unusually large number of download
+#     URLs cannot exhaust VirusTotal's daily quota or make this job run
+#     unreasonably long: scan_and_submit.py caps how many distinct URLs one
+#     run submits (via --max-urls-per-run, set from the max-urls-per-run
+#     input below - the script itself defaults to no limit, so this input is
+#     what actually keeps that protection in place) and throttles submissions
+#     to stay under the public API's per-minute limit, logging (never
+#     silently dropping) anything past the cap.
+#   - The pull-request COMMENT BODY is built entirely server-side from
+#     VirusTotal's own JSON responses and this repo's file paths/URLs -
+#     nothing in it is arbitrary attacker-supplied HTML/script: it's plain
+#     Markdown (a heading, a GitHub "callout" blockquote, a table), posted via
+#     `gh api ... -f body=@<file>`, which sends the file's bytes as a single
+#     JSON string value - never shell-interpolated, so no cell's content
+#     (including a URL) can break out of the table or inject extra API
+#     parameters.
+#
+# This action always exits 0 for the "some URLs got a verdict" case - a
+# malicious finding's effect is entirely the comment + label + review it
+# leaves behind (see the calling workflow's "Summary" step), not the job's
+# own pass/fail state. It DOES fail (nonzero) if VIRUSTOTAL_API_KEY is
+# missing/empty, or if every changed .bes file failed to read - those are
+# setup problems that need attention, not "content was flagged".
+#
+# Requires `pull-requests: write` and `issues: write` on the calling workflow,
+# plus a repository secret named VIRUSTOTAL_API_KEY (a VirusTotal public API
+# key) passed in via the `virustotal-api-key` input - composite actions don't
+# have implicit access to the `secrets` context, so the calling workflow must
+# pass it explicitly.
+
+inputs:
+  virustotal-api-key:
+    description: VirusTotal API key (pass `${{ secrets.VIRUSTOTAL_API_KEY }}` from the calling workflow)
+    required: true
+  max-urls-per-run:
+    description: >
+      Maximum number of distinct download URLs to submit to VirusTotal in one
+      run; any URL beyond this is listed in the PR comment as "not scanned"
+      rather than submitted. Passed straight through to scan_and_submit.py's
+      --max-urls-per-run, which itself defaults to no limit - leave this
+      input at its default to keep the per-run cap that protects against a
+      pull request naming an unusually large number of download URLs.
+    required: false
+    default: "15"
+
+outputs:
+  malicious:
+    description: Number of scanned URLs with at least one VirusTotal engine reporting them malicious
+    value: ${{ steps.scan.outputs.malicious }}
+
+runs:
+  using: composite
+  steps:
+    - name: List changed .bes files under Sites/*/Fixlets
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api \
+          --paginate \
+          "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          --jq '.[] | select(.status != "removed") | .filename' \
+          > "$RUNNER_TEMP/changed-files-vt.txt"
+
+        grep -E '^Sites/[^/]+/Fixlets/' "$RUNNER_TEMP/changed-files-vt.txt" \
+          | tr '\n' '\0' > "$RUNNER_TEMP/changed-files-vt.nul" || true
+
+    - name: Fetch the PR head commit (to read each changed file's content)
+      shell: bash
+      env:
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        set -euo pipefail
+        git fetch --no-tags --depth=1 origin "$HEAD_SHA"
+
+    - name: Extract download URLs and scan them with VirusTotal
+      id: scan
+      shell: bash
+      env:
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        FILES_LIST: ${{ runner.temp }}/changed-files-vt.nul
+        MAX_BYTES: "10485760" # 10 MiB - matches validate-download-allowlist's cap
+        VIRUSTOTAL_API_KEY: ${{ inputs.virustotal-api-key }}
+        COMMENT_BODY_PATH: ${{ runner.temp }}/vt-comment-body.md
+        MAX_URLS_PER_RUN: ${{ inputs.max-urls-per-run }}
+      run: |
+        set -euo pipefail
+        # Generous outer timeout: with the default cap of 15 URLs, each up to
+        # ~2 minutes of polling plus ~16s submission throttling, this is
+        # comfortably under 30 minutes with room to spare. Raising
+        # max-urls-per-run (or leaving it unset in scan_and_submit.py, whose
+        # own default is no limit) scales the run time roughly linearly with
+        # URL count, so this timeout may need raising too if this input is
+        # ever set higher than its default.
+        timeout 1800s python3 "${{ github.action_path }}/scan_and_submit.py" --max-urls-per-run "$MAX_URLS_PER_RUN"
+
+    - name: Find an existing VirusTotal status comment to update
+      id: find_comment
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        comment_id=$(gh api \
+          --paginate \
+          "repos/${REPO}/issues/${PR_NUMBER}/comments" \
+          --jq '[.[] | select(.body | startswith("<!-- validate-downloads-virustotal:status -->"))][-1].id // empty')
+        echo "comment_id=$comment_id" >> "$GITHUB_OUTPUT"
+
+    - name: Post the VirusTotal status comment
+      if: steps.find_comment.outputs.comment_id == ''
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" \
+          -f body=@"${{ runner.temp }}/vt-comment-body.md" >/dev/null
+
+    - name: Update the existing VirusTotal status comment
+      if: steps.find_comment.outputs.comment_id != ''
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        COMMENT_ID: ${{ steps.find_comment.outputs.comment_id }}
+      run: |
+        set -euo pipefail
+        gh api --method PATCH "repos/${REPO}/issues/comments/${COMMENT_ID}" \
+          -f body=@"${{ runner.temp }}/vt-comment-body.md" >/dev/null
+
+    - name: Ensure the virustotal-flagged label exists
+      if: steps.scan.outputs.malicious != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+      run: |
+        set -euo pipefail
+        if ! gh api "repos/${REPO}/labels/virustotal-flagged" >/dev/null 2>&1; then
+          if ! gh api --method POST "repos/${REPO}/labels" \
+            -f name="virustotal-flagged" \
+            -f color="B60205" \
+            -f description="VirusTotal reported at least one referenced download URL as malicious." \
+            >/dev/null 2>&1; then
+            if ! gh api "repos/${REPO}/labels/virustotal-flagged" >/dev/null 2>&1; then
+              echo "::error::failed to create the virustotal-flagged label" >&2
+              exit 1
+            fi
+          fi
+        fi
+
+    - name: Apply the virustotal-flagged label
+      if: steps.scan.outputs.malicious != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/labels" \
+          -f "labels[]=virustotal-flagged" >/dev/null
+
+    - name: Request changes on the pull request
+      if: steps.scan.outputs.malicious != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
+          -f event="REQUEST_CHANGES" \
+          -f body="VirusTotal flagged at least one download URL referenced by this pull request as malicious - see the pinned VirusTotal comment on this PR for details. Do not merge until a maintainer has reviewed it." \
+          >/dev/null
