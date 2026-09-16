@@ -1,0 +1,82 @@
+name: Flag download URLs not in the allowlist
+
+# Thin caller for .github/actions/validate-download-allowlist - see that
+# action's own file for the full design (what counts as a download command,
+# how URLs are extracted from ActionScript, why known_urls.txt is read from
+# the PR base, and why this never executes any byte of PR content). This
+# workflow supplies only the trigger and the permissions/token the action
+# needs.
+#
+# Runs on any pull request touching Sites/** (not just Sites/*/Fixlets/**),
+# matching the ask that this fire whenever a PR contains any content beneath
+# Sites - the action itself narrows down to *.bes files under a Fixlets
+# directory once it actually looks at what changed.
+#
+# Why `pull_request_target` (unlike schema-validation-pull-request.yml, which
+# deliberately uses plain `pull_request`): submitting a review and applying a
+# label both need a WRITE token, and the default GITHUB_TOKEN for a fork PR
+# under plain `pull_request` is forced read-only regardless of the
+# `permissions:` block below - there is no way to do this job under that
+# trigger. `pull_request_target` runs with the base repo's write token even
+# for fork PRs, which is exactly why it's usually dangerous: a workflow can
+# shoot itself in the foot by checking out and then running the PR's own code
+# with that write token.
+#
+# The checkout below is required - `uses: ./.github/actions/...` can't
+# resolve without the repo present on disk, and the action also reads
+# known_urls.txt straight off this checkout - but it deliberately takes NO
+# `ref:` override, so it checks out `actions/checkout`'s own default for
+# `pull_request_target`: the BASE branch, never the PR's head. That's what
+# keeps this safe: the action definition AND known_urls.txt that run with the
+# write token are always the already-reviewed versions from main, never
+# whatever a PR's own commit might have rewritten them to. Every *.bes file's
+# content is instead read by exact PR-head SHA (`git show`), as data only -
+# see the action's own file for why that's safe even so.
+#
+# This is a GATE, not a check: the final step always exits 0. Its effect is
+# entirely the review + label the action leaves behind - a human must
+# explicitly dismiss the review (and remove the label) afterward; this never
+# happens automatically, even once a later push removes every flagged URL.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "Sites/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate-download-allowlist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the base branch (never the PR's own tree)
+        uses: actions/checkout@v4
+        # No `ref:` override: this is what makes actions/checkout resolve to
+        # the base branch under pull_request_target instead of the PR head.
+
+      - name: Scan the pull request for unrecognized download URLs
+        id: validate
+        uses: ./.github/actions/validate-download-allowlist
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.validate.outputs.flagged }}" != "0" ]; then
+            echo "${{ steps.validate.outputs.flagged }} unrecognized download URL(s) - requested changes and labeled new-download-url. A human must dismiss the review (and remove the label) after validating the URL(s) and updating known_urls.txt."
+          else
+            echo "No download URLs outside known_urls.txt found in this pull request's Fixlets/Tasks."
+          fi
+          # Always succeed: this workflow's effect is the review/label the
+          # action above leaves behind, never its own pass/fail state. A
+          # genuine tooling/API error in the action's own steps still shows
+          # as a failed step in this run - only the job's overall conclusion
+          # is forced green here.
+          exit 0

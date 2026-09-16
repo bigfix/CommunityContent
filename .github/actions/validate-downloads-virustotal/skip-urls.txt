@@ -1,0 +1,7 @@
+SWDProtocol://127\.0\.0\.1:.*
+RedHatProtocol://.*
+https?://MANUAL_BES_CACHING_REQUIRED/.*
+https?://127\.0\.0\.1:.*
+https?://MANUAL_BES_CACHING_REQUIRED/.*
+AIXProtocol://.*
+https://.*\.microsoft\.com/.*

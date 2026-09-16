@@ -1,0 +1,77 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+#
+# Install once per clone with `pre-commit install`, then these run
+# automatically on `git commit` against whatever's staged. Run manually
+# against everything with `pre-commit run --all-files`.
+#
+# .bes files are excluded from the generic whitespace/EOF hooks below: they
+# must be CRLF throughout (see bes-conventions-check's E208), and the
+# generic hooks don't know that convention - bes-conventions-check does, and
+# owns that formatting for .bes files instead.
+#
+# Every `rev:` below is a full commit SHA, not a tag: a tag is just a
+# mutable ref (its owner can force-move it, or a compromised account could
+# retag it to point at malicious content) while a commit SHA is the content
+# itself - pre-commit clones and checks out exactly that object, so pinning
+# this way is what actually guarantees the version below is what runs, not
+# just what USED to be tagged that. The trailing comment names the release
+# each SHA corresponds to; re-verify with
+# `git ls-remote <repo-url> refs/tags/<tag>` before bumping either.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.bes$
+      - id: end-of-file-fixer
+        exclude: \.bes$
+      - id: check-yaml
+      - id: check-added-large-files
+
+  # BigFix-specific content checks - the same hooks this repo's own CI runs
+  # via .github/actions/run-pre-commit-autofix (.github/workflows/pre-commit-autofix.yml),
+  # so a contributor sees the same feedback locally, before ever pushing.
+  # (scripts/pre_commit_bigfix/ is a leftover vendored copy from this repo's
+  # sibling project and is not what CI actually runs here - CI invokes these
+  # hooks the normal pre-commit way, straight from the pinned repo/rev below.)
+  # Unlike CI, these are left at
+  # their own default here (no --auto-fix=no): pre-commit always passes the
+  # staged files explicitly, and bes-conventions-check /
+  # bes-actionscript-validate-prefetch both default --auto-fix to "yes" in
+  # exactly that case - the fixable issues get corrected in place and the
+  # commit is blocked so you can review and re-stage, which is the normal
+  # pre-commit hook experience (the same shape as e.g. a code formatter).
+  #
+  # bes-schema-validate (BES.xsd validation) is deliberately NOT included:
+  # this repo already validates against scripts/BES.xsd directly with
+  # xmllint (see .github/actions/validate-bes-xsd), so adding this hook's
+  # own validate_bes_xml-based check here would just be a second, possibly
+  # inconsistent, schema check.
+  - repo: https://github.com/jgstew/pre-commit-bigfix
+    rev: 4b42e9a408867442663b9920165972cd8ddf5b7d # v1.0.1
+    hooks:
+      - id: bes-conventions-check
+        args: ["--auto-fix=yes", "--errors-only"]
+      - id: bes-actionscript-lint-schclass
+        args: ["--strict"]
+      - id: bes-actionscript-validate-prefetch
+      - id: bes-actionscript-validate-script
+
+  # A local fork https://github.com/mxab/pre-commit-trivy.git
+  # to support scanning the filesystem for known vulnerabilities or misplaced secrets
+  # removed due to its need for docker on the client, cumbersome for some shared scenarios
+
+  # - repo: https://github.com/Jwalker107/pre-commit-trivy.git
+  #   rev: v0.72.0
+  #   hooks:
+  #     - id: trivyfs-docker
+  #       args:
+  #         - --skip-dirs
+  #         - ./tests
+  #         - . # last arg indicates the path/file to scan
+  #     - id: trivyconfig-docker
+  #       args:
+  #         - --skip-dirs
+  #         - ./tests
+  #         - . # last arg indicates the path/file to scan

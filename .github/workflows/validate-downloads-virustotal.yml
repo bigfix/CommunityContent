@@ -1,0 +1,76 @@
+name: Scan download URLs with VirusTotal
+
+# Thin caller for .github/actions/validate-downloads-virustotal - see that
+# action's own file for the full design (how URLs are extracted, how
+# VirusTotal is called and rate-limited, the comment/label/review it leaves
+# behind, and why this never executes any byte of PR content). This workflow
+# supplies only the trigger, the permissions/token, and the VirusTotal API
+# key secret the action needs.
+#
+# Same trigger shape as validate-download-allowlist.yml (Sites/** paths, so it
+# also fires on a PR touching non-Fixlets content beneath Sites/ - the action
+# narrows down to *.bes files under a Fixlets directory once it looks at what
+# changed) and the same `pull_request_target` reasoning as
+# flag-out-of-scope-changes.yml / validate-download-allowlist.yml: commenting,
+# labeling, and reviewing all need a WRITE token, which a fork PR's default
+# GITHUB_TOKEN is forced to lack under plain `pull_request`.
+#
+# The checkout below takes NO `ref:` override, so it resolves to the BASE
+# branch under pull_request_target - the action definition and its Python
+# that run with the write token (and the VirusTotal secret) are always the
+# already-reviewed version from main, never whatever a PR's own commit might
+# have rewritten them to. Every *.bes file's content is instead read by exact
+# PR-head SHA (`git show`), as data only - see the action's own file for why
+# that's safe even so.
+#
+# `timeout-minutes` is set generously above the action's own internal budget
+# (up to 15 URLs, ~2 minutes of VirusTotal polling each, throttled ~16s apart
+# between submissions) as a hard backstop in case VirusTotal itself is slow
+# or unresponsive.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "Sites/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate-downloads-virustotal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout the base branch (never the PR's own tree)
+        uses: actions/checkout@v4
+        # No `ref:` override: this is what makes actions/checkout resolve to
+        # the base branch under pull_request_target instead of the PR head.
+
+      - name: Scan the pull request's download URLs with VirusTotal
+        id: validate
+        uses: ./.github/actions/validate-downloads-virustotal
+        with:
+          virustotal-api-key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ "${{ steps.validate.outputs.malicious }}" != "0" ]; then
+            echo "${{ steps.validate.outputs.malicious }} download URL(s) flagged malicious by VirusTotal - posted a status comment, requested changes, and labeled virustotal-flagged. A human must dismiss the review (and remove the label) after reviewing."
+          else
+            echo "No download URLs flagged malicious by VirusTotal - see the status comment on this PR for the full scan results."
+          fi
+          # Always succeed: this workflow's effect is the comment (and, for a
+          # malicious finding, the review/label) the action above leaves
+          # behind, never its own pass/fail state. A genuine tooling/API
+          # error (including a missing VIRUSTOTAL_API_KEY secret) still shows
+          # as a failed step in this run - only the job's overall conclusion
+          # is forced green here.
+          exit 0

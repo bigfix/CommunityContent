@@ -1,0 +1,191 @@
+name: Validate BigFix Inventory Signatures against signature.xsd
+description: >
+  Validates every *.xml file added or modified directly in the top-level
+  Signatures/ directory (not nested in a subdirectory - see README.md) in the
+  pull request that triggered the calling workflow, against signature.xsd.
+
+# Requires the repository to already be checked out at the pull request's
+# HEAD commit (see the calling workflow) - this action does not check out
+# anything itself, so it can share one checkout with sibling actions.
+#
+# This action ships its own bundled copy of the schema (signature.xsd,
+# alongside this file) so it's self-contained: it never hardcodes a path
+# specific to this repo's own layout (like "scripts/signature.xsd"), so the
+# whole action directory can be copied as-is into another repository and
+# it'll validate against its own bundled schema there too. scripts/signature.xsd
+# in this repo is a manually-synced mirror of the bundled copy, kept only for
+# other tooling/humans that point at it - it is NOT read by this action.
+#
+# Security posture - PR content (including from forks) is untrusted input:
+#   - Intended to be called only from a `pull_request`-triggered workflow (never
+#     `pull_request_target`): the default token is then the normal *read-only*
+#     one, with no repository secrets, so a malicious .xml file can at worst
+#     make this action fail/time out - it can't gain write access or
+#     exfiltrate anything. The calling workflow's `permissions:` must grant at
+#     least `contents: read` and `pull-requests: read`.
+#   - When called via a local `uses: ./...` reference (this repo's normal
+#     usage), this action's own files - including its bundled signature.xsd -
+#     are part of the very tree being checked out for the PR, which under
+#     this action's `pull_request` (not `pull_request_target`) caller is the
+#     PR's own HEAD, not its base. So the fetch step below resolves this
+#     action's own directory *relative to the repo root* and overwrites the
+#     bundled copy with that same relative path's content as of the PR base
+#     commit - a PR still can't rewrite its own copy of signature.xsd to make
+#     its own malicious content "valid", without hardcoding where in a repo
+#     this action happens to live. If this action is instead referenced from
+#     another repository entirely (`uses: owner/repo@ref`), that lookup
+#     simply finds nothing (the path doesn't exist in the repo under test)
+#     and this action falls back to the bundled copy as pinned by that ref -
+#     already immune to the PR's own tree, since it isn't part of it.
+#   - Signatures must be directly in Signatures/, not nested in a
+#     subdirectory (see README.md) - checked per-file below, separately from
+#     the extension check, so a nested file gets a clear, specific reason
+#     rather than silently falling through unchecked.
+#   - xmllint runs with --nonet (never fetch a DTD/entity over the network) and
+#     without --noent (entities are left unexpanded rather than substituted, so
+#     a billion-laughs-style entity bomb doesn't get expanded in memory), plus
+#     a size cap and a timeout per file as a backstop against a pathologically
+#     expensive document.
+#   - File paths from the PR are read NUL-delimited throughout so no filename
+#     (spaces, quotes, unicode, a leading "-", ...) can be misread as extra
+#     shell tokens or tool options.
+
+runs:
+  using: composite
+  steps:
+    - name: Install xmllint
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends libxml2-utils
+
+    - name: Fetch this action's own signature.xsd as of the PR base (not the PR's own copy)
+      shell: bash
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+        git fetch --no-tags --depth=1 origin "$BASE_SHA"
+
+        # This action's own path *relative to the repo root* - deliberately
+        # not a hardcoded "scripts/signature.xsd", so this still works if
+        # this action directory is copied into another repository at some
+        # other path. Only meaningful when this action lives inside the repo
+        # being validated (a local `uses: ./...` reference); see this file's
+        # header. `rev-parse --show-prefix`, run with cwd inside the action
+        # directory, asks git directly instead of comparing two
+        # independently-obtained absolute paths (which can disagree in
+        # representation, e.g. drive letter casing/slash style on Windows).
+        action_rel="$(git -C "$ACTION_PATH" rev-parse --show-prefix)"
+        action_rel="${action_rel%/}"
+
+        if git show "$BASE_SHA:$action_rel/signature.xsd" > "$ACTION_PATH/signature.xsd.base" 2>/dev/null; then
+          mv "$ACTION_PATH/signature.xsd.base" "$ACTION_PATH/signature.xsd"
+        else
+          # No signature.xsd at that path as of the PR base - either this
+          # action was only just added in this same PR, or it's referenced
+          # from outside this repo entirely (`uses: owner/repo@ref`), where
+          # the bundled copy is already pinned by that ref, not part of this
+          # repo's own tree at all. Keep whatever's already checked out.
+          rm -f "$ACTION_PATH/signature.xsd.base"
+          echo "Using this action's already-checked-out signature.xsd (none found at $action_rel/signature.xsd as of the PR base)."
+        fi
+
+    - name: List changed files under Signatures
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        # Renamed/added/modified files only - a removed file has nothing to validate.
+        gh api \
+          --paginate \
+          "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          --jq '.[] | select(.status != "removed") | .filename' \
+          > "$RUNNER_TEMP/changed-files-sig.txt"
+
+        # Broad match here (any depth under Signatures/) - the per-file loop
+        # below is what enforces "directly in Signatures/, not nested", so a
+        # nested file still gets seen and reported with a clear reason
+        # instead of silently never being looked at. NUL-separated from here
+        # on - see the security note at the top of this file.
+        grep -E '^Signatures/' "$RUNNER_TEMP/changed-files-sig.txt" \
+          | tr '\n' '\0' > "$RUNNER_TEMP/changed-files-sig.nul" || true
+
+    - name: Validate each changed file against signature.xsd
+      shell: bash
+      env:
+        MAX_BYTES: "10485760" # 10 MiB - generous for a Signature export, small enough to bound parse cost
+      run: |
+        set -euo pipefail
+        schema="${{ github.action_path }}/signature.xsd"
+        fail=0
+        checked=0
+
+        while IFS= read -r -d '' file; do
+          checked=$((checked + 1))
+
+          # Every remaining path is guaranteed (by the grep above) to start with
+          # "Signatures/", so none of these checks can ever be tricked by a
+          # filename that looks like a flag.
+
+          if [ -L "$file" ]; then
+            printf 'FAIL  %s :: is a symlink, not a regular file\n' "$file"
+            fail=1
+            continue
+          fi
+          if [ ! -f "$file" ]; then
+            printf 'FAIL  %s :: not found in checkout\n' "$file"
+            fail=1
+            continue
+          fi
+
+          # Must be a direct child of Signatures/ - no further subdirectory
+          # (see README.md). "${file#Signatures/}" strips exactly that
+          # prefix (guaranteed present by the grep above), so any "/" left in
+          # what remains means it's nested.
+          rest="${file#Signatures/}"
+          case "$rest" in
+            */*)
+              printf 'FAIL  %s :: Inventory Signatures must be directly in Signatures/, not nested in a subdirectory\n' "$file"
+              fail=1
+              continue
+              ;;
+          esac
+
+          case "$file" in
+            *.xml) ;;
+            *)
+              printf 'FAIL  %s :: filename must end with .xml\n' "$file"
+              fail=1
+              continue
+              ;;
+          esac
+
+          size=$(stat -c%s -- "$file")
+          if [ "$size" -gt "$MAX_BYTES" ]; then
+            printf 'FAIL  %s :: %s bytes exceeds the %s byte validation limit\n' "$file" "$size" "$MAX_BYTES"
+            fail=1
+            continue
+          fi
+
+          if ! output=$(timeout 30s xmllint --nonet --noout --schema "$schema" "$file" 2>&1); then
+            printf 'FAIL  %s :: does not validate against signature.xsd\n' "$file"
+            # Cap xmllint's own error text so a file crafted to produce a huge
+            # error stream can't flood the job log.
+            printf '%s\n' "$output" | head -c 4000
+            echo
+            fail=1
+            continue
+          fi
+
+          printf 'PASS  %s\n' "$file"
+        done < "$RUNNER_TEMP/changed-files-sig.nul"
+
+        echo
+        echo "Checked $checked file(s) under Signatures."
+        exit "$fail"

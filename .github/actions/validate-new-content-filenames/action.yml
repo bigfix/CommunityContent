@@ -1,0 +1,83 @@
+name: Reject non-alphabetic leading characters on new .bes filenames
+description: >
+  Fails if any *.bes file newly ADDED (never modified, deleted, or renamed)
+  anywhere in the pull request that triggered the calling workflow has a
+  filename that does not start with a plain letter (A-Z or a-z) - a digit,
+  a dot (a hidden/dotfile), a tilde (an editor backup file), an underscore,
+  a space, punctuation, or anything else non-alphabetic is rejected. Two
+  separate concerns motivate this: content IDs are assigned automatically as
+  an integer prefix once a PR merges (see
+  .github/workflows/update-index.yml and scripts/contentid.json), so a new
+  file that already starts with a digit could collide with, or be mistaken
+  for, one of those auto-assigned IDs; separately, a name starting with "."
+  or "~" (or similar) is almost always an accidental editor/OS artifact
+  (a swap file, a backup, a hidden file) rather than real content, wherever
+  it's added. Only new files are checked: an existing file that already has
+  a non-alphabetic leading character (from before this rule, or from its own
+  already auto-assigned ID) is left alone when it's merely being updated.
+
+# Requires the repository to already be checked out (see the calling
+# workflow) - not because this action needs file content (it only ever reads
+# file-list METADATA - path and status - from the GitHub API, never opening
+# a file), but because it runs alongside sibling actions that share one
+# checkout in the same job.
+#
+# Security posture - matches validate-bes-xsd/validate-signatures-xsd:
+#   - Intended to be called only from a `pull_request`-triggered workflow
+#     (never `pull_request_target`): the default token is then read-only,
+#     with no repository secrets. The calling workflow's `permissions:` must
+#     grant at least `pull-requests: read`.
+#   - Only file PATHS are ever read; file bytes are never opened, so this is
+#     the cheapest of the sibling checks - no schema, no interpreter, no
+#     dependency install.
+
+runs:
+  using: composite
+  steps:
+    - name: List every newly-added .bes file
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        # status == "added" only - a modified/renamed/deleted file is never
+        # "new", per the scope of this check. No directory restriction:
+        # every *.bes file anywhere in the repo is in scope.
+        gh api \
+          --paginate \
+          "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          --jq '.[] | select(.status == "added") | select(.filename | endswith(".bes")) | .filename' \
+          > "$RUNNER_TEMP/added-bes-files.txt"
+
+        # NUL-separated so no filename (spaces, quotes, unicode, a leading
+        # "-", ...) can be misread as extra shell tokens or tool options.
+        tr '\n' '\0' < "$RUNNER_TEMP/added-bes-files.txt" > "$RUNNER_TEMP/added-bes-newname.nul"
+
+    - name: Reject filenames that don't start with a letter
+      shell: bash
+      run: |
+        set -euo pipefail
+        export LC_ALL=C  # so [A-Za-z] below is always plain ASCII, regardless of runner locale
+        fail=0
+        checked=0
+
+        while IFS= read -r -d '' file; do
+          checked=$((checked + 1))
+          base=$(basename -- "$file")
+
+          case "$base" in
+            [A-Za-z]*)
+              printf 'PASS  %s\n' "$file"
+              ;;
+            *)
+              printf 'FAIL  %s :: new filename must begin with a letter (A-Z or a-z) - not a digit, ".", "~", or any other character; content IDs are assigned an integer prefix automatically once merged\n' "$file"
+              fail=1
+              ;;
+          esac
+        done < "$RUNNER_TEMP/added-bes-newname.nul"
+
+        echo
+        echo "Checked $checked newly-added .bes file(s)."
+        exit "$fail"

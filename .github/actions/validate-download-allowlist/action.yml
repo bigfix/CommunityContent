@@ -1,0 +1,163 @@
+name: Flag download URLs not in the allowlist
+description: >
+  Scans every *.bes file added or modified under any Sites/*/Fixlets directory
+  in the pull request that triggered the calling workflow. For each
+  <ActionScript> body found, looks for download commands - BigFix's own
+  `prefetch ...` statement, `add prefetch item ...` / `add nohash prefetch
+  item ...` block, `download`/`download now`, and third-party downloaders
+  invoked from the script (`curl`, `wget`) - and extracts the URL each one
+  names. Any URL that does not fullmatch at least one regular expression in
+  this action's known_urls.txt allowlist (as of the PR base, never the PR's
+  own copy - see below) is flagged: the new-download-url label is applied
+  (created first if needed), a REQUEST_CHANGES review is submitted, and a
+  warning annotation is emitted per (file, URL) pair so a human can confirm
+  the URL is legitimate before it's merged.
+
+# This action itself never checks out anything and never executes any byte of
+# PR content - every *.bes file is read once (via `git show <PR head
+# SHA>:<path>`, the same technique flag-out-of-scope-changes uses for
+# scripts/contentid.json) and treated purely as data: parsed as XML text with
+# the stdlib's xml.etree.ElementTree (no DTD/network access, no entity
+# expansion beyond what the parser already guards against) and then scanned
+# with plain regexes. Nothing here ever hands PR content to a shell, an
+# interpreter, or any other executor.
+#
+# Security posture - PR content (including from forks) is untrusted input,
+# and this action needs a WRITE token (to label the PR and submit a review),
+# which raises the stakes the same way it does for flag-out-of-scope-changes:
+#   - Intended to be called only from a `pull_request_target`-triggered
+#     workflow whose checkout takes NO `ref:` override, so it resolves to the
+#     BASE branch. That's what makes it safe to run with a write token: the
+#     code that actually runs (this file, and known_urls.txt's content
+#     itself, see next point) is always the already-reviewed version from
+#     main, never whatever a malicious PR's own commit might have rewritten
+#     either of them to.
+#   - CRITICAL: known_urls.txt is read from the checkout as-is (i.e. the PR
+#     BASE version, per the point above), never fetched from the PR head. If
+#     a PR's own copy of known_urls.txt were trusted instead, a contributor
+#     could simply add a pattern matching their own new URL in the same PR
+#     and defeat the whole check - the point is precisely that a NEW pattern
+#     needs a maintainer to add it (in a separate, reviewed change) before
+#     content using it is accepted. This mirrors why validate-bes-xsd and
+#     validate-signatures-xsd read their .xsd schemas from the PR base.
+#   - Every *.bes file's content is fetched by exact PR-head SHA (`git show`)
+#     and only ever: (a) size-capped before being touched at all, (b) parsed
+#     as XML with ElementTree (no external entity/DTD resolution - expat
+#     doesn't fetch either over the network by default), (c) walked as
+#     `<ActionScript>` text and scanned with regexes. At no point is any of
+#     it executed, `eval`'d, or passed to a shell.
+#   - Every value taken from PR content or metadata (a filename, a URL, a
+#     known_urls.txt line) is escaped per GitHub's documented
+#     `::workflow-command::` rules before being echoed, so a value containing
+#     a literal newline, `%`, `:`, or `,` cannot inject a second, spoofed
+#     annotation or otherwise be misread as workflow-command syntax.
+#
+# This action always exits 0 - see its calling workflow's "Summary" step. Its
+# effect is entirely the review + label it leaves behind; a human must
+# explicitly dismiss the review (and remove the label) afterward, even once a
+# later push removes every flagged URL - this action never does either
+# automatically.
+#
+# Requires `pull-requests: write` and `issues: write` on the calling workflow.
+
+outputs:
+  flagged:
+    description: Number of (file, URL) pairs found referencing a download URL not recognized by known_urls.txt
+    value: ${{ steps.scan.outputs.flagged }}
+
+runs:
+  using: composite
+  steps:
+    - name: List changed .bes files under Sites/*/Fixlets
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        # Renamed/added/modified files only - a removed file has nothing left
+        # to scan for downloads.
+        gh api \
+          --paginate \
+          "repos/${REPO}/pulls/${PR_NUMBER}/files" \
+          --jq '.[] | select(.status != "removed") | .filename' \
+          > "$RUNNER_TEMP/changed-files-downloads.txt"
+
+        # Same scope as validate-bes-xsd: any depth beneath
+        # Sites/<Site>/Fixlets/. The .bes extension itself is filtered in the
+        # Python step below, alongside every other per-file check. NUL-
+        # separated so no filename (spaces, quotes, unicode, a leading "-",
+        # ...) can be misread as extra tokens.
+        grep -E '^Sites/[^/]+/Fixlets/' "$RUNNER_TEMP/changed-files-downloads.txt" \
+          | tr '\n' '\0' > "$RUNNER_TEMP/changed-files-downloads.nul" || true
+
+    - name: Fetch the PR head commit (to read each changed file's content)
+      shell: bash
+      env:
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        set -euo pipefail
+        git fetch --no-tags --depth=1 origin "$HEAD_SHA"
+
+    - name: Scan ActionScript for download URLs not in known_urls.txt
+      id: scan
+      shell: bash
+      env:
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        FILES_LIST: ${{ runner.temp }}/changed-files-downloads.nul
+        KNOWN_URLS_PATH: ${{ github.action_path }}/known_urls.txt
+        MAX_BYTES: "10485760" # 10 MiB - generous for a .bes export, small enough to bound parse cost
+      run: |
+        set -euo pipefail
+        timeout 120s python3 "${{ github.action_path }}/validate_download_allowlist.py"
+
+    - name: Ensure the new-download-url label exists
+      if: steps.scan.outputs.flagged != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+      run: |
+        set -euo pipefail
+        if ! gh api "repos/${REPO}/labels/new-download-url" >/dev/null 2>&1; then
+          if ! gh api --method POST "repos/${REPO}/labels" \
+            -f name="new-download-url" \
+            -f color="FBCA04" \
+            -f description="References a download URL not yet recognized in known_urls.txt; needs maintainer validation." \
+            >/dev/null 2>&1; then
+            # Another PR's run of this same action may have created the
+            # label between our check above and this request - re-check
+            # before treating that race as a real failure.
+            if ! gh api "repos/${REPO}/labels/new-download-url" >/dev/null 2>&1; then
+              echo "::error::failed to create the new-download-url label" >&2
+              exit 1
+            fi
+          fi
+        fi
+
+    - name: Apply the new-download-url label
+      if: steps.scan.outputs.flagged != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/labels" \
+          -f "labels[]=new-download-url" >/dev/null
+
+    - name: Request changes on the pull request
+      if: steps.scan.outputs.flagged != '0'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
+          -f event="REQUEST_CHANGES" \
+          -f body="One or more Fixlets/Tasks in this pull request reference a download URL that does not match any pattern in known_urls.txt (see the warning annotations on this run for which file(s) and URL(s)). Please confirm each URL is legitimate and safe, then ask a maintainer to add a matching pattern to known_urls.txt - once that's merged to main, re-running this check will clear automatically." \
+          >/dev/null
