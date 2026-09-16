@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-06-16 03:47:52"
+Publisher: "EMC Corporation"
+ProductName: "Networker Storage Node"
+Release: "8.2"
+Keywords: "Solaris ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-05-20T15:38:24Z">
+   <Software name="Networker Storage Node" vendor="EMC Corporation" uniqueId="3506d6f0-fef9-11e4-9d9b-005056007f46" version="8.2">
+    <Signature uniqueId="34bb27f0-fef9-11e4-9d9b-005056007f46" modified="2015-05-20T14:05:01Z" created="2015-05-20T14:05:01Z">
+      <AND>
+        <OR>
+         <PackageFilter name="NetWorker Storage Node" vendor="EMC Corporation." version="8.2.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

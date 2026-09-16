@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:25"
+Publisher: "ARCHIBUS, Inc"
+ProductName: "Archibus"
+Release: "22.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Archibus" vendor="ARCHIBUS, Inc" uniqueId="88b77a00-f8a8-11e8-b56d-005056ae0d7c" version="22.0">
+    <Signature uniqueId="88939e50-f8a8-11e8-b56c-005056ae0d7c" modified="2018-12-05T16:12:16Z" created="2018-12-05T16:12:16Z">
+      <AND>
+        <OR>
+          <File name="ARCHIBUS_Overlay64ClientServer22_1_R02_002_Installer-005.exe" size="" version=""/>
+          <File name="ARCHIBUS_Overlay64ClientServer22_1_R02_002_Installer-005.exe" size="38264800" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

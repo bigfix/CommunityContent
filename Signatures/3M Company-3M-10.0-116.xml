@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:24"
+Publisher: "3M Company"
+ProductName: "3M"
+Release: "10.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="3M" vendor="3M Company" uniqueId="597a55b0-f73f-11e8-b560-005056ae0d7c" version="10.0">
+    <Signature uniqueId="59249490-f73f-11e8-b55f-005056ae0d7c" modified="2018-12-03T21:06:48Z" created="2018-12-03T21:06:48Z">
+      <AND>
+        <OR>
+          <File name="3M Load Data Service Install.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+    <Signature uniqueId="6b845650-f741-11e8-b560-005056ae0d7c" modified="2018-12-03T21:21:38Z" created="2018-12-03T21:21:38Z">
+      <AND>
+        <OR>
+          <File name="3M Load Data Service Install.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Grails Data Binding 0.any_version"
+Author: "Michal_Knapczyk"
+uploadedOn: "2022-07-27 00:50:47"
+Publisher: "Grails Foundation"
+ProductName: "Grails Data Binding"
+Release: "0.any_version"
+Keywords: "Grails, Data Binding, CVE-2022-35912"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2022-07-27T06:27:33Z">
+   <Software name="Grails Data Binding" vendor="Grails Foundation" uniqueId="25b50b30-0d75-11ed-b6f7-025041000001" version="0.any_version">
+    <Signature uniqueId="2536da80-0d75-11ed-b6f7-025041000001" modified="2022-07-27T06:27:10Z" created="2022-07-27T06:27:10Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="grails-databinding-*.jar"/></Iterator><Instance><Variable export="false" name="file_name"><VectorToScalar><StringCrop endString="" inputString="$(INSTALL_PATH)" seekFrom="right" startString="\"/></VectorToScalar></Variable><Variable export="true" name="DETAILED_VER"><VectorToScalar><StringCrop endString=".jar" inputString="$(file_name)" seekFrom="left" startString="grails-databinding-"/></VectorToScalar></Variable><Variable export="false" name="javadoc_jar_string"><VectorToScalar><Substring inputString="$(DETAILED_VER)" searchedString="-javadoc"/></VectorToScalar></Variable><Variable export="false" name="sources_jar_string"><VectorToScalar><Substring inputString="$(DETAILED_VER)" searchedString="-sources"/></VectorToScalar></Variable><Variable export="false" name="additional_jar_present"><Or><Compare relation="ne" type="string"><ValueOf value="$(javadoc_jar_string)"/><ValueOf value=""/></Compare><Compare relation="ne" type="string"><ValueOf value="$(sources_jar_string)"/><ValueOf value=""/></Compare></Or></Variable><Condition withVariable="additional_jar_present"><Action do="SKIP" onValue="true"/></Condition><Variable export="true" name="IS_INSTALLED"><ValueOf value="true"/></Variable></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

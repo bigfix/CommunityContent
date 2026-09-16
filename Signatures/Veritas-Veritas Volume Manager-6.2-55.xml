@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:55:03"
+Publisher: "Veritas"
+ProductName: "Veritas Volume Manager"
+Release: "6.2"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T08:43:08Z">
+   <Software name="Veritas Volume Manager" vendor="Veritas" uniqueId="5ba69150-a225-11e4-9442-005056007f46" version="6.2">
+    <Signature uniqueId="5b5e3db0-a225-11e4-9442-005056007f46" modified="2015-01-22T10:56:45Z" created="2015-01-22T10:56:45Z">
+      <AND>
+        <OR>
+         <PackageFilter name="VRTSvxvm" vendor="Symantec Corporation" version="6.2.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

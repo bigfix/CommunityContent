@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "search mechanism for *log4j-core-*.jar in version lower then 2.15"
+Author: "magdalena.kunat"
+uploadedOn: "2021-12-14 08:48:30"
+Publisher: "Apache Log4j2"
+ProductName: "Apache Log4j2 <= 2.14.1"
+Release: "2.x"
+Keywords: "Apache Log4j2, CVE-2021-44228"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2021-12-15T11:07:22Z">
+   <Software name="Apache Log4j2 &lt;= 2.14.1" vendor="Apache Log4j2" uniqueId="253fc420-5cfd-11ec-9d70-005056a848fd" version="2.x">
+    <Signature uniqueId="24c87140-5cfd-11ec-9d70-005056a848fd" modified="2021-12-14T16:44:45Z" created="2021-12-14T16:44:45Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="log4j-core-*.jar"/></Iterator><Instance><Variable name="DETAILED_VER"><VectorToScalar><StringCrop endString=".jar" inputString="$(INSTALL_PATH)" seekFrom="left" startString="log4j-core-"/></VectorToScalar></Variable><Variable name="IS_INSTALLED"><Compare relation="lt" type="version"><StringSlice endIndex="4" inputString="$(DETAILED_VER)" startIndex="0"/><ValueOf value="2.15"/></Compare></Variable></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

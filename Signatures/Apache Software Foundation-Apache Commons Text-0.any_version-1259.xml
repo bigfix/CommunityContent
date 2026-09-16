@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "Apache Commons Text 0.any_version"
+Author: "Raghavendra"
+uploadedOn: "2022-10-21 04:11:37"
+Publisher: "Apache Software Foundation"
+ProductName: "Apache Commons Text"
+Release: "0.any_version"
+Keywords: "Apache Commons Text, CVE-2022-42889"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2022-10-21T11:01:20Z">
+   <Software name="Apache Commons Text" vendor="Apache Software Foundation" uniqueId="cee6be00-512d-11ed-805d-025041000001" version="0.any_version">
+    <Signature uniqueId="ce7e1120-512d-11ed-805d-025041000001" modified="2022-10-21T10:47:50Z" created="2022-10-21T10:47:50Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="commons-text-*.jar"/></Iterator><Instance><Variable export="false" name="file_name"><VectorToScalar><StringCrop endString="" inputString="$(INSTALL_PATH)" seekFrom="right" startString="\"/></VectorToScalar></Variable><Variable export="false" name="check_Other_jar_versions"><VectorToScalar><StringCrop endString=".jar" inputString="$(file_name)" seekFrom="left" startString="commons-text-"/></VectorToScalar></Variable><Variable export="false" name="javadoc_jar_string"><VectorToScalar><Substring inputString="$(check_Other_jar_versions)" searchedString="-javadoc"/></VectorToScalar></Variable><Variable export="false" name="sources_jar_string"><VectorToScalar><Substring inputString="$(check_Other_jar_versions)" searchedString="-sources"/></VectorToScalar></Variable><Variable export="false" name="tests_jar_string"><VectorToScalar><Substring inputString="$(check_Other_jar_versions)" searchedString="-tests"/></VectorToScalar></Variable><Variable export="false" name="additional_jar_present"><Or><Compare relation="ne" type="string"><ValueOf value="$(javadoc_jar_string)"/><ValueOf value=""/></Compare><Compare relation="ne" type="string"><ValueOf value="$(sources_jar_string)"/><ValueOf value=""/></Compare><Compare relation="ne" type="string"><ValueOf value="$(tests_jar_string)"/><ValueOf value=""/></Compare></Or></Variable><Condition withVariable="additional_jar_present"><Action do="SKIP" onValue="true"/></Condition><Variable export="true" name="DETAILED_VER"><ValueOf value="$(check_Other_jar_versions)"/></Variable><Variable export="true" name="IS_INSTALLED"><ValueOf value="true"/></Variable></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

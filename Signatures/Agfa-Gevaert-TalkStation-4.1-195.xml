@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:37"
+Publisher: "Agfa-Gevaert"
+ProductName: "TalkStation"
+Release: "4.1"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="TalkStation" vendor="Agfa-Gevaert" uniqueId="6a82e090-c0f6-11e8-95b4-005056ae0d7c" version="4.1">
+    <Signature uniqueId="6a55b610-c0f6-11e8-95b3-005056ae0d7c" modified="2018-09-25T19:08:41Z" created="2018-09-25T19:08:41Z">
+      <AND>
+        <OR>
+          <File name="TS_SUtility.exe" size="" version="4.1"/>
+          <File name="TS_SUtility.exe" size="69711" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:36"
+Publisher: "Sysmex"
+ProductName: "Sysmex"
+Release: "3.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Sysmex" vendor="Sysmex" uniqueId="44bf8040-db8e-11e8-95d1-005056ae0d7c" version="3.0">
+    <Signature uniqueId="4488b8d0-db8e-11e8-95d0-005056ae0d7c" modified="2018-10-29T15:21:11Z" created="2018-10-29T15:21:11Z">
+      <AND>
+        <OR>
+          <File name="mgplvwapp.exe" size="" version="3.4"/>
+          <File name="mgplvwapp.exe" size="118784" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

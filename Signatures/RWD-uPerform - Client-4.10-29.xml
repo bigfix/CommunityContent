@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:02"
+Publisher: "RWD"
+ProductName: "uPerform - Client"
+Release: "4.10"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="uPerform - Client" vendor="RWD" uniqueId="1b4639a0-a53e-11e4-9445-005056007f46" version="4.10">
+    <Signature uniqueId="1adc7b50-a53e-11e4-9445-005056007f46" modified="2015-01-26T09:31:28Z" created="2015-01-26T09:31:28Z">
+      <AND>
+        <OR>
+         <PackageFilter name="RWD uPerform Client" vendor="*" version="4.10*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

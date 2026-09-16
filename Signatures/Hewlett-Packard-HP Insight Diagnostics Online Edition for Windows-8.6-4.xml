@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:01"
+Publisher: "Hewlett-Packard"
+ProductName: "HP Insight Diagnostics Online Edition for Windows"
+Release: "8.6"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="HP Insight Diagnostics Online Edition for Windows" vendor="Hewlett-Packard" uniqueId="487047a0-a542-11e4-944a-005056007f46" version="8.6">
+    <Signature uniqueId="482f6e10-a542-11e4-944a-005056007f46" modified="2015-01-26T10:01:22Z" created="2015-01-26T10:01:22Z">
+      <AND>
+        <OR>
+         <PackageFilter name="HP Insight Diagnostics  Online Edition for Windows" vendor="Hewlett-Packard" version="8.6.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

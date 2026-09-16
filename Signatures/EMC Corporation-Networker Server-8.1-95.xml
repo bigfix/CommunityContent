@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-06-16 03:47:51"
+Publisher: "EMC Corporation"
+ProductName: "Networker Server"
+Release: "8.1"
+Keywords: "Solaris ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-05-20T15:38:24Z">
+   <Software name="Networker Server" vendor="EMC Corporation" uniqueId="61107310-fef8-11e4-9d9b-005056007f46" version="8.1">
+    <Signature uniqueId="60a38070-fef8-11e4-9d9b-005056007f46" modified="2015-05-20T13:59:05Z" created="2015-05-20T13:59:05Z">
+      <AND>
+        <OR>
+         <PackageFilter name="NetWorker Server" vendor="EMC Corporation." version="8.1.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

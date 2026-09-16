@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:34"
+Publisher: "CA Technologies"
+ProductName: "Unicenter Service Desk"
+Release: "12.1"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="Unicenter Service Desk" vendor="CA Technologies" uniqueId="1c474bb0-b762-11e4-b659-005056007f46" version="12.1">
+    <Signature uniqueId="df37fe64-308c-4988-9f0b-431853e74f20" modified="2014-09-19T09:50:56Z" created="2014-09-19T09:50:56Z">
+      <AND>
+        <OR>
+         <PackageFilter name="CA Service Desk" vendor="CA, Inc." version="12.1*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

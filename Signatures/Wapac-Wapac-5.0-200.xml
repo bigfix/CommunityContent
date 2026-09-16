@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:37"
+Publisher: "Wapac"
+ProductName: "Wapac"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Wapac" vendor="Wapac" uniqueId="8c3c5f30-fd83-11e8-b57f-005056ae0d7c" version="5.0">
+    <Signature uniqueId="8bdf7220-fd83-11e8-b57e-005056ae0d7c" modified="2018-12-11T20:30:06Z" created="2018-12-11T20:30:06Z">
+      <AND>
+        <OR>
+          <File name="Wapac.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

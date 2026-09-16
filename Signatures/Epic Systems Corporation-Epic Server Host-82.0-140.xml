@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "Epic Systems Corporation"
+ProductName: "Epic Server Host"
+Release: "82.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Epic Server Host" vendor="Epic Systems Corporation" uniqueId="94380cb0-f28a-11e8-b67a-005056ae0d7c" version="82.0">
+    <Signature uniqueId="93f7a850-f28a-11e8-b679-005056ae0d7c" modified="2018-11-27T21:22:43Z" created="2018-11-27T21:22:43Z">
+      <AND>
+        <OR>
+          <File name="EpicSvcHost.exe" size="24576" version=""/>
+          <File name="EpicSvcHost.exe" size="" version="82.0"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

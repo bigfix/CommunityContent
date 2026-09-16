@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:30"
+Publisher: "PAGNY"
+ProductName: "PAGNY"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="PAGNY" vendor="PAGNY" uniqueId="3233b120-f4d5-11e8-b67d-005056ae0d7c" version="1.0">
+    <Signature uniqueId="31e765e0-f4d5-11e8-b67c-005056ae0d7c" modified="2018-11-30T19:21:53Z" created="2018-11-30T19:21:53Z">
+      <AND>
+        <OR>
+          <File name="HHC.CBS.PAGNY.EmailNotification.exe" size="19968" version=""/>
+          <File name="HHC.CBS.PAGNY.EmailNotification.exe" size="" version="1.0"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:24"
+Publisher: "QS/1"
+ProductName: "QS/1 Pharmacy"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="QS/1 Pharmacy" vendor="QS/1" uniqueId="44f6d980-f4e0-11e8-b67f-005056ae0d7c" version="6.0">
+    <Signature uniqueId="44bb3010-f4e0-11e8-b67e-005056ae0d7c" modified="2018-11-30T20:41:09Z" created="2018-11-30T20:41:09Z">
+      <AND>
+        <OR>
+          <File name="Qs1com.exe" size="2488704" version=""/>
+          <File name="Qs1com.exe" size="" version="6.67"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:37"
+Publisher: "Veritas"
+ProductName: "Veritas Volume Manager"
+Release: "6.2"
+Keywords: "Solaris ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T17:18:53Z">
+   <Software name="Veritas Volume Manager" vendor="Veritas" uniqueId="61d88680-a57e-11e4-9453-005056007f46" version="6.2">
+    <Signature uniqueId="6191b980-a57e-11e4-9452-005056007f46" modified="2015-01-26T17:11:34Z" created="2015-01-26T17:11:34Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Binaries for VERITAS Volume Manager by Symantec" vendor="Symantec Corporation" version="6.2"/>
+         <PackageFilter name="Binaries for VERITAS Volume Manager by Symantec" vendor="Symantec Corporation" version="6.2.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

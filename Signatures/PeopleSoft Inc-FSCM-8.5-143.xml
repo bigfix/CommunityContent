@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "PeopleSoft Inc"
+ProductName: "FSCM"
+Release: "8.5"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="FSCM" vendor="PeopleSoft Inc" uniqueId="4e883260-b777-11e8-95ad-005056ae0d7c" version="8.5">
+    <Signature uniqueId="a749a120-91c7-11e8-b504-005056ae7c9c" modified="2018-09-13T17:05:58Z" created="2018-09-13T17:05:58Z">
+      <AND>
+        <OR>
+          <File name="fscm_epo_ws.ear" size="59210" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

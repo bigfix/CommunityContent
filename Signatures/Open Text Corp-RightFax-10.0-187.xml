@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:34"
+Publisher: "Open Text Corp"
+ProductName: "RightFax"
+Release: "10.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="RightFax" vendor="Open Text Corp" uniqueId="0737dfd0-d86c-11e8-95c9-005056ae0d7c" version="10.0">
+    <Signature uniqueId="07081d40-d86c-11e8-95c8-005056ae0d7c" modified="2018-10-25T15:38:31Z" created="2018-10-25T15:38:31Z">
+      <AND>
+        <OR>
+          <File name="RightFax10.6FP3SR4.exe" size="74811392" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

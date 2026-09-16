@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:33"
+Publisher: "Telexy"
+ProductName: "QPath"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="QPath" vendor="Telexy" uniqueId="7cd36940-db95-11e8-95d3-005056ae0d7c" version="1.0">
+    <Signature uniqueId="7c9a30d0-db95-11e8-95d2-005056ae0d7c" modified="2018-10-29T16:12:52Z" created="2018-10-29T16:12:52Z">
+      <AND>
+        <OR>
+          <File name="qPathDS.exe" size="" version="1.0"/>
+          <File name="qPathDS.exe" size="15872" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

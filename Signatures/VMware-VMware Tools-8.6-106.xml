@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-06-16 03:48:26"
+Publisher: "VMware"
+ProductName: "VMware Tools"
+Release: "8.6"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-05-20T15:38:24Z">
+   <Software name="VMware Tools" vendor="VMware" uniqueId="9515a2e0-ff05-11e4-9d9b-005056007f46" version="8.6">
+    <Signature uniqueId="94b53360-ff05-11e4-9d9b-005056007f46" modified="2015-05-20T15:33:36Z" created="2015-05-20T15:33:36Z">
+      <AND>
+        <OR>
+         <PackageFilter name="vmware-tools-core" vendor="VMware" version="8.6.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

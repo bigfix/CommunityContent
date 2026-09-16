@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:27"
+Publisher: "FastPass"
+ProductName: "FastPass"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="FastPass" vendor="FastPass" uniqueId="04a8e830-fd66-11e8-b57c-005056ae0d7c" version="6.0">
+    <Signature uniqueId="046c7b70-fd66-11e8-b57b-005056ae0d7c" modified="2018-12-11T16:58:43Z" created="2018-12-11T16:58:43Z">
+      <AND>
+        <OR>
+          <File name="FastPassSetup.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "GE Healthcare"
+ProductName: "Muse"
+Release: "9.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Muse" vendor="GE Healthcare" uniqueId="16fa0f10-d939-11e8-95ce-005056ae0d7c" version="9.0">
+    <Signature uniqueId="16b00dc0-d939-11e8-95cd-005056ae0d7c" modified="2018-10-26T16:06:25Z" created="2018-10-26T16:06:25Z">
+      <AND>
+        <OR>
+          <File name="musescm.exe" size="" version="9.0"/>
+          <File name="musescm.exe" size="174080" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

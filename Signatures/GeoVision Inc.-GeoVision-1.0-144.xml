@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "GeoVision Inc."
+ProductName: "GeoVision"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="GeoVision" vendor="GeoVision Inc." uniqueId="8183df30-fc95-11e8-b574-005056ae0d7c" version="1.0">
+    <Signature uniqueId="81248120-fc95-11e8-b573-005056ae0d7c" modified="2018-12-10T16:06:08Z" created="2018-12-10T16:06:08Z">
+      <AND>
+        <OR>
+          <File name="GVUsbKeyUpClient.exe" size="" version="1.4"/>
+          <File name="GVUsbKeyUpClient.exe" size="1549640" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

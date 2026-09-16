@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:37"
+Publisher: "Telcor innovative healthcare"
+ProductName: "Telcor"
+Release: "3.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Telcor" vendor="Telcor innovative healthcare" uniqueId="c1ff8420-db8d-11e8-95d0-005056ae0d7c" version="3.0">
+    <Signature uniqueId="c1b338e0-db8d-11e8-95cf-005056ae0d7c" modified="2018-10-29T15:17:32Z" created="2018-10-29T15:17:32Z">
+      <AND>
+        <OR>
+          <File name="TELCOR.ServiceConsole.ni.exe" size="1367040" version=""/>
+          <File name="TELCOR.ServiceConsole.ni.exe" size="" version="3.3"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

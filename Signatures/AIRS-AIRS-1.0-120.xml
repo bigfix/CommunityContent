@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:25"
+Publisher: "AIRS"
+ProductName: "AIRS"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="AIRS" vendor="AIRS" uniqueId="653f5380-dddd-11e8-95db-005056ae0d7c" version="1.0">
+    <Signature uniqueId="64cf53a0-dddd-11e8-95da-005056ae0d7c" modified="2018-11-01T13:52:38Z" created="2018-11-01T13:52:38Z">
+      <AND>
+        <OR>
+          <File name="ERA.exe" size="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

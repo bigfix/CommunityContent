@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "Lintech"
+ProductName: "Lintech"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Lintech" vendor="Lintech" uniqueId="5aec8260-d93a-11e8-95cf-005056ae0d7c" version="1.0">
+    <Signature uniqueId="5a920650-d93a-11e8-95ce-005056ae0d7c" modified="2018-10-26T16:15:28Z" created="2018-10-26T16:15:28Z">
+      <AND>
+        <OR>
+          <File name="Lintech.exe" size="" version="1.0"/>
+          <File name="Lintech.exe" size="197544" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

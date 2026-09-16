@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:29"
+Publisher: "Impact Software"
+ProductName: "Metriq"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Metriq" vendor="Impact Software" uniqueId="348125d0-dbb6-11e8-95d8-005056ae0d7c" version="2.0">
+    <Signature uniqueId="344ca850-dbb6-11e8-95d7-005056ae0d7c" modified="2018-10-29T20:07:04Z" created="2018-10-29T20:07:04Z">
+      <AND>
+        <OR>
+          <File name="Hospital.exe" size="" version="2.85"/>
+          <File name="Hospital.exe" size="23375872" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

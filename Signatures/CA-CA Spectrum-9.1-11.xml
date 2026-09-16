@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:02"
+Publisher: "CA"
+ProductName: "CA Spectrum"
+Release: "9.1"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="CA Spectrum" vendor="CA" uniqueId="4830f8e0-a53b-11e4-9442-005056007f46" version="9.1">
+    <Signature uniqueId="47950700-a53b-11e4-9442-005056007f46" modified="2015-01-26T09:11:15Z" created="2015-01-26T09:11:15Z">
+      <AND>
+        <OR>
+         <PackageFilter name="SPECTRUM 9.1" vendor="" version=""/>
+         <PackageFilter name="SPECTRUM 9.1.*" vendor="" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

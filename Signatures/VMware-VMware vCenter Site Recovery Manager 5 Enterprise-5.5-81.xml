@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:34"
+Publisher: "VMware"
+ProductName: "VMware vCenter Site Recovery Manager 5 Enterprise"
+Release: "5.5"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="VMware vCenter Site Recovery Manager 5 Enterprise" vendor="VMware" uniqueId="1c529650-b762-11e4-b659-005056007f46" version="5.5">
+    <Signature uniqueId="55dabd9f-992c-49f2-b9dc-3dbc6e164b86" modified="2014-09-19T09:47:10Z" created="2014-09-19T09:47:10Z">
+      <AND>
+        <OR>
+         <PackageFilter name="VMware vCenter Site Recovery Manager" vendor="VMware, Inc." version="5.5*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

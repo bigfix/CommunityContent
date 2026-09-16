@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:36"
+Publisher: "Sprocket"
+ProductName: "Sprocket"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Sprocket" vendor="Sprocket" uniqueId="caff4fd0-fcb5-11e8-b576-005056ae0d7c" version="2.0">
+    <Signature uniqueId="ca9199e0-fcb5-11e8-b575-005056ae0d7c" modified="2018-12-10T19:57:15Z" created="2018-12-10T19:57:15Z">
+      <AND>
+        <OR>
+          <File name="Upturn.Sprocket.AutomationServices.exe" size="" version="2.1"/>
+          <File name="Upturn.Sprocket.AutomationServices.exe" size="16384" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

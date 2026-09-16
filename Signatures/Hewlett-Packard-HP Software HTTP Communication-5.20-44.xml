@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:55:03"
+Publisher: "Hewlett-Packard"
+ProductName: "HP Software HTTP Communication"
+Release: "5.20"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T08:43:08Z">
+   <Software name="HP Software HTTP Communication" vendor="Hewlett-Packard" uniqueId="c4bb49f0-a21c-11e4-9441-005056007f46" version="5.20">
+    <Signature uniqueId="c46ed7a0-a21c-11e4-9441-005056007f46" modified="2015-01-22T09:55:16Z" created="2015-01-22T09:55:16Z">
+      <AND>
+        <OR>
+         <PackageFilter name="HPOvBbc" vendor="Hewlett-Packard" version="5.20.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

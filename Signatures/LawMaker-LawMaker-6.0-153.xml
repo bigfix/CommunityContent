@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "LawMaker"
+ProductName: "LawMaker"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="LawMaker" vendor="LawMaker" uniqueId="c2520a60-f8ac-11e8-b56f-005056ae0d7c" version="6.0">
+    <Signature uniqueId="c200dd20-f8ac-11e8-b56e-005056ae0d7c" modified="2018-12-05T16:42:30Z" created="2018-12-05T16:42:30Z">
+      <AND>
+        <OR>
+          <File name="EvLaDebug.exe" size="" version="6.0"/>
+          <File name="EvLaDebug.exe" size="2616832" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

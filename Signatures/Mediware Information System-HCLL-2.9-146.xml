@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "Mediware Information System"
+ProductName: "HCLL"
+Release: "2.9"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="HCLL" vendor="Mediware Information System" uniqueId="4f2a65d0-b777-11e8-95ae-005056ae0d7c" version="2.9">
+    <Signature uniqueId="10a4b310-b515-11e8-a395-005056ae7c9c" modified="2018-09-13T17:05:58Z" created="2018-09-13T17:05:58Z">
+      <AND>
+        <OR>
+          <File name="HCLLIDPVBMonitor.exe" size="36864" version=""/>
+          <File name="HCLLIDPVBMonitor.exe" size="" version="2.9"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

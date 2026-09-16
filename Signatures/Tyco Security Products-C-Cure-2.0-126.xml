@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:26"
+Publisher: "Tyco Security Products"
+ProductName: "C-Cure"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="C-Cure" vendor="Tyco Security Products" uniqueId="21f20050-f737-11e8-b55d-005056ae0d7c" version="2.0">
+    <Signature uniqueId="21ace100-f737-11e8-b55d-005056ae0d7c" modified="2018-12-03T20:07:59Z" created="2018-12-03T20:07:59Z">
+      <AND>
+        <OR>
+          <File name="SoftwareHouse.NextGen.Client.LaunchPad.exe" size="" version="2.20"/>
+          <File name="SoftwareHouse.NextGen.Client.LaunchPad.exe" size="1254400" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

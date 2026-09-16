@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "wwan"
+uploadedOn: "2018-02-02 06:26:05"
+Publisher: "JDM Software BV"
+ProductName: "PeterConnects"
+Release: "07.02.0901"
+Keywords: "PterConnects Flexera Software LCC"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-02-02T14:22:00Z">
+   <Software name="PeterConnects" vendor="JDM Software BV" uniqueId="a4ec0950-0823-11e8-96fc-0050569c74ce" version="07.02.0901">
+    <Signature uniqueId="a3e5bce0-0823-11e8-96fc-0050569c74ce" modified="2018-02-02T14:16:20Z" created="2018-02-02T14:16:20Z">
+      <AND>
+        <OR>
+         <PackageFilter name="PeterConnects" vendor="JDM Software BV" version="07.02.0901"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

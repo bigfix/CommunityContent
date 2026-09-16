@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "pac4j-jwt"
+Author: "Neha_Sasidharan"
+uploadedOn: "2026-03-10 11:28:19"
+Publisher: "pac4j"
+ProductName: "pac4j-jwt"
+Release: "0.ALL"
+Keywords: "pac4j-jwt, ALL versions"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2026-03-10T14:19:09Z">
+   <Software name="pac4j-jwt" vendor="pac4j" uniqueId="3319b370-1c80-11f1-bc2f-c4c6e6fad78e" version="0.ALL">
+    <Signature uniqueId="329233f0-1c80-11f1-bc2f-c4c6e6fad78e" modified="2026-03-10T12:53:55Z" created="2026-03-10T12:53:55Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><FindFilePathEx appendFileName="true" name="pac4j-jwt-*.jar"/></Iterator><Instance><Variable export="false" name="file_name"><VectorToScalar><StringCrop endString=".jar" inputString="$(INSTALL_PATH)" seekFrom="right" startString="\"/></VectorToScalar></Variable><Variable export="false" name="sources_string"><VectorToScalar><Substring inputString="$(file_name)" searchedString="-sources"/></VectorToScalar></Variable><Variable export="false" name="javadoc_string"><VectorToScalar><Substring inputString="$(file_name)" searchedString="-javadoc"/></VectorToScalar></Variable><Variable export="false" name="additional_files_present"><Or><Compare relation="ne" type="string"><ValueOf value="$(sources_string)"/><ValueOf value=""/></Compare><Compare relation="ne" type="string"><ValueOf value="$(javadoc_string)"/><ValueOf value=""/></Compare></Or></Variable><Condition withVariable="additional_files_present"><Action do="SKIP" onValue="true"/></Condition><Variable name="DETAILED_VER"><VectorToScalar><StringCrop endString=".jar" inputString="$(INSTALL_PATH)" seekFrom="left" startString="pac4j-jwt-"/></VectorToScalar></Variable><Variable export="true" name="IS_INSTALLED"><ValueOf value="true"/></Variable></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

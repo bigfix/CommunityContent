@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:31"
+Publisher: "PENRAD TECHNOLOGIES"
+ProductName: "PenRad"
+Release: "6.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="PenRad" vendor="PENRAD TECHNOLOGIES" uniqueId="911969e0-d154-11e8-95c1-005056ae0d7c" version="6.0">
+    <Signature uniqueId="90bec6c0-d154-11e8-95c0-005056ae0d7c" modified="2018-10-16T15:02:57Z" created="2018-10-16T15:02:57Z">
+      <AND>
+        <OR>
+          <File name="Penrad.exe" size="" version="6.2"/>
+          <File name="Penrad.exe" size="19600384" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

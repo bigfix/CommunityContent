@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:55:03"
+Publisher: "Hewlett-Packard"
+ProductName: "HP OpenView Performance Extended Capability Technology"
+Release: "4.51"
+Keywords: "Linux ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T08:43:08Z">
+   <Software name="HP OpenView Performance Extended Capability Technology" vendor="Hewlett-Packard" uniqueId="6b276660-a174-11e4-943f-005056007f46" version="4.51">
+    <Signature uniqueId="6aaa2010-a174-11e4-943f-005056007f46" modified="2015-01-21T13:50:10Z" created="2015-01-21T13:50:10Z">
+      <AND>
+        <OR>
+         <PackageFilter name="HPOvPetc" vendor="Hewlett-Packard Company" version="4.51.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

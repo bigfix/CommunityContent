@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM development team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 10:54:02"
+Publisher: "Symantec"
+ProductName: "Symantec License Inventory Agent"
+Release: "4.1"
+Keywords: "Windows ISVTeam"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-01-26T11:46:45Z">
+   <Software name="Symantec License Inventory Agent" vendor="Symantec" uniqueId="a2af4410-a541-11e4-9448-005056007f46" version="4.1">
+    <Signature uniqueId="a2573900-a541-11e4-9448-005056007f46" modified="2015-01-26T09:56:44Z" created="2015-01-26T09:56:44Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Symantec License Inventory Agent" vendor="" version="4.1.*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

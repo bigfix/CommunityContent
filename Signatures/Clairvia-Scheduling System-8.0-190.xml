@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:36"
+Publisher: "Clairvia"
+ProductName: "Scheduling System"
+Release: "8.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Scheduling System" vendor="Clairvia" uniqueId="5d1e0850-f4d9-11e8-b67e-005056ae0d7c" version="8.0">
+    <Signature uniqueId="5cd42e10-f4d9-11e8-b67d-005056ae0d7c" modified="2018-11-30T19:51:43Z" created="2018-11-30T19:51:43Z">
+      <AND>
+        <OR>
+          <File name="Clairvia_Rel8600_8.6.0.0_2063_Install.exe" size="131327197" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

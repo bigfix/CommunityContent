@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "Time Keeping System"
+ProductName: "Guard1 plus"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Guard1 plus" vendor="Time Keeping System" uniqueId="b7081680-f713-11e8-b55a-005056ae0d7c" version="5.0">
+    <Signature uniqueId="b6935bb0-f713-11e8-b55a-005056ae0d7c" modified="2018-12-03T15:54:27Z" created="2018-12-03T15:54:27Z">
+      <AND>
+        <OR>
+          <File name="Guard1Plus.exe" size="" version="5.2"/>
+          <File name="Guard1Plus.exe" size="1776080" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

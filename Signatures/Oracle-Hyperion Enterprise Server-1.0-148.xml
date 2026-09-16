@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:28"
+Publisher: "Oracle"
+ProductName: "Hyperion Enterprise Server"
+Release: "1.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Hyperion Enterprise Server" vendor="Oracle" uniqueId="173e5160-f8b1-11e8-b570-005056ae0d7c" version="1.0">
+    <Signature uniqueId="1702a7f0-f8b1-11e8-b56f-005056ae0d7c" modified="2018-12-05T17:13:31Z" created="2018-12-05T17:13:31Z">
+      <AND>
+        <OR>
+          <File name="HyperionPlanning.ear" size="16844848" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+    <Signature uniqueId="2dbf6d20-f8b1-11e8-b571-005056ae0d7c" modified="2018-12-05T17:14:09Z" created="2018-12-05T17:14:09Z">
+      <AND>
+        <OR>
+          <File name="stopHyperionRMIRegistry.sh" size="2103" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

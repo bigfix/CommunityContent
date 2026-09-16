@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:25"
+Publisher: "Ansos Staff Scheduling"
+ProductName: "Ansos"
+Release: "5.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Ansos" vendor="Ansos Staff Scheduling" uniqueId="5435c800-d15b-11e8-95c5-005056ae0d7c" version="5.0">
+    <Signature uniqueId="53feb270-d15b-11e8-95c4-005056ae0d7c" modified="2018-10-16T15:51:21Z" created="2018-10-16T15:51:21Z">
+      <AND>
+        <OR>
+          <File name="AFW.EXE" size="" version="5.0"/>
+          <File name="AFW.EXE" size="12630400" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

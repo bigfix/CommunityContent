@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: ""
+Author: "edmontan"
+uploadedOn: "2018-12-18 11:42:37"
+Publisher: "Bio-Rad Laboratories"
+ProductName: "Unity Real Time"
+Release: "2.0"
+Keywords: ""
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2018-12-18T19:41:44Z">
+   <Software name="Unity Real Time" vendor="Bio-Rad Laboratories" uniqueId="fae093f0-f7ea-11e8-b569-005056ae0d7c" version="2.0">
+    <Signature uniqueId="faa75b80-f7ea-11e8-b569-005056ae0d7c" modified="2018-12-04T17:35:23Z" created="2018-12-04T17:35:23Z">
+      <AND>
+        <OR>
+          <File name="UnityRealTime.exe" size="" version="2.4"/>
+          <File name="UnityRealTime.exe" size="3801088" version=""/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>

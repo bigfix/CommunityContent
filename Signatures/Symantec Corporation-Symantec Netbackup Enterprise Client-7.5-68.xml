@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: "These signatures were contributed by an IBM Service team and should fill some gaps in the standard IBM software catalog."
+Author: "jmatlock"
+uploadedOn: "2015-02-19 11:05:33"
+Publisher: "Symantec Corporation"
+ProductName: "Symantec Netbackup Enterprise Client"
+Release: "7.5"
+Keywords: "IBMServicesIndia"
+-->
+<SoftwareIdentityCatalog exportTimeStamp="2015-02-19T12:31:40Z">
+   <Software name="Symantec Netbackup Enterprise Client" vendor="Symantec Corporation" uniqueId="1b3dcaf0-b762-11e4-b659-005056007f46" version="7.5">
+    <Signature uniqueId="5d8d3fae-438d-465b-8e45-d7338abe88c7" modified="2014-10-09T14:23:06Z" created="2014-10-09T14:23:06Z">
+      <AND>
+        <OR>
+         <PackageFilter name="NetBackup Client" vendor="Symantec Corporation" version="7.5*"/>
+        </OR>
+      </AND>
+    </Signature>
+    <Signature uniqueId="d9fa2a8a-695b-428f-b748-18e9fdfac14d" modified="2014-10-21T08:23:07Z" created="2014-10-21T08:23:07Z">
+      <AND>
+        <OR>
+         <PackageFilter name="Symantec NetBackup" vendor="Symantec Corporation" version="7.5.*"/>
+        </OR>
+      </AND>
+    </Signature>
+    <Signature uniqueId="fb0d30a4-9a1a-4eee-b8cc-c7598507dcab" modified="2014-10-09T14:21:20Z" created="2014-10-09T14:21:20Z">
+      <AND>
+        <OR>
+         <PackageFilter name="SYMCnbclt" vendor="Symantec Corporation" version="7.5*"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>
