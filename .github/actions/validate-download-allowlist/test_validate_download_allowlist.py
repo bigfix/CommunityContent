@@ -74,7 +74,8 @@ def _run(args):
         files.extend(matches)
 
     checked = 0
-    flagged = 0
+    matched_urls = []
+    flagged_urls = []
 
     for path in files:
         display_path = str(pathlib.Path(path).resolve().as_posix())
@@ -90,9 +91,14 @@ def _run(args):
             bd.warn(f"could not read file ({err}); skipping", file=display_path)
             continue
 
-        flagged += vda.scan_bes_content(display_path, content, patterns, known_urls_name, vda.DEFAULT_MAX_BYTES)
+        vda.scan_bes_content(display_path, content, patterns, known_urls_name, vda.DEFAULT_MAX_BYTES, matched_urls, flagged_urls)
 
-    print(f"Checked {checked} .bes file(s); {flagged} unrecognized download URL(s) flagged.")
+    print(f"Checked {checked} .bes file(s); {len(matched_urls)} known, {len(flagged_urls)} unrecognized download URL(s) flagged.")
+    print()
+    print("=== Rendered REQUEST_CHANGES review body (only posted if any URL is flagged) ===")
+    print(vda.render_review_body(flagged_urls, known_urls_name))
+    print("=== Rendered job summary ===")
+    print(vda.render_step_summary(matched_urls, flagged_urls, known_urls_name))
 
 
 def main():
