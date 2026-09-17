@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Config - RES ONE Workspace Connector - Sync Frequency - 5 Minutes
+  ID       : 22933
+  Author   : RES
+  Domain   : RESS
+  Imported : 2016-12-07T01:59:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Config - RES ONE Workspace Connector - Sync Frequency - 5 Minutes</Title>
+    <Description><![CDATA[<P>Sets the sync frequency for the RES ONE Workspace Connector to 5 minutes.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists main gather service whose (version of it >= "9")]]></Relevance>
+    <Relevance>exists (file &quot;res2bes.exe&quot; of folder (value &quot;path&quot; of key &quot;HKLM\SOFTWARE\BigFix\Enterprise Server\Applications\res2bes&quot; of registry as string)) | true</Relevance>
+    <Relevance>select &quot;/BESPluginRegistration/Schedule/WaitPeriodSeconds&quot; of xml document of file &quot;res2bes.xml&quot; of folder &quot;Config&quot; of folder &quot;Applications&quot; of parent folder of file (following text of first &quot;%22&quot; of (image path of main gather service as string)) as text != &quot;300&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>RESS</Domain>
+    <Action ID="Action23929">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+// Enter your action script here
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "serverFolder" = "{parent folder of file (following text of first "%22" of (image path of main gather service as string))}"
+parameter "pluginsFolder" = "{parameter "serverFolder"}\Applications"
+parameter "configFolder" = "{parameter "pluginsFolder"}\Config"
+
+parameter "Frequency" = "300"
+
+delete __createfile
+delete validate.ps1
+
+createfile until _end_
+
+$Config = get-content "{parameter "configFolder"}\res2bes.xml"
+
+$Config -replace("<WaitPeriodSeconds>\d*</WaitPeriodSeconds>","<WaitPeriodSeconds>{parameter "Frequency"}</WaitPeriodSeconds>")
+
+$Config | set-content "{parameter "configFolder"}\res2bes.xml"
+
+_end_
+
+move __createfile updateFrequency.ps1
+
+// We use command here so we can get a return code, file doesnt provide us the return code.
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -Command "& .\updateFrequency.ps1"
+]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Change OS X Lion scroll direction
+  ID       : 719
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-05T10:51:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Change OS X Lion scroll direction</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance><![CDATA[(system version >= "10.7" AND system version < "10.8")]]></Relevance>
+    <Relevance>(not exists string &quot;com.apple.swipescrolldirection&quot; of dictionaries of files &quot;/Library/Preferences/.GlobalPreferences.plist&quot;) OR (exists string &quot;com.apple.swipescrolldirection&quot; whose (it as boolean != FALSE) of dictionaries of files &quot;/Library/Preferences/.GlobalPreferences.plist&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2011-09-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Sep 2011 14:56:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set value in plist
+wait defaults write /Library/Preferences/.GlobalPreferences com.apple.swipescrolldirection -bool false</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

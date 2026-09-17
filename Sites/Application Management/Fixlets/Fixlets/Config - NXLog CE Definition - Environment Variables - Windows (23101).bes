@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - NXLog CE Definition - Environment Variables - Windows
+  ID       : 23101
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-22T12:04:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - NXLog CE Definition - Environment Variables - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet configures NXLog Community Edition with a set of definitions that mimic Windows environment variables.</P>
+<P>Specifically, it defines the following variables:</P>
+<UL>
+<LI>ALLUSERSPROFILE
+<LI>BESDATA
+<LI>COMPUTERNAME
+<LI>PROGRAMFILES
+<LI>PROGRAMFILES(X86)
+<LI>SystemDrive
+<LI>SystemRoot
+<LI>WINDIR</LI></UL>
+<P>This will not work unless you have enabled modular management using <STRONG>Fixlet:</STRONG> Config - NXLog CE - Enable Modular Management - Windows</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries</Relevance>
+    <Relevance><![CDATA[(size of it != 8) of intersection of (set of ("define ALLUSERSPROFILE " & expand environment string of "%25ALLUSERSPROFILE%25";"define BESDATA " & concatenation "\\" of substrings separated by "\" of pathname of data folder of client;"define COMPUTERNAME " & computer name;"define PROGRAMFILES " & (if (x64 of operating system) then (pathname of program files x64 folder) else (pathname of program files x32 folder));"define PROGRAMFILES(X86) " & pathname of program files x32 folder;"define SystemDrive " & name of drive of system folder;"define SystemRoot " & pathname of windows folder;"define WINDIR " & pathname of windows folder;"define BESDATA " & concatenation "\\" of substrings separated by "\" of pathname of data folder of client);(set of lines of files "environment.conf" of folders "Definition" of folders "conf" of folders (values "installdir" of keys "HKEY_LOCAL_MACHINE\Software\nxlog" of x32 registries as string)))]]></Relevance>
+    <Category>NXLog CE</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-11-07</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+parameter &quot;nxlog&quot;=&quot;{pathnames of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+parameter &quot;nxlog_conf&quot;=&quot;{pathnames of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+
+folder create &quot;{parameter &quot;nxlog_conf&quot;}\Definition&quot;
+
+createfile until _end_
+define ALLUSERSPROFILE {expand environment string of &quot;%25ALLUSERSPROFILE%25&quot;}
+define BESDATA {concatenations &quot;\\&quot; of substrings separated by &quot;\&quot; of pathname of data folder of client}
+define COMPUTERNAME {computer name}
+define PROGRAMFILES {if (x64 of operating system) then (pathname of program files x64 folder) else (pathname of program files x32 folder)}
+define PROGRAMFILES(X86) {pathname of program files x32 folder}
+define SystemDrive {name of drive of system folder}
+define SystemRoot {pathname of windows folder}
+define WINDIR {pathname of windows folder}
+_end_
+
+delete &quot;{parameter &quot;nxlog_conf&quot;}\Definition\environment.conf&quot;
+
+copy __createfile &quot;{parameter &quot;nxlog_conf&quot;}\Definition\environment.conf&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

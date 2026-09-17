@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Cb Response - Generate and Collect sensor diagnostics
+  ID       : 21663
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Cb Response - Generate and Collect sensor diagnostics</Title>
+    <Description><![CDATA[This Task can be used to generate&nbsp;Carbon Black Response Sensor Diagnostics on a given endpoint and upload it to the BigFix Server for troubleshooting purposes. ]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>if (windows of operating system) then ((state of service whose (display name of it = &quot;Carbon Black Sensor&quot;) = &quot;Running&quot;) | False) else (exists file &quot;/opt/cbsensor/sensordiag.sh&quot;)</Relevance>
+    <Relevance>(windows of operating system) OR (exists match (regex &quot;Linux CentOS (6|7)&quot;) of name of operating system) OR ((name of operating system starts with &quot;Linux Red Hat&quot;) AND (exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND NOT exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it)))</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:39:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {windows of operating system}
+	// Force Carbon Black Sensor Check-In
+	waithidden sc control carbonblack 200
+
+	// Generate Carbon Black Sensor Diagnostics
+	waithidden sc control carbonblack 201
+
+	// set max size to 15 MB to prevent too much data. If the zip file is to bigger than 15 MB the upload won't occur
+	setting "_BESClient_ArchiveManager_MaxArchiveSize"="15728640" on "{parameter "action issue date" of action}" for client
+	setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+	setting "_BESClient_ArchiveManager_FileSet-client"="{pathname of windows folder & "\CarbonBlack\Diagnostics\*.*"}" on "{parameter "action issue date" of action}" for client
+
+	// upload results
+	archive now
+else
+	// Generate Carbon Black Sensor Diagnostics
+	wait sh /opt/cbsensor/sensordiag.sh
+
+	// set max size to 15 MB to prevent too much data. If the zip file is to bigger than 15 MB the upload won't occur
+	setting "_BESClient_ArchiveManager_MaxArchiveSize"="15728640" on "{parameter "action issue date" of action}" for client
+	setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+	setting "_BESClient_ArchiveManager_FileSet-client"="{pathname of client folder of current site & "/sensordiag*.tgz"}" on "{parameter "action issue date" of action}" for client
+
+	// upload results
+	archive now
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

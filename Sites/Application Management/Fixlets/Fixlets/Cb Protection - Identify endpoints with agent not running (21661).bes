@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cb Protection - Identify endpoints with agent not running
+  ID       : 21661
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cb Protection - Identify endpoints with agent not running</Title>
+    <Description><![CDATA[This Fixlet will become relevant on endpoints where the&nbsp;Cb Protection&nbsp;Agent&nbsp;is installed, but not currently running.&nbsp; Use it within a policy action to ensure the&nbsp;agent&nbsp;stays running. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>exists keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Relevance>state of service whose (display name of it = &quot;Bit9 Agent&quot;) = &quot;Stopped&quot;</Relevance>
+    <Category>Application Maintenance</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:38:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "ServiceName" = "parity"
+
+delete __appendfile
+delete netquiet.bat
+
+appendfile @ECHO OFF
+appendfile start "" /min /b net %1 %2 /y > NUL 2> NUL
+move __appendfile netquiet.bat
+
+waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat start "{parameter "ServiceName" of action}"
+
+delete netquiet.bat]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

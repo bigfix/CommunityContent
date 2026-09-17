@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cb Response - Uninstall Cb Sensor
+  ID       : 24620
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2017-08-23T07:53:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cb Response - Uninstall Cb Sensor</Title>
+    <Description>This Fixlet will allow you to uninstall the Carbon Black Response Sensor. </Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>if (windows of operating system) then (exists keys whose (value &quot;DisplayName&quot; of it = &quot;Carbon Black Sensor&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) else if (name of operating system starts with &quot;Linux CentOS 7&quot;) then (exists package &quot;cbsensor&quot; of rpm) else false</Relevance>
+    <Relevance>(windows of operating system) OR (exists match (regex &quot;Linux CentOS (6|7)&quot;) of name of operating system) OR ((name of operating system starts with &quot;Linux Red Hat&quot;) AND (exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND NOT exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it)))</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 22 Aug 2017 17:12:19 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 16 Sep 2016 11:50:42 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 16 Sep 2016 11:50:42 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>IBM BigFix &amp; Carbon Black Integration Content</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>21665</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">if {windows of operating system}
+	waithidden {(if it ends with &quot;%00&quot; then preceding text of first &quot;%00&quot; of it else it) of (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it = &quot;Carbon Black Sensor&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry as string)} /S
+elseif {(exists match (regex &quot;Linux CentOS (6|7)&quot;) of name of operating system) OR ((name of operating system starts with &quot;Linux Red Hat&quot;) AND (exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND NOT exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it)))}
+	wait rpm -e cbsensor
+endif
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action25689">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/21665</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

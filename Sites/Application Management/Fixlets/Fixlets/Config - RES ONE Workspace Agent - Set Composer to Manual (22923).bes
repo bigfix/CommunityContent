@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - RES ONE Workspace Agent - Set Composer to Manual
+  ID       : 22923
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - RES ONE Workspace Agent - Set Composer to Manual</Title>
+    <Description>This Fixlet will turn off Workspace Manager </Description>
+    <Relevance>(unix of operating system and line (1) of file &quot;/etc/res/resauthd.conf&quot; = &quot;LearningMode=no&quot;) or (mac of operating system and line (1) of file &quot;/etc/res/resauthd.conf&quot; = &quot;LearningMode=no&quot;) or (if (windows of operating system and exists service &quot;RESPESVC&quot;) then exists values &quot;Shell&quot; whose (it as string as lowercase contains &quot;pwrstart.exe&quot; or it as string as lowercase contains &quot;pfwsmgr.exe&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry else false)</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+        if {unix of operating system}
+	delete __createfile
+	delete agent_config.sh
+	createfile until __end
+		sed -i 's/LearningMode=no/LearningMode=yes/g' /etc/res/resauthd.conf
+		sed -i 's/AllowAny=no/AllowAny=yes/g' /etc/res/resauthd.conf
+	__end
+	move __createfile agent_config.sh
+	wait bash agent_config.sh
+	delete agent_config.sh
+elseif {mac of operating system}
+	delete __createfile
+	delete agent_config.sh
+	createfile until __end
+		sed -i '' 's/LearningMode=no/LearningMode=yes/g' /etc/res/resauthd.conf
+		sed -i '' 's/AllowAny=no/AllowAny=yes/g' /etc/res/resauthd.conf
+	__end
+	move __createfile agent_config.sh
+	wait bash agent_config.sh
+	delete agent_config.sh
+else
+	IF {x64 of operating system}
+		If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+			regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
+		else
+			regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
+		EndIf
+	ELSE
+		If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+			regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell%22="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
+		else
+			regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
+		EndIf
+	ENDIF
+endif
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

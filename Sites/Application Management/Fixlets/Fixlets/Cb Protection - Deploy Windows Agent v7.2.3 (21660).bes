@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cb Protection - Deploy Windows Agent v7.2.3
+  ID       : 21660
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cb Protection - Deploy Windows Agent v7.2.3</Title>
+    <Description><![CDATA[<P>This Fixlet will allow you to deploy&nbsp;the Carbon Black Protection Agent&nbsp;v7.2.3 for Windows (Host Group - Medium). </P>
+<P><STRONG><FONT color=#ff0000>Note:</FONT></STRONG> The appropriate Carbon Black Protection Agent installer will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the actionscript of this Fixlet will have to be modified accordingly.&nbsp; The Agents can be downloaded from the Carbon Black Protection Servers at https:&lt;Cb Protection&nbsp;server&gt;/hostpkg/.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance><![CDATA[(not exists keys whose (value "DisplayName" of it = "Bit9 Agent") of key "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of registry) OR (((value "DisplayVersion" of keys whose (value "DisplayName" of it = "Bit9 Agent") of key "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of registry) as string as version | ("0.0" as version)) < ("7.2.2" as version))]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:37:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Please modify the SHA1, Size, URL, and SHA256 values in the prefetch statement below to match your Bit9 Agent Installer.
+// Sample relevance clause that might help create an appropriate prefetch statement for a given file (be sure the file name is correct and does not contain spaces or special characters - or URL encode it):
+// ("prefetch bit9agent.msi sha1:" & sha1 of it as string & " size:" & size of it as string & " http://127.0.0.1:52311/Uploads/" & name of it & "  sha256:" & sha256 of it as string) of file "bit9agent.msi" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client & "Uploads")
+prefetch bit9agent.msi sha1:8b7ecfdcb48c6d2fe184fa62dcc56d2888327322 size:16296448 http://127.0.0.1:52311/Uploads/7.2.3_medium_prompt_unapproved.msi sha256:698d0184a64db2a4e8e238213b907141c2263102822b333519ba6a2fdde9f200
+
+waithidden msiexec.exe /i __Download\bit9agent.msi /qn /L*v "{pathname of windows folder & "\temp\bit9agent.log"}"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

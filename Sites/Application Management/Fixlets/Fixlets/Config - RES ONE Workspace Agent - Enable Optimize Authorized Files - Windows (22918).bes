@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - RES ONE Workspace Agent - Enable Optimize Authorized Files - Windows
+  ID       : 22918
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - RES ONE Workspace Agent - Enable Optimize Authorized Files - Windows</Title>
+    <Description>This Fixlet enables the optimization of authorized files by the RES ONE Workspace Agent.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;res&quot;</Relevance>
+    <Relevance><![CDATA[exists key "HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager" whose (value "Version" of it as string as version >= "9.10.2.1" as version) of x32 registry /* Client is newer than 9.10.2.1 */]]></Relevance>
+    <Relevance>(not exists value &quot;OPTIMIZEAUTHORIZEDFILESMODE&quot; of it or value &quot;OPTIMIZEAUTHORIZEDFILESMODE&quot; of it as string != &quot;full&quot; or exists value &quot;OPTIMIZEAUTHORIZEDFILESTHRESHOLD&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 20 Sep 2016 16:36:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]&quot; &quot;OPTIMIZEAUTHORIZEDFILESMODE&quot;=&quot;full&quot;
+regdelete &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]&quot; &quot;OPTIMIZEAUTHORIZEDFILESTHRESHOLD&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

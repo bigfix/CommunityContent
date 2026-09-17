@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cb Response - Deploy Linux Sensor v5.1.1.60603
+  ID       : 21666
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cb Response - Deploy Linux Sensor v5.1.1.60603</Title>
+    <Description><![CDATA[<P>This Fixlet will allow you to deploy the Carbon Black Response Sensor (v5.1.1.60603) for Linux. </P>
+<P><STRONG><FONT color=#ff0000>Note:</FONT></STRONG> The&nbsp;Carbon Black Response Sensor&nbsp;Linux Standalone RPM Installation package&nbsp;for the desired profile will have to be placed in the Root Server's Uploads folder (..\BES Server\wwwrootbes\Uploads or /var/opt/BESServer/wwwrootbes/Uploads), and the actionscript of this Fixlet will have to be modified accordingly.&nbsp;&nbsp;It can be downloaded via the Carbon Black Response Server interface under Administration -&gt; Sensors -&gt; Download Sensor Installer -&gt; Linux Standalone RPM.</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>not exists package &quot;cbsensor&quot; of rpm</Relevance>
+    <Relevance>(exists match (regex &quot;Linux CentOS (6|7)&quot;) of name of operating system) OR ((name of operating system starts with &quot;Linux Red Hat&quot;) AND (exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND NOT exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it)))</Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:37:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Please modify the SHA1, Size, URL, and SHA256 values in the prefetch statement below to match your Carbon Black Linux Installer.
+// Sample relevance clause that might help create an appropriate prefetch statement for a given file (be sure the file name is correct and does not contain spaces or special characters - or URL encode it):
+// ("prefetch cbinstaller.tgz sha1:" & sha1 of it as string & " size:" & size of it as string & " http://127.0.0.1:52311/Uploads/" & name of it & "  sha256:" & sha256 of it as string) of file "cbinstaller.tgz" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client & "Uploads"
+prefetch cbinstaller.tgz sha1:87b88bad1492e23b93f6e799d7c69aa47d11f9a6 size:4414491 http://127.0.0.1:52311/Uploads/CarbonBlackLinuxInstaller-v5.1.1.60603-Internal%20AWS%20Clients.tar.gz sha256:655d3cdf77b02ce19838592a409a186e99ffd1749538138bba707463bca1c840
+
+wait tar -xzf __Download/cbinstaller.tgz -C "{pathname of download folder}"
+wait sh "{pathname of download folder}/CarbonBlackClientSetup-linux-v5.1.1.60603.sh"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

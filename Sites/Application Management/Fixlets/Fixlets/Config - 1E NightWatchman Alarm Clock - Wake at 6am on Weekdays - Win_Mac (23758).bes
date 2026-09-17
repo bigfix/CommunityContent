@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - 1E NightWatchman Alarm Clock - Wake at 6am on Weekdays - Win\Mac
+  ID       : 23758
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-10T15:15:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - 1E NightWatchman Alarm Clock - Wake at 6am on Weekdays - Win\Mac</Title>
+    <Description><![CDATA[<P>This Fixlet configures 1E to wake the non-portable&nbsp;machine at 6am each weekday morning.</P>
+<P>The monitor will be turned on when this occurs.</P>
+<P>This will overwrite any previously configured Alarm Clocks.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)</Relevance>
+    <Relevance>if (windows of operating system) then ( ( value &quot;TurnOnMonitor&quot; of it as string != &quot;ON&quot; or value &quot;MondayTime&quot; of it as string != &quot;6:00&quot; or   value &quot;TuesdayTime&quot; of it as string != &quot;6:00&quot; or   value &quot;WednesdayTime&quot; of it as string != &quot;6:00&quot; or   value &quot;ThursdayTime&quot; of it as string != &quot;6:00&quot; or   value &quot;FridayTime&quot; of it as string != &quot;6:00&quot; ) of (key &quot;AlarmClock&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) ) else (true)</Relevance>
+    <Relevance>if (Mac of Operating System) then ( (exists (strings &quot;Day&quot; whose (set of (&quot;Monday&quot;;&quot;Tuesday&quot;;&quot;Wednesday&quot;;&quot;Thursday&quot;;&quot;Friday&quot;) does not contain it) of it; strings &quot;Time&quot; whose (it != &quot;06:00&quot;) of it) of dictionaries of values of array &quot;AlarmClockSettings&quot; of dictionary of file &quot;/Library/Preferences/com.1E.NightWatchman.plist&quot;)  or (number of dictionaries of values of array &quot;AlarmClockSettings&quot; of dictionary of file &quot;/Library/Preferences/com.1E.NightWatchman.plist&quot; != 5) ) else (true)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;1ECLI&quot;=&quot;{if (windows of operating system) then (pathname of file &quot;NightWatchman.exe&quot; of folder (value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry as string)) else (pathname of file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;) }&quot;
+
+if {Windows of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -alarmclock=&quot;monitorstate=on|mon(6:00)|tue(6:00)|wed(6:00)|thu(6:00)|fri(6:00)&quot;
+elseif {Mac of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -alarmclock mon=06:00,tue=06:00,wed=06:00,thu=06:00,fri=06:00
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

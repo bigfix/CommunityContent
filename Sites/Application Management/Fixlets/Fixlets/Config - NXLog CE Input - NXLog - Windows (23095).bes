@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - NXLog CE Input - NXLog - Windows
+  ID       : 23095
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-21T13:19:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - NXLog CE Input - NXLog - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet configures NXLog Community Edition to monitor the&nbsp;its own Log File.&nbsp;</P>
+<P>This Fixlet also configures NXLog to rotate its own log file after 1mb saving a maximum of 5 rotated logs.</P>
+<P>This will not work unless you have enabled modular management using <STRONG>Fixlet:</STRONG> Config - NXLog CE - Enable Modular Management - Windows</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries</Relevance>
+    <Relevance>not exists files &quot;NXLog.conf&quot; whose (size of it = 630) of folders &quot;Input&quot; of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)</Relevance>
+    <Category>NXLog CE</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-11-07</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "nxlog"="{pathnames of folders (values "installdir" of keys "HKEY_LOCAL_MACHINE\Software\nxlog" of x32 registries as string)}"
+parameter "nxlog_conf"="{pathnames of folders "conf" of folders (values "installdir" of keys "HKEY_LOCAL_MACHINE\Software\nxlog" of x32 registries as string)}"
+
+folder create "{parameter "nxlog_conf"}\Input"
+
+createfile until _end_
+<Input internal>
+    Module im_internal
+    Exec  $Message = to_json();
+</Input>
+
+<Extension fileop>
+    Module      xm_fileop
+
+    # Check the size of our log file every hour and rotate if it is larger than 1Mb
+    <Schedule>
+        Every   1 hour
+        Exec    if (file_size('%ROOT%\data\nxlog.log') >= 10M) file_cycle('%ROOT%\data\nxlog.log', 3);
+    </Schedule>
+
+    # Rotate our log file every week on sunday at midnight
+    <Schedule>
+        When    @weekly
+        Exec    file_cycle('%ROOT%\data\nxlog.log', 3);
+    </Schedule>
+</Extension>
+
+<Route internal>
+    Path internal => out
+</Route>
+_end_
+
+delete "{parameter "nxlog_conf"}\Input\NXLog.conf"
+
+copy __createfile "{parameter "nxlog_conf"}\Input\NXLog.conf"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>
