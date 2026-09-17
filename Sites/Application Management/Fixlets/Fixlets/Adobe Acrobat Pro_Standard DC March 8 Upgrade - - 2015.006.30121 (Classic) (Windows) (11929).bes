@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Adobe Acrobat Pro/Standard DC March 8 Upgrade - - 2015.006.30121 (Classic) (Windows)
+  ID       : 11929
+  Author   : learningdaily
+  Domain   : PTCH
+  Imported : 2016-04-08T10:41:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Adobe Acrobat Pro/Standard DC March 8 Upgrade - - 2015.006.30121 (Classic) (Windows)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This patches in the <A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/whatsnewdc.html#classic-track">classic track</A>.&nbsp; <BR><BR>Adobe Acrobat DC Updates <A href="https://www.adobe.com/support/downloads/product.jsp?product=1&amp;platform=Windows">Link</A><BR><BR>Updated on 2016-03-8<BR><BR>Adobe has released a new version of Adobe Acrobat DC.<BR><BR><B>Note:</B> Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P>
+<P><SPAN id=fixletLinks></SPAN><SPAN id=fixletLinks><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> Choosing the "Upgrade Adobe Acrobat regardless of whether or not&nbsp;Adobe Acrobat is&nbsp;running" action&nbsp;will close any running instance of Adobe Acrobat on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.</SPAN></P></TD></TR></TBODY></TABLE></DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists regapp &quot;acrobat.exe&quot;</Relevance>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe Acrobat\2015&quot; of it) of registry</Relevance>
+    <Relevance><![CDATA[exists regapp "acrobat.exe" whose (version of it < "15.006.30121")]]></Relevance>
+    <Relevance><![CDATA[(exists key whose (value "DisplayName" of it as string contains "Adobe Acrobat" AND (it >= "15.0.0" AND it < "15.006.30121") of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
+    <Category>Software Updates</Category>
+    <Source>I3 IT</Source>
+    <SourceReleaseDate>2016-01-12</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 11 Jan 2016 22:38:32 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>7599</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Adobe Acrobat</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Sun, 17 Jan 2016 20:42:04 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Sun, 17 Jan 2016 20:42:04 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Acrobat Pro DC Upgrade 15.010.20056 Continuous Track Patch</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 08 Apr 2016 13:57:11 +0000</Value>
+    </MIMEField>
+    <Domain>PTCH</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 http://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
+
+wait msiexec.exe /p &quot;__Download\AcrobatUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+action may require restart &quot;0ed68b8fd911e5f8097ce327404b4f9a6f7929f3&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action12727">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat regardless of whether or not Adobe Acrobat is running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 http://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
+
+waithidden {if (name of operating system = &quot;WinXP&quot; AND personal bit (suite mask of operating system)) then &quot;tskill acrobat /a&quot; else &quot;taskkill /F /IM acrobat.exe&quot;}
+
+wait msiexec.exe /p &quot;__Download\AcrobatUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+action may require restart &quot;0ed68b8fd911e5f8097ce327404b4f9a6f7929f3&quot;</ActionScript>
+    </Action>
+    <Action ID="Action12728">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about the latest version of Adobe Acrobat.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.adobe.com/support/downloads/detail.jsp?ftpID=6033</ActionScript>
+    </Action>
+    <Action ID="Action12729">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Adobe.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/support/security/#acrobatwin</ActionScript>
+    </Action>
+    <Action ID="Action12730">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information from SANS on vulnerabilities in office software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c2</ActionScript>
+    </Action>
+    <Action ID="Action12731">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to&amp;nbsp;rate what this&amp;nbsp;task was originally based on within the bigfix.me Content Database. Based upon the work developed by &lt;A href=&quot;https://bigfix.me/user/cdh&quot;&gt;CDH&lt;/A&gt;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/7599</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

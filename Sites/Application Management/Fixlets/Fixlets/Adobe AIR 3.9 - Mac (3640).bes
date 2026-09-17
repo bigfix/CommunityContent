@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    :  Adobe AIR 3.9 - Mac
+  ID       : 3640
+  Author   : kerryt9455
+  Domain   : SYST
+  Imported : 2013-10-24T06:46:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Adobe AIR 3.9 - Mac</Title>
+    <Description><![CDATA[<P>This task will uninstall previous versions of Adobe AIR if they exist and install the current version.&nbsp; It will only install if AIR exists on the computer. </P>
+<P><STRONG>Note:</STRONG> This Fixlet is currently built for Adobe AIR 3.9.0.1030.&nbsp; If Adobe updates the version on their website this fixlet will no longer run properly.&nbsp; To correct the issue, the new SHA1 and File Size must be placed in the action script and the new version number placed in the relevance.</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance>((mac of it) of operating system)</Relevance>
+    <Relevance><![CDATA[system version >= "10.6" as version]]></Relevance>
+    <Relevance><![CDATA[(exists file "/Library/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/Info.plist") AND (exists string "CFBundleVersion" of dictionary of file "/Library/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/Info.plist") AND (string "CFBundleVersion" of dictionary of file "/Library/Frameworks/Adobe AIR.framework/Versions/1.0/Resources/Info.plist" as version < "3.9.0.1030" as version)]]></Relevance>
+    <Relevance><![CDATA[free space of filesystem of folder (pathname of client) > 55160904]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Adobe</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-10-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;7ECC603E8481BBE37866C53A305CF654ED534E45&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>&quot;AdobeAIR.dmg&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_kwtobin_1379342055935489</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runFileSha1</Name>
+      <Value>7ECC603E8481BBE37866C53A305CF654ED534E45</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;version&quot;:&quot;3.8&quot;,&quot;lastmodified&quot;:&quot;Mon Sep 16 09:34:51 GMT-0500 2013&quot;,&quot;owner&quot;:&quot;kwtobin&quot;,&quot;creator&quot;:&quot;kwtobin&quot;,&quot;files&quot;:[{&quot;sha1&quot;:&quot;7ECC603E8481BBE37866C53A305CF654ED534E45&quot;,&quot;exe_metadata&quot;:null,&quot;folderoffset&quot;:&quot;&quot;,&quot;msi_metadata&quot;:null,&quot;dateadded&quot;:&quot;Mon, 16 Sep 2013 09:34:41 -0500&quot;,&quot;filename&quot;:&quot;AdobeAIR.dmg&quot;,&quot;compressed_data_for_package&quot;:false,&quot;spb_metadata&quot;:null,&quot;id&quot;:&quot;7ECC603E8481BBE37866C53A305CF654ED534E45_1379342081643908&quot;,&quot;size&quot;:27576425,&quot;osd_metadata&quot;:null}],&quot;description&quot;:null,&quot;product&quot;:&quot;Air&quot;,&quot;vendor&quot;:&quot;Adobe&quot;,&quot;comment&quot;:null,&quot;pkgvariablekey&quot;:&quot;SWD_Package_kwtobin_1379342055935489&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 13:46:01 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Download all specified files
+begin prefetch block
+  add prefetch item name=5A7D72B74BB2D95535D866AD71DB9577129F1E28 sha1=5a7d72b74bb2d95535d866ad71db9577129f1e28 size=27580452 url=http://airdownload.adobe.com/air/mac/download/3.9/AdobeAIR.dmg
+end prefetch block
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
+
+// Move files into subfolders and unescape file names
+move &quot;__Download/5A7D72B74BB2D95535D866AD71DB9577129F1E28&quot; &quot;{parameter &quot;baseFolder&quot;}AdobeAIR.dmg&quot;
+
+// Run setup process
+wait sh -c &quot;rm &apos;/tmp/AdobeAIR.dmg&apos;&quot;
+
+move &quot;{posix path of file &quot;AdobeAIR.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/tmp/AdobeAIR.dmg&quot;
+
+wait hdiutil attach -quiet -private -mountpoint &quot;/tmp/BESMNTPT1379342155882906&quot; &quot;/tmp/AdobeAIR.dmg&quot;
+
+wait /bin/bash -c &quot;rm -Rf &apos;/Library/Frameworks/Adobe AIR.framework&apos;&quot;
+wait /bin/bash -c &quot;rm -Rf &apos;/Applications/Utilities/Adobe AIR Uninstaller.app&apos;&quot;
+wait /bin/bash -c &quot;rm -Rf &apos;/Applications/Utilities/Adobe AIR*&apos;&quot;
+
+wait /bin/bash -c &quot;/tmp/BESMNTPT1379342155882906/Adobe\ AIR\ Installer.app/Contents/MacOS/Adobe\ AIR\ Installer -silent&quot;
+
+wait /bin/sh -c &quot;hdiutil detach -force `mount | grep /tmp/BESMNTPT1379342155882906 | cut -f 1 -d \ | cut -f 3 -d / | head -1`&quot;
+wait sh -c &quot;rm &apos;/tmp/AdobeAIR.dmg&apos;&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

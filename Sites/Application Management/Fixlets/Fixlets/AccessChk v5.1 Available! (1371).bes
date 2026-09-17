@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AccessChk v5.1 Available!
+  ID       : 1371
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-01-10T12:22:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AccessChk v5.1 Available!</Title>
+    <Description>As a part of ensuring that they&apos;ve created a secure environment Windows administrators often need to know what kind of accesses specific users or groups have to resources including files, directories, Registry keys, global objects and Windows services. AccessChk quickly answers these questions with an intuitive interface and output.</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>not exists file &quot;AccessChk.exe&quot; of windows folder</Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-01-10</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Jan 2013 18:21:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;EULA&quot; with description &quot;Click OK if you agree to the SysInternals EULA (see http://technet.microsoft.com/en-us/sysinternals/bb664922) on behalf of the System Account on the endpoint(s).&quot; and with default value &quot;I AGREE&quot;
+continue if {parameter &quot;EULA&quot; = &quot;I AGREE&quot;}
+prefetch AccessChk.zip sha1:8b9845d28c4bec0824463e2518972eb6ecbd4712 size:112278 http://download.sysinternals.com/files/AccessChk.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\AccessChk.zip
+copy &quot;{pathname of client folder of current site}\__Download\AccessChk.exe&quot; &quot;{pathname of windows folder}\AccessChk.exe&quot;
+continue if {version of file &quot;AccessChk.exe&quot; of windows folder = &quot;5.10.0.0&quot;}
+//Set EULA agreement flags
+regset &quot;[HKEY_CURRENT_USER\Software\Sysinternals\AccessChk]&quot; &quot;EulaAccepted&quot;=dword:00000001
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action878">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn about Peter Hahndorf&apos;s research into accepting Sysinternals Licenses.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://peter.hahndorf.eu/blog/2010/03/07/WorkAroundSysinternalsLicensePopups.aspx</ActionScript>
+    </Action>
+    <Action ID="Action1618">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this application.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://technet.microsoft.com/en-us/sysinternals/bb664922</ActionScript>
+    </Action>
+  </Task>
+</BES>

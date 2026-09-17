@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Adobe Flash Player - Enable Flash Player v11.2+ Silent Updates
+  ID       : 838
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-21T15:09:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Adobe Flash Player - Enable Flash Player v11.2+ Silent Updates</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Applicable for adobe flash version 11.2 and later, not applicable to any machine with any flash version earlier than 11.2 installed, even if one of it's flash player versions is greater than 11.2</P>
+<P>This action will enable silent automatic updates of the Adobe Flash Player. This will not prompt the user and will install silently even if the user does not has admin rights because it runs as a windows service under the SYSTEM account.</P></TD></TR></TBODY></TABLE>
+<P><A href="http://forums.adobe.com/message/4379612">http://forums.adobe.com/message/4379612</A></P>
+<P><A href="http://www.adobe.com/devnet/flashplayer/articles/flash_player_admin_guide.html">http://www.adobe.com/devnet/flashplayer/articles/flash_player_admin_guide.html</A></P>
+<P><A href="http://www.adobe.com/devnet/flashplayer/articles/background-updater-windows.html">http://www.adobe.com/devnet/flashplayer/articles/background-updater-windows.html</A></P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(exists folder &quot;macromed\flash&quot; of system folder AND (exists file whose ((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;swflash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder))  OR (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance><![CDATA[(exists folder "macromed\flash" of system folder) AND (exists file whose (((it starts with "flash" and it ends with ".ocx") OR (it = "swflash.ocx")) of (name of it as lowercase) and version of it >= "8.0") of it) of folder "macromed\flash" of system folder]]></Relevance>
+    <Relevance>(it != &quot;WinNT&quot; AND it != &quot;Win95&quot;) of name of operating system</Relevance>
+    <Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string contains "Adobe Flash Player" AND (it < "11.2" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry]]></Relevance>
+    <Relevance><![CDATA[if (not x64 of operating system) then (not (exists file (system folder as string & "\Macromed\Flash\mms.cfg") AND exists lines whose (it contains "AutoUpdateDisable" AND following text of first "=" of it contains "0" AND preceding text of first "AutoUpdateDisable" of it does not contain "#") of file (system folder as string & "\Macromed\Flash\mms.cfg") AND exists lines whose (it contains "SilentAutoUpdateEnable" AND following text of first "=" of it contains "1" AND preceding text of first "SilentAutoUpdateEnable" of it does not contain "#") of file (system folder as string & "\Macromed\Flash\mms.cfg"))) else (not (exists file (system wow64 folder as string & "\Macromed\Flash\mms.cfg") AND exists lines whose (it contains "AutoUpdateDisable" AND following text of first "=" of it contains "0" AND preceding text of first "AutoUpdateDisable" of it does not contain "#") of file (system wow64 folder as string & "\Macromed\Flash\mms.cfg") AND exists lines whose (it contains "SilentAutoUpdateEnable" AND following text of first "=" of it contains "1" AND preceding text of first "SilentAutoUpdateEnable" of it does not contain "#") of file (system wow64 folder as string & "\Macromed\Flash\mms.cfg")))]]></Relevance>
+    <Category>Configuration</Category>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2012-12-21</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SANSID>N/A</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 20 Jan 2012 03:57:22 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement Configuration Updating 3rdPartyApp Adobe FlashPlayer</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 21 Dec 2012 21:09:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Flash Player Update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {not x64 of operating system}
+// If no MMS.CFG file exists, create one
+if{not exists file (system folder as string & "\Macromed\Flash\mms.cfg")}
+// if the Macromed folder does not exist, create it
+if{not exists folder (system folder as string & "\Macromed\")}
+dos mkdir {system folder as string & "\Macromed\"}
+endif
+// if the Macromed/Flash folder does not exist, create it
+if{not exists folder (system folder as string & "\Macromed\Flash")}
+dos mkdir {system folder as string & "\Macromed\Flash"}
+endif
+delete __createfile
+delete mms.cfg
+createfile until @end_create_mms_file
+#Enable Adobe Flash auto update
+AutoUpdateDisable=0
+#require that auto updates be silent
+SilentAutoUpdateEnable=1
+@end_create_mms_file
+move __createfile {system folder as string & "\Macromed\Flash\mms.cfg"}
+else
+//If an MMS.CFG file exists, then append "AutoUpdateDisable=0" & "SilentAutoUpdateEnable=1" to the MMS.CFG file, while removing any other: "AutoUpdateDisable","SilentAutoUpdateEnable","AutoUpdateInterval"
+delete __appendfile
+appendfile {concatenation "%0d%0a" of lines whose (not(it contains "AutoUpdateDisable" AND preceding text of first "AutoUpdateDisable" of it does not contain "#") AND not(it contains "SilentAutoUpdateEnable" AND preceding text of first "SilentAutoUpdateEnable" of it does not contain "#") AND not(it contains "AutoUpdateInterval" AND preceding text of first "AutoUpdateInterval" of it does not contain "#")) of file (system folder as string & "\Macromed\Flash\mms.cfg")}
+appendfile {"%0d%0a"}AutoUpdateDisable=0
+appendfile {"%0d%0a"}SilentAutoUpdateEnable=1
+//backup
+delete "{(system folder as string & "\Macromed\Flash\mms.cfg.bak")}"
+move "{(system folder as string & "\Macromed\Flash\mms.cfg")}" "{(system folder as string & "\Macromed\Flash\mms.cfg.bak")}"
+delete {(system folder as string & "\Macromed\Flash\mms.cfg")}
+copy __appendfile {(system folder as string & "\Macromed\Flash\mms.cfg")}
+endif
+else //End of 32bit, start of 64bit:
+// If no MMS.CFG file exists, then create one
+if{not exists file (system wow64 folder as string & "\Macromed\Flash\mms.cfg")}
+// if the Macromed folder does not exist, create it
+if{not exists folder (system wow64 folder as string & "\Macromed\")}
+dos mkdir {system wow64 folder as string & "\Macromed\"}
+endif
+// if the Macromed/Flash folder does not exist, create it
+if{not exists folder (system wow64 folder as string & "\Macromed\Flash")}
+dos mkdir {system wow64 folder as string & "\Macromed\Flash"}
+endif
+delete __createfile
+delete mms.cfg
+createfile until @end_create_mms_file
+#Enable Adobe Flash auto update
+AutoUpdateDisable=0
+#require that auto updates be silent
+SilentAutoUpdateEnable=1
+@end_create_mms_file
+move __createfile {system wow64 folder as string & "\Macromed\Flash\mms.cfg"}
+else
+//If an MMS.CFG file exists, then append "AutoUpdateDisable = 1" to the MMS.CFG file, while removing any other "AutoUpdateDisable"'s
+delete __appendfile
+appendfile {concatenation "%0d%0a" of lines whose (not(it contains "AutoUpdateDisable" AND preceding text of first "AutoUpdateDisable" of it does not contain "#") AND not(it contains "SilentAutoUpdateEnable" AND preceding text of first "SilentAutoUpdateEnable" of it does not contain "#") AND not(it contains "AutoUpdateInterval" AND preceding text of first "AutoUpdateInterval" of it does not contain "#")) of file (system wow64 folder as string & "\Macromed\Flash\mms.cfg")}
+appendfile {"%0d%0a"}AutoUpdateDisable=0
+appendfile {"%0d%0a"}SilentAutoUpdateEnable=1
+//backup
+delete "{(system wow64 folder as string & "\Macromed\Flash\mms.cfg.bak")}"
+move "{(system wow64 folder as string & "\Macromed\Flash\mms.cfg")}" "{(system wow64 folder as string & "\Macromed\Flash\mms.cfg.bak")}"
+delete {(system wow64 folder as string & "\Macromed\Flash\mms.cfg")}
+copy __appendfile {(system wow64 folder as string & "\Macromed\Flash\mms.cfg")}
+endif
+endif]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>
