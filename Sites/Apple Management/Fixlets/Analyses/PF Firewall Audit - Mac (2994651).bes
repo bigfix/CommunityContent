@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : PF Firewall Audit - Mac
+  ID       : 2994651
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-06-13T09:09:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>PF Firewall Audit - Mac</Title>
+    <Description>Audit of pf firewall for Mac OS X
+
+References:
+http://www.openbsd.org/faq/pf/?
+http://support.apple.com/kb/HT200259?viewlocale=en_US?</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/etc/pf.conf&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Jun 2014 16:07:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Lines of /etc/pf.conf " EvaluationPeriod="P7D">lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;) of file &quot;/etc/pf.conf&quot;</Property>
+    <Property ID="2" Name="Lines of Load Anchor in /etc/pf.conf" EvaluationPeriod="P1D">lines whose (it does not start with &quot;#&quot; AND it as lowercase contains &quot;load anchor&quot;) of file &quot;/etc/pf.conf&quot;</Property>
+    <Property ID="3" Name="Files Loaded as Anchor" EvaluationPeriod="P1D">following texts of lasts &quot;%22&quot; of preceding texts of lasts &quot;%22&quot; of lines whose (it as lowercase contains &quot;load anchor&quot;) of file &quot;/etc/pf.conf&quot;</Property>
+    <Property ID="4" Name="Number of Lines in /etc/pf.conf" EvaluationPeriod="P1D">number of lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;) of file &quot;/etc/pf.conf&quot;</Property>
+    <Property ID="5" Name="Number of Lines of Load Anchors in /etc/pf.conf" EvaluationPeriod="P1D">number of lines whose (it does not start with &quot;#&quot; AND it as lowercase contains &quot;load anchor&quot;) of file &quot;/etc/pf.conf&quot;</Property>
+    <Property ID="6" Name="ProgramArguments of PF LaunchD" EvaluationPeriod="P7D">strings of values of array of values of entries whose (key of it = &quot;ProgramArguments&quot;) of dictionary of file &quot;/System/Library/LaunchDaemons/com.apple.pfctl.plist&quot;</Property>
+    <Property ID="7" Name="PF LaunchD Enabled" EvaluationPeriod="PT6H">exists strings whose (it as lowercase = &quot;-e&quot;) of values of array of values of entries whose (key of it = &quot;ProgramArguments&quot;) of dictionary of file &quot;/System/Library/LaunchDaemons/com.apple.pfctl.plist&quot;</Property>
+    <Property ID="8" Name="Lines of Files Loaded as Anchors in /etc/pf.conf" EvaluationPeriod="P7D">lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;)  of files (following texts of lasts &quot;%22&quot; of preceding texts of lasts &quot;%22&quot; of lines whose (it as lowercase contains &quot;load anchor&quot;) of file &quot;/etc/pf.conf&quot;)</Property>
+    <Property ID="9" Name="Lines of Files, by Filename, Loaded as Anchors in /etc/pf.conf" EvaluationPeriod="P7D">(name of it, concatenation &quot;%0A&quot; of lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;) of it) of files (following texts of lasts &quot;%22&quot; of preceding texts of lasts &quot;%22&quot; of lines whose (it as lowercase contains &quot;load anchor&quot;) of file &quot;/etc/pf.conf&quot;)</Property>
+  </Analysis>
+</BES>

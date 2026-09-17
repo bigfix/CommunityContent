@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Disable PF Firewall
+  ID       : 4017
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2015-04-06T08:58:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Disable PF Firewall</Title>
+    <Description><![CDATA[<DIV class=subsection>This fixlet removes the "-e" flag in the ProgramArguments of the /System/Library/LaunchDaemons/com.apple.pfctl.plist and runs the command to disable the pf firewall. </DIV>
+<P class=subsection>This&nbsp;disables the pf firewall to start at system boot.</P>
+<P class=subsection>This fixlet is applicable on Mac OS X 10.9 or later.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.9"]]></Relevance>
+    <Relevance>(exists strings whose (it as lowercase = &quot;-e&quot;) of values of array of values of entries whose (key of it = &quot;ProgramArguments&quot;) of dictionary of file &quot;/System/Library/LaunchDaemons/com.apple.pfctl.plist&quot;)</Relevance>
+    <Category>System Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2014-06-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Jun 2014 19:19:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+wait bash -c &quot;defaults write /System/Library/LaunchDaemons/com.apple.pfctl ProgramArguments &apos;(pfctl, -f, /etc/pf.conf)&apos;&quot;
+wait chmod 644 /System/Library/LaunchDaemons/com.apple.pfctl.plist
+wait plutil -convert xml1 /System/Library/LaunchDaemons/com.apple.pfctl.plist
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

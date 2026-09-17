@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: Mac OS X 10.10.2 Available (Combo) - Audit
+  ID       : 3970
+  Author   : Chuxin
+  Domain   : BESC
+  Imported : 2015-02-02T22:45:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: Mac OS X 10.10.2 Available (Combo) - Audit</Title>
+    <Description><![CDATA[<DIV class=FixletMessage><TABLE><TBODY><TR><TD><P>The 10.10.2 Update is recommended for all users running Mac OS X Yosemite. It includes general operating system fixes that enhance the stability, compatibility, and security of your Mac.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>N/A</DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2014-6277, CVE-2014-7186, CVE-2014-7187, CVE-2014-8836, CVE-2014-8837, CVE-2014-4460, CVE-2014-4481, CVE-2014-4498, CVE-2014-4499, CVE-2014-1595, CVE-2014-8817, CVE-2014-4484, CVE-2014-4483, CVE-2014-4485, CVE-2014-8819, CVE-2014-8820, CVE-2014-8821, CVE-2014-4486, CVE-2014-4487, CVE-2014-4488, CVE-2014-4489, CVE-2014-8822, CVE-2014-8830, CVE-2014-8838, CVE-2014-8835, CVE-2014-4495, CVE-2014-8824, CVE-2014-4491, CVE-2014-4461, CVE-2014-8826, CVE-2014-4492, CVE-2014-8827, CVE-2014-8517, CVE-2014-3566, CVE-2014-3567, CVE-2014-3568, CVE-2014-8832, CVE-2014-4389, CVE-2014-8823, CVE-2014-8825, CVE-2014-4371, CVE-2014-4419, CVE-2014-4420, CVE-2014-4421, CVE-2014-8839, CVE-2014-8833, CVE-2014-8834</DIV>]]></Description>
+    <Relevance>(exists string &quot;ProductVersion&quot; whose (it as string = &quot;10.10&quot;) of dictionary of it) of file &quot;/System/Library/CoreServices/SystemVersion.plist&quot;</Relevance>
+    <Category>Security Update</Category>
+    <Source>Apple</Source>
+    <SourceID>APPLE-SA-2015-01-27-4</SourceID>
+    <SourceReleaseDate>2015-01-27</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>CVE-2014-6277, CVE-2014-7186, CVE-2014-7187, CVE-2014-8836, CVE-2014-8837, CVE-2014-4460, CVE-2014-4481, CVE-2014-4498, CVE-2014-4499, CVE-2014-1595, CVE-2014-8817, CVE-2014-4484, CVE-2014-4483, CVE-2014-4485, CVE-2014-8819, CVE-2014-8820, CVE-2014-8821, CVE-2014-4486, CVE-2014-4487, CVE-2014-4488, CVE-2014-4489, CVE-2014-8822, CVE-2014-8830, CVE-2014-8838, CVE-2014-8835, CVE-2014-4495, CVE-2014-8824, CVE-2014-4491, CVE-2014-4461, CVE-2014-8826, CVE-2014-4492, CVE-2014-8827, CVE-2014-8517, CVE-2014-3566, CVE-2014-3567, CVE-2014-3568, CVE-2014-8832, CVE-2014-4389, CVE-2014-8823, CVE-2014-8825, CVE-2014-4371, CVE-2014-4419, CVE-2014-4420, CVE-2014-4421, CVE-2014-8839, CVE-2014-8833, CVE-2014-8834</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PTCH Patch Apple OSUpdate</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:38:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action4414">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to view more information from Apple on this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.apple.com/kb/HT1222</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Check FileVault2 Status for Mac OS X 10.7/10.8 without PGP installed.
+  ID       : 2569
+  Author   : Tim.Rice
+  Domain   : BESC
+  Imported : 2013-08-19T11:08:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Check FileVault2 Status for Mac OS X 10.7/10.8 without PGP installed.</Title>
+    <Description><![CDATA[<P>This task uses a script found on the Internet to check the status of FileVault2 encryption on Mac laptops.</P>
+<P>The results of the check are stored in a client setting "_FileVault2".
+The original script was derived from the FileVault 2 encryption status check script from http://derflounder.wordpress.com/2011/10/13/filevault-2-encryption-status-check-script/
+</P>
+<P>Because of the potential impact to performance, I only execute this Task once every 6 hours.  This was deemed frequent enough to appropriately record the encryption status, but not so frequent that it adversely impacted overall performance of the targeted computers or their Agents.
+</P>]]></Description>
+    <Relevance>(operating system as string starts with &quot;Mac OS X 10.7.&quot;) or (operating system as string starts with &quot;Mac OS X 10.8.&quot;)</Relevance>
+    <Relevance>not exists application whose (name of it as lowercase = &quot;pgp.app&quot;)</Relevance>
+    <Relevance>if ((exists key whose (it as string as lowercase contains &quot;battery&quot;) of entries of dictionaries of nodes of it) or (exists node &quot;AppleACPIPlatformExpert/SMB0/AppleECSMBusController/AppleSmartBatteryManager&quot; of service plane of iokit registry) of it) of service plane of iokit registry then TRUE else FALSE</Relevance>
+    <Category>ENCRYPTION STATUS</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-08-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Aug 2013 21:30:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __createfile
+createfile until ##END##
+#!/bin/sh
+
+CORESTORAGESTATUS="/private/tmp/corestorage.txt"
+ENCRYPTSTATUS="/private/tmp/encrypt_status.txt"
+ENCRYPTDIRECTION="/private/tmp/encrypt_direction.txt"
+
+# Get number of CoreStorage devices. The egrep pattern used later in the script
+# uses this information to only report on the first encrypted drive, which should
+# be the boot drive.
+#
+# Credit to Mike Osterman for identifying this problem in the original version of
+# the script and finding a fix for it.
+#
+
+DEVICE_COUNT=`diskutil cs list | grep -E "^CoreStorage logical volume groups" | awk '{{print $5}' | sed -e's/(//'`
+
+EGREP_STRING=""
+if [ "$DEVICE_COUNT" != "1" ]; then
+EGREP_STRING="^\| *"
+fi
+
+osversionlong=`sw_vers -productVersion`
+osvers=${{osversionlong:3:1}
+CONTEXT=`diskutil cs list | grep -E "$EGREP_STRING\Encryption Context" | sed -e's/\|//' | awk '{{print $3}'`
+ENCRYPTIONEXTENTS=`diskutil cs list | grep -E "$EGREP_STRING\Has Encrypted Extents" | sed -e's/\|//' | awk '{{print $4}'`
+ENCRYPTION=`diskutil cs list | grep -E "$EGREP_STRING\Encryption Type" | sed -e's/\|//' | awk '{{print $3}'`
+CONVERTED=`diskutil cs list | grep -E "$EGREP_STRING\Size \(Converted\)" | sed -e's/\|//' | awk '{{print $5, $6}'`
+SIZE=`diskutil cs list | grep -E "$EGREP_STRING\Size \(Total\)" | sed -e's/\|//' | awk '{{print $5, $6}'`
+
+# Checks to see if the OS on the Mac is 10.7 or 10.8.
+# If it is not, the following message is displayed without quotes:
+# "FileVault 2 Encryption Not Available For This Version Of Mac OS X"
+
+if [[ ${{osvers} -lt 7 ]]; then
+echo "FileVault 2 Encryption Not Available For This Version Of Mac OS X" > /private/tmp/filevault2-status.txt
+fi
+
+
+
+if [[ ${{osvers} -ge 7 ]]; then
+diskutil cs list >> $CORESTORAGESTATUS
+
+# If the Mac is running 10.7 or 10.8, but does not have
+# any CoreStorage volumes, the following message is
+# displayed without quotes:
+# "FileVault 2 Encryption Not Enabled"
+
+if grep -iE 'No CoreStorage' $CORESTORAGESTATUS 1>/dev/null; then
+echo "FileVault 2 Encryption Not Enabled" > /private/tmp/filevault2-status.txt
+fi
+
+# If the Mac is running 10.7 or 10.8 and has CoreStorage volumes,
+# the script then checks to see if the machine is encrypted,
+# encrypting, or decrypting.
+#
+# If encrypted, the following message is
+# displayed without quotes:
+# "FileVault 2 Encryption Complete"
+#
+# If encrypting, the following message is
+# displayed without quotes:
+# "FileVault 2 Encryption Proceeding."
+# How much has been encrypted of of the total
+# amount of space is also displayed. If the
+# amount of encryption is for some reason not
+# known, the following message is
+# displayed without quotes:
+# "FileVault 2 Encryption Status Unknown. Please check."
+#
+# If decrypting, the following message is
+# displayed without quotes:
+# "FileVault 2 Decryption Proceeding"
+# How much has been decrypted of of the total
+# amount of space is also displayed
+#
+# If fully decrypted, the following message is
+# displayed without quotes:
+# "FileVault 2 Decryption Complete"
+#
+
+if grep -iE 'Logical Volume Family' $CORESTORAGESTATUS 1>/dev/null; then
+
+# This section does 10.7-specific checking of the Mac's
+# FileVault 2 status
+
+if [ "$CONTEXT" = "Present" ]; then
+if [ "$ENCRYPTION" = "AES-XTS" ]; then
+diskutil cs list | grep -E "$EGREP_STRING\Conversion Status" | sed -e's/\|//' | awk '{{print $3}' >> $ENCRYPTSTATUS
+if grep -iE 'Complete' $ENCRYPTSTATUS 1>/dev/null; then
+echo "FileVault 2 Encryption Complete" > /private/tmp/filevault2-status.txt
+else
+if grep -iE 'Converting' $ENCRYPTSTATUS 1>/dev/null; then
+diskutil cs list | grep -E "$EGREP_STRING\Conversion Direction" | sed -e's/\|//' | awk '{{print $3}' >> $ENCRYPTDIRECTION
+if grep -iE 'Forward' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Encryption Proceeding. $CONVERTED of $SIZE Encrypted" > /private/tmp/filevault2-status.txt
+else
+echo "FileVault 2 Encryption Status Unknown. Please check." > /private/tmp/filevault2-status.txt
+fi
+fi
+fi
+else
+if [ "$ENCRYPTION" = "None" ]; then
+diskutil cs list | grep -E "$EGREP_STRING\Conversion Direction" | sed -e's/\|//' | awk '{{print $3}' >> $ENCRYPTDIRECTION
+if grep -iE 'Backward' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Decryption Proceeding. $CONVERTED of $SIZE Decrypted" > /private/tmp/filevault2-status.txt
+elif grep -iE '-none-' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Decryption Completed" > /private/tmp/filevault2-status.txt
+fi
+fi
+fi
+fi
+fi
+fi
+# This section does 10.8-specific checking of the Mac's
+# FileVault 2 status
+
+if [ "$ENCRYPTIONEXTENTS" = "Yes" ]; then
+diskutil cs list | grep -E "$EGREP_STRING\Fully Secure" | sed -e's/\|//' | awk '{{print $3}' >> $ENCRYPTSTATUS
+if grep -iE 'Yes' $ENCRYPTSTATUS 1>/dev/null; then
+echo "FileVault 2 Encryption Complete" > /private/tmp/filevault2-status.txt
+else
+if grep -iE 'No' $ENCRYPTSTATUS 1>/dev/null; then
+diskutil cs list | grep -E "$EGREP_STRING\Conversion Direction" | sed -e's/\|//' | awk '{{print $3}' >> $ENCRYPTDIRECTION
+if grep -iE 'forward' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Encryption Proceeding. $CONVERTED of $SIZE Encrypted" > /private/tmp/filevault2-status.txt
+
+else
+if grep -iE 'backward' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Decryption Proceeding. $CONVERTED of $SIZE Decrypted" > /private/tmp/filevault2-status.txt
+elif grep -iE '-none-' $ENCRYPTDIRECTION 1>/dev/null; then
+echo "FileVault 2 Decryption Completed" > /private/tmp/filevault2-status.txt
+fi
+fi
+fi
+fi
+fi
+if [ "$ENCRYPTIONEXTENTS" = "No" ]; then
+echo "FileVault 2 Encryption Not Enabled" > /private/tmp/filevault2-status.txt
+fi
+
+# Remove the temp files created during the script
+
+if [ -f /private/tmp/corestorage.txt ]; then
+rm /private/tmp/corestorage.txt
+fi
+
+if [ -f /private/tmp/encrypt_status.txt ]; then
+rm /private/tmp/encrypt_status.txt
+fi
+
+if [ -f /private/tmp/encrypt_direction.txt ]; then
+rm /private/tmp/encrypt_direction.txt
+fi
+##END##
+
+delete filevault2.sh
+move __createfile filevault2.sh
+// if {not exists folder "/TEM-Data"}
+// folder create "/TEM-Data"
+// endif
+// wait /bin/sh -C filevault2.sh > "{parent folder of data folder of client}/filevault2-status.txt"
+// wait /bin/sh -C filevault2.sh >> /private/tmp/filevault2-status.txt
+wait /bin/sh filevault2.sh
+if {exists file "filevault2-status.txt" of folder "/private/tmp"}
+setting "_FileVault2"="{lines of file "filevault2-status.txt" of folder "/private/tmp"}" on "{now}" for client
+else
+setting "_FileVault2"="FAILED" on "{now}" for client
+endif]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action2814">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to visit the Home Page the script originates from.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://derflounder.wordpress.com/2011/10/13/filevault-2-encryption-status-check-script/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

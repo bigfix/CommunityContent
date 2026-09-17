@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Firewall - Configuration - Mac
+  ID       : 2998305
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:03:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Firewall - Configuration - Mac</Title>
+    <Description><![CDATA[<P>Provides information regarding the configuration of the Application Firewall in Mac OS X.</P>
+<P>This majority of this&nbsp;analysis is sourced from rustymyers here: <A href="https://bigfix.me/analysis/details/2994738">https://bigfix.me/analysis/details/2994738</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>exists file &quot;/Library/Preferences/com.apple.alf.plist&quot;</Relevance>
+    <Relevance><![CDATA[mac of operating system and version of operating system >= "10.6"]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Firewall - State - Mac" EvaluationPeriod="P1D">if (integer &quot;globalstate&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+    <Property ID="2" Name="Firewall - Signed Apps Exception - Mac" EvaluationPeriod="P1D">if (integer &quot;allowsignedenabled&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+    <Property ID="3" Name="Firewall - Stealth Mode - Mac" EvaluationPeriod="P1D">if (integer &quot;stealthenabled&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+    <Property ID="4" Name="Firewall - Process Exception - Mac" EvaluationPeriod="P1D">(strings &quot;proc&quot; of it, &quot;State: &quot; &amp; integer &quot;state&quot; of it as string) of dictionaries of values of entries of dictionary &quot;firewall&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot;  /* From https://bigfix.me/analysis/details/2994738 */</Property>
+    <Property ID="5" Name="Firewall - Trusted Apps - Mac" EvaluationPeriod="P1D">if (number of strings &quot;bundleid&quot; of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; &gt; 0) then concatenation &quot;; &quot; of strings &quot;bundleid&quot; of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; else &quot;none&quot; /* From https://bigfix.me/analysis/details/2994738 */</Property>
+  </Analysis>
+</BES>

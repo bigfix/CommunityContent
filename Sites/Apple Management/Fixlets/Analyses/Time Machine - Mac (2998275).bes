@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Time Machine - Mac
+  ID       : 2998275
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2016-07-19T17:55:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Time Machine - Mac</Title>
+    <Description><![CDATA[Information on the current configuration of Time Machine on the Mac device
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Time Machine - Exclusions - Mac" EvaluationPeriod="P1D">if (exists file &quot;com.apple.TimeMachine.plist&quot; of folder &quot;/Library/Preferences&quot;) then ((string of it) of values of (if (exists array &quot;ExcludeByPath&quot; of it) then (array &quot;ExcludeByPath&quot; of it) else (none); (if (exists array &quot;SkipPaths&quot; of it) then (array &quot;SkipPaths&quot; of it) else (none))) of dictionary of file &quot;com.apple.TimeMachine.plist&quot; of folder &quot;/Library/Preferences&quot;) else &quot;None&quot;</Property>
+    <Property ID="2" Name="Time Machine - Skip System Files - Mac" EvaluationPeriod="P1D">(boolean &quot;SkipSystemFiles&quot; of dictionary of file &quot;com.apple.TimeMachine.plist&quot; of folder &quot;/Library/Preferences&quot;) | False</Property>
+    <Property ID="3" Name="Time Machine - Requires AC Power - Mac" EvaluationPeriod="P1D">(boolean &quot;RequiresACPower&quot; of dictionary of file &quot;com.apple.TimeMachine.plist&quot; of folder &quot;/Library/Preferences&quot;) | False</Property>
+    <Property ID="4" Name="Time Machine - Auto Backup - Mac" EvaluationPeriod="P1D">(boolean &quot;AutoBackup&quot; of dictionary of file &quot;com.apple.TimeMachine.plist&quot; of folder &quot;/Library/Preferences&quot;) | False</Property>
+  </Analysis>
+</BES>

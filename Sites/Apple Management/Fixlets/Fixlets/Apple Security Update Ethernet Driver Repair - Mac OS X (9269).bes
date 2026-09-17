@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Apple Security Update Ethernet Driver Repair - Mac OS X
+  ID       : 9269
+  Author   : alexk
+  Domain   : BESC
+  Imported : 2016-03-02T15:05:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Apple Security Update Ethernet Driver Repair - Mac OS X</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>exists lines whose (it contains &quot;com.apple.iokit.AppleBCM5701Ethernet&quot; OR it contains &quot;com.apple.iokit.AppleYukon2&quot;) of files &quot;/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-03-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 02 Mar 2016 22:04:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Run Apple Software Update to install critical and config-data updates only, including the fixed ethernet driver update
+wait softwareupdate --background-critical</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

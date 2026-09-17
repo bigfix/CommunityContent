@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : SECURITY - Add IT Admin  to Local Admin Group (MAC)
+  ID       : 23265
+  Author   : FrozenWaltDisney
+  Domain   : BESC
+  Imported : 2017-01-16T12:03:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>SECURITY - Add IT Admin to Local Admin Group (MAC)</Title>
+    <Description>This fixlet will allow AD users to be administrators on the local machine for OSX. </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 16 Jan 2017 20:02:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-sh">#!/bin/sh
+# Enter your action script here
+sudo dseditgroup -o edit -a &quot;domain\group&quot; -t group admin
+sudo dseditgroup -o edit -a &quot;domain\group&quot; -t group admin
+sudo dseditgroup -o edit -a &quot;domain\group&quot; -t group admin
+sudo dseditgroup -o edit -a &quot;domain\group&quot; -t group admin</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

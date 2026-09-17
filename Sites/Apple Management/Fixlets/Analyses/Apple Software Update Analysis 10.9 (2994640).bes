@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Apple Software Update Analysis 10.9
+  ID       : 2994640
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-02-14T12:38:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Apple Software Update Analysis 10.9</Title>
+    <Description>Check status of Apple Software Update on OS X 10.9.x. Return &quot;Software Update Enabled&quot; if Apple Software Updates is Enabled. Return &quot;Software Update Disabled&quot; if Software Updates is Disabled. </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.9"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Feb 2014 19:26:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="16" Name="SoftwareUpdatePeriodicCheck(True=Off)" EvaluationPeriod="PT12H">if (not exists boolean &quot;AutomaticCheckEnabled&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot;) then &quot;Software Update Enabled&quot; else if (boolean &quot;AutomaticCheckEnabled&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot;) then &quot;Software Update Enabled&quot; else &quot;Software Update Disabled&quot;</Property>
+  </Analysis>
+</BES>

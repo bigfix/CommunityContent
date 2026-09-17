@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Service Discovery Tool (DHCP & NetBoot) Analysis - Mac OS X
+  ID       : 2998201
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2016-07-15T08:47:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Service Discovery Tool (DHCP &amp; NetBoot) Analysis - Mac OS X</Title>
+    <Description>This analysis reports the clients received DHCP and BSDP (NetBoot) information from the task &quot;Install/Upgrade: Service Discovery Tool&quot;. Information is stored &quot;/Library/Preferences/edu.psu.sdt.plist&quot; </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/Library/Preferences/edu.psu.sdt.plist&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Jul 2016 15:46:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Last Check Date" EvaluationPeriod="P1D">string &quot;checkDate&quot; of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot; | &quot;no date&quot;</Property>
+    <Property ID="2" Name="DHCP IP Address Received" EvaluationPeriod="P1D">string &quot;ipaddress&quot; of dictionary &quot;dhcp&quot;  of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot; | &quot;unkown error&quot;</Property>
+    <Property ID="3" Name="DHCP Server IP Responded" EvaluationPeriod="P1D">string &quot;dhcpserverip&quot; of dictionary &quot;dhcp&quot;  of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot; | &quot;unkown error&quot;</Property>
+    <Property ID="4" Name="System Primary Connection Config (Manual/DHCP)" EvaluationPeriod="P1D">strings &quot;ConfigMethod&quot; of dictionaries &quot;IPv4&quot; of dictionaries of values of entries whose( ( (name of primary internet connection) = unique value of strings &quot;DeviceName&quot; of dictionaries &quot;Interface&quot; of dictionaries of values of it) AND key of it is contained by set of ( keys of dictionaries &quot;Service&quot; of dictionaries &quot;Network&quot; of dictionaries of values of entries whose((unique value of (following texts of firsts &quot;/Sets/&quot; of it) of strings &quot;CurrentSet&quot; of dictionaries of files &quot;/Library/Preferences/SystemConfiguration/preferences.plist&quot;)= key of it) of dictionaries &quot;Sets&quot; of dictionaries of files &quot;/Library/Preferences/SystemConfiguration/preferences.plist&quot; ) ) of dictionaries &quot;NetworkServices&quot; of dictionaries of files &quot;/Library/Preferences/SystemConfiguration/preferences.plist&quot;</Property>
+    <Property ID="5" Name="DHCP IP Received (True/False)" EvaluationPeriod="P1D">if (exists string &quot;ipaddress&quot; of dictionary &quot;dhcp&quot;  of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot;) then true else false</Property>
+    <Property ID="6" Name="DHCP IP Matches Static IP (True/False)" EvaluationPeriod="P1D">(string &quot;ipaddress&quot; of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot;) contains (concatenation &quot;, &quot; of (address of it as string) of ip interfaces whose (not loopback of it AND exists address of it) of network)</Property>
+    <Property ID="7" Name="NetBoot System Images Received" EvaluationPeriod="P1D">concatenations &quot; &quot; of  (&quot;Server:&quot;; concatenations &quot; nbis=(&quot; of  ( strings &quot;ip&quot; of it; ( concatenations &quot;; &quot; of (concatenation &quot;, &quot; of (strings &quot;name&quot; of it; strings &quot;id&quot; of it; booleans &quot;default&quot; of it as string) ) of dictionaries of values of arrays &quot;nbis&quot; of it ) );&quot;)&quot; ) of dictionaries of values of array &quot;bsdp&quot; of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot;</Property>
+    <Property ID="8" Name="NetBoot Images Found (True/False)" EvaluationPeriod="P1D">exists values of array &quot;bsdp&quot; of dictionary of file &quot;/Library/Preferences/edu.psu.sdt.plist&quot; </Property>
+  </Analysis>
+</BES>

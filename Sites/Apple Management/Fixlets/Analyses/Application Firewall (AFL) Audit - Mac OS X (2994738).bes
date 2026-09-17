@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Application Firewall (AFL) Audit - Mac OS X
+  ID       : 2994738
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-10-13T10:49:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Application Firewall (AFL) Audit - Mac OS X</Title>
+    <Description><![CDATA[<P>Audit for OS X's Application Firewall (ALF).</P>
+<P>References:<BR><A href="http://krypted.com/mac-os-x/command-line-alf-on-mac-os-x/">http://krypted.com/mac-os-x/command-line-alf-on-mac-os-x/</A></P>]]></Description>
+    <Relevance><![CDATA[version of operating system >= "10.6"]]></Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/Library/Preferences/com.apple.alf.plist&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Oct 2014 17:44:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ALF Version" EvaluationPeriod="P1D">string &quot;version&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot;</Property>
+    <Property ID="2" Name="ALF Global State" EvaluationPeriod="P1D">if (integer &quot;globalstate&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else ERROR &quot;Disabled&quot;</Property>
+    <Property ID="3" Name="ALF Allow Signed Apps" EvaluationPeriod="P1D">if (integer &quot;allowsignedenabled&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else ERROR &quot;Disabled&quot;</Property>
+    <Property ID="4" Name="ALF Logging Enabled " EvaluationPeriod="P1D">if (integer &quot;loggingenabled&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else ERROR &quot;Disabled&quot;</Property>
+    <Property ID="5" Name="ALF Logging Option " EvaluationPeriod="P1D">if version of operating system &gt;= &quot;10.9&quot; then (if (integer &quot;loggingoption&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 0) then &quot;throttled&quot; else if (integer &quot;loggingoption&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;brief&quot; else if (integer &quot;loggingoption&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 2) then &quot;detailed&quot; else ERROR &quot;unknown value&quot;) else ERROR &quot;OS not Supported&quot;</Property>
+    <Property ID="6" Name="ALF Stealth Mode" EvaluationPeriod="P1D">if (integer &quot;stealthenabled&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot; = 1) then &quot;Enabled&quot; else ERROR &quot;Disabled&quot;</Property>
+    <Property ID="7" Name="ALF BundleID of Trusted Apps (Incoming Connections)" EvaluationPeriod="P1D">if (number of strings &quot;bundleid&quot; of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; &gt; 0) then concatenation &quot;; &quot; of strings &quot;bundleid&quot; of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="8" Name="ALF Firewall Exceptions Path to binary (Do Not Appear in PreferencePane) " EvaluationPeriod="P1D">if (number of strings &quot;path&quot; of dictionaries of values of array &quot;exceptions&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; &gt; 0) then concatenation &quot;; &quot; of strings &quot;path&quot; of dictionaries of values of array &quot;exceptions&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="9" Name="ALF BundleID of Binaries Required to Request Incoming Access" EvaluationPeriod="P1D">if (number of strings &quot;id&quot; of dictionaries of values of array &quot;explicitauths&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; &gt; 0) then concatenation &quot;; &quot; of strings &quot;id&quot; of dictionaries of values of array &quot;explicitauths&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="10" Name="ALF Firewall Exceptions Process Name and State (Appear in PreferencePane when Enabled)" EvaluationPeriod="P1D">(strings &quot;proc&quot; of it, &quot;State: &quot; &amp; integer &quot;state&quot; of it as string) of dictionaries of values of entries of dictionary &quot;firewall&quot; of dictionary of file &quot;/Library/Preferences/com.apple.alf.plist&quot;</Property>
+    <Property ID="11" Name="ALF BundleID &amp; State of Trusted Apps" EvaluationPeriod="P1D">if (number of strings &quot;bundleid&quot; of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; &gt; 0) then (strings &quot;bundleid&quot; of it, &quot;State: &quot; &amp; (if (integer &quot;state&quot; of it = 2) then &quot;Blocked&quot; else if (integer &quot;state&quot; of it = 0) then &quot;Allowed&quot; else &quot;unkown&quot;) ) of dictionaries of values of array &quot;applications&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.alf.plist&quot; else ERROR &quot;none&quot;</Property>
+  </Analysis>
+</BES>

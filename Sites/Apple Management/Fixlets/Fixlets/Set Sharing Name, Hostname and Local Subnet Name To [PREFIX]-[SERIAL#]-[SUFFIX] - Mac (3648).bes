@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Sharing Name, Hostname and Local Subnet Name To [PREFIX]-[SERIAL#]-[SUFFIX] - Mac
+  ID       : 3648
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T07:24:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Sharing Name, Hostname and Local Subnet Name To [PREFIX]-[SERIAL#]-[SUFFIX] - Mac</Title>
+    <Description><![CDATA[<P>This Fixlet prompts the TEM console for a Prefix and Suffix to use in the computer name.&nbsp; It then sets the sharing, host and local subnet names to [Prefix]-serialnumber-[Suffix]. If you leave the Prefix or Suffix blank it will skip the related hyphen.</P>
+<P>By making these names all match computers should appear in SEP and Secunia using their Sharing Name.</P>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.5" as version]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-04-06</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 14:23:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;Prefix_Name&quot; with description &quot;Please enter the name Prefix (optional)&quot;
+action parameter query &quot;Suffix_Name&quot; with description &quot;Please enter the name Suffix (optional)&quot;
+
+parameter &quot;compName&quot; = &quot;{string &quot;IOPlatformSerialNumber&quot; of dictionary of service plane of iokit registry}&quot;
+
+if {not (parameter &quot;Prefix_Name&quot; of action = &quot;&quot;)}
+	parameter &quot;compName2&quot; = &quot;{parameter &quot;Prefix_Name&quot; of action}-{parameter &quot;compName&quot;}&quot;
+else
+	parameter &quot;compName2&quot; = &quot;{parameter &quot;compName&quot;}&quot;
+endif
+if {not (parameter &quot;Suffix_Name&quot; of action = &quot;&quot;)}
+	parameter &quot;compName3&quot; = &quot;{parameter &quot;compName3&quot;}-{parameter &quot;Suffix_Name&quot; of action}&quot;
+else
+	parameter &quot;compName3&quot; = &quot;{parameter &quot;compName2&quot;}&quot;
+endif
+
+wait sh -c &quot;scutil --set ComputerName {parameter &quot;compName3&quot;}&quot;
+wait sh -c &quot;scutil --set HostName {parameter &quot;compName3&quot;}&quot;
+wait sh -c &quot;scutil --set LocalHostName {parameter &quot;compName3&quot;}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Disable Printer Sharing - Mac OS X
+  ID       : 20449
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2016-05-04T10:25:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Disable Printer Sharing - Mac OS X</Title>
+    <Description><![CDATA[<P>This fixlet will be relevant if printer sharing is enabled, and running this action will disable printer sharing.</P>
+<P>System Preferences &gt; Sharing &gt; Printer Sharing</P>
+<P>This fixlet is applicable on Mac OS X 10.6 or later.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance>exists file &quot;/etc/cups/cupsd.conf&quot; whose (exists line whose (it contains &quot;# Allow shared printing...&quot;) of it)</Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-06-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Nov 2014 13:43:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Turn Off CUPS Printer Sharing Service
+wait /usr/sbin/cupsctl --no-share-printers</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : TSM Backup Audit - Mac
+  ID       : 63
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-10T08:06:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>TSM Backup Audit - Mac</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>(exists folder &quot;/Applications/Tivoli Storage Manager&quot;) OR (exists folder &quot;/Library/Application Support/tivoli/tsm&quot;) OR (exists application &quot;Tivoli Storage Manager.app&quot;) OR (exists folder &quot;/Library/Logs/tivoli/tsm&quot;) OR (exists folder &quot;/Library/Preferences/Tivoli Storage Manager&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 10 Dec 2012 13:28:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="dsm.sys" EvaluationPeriod="P1D">exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;</Property>
+    <Property ID="2" Name="dsm.opt" EvaluationPeriod="P1D">exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot;</Property>
+    <Property ID="3" Name="logs folder?" EvaluationPeriod="P1D">exists folder &quot;/Library/Logs/tivoli/tsm&quot;</Property>
+    <Property ID="7" Name="TSM app folder?" EvaluationPeriod="P1D">exists folder &quot;/Applications/Tivoli Storage Manager&quot;</Property>
+    <Property ID="8" Name="TSM pref folder?" EvaluationPeriod="P1D">exists folder &quot;/Library/Preferences/Tivoli Storage Manager&quot;</Property>
+    <Property ID="4" Name="Last Activity in TSM" EvaluationPeriod="P1D">if(not exists file &quot;/Library/Logs/tivoli/tsm/dsmsched.log&quot;) then &quot;&lt;dsmsched missing&gt;&quot; else (modification time of file &quot;/Library/Logs/tivoli/tsm/dsmsched.log&quot; as string)</Property>
+    <Property ID="5" Name="TSM version" EvaluationPeriod="P1D">if(exists application &quot;Tivoli Storage Manager.app&quot;) then (version of application &quot;Tivoli Storage Manager.app&quot; as string) else &quot;&lt;TSM not installed&gt;&quot;</Property>
+    <Property ID="6" Name="Last Successful Backup" EvaluationPeriod="P1D">if(not exists file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/tsmstats.ini&quot;) then &quot;&lt;tsmstats missing&gt;&quot; else (modification time of file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/tsmstats.ini&quot; as string)</Property>
+    <Property ID="9" Name="TSM server (opt file)" EvaluationPeriod="P1D">if(not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot;) then &quot;&lt;no dsm.opt file&gt;&quot; else if(not exists line whose(it as uppercase contains &quot;SERVERNAME &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot;) then &quot;&lt;SERVERNAME missing&gt;&quot; else (following text of first &quot;SERVERNAME &quot; of (it as uppercase) of line whose(it as uppercase contains &quot;SERVERNAME &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot;)</Property>
+    <Property ID="10" Name="TSM tcp address" EvaluationPeriod="P1D">if(not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;) then &quot;&lt;no dsm.sys file&gt;&quot; else if(not exists line whose(it as lowercase contains &quot;tcpserveraddress &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;) then &quot;&lt;tcpserveraddress missing&gt;&quot; else (concatenation &quot; &quot; of substrings separated by &quot; &quot; whose (it != &quot;&quot;) of following text of first &quot;tcpserveraddress &quot; of (it as lowercase) of (line whose(it as lowercase contains &quot;tcpserveraddress &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;))</Property>
+    <Property ID="11" Name="TSM NodeName" EvaluationPeriod="P1D">if(not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;) then &quot;&lt;no dsm.sys file&gt;&quot; else if(not exists line whose(it as lowercase contains &quot;nodename &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;) then &quot;&lt;nodename missing&gt;&quot; else (concatenation &quot; &quot; of substrings separated by &quot; &quot; whose (it != &quot;&quot;) of following text of first &quot;nodename &quot; of (it as lowercase) of (line whose(it as lowercase contains &quot;nodename &quot;) of file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;))</Property>
+    <Property ID="12" Name="TSM Sched Service Running?" EvaluationPeriod="PT6H">exists processes whose (name of it = &quot;dsmcad&quot;)</Property>
+  </Analysis>
+</BES>

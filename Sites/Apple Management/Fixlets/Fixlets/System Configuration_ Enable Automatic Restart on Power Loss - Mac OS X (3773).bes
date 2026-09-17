@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable Automatic Restart on Power Loss - Mac OS X
+  ID       : 3773
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-04-14T16:15:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable Automatic Restart on Power Loss - Mac OS X</Title>
+    <Description><![CDATA[<P>This fixlet enables the option for automatically restarting on power loss using the `systemsetup` utility.</P>
+<P>System Preferences &gt; Energy Saver &gt; "Startup automatically after power failure"</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance>exists file &quot;/usr/sbin/systemsetup&quot;</Relevance>
+    <Relevance>not ((exists key whose (it as string as lowercase contains &quot;battery&quot;) of entries of dictionaries of nodes of it) or (exists node &quot;AppleACPIPlatformExpert/SMB0/AppleECSMBusController/AppleSmartBatteryManager&quot; of service plane of iokit registry) of it) of service plane of iokit registry</Relevance>
+    <Relevance>exists file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; whose (exists dictionary &quot;Custom Profile&quot; of it whose (exists dictionary &quot;AC Power&quot; of it whose (exists boolean &quot;Automatic Restart On Power Loss&quot; whose ( it = True))))</Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-04-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Apr 2014 22:37:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/sbin/systemsetup -setrestartpowerfailure on</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

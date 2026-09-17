@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Accept EULA for Installed Version of Xcode - Mac OS X
+  ID       : 3770
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-04-14T16:10:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Accept EULA for Installed Version of Xcode - Mac OS X</Title>
+    <Description><![CDATA[<P>Perform the function of `sudo xcodebuild -license` to accept the license for the currently installed version of Xcode and the current license agreement.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/Applications/Xcode.app/Contents/Resources/LicenseInfo.plist&quot; whose(exists string &quot;licenseID&quot; of dictionary of it)</Relevance>
+    <Relevance>exists file &quot;/Applications/Xcode.app/Contents/version.plist&quot; whose(exists string &quot;CFBundleShortVersionString&quot; of dictionary of it)</Relevance>
+    <Relevance>not exists file &quot;/Library/Preferences/com.apple.dt.Xcode.plist&quot; whose(((string &quot;IDELastGMLicenseAgreedTo&quot; of dictionary of it) = (string &quot;licenseID&quot; of dictionary of file &quot;/Applications/Xcode.app/Contents/Resources/LicenseInfo.plist&quot;)) AND ((string &quot;IDEXcodeVersionForAgreedToGMLicense&quot; of dictionary of it) = (string &quot;CFBundleShortVersionString&quot; of dictionary of file &quot;/Applications/Xcode.app/Contents/version.plist&quot;)))</Relevance>
+    <Relevance><![CDATA[exists folder "/Applications/Xcode.app" whose (version of it >= "5.0" as version)]]></Relevance>
+    <Category>Software Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-04-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Apr 2014 22:40:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/bin/defaults write &quot;/Library/Preferences/com.apple.dt.Xcode.plist&quot; IDELastGMLicenseAgreedTo -string &quot;{string &quot;licenseID&quot; of dictionary of file &quot;/Applications/Xcode.app/Contents/Resources/LicenseInfo.plist&quot;}&quot;
+wait /usr/bin/defaults write &quot;/Library/Preferences/com.apple.dt.Xcode.plist&quot; IDEXcodeVersionForAgreedToGMLicense -string &quot;{string &quot;CFBundleShortVersionString&quot; of dictionary of file &quot;/Applications/Xcode.app/Contents/version.plist&quot;}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

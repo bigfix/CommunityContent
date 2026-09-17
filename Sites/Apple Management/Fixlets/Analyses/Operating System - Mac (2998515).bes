@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Operating System - Mac
+  ID       : 2998515
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-06T09:44:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Operating System - Mac</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><FONT size=2>This analysis contains information about the Apple Mac OS X operating system&nbsp;running on BES Client computers.&nbsp;</FONT></P>
+<P>Since this information does not change often, these properties are only evaluated <STRONG>once per day</STRONG> to avoid excess CPU or other computer resource usage.</P>
+<P><FONT size=2>After activating this analysis, you will see the following properties: </P>
+<UL>
+<LI>OS Build </LI></UL></FONT></TD></TR></TBODY></TABLE>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="4" Name="OS - Build - Mac" EvaluationPeriod="P1D">build number of operating system</Property>
+  </Analysis>
+</BES>

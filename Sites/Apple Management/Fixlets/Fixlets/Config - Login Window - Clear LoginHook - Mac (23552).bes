@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Login Window - Clear LoginHook - Mac
+  ID       : 23552
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-20T12:40:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Login Window - Clear LoginHook - Mac</Title>
+    <Description><![CDATA[<P>This Fixlet removes any defined Login Hooks in macOS.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists strings &quot;LoginHook&quot; of dictionaries of file &quot;/private/var/root/Library/Preferences/com.apple.loginwindow.plist&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-02-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:38:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait defaults delete /private/var/root/Library/Preferences/com.apple.loginwindow.plist LoginHook</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

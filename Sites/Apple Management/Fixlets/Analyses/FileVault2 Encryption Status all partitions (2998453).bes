@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : FileVault2 Encryption Status all partitions
+  ID       : 2998453
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-10-06T09:59:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>FileVault2 Encryption Status all partitions</Title>
+    <Description>Returns the names and FileVault2 encryption status of the volume partitions. </Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Oct 2016 17:54:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="FileVault2">(names of it, (if (not exists (booleans whose (it) of values of entries whose (&quot;CoreStorage Encrypted&quot; = key of it) of dictionaries of nodes of nodes of nodes &quot;CoreStoragePhysical&quot; of it)) then &quot;Not Encrypted&quot; else &quot;Encrypted&quot;)) of nodes of nodes &quot;IOGUIDPartitionScheme&quot; of nodes of nodes &quot;IOBlockStorageDriver&quot; of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes &quot;AppleAHCIDiskDriver&quot; of nodes &quot;IOAHCIDevice&quot; of (it; nodes of nodes &quot;AppleAHCI&quot; of it) of nodes of nodes of nodes of nodes &quot;AppleACPIPCI&quot; of nodes whose(name of it starts with &quot;PCI&quot;) of nodes &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+  </Analysis>
+</BES>

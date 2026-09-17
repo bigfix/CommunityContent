@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Location - Mac
+  ID       : 2998255
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:52:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Location - Mac</Title>
+    <Description><![CDATA[Provides Longitude and Latitude co-ordinates for Mac OS devices with Location Services enabled
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Location - Mac" EvaluationPeriod="P1D">((tuple string item 0 of it &amp; &quot;, &quot; &amp; tuple string item 1 of it) as time, tuple string item 2 of it, tuple string item 3 of it) of unique values of ((column &quot;Timestamp&quot; of it as string as floating point as integer * second + &quot;01 Jan 2001 00:00:00&quot; as universal time) as string &amp; &quot;, &quot; &amp; column &quot;Latitude&quot; of it as string &amp; &quot;, &quot; &amp; column &quot;Longitude&quot; of it as string) of rows whose (column &quot;Latitude&quot; of it as string != &quot;0.0&quot;) of statement &quot;select * from WifiLocation limit 100&quot; of sqlite database of file &quot;/private/var/folders/zz/zyxvpxvq6csfxvn_n00000sm00006d/C/cache_encryptedA.db&quot;</Property>
+  </Analysis>
+</BES>

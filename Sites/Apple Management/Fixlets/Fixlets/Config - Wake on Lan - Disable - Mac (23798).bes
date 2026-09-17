@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Wake on Lan - Disable - Mac
+  ID       : 23798
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-13T10:03:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Wake on Lan - Disable - Mac</Title>
+    <Description><![CDATA[<P>This disables Wake on Lan on a Mac.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists integers &quot;Wake On LAN&quot; whose (it != 0) of dictionaries of values of entries of dictionaries &quot;Custom Profile&quot; of dictionaries of files &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;</Relevance>
+    <Category>BIOS Settings</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-29</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:38:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Wake On LAN on a Mac.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait pmset -a womp 0
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

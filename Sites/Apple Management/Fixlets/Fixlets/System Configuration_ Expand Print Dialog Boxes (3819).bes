@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Expand Print Dialog Boxes
+  ID       : 3819
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-07-30T10:43:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Expand Print Dialog Boxes</Title>
+    <Description><![CDATA[<P>This fixlet expands the Print dialog boxes for OS X.</P>
+<P>The expanded dialog boxes allow for additional options to be specified while printing. </P>
+<P>This fixlet is applicable on Mac OS X 10.5 or later.</P>
+<P>If you have questions or concerns please visit <A href="http://clc.its.psu.edu/help">http://clc.its.psu.edu/help</A> to submit a SysMan Help Request.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.5"]]></Relevance>
+    <Relevance>(not exists file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; whose (boolean &quot;PMPrintingExpandedStateForPrint&quot; of dictionary of it = True)) OR (not exists file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; whose (boolean &quot;PMPrintingExpandedStateForPrint2&quot; of dictionary of it = True))</Relevance>
+    <Category>System Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2014-07-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 30 Jul 2014 17:42:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait defaults write &quot;/Library/Preferences/.GlobalPreferences.plist&quot; PMPrintingExpandedStateForPrint -bool true
+wait defaults write &quot;/Library/Preferences/.GlobalPreferences.plist&quot; PMPrintingExpandedStateForPrint2 -bool true
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

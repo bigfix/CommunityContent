@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Delete user (macOS)
+  ID       : 27359
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-09-08T14:04:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Delete user (macOS)</Title>
+    <Description><![CDATA[<SPAN itemprop="description">Enter username to delete<BR>Returns exit code 44 if supplied user is not found<BR>Returns exit code 3 if user was not successfully deleted (typically if supplied user is the only remaining account with a secure token)</SPAN>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2024-09-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 08 Sep 2024 21:01:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+
+parameter "scriptName" = "hitlist.sh"
+
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+action parameter query "user" with description "Enter username to delete"
+
+delete __createfile
+delete "{parameter "scriptName"}"
+createfile until _EOF_
+#!/bin/zsh
+
+toDeleteUser="{parameter "user"}"
+
+if id "$toDeleteUser" >/dev/null 2>&1; then
+	echo "User $toDeleteUser found" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+else
+	echo "User $toDeleteUser not found" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+	exit 44
+fi
+
+sysadminctl -deleteUser "$toDeleteUser" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+sleep 5
+
+if id "$toDeleteUser" >/dev/null 2>&1; then
+	echo "User $toDeleteUser still found, not successfully deleted" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+	exit 3
+else
+	echo "User $toDeleteUser no longer exists" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+fi
+exit 0
+_EOF_
+copy "__createfile" "{parameter "scriptName"}"
+wait chmod +x "{parameter "scriptName"}"
+wait /bin/zsh "{parameter "scriptName"}"
+parameter "exitCode" = "{exit code of action}"
+delete __createfile
+delete "{parameter "scriptName"}"
+
+wait sh -c "echo Return Code: {parameter "exitCode"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+if {parameter "exitCode" != "0"}
+exit {parameter "exitCode"}
+endif
+
+exit {parameter "exitCode"}]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

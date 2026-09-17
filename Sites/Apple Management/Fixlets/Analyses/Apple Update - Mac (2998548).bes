@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Apple Update - Mac
+  ID       : 2998548
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2017-04-22T05:01:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Apple Update - Mac</Title>
+    <Description><![CDATA[<P>Provides information about Apple Software Update on Mac OS.</P>
+<P>The missing updates relies on the last time Apple Update performed a check -- the data is as old as the last check.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Apple Update - Last Successful Update - Mac" EvaluationPeriod="P1D">date &quot;LastSuccessfulDate&quot; of dictionary of file &quot;com.apple.SoftwareUpdate.plist&quot; of folder &quot;/Library/Preferences&quot;</Property>
+    <Property ID="2" Name="Apple Update - Missing Updates - Mac" EvaluationPeriod="P1D">(string &quot;Display Name&quot; of it &amp; &quot; &quot; &amp; string &quot;Display Version&quot; of it) of dictionaries of values of array &quot;RecommendedUpdates&quot; of dictionaries of files &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot;</Property>
+    <Property ID="3" Name="Apple Update - Catalog Server - Mac" EvaluationPeriod="PT1H">string &quot;AppleCatalogURL&quot; of dictionaries of files &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot; | &quot;Apple Production&quot;</Property>
+  </Analysis>
+</BES>

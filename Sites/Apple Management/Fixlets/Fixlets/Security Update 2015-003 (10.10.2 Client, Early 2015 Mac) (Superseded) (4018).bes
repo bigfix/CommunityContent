@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Security Update 2015-003 (10.10.2 Client, Early 2015 Mac) (Superseded)
+  ID       : 4018
+  Author   : Chuxin
+  Domain   : BESC
+  Imported : 2015-04-07T02:41:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Security Update 2015-003 (10.10.2 Client, Early 2015 Mac) (Superseded)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage><TABLE><TBODY><TR><TD><P>Security Update 2015-003 is recommended for all users and improves the security of Mac OS X.</P>
+<P>This update is available via the IBM Endpoint Manager server, which is the default action, and Apple Software Update on the endpoint.</P>
+<P>The default action does not require internet connection on the endpoints. This action downloads the installer to the IBM Endpoint Manager server and then installs the update to the endpoints.</P>
+<P><STRONG>Note: </STRONG>If you want to use Apple Software Update, ensure that the endpoints have continuous internet connection to install the update successfully.</P>
+<P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>4.95 MB</DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2015-1065, CVE-2015-1061</DIV>]]></Description>
+    <Relevance>(exists string &quot;ProductVersion&quot; whose (it as string = &quot;10.10.2&quot;) of dictionary of it) of file &quot;/System/Library/CoreServices/SystemVersion.plist&quot;</Relevance>
+    <Relevance><![CDATA[(if ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as integer) < ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2513")) as integer) then true else if ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as integer) > ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2513")) as integer) then false else if ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as string) < ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2513")) as string) then true else if ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as string) > ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2513")) as string) then false else if ((parenthesized part 3 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist") as integer)) < ((parenthesized part 3 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2513") as integer)) then true else false) AND (if ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as integer) > ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2000")) as integer) then true else if ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as integer) < ((parenthesized part 1 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2000")) as integer) then false else if ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as string) > ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2000")) as string) then true else if ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist")) as string) < ((parenthesized part 2 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2000")) as string) then false else if ((parenthesized part 3 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of string "ProductBuildVersion" of dictionary of file "/System/Library/CoreServices/SystemVersion.plist") as integer)) > ((parenthesized part 3 of (first match (regex "([0-9]+)([A-Z])([0-9]+)") of "14C2000") as integer)) then true else false)]]></Relevance>
+    <Relevance><![CDATA[(exists folder "/System/Library/PrivateFrameworks/CloudServices.framework/Resources/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "1.0.0.107010003000000") of it)) OR (exists folder "/System/Library/PrivateFrameworks/CloudServices.framework/Versions/A/Resources/EscrowSecurityAlert.app/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "1.0.0.107010003000000") of it)) OR (exists folder "/System/Library/Frameworks/IOSurface.framework/Resources/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "97.0.1.97000001000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/AppleNMI.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Frameworks/Kernel.framework/Resources/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/ApplePlatformFamily.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/IONVRAMFamily.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/IOSurface.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "97.0.1.97000001000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/IOSystemManagement.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/BSDKernel.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/MACFramework.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/IOKit.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/Libkern.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/Mach.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/Private.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/Extensions/System.kext/PlugIns/Unsupported.kext/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "14.1.1.2782015005000000") of it)) OR (exists folder "/System/Library/PrivateFrameworks/CloudServices.framework/Versions/A/XPCServices/com.apple.lakitu.xpc/Contents/" whose (exists file "version.plist" whose (((parenthesized part 1 of match (regex "^\.?(([0-9]+\.?){3})\.") of (string "CFBundleShortVersionString" of it & ".0.0.0.")) & "." & string "SourceVersion" of it) of dictionary of it as version < "1.0.0.107010003000000") of it))]]></Relevance>
+    <Category>Security Update</Category>
+    <Source>Apple</Source>
+    <SourceID>N/A</SourceID>
+    <SourceReleaseDate>2015-03-19</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>CVE-2015-1065, CVE-2015-1061</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PTCH Patch Apple OSUpdate</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:38:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to initiate the deployment process through the IBM Endpoint Manager server.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {(version of operating system < "10.10" as version) OR (version of client >= "9.2.4.2" as version)}
+
+prefetch SecUpd2015-003YosemiteCPU.dmg sha1:7226993d49b5393eeccb3226ddbd1b71599b2963 size:5190131 http://supportdownload.apple.com/download.info.apple.com/Apple_Support_Area/Apple_Software_Updates/Mac_OS_X/downloads/031-19686-20150319-5F671036-CDA1-11E4-81AB-C077A153B4CE/SecUpd2015-003YosemiteCPU.dmg sha256:1408845eed7bffad51413227e8bce87e863bd994b658c993c76846a23f69597a
+
+wait cp "{posix path of file "SecUpd2015-003YosemiteCPU.dmg" of folder "__Download" of client folder of current site}" "/private/tmp/"
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint "/Volumes/SecUpd2015-003YosemiteCPU" "/private/tmp/SecUpd2015-003YosemiteCPU.dmg"
+
+wait rm -rf "/private/tmp/SecUpd2015-003YosemiteCPU.dmg"
+
+wait cp -r "/Volumes/SecUpd2015-003YosemiteCPU/SecUpd2015-003YosemiteCPU.pkg" "/private/tmp/SecUpd2015-003YosemiteCPU.pkg"
+
+wait /bin/bash -c "devname=`df | grep SecUpd2015-003YosemiteCPU | awk '{{print $1}'`; hdiutil detach -force $devname;"
+
+wait installer -pkg "/private/tmp/SecUpd2015-003YosemiteCPU.pkg" -target /
+
+action requires restart]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action4477">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to initiate the deployment process through the Apple Software Update tool.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {(version of operating system < "10.10" as version) OR (version of client >= "9.2.4.2" as version)}
+
+wait softwareupdate -i "Security Update 2015-003-1.0"
+
+action requires restart]]></ActionScript>
+    </Action>
+    <Action ID="Action4478">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to view more information from Apple on this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.apple.com/kb/HT1222</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

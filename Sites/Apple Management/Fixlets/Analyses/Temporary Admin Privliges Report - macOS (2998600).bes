@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Temporary Admin Privliges Report - macOS
+  ID       : 2998600
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2019-10-31T06:37:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Temporary Admin Privliges Report - macOS</Title>
+    <Description><![CDATA[<P>This analysis determines the status of the Temporary Admin Privliges task.</P>
+<P>To utilize this analysis you must first run the "<A href="linkid:openfixlet(2147495505,2595886)">System Configuration:&nbsp;Grant Temporary Admin Rights&nbsp;- macOS</A>" task.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Oct 2018 19:55:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Admin Privliges Status" EvaluationPeriod="PT30M">if (exists file &quot;/Library/PSU/MakeMeAdmin.Status.plist&quot;) then if (string &quot;Status&quot; of dictionary of file &quot;/Library/PSU/MakeMeAdmin.Status.plist&quot; = &quot;Compliant&quot;) then &quot;Compliant&quot; else (it as string) of (string &quot;Status&quot; of it, string &quot;newAdmins&quot; of it, string &quot;orgAdmin&quot; of it) of dictionary of file &quot;/Library/PSU/MakeMeAdmin.Status.plist&quot; else &quot;Compliant&quot;</Property>
+  </Analysis>
+</BES>

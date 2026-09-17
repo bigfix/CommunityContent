@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Login Window - Mac
+  ID       : 2998514
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-06T09:44:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Login Window - Mac</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Login Window - Login Hook - Mac" EvaluationPeriod="P1D">strings &quot;LoginHook&quot; of dictionaries of files &quot;/private/var/root/Library/Preferences/com.apple.loginwindow.plist&quot;</Property>
+    <Property ID="2" Name="Login Window - Logout Hook - Mac" EvaluationPeriod="P1D">strings &quot;LogoutHook&quot; of dictionaries of files &quot;/private/var/root/Library/Preferences/com.apple.loginwindow.plist&quot;</Property>
+  </Analysis>
+</BES>

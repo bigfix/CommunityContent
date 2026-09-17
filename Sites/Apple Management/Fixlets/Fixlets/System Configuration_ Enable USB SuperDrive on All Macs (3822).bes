@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable USB SuperDrive on All Macs
+  ID       : 3822
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-07-31T07:44:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable USB SuperDrive on All Macs</Title>
+    <Description><![CDATA[<DIV class=subsection>This fixlet configures OS X&nbsp;nvram&nbsp;to allow the USB Superdrive to work on all hardware systems.
+<P>This setting configures the nvram boot-args. Please be sure this does not overwrite other settings.</P>
+<P>This fixlet is applicable on Mac OS X 10.7 or later.</P>
+<P>If you have questions or concerns please visit <A href="http://clc.its.psu.edu/help">http://clc.its.psu.edu/help</A> to submit a SysMan Help Request.</P></DIV>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.7"]]></Relevance>
+    <Relevance>not ((string of value of it whose ( key of it = &quot;boot-args&quot;) of entries of dictionary of node &quot;AppleEFINVRAM&quot; of node &quot;AppleEFIRuntime&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) = &quot;mbasd=1&quot;)</Relevance>
+    <Category>System Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2014-07-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 31 Jul 2014 14:43:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait nvram boot-args=&quot;mbasd=1&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>
