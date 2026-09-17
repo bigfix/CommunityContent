@@ -7,8 +7,10 @@ description: >
   "nextid" integer (see the leniency check below) is treated as in scope,
   since that's exactly what .github/actions/assign-content-ids's own commits
   do. If anything else out of scope is found: submits a REQUEST_CHANGES
-  review, applies the needs-manual-review label (creating it first if
-  needed), and emits a warning annotation per out-of-scope file.
+  review listing every out-of-scope file, applies the needs-manual-review
+  label (creating it first if needed), and emits a warning annotation per
+  out-of-scope file. The job summary additionally lists every out-of-scope
+  file found, regardless of outcome.
 
 # This action itself never checks out anything and, with one narrow
 # exception, never reads or executes any file CONTENT - only the PR's
@@ -81,6 +83,8 @@ runs:
     - name: Find changes outside the validated content directories
       id: scan
       shell: bash
+      env:
+        REVIEW_BODY_PATH: ${{ runner.temp }}/out-of-scope-review-body.md
       run: |
         set -euo pipefail
 
@@ -97,6 +101,20 @@ runs:
         escape_data() {
           local s=$1
           s=${s//%/%25}; s=${s//$'\r'/%0D}; s=${s//$'\n'/%0A}
+          printf '%s' "$s"
+        }
+
+        # Escapes a value for safe placement inside a Markdown table cell -
+        # every value here (a PR filename) is attacker-controlled, same as
+        # the annotation escaping above, so a "|" or "`" in a filename can't
+        # break out of the table and a literal newline can't add a row.
+        md_cell() {
+          local s=$1
+          local pipe='\|'
+          # The pipe substitution's replacement must come from a variable,
+          # not the literal `\\|` inline - bash silently leaves the pipe
+          # unescaped when `\\|` is written directly in `${s//|/\\|}`.
+          s=${s//\`/\'}; s=${s//|/$pipe}; s=${s//$'\r'/ }; s=${s//$'\n'/ }
           printf '%s' "$s"
         }
 
@@ -145,6 +163,9 @@ runs:
           ' >/dev/null 2>&1
         }
 
+        OUT_OF_SCOPE_ROWS_PATH="$RUNNER_TEMP/out-of-scope-rows.md"
+        : > "$OUT_OF_SCOPE_ROWS_PATH"
+
         flagged=0
         while IFS= read -r record; do
           filename=$(jq -r '.filename' <<<"$record")
@@ -167,14 +188,46 @@ runs:
           flagged=$((flagged + 1))
           if [ -n "$previous" ]; then
             message="This ${status} file (renamed from \"${previous}\") is outside every Sites/*/Fixlets directory and the top-level Signatures/ directory, so it was not automatically validated and needs manual review."
+            renamed_from_cell="\`$(md_cell "$previous")\`"
           else
             message="This ${status} file is outside every Sites/*/Fixlets directory and the top-level Signatures/ directory, so it was not automatically validated and needs manual review."
+            renamed_from_cell="-"
           fi
           echo "::warning file=$(escape_property "$filename"),line=1,col=1::$(escape_data "$message")"
+          echo "| \`$(md_cell "$filename")\` | ${status} | ${renamed_from_cell} |" >> "$OUT_OF_SCOPE_ROWS_PATH"
         done < "$RUNNER_TEMP/changed-files.jsonl"
 
         echo "flagged=$flagged" >> "$GITHUB_OUTPUT"
         echo "$flagged out-of-scope file(s) found."
+
+        # Review body: read (via `-f body=@<path>`, never shell-interpolated)
+        # by the "Request changes" step below, only when flagged != 0.
+        {
+          echo "One or more files in this pull request are outside every \`Sites/*/Fixlets\` directory and the top-level \`Signatures/\` directory, so they were not automatically validated and need manual review:"
+          echo
+          echo "| File | Status | Renamed from |"
+          echo "|---|---|---|"
+          cat "$OUT_OF_SCOPE_ROWS_PATH"
+        } > "$REVIEW_BODY_PATH"
+
+        # Job summary: written every run (not just when files are flagged) so
+        # a clean PR's summary explicitly confirms nothing was out of scope,
+        # matching validate-download-allowlist's summary behavior.
+        if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+          {
+            echo "### Out-of-scope file check"
+            echo
+            if [ "$flagged" -eq 0 ]; then
+              echo "No changes outside any \`Sites/*/Fixlets\` directory or the top-level \`Signatures/\` directory."
+            else
+              echo "$flagged file(s) outside the expected content directories:"
+              echo
+              echo "| File | Status | Renamed from |"
+              echo "|---|---|---|"
+              cat "$OUT_OF_SCOPE_ROWS_PATH"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+        fi
 
     - name: Ensure the needs-manual-review label exists
       if: steps.scan.outputs.flagged != '0'
@@ -224,7 +277,12 @@ runs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         set -euo pipefail
+        # Body is read from the file the scan step rendered (a Markdown table
+        # of every out-of-scope file) via `-f body=@<path>`, which sends the
+        # file's bytes as a single JSON string value - never shell-
+        # interpolated, so no filename in it can break out of the table or
+        # inject extra API parameters.
         gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
           -f event="REQUEST_CHANGES" \
-          -f body="Modifications that require further human review" \
+          -f body=@"${{ runner.temp }}/out-of-scope-review-body.md" \
           >/dev/null

@@ -178,6 +178,3 @@ https://www\.digicert\.com/util/.*
 https://www\.eclipse\.org/downloads/.*
 https://www\.fosshub\.com/.*
 https://www\.yammer\.com/desktop/.*
-https://www\.hp\.com/.*
-https://zoom\.us/.*
-https?://distro\.ibiblio\.org/tinycorelinux/.*

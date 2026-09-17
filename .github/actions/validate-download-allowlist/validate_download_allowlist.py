@@ -10,7 +10,14 @@ Invoked by action.yml as a single step, with these environment variables:
                         action.yml's header for why that matters). Defaults to
                         known_urls.txt alongside this script.
     MAX_BYTES        - per-file size cap before a file is skipped
+    REVIEW_BODY_PATH - where to write the rendered Markdown REQUEST_CHANGES
+                        review body (a listing of every flagged (file, URL)
+                        pair); action.yml posts this file's content via
+                        `gh api ... -f body=@<path>` when flagged != 0
     GITHUB_OUTPUT    - GitHub Actions' own output file
+    GITHUB_STEP_SUMMARY - GitHub Actions' own job summary file (optional -
+                        when set, this script appends a listing of every
+                        matched AND every flagged (file, URL) pair)
 
 Every *.bes file named in FILES_LIST is read via `git show <HEAD_SHA>:<path>`
 (never from the working tree, which under this action's intended caller holds
@@ -24,8 +31,9 @@ The known-URL-pattern loading and per-file scan below are also imported and
 reused by test_validate_download_allowlist.py, this action's local test
 wrapper (same directory), so the two never drift apart.
 
-Exits 0 always - this script's effect is the `flagged` output and the warning
-annotations it prints; action.yml decides what to do with them.
+Exits 0 always - this script's effect is the `flagged` output, the warning
+annotations, the review body file, and the job summary it writes; action.yml
+decides what to do with them.
 """
 
 import os
@@ -74,19 +82,26 @@ def is_known(patterns, url):
     return any(p.fullmatch(url) for p in patterns)
 
 
-def scan_bes_content(display_path, content, patterns, known_urls_name, max_bytes):
-    """Scan one .bes file's raw bytes for download URLs not covered by `patterns`.
+def md_cell(text):
+    """Escape a value for safe placement inside a Markdown table cell."""
+    return str(text).replace("|", "\\|").replace("\n", " ").replace("`", "'")
+
+
+def scan_bes_content(display_path, content, patterns, known_urls_name, max_bytes, matched, flagged):
+    """Scan one .bes file's raw bytes for its download URLs, sorting each
+    distinct one into `matched` or `flagged` (both lists of {"file", "url"}
+    dicts, appended to in place - same shape main() accumulates across every
+    file, for the review body and job summary).
 
     Emits a ::warning:: (via bd.warn) for a too-large file, an unparseable
-    file, and each unrecognized (file, URL) pair. Returns the number of
-    unrecognized URLs flagged in this file.
+    file, and each unrecognized (file, URL) pair.
     """
     if len(content) > max_bytes:
         bd.warn(
             f"{len(content)} bytes exceeds the {max_bytes} byte download-scan limit; skipping",
             file=display_path,
         )
-        return 0
+        return
 
     try:
         urls = list(bd.iter_bes_download_urls(content))
@@ -94,15 +109,17 @@ def scan_bes_content(display_path, content, patterns, known_urls_name, max_bytes
         # Not this check's job to fail on invalid XML - validate-bes-xsd
         # already owns that; just skip so this check stays focused.
         bd.warn(f"not parseable BES XML ({err}); skipping", file=display_path)
-        return 0
+        return
 
-    flagged = 0
     seen_in_file = set()
     for url in urls:
-        if url in seen_in_file or is_known(patterns, url):
+        if url in seen_in_file:
             continue
         seen_in_file.add(url)
-        flagged += 1
+        if is_known(patterns, url):
+            matched.append({"file": display_path, "url": url})
+            continue
+        flagged.append({"file": display_path, "url": url})
         bd.warn(
             f'references a download URL that does not match any pattern in '
             f'{known_urls_name}: "{url}". Please confirm this URL is legitimate, '
@@ -111,7 +128,58 @@ def scan_bes_content(display_path, content, patterns, known_urls_name, max_bytes
             file=display_path,
             line=1,
         )
-    return flagged
+
+
+def render_review_body(flagged_urls, known_urls_name):
+    """Render the Markdown REQUEST_CHANGES review body listing every flagged
+    (file, URL) pair - written to REVIEW_BODY_PATH regardless of whether any
+    were found, so action.yml can post it unconditionally whenever
+    steps.scan.outputs.flagged != '0'.
+    """
+    lines = [
+        "One or more Fixlets/Tasks in this pull request reference a download URL "
+        f"that does not match any pattern in {known_urls_name}. Please confirm each URL "
+        "is legitimate and safe, then ask a maintainer to add a matching pattern to "
+        f"{known_urls_name} - once that's merged to main, re-running this check will "
+        "clear automatically.",
+    ]
+    if flagged_urls:
+        lines.append("")
+        lines.append("| File | URL |")
+        lines.append("|---|---|")
+        for entry in flagged_urls:
+            lines.append(f"| `{md_cell(entry['file'])}` | `{md_cell(entry['url'])}` |")
+    return "\n".join(lines) + "\n"
+
+
+def _render_url_table(entries):
+    if not entries:
+        return "_None._"
+    lines = ["| File | URL |", "|---|---|"]
+    for entry in entries:
+        lines.append(f"| `{md_cell(entry['file'])}` | `{md_cell(entry['url'])}` |")
+    return "\n".join(lines)
+
+
+def render_step_summary(matched_urls, flagged_urls, known_urls_name):
+    """Render the job-summary Markdown listing every matched AND every
+    flagged (file, URL) pair found across the whole run.
+    """
+    lines = ["### Download-URL allowlist check", ""]
+    if not matched_urls and not flagged_urls:
+        lines.append(
+            "No download commands (prefetch/curl/wget/download) were found in this "
+            "pull request's changed Fixlets/Tasks."
+        )
+    else:
+        lines.append(f"#### Matched {known_urls_name} ({len(matched_urls)})")
+        lines.append("")
+        lines.append(_render_url_table(matched_urls))
+        lines.append("")
+        lines.append(f"#### Not in {known_urls_name} ({len(flagged_urls)})")
+        lines.append("")
+        lines.append(_render_url_table(flagged_urls))
+    return "\n".join(lines) + "\n"
 
 
 def main():
@@ -119,6 +187,7 @@ def main():
     FILES_LIST = os.environ["FILES_LIST"]
     KNOWN_URLS_PATH = os.environ.get("KNOWN_URLS_PATH", str(DEFAULT_KNOWN_URLS_PATH))
     MAX_BYTES = int(os.environ.get("MAX_BYTES", str(DEFAULT_MAX_BYTES)))
+    REVIEW_BODY_PATH = os.environ["REVIEW_BODY_PATH"]
     GITHUB_OUTPUT = os.environ["GITHUB_OUTPUT"]
 
     patterns, found = load_known_url_patterns(KNOWN_URLS_PATH)
@@ -132,7 +201,8 @@ def main():
     with open(FILES_LIST, "rb") as fh:
         files = [p.decode("utf-8", errors="replace") for p in fh.read().split(b"\0") if p]
 
-    flagged = 0
+    matched_urls = []  # [{"file", "url"}] - distinct per file, matched known_urls.txt
+    flagged_urls = []  # [{"file", "url"}] - distinct per file, did NOT match known_urls.txt
     checked = 0
 
     for path in files:
@@ -147,12 +217,25 @@ def main():
             bd.warn(f"could not read PR-head content ({stderr}); skipping", file=path)
             continue
 
-        flagged += scan_bes_content(path, content, patterns, known_urls_name, MAX_BYTES)
+        scan_bes_content(path, content, patterns, known_urls_name, MAX_BYTES, matched_urls, flagged_urls)
+
+    flagged = len(flagged_urls)
+
+    with open(REVIEW_BODY_PATH, "w", encoding="utf-8") as fh:
+        fh.write(render_review_body(flagged_urls, known_urls_name))
 
     with open(GITHUB_OUTPUT, "a", encoding="utf-8") as fh:
         fh.write(f"flagged={flagged}\n")
 
-    print(f"Checked {checked} .bes file(s) under Sites/*/Fixlets; {flagged} unrecognized download URL(s) flagged.")
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as fh:
+            fh.write(render_step_summary(matched_urls, flagged_urls, known_urls_name))
+
+    print(
+        f"Checked {checked} .bes file(s) under Sites/*/Fixlets; {len(matched_urls)} known download URL(s), "
+        f"{flagged} unrecognized download URL(s) flagged."
+    )
     sys.exit(0)
 
 

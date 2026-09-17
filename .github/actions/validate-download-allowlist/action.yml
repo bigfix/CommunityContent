@@ -9,9 +9,11 @@ description: >
   names. Any URL that does not fullmatch at least one regular expression in
   this action's known_urls.txt allowlist (as of the PR base, never the PR's
   own copy - see below) is flagged: the new-download-url label is applied
-  (created first if needed), a REQUEST_CHANGES review is submitted, and a
-  warning annotation is emitted per (file, URL) pair so a human can confirm
-  the URL is legitimate before it's merged.
+  (created first if needed), a REQUEST_CHANGES review listing every flagged
+  (file, URL) pair is submitted, and a warning annotation is emitted per pair
+  so a human can confirm the URL is legitimate before it's merged. The job
+  summary additionally lists every download URL found - both the ones that
+  matched known_urls.txt and the ones that didn't - regardless of outcome.
 
 # This action itself never checks out anything and never executes any byte of
 # PR content - every *.bes file is read once (via `git show <PR head
@@ -108,6 +110,7 @@ runs:
         FILES_LIST: ${{ runner.temp }}/changed-files-downloads.nul
         KNOWN_URLS_PATH: ${{ github.action_path }}/known_urls.txt
         MAX_BYTES: "10485760" # 10 MiB - generous for a .bes export, small enough to bound parse cost
+        REVIEW_BODY_PATH: ${{ runner.temp }}/allowlist-review-body.md
       run: |
         set -euo pipefail
         timeout 120s python3 "${{ github.action_path }}/validate_download_allowlist.py"
@@ -157,7 +160,12 @@ runs:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         set -euo pipefail
+        # Body is read from the file validate_download_allowlist.py rendered
+        # (a Markdown table of every flagged (file, URL) pair) via `-f
+        # body=@<path>`, which sends the file's bytes as a single JSON string
+        # value - never shell-interpolated, so no URL/path in it can break out
+        # of the table or inject extra API parameters.
         gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
           -f event="REQUEST_CHANGES" \
-          -f body="One or more Fixlets/Tasks in this pull request reference a download URL that does not match any pattern in known_urls.txt (see the warning annotations on this run for which file(s) and URL(s)). Please confirm each URL is legitimate and safe, then ask a maintainer to add a matching pattern to known_urls.txt - once that's merged to main, re-running this check will clear automatically." \
+          -f body=@"${{ runner.temp }}/allowlist-review-body.md" \
           >/dev/null

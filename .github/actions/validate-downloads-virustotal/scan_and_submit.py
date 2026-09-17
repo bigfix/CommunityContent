@@ -47,20 +47,33 @@ skipped URL costs no VirusTotal quota, so it never counts against
 --max-urls-per-run - the cap only limits how many URLs are actually
 submitted; matching a skip pattern always exempts a URL from it.
 
-Writes COMMENT_BODY_PATH with the full PR-comment Markdown (including a
-hidden HTML marker action.yml uses to find and update a prior run's comment
-instead of piling up a new one every push), and sets these GITHUB_OUTPUT
-values for action.yml to act on:
+COMMENT_BODY_PATH is (re)written after every URL processed, not only at the
+end - each write is the full Markdown so far, so the file always has real
+content even if this script is killed mid-run, and action.yml can post/update
+the PR comment from it whenever it's convenient to. It (and, at the very end,
+GITHUB_STEP_SUMMARY) includes a hidden HTML marker action.yml uses to find
+and update a prior run's comment instead of piling up a new one every push.
+
+action.yml runs this script under `timeout <scan-timeout-seconds>s`, which
+sends SIGTERM when that elapses. This script catches it (see _request_stop):
+rather than dying wherever that lands, it stops starting new VirusTotal
+submissions/polls, marks whatever's left in the queue "timed out", and falls
+through to its normal end-of-run reporting - so a timeout still produces a
+real comment/summary/outputs, not nothing.
+
+At the end (whether finishing normally or stopped early by a timeout), sets
+these GITHUB_OUTPUT values for action.yml to act on:
     malicious   - count of scanned URLs with at least one VirusTotal engine
                   reporting them malicious (drives the label + REQUEST_CHANGES)
     scanned     - count of URLs actually submitted this run
     unresolved  - count of URLs that timed out or errored (no verdict reached)
+    timed_out   - "true" if a stop was requested before every URL finished
 
 Exits 0 unless VIRUSTOTAL_API_KEY is missing/empty, no *.bes file in
 FILES_LIST could be read at all, or an explicitly-given --skip-urls file is
 missing or contains an invalid regular expression - those are genuine setup
-problems, not a "some URLs were flagged" outcome, and should show as a failed
-job so they get noticed.
+problems, not a "some URLs were flagged" (or "timed out") outcome, and should
+show as a failed job so they get noticed.
 
 Everything below main() is also imported and reused by
 test_scan_and_submit.py, this action's local test wrapper (same directory),
@@ -73,6 +86,7 @@ import json
 import os
 import pathlib
 import re
+import signal
 import subprocess
 import sys
 import time
@@ -98,6 +112,24 @@ SUBMIT_INTERVAL_SECONDS = 16
 POLL_INTERVAL_SECONDS = 15
 POLL_ATTEMPTS = 8  # ~2 minutes per URL
 MAX_HTTP_RETRIES = 3
+
+
+# --- Graceful shutdown ---------------------------------------------------
+#
+# action.yml runs this script under `timeout`, which sends SIGTERM when
+# --scan-timeout-seconds elapses. Rather than dying wherever that catches us
+# (mid-submission, mid-poll, before a single result has been written
+# anywhere), we catch it, stop starting new VirusTotal work, and let main()
+# fall through to its normal end-of-run reporting - so a timeout still
+# produces a real comment/summary/outputs describing whatever did complete,
+# instead of leaving downstream steps with nothing.
+
+_STOP_REQUESTED = False
+
+
+def _request_stop(signum, frame):  # noqa: ARG001 - required signal handler signature
+    global _STOP_REQUESTED
+    _STOP_REQUESTED = True
 
 
 def fail(message):
@@ -173,8 +205,11 @@ def submit_url(api_key, url):
 
 
 def poll_analysis(api_key, analysis_id, poll_interval=POLL_INTERVAL_SECONDS, poll_attempts=POLL_ATTEMPTS):
-    """Poll an analysis until VirusTotal completes it; return its stats dict, or None on timeout."""
+    """Poll an analysis until VirusTotal completes it; return its stats dict,
+    or None on timeout or because a stop was requested (see _request_stop)."""
     for _ in range(poll_attempts):
+        if _STOP_REQUESTED:
+            return None
         resp = vt_request(api_key, "GET", f"/analyses/{analysis_id}")
         attrs = resp["data"]["attributes"]
         if attrs.get("status") == "completed":
@@ -246,6 +281,7 @@ def scan_urls(
     submit_interval=SUBMIT_INTERVAL_SECONDS,
     poll_interval=POLL_INTERVAL_SECONDS,
     poll_attempts=POLL_ATTEMPTS,
+    on_progress=None,
 ):
     """Submit (unless submit=False, for a dry run) and poll every URL in
     to_scan; returns the `results` list (each: {url, files, status,
@@ -255,6 +291,15 @@ def scan_urls(
     matches what a real run would do) but marks every would-be-submitted URL
     "dry-run" instead of actually calling VirusTotal - test_scan_and_submit.py
     uses this to preview what a run would do without spending API quota.
+
+    If on_progress is given, it's called with the `results` list so far after
+    every URL (submitted, skipped, or dry-run) - main() uses this to keep
+    COMMENT_BODY_PATH updated as the run progresses, rather than only at the
+    very end. If a stop has been requested (see _request_stop) before a URL
+    that would need an actual VirusTotal submission, that URL (and every one
+    after it) is recorded as "timed-out" instead of being submitted, so a run
+    that's asked to stop still returns a complete, renderable `results` list
+    matching every entry in `to_scan`.
     """
     results = []
     submitted_any = False  # tracks whether a real API submission has happened yet, for submit_interval pacing
@@ -268,6 +313,17 @@ def scan_urls(
             entry["detail"] = f"matched skip pattern: {reason}"
             results.append(entry)
             print(f"{url}: skipped (matched skip pattern: {reason})")
+            if on_progress is not None:
+                on_progress(results)
+            continue
+
+        if _STOP_REQUESTED:
+            entry["status"] = "timed-out"
+            entry["detail"] = "scan run timed out before this URL could be submitted"
+            results.append(entry)
+            print(f"{url}: not scanned (scan run timed out)")
+            if on_progress is not None:
+                on_progress(results)
             continue
 
         if not submit:
@@ -275,6 +331,8 @@ def scan_urls(
             entry["detail"] = "not submitted (dry run)"
             results.append(entry)
             print(f"{url}: would be submitted (dry run)")
+            if on_progress is not None:
+                on_progress(results)
             continue
 
         if submitted_any:
@@ -288,7 +346,11 @@ def scan_urls(
             stats = poll_analysis(api_key, analysis_id, poll_interval, poll_attempts)
             if stats is None:
                 entry["status"] = "unresolved"
-                entry["detail"] = "VirusTotal had not finished analyzing this URL within the wait budget"
+                entry["detail"] = (
+                    "scan run timed out while waiting for VirusTotal's verdict"
+                    if _STOP_REQUESTED
+                    else "VirusTotal had not finished analyzing this URL within the wait budget"
+                )
             else:
                 entry["status"] = "completed"
                 entry["malicious"] = stats.get("malicious", 0)
@@ -300,6 +362,8 @@ def scan_urls(
             entry["detail"] = str(err)
         results.append(entry)
         print(f"{url}: {entry['status']}" + (f" (malicious={entry.get('malicious', 0)})" if entry["status"] == "completed" else ""))
+        if on_progress is not None:
+            on_progress(results)
     return results
 
 
@@ -322,16 +386,23 @@ def render_report(
     unresolved_count,
     context="in this pull request's changed Fixlets/Tasks",
     include_marker=True,
+    banner_lines=None,
 ):
     """Render the scan results as Markdown - the same body production posts
     as a PR comment. `context` is a short phrase describing where the URLs
     came from (test_scan_and_submit.py passes "in the matched files"
     instead); `include_marker=False` drops the hidden HTML marker
     action.yml uses to find a prior comment, meaningless outside a PR.
+    `banner_lines`, if given, is inserted right after the marker - main() uses
+    it for an "in progress" note on incremental writes and a "timed out" note
+    on the final one when the run didn't finish in time.
 
     Returns a list of lines (join with "\\n" to get the full body).
     """
     lines = [COMMENT_MARKER] if include_marker else []
+    if banner_lines:
+        lines.extend(banner_lines)
+        lines.append("")
 
     if not all_urls:
         lines.append("# VirusTotal download scan")
@@ -374,6 +445,8 @@ def render_report(
                 row = ("-", "-", "-", "-", f"skipped ({md_cell(r.get('detail', ''))})")
             elif r["status"] == "dry-run":
                 row = ("-", "-", "-", "-", "dry-run (not submitted)")
+            elif r["status"] == "timed-out":
+                row = ("-", "-", "-", "-", "not scanned (run timed out)")
             else:
                 row = ("-", "-", "-", "-", f"unresolved ({md_cell(r.get('detail', ''))})")
             lines.append(f"| `{md_cell(r['url'])}` | {files_cell} | {row[0]} | {row[1]} | {row[2]} | {row[3]} | {row[4]} |")
@@ -430,6 +503,12 @@ def parse_args(argv=None):
 
 
 def main():
+    # Registered here (not at import time) so importing this module for
+    # tests (test_scan_and_submit.py) never installs it - only a real
+    # production run, invoked under action.yml's `timeout`, needs to catch
+    # SIGTERM and wind down gracefully (see _request_stop above).
+    signal.signal(signal.SIGTERM, _request_stop)
+
     args = parse_args()
 
     head_sha = os.environ["HEAD_SHA"]
@@ -493,26 +572,98 @@ def main():
         f"URLs found: {len(all_urls)}; to be skipped: {to_skip_count}; to be scanned: {scan_slots_used}"
     )
 
-    # --- Submit + poll each URL, then render + write the report ------------
+    # --- Show what will happen before submitting anything ------------------
 
-    results = scan_urls(api_key, to_scan, scan_slots_used, url_to_files, skip_patterns)
+    submit_urls = [u for u in to_scan if skip_reason(u, skip_patterns) is None]
+    skip_list_urls = [u for u in to_scan if skip_reason(u, skip_patterns) is not None]
 
+    print(f"\n=== URLs to submit to VirusTotal ({len(submit_urls)}) ===")
+    for u in submit_urls:
+        print(f"  {u}")
+
+    print(f"\n=== URLs skipped - matched a skip-urls pattern ({len(skip_list_urls)}) ===")
+    for u in skip_list_urls:
+        print(f"  {u}  (matched: {skip_reason(u, skip_patterns)})")
+
+    print(f"\n=== URLs skipped - past the max-urls-per-run cap of {max_urls_per_run} ({len(capped)}) ===")
+    for u in capped:
+        print(f"  {u}")
+    print()
+
+    # --- Submit + poll each URL, updating the PR comment as results come in,
+    # then render + write the final report -----------------------------
+
+    def write_comment(rendered_lines):
+        with open(comment_body_path, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(rendered_lines) + "\n")
+
+    def report_progress(results_so_far):
+        scanned_sf = sum(1 for r in results_so_far if r["status"] in ("completed", "unresolved"))
+        skipped_sf = sum(1 for r in results_so_far if r["status"] == "skipped")
+        malicious_sf = sum(1 for r in results_so_far if r["status"] == "completed" and r["malicious"] > 0)
+        unresolved_sf = sum(1 for r in results_so_far if r["status"] == "unresolved")
+        write_comment(
+            render_report(
+                all_urls,
+                results_so_far,
+                capped,
+                url_to_files,
+                scanned_sf,
+                skipped_sf,
+                malicious_sf,
+                unresolved_sf,
+                banner_lines=[
+                    "> [!NOTE]",
+                    f"> Scan in progress ({len(results_so_far)} of {len(to_scan)} URL(s) processed so far) - "
+                    "this comment updates automatically as results come in; reload for the latest.",
+                ],
+            )
+        )
+
+    results = scan_urls(api_key, to_scan, scan_slots_used, url_to_files, skip_patterns, on_progress=report_progress)
+
+    timed_out = _STOP_REQUESTED
     malicious_count = sum(1 for r in results if r["status"] == "completed" and r["malicious"] > 0)
     unresolved_count = sum(1 for r in results if r["status"] == "unresolved")
     skipped_count = sum(1 for r in results if r["status"] == "skipped")
-    scanned_count = len(to_scan) - skipped_count
+    timed_out_count = sum(1 for r in results if r["status"] == "timed-out")
+    scanned_count = sum(1 for r in results if r["status"] in ("completed", "unresolved"))
 
-    lines = render_report(all_urls, results, capped, url_to_files, scanned_count, skipped_count, malicious_count, unresolved_count)
+    banner_lines = None
+    if timed_out:
+        print(f"::warning::scan run timed out; {timed_out_count} URL(s) were not scanned")
+        banner_lines = [
+            "> [!WARNING]",
+            f"> This scan **timed out** before it could finish - {timed_out_count} URL(s) were not scanned "
+            '(see "not scanned (run timed out)" rows below). Re-run this check (e.g. push a new commit, or '
+            "re-run this job) to scan the remaining URL(s).",
+        ]
 
-    with open(comment_body_path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines) + "\n")
+    lines = render_report(
+        all_urls, results, capped, url_to_files, scanned_count, skipped_count, malicious_count, unresolved_count, banner_lines=banner_lines
+    )
+    write_comment(lines)
 
     with open(github_output, "a", encoding="utf-8") as fh:
         fh.write(f"malicious={malicious_count}\n")
         fh.write(f"scanned={scanned_count}\n")
         fh.write(f"unresolved={unresolved_count}\n")
+        fh.write(f"timed_out={'true' if timed_out else 'false'}\n")
 
-    print(summarize(checked, all_urls, scanned_count, skipped_count, malicious_count, unresolved_count))
+    summary_line = summarize(checked, all_urls, scanned_count, skipped_count, malicious_count, unresolved_count)
+    print(summary_line)
+
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        with open(summary_path, "a", encoding="utf-8") as fh:
+            if timed_out:
+                fh.write(
+                    "### ⚠️ VirusTotal scan timed out\n\n"
+                    f"{timed_out_count} URL(s) were not scanned because the run timed out. "
+                    "See the pinned VirusTotal comment on this pull request for full details.\n\n"
+                )
+            fh.write(summary_line + "\n")
+
     sys.exit(0)
 
 

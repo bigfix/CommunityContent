@@ -67,7 +67,7 @@ description: >
 
 inputs:
   virustotal-api-key:
-    description: VirusTotal API key (pass `secrets.VIRUSTOTAL_API_KEY` from the calling workflow)
+    description: VirusTotal API key (pass `secret VIRUSTOTAL_API_KEY` from the calling workflow)
     required: true
   max-urls-per-run:
     description: >
@@ -79,11 +79,26 @@ inputs:
       pull request naming an unusually large number of download URLs.
     required: false
     default: "15"
+  scan-timeout-seconds:
+    description: >
+      Maximum number of seconds to let scan_and_submit.py run before it's
+      asked to stop. scan_and_submit.py installs its own handler for this and,
+      on being asked to stop, stops submitting new URLs and finishes writing
+      its PR comment / job summary / outputs over whatever completed so far
+      (marked as timed out) rather than being killed mid-write; a hard kill is
+      only a last-resort fallback if it doesn't exit soon after. Raise this if
+      max-urls-per-run is raised enough that the default is no longer enough
+      (~15s submit throttle + up to ~2 minutes polling per URL).
+    required: false
+    default: "1800"
 
 outputs:
   malicious:
     description: Number of scanned URLs with at least one VirusTotal engine reporting them malicious
     value: ${{ steps.scan.outputs.malicious }}
+  timed-out:
+    description: "'true' if the scan did not finish processing every URL within scan-timeout-seconds"
+    value: ${{ steps.scan.outputs.timed_out }}
 
 runs:
   using: composite
@@ -123,16 +138,48 @@ runs:
         VIRUSTOTAL_API_KEY: ${{ inputs.virustotal-api-key }}
         COMMENT_BODY_PATH: ${{ runner.temp }}/vt-comment-body.md
         MAX_URLS_PER_RUN: ${{ inputs.max-urls-per-run }}
+        SCAN_TIMEOUT_SECONDS: ${{ inputs.scan-timeout-seconds }}
+        PYTHONUNBUFFERED: "1" # so progress prints show up live in the log instead of buffering until exit
       run: |
-        set -euo pipefail
-        # Generous outer timeout: with the default cap of 15 URLs, each up to
-        # ~2 minutes of polling plus ~16s submission throttling, this is
-        # comfortably under 30 minutes with room to spare. Raising
-        # max-urls-per-run (or leaving it unset in scan_and_submit.py, whose
-        # own default is no limit) scales the run time roughly linearly with
-        # URL count, so this timeout may need raising too if this input is
-        # ever set higher than its default.
-        timeout 1800s python3 "${{ github.action_path }}/scan_and_submit.py" --max-urls-per-run "$MAX_URLS_PER_RUN"
+        set -uo pipefail
+        # scan_and_submit.py catches this SIGTERM itself (see its module
+        # docstring) and, on receiving it, finishes writing a "timed out"
+        # report over whatever completed so far instead of dying mid-write -
+        # so the exit code below is almost always 0 or a genuine script
+        # error, never 124/137. -k gives it 30s of grace after SIGTERM before
+        # a hard SIGKILL, purely as a last-resort backstop if it hangs.
+        timeout -k 30s "${SCAN_TIMEOUT_SECONDS}s" python3 "${{ github.action_path }}/scan_and_submit.py" --max-urls-per-run "$MAX_URLS_PER_RUN"
+        exit_code=$?
+
+        if [ "$exit_code" -eq 124 ] || [ "$exit_code" -eq 137 ]; then
+          echo "::warning::VirusTotal scan did not finish gracefully within ${SCAN_TIMEOUT_SECONDS}s and was killed (exit $exit_code) before it could write its own results"
+
+          # Defensive fallback only: scan_and_submit.py normally writes this
+          # itself even when timing out gracefully. This covers the rare case
+          # where it was hard-killed before it got the chance.
+          if [ ! -s "$COMMENT_BODY_PATH" ]; then
+            {
+              echo "<!-- validate-downloads-virustotal:status -->"
+              echo "# ⚠️ VirusTotal scan timed out"
+              echo
+              echo "> [!WARNING]"
+              echo "> The scan was killed after ${SCAN_TIMEOUT_SECONDS}s before it could write any results for this run. No download URLs were scanned - re-run this check (e.g. push a new commit, or re-run this job) to try again."
+            } > "$COMMENT_BODY_PATH"
+          fi
+          if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+            echo "### ⚠️ VirusTotal scan timed out" >> "$GITHUB_STEP_SUMMARY"
+            echo "The scan was killed after ${SCAN_TIMEOUT_SECONDS}s before it could write any results for this run." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          # Explicit fallback outputs: never leave these unset. A composite
+          # action step's outputs are only whatever it wrote to
+          # $GITHUB_OUTPUT, and later steps below key off
+          # steps.scan.outputs.malicious - leaving it unset would make
+          # `!= '0'` true and wrongly apply the flagged label/review.
+          printf 'malicious=0\nscanned=0\nunresolved=0\ntimed_out=true\n' >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        exit "$exit_code"
 
     - name: Find an existing VirusTotal status comment to update
       id: find_comment
@@ -174,7 +221,13 @@ runs:
           -f body=@"${{ runner.temp }}/vt-comment-body.md" >/dev/null
 
     - name: Ensure the virustotal-flagged label exists
-      if: steps.scan.outputs.malicious != '0'
+      # steps.scan sets this output itself (via $GITHUB_OUTPUT) at the end of
+      # scan_and_submit.py's main() - there's no separate `outputs:` block to
+      # define on the step because a composite-action step's outputs are
+      # exactly whatever it wrote there. The `!= ''` guard matters because an
+      # empty/unset output (the scan step failed before writing it at all)
+      # must NOT be treated as "malicious", which bare `!= '0'` would do.
+      if: steps.scan.outputs.malicious != '' && steps.scan.outputs.malicious != '0'
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
@@ -195,7 +248,7 @@ runs:
         fi
 
     - name: Apply the virustotal-flagged label
-      if: steps.scan.outputs.malicious != '0'
+      if: steps.scan.outputs.malicious != '' && steps.scan.outputs.malicious != '0'
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
@@ -207,7 +260,7 @@ runs:
           -f "labels[]=virustotal-flagged" >/dev/null
 
     - name: Request changes on the pull request
-      if: steps.scan.outputs.malicious != '0'
+      if: steps.scan.outputs.malicious != '' && steps.scan.outputs.malicious != '0'
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
