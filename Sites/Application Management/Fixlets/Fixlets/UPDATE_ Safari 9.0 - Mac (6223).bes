@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: Safari 9.0 - Mac
+  ID       : 6223
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2015-10-05T08:55:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: Safari 9.0 - Mac</Title>
+    <Description>This fixlet will use Apple Software Update to update Safari to version 9.0 on OS X 10.9.5 and 10.10.5 machines. </Description>
+    <Relevance>(mac of it) of operating system</Relevance>
+    <Relevance><![CDATA[((it >= "10.9.5" as version AND it < "10.10" as version) OR (it >= "10.10.5" as version AND it < "10.11" as version)) of system version]]></Relevance>
+    <Relevance><![CDATA[exists application "Safari.app" whose (version of it < "9.0" as version)]]></Relevance>
+    <Category>Security Update</Category>
+    <Source>Apple</Source>
+    <SourceReleaseDate>2015-09-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 05 Oct 2015 15:48:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {system version >= "10.9.5" as version AND system version < "10.10" as version}
+    wait sh -c "softwareupdate -i Safari9.0Mavericks-9.0"
+endif
+
+if {system version >= "10.10.5" as version}
+    wait sh -c "softwareupdate -i Safari9.0Yosemite-9.0"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : WinRAR 5.70 x64 - Update 64-bit, remove 32-bit if older
+  ID       : 26614
+  Author   : rdshift
+  Domain   : BESC
+  Imported : 2019-03-20T07:24:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>WinRAR 5.70 x64 - Update 64-bit, remove 32-bit if older</Title>
+    <Description><![CDATA[<P>This task will deploy: WinRAR 5.70 x64 (remediates WinACE vulnerability).<BR><BR>This task is applicable on: Windows.</P>
+<P>Please be aware that there is NO FREE CORPORATE USAGE.&nbsp; All WinRAR installations must have a license.&nbsp; Not even for demos.&nbsp; Use 7zip instead.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[(IF exists version of regapps "WinRAR.exe" THEN version of regapps "WinRAR.exe" < "5.70.0.0" ELSE FALSE) OR (IF (EXISTS key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinRAR archiver" of native registry) THEN (value "DisplayVersion" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinRAR archiver" of native registry as string as version < "5.70.0.0") ELSE FALSE)]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2019-03-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Mar 2019 14:23:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 65c2485beed9061f5d649111c72b565e78e5133a sha1:65c2485beed9061f5d649111c72b565e78e5133a size:3142272 https://www.rarlab.com/rar/winrar-x64-570.exe sha256:5e5ae8476052b973b427fe4991aeee2bf5b05ceae5bb45ed67849d06cb031471
+move __Download\65c2485beed9061f5d649111c72b565e78e5133a __Download\winrar-x64-570.exe
+wait __Download\winrar-x64-570.exe /S
+
+// Copy over 32-bit registration key if available
+if {exist file "C:\Program Files (x86)\WinRAR\rarreg.key" and NOT exist file "C:\Program Files\WinRAR\rarreg.key"}
+	move "C:\Program Files\WinRAR\rarreg.key" "C:\Program Files (x86)\WinRAR\rarreg.key"
+endif
+
+// Remove 32-bit version if vulnerable
+if {(IF (EXISTS key "HKLM\WOW6432Node\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinRAR archiver" of native registry) THEN (value "DisplayVersion" of key "HKLM\WOW6432Node\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\WinRAR archiver" of native registry as string as version < "5.70.0.0") ELSE FALSE) AND (exists file "C:\Program Files (x86)\WinRAR\uninstall.exe")}
+	waithidden "C:\Program Files (x86)\WinRAR\uninstall.exe" /S
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

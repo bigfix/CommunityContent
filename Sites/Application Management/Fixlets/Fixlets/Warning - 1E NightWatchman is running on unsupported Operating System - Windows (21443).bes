@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - 1E NightWatchman is running on unsupported Operating System - Windows
+  ID       : 21443
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-08T06:18:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - 1E NightWatchman is running on unsupported Operating System - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet detects if 1E is installed on an unsupported operating system.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)</Relevance>
+    <Relevance><![CDATA[version of file "NightWatchman.exe" of folder (preceding text of last "\" of (it as string) of value "InstallationDirectory" of key "1E\NightWatchman" of key "HKEY_LOCAL_MACHINE\Software" of native registry) < "7.0.100" as version]]></Relevance>
+    <Relevance><![CDATA[version of operating system > "10.0.0"]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 04:04:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

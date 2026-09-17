@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Upgrade Tiny Core Linux to Version 8.2 (TEMPLATE)
+  ID       : 25193
+  Author   : erowley
+  Domain   : BESC
+  Imported : 2018-02-21T11:44:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Upgrade Tiny Core Linux to Version 8.2 (TEMPLATE)</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<DIV class=FixletMessage>
+<P><FONT size=2><FONT color=#ff0000><FONT color=#000000><STRONG>Version 8.2 of Tiny Core Linux Operating System is now available!<BR><BR></STRONG>This Fixlet can upgrade the operating system of all the instances of the Tiny Core Virtual Relays on the targeted computers to Version 8.2. <BR><BR></FONT></FONT></FONT></P>
+<P><STRONG>To learn more about using Tiny Core Linux with BigFix, see:</STRONG><BR><A href="https://www.ibm.com/support/knowledgecenter/SS6MER_9.5.0/com.ibm.bigfix.doc/Platform/Installation/c_tiny_core_introduction.html">https://www.ibm.com/support/knowledgecenter/SS6MER_9.5.0/com.ibm.bigfix.doc/Platform/Installation/c_tiny_core_introduction.html</A><BR><BR></P>
+<P><STRONG><FONT color=#ff0000>WARNING:</FONT></STRONG>&nbsp; This fixlet is not meant to be run as-is. There is no way to predict when the&nbsp;Tiny Core Linux team will change the "*.tcz" files used by this fixlet, so actions started with this fixlet *will* encounter download problems in the future. The recommended work-around is to create a custom copy of this action, where the prefectch lines in the action script are edited for the current files served by Tiny Core; then manually cache those files on the BigFix Server.<BR><BR></P>
+<P><STRONG>How do I manually cache a file on the BigFix Server?</STRONG><BR><A href="https://www-01.ibm.com/support/docview.wss?uid=swg21506037">https://www-01.ibm.com/support/docview.wss?uid=swg21506037</A><BR><BR></P>
+<P><STRONG>make-prefetch, a tool to generate prefetch statements for downloads in BigFix Action Script</STRONG><BR><A href="https://github.com/bigfix/make-prefetch">https://github.com/bigfix/make-prefetch</A><BR><BR></P>
+<P><STRONG>Tested on Tiny Core Linux versions:</STRONG> 7.0, 7.1, 8.0, 8.1, &amp; 8.1.1<BR><BR></P>
+<P><FONT size=2><STRONG>Note:&nbsp; </STRONG>If&nbsp;VMware Tools are already installed on the target computer, they will be upgraded automatically.<BR><BR></P></DIV>
+<DIV class=FixletProperty><STRONG>Note:&nbsp; </STRONG>Before running this Fixlet, ensure that the BigFix Client Version installed on the Tiny Core Virtual Relays is 9.5.8 or higher. <BR><BR></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>19.19 MB </DIV></FONT></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>exists (operating system) whose (it as string starts with &quot;Linux TinyCore&quot;)</Relevance>
+    <Relevance><![CDATA[(exists file "/usr/share/doc/tc/release.txt") AND ( version of operating system < "8.2" )]]></Relevance>
+    <Category>Upgrade</Category>
+    <SourceReleaseDate>2018-02-21</SourceReleaseDate>
+    <SourceSeverity>Informational</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 21 Feb 2018 19:37:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp; to upgrade the operating system &amp;nbsp;to Version 8.2 </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// operating system
+prefetch core.gz sha1:07bda91116be6bfdb22603ae2b8008c646e4edf6 size:7647219 http://distro.ibiblio.org/tinycorelinux/8.x/x86/archive/8.2/distribution_files/core.gz sha256:7a974e4b2863faae5f44fe0f15d20d8afae2e00a9113f37ce5c3d0373a0a3c25
+prefetch vmlinuz sha1:cdefc1526ab27151e7af12a72557db795182deea size:3862112 http://distro.ibiblio.org/tinycorelinux/8.x/x86/archive/8.2/distribution_files/vmlinuz sha256:fcce8a605ad5af6749a51c4cddfdae8d6d2da25b27aade2162776971ba994112
+prefetch acl.tcz sha1:f7a224b1236e5e077b9f430bbeaf0305b22901cb size:40960 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/acl.tcz sha256:38c3ef85257cb251328e3e5fa28dba047f636ec2924ec1888875b24e581c8e5f
+prefetch libattr.tcz sha1:ec94e3cecf7d8374881e47ab49bdbb2e6b7c9edc size:8192 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/libattr.tcz sha256:f1f7c1e335f8b0cad853302f95db7c1497e355ef5eeabb2acda41bd37fe99687
+prefetch syslinux.tcz sha1:70039319eb5a364c83d9410bd0e1d2b24583f1b5 size:2691072 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/syslinux.tcz sha256:09dd0099f09d4d4cab3a3b515b63078321181a783a7c7b78fe341878f3cbda61
+prefetch nspr.tcz sha1:0bce043ba228f3f0b3c007897f8cf6804fa485ef size:135168 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/nspr.tcz sha256:026a7abafdbdc9a2bd7312db444f4fc9860efdbf0673bd9f9b191bba507d323c
+prefetch nss.tcz sha1:d2ee47d85aa97ce41f1bb267212ddbda3eed2832 size:1478656 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/nss.tcz sha256:492bba0cae4d015d52ba7ee94c18bd1d86bf6082efb0a5382d37e923aeb239b2
+prefetch popt.tcz sha1:3eb68d46c9c8216a9b40ebeae16795a5946c3d6f size:28672 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/popt.tcz sha256:f62025f8111477454433711d85d5becc6cf3d708f1d3fe4bb6328f76066dd12f
+prefetch sqlite3.tcz sha1:d7c2aa6a6feadb8eeba58a3c47250d3faa0ead58 size:503808 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/sqlite3.tcz sha256:0ae2b0873f48e76215bfa55d99f54110ca0cb5ccda0c821536d57e806c073153
+prefetch tzdata.tcz sha1:5521f4b41d4f4b083e2fa8de0ae92a6ea342c5b5 size:524288 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/tzdata.tcz sha256:290f5ae1f4738ad9d0c0cf39d72dcbc8743e50e1355bd1b2c1cec3aa46991526
+
+// operating system
+continue if {exists file &quot;__Download/core.gz&quot;}
+continue if {exists file &quot;__Download/vmlinuz&quot;}
+delete &quot;/mnt/sda1/tce/boot/core.gz&quot;
+delete &quot;/mnt/sda1/tce/boot/vmlinuz&quot;
+move __Download/core.gz &quot;/mnt/sda1/tce/boot/core.gz&quot;
+move __Download/vmlinuz &quot;/mnt/sda1/tce/boot/vmlinuz&quot;
+
+// virtual relay prerequisites
+continue if {exists file &quot;__Download/acl.tcz&quot;}
+continue if {exists file &quot;__Download/libattr.tcz&quot;}
+continue if {exists file &quot;__Download/syslinux.tcz&quot;}
+continue if {exists file &quot;__Download/nspr.tcz&quot;}
+continue if {exists file &quot;__Download/nss.tcz&quot;}
+continue if {exists file &quot;__Download/popt.tcz&quot;}
+continue if {exists file &quot;__Download/sqlite3.tcz&quot;}
+continue if {exists file &quot;__Download/tzdata.tcz&quot;}
+delete &quot;/mnt/sda1/tce/optional/acl.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/libattr.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/syslinux.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/nspr.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/nss.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/popt.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/sqlite3.tcz&quot;
+delete &quot;/mnt/sda1/tce/optional/tzdata.tcz&quot;
+
+move __Download/acl.tcz &quot;/mnt/sda1/tce/optional/acl.tcz&quot;
+move __Download/libattr.tcz &quot;/mnt/sda1/tce/optional/libattr.tcz&quot;
+move __Download/syslinux.tcz &quot;/mnt/sda1/tce/optional/syslinux.tcz&quot;
+move __Download/nspr.tcz &quot;/mnt/sda1/tce/optional/nspr.tcz&quot;
+move __Download/nss.tcz &quot;/mnt/sda1/tce/optional/nss.tcz&quot;
+move __Download/popt.tcz &quot;/mnt/sda1/tce/optional/popt.tcz&quot;
+move __Download/sqlite3.tcz &quot;/mnt/sda1/tce/optional/sqlite3.tcz&quot;
+move __Download/tzdata.tcz &quot;/mnt/sda1/tce/optional/tzdata.tcz&quot;
+
+// vmware tools prerequisites
+if {exists file &quot;/opt/bigFix/status/vmwareToolsReady&quot;}
+	prefetch fuse.tcz sha1:bb36663427f2abd429bf77b16d2d8d11e82a51ef size:188416 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/fuse.tcz sha256:e4d8796b7133182e880f280eef447dd3b7467c287ef286a893af989bf4b18e98
+	prefetch glib2.tcz sha1:26d8371a138e1c97801e7a88e8e57e0bbc5e5ef8 size:1232896 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/glib2.tcz sha256:d869632e7ab351745633fb592e38e551aff2a574a7a1f4c0af495e1ad1e1b72c
+	prefetch libdnet.tcz sha1:20b44cb00ac4fbe225c6fe19ba673967467c4140 size:36864 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/libdnet.tcz sha256:036e53e5acf74d473415c56b0bd808f4dfd02406b8f8e0aa55e6c9716195cf37
+	prefetch openssl.tcz sha1:115e630569705492eb870201eb14c91b783962fe size:1163264 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/openssl.tcz sha256:2d1b9cf8a5fe2494da08e147651dc30557e0cde26f8b52bdcc0c8e4acda7bafb
+	prefetch gamin.tcz sha1:4b776007149e95f3b189f6c7760c14633ddc7cb7 size:16384 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/gamin.tcz sha256:08ccde4512884a5c02b564fd4f7c479bf20e77897e62a7d09cc05a35f7f5a1d5
+	prefetch libffi.tcz sha1:791fcc837b3bf31c73fe1bcd935e0a30d48a402d size:16384 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/libffi.tcz sha256:f0eaa2d644beab0929ca14f93e7bd2e23350d14e49019b9fb727cb8949887a99
+	prefetch open-vm-tools.tcz sha1:83ccdef0db7165146c99b5d4260c84a9890bcfd9 size:471040 http://distro.ibiblio.org/tinycorelinux/8.x/x86/tcz/open-vm-tools.tcz sha256:7afe6b86631e462d090cdddb366bce9650bc878a47f5a6fdbf91053a68581ba6
+
+	continue if {exists file &quot;__Download/fuse.tcz&quot;}
+	continue if {exists file &quot;__Download/glib2.tcz&quot;}
+	continue if {exists file &quot;__Download/libdnet.tcz&quot;}
+	continue if {exists file &quot;__Download/openssl.tcz&quot;}
+	continue if {exists file &quot;__Download/gamin.tcz&quot;}
+	continue if {exists file &quot;__Download/libffi.tcz&quot;}
+	continue if {exists file &quot;__Download/open-vm-tools.tcz&quot;}
+	delete &quot;/mnt/sda1/tce/optional/fuse.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/glib2.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/libdnet.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/openssl.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/gamin.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/libffi.tcz&quot;
+	delete &quot;/mnt/sda1/tce/optional/open-vm-tools.tcz&quot;
+
+	move __Download/fuse.tcz &quot;/mnt/sda1/tce/optional/fuse.tcz&quot;
+	move __Download/glib2.tcz &quot;/mnt/sda1/tce/optional/glib2.tcz&quot;
+	move __Download/libdnet.tcz &quot;/mnt/sda1/tce/optional/libdnet.tcz&quot;
+	move __Download/openssl.tcz &quot;/mnt/sda1/tce/optional/openssl.tcz&quot;
+	move __Download/gamin.tcz &quot;/mnt/sda1/tce/optional/gamin.tcz&quot;
+	move __Download/libffi.tcz &quot;/mnt/sda1/tce/optional/libffi.tcz&quot;
+	move __Download/open-vm-tools.tcz &quot;/mnt/sda1/tce/optional/open-vm-tools.tcz&quot;
+endif
+
+run sudo reboot
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

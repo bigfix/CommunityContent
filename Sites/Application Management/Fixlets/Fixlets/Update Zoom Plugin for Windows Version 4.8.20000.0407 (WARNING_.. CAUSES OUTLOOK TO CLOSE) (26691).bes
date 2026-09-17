@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Update Zoom Plugin for Windows Version 4.8.20000.0407 (WARNING:.. CAUSES OUTLOOK TO CLOSE)
+  ID       : 26691
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:15:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Update Zoom Plugin for Windows Version 4.8.20000.0407 (WARNING:.. CAUSES OUTLOOK TO CLOSE)</Title>
+    <Description><![CDATA[<P>This task will updateZoom Plugin for Windows <FONT style="BACKGROUND-COLOR: #ffffff" color=#000000 size=3 face=Helvetica><SPAN style="FONT-SIZE: 14px; FONT-FAMILY: Lato, Helvetica, Arial; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(116,116,135); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial">Version 4.8.20000.0407</SPAN></FONT></P>
+<P>This task is applicable on: Windows </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[(exists value "DisplayVersion" whose (it as string as version < "4.8.20000") of keys whose (value "DisplayName" of it as string = "Zoom Outlook Plugin") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2020-04-07</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2020 11:29:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch ZoomOutlookPluginSetup.msi sha1:ea46f4076d8e8bf8648edf4517c6a80233d1c1e7 size:3543040 https://zoom.us/client/latest/ZoomOutlookPluginSetup.msi sha256:cd7d777be6f517084af01d152a6fe509850c43d239813236fac57674300b6051
+
+if {exists running application whose (name of it as lowercase = "Outlook.exe" as lowercase)}
+waithidden taskkill /F /IM OUTLOOK.EXE /T
+endif
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\ZoomOutlookPluginSetup.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

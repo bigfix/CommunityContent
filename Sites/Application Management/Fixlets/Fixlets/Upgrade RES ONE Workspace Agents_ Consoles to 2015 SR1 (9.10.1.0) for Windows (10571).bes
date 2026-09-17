@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Upgrade RES ONE Workspace Agents/ Consoles to 2015 SR1 (9.10.1.0) for Windows
+  ID       : 10571
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-03-24T05:29:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Upgrade RES ONE Workspace Agents/ Consoles to 2015 SR1 (9.10.1.0) for Windows</Title>
+    <Description><![CDATA[This&nbsp;fixlet will&nbsp;upgrade your existing windows RES ONE Workspace agents and\ or consoles to 2015 SR1 (9.10.1.0) , but <STRONG><U>NOT</U></STRONG> your database. Please be sure to run the "Upgrade RES ONE Workspace Database to 9.10.1.0 for Windows"&nbsp;fixlet <STRONG><U>FIRST</U></STRONG> before you upgrade any agents or consoles. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;res&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; whose (value &quot;Version&quot; of it != &quot;9.10.1.0&quot;) of x32 registry</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe") OR exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Feb 2016 22:35:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//CDM release 01/11/2016
+prefetch Auto-Upgrade-RES-ONE-Workspace-2015-SR1.exe sha1:fac3075d33bb778c225aa32086f116429efdbf30 size:48136400 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-Auto-Service-Pack-9.10.1.0.exe
+
+waithidden &quot;__Download\Auto-Upgrade-RES-ONE-Workspace-2015-SR1.exe&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action11320">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to download the RES-ONE-Workspace-2015-SR1-Upgrade-Guide.pdf&amp;nbsp;</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Upgrade-Guide.pdf</ActionScript>
+    </Action>
+    <Action ID="Action11321">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to download the RES-ONE-Workspace-2015-SR1-Release-Notes.pdf</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Release-Notes.pdf</ActionScript>
+    </Action>
+    <Action ID="Action11322">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to download the RES-ONE-Workspace-2015-SR1-Administration-Guide.pdf</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Administration-Guide.pdf</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: iTunes 12.1 Available (Client 10.10.x) - Audit
+  ID       : 3999
+  Author   : Chuxin
+  Domain   : BESC
+  Imported : 2015-03-19T10:14:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: iTunes 12.1 Available (Client 10.10.x) - Audit</Title>
+    <Description><![CDATA[<DIV class=FixletMessage><TABLE><TBODY><TR><TD><P>iTunes 12.1 comes with several new features and improvements.</P>
+<P>This update is available via the IBM Endpoint Manager server, which is the default action, and Apple Software Update on the endpoint. These actions do not close any running instances of iTunes on the endpoints. </P>
+<P>The default action does not require internet connection on the endpoints. This action downloads the installer to the IBM Endpoint Manager server and then installs the update to the endpoints.</P>
+<P><STRONG>Note: </STRONG>If you want to use Apple Software Update, ensure that the endpoints have continuous internet connection to install the update successfully.</P>
+<P><STRONG>Note: </STRONG>To avoid any service interruptions on the endpoints, use the first two actions only when the endpoints do not have any running instances of iTunes. If this application is running on the endpoints, the first two actions might fail. Schedule the update to occur at a time when the client machine is not using these applications.</P>
+<P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>206.59 MB</DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4> N/A </DIV>]]></Description>
+    <Relevance><![CDATA[(exists application "iTunes.app" whose (version of it < "12.1" or version of it as string = "12.0"))]]></Relevance>
+    <Relevance><![CDATA[(version of operating system >= "10.10")]]></Relevance>
+    <Category>Update</Category>
+    <Source>Apple</Source>
+    <SourceID>N/A</SourceID>
+    <SourceReleaseDate>2015-01-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <CVENames>N/A</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PTCH Patch Apple iTunes Application</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 04:04:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action4446">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to view more information from Apple on this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.apple.com/kb/DL1614</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>
