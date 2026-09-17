@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Tiny Core Relay - FillDB DMZ Monitoring
+  ID       : 26991
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:15:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Tiny Core Relay - FillDB DMZ Monitoring</Title>
+    <Description><![CDATA[<P>Deploys a script that will run every 30 minutes on DMZ VRAs.&nbsp; </P> <P>If the FillDB file count or folder&nbsp;size reaches 70 percent or greater of its maximum value, an alert&nbsp;will be emailed.</P> <P>All events will be logged: /var/log/filldb_alerts.log</P>]]></Description>
+    <Relevance>exists relay service</Relevance>
+    <Relevance>name of operating system contains &quot;Linux TinyCore&quot;</Relevance>
+    <Relevance>((dns name as lowercase contains &quot;.dmz.&quot;) | FALSE)</Relevance>
+    <Relevance>not exists file &quot;/home/tc/scripts/filldb_mon.sh&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-11-16</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:06:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "EmailAddresses" with description "Enter the email addresses that will receive alert notifications.  If multiple addresses are entered, separate each address by a single space." with default value "No"
+
+if {not exists file "/mnt/sda1/tce/optional/sendEmail.tcz"}
+
+//PREFETCH FOR sendEmail files (sendEmail and perl extensions)
+
+endif
+
+//Create upload manager cleanup log file and add write permissions
+
+if {not exists file "/var/log/filldb_alerts.log"}
+
+wait touch /var/log/filldb_alerts.log
+wait chmod 660 /var/log/filldb_alerts.log
+
+endif
+
+//create /home/tc/scripts/ folder if it doesn't exist
+
+if {not exists folder "/home/tc/scripts/"}
+
+wait mkdir /home/tc/scripts
+
+endif
+
+//Create the filldb_mon script
+delete __createfile
+createfile until endofscript1
+#!/bin/sh
+#DMZ Relay FillDB Alerts
+#jules.miller@va.gov
+
+SIZE=$(du -sm /var/opt/BESRelay/FillDBData/BufferDir/ForwardingBufferDir/ | cut -f1)
+COUNT=$(ls -l /var/opt/BESRelay/FillDBData/BufferDir/ForwardingBufferDir/ | wc -l)
+ALERTFILE=/home/tc/scripts/filldb.alert
+LOGFILE=/var/log/filldb_alerts.log
+EMAILFILE=/tmp/filldbemail
+EMAILALLCLEAR=/home/tc/scripts/filldb_all_clear_message
+BUFFERDIRECTORYMAXSIZE=$(grep BufferDirectoryMaxSize /var/opt/BESRelay/besrelay.config | cut -d "=" -f2 | tr -d " ")
+POSTRELAYURL=$(grep -A 2 PostResults_ParentRelayURL /var/opt/BESRelay/besrelay.config | grep value | cut -d "/" -f3 | cut -d "." -f1)
+
+#If FillDB IS NOT above threshold
+if [ ! $SIZE -ge 7 ] && [ ! $COUNT -ge 7000 ]; then
+
+#if persistent lock file does NOT exist - do nothing and exit
+	if [ ! -f $ALERTFILE ]; then
+		exit
+#If persistent lock file DOES exists
+#Send all clear message and delete alert file, email file, and exit
+	else
+		touch $LOGFILE
+		echo "$(date) - FillDB Alert Cleared - Starting Cleanup Process..." >> $LOGFILE
+		sendEmail -f $HOSTNAME@BigFixAlerts.INSERTDOMAIN -t {(parameter "EmailAddresses" of action as string as lowercase)} -u "FillDB Alert: CLEARED - $HOSTNAME" -o message-file=$EMAILALLCLEAR -s smtp.INSERTDOMAIN:25 >> $LOGFILE 2>&1
+		rm -f $ALERTFILE
+		rm -f $EMAILFILE
+		echo "$(date) - FillDB Alert Cleanup Process Complete!" >> $LOGFILE
+	fi
+#If FIllDB IS above threshold
+else
+#If persistent lock file already exists do nothing and exit.
+	if [ -f $ALERTFILE ]; then
+		exit
+#ELSE if the lock file DOES NOT exist - sleep for two min to ensure its not a transient spike
+	else
+		sleep 120
+#Run threshold check again - if still above threshold create the alert (logging, , email file, sendEmail, and create persistent alert file)
+		SIZE=$(du -sm /var/opt/BESRelay/FillDBData/BufferDir/ForwardingBufferDir/ | cut -f1)
+		COUNT=$(ls -l /var/opt/BESRelay/FillDBData/BufferDir/ForwardingBufferDir/ | wc -l)
+		if pgrep -x BESRelay > /dev/null 2>&1; then
+			RELAYSTAT="Running"
+		else
+			RELAYSTAT="Not Running"
+		fi
+		if pgrep -x BESClient > /dev/null 2>&1; then
+			CLIENTSTAT="Running"
+		else
+			CLIENTSTAT="Not Running"
+		fi
+		if [ $SIZE -ge 7 ] || [ $COUNT -ge 7000 ]; then
+			touch $LOGFILE
+			echo "$(date) - FillDB Alerting Now - Starting Notification Process..." >> $LOGFILE
+			touch $ALERTFILE
+			printf "***FillDB is Alerting***
+
+Hostname: $HOSTNAME
+FillDB Folder Size: $SIZE MB
+FillDB File Count: $COUNT
+BESRelay Status: $RELAYSTAT
+BESClient Status: $CLIENTSTAT
+
+Relay Settings:
+
+PostResults_ParentRelay: $POSTRELAYURL
+BufferDirectoryMaxSize: $BUFFERDIRECTORYMAXSIZE
+
+NOTE: Review "${{LOGFILE}" for additional details.
+
+Alerts are generated when the FillDB folder size or file count exceed 70 percent of their maximum value.
+An all clear notification will be sent once values drop below the threshold.  FillDB is audited every 30 minutes.
+" > $EMAILFILE
+			if [ $? -eq 0 ]; then
+				sendEmail -f $HOSTNAME@BigFixAlerts.INSERTDOMAIN -t {(parameter "EmailAddresses" of action as string as lowercase)} -u "FillDB Alert: $HOSTNAME" -o message-file=$EMAILFILE -s smtp.INSERTDOMAIN:25 >> $LOGFILE 2>&1
+				echo "$(date) - FillDB Alerting Now - Notification Process Complete!" >> $LOGFILE
+			else
+				echo "$(date) - ERROR - Notification Process.  Failed to create $EMAILFILE" >> $LOGFILE
+			fi
+		fi
+	fi
+fi
+endofscript1
+
+delete /home/tc/scripts/filldb_mon.sh
+move __createfile /home/tc/scripts/filldb_mon.sh
+wait chmod 750 /home/tc/scripts/filldb_mon.sh
+
+//Create All Clear Email Message File
+
+delete __createfile
+createfile until endofscript2
+***FillDB Alert Has Cleared***
+
+Hostname: {computer name}
+
+The FillDB folder and file size have dropped below the threshold.
+
+NOTE: Review "/var/log/filldb_alerts.log" for additional details.
+endofscript2
+
+delete /home/tc/scripts/filldb_all_clear_message
+move __createfile /home/tc/scripts/filldb_all_clear_message
+wait chmod 640 /home/tc/scripts/filldb_all_clear_message
+
+//create file to use for crontab
+
+if {not exists file "/var/spool/cron/crontabs/root"}
+
+delete __appendfile
+appendfile */30 * * * * /bin/sh /home/tc/scripts/filldb_mon.sh
+
+if {exists file "/home/tc/newcrontab"}
+delete "/home/tc/newcrontab"
+endif
+
+continue if {not exists file "/home/tc/newcrontab"}
+
+move __appendfile /home/tc/newcrontab
+
+continue if {exists file "/home/tc/newcrontab"}
+
+endif
+
+//create script to add cronjob to crontab, add /var/spool/cron/crontabs directory to filetool.lst, add starting the cron service to bootlocal, and backup
+
+delete __appendfile
+appendfile #!/bin/sh
+
+if {exists file "/var/spool/cron/crontabs/root"}
+appendfile echo "*/30 * * * * /bin/sh /home/tc/scripts/filldb_mon.sh" >> "/var/spool/cron/crontabs/root"
+else
+appendfile sudo crontab /home/tc/newcrontab
+endif
+
+if {not exists lines whose (it contains "var/spool/cron/crontabs/") of file "/opt/.filetool.lst"}
+appendfile echo "var/spool/cron/crontabs/" >> /opt/.filetool.lst
+endif
+
+if {not exists lines whose (it contains "/sbin/syslogd") of file "/opt/bootlocal.sh"}
+appendfile echo "/sbin/syslogd" >> /opt/bootlocal.sh
+endif
+
+if {not exists lines whose (it contains "/etc/init.d/services/crond start") of file "/opt/bootlocal.sh"}
+appendfile echo "/etc/init.d/services/crond start" >> /opt/bootlocal.sh
+endif
+
+if {not exists file "/mnt/sda1/tce/optional/sendEmail.tcz"}
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/sendEmail.tcz*")} /mnt/sda1/tce/optional/
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/perl5.tcz*")} /mnt/sda1/tce/optional/
+appendfile echo "ln -s /usr/local/bin/perl /usr/bin" >> /opt/bootlocal.sh
+appendfile echo "sendEmail.tcz" >> /mnt/sda1/tce/onboot.lst
+endif
+
+appendfile sudo filetool.sh -b
+appendfile sudo reboot
+
+delete /var/opt/BESClient/filldbmonconfig.sh
+move __appendfile /var/opt/BESClient/filldbmonconfig.sh
+wait chmod 555 /var/opt/BESClient/filldbmonconfig.sh
+run /bin/sh /var/opt/BESClient/filldbmonconfig.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

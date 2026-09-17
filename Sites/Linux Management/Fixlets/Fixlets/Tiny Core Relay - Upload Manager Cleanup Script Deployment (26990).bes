@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Tiny Core Relay - Upload Manager Cleanup Script Deployment
+  ID       : 26990
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:13:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Tiny Core Relay - Upload Manager Cleanup Script Deployment</Title>
+    <Description><![CDATA[<P>This deploys a script on TinyCore relays that will run every hour and do the following:</P> <P>Removes all files older than 72 hours in "var/opt/BESRelay/UploadManagerData/BufferDir/Temp".</P> <P>Removes all files older than 72 hours in "/var/opt/BESRelay/UploadManagerData/BufferDir/sha1/" and restarts the relay service if files are present.</P> <P>&nbsp;</P>]]></Description>
+    <Relevance>exists relay service</Relevance>
+    <Relevance>name of operating system contains &quot;Linux TinyCore&quot;</Relevance>
+    <Relevance>not exists file &quot;/home/tc/scripts/upload_manager_cleanup.sh&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-10-24</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:06:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "EmailAddresses" with description "Enter the email addresses that will receive alert notifications.  If multiple addresses are entered, separate each address by a single space." with default value "No"
+
+if {not exists file "/mnt/sda1/tce/optional/sendEmail.tcz"}
+
+//PREFETCH FOR sendEmail files (sendEmail and perl extensions)
+
+endif
+
+//Create upload manager cleanup log file and add write permissions
+
+if {not exists file "/var/log/upload_manager_cleanup.log"}
+
+wait touch /var/log/upload_manager_cleanup.log
+wait chmod 660 /var/log/upload_manager_cleanup.log
+
+endif
+
+//create /home/tc/scripts/ folder if it doesn't exist
+
+if {not exists folder "/home/tc/scripts/"}
+
+wait mkdir /home/tc/scripts
+
+endif
+
+//Create the init.d script
+delete __createfile
+createfile until endofscript1
+#!/bin/sh
+
+# Upload Manager Cleanup
+# Run as a cronjob every hour to automatically remove uploads that are 72 hours old and restart the BESRelay process
+#jules.miller@va.gov
+
+LOGFILE=/var/log/upload_manager_cleanup.log
+prog=BESRelay
+SHA1DIR=/var/opt/BESRelay/UploadManagerData/BufferDir/sha1/
+TMPDIR=/var/opt/BESRelay/UploadManagerData/BufferDir/Temp/
+
+#Only proceed if the BESRelay is running
+
+pid=`pidof $prog`
+if [ ! -z "$pid" ]; then
+	touch $LOGFILE
+
+#Check the Temp folder for any file that is 72 hours old or greater
+
+	EXPIREDTMP=$(find ${{TMPDIR} -type f -mmin +4320)
+	if [ "$EXPIREDTMP" ]; then
+		echo "$(date) - $HOSTNAME - ##################################################################" >> $LOGFILE
+		echo "$(date) - $HOSTNAME - Files with a modification time greater than 72 hours have been found in ${{TMPDIR}.  Starting Temp folder cleanup process..." >> $LOGFILE
+
+#Loop through all 72 hour+ files and remove from the sha1 folder
+		COUNTERTMP=0
+		for T in $EXPIREDTMP
+		do
+			rm -f $T
+			if [ $? -eq 0 ]; then
+				COUNTERTMP=$((COUNTERTMP + 1))
+			else
+				echo "$(date) - ERROR - $T failed to delete!" >> $LOGFILE
+			fi
+		done
+
+		if [ $COUNTERTMP -eq 1 ]; then
+			echo "$(date) - 1 file has been deleted from ${{TMPDIR}." >> $LOGFILE
+		elif [ $COUNTERTMP -ge 2 ]; then
+			echo "$(date) - $COUNTERTMP files have been deleted from ${{TMPDIR}." >> $LOGFILE
+		fi
+
+		echo "$(date) - $HOSTNAME - Upload Manager Temp Folder Cleanup process complete!" >> $LOGFILE
+
+	fi
+
+#Check the sha1 folder for any file that is 72 hours old or greater
+
+	EXPIREDSHA1=$(find ${{SHA1DIR} -type f -mmin +4320)
+	if [ "$EXPIREDSHA1" ]; then
+		echo "$(date) - $HOSTNAME - ##################################################################" >> $LOGFILE
+		echo "$(date) - $HOSTNAME - Files with a modification time greater than 72 hours have been found in ${{SHA1DIR}.  Starting SHA1 folder cleanup process..." >> $LOGFILE
+
+#Loop through all 72 hour+ files and remove from the sha1 folder
+		COUNTER=0
+		for F in $EXPIREDSHA1
+		do
+			rm -f $F
+			if [ $? -eq 0 ]; then
+				COUNTER=$((COUNTER + 1))
+			else
+				echo "$(date) - ERROR - $F failed to delete!" >> $LOGFILE
+			fi
+		done
+
+		if [ $COUNTER -eq 1 ]; then
+			echo "$(date) - 1 file has been deleted from ${{SHA1DIR}." >> $LOGFILE
+		elif [ $COUNTER -ge 2 ]; then
+			echo "$(date) - $COUNTER files have been deleted from ${{SHA1DIR}." >> $LOGFILE
+		fi
+
+
+#Restart the BESRelay process
+
+		/etc/init.d/besrelay restart
+		pid=`pidof $prog`
+		if [ ! -z "$pid" ]; then
+			echo "$(date) - $HOSTNAME - BESRelay process restarted successfully." >> $LOGFILE
+		else
+			echo "$(date) - $HOSTNAME - BESRelay process FAILED to restart!" >> $LOGFILE
+		fi
+
+		echo "$(date) - $HOSTNAME - Upload Manager SHA1 Folder Cleanup process complete!" >> $LOGFILE
+
+	fi
+
+fi
+endofscript1
+
+delete /home/tc/scripts/upload_manager_cleanup.sh
+move __createfile /home/tc/scripts/upload_manager_cleanup.sh
+wait chmod 750 /home/tc/scripts/upload_manager_cleanup.sh
+
+//Create Email Notification Script
+
+delete __createfile
+createfile until endofscript2
+#!/bin/sh
+
+# Email Notification Script
+# Run as a cronjob once per day
+#jules.miller@va.gov
+
+LOGFILE=/var/log/upload_manager_cleanup.log
+UPLOADEMAIL=/home/tc/scripts/email_message_upload.txt
+
+#Upload Manager Cleanup Email Notification
+
+CURRENTDATE=$(date | awk '{{print $1 $2 $3 $6}')
+LOGDATE=$(tail -n 5 $LOGFILE | awk '{{print $1 $2 $3 $6}' | uniq)
+
+if [[ "$LOGDATE" == *$CURRENTDATE* ]]; then
+
+	sendEmail -f $HOSTNAME@BigFixAlerts.INSERTDOMAIN -t {(parameter "EmailAddresses" of action as string as lowercase)} -u "Alert: Upload Manager File Age Threshold Reached - $HOSTNAME" -o message-file=$UPLOADEMAIL -a $LOGFILE -s smtp.INSERTDOMAIN:25
+
+fi
+endofscript2
+
+delete /home/tc/scripts/email_notify.sh
+move __createfile /home/tc/scripts/email_notify.sh
+wait chmod 750 /home/tc/scripts/email_notify.sh
+
+//create the email message file
+delete __createfile
+createfile until endofscript3
+**THIS IS AN INFORMATIONAL MESSAGE ONLY**
+
+Uploads in the SHA1 or Temp folder have reached the 72 hour age limit on {computer name}.  The offending files have been removed.  See the attached log for details.
+
+NOTE: The BESRelay process will have been restarted if relevant uploads were found in the SHA1 folder.  This will be reflected in the log.
+endofscript3
+
+delete /home/tc/scripts/email_message_upload.txt
+move __createfile /home/tc/scripts/email_message_upload.txt
+wait chmod 640 /home/tc/scripts/email_message_upload.txt
+
+//create file to use for crontab
+
+if {not exists file "/var/spool/cron/crontabs/root"}
+
+delete __appendfile
+appendfile 0 * * * * /bin/sh /home/tc/scripts/upload_manager_cleanup.sh
+appendfile 30 23 * * * /bin/sh /home/tc/scripts/email_notify.sh
+
+if {exists file "/home/tc/newcrontab"}
+delete "/home/tc/newcrontab"
+endif
+
+continue if {not exists file "/home/tc/newcrontab"}
+
+move __appendfile /home/tc/newcrontab
+
+continue if {exists file "/home/tc/newcrontab"}
+
+endif
+
+//create script to add cronjob to crontab, add /var/spool/cron/crontabs directory to filetool.lst, add starting the cron service to bootlocal, and backup
+
+delete __appendfile
+appendfile #!/bin/sh
+
+if {exists file "/var/spool/cron/crontabs/root"}
+appendfile echo "0 * * * * /bin/sh /home/tc/scripts/upload_manager_cleanup.sh" >> "/var/spool/cron/crontabs/root"
+appendfile echo "30 23 * * * /bin/sh /home/tc/scripts/email_notify.sh" >> "/var/spool/cron/crontabs/root"
+else
+appendfile sudo crontab /home/tc/newcrontab
+endif
+
+if {not exists lines whose (it contains "var/spool/cron/crontabs/") of file "/opt/.filetool.lst"}
+appendfile echo "var/spool/cron/crontabs/" >> /opt/.filetool.lst
+endif
+
+if {not exists lines whose (it contains "/sbin/syslogd") of file "/opt/bootlocal.sh"}
+appendfile echo "/sbin/syslogd" >> /opt/bootlocal.sh
+endif
+
+if {not exists lines whose (it contains "/etc/init.d/services/crond start") of file "/opt/bootlocal.sh"}
+appendfile echo "/etc/init.d/services/crond start" >> /opt/bootlocal.sh
+endif
+
+if {not exists file "/mnt/sda1/tce/optional/sendEmail.tcz"}
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/sendEmail.tcz*")} /mnt/sda1/tce/optional/
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/perl5.tcz*")} /mnt/sda1/tce/optional/
+appendfile echo "ln -s /usr/local/bin/perl /usr/bin" >> /opt/bootlocal.sh
+appendfile echo "sendEmail.tcz" >> /mnt/sda1/tce/onboot.lst
+endif
+
+appendfile sudo filetool.sh -b
+appendfile sudo reboot
+
+delete /var/opt/BESClient/uploadcleanconfig.sh
+move __appendfile /var/opt/BESClient/uploadcleanconfig.sh
+wait chmod 555 /var/opt/BESClient/uploadcleanconfig.sh
+run /bin/sh /var/opt/BESClient/uploadcleanconfig.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
