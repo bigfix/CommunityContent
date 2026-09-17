@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Software Distribution - Dell Command | Monitor 9.0.0.146
+  ID       : 3931
+  Author   : jspanitz
+  Domain   : BESC
+  Imported : 2014-12-17T13:59:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Software Distribution - Dell Command | Monitor 9.0.0.146</Title>
+    <Description>This Task will install the Dell Dell Command | Monitor components on Dell computers. Dell Dell Command | Monitor will allow you to use BigFix Relevance and WMI queries to get advanced hardware, system, and BIOS information. </Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>/* check for supported model: OptiPlex, Latitude, Precision, Venue Tablets, XPS */ exists ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as uppercase) whose(it starts with &quot;OPTIPLEX&quot; OR it starts with &quot;LATITUDE&quot; OR it starts with &quot;PRECISION&quot; OR it starts with &quot;XPS&quot; OR it starts with &quot;VENUE&quot;)</Relevance>
+    <Relevance>not exists values &quot;DisplayVersion&quot; whose (it as string as version = &quot;9.0.0.146&quot; as version) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;command | monitor&quot; or value &quot;DisplayName&quot; of it as string as lowercase contains &quot;openManage client instrumentation&quot; as lowercase) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (if x64 of operating system then (x32 registry; x64 registry) else registry)</Relevance>
+    <Relevance><![CDATA[(string value of select "Manufacturer from Win32_ComputerSystem" of wmi as lowercase contains "dell") AND (if (not x64 of operating system) then (not exists file "C:\Program Files (x86)\Dell\SysMgt\omsa\bin\dcicfg64.exe" or exists file "C:\Program Files (x86)\Dell\SysMgt\omsa\bin\dcicfg64.exe" whose (version of it < "9.0.0.146")) else (not exists file "C:\Program Files\Dell\SysMgt\omsa\bin\dcicfg64.exe" or exists file "C:\Program Files\Dell\SysMgt\omsa\bin\dcicfg64.exe" whose (version of it < "9.0.0.146")))]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-12-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 17 Dec 2014 20:52:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// DOWNLOAD:  Only the 64bit or the 32bit version, depending on OS.
+if{not x64 of operating system }
+    prefetch DELLCommandMonitor.exe sha1:046c5f275d01b0741306932b1bd8a5e3e51e8426 size:23793496 http://downloads.dell.com/folder02309885m/1/Systems-Management_Application_9N9W1_WN_9.0.0_A00.EXE
+else
+    prefetch DELLCommandMonitor.exe sha1:ccdef753547192d5a7dd634c4755c2039666187c size:26177592 http://downloads.dell.com/folder02309864m/1/Systems-Management_Application_Y3CFV_WN_9.0.0_A00.EXE
+endif
+
+// INSTALL
+waithidden __Download\DELLCommandMonitor.exe /s
+
+// Running this task will affect analysis properties, so this will force them to be updated right away
+notify client ForceRefresh</ActionScript>
+    </DefaultAction>
+    <Action ID="Action4336">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to&amp;nbsp;see&amp;nbsp;more information from Dell (including license agreement)&amp;nbsp; </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[http://support.dell.com/support/downloads/previousversions.aspx?c=us&l=en&s=gen&SystemID=LATITUDE%20PRECISION%20390&releaseid=R248497&formatid=-1&deviceid=1517&formatcnt=2&dateid=-1&releasetype=APP%20&servicetag=&typeid=-1&catid=-1&libid=36&impid=-1&osl=en&vercnt=12&os=WW1&checkFormat=false&cs=]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

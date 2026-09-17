@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System has not rebooted in over a week - no user auto reboot
+  ID       : 6253
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-10-15T12:14:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System has not rebooted in over a week - no user auto reboot</Title>
+    <Description><![CDATA[<P>This task will automatically reboot / restart a system with an uptime of more than a week with no user logged on.</P>
+<P><STRONG>Related:</STRONG></P>
+<UL>
+<LI><A href="https://bigfix.me/fixlet/details/6225">https://bigfix.me/fixlet/details/6225</A></LI>
+<LI><A href="https://bigfix.me/fixlet/details/6078">https://bigfix.me/fixlet/details/6078</A></LI>
+<LI><A href="https://bigfix.me/fixlet/details/527">https://bigfix.me/fixlet/details/527</A></LI>
+<LI><A href="https://bigfix.me/fixlet/details/588">https://bigfix.me/fixlet/details/588</A></LI>
+<LI><A href="https://bigfix.me/fixlet/details/589">https://bigfix.me/fixlet/details/589</A></LI></UL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>not exists states whose(it = active state) of current system intervals of power histories</Relevance>
+    <Relevance><![CDATA[uptime of operating system > 7*day]]></Relevance>
+    <Relevance>not exists logged on users</Relevance>
+    <Relevance>not exists current users</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-10-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Oct 2015 19:12:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// If power tracking is enabled, then:
+//                not exists states whose(it = active state) of current system intervals of power histories
+//    should help prevent the system from rebooting if a user is at the logon window moving the mouse or typing
+//    otherwise, if power tracking is not enabled, it will just be TRUE and have no effect.
+
+action requires restart
+
+// reboot in 45 seconds
+restart 45
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Zoom Client - Mac
+  ID       : 26694
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:24:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Zoom Client - Mac</Title>
+    <Description><![CDATA[<P>&nbsp;</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
+    <Category>Uninstaller</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2019-07-09</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Remote Control_TRCWizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>{&quot;settingsData&quot;:{&quot;EnableInputLock&quot;:false,&quot;RunPostScript&quot;:false,&quot;DisableChat&quot;:false,&quot;Accessibility&quot;:false,&quot;AutoSaveChat&quot;:false,&quot;AuditToSystem&quot;:true,&quot;DisableGUI&quot;:false,&quot;GroupLabel&quot;:&quot;&quot;,&quot;AutoWinLogon&quot;:true,&quot;LogRollover&quot;:1,&quot;AllowInputLock&quot;:true,&quot;SessionDisconnect&quot;:false,&quot;CheckUserGroup&quot;:&quot;wheel&quot;,&quot;RemoveBackground&quot;:false,&quot;BrokerList&quot;:&quot;&quot;,&quot;LogLevel&quot;:2,&quot;ConfirmFileTransfer&quot;:false,&quot;CheckUserLogin&quot;:true,&quot;RunPreScript&quot;:false,&quot;DisableClipboard&quot;:false,&quot;LogRotation&quot;:1,&quot;ConfirmRecording&quot;:true,&quot;AllowMonitor&quot;:true,&quot;AcceptanceGraceTime&quot;:&quot;30&quot;,&quot;os&quot;:&quot;macOS&quot;,&quot;ForceDisconnectTimeout&quot;:&quot;45&quot;,&quot;ConfirmModeChange&quot;:true,&quot;ProceedOnScriptFail&quot;:false,&quot;EnableOSSN&quot;:false,&quot;FIPSCompliance&quot;:false,&quot;ProxyURL&quot;:&quot;&quot;,&quot;ConfirmTakeOver&quot;:true,&quot;NoScreenSaver&quot;:false,&quot;LockColorDepth&quot;:false,&quot;AllowCollaboration&quot;:true,&quot;EnableFileTransferSystemAccess&quot;:false,&quot;ConfirmSysInfo&quot;:true,&quot;FollowActiveSession&quot;:false,&quot;AllowRecording&quot;:true,&quot;ConfirmCollaboration&quot;:true,&quot;EnablePrivacy&quot;:false,&quot;DisableFilePull&quot;:false,&quot;AllowHandover&quot;:true,&quot;DisableFilePush&quot;:false,&quot;AllowGuidance&quot;:true,&quot;AllowP2PCombo&quot;:0,&quot;EnableTrueColor&quot;:false,&quot;HideWindows&quot;:false,&quot;DisablePanicKey&quot;:false,&quot;SP800131ACompliance&quot;:false,&quot;ServerURL&quot;:&quot;&quot;,&quot;PortToListen&quot;:&quot;2701&quot;,&quot;AllowActive&quot;:true,&quot;TrustedCertificateList&quot;:&quot;&quot;,&quot;creationTime&quot;:&quot;Fri Dec 15 12:17:09 GMT-0500 2017&quot;,&quot;AllowPrivacy&quot;:true,&quot;WorkaroundW2K3RDP&quot;:0,&quot;AcceptanceProceed&quot;:true,&quot;IdleTimeout&quot;:&quot;360&quot;,&quot;AllowForceDisconnect&quot;:false}}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 21 Jan 2020 18:11:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete __createfile
+delete __delzoomapp.sh
+wait /usr/bin/killall &quot;zoom.us&quot;
+
+createfile until __ENDCREATE
+#!/bin/sh
+rm -rf /Applications/zoom.us.app
+
+__ENDCREATE
+copy __createfile __delzoomapp.sh
+wait chmod 755 __delzoomapp.sh
+wait /bin/sh __delzoomapp.sh
+delete __createfile
+delete __delzoomapp.sh
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

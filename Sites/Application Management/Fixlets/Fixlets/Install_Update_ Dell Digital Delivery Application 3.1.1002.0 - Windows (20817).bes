@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Update: Dell Digital Delivery Application 3.1.1002.0 - Windows
+  ID       : 20817
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-06-10T16:56:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Update: Dell Digital Delivery Application 3.1.1002.0 - Windows</Title>
+    <Description></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>/* check for supported model: OptiPlex, Latitude, Precision, Venue Tablets, XPS */ exists ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as uppercase) whose(it starts with &quot;OPTIPLEX&quot; OR it starts with &quot;LATITUDE&quot; OR it starts with &quot;PRECISION&quot; OR it starts with &quot;XPS&quot; OR it starts with &quot;VENUE&quot;)</Relevance>
+    <Relevance><![CDATA[not exists keys whose( exists (values "DisplayName" of it as string as trimmed string) whose(it contains "Dell Digital Delivery Application" OR ("Dell Digital Delivery Application" contains it AND length of it > ( (it / 2) of length of "Dell Digital Delivery Application" ))) AND value "DisplayVersion" of it as string as version >= "3.1.1002.0" ) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></Relevance>
+    <Category>Applications</Category>
+    <Source>RESTAPI: Generate tasks for DellCommandUpdate application results - Windows</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-05-28</SourceReleaseDate>
+    <SourceSeverity>Recommended</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Install.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch Application_C8JN9_WN32_3.1.1002.0_A00.EXE sha1:54db753c8797f7f9da6f0e69f2b483f68c6a915c size:14714176 http://downloads.dell.com/FOLDER03053102M/1/Application_C8JN9_WN32_3.1.1002.0_A00.EXE sha256:a504f7a7c45db796778ab0d2990c925bbe6e9c5041ef5a4054d001bbc5e08982
+
+// INSTALL: Dell Digital Delivery Application
+waithidden __Download\Application_C8JN9_WN32_3.1.1002.0_A00.EXE /s
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

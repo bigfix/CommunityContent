@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RES ONE Workspace Relay for Windows
+  ID       : 20788
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-06-02T10:53:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RES ONE Workspace Relay for Windows</Title>
+    <Description><![CDATA[
+      This task will deploy the RES ONE Workspace&nbsp;Relay for Windows. <script>document.body.ontakeaction = function() {
+   var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var ressa = EvaluateRelevance('(if (exists shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var resid = EvaluateRelevance('(if (exists shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var respw = EvaluateRelevance('(if (exists shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var resrelport = EvaluateRelevance('(if (exists shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var dbconn = "no"
+   var dbname = EvaluateRelevance('(if (exists shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var UseSQL = "no"
+   var authtype = EvaluateRelevance('(if (exists shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else ("WinAuth"))');
+   var dbuser = EvaluateRelevance('(if (exists shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   var dbpassword = EvaluateRelevance('(if (exists shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+   TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1",{ WMserver: dbserver, DBConn: dbconn, WMDB: dbname, GUID: resid, serviceaccount: ressa, RESRELPORT: resrelport, UseSQL: UseSQL, AuthType: authtype, DBuser: dbuser }, { secret: ressapwd, RESPW: respw, DBPWD: dbpassword });
+   return false;
+}</script>
+    ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>not exists service &quot;RESRLS&quot;</Relevance>
+    <Relevance>exists relay service or exists service &quot;BESRootServer&quot;</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160527-192409
+
+prefetch WMRELAY86.MSI sha1:e68d4c183d4b6dea4da9e441f7fa08fcc480e0a6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x86)-9.10.1.0.msi
+prefetch WMRELAY64.MSI sha1:79820c3a7ff54a1cd723c7fd670ef1e0deb84bf6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x64)-9.10.1.0.msi
+
+
+action parameter query "WMDB" with description "Please enter the Workspace Manager Database Name (WorkspaceManager)"
+action parameter query "WMserver" with description "Please enter the SQL Server Name (BigFixServer)"
+action parameter query "serviceaccount" with description "Please enter the RES Service Account (domain\res.service)"
+action parameter query "GUID" with description "Please enter the RES Environment ID. DO NOT INCLUDE CURLY BRACES {}(WM Console/Administration/Relay Servers/Settings)"
+action parameter query "DBConn" with description "Connect Windows Relay Server to Datastore?"
+
+
+delete __createfile
+delete wuid_patch.ps1
+createfile until __done
+
+$Arch64 = $null
+$current_wuid = $null
+$OSArchitecture = [IntPtr]::Size
+
+{"%69"}{"%66"} ($OSArchitecture = 8) {"%7B"}$Arch = {"%22"}\Wow6432Node{"%22"}{"%7D"}
+
+$WUID_PATH = {"%22"}HKLM:\SOFTWARE$Arch\Microsoft\Windows\CurrentVersion\WUID{"%22"}
+
+{"%69"}{"%66"} ((test-path -Path $WUID_PATH)) {"%7B"}
+    $current_wuid = (Get-ItemProperty -Path $WUID_PATH).'(default)'
+    {"%7D"}
+  {"%65"}{"%6C"}{"%73"}{"%65"} {"%7B"}
+        New-Item -Path $WUID_PATH -ItemType Directory -force
+    {"%7D"}
+{"%69"}{"%66"} (!$current_wuid){"%7B"}
+    Set-ItemProperty -Path $WUID_PATH -name '(default)' -Value  ([GUID]::NewGuid()).ToString('B').ToUpper()
+    {"%7D"}
+__done
+copy __createfile "{value of variable "temp" of environment}\wuid_patch.ps1"
+waithidden powershell.exe -executionpolicy unrestricted -file "{(value of variable "temp" of environment) & "\wuid_patch.ps1"}"
+delete "{value of variable "temp" of environment}\wuid_patch.ps1"
+
+IF {(parameter "DBConn" of action as lowercase = "yes") AND ((parameter "AuthType" of action as lowercase = "winauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "no")))}
+
+delete __createfile
+delete "{value of variable "temp" of environment}\relayconfig.xml"
+delete "{value of variable "temp" of environment}\relayconfigansi.xml"
+createfile until __done
+<?xml version="1.0" encoding="UTF-16"?>
+<relayserver>
+  <environments>
+    <environment guid="{(parameter "GUID" of action)}">
+      <enabled>yes</enabled>
+      <environmentname>{parameter "WMDB" of action}@{parameter "WMserver" of action}</environmentname>
+      <local>
+        <providertype>0</providertype>
+        <haschanged>yes</haschanged>
+        <cachelocation>{value of variable "ALLUSERSPROFILE" of environment & "\RES\Relay Server"}</cachelocation>
+      </local>
+      <remote>
+        <providertype>2</providertype>
+        <haschanged>yes</haschanged>
+        <dbserver>{parameter "WMserver" of action}</dbserver>
+        <dbname>{parameter "WMDB" of action}</dbname>
+        <dbuser>
+        </dbuser>
+        <dbwinauth>yes</dbwinauth>
+        <dbpassword encrypted="yes">
+        </dbpassword>
+        <dbtype>MSSQL</dbtype>
+        <dbprotocolencryption>no</dbprotocolencryption>
+      </remote>
+    </environment>
+  </environments>
+ <port>{parameter "RESRELPORT" of action}</port>
+</relayserver>
+__done
+copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml"
+wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
+
+IF {x64 of operating system}
+   wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn
+ELSE
+   wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn
+ENDIF
+
+
+elseif {(parameter "DBConn" of action as lowercase = "yes") AND ((parameter "AuthType" of action as lowercase = "sqlauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "yes")))}
+IF {x64 of operating system}
+   wait msiexec /i __Download\WMRELAY64.MSI DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" PORT={parameter "RESRELPORT" of action} /qn
+ELSE
+   wait msiexec /i __Download\WMRELAY86.MSI DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" PORT={parameter "RESRELPORT" of action} /qn
+ENDIF
+else
+
+delete __createfile
+delete "{value of variable "temp" of environment}\relayconfig.xml"
+delete "{value of variable "temp" of environment}\relayconfigansi.xml"
+createfile until __done
+<?xml version="1.0" encoding="UTF-16"?>
+<relayserver>
+  <environments>
+    <environment guid="{(parameter "GUID" of action)}">
+      <enabled>yes</enabled>
+      <environmentname>{parameter "WMDB" of action}@{parameter "WMserver" of action}</environmentname>
+      <local>
+        <providertype>0</providertype>
+        <cachelocation>{value of variable "ALLUSERSPROFILE" of environment & "\RES\Relay Server"}</cachelocation>
+      </local>
+      <remote>
+        <providertype>3</providertype>
+        <addresslist>{preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action}</addresslist>
+        <password encrypted="yes">{parameter "RESPW" of action}</password>
+        <storefipsencrypted>yes</storefipsencrypted>
+      </remote>
+    </environment>
+  </environments>
+  <port>{parameter "RESRELPORT" of action}</port>
+</relayserver>
+__done
+copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml"
+wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
+
+
+IF {x64 of operating system}
+   wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn
+ELSE
+   wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn
+ENDIF
+
+endif
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

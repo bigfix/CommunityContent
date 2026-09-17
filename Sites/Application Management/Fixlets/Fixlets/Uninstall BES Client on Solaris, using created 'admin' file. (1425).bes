@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall BES Client on Solaris, using created 'admin' file.
+  ID       : 1425
+  Author   : wizardatlarge
+  Domain   : BESC
+  Imported : 2013-05-01T20:17:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall BES Client on Solaris, using created &apos;admin&apos; file.</Title>
+    <Description>Remove the BES Client from Solaris </Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[(if (version of client >= "8.0") then (unix of it) else ((it does not start with "Win" AND it does not start with "Mac OS X") of name of it)) of operating system]]></Relevance>
+    <Relevance>name of operating system starts with &quot;SunOS&quot;</Relevance>
+    <Relevance><![CDATA[if (version of client < "8") then (exists file "/etc/init.d/BESClient") else (exists file "/etc/init.d/besclient")]]></Relevance>
+    <Category>Common Tasks</Category>
+    <Source>JSinger - BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2007-10-25</SourceReleaseDate>
+    <SourceSeverity>Low</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 25 Oct 2007 21:05:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 02 May 2013 01:17:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to remove the BES Client service.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "/tmp/killBesClient.sh"
+delete "/tmp/admin"
+appendfile #!/bin/sh
+appendfile sleep 5
+appendfile pkgrm -n -a /tmp/admin BESagent
+appendfile rm -rf /var/opt/BESClient
+appendfile rm -rf /etc/opt/BESClient
+move "{(client folder of current site as string) & "/__appendfile"}" "/tmp/killBesClient.sh"
+wait chmod +x "/tmp/killBesClient.sh"
+appendfile  mail=
+appendfile instance=overwrite
+appendfile partial=nocheck
+appendfile runlevel=nocheck
+appendfile idepend=nocheck
+appendfile rdepend=nocheck
+appendfile space=nocheck
+appendfile setuid=nocheck
+appendfile conflict=nocheck
+appendfile action=nocheck
+appendfile basedir=default
+move "{(client folder of current site as string) & "/__appendfile"}" "/tmp/admin"
+run "/tmp/killBesClient.sh"]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

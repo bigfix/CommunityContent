@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Splunk - "host" Replace (inputs.conf)
+  ID       : 25265
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2018-03-07T06:43:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Splunk - &quot;host&quot; Replace (inputs.conf)</Title>
+    <Description>Task used to replace the &quot;serverName&quot; value in misconfigured servers for Splunk. </Description>
+    <Relevance>if windows of operating system then if exists folder &quot;C:\Program Files\SplunkUniversalForwarder&quot; then if exists file &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&quot; then not (computer name as lowercase is substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&quot; as lowercase) else false else false else if exists folder &quot;/opt/splunkforwarder&quot; then if exists file &quot;/opt/splunkforwarder/etc/system/local/inputs.conf&quot; then not (computer name as lowercase is substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;/opt/splunkforwarder/etc/system/local/inputs.conf&quot; as lowercase) else false else false</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-11-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 24 Jan 2017 17:58:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Define text parameters to be replaced
+if {name of operating system contains "Win"}
+parameter "textToReplace"="{substring after "= " of line whose (it starts with "host = ") of file "C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf"}"
+elseif {name of operating system does not contain "Win"}
+parameter "textToReplace"="{substring after "= " of line whose (it starts with "host = ") of file "/opt/splunkforwarder/etc/system/local/inputs.conf"}"
+endif
+
+parameter "newtext"="{computer name}"
+
+//Define path to inputs.conf file needing to be altered
+if {name of operating system contains "Win"}
+parameter "filePath"="C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf"
+elseif {name of operating system does not contain "Win"}
+parameter "filePath"="/opt/splunkforwarder/etc/system/local/inputs.conf"
+endif
+
+//Delete __appendfile
+delete __appendfile
+
+//Iterate through the file replacing lines as necessary
+appendfile {concatenation "%0d%0a" of ( if (it contains (parameter "textToReplace" of action as string)) then ((preceding text of first (parameter "textToReplace" of action as string) of it) & (parameter "newtext" of action as string) & (following text of first (parameter "textToReplace" of action as string) of it) ) else it ) of lines of file (parameter "filePath" of action as string)}
+
+//Backup the old file
+delete "{parameter "filePath"}.bak"
+copy "{parameter "filePath"}" "{parameter "filePath"}.bak
+
+//Replace with the new file
+delete "{parameter "filePath"}"
+move __appendfile "{parameter "filePath"}"
+
+//Retart the Splunk service
+if {name of operating system contains "Win"}
+dos "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" restart
+elseif {name of operating system contains "Linux"}
+delete __appendfile
+appendfile service splunk restart
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system contains "Sun"}
+delete __appendfile
+appendfile /opt/splunkforwarder/bin/splunk restart
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

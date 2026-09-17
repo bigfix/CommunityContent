@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Adobe AIR 4.0.0.1390 - Windows
+  ID       : 3697
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-16T15:26:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe AIR 4.0.0.1390 - Windows</Title>
+    <Description>Install Adobe Air</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key "Adobe AIR" whose (value "DisplayVersion" of it as string as version >= "4.0.0.1390") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-01-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 15 Jan 2014 10:20:44 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 16 Jan 2014 22:06:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Download
+prefetch AdobeAIRInstaller.exe sha1:0034bdd4e0b2ce0fa6198b0b715fba85754d9a57 size:18126032 http://airdownload.adobe.com/air/win/download/4.0/AdobeAIRInstaller.exe sha256:ab77d7c829e1352f5537d364011dfaf0e0d830a7d4feaba4d56b190edf52412a
+
+// Install
+waithidden &quot;__Download\AdobeAIRInstaller.exe&quot; -silent
+
+// Disable Updates
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\AIR]&quot; &quot;UpdateDisabled&quot;=dword:00000001
+
+action may require restart &quot;0034bdd4e0b2ce0fa6198b0b715fba85754d9a57&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action3984">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about the latest version of Adobe AIR.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/products/air/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

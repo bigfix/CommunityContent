@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install bind-utils NSLookup - Linux(yum)
+  ID       : 20468
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-05-05T14:57:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install bind-utils NSLookup - Linux(yum)</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>exists packages &quot;yum&quot; of rpms</Relevance>
+    <Relevance>not exists packages whose(&quot;bind-utils&quot; = name of it) of rpms</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 05 May 2016 21:57:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// http://unix.stackexchange.com/questions/164210/nslookup-command-not-found-error-on-rhel-centos-7
+// http://www.linuxcommand.org/man_pages/yum8.html
+wait yum install bind-utils -y
+
+// https://developer.bigfix.com/relevance/reference/package.html
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

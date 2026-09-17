@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall: VssConnect Client - Needs tested
+  ID       : 801
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T22:14:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall: VssConnect Client - Needs tested</Title>
+    <Description>This fixlet uninstalls the VssConnect Client</Description>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string contains &quot;VssConnect Client&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;uninst&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:40:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait {value &quot;uninstallstring&quot; of key whose (value &quot;displayname&quot; of it as string contains &quot;VssConnect Client&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;uninst&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /S</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

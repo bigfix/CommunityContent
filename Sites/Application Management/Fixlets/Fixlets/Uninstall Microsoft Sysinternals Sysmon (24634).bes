@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Microsoft Sysinternals Sysmon
+  ID       : 24634
+  Author   : AramE
+  Domain   : BESC
+  Imported : 2017-09-12T17:49:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Microsoft Sysinternals Sysmon</Title>
+    <Description>This Task will uninstall MS Sysinternals Sysmon. </Description>
+    <Relevance>(name of it starts with &quot;Win7&quot; OR name of it starts with &quot;Win8&quot; OR name of it starts with &quot;Win10&quot; OR name of it starts with &quot;Win2008R2&quot; OR name of it starts with &quot;Win2012&quot; OR name of it starts with &quot;Win2016&quot; ) of operating system</Relevance>
+    <Relevance>exists service &quot;sysmon&quot;</Relevance>
+    <Source>IBM</Source>
+    <SourceReleaseDate>2017-09-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Sep 2017 21:58:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Uninstall Sysmon service
+waithidden "{windows folder as string & "\sysmon.exe"}" -u]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

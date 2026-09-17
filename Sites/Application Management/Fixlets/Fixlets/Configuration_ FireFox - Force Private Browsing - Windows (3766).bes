@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: FireFox - Force Private Browsing - Windows
+  ID       : 3766
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-04-11T11:45:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: FireFox - Force Private Browsing - Windows</Title>
+    <Description><![CDATA[<P>This task will change the <STRONG><FONT size=2>browser</FONT><FONT size=2><FONT size=2>.</FONT></FONT><FONT size=2>privatebrowsing</FONT><FONT size=2><FONT size=2>.</FONT></FONT></STRONG><FONT size=2><STRONG>autostart</STRONG> </FONT>setting to true.&nbsp;</P>
+<P>&nbsp;</P>
+<P>Find the latest version of this Task here:&nbsp; <A href="http://bigfix.me/fixlet/details/3765">http://bigfix.me/fixlet/details/3765</A></P>
+<P>Find an Analysis for FireFox config here:&nbsp; <A href="http://bigfix.me/analysis/details/2994571"><FONT color=#000080>http://bigfix.me/analysis/details/2994571</FONT></A></P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences"><FONT color=#000080>https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences</FONT></A></P>
+<P><A href="https://developer.mozilla.org/en-US/docs/Automatic_Mozilla_Configurator/Locked_config_settings"><FONT color=#000080>https://developer.mozilla.org/en-US/docs/Automatic_Mozilla_Configurator/Locked_config_settings</FONT></A></P>
+<P><A href="http://kb.mozillazine.org/Locking_preferences"><FONT color=#000080>http://kb.mozillazine.org/Locking_preferences</FONT></A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>(exists regapp &quot;firefox.exe&quot;)</Relevance>
+    <Relevance>exists folder (location of regapp &quot;firefox.exe&quot;)</Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* This relevance checks for a .js file in the firefox\defaults\pref folder that contains a general.config.filename setting, and if it exists, checks the cfg file it points to for the setting, which in this case is security.mixed_content.block_active_content */ not ((exists files whose(name of it as lowercase ends with &quot;.js&quot; AND exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of it) of folder &quot;defaults\pref&quot; of folder (location of regapp &quot;firefox.exe&quot;)) AND (exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of files whose(name of it as lowercase ends with &quot;.js&quot; AND exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of it) of folder &quot;defaults\pref&quot; of folder (location of regapp &quot;firefox.exe&quot;)) AND (exists file ((it as string) of preceding texts of firsts &quot;%22&quot; of following texts of firsts &quot;%22&quot; of following texts of firsts &quot;,&quot; of preceding texts of first &quot;)&quot; of lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of files whose(name of it as lowercase ends with &quot;.js&quot; AND exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of it) of folder &quot;defaults\pref&quot; of folder (location of regapp &quot;firefox.exe&quot;)) of folder (location of regapp &quot;firefox.exe&quot;)) AND (exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;browser.privatebrowsing.autostart&quot; AND it as lowercase contains &quot;true&quot;) of file ((it as string) of preceding texts of firsts &quot;%22&quot; of following texts of firsts &quot;%22&quot; of following texts of firsts &quot;,&quot; of preceding texts of first &quot;)&quot; of lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of files whose(name of it as lowercase ends with &quot;.js&quot; AND exists lines whose((it as lowercase starts with &quot;pref&quot; OR it as lowercase starts with &quot;lockpref&quot;) AND it as lowercase contains &quot;general.config.filename&quot;) of it) of folder &quot;defaults\pref&quot; of folder (location of regapp &quot;firefox.exe&quot;)) of folder (location of regapp &quot;firefox.exe&quot;)))</Relevance>
+    <Category>Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-08-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Apr 2014 18:45:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// NOTE: {"%0d%0a"} is CR+LF (newline)  http://bigfix.me/relevance/details/2997195
+// NOTE: "%22" is the escape sequence for double quote "
+
+// Parameters - parameters are initialized before execution and cannot be change, even if they appear later in the script.
+
+// http://bigfix.me/relevance/details/2997194
+parameter "yyyymmdd" = "{(current year as string) & (current month as two digits) & (current day_of_month as string)}"
+
+// the Firefox folder location
+parameter "folderFirefox" = "{location of regapp "firefox.exe"}"
+
+// The .js settings file that contains the location of the .cfg file. If it does not exist, then "local-settings.js" is used
+parameter "fileNameSettingsJS" = "{(if (not exists files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")) then ("local-settings.js") else (name of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")))}"
+parameter "filePathSettingsJS" = "{(location of regapp "firefox.exe") & "\defaults\pref\" & (if (not exists files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")) then ("local-settings.js") else (name of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")))}"
+
+// The .cfg file that contains the settings. If it does not exist, then "firefox_bigfix.cfg" is used as the default
+parameter "fileNameCFG" = "{(if(not ((exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")) AND (exists ((it as string) whose(it as lowercase contains ".cfg") of unique value of preceding texts of firsts "%22" of following texts of firsts "%22" of following texts of firsts "," of preceding texts of first ")" of lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe"))))) then ("firefox_bigfix.cfg") else ((it as string) whose(it as lowercase contains ".cfg") of unique value of preceding texts of firsts "%22" of following texts of firsts "%22" of following texts of firsts "," of preceding texts of first ")" of lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")))}"
+parameter "filePathCFG" = "{(location of regapp "firefox.exe")&"\"&(if(not ((exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")) AND (exists ((it as string) whose(it as lowercase contains ".cfg") of unique value of preceding texts of firsts "%22" of following texts of firsts "%22" of following texts of firsts "," of preceding texts of first ")" of lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe"))))) then ("firefox_bigfix.cfg") else ((it as string) whose(it as lowercase contains ".cfg") of unique value of preceding texts of firsts "%22" of following texts of firsts "%22" of following texts of firsts "," of preceding texts of first ")" of lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of files whose(name of it as lowercase ends with ".js" AND exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND it as lowercase contains "general.config.filename") of it) of folder "defaults\pref" of folder (location of regapp "firefox.exe")))}"
+
+
+// if it does not exist, then create folder "defaults\pref" of folder (parameter "folderFirefox")
+//  NOT IMPLEMENTED YET
+//   folder create ?
+//   folder create ?
+// Probably not needed (defaults/pref folder should always exist)
+
+
+// edit the JS Settings file if it does not include "general.config.filename" setting or "general.config.obscure_value" (this code does not detect if an obscure_value other than 0 is used, which would be an issue)
+if{exists file (parameter "filePathSettingsJS") AND not exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND (it as lowercase contains "general.config.obscure_value" OR it as lowercase contains "general.config.filename")) of file (parameter "filePathSettingsJS")}
+delete __appendfile
+
+// Add settings to file (parameter "filePathSettingsJS")
+appendfile {concatenation "%0d%0a" of lines whose(not (it does not start with "//" AND (it as lowercase contains "general.config.obscure_value" OR it as lowercase contains "general.config.filename"))) of file (parameter "filePathSettingsJS")}
+appendfile pref("general.config.obscure_value", 0);
+appendfile pref("general.config.filename", "{parameter "fileNameCFG"}");
+
+// backup original file (parameter "filePathSettingsJS")
+delete "{preceding text of last "." of parameter "filePathSettingsJS"}.backup{parameter "yyyymmdd"}"
+move "{parameter "filePathSettingsJS"}" "{preceding text of last "." of parameter "filePathSettingsJS"}.backup{parameter "yyyymmdd"}"
+// put new file in place
+move __appendfile "{parameter "filePathSettingsJS"}"
+
+endif // end of if{exists file (parameter "filePathSettingsJS") AND not exists lines whose((it as lowercase starts with "pref" OR it as lowercase starts with "lockpref") AND (it as lowercase contains "general.config.obscure_value" OR it as lowercase contains "general.config.filename")) of file (parameter "filePathSettingsJS")}
+
+
+// if it does not exist, then create JS Settings file
+if{not exists file (parameter "filePathSettingsJS")}
+
+delete __createfile
+createfile until END_OF_FILE
+//   Firefox settings file
+pref("general.config.obscure_value", 0);
+pref("general.config.filename", "{parameter "fileNameCFG"}");
+END_OF_FILE
+
+move __createfile "{parameter "filePathSettingsJS"}"
+endif // end of if{not exists file (parameter "filePathSettingsJS")}
+
+
+// edit the CFG file if it does not include the desired setting
+if{exists file (parameter "filePathCFG")}
+delete __appendfile
+
+// Add settings to file (parameter "filePathCFG")
+appendfile {concatenation "%0d%0a" of lines whose(not (it does not start with "//" AND (it as lowercase contains "security.mixed_content.block_active_content"))) of file (parameter "filePathCFG")}
+appendfile lockPref("browser.privatebrowsing.autostart", true);
+
+// backup original file (parameter "filePathCFG")
+delete "{preceding text of last "." of parameter "filePathCFG"}.backup{parameter "yyyymmdd"}"
+move "{parameter "filePathCFG"}" "{preceding text of last "." of parameter "filePathCFG"}.backup{parameter "yyyymmdd"}"
+// put new file in place
+move __appendfile "{parameter "filePathCFG"}"
+
+endif // end of if{exists file (parameter "filePathCFG")}
+
+// if it does not exist, then create CFG file
+if{not exists file (parameter "filePathCFG")}
+
+delete __createfile
+createfile until END_OF_FILE
+//   Firefox config file
+lockPref("browser.privatebrowsing.autostart", true);
+END_OF_FILE
+
+move __createfile "{parameter "filePathCFG"}"
+endif // end of if{not exists file (parameter "filePathCFG")}
+
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

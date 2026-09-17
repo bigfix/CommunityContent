@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - PowerShell - 2.0 - Windows
+  ID       : 22938
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:56
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - PowerShell - 2.0 - Windows</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Use this fixlet to install Microsoft Windows PowerShell.</P>
+<P><STRONG>Note</STRONG>: .NET Framework&nbsp;2.0 SP1 is required as a prerequsite.</P>
+<P><STRONG>Note:</STRONG> You must accept the license for Windows PowerShell before deploying this Fixlet. By applying this Fixlet, you are implicitly accepting the license agreement. The end user will NOT be prompted to accept the new license. The license agreement can be found within the installer for the product found at the link below.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>6 MB </DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists ((it = &quot;1&quot;) of (values &quot;install&quot; of it as string) of keys of keys &quot;HKLM\software\microsoft\powershell\1&quot; of native registry) /* Is Powershell not install */ or true</Relevance>
+    <Relevance><![CDATA[exists (values "Version" of keys of keys "HKLM\software\microsoft\net framework setup\ndp" of native registry) whose (it as string as version >= "3.5.30729" as version) OR (it = "Win8" or it = "Win8.1" or it = "Win2012" or it = "Win2012R2" or it = "Win10") of name of operating system /* Is .Net Installed */ or true]]></Relevance>
+    <Category>Important</Category>
+    <Source>BigFix</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:38:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+if {name of operating system = "WinXP"}
+    prefetch powershell-xp.exe sha1:540d661066953d76a6907b6ee0d1cd4531c1e1c6 size:6156064 http://download.microsoft.com/download/E/C/E/ECE99583-2003-455D-B681-68DB610B44A4/WindowsXP-KB968930-x86-ENG.exe sha256:0ef2a9b4f500b66f418660e54e18f5f525ed8d0a4d7c50ce01c5d1d39767c00c
+elseif {name of operating system = "WinXP-2003"}
+    prefetch powershell-xp.exe sha1:8ba702aa016e4c5aed581814647f4d55635eff5c size:10334496 http://download.microsoft.com/download/B/D/9/BD9BB1FF-6609-4B10-9334-6D0C58066AA7/WindowsServer2003-KB968930-x64-ENG.exe sha256:9f5d24517f860837daaac062e5bf7e6978ceb94e4e9e8567798df6777b56e4c8
+elseif {name of operating system equals "Win2003" AND not x64 of operating system}
+    prefetch powershell.exe sha1:843dca5f32b47a3bc36cb4d7f3a92dfd2fcdddb3 size:6300960 http://download.microsoft.com/download/1/1/7/117FB25C-BB2D-41E1-B01E-0FEB0BC72C30/WindowsServer2003-KB968930-x86-ENG.exe sha256:71b180e0affd9e005d7151a656414176e727b6dc80a9350e7b2b23bcac0cc98a
+elseif {name of operating system equals "Win2003" AND x64 of operating system}
+    prefetch powershell.exe sha1:8ba702aa016e4c5aed581814647f4d55635eff5c size:10334496 http://download.microsoft.com/download/B/D/9/BD9BB1FF-6609-4B10-9334-6D0C58066AA7/WindowsServer2003-KB968930-x64-ENG.exe sha256:9f5d24517f860837daaac062e5bf7e6978ceb94e4e9e8567798df6777b56e4c8
+elseif {(name of operating system = "WinVista" OR name of operating system contains "Win2008") AND not x64 of operating system}
+  prefetch powershell.msu sha1:16fd2e93be2e7265821191119ddfc0cdaa6f4243 size:34059625 http://download.microsoft.com/download/F/9/E/F9EF6ACB-2BA8-4845-9C10-85FC4A69B207/Windows6.0-KB968930-x86.msu sha256:1c1fee616014da6e52aa7a117b9bcc3a79ac3d838d686b8afe4f723630225fa2
+elseif {(name of operating system = "WinVista" OR name of operating system contains "Win2008") AND x64 of operating system}
+  prefetch powershell.msu sha1:4de013d593181a2a04217ce3b0e7536ab56995aa size:35922892 http://download.microsoft.com/download/2/8/6/28686477-3242-4E96-9009-30B16BED89AF/Windows6.0-KB968930-x64.msu sha256:19bd295d354538873afccc7c9a090ae6ba87beb968b20e8280bf5312826de9e3
+endif
+if {(name of operating system = "WinXP" AND service pack major version of operating system = 3) or (name of operating system = "WinXP-2003" AND service pack major version of operating system = 2)}
+  waithidden "{download path "powershell-xp.exe"}" /passive /norestart
+elseif {name of operating system equals "Win2003"}
+  waithidden "{download path "powershell.exe"}" /quiet /norestart
+elseif {name of operating system contains "Win2008" or name of operating system = "WinVista"}
+  waithidden "{pathname of system folder & "\wusa.exe"}" "{download path "powershell.msu"}" /quiet /norestart
+elseif {name of operating system contains "Win7"}
+  if{x64 of operating system}
+    waithidden cmd /c start /w {pathname of windows folder}\sysnative\pkgmgr.exe /iu:MicrosoftWindowsPowerShell
+  else
+    waithidden cmd /c start /w pkgmgr.exe /iu:MicrosoftWindowsPowerShell
+  endif
+elseif {(it = "Win8" or it = "Win8.1" or it = "2012" or it = "2012R2" or it = "Win10") of name of operating system}
+  if{x64 of operating system}
+    waithidden cmd /c {pathname of windows folder}\sysnative\dism /online /enable-feature /featurename:MicrosoftWindowsPowerShellV2 /all
+  else
+    waithidden cmd /c dism /online /enable-feature /featurename:MicrosoftWindowsPowerShellV2 /all
+  endif
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

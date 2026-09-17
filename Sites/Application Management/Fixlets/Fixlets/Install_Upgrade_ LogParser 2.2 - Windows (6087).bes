@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: LogParser 2.2 - Windows
+  ID       : 6087
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-06-11T13:30:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: LogParser 2.2 - Windows</Title>
+    <Description>This task will install LogParser 2.2 for Windows. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(exists (it as string as trimmed string) whose(it starts with "Log Parser") of value "DisplayName" of it AND "2.2.10" <= (it as string as version) of value "DisplayVersion" of it) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries;x32 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-06-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 11 Jun 2015 20:30:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//
+// https://www.microsoft.com/en-us/download/details.aspx?id=24659
+// https://technet.microsoft.com/en-us/scriptcenter/dd919274.aspx
+prefetch LogParser.msi sha1:da0d08b14246fd25569443c5612cd78c42cea47f size:1478656 http://download.microsoft.com/download/f/f/1/ff1819f9-f702-48a5-bbc7-c9656bc74de8/LogParser.msi
+
+wait msiexec /i &quot;{pathname of client folder of current site}\__Download\LogParser.msi&quot; /qn /norestart</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

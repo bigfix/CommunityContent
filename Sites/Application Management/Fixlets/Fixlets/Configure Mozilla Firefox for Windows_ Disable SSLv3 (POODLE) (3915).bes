@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Mozilla Firefox for Windows: Disable SSLv3 (POODLE)
+  ID       : 3915
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2014-11-04T13:46:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Mozilla Firefox for Windows: Disable SSLv3 (POODLE)</Title>
+    <Description><![CDATA[<P>Applies a local-settings.js and mozilla.cfg file configuration to disable the use of SSLv3, as a work-around for the POODLE vulnerability in Firefox for Windows. </P>
+<P>CAVEAT: If there is already a local-settings.js configured to use a different "general.config.filename" or "general.config.obscure_value", this could cause problems.&nbsp; If a local-settings.js exists but changes other settings, these lines will be appended to the existing file and should not be a problem.</P>
+<P>CAVEAT: If there is an existing mozilla.cfg file that is not properly formatted with the beginning "//" line, that file will be overwritten.&nbsp; If a mozilla.cfg file exists with the proper "//" line, the "security.tls.version.min" value will be appended to the file.&nbsp; If "security.tls.version.min" is already specified elsewhere in the file with a value other than '1', the results have not been tested.</P>
+<P>Good references on POODLE workarounds are available at <A href="https://zmap.io/sslv3/browsers.html#chrome-windows">https://zmap.io/sslv3/browsers.html#chrome-windows</A>.&nbsp; Information on managing Firefox configuration files are at <A href="http://kb.mozillazine.org/Lock_Prefs#Determining_settings">http://kb.mozillazine.org/Lock_Prefs#Determining_settings</A>.&nbsp; A site to check whether your browser is vulnerable to POODLE is at <SPAN style="WHITE-SPACE: nowrap; TEXT-TRANSFORM: none; WORD-SPACING: 0px; FLOAT: none; COLOR: rgb(0,102,33); TEXT-ALIGN: left; FONT: 14px/16px arial, sans-serif; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px"><FONT color=#000000 face=Helvetica><A href="https://www.poodletest.com/">https://www.poodletest.com/</A></FONT></SPAN></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>exists regapp &quot;firefox.exe&quot;</Relevance>
+    <Relevance><![CDATA[/* Check for mozilla.cfg with locked pref */  not exists file "mozilla.cfg" whose (line 1 of it as trimmed string = "//" and exists (lines of it) whose (it as trimmed string = "lockPref(%22security.tls.version.min%22, 1);")) of folder (pathname of parent folder of regapp "firefox.exe") or /* check for local-settings.js entries */ not exists folder (pathname of parent folder of regapp "firefox.exe" & "\defaults\pref") whose ( exists file "local-settings.js" whose (exists (lines of it) whose (it as trimmed string = "pref(%22general.config.obscure_value%22, 0);") and exists (lines of it) whose (it as trimmed string = "pref(%22general.config.filename%22,%22mozilla.cfg%22);")) of it)]]></Relevance>
+    <Category>Security Configuration - Browser</Category>
+    <SourceReleaseDate>2014-11-04</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2014-3566</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Nov 2014 20:13:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection false
+parameter "mozilla_cfg"="{pathname of parent folder of regapp "firefox.exe" & "\mozilla.cfg"}"
+parameter "localsettings"="{pathname of parent folder of regapp "firefox.exe" & "\defaults\pref\local-settings.js"}"
+// configure mozilla.cfg file
+if {not exists file (parameter "mozilla_cfg") whose (line 1 of it as trimmed string = "//")}
+	// File doesn't exist, or not properly formatted to start with "//" line
+	delete __createfile
+	createfile until <EOF>
+//
+lockPref("security.tls.version.min", 1);
+<EOF>
+	delete "{parameter "mozilla_cfg"}"
+ 	copy __createfile "{parameter "mozilla_cfg"}"
+
+elseif {exists file (parameter "mozilla_cfg") whose (not exists (lines of it) whose (it as trimmed string = "lockPref(%22security.tls.version.min%22, 1);"))}
+	// mozilla.cfg exists, but is missing our configuration line; append our configuration line
+	dos echo lockPref("security.tls.version.min", 1); >> "{parameter "mozilla_cfg"}"
+endif
+
+// append whichever settings are missing to local-settings.js
+if {not exists file (parameter "localsettings") whose (exists (lines of it) whose (it as trimmed string = "pref(%22general.config.obscure_value%22, 0);"))}
+	dos echo pref("general.config.obscure_value", 0); >> "{parameter "localsettings"}"
+endif
+
+if {not exists file (parameter "localsettings") whose (exists (lines of it) whose (it as trimmed string = "pref(%22general.config.filename%22,%22mozilla.cfg%22);"))}
+	dos echo pref("general.config.filename","mozilla.cfg"); >> "{parameter "localsettings"}"
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

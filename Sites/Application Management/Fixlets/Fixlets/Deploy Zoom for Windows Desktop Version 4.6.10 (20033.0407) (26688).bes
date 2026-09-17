@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Zoom for Windows Desktop Version 4.6.10 (20033.0407)
+  ID       : 26688
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:09:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Zoom for Windows Desktop Version 4.6.10 (20033.0407)</Title>
+    <Description><![CDATA[<P>This task will deploy: Zoom for Windows Desktop Version 4.6.10 (20033.0407)</P>
+<P>his task is applicable on: Windows </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists keys whose (value &quot;DisplayName&quot; of it as string = &quot;Zoom&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Installer</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2020-04-07</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2020 11:25:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch ZoomInstallerFull.msi sha1:b2fe318c0ecc3ff534bf94ec82dcd496df636730 size:29916160 https://zoom.us/client/latest/ZoomInstallerFull.msi sha256:d64c29929e402f71821ab07d5d4985e51a28e0ec0e254ce764ad3e18090095ad
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\ZoomInstallerFull.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

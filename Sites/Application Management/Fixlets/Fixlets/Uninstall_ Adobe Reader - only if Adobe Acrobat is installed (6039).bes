@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall: Adobe Reader - only if Adobe Acrobat is installed
+  ID       : 6039
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T11:50:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall: Adobe Reader - only if Adobe Acrobat is installed</Title>
+    <Description><![CDATA[<P>This fixlet uninstalls Adobe Reader if and only if Adobe Acrobat is also installed. Having both programs installed can cause odd behavoir, especially when it comes to opening PDFs in the browser and when double clicking on a PDF. This Fixlet does not precisely check for specific Adobe versions and may become relevant mistakenly if something is installed with a display name containing "Adobe Acrobat" inappropriately. </P>
+<P>Please becareful when uninstalling applications and consider doing this by offer instead. Be sure to include the Helpdesk email and phone number in the text displayed to the user.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string contains &quot;Adobe Reader&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string contains &quot;Adobe Acrobat&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <SourceSeverity>Moderate</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 18:48:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string contains &quot;Adobe Reader&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

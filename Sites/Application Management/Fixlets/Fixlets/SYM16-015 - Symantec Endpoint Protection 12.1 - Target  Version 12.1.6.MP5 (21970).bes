@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : SYM16-015 - Symantec Endpoint Protection 12.1 - Target  Version 12.1.6.MP5
+  ID       : 21970
+  Author   : chenli
+  Domain   : BESC
+  Imported : 2016-10-05T01:19:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>SYM16-015 - Symantec Endpoint Protection 12.1 - Target Version 12.1.6.MP5</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This sample Fixlet&nbsp;updates Symantec Endpoint Protections 12.1.6.MP5 in response to the advisory&nbsp;SYM16-015.</P> <P>&nbsp;</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false</Relevance>
+    <Relevance>not ia64 of operating system</Relevance>
+    <Relevance>exist value &quot;PRODUCTVERSION&quot; whose (it as string = &quot;12.1.7004.6500&quot;) of key&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion&quot; of registry</Relevance>
+    <Relevance>not exist value &quot;HOTFIXREVISION&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion\&quot; of registry</Relevance>
+    <Relevance><![CDATA[not exist version whose ( it  as string as version > "12.12.1.15") of file ((value "CCROOT" of  key "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion\Common Client" of registry ) as string  & "\ccScanW.dll")]]></Relevance>
+    <Category>Security Update</Category>
+    <SourceReleaseDate>2016-10-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {x64 of operating system}
+waithidden {name of drive of system folder & "\Program Files (x86)\Symantec\Symantec Endpoint Protection\SepLiveUpdate.exe"} /s
+else
+waithidden {name of drive of system folder & "\Program Files\Symantec\Symantec Endpoint Protection\SepLiveUpdate.exe"} /s
+endif]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action22897">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about solutions for SYM16-015.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.symantec.com/en_US/article.INFO3900.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall McAfee Agent - Red Hat 5
+  ID       : 2544
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-07-25T07:30:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall McAfee Agent - Red Hat 5</Title>
+    <Description></Description>
+    <Relevance>exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server) release 5&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND not exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>(exists package &quot;MFEcma&quot; of rpm) OR (exists package &quot;MFErt&quot; of rpm)</Relevance>
+    <Relevance><![CDATA[version of client >= "7.2.4.75"]]></Relevance>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x_fixlet-resolver-version</Name>
+      <Value>2.0.15</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-applicable-os-conf</Name>
+      <Value>RHEL5_IA32_SERVER RHEL5_IA32_DESKTOP</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 04 Feb 2009 00:20:44 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-target-rpm</Name>
+      <Value>psacct-6.3.2-44.el5.i386.rpm</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-channelization</Name>
+      <Value>5 </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 25 Jul 2013 13:41:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait rpm -e MFEcma
+wait rpm -e MFErt</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

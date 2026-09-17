@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Upgrade: Service Discovery Tool 1.0
+  ID       : 21043
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2016-07-15T08:22:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Upgrade: Service Discovery Tool 1.0</Title>
+    <Description><![CDATA[<P>This task utilizes python3 to run code that will check for a DHCP IP address and NetBoot Server. If an address or NetBoot Image&nbsp;is returned, it is written to a plist for analysis retrevial.</P>
+<P>Task will become relevant after plist file is one day old.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/usr/local/bin/python3&quot;</Relevance>
+    <Relevance><![CDATA[not exists file "/Library/Preferences/edu.psu.sdt.plist" whose (now - modification time of it < day * 1)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2016-07-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Jul 2016 14:55:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">if {not exists file &quot;/usr/local/bin/sdt.py&quot;}
+	download as sdt.py https://raw.githubusercontent.com/CLCMacTeam/sdt/master/sdt.py
+	move &quot;__Download/sdt.py&quot; &quot;/usr/local/bin/sdt.py&quot;
+	wait chmod 755 &quot;/usr/local/bin/sdt.py&quot;
+endif
+
+wait sh -c &quot;/usr/local/bin/python3 /usr/local/bin/sdt.py -b -d -p /Library/Preferences/edu.psu.sdt.plist&quot;
+
+wait defaults write &quot;/Library/Preferences/edu.psu.sdt.plist&quot; checkDate -string &quot;{current date}&quot;</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

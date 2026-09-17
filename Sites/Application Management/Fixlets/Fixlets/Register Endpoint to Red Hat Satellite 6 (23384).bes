@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Register Endpoint to Red Hat Satellite 6
+  ID       : 23384
+  Author   : andym
+  Domain   : BESC
+  Imported : 2017-02-02T23:12:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Register Endpoint to Red Hat Satellite 6</Title>
+    <Description><![CDATA[<P>This Task will register an endpoint to a Satellite 6 server. Enter the required parameters when prompted.</P>
+<P>Complete the prerequisites for using this task:</P>
+<UL>
+<LI>Make sure the subscription-manager.conf plugin is enabled on the endpoint:</LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><FONT face="Courier New"># grep enabled /etc/yum/pluginconf.d/rhnplugin.conf /etc/yum/pluginconf.d/subscription-manager.conf <BR>&nbsp; /etc/yum/pluginconf.d/rhnplugin.conf:enabled = 0<BR>&nbsp; /etc/yum/pluginconf.d/subscription-manager.conf:enabled=1</FONT></P></BLOCKQUOTE>
+<UL>
+<LI>Configure the system for registration [ <A href="https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/Configuring_Systems_for_Registration.html">https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/Configuring_Systems_for_Registration.html</A> ]
+<LI>Create an activation key [ <A href="https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/chap-Configuring_Activation_Keys.html#Create_a_New_Activation_Key">https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/chap-Configuring_Activation_Keys.html#Create_a_New_Activation_Key</A> ]
+<LI>Follow the steps from the Red Hat Satellite 6 User Guide [ <A href="https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/sect-Registration.html#Registering_a_System">https://access.redhat.com/documentation/en-US/Red_Hat_Satellite/6.0/html/User_Guide/sect-Registration.html#Registering_a_System</A> ]
+<LI>For more information on using Red Hat Subscription Management and subscription manager, refer to this guide [ <A href="https://access.redhat.com/documentation/en-US/Red_Hat_Subscription_Management/1/html/RHSM/index.html">https://access.redhat.com/documentation/en-US/Red_Hat_Subscription_Management/1/html/RHSM/index.html</A> ]</LI></UL>]]></Description>
+    <Relevance><![CDATA[(version of client >= "8.2") AND (name of operating system starts with "Linux Red Hat")]]></Relevance>
+    <Category>Configuration</Category>
+    <Source>BigFix</Source>
+    <SourceReleaseDate>2017-02-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 03 Feb 2017 15:00:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "ORG" with description "Red Hat Satellite 6 Organization"
+action parameter query "ACTIVATION_KEY" with description "Red Hat Satellite 6 Activation Key"
+action parameter query "KATELLO_CERT_RPM_URL" with description "Red Hat Satellite 6 Katello Cert RPM URL (e.g. http://sat6-rh7.example.com/pub/katello-ca-consumer-sat6-rh7.example.com-1.0-1.noarch.rpm )"
+action parameter query "AUTO_ATTACH" with description "Auto attach subscriptions to this system? (y/n)" with default value "y"
+
+parameter "LOG_DIR" = "{parent folder of parent folder of client folder of the current site}/EDRDeployData"
+
+createfile until EOF
+if [ ! -d "$2" ] ; then
+   mkdir -p "$2"
+fi
+
+rpm -Uvh '{parameter "KATELLO_CERT_RPM_URL" of action}' > "$2/register_satellite6.log" 2>&1
+
+subscription-manager register --activationkey='{parameter "ACTIVATION_KEY" of action}' --org='{parameter "ORG" of action}' >> "$2/register_satellite6.log" 2>&1
+
+if [ "$1" = "y" ] ; then
+  echo "Auto-attaching subscriptions" >> "$2/register_satellite6.log"
+  subscription-manager attach --auto >> "$2/register_satellite6.log" 2>&1
+fi
+
+EOF
+
+wait bash __createfile {parameter "AUTO_ATTACH" of action} {parameter "LOG_DIR"}
+continue if {exit code of action = 0}
+delete __createfile]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

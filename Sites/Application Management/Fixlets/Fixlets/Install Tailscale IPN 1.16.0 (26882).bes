@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Tailscale IPN 1.16.0
+  ID       : 26882
+  Author   : erowley2501
+  Domain   : BESC
+  Imported : 2021-10-13T09:00:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Tailscale IPN 1.16.0</Title>
+    <Description><![CDATA[<P>Download and install Tailscale IPN&nbsp;1.16.0</P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "1.16.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Tailscale") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-10-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 13 Oct 2021 15:03:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch tailscale-ipn-setup-1.16.0.exe sha1:bd1eb4bdcabe6688b3311e4d0a9f38189f3d8248 size:23970144 https://pkgs.tailscale.com/stable/tailscale-ipn-setup-1.16.0.exe sha256:786d6ca85bd856da2421f921475d1274785a68ac9386ac94493a50f6fc1dd22b
+
+override wait
+hidden=true
+completion=job
+wait __Download\tailscale-ipn-setup-1.16.0.exe /S</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

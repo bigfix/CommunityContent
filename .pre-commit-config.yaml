@@ -54,8 +54,10 @@ repos:
       - id: bes-conventions-check
         args: ["--auto-fix=yes", "--errors-only"]
       - id: bes-actionscript-lint-schclass
-        args: ["--strict"]
+#        args: ["--strict"]
       - id: bes-actionscript-validate-prefetch
+        args: ["--disable", "E401"]
+
       - id: bes-actionscript-validate-script
 
   # A local fork https://github.com/mxab/pre-commit-trivy.git

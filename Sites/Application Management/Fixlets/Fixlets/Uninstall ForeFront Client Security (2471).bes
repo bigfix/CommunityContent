@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall ForeFront Client Security
+  ID       : 2471
+  Author   : TheRealJgo
+  Domain   : BESC
+  Imported : 2013-05-10T15:59:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall ForeFront Client Security</Title>
+    <Description><![CDATA[<P><BR>This fixlet will download and run a script&nbsp;to uninstall Microsoft Forefront Security from the endpoint. </P>
+<P><STRONG>Note:</STRONG> For more information on the script click <A href="http://gallery.technet.microsoft.com/scriptcenter/ccd81060-292d-4470-afb2-ddb65bf71ce4">here</A>. </P>
+<P><STRONG>File Size: </STRONG>3 KB</P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>((exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;forefront&quot;) of it) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) OR (exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;microsoft operations manager 2005 agent&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry)</Relevance>
+    <Category>Uninstall</Category>
+    <Source>BigFix</Source>
+    <SourceReleaseDate>2013-04-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 10 May 2013 21:00:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">if {exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;microsoft forefront client security antimalware service&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry}
+	//dos net stop FCSAM
+	wait {pathname of system folder}\msiexec.exe /x {name of it of (key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;microsoft forefront client security antimalware service&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry)} /qn
+endif
+if {exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;microsoft forefront client security state assessment service&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry}
+	//dos net stop FCSSAS
+	wait {pathname of system folder}\msiexec.exe /x {name of it of (key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;microsoft forefront client security state assessment service&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry)} /qn
+endif
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action2718">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+prefetch Uninstall_FCS.txt sha1:ca9fce80b941a08cd235f41148ed800551541768 size:2985 http://gallery.technet.microsoft.com/scriptcenter/ccd81060-292d-4470-afb2-ddb65bf71ce4/file/44657/1/Uninstall_FCS.txt
+if {not exists folder &quot;C:\ca9fce80b941a08cd235f41148ed800551541768&quot; }
+	dos mkdir &quot;C:\ca9fce80b941a08cd235f41148ed800551541768&quot;
+else
+	if {exists file &quot;C:\ca9fce80b941a08cd235f41148ed800551541768\Uninstall_FCS.vbs&quot; }
+		delete &quot;C:\ca9fce80b941a08cd235f41148ed800551541768\Uninstall_FCS.vbs&quot;
+	endif
+endif
+copy &quot;__Download\Uninstall_FCS.txt&quot; &quot;C:\ca9fce80b941a08cd235f41148ed800551541768\Uninstall_FCS.vbs&quot;
+dos c:\windows\syswow64\cscript.exe &quot;C:\ca9fce80b941a08cd235f41148ed800551541768\Uninstall_FCS.vbs&quot;
+if {exists folder &quot;C:\ca9fce80b941a08cd235f41148ed800551541768&quot; }
+	dos rmdir /S /Q &quot;C:\ca9fce80b941a08cd235f41148ed800551541768&quot;
+endif
+</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

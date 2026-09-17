@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Log4j logpresso scanner WIP 008
+  ID       : 26903
+  Author   : mjaeger
+  Domain   : BESC
+  Imported : 2021-12-22T08:29:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Log4j logpresso scanner WIP 008</Title>
+    <Description><![CDATA[
+<STYLE type=text/css> 	fieldset input, label { 		float: left; 		display: block; 		padding: 0px 0px 15px 0px; 		margin-right: 5px;     }  	fieldset li { 		clear: both; 		padding: 0px 0px 0px 0px; 		margin: 0px 0px 0px 0px;     }  	fieldset ol { 		list-style-type: none; 		margin: 20px 0px 0px 10px; 	}  	fieldset p { 		margin: 10px 10px 10px 10px; 	} </STYLE>
+
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><?hxlat This task runs the Logpresso Log4j scan on various platforms on the specified endpoints.?>
+<P>
+<P><?hxlat The task requires at least 100 MB of free disk space on the drive where BigFix client is installed.?></P><SPAN lang=EN>
+<P dir=ltr align=left><B><?hxlat NOTE:?></B>&nbsp;<?hxlat Linux x64 OpenJDK requires the glibc 2.12+ and all other Linux requires glibc 2.17+.?></P></SPAN>
+<P>
+<FORM onsubmit=_takeAction() style="WIDTH: 800px"></P>
+<FIELDSET><LEGEND><STRONG><?hxlat Configuration?></STRONG></LEGEND>
+<P><INPUT id=keepjre type=checkbox name=keepjre>&nbsp;<?hxlat Keep OpenJDK JRE at scan completion.?></P>
+<P><B><?hxlat NOTE:?></B>&nbsp;<?hxlat This checkbox determines weather the OpenJDK JRE needed to run the scanner will be left on the system after the scan tasks completes. This is useful if an action is set to rescan periodically or more scans will be performed in the future.?></P></FIELDSET></FORM>
+<P></P><script> function _takeAction() { var keepjre = document.getElementById("keepjre").checked.toString(); TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", { keepjre: keepjre}, {} ); } document.body.ontakeaction = function() { _takeAction(); return false; } </script> </TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>not exists settings whose (name of it equals &quot;log4j_scan_deny&quot; AND value of it = &quot;TRUE&quot;) of client</Relevance>
+    <Relevance>((name of it as lowercase does not start with &quot;hp-ux&quot;) and (architecture of it as lowercase does not contain &quot;ia64&quot;)) of operating system</Relevance>
+    <Relevance>(if (name of it as lowercase starts with &quot;win&quot;) then (true) else ((name of it as lowercase contains &quot;linux&quot;) OR (name of it as lowercase starts with &quot;aix&quot;) OR (name of it as lowercase starts with &quot;mac&quot;) OR (exists match (regex &quot;sunos 5\.(10|11)&quot;) of (name of it as lowercase)) of operating system)) of operating system AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true)</Relevance>
+    <Category>Log4j Scanner</Category>
+    <Source>Mario</Source>
+    <SourceReleaseDate>2021-12-16</SourceReleaseDate>
+    <SourceSeverity>High</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 22 Dec 2021 16:28:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run the scanner.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// download scanner jar
+prefetch log4j2-scan.jar sha1:bcaeb2cc198fd29ea0e5320ba2865e81b9a335bd size:59877 https://github.com/logpresso/CVE-2021-44228-Scanner/releases/download/v2.5.3/logpresso-log4j2-scan-2.5.3.jar sha256:3cd1fa397d518a0ac39ed333be01b73b1857c92beeafeafdaedf790e41b7c0b0
+
+parameter "clientroot" = "{pathname of parent folder of parent folder of client folder of site "actionsite"}"
+parameter "log4jfolder" = "{parameter "clientroot"}{if windows of operating system then "\" else "/"}BPS-Scans"
+parameter "jrefolder" = "{parameter "log4jfolder"}{if windows of operating system then "\" else "/"}openjdk"
+parameter "scanlog" = "{parameter "log4jfolder"}{if windows of operating system then "\" else "/"}results-log4j2-scan.txt"
+delete "{parameter "scanlog"}"
+
+// create log4j_scan folder that will be the base for the scanner
+if {not exists folder (parameter "log4jfolder")}
+	folder create "{parameter "log4jfolder"}"
+	continue if {exists folder (parameter "log4jfolder")}
+endif
+
+if {not exists folder (parameter "jrefolder")}
+	folder create "{parameter "jrefolder"}"
+	continue if {exists folder (parameter "jrefolder")}
+endif
+
+// move scan jar
+parameter "log4jscanner" = "{parameter "log4jfolder"}{if windows of operating system then "\" else "/"}log4j2-scan.jar"
+delete "{parameter "log4jscanner"}"
+move "{download path "log4j2-scan.jar"}" "{parameter "log4jscanner"}"
+
+// WINDOWS
+if {windows of operating system}
+	// download and extract openjdk that is required for running the scanner jar
+	if {not exists folders whose (name of it as lowercase starts with "jdk" and exists file "java.exe" of folder "bin" of it) of folder (parameter "jrefolder") | true}
+		prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+		if {x64 of operating system}
+			prefetch openjdk.zip sha1:11ddd29c02809c1258e1b7075b0702bbd9f21937 size:42661417 https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.13%2B8/OpenJDK11U-jre_x64_windows_hotspot_11.0.13_8.zip sha256:7b0c07a068506b8539408cfe60e3120f54610af463a2dbd3b2ca42b572dd567e
+		else
+			prefetch openjdk.zip sha1:872de120c7f3710041fcfad1267610e3a3b12b77 size:37426967 https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.13%2B8/OpenJDK11U-jre_x86-32_windows_hotspot_11.0.13_8.zip sha256:60ed46fd2072d2ab25333a367b0ed58f8cf6441b877628f2324273a6b5c71222
+		endif
+		waithidden __Download\unzip.exe -o __Download\openjdk.zip -d "{parameter "jrefolder"}"
+
+		// cleanup of downloaded files
+		delete __Download\unzip.exe
+		delete __Download\openjdk.zip
+		continue if {exists folders whose (name of it as lowercase starts with "jdk" and exists file "java.exe" of folder "bin" of it) of folder (parameter "jrefolder") | false}
+	endif
+
+	// need if statement to not error out action syntax
+	if {exists folder (parameter "jrefolder")}
+		parameter "javabin" = "{(pathname of items 1 of (maximum of modification times of folders whose (name of it as lowercase starts with "jdk" and exists file "java.exe" of folder "bin" of it) of it, folders whose (name of it as lowercase starts with "jdk" and exists file "java.exe" of folder "bin" of it) of it) whose (item 0 of it = modification time of item 1 of it) of folder (parameter "jrefolder")) & "\bin\java.exe"}"
+	endif
+
+	// detect drives to scan
+	parameter "includedrives" = "{concatenation "," of (preceding texts of firsts ":" of names of drives whose (type of it = "DRIVE_FIXED"))}"
+
+	// run scanner differently if the JRE is kept after scan
+	if {parameter "keepjre" of action}
+		runhidden "{parameter "javabin"}" -jar "{parameter "log4jscanner"}" --scan-log4j1 --drives {parameter "includedrives"} --silent --report-path "{parameter "scanlog"}"
+	else
+		waithidden "{parameter "javabin"}" -jar "{parameter "log4jscanner"}" --scan-log4j1 --drives {parameter "includedrives"} --silent --report-path "{parameter "scanlog"}"
+		//cleanup
+		folder delete "{parameter "jrefolder"}"
+		delete "{parameter "log4jscanner"}"
+	endif
+
+// NON-WINDOWS
+else
+	if {not exists folders whose (name of it as lowercase starts with "jdk" and exists file "java" of folder "bin" of it) of folder (parameter "jrefolder") | true}
+		if {name of operating system contains "CentOS" OR name of operating system contains "Red Hat" OR name of operating system contains "Oracle Enterprise" or name of operating system contains "SuSE"}
+			if {architecture of operating system = "x86_64"}
+				if {exists package "glibc" whose (version of it >= "2.12" AND architecture of it = "x86_64") of rpm}
+					prefetch openjdk.tar.gz sha1:8b835bfff7f67d2a097344e95b7221d2d3c048ef size:41286015 https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u312-b07/OpenJDK8U-jre_x64_linux_hotspot_8u312b07.tar.gz sha256:18fd13e77621f712326bfcf79c3e3cc08c880e3e4b8f63a1e5da619f3054b063
+					parameter "extractjre" = "rhelbased"
+				elseif {elseif (exists package "glibc" whose (version of it >= "2.4" AND architecture of it = "x86_64") of rpm)}
+					//openjdk 7 link needed, remove next line once found
+					continue if FALSE
+				else
+					//Unsupported
+					continue if FALSE
+				endif
+			elseif {architecture of operating system = "s390x"}
+				if {exists package "glibc" whose (version of it >= "2.17" AND architecture of it starts with = "s390") of rpm}
+					prefetch openjdk.tar.gz sha1:17272c6f8589cedca23d608d07c590592216cf18 size:36755895 https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.13%2B8/OpenJDK11U-jre_s390x_linux_hotspot_11.0.13_8.tar.gz sha256:b4a5af4ffcc98f6b7cdd2232f79aa12f20efa769b5255277fa4974e2e19d4409
+					parameter "extractjre" = "rhelbased"
+				else
+					//Unsupported
+					continue if FALSE
+				endif
+			elseif {architecture of operating system = "ppc64le"}
+				if {exists package "glibc" whose (version of it >= "2.17" AND architecture of it = "ppc64le") of rpm}
+					prefetch openjdk.tar.gz sha1:4b0939ca0d3982d417b1ae0f3ffaed96cf3d8470 size:40743435 https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u312-b07/OpenJDK8U-jre_ppc64le_linux_hotspot_8u312b07.tar.gz sha256:7914a2efcb7edb28df71b2d4e5194907163da06841a16f7c8c96d60677551f93
+					parameter "extractjre" = "rhelbased"
+				else
+					//Unsupported
+					continue if FALSE
+				endif
+			else
+				//Unsupported
+				continue if FALSE
+			endif
+		elseif {(name of it as lowercase starts with "sunos" and (version of it as string = "5.10" OR version of it as string = "5.11")) of operating system}
+			if {architecture of operating system = "sparcv9"}
+				prefetch openjdk.tar.gz sha1:513d89893df13f14e9b5e76a2f3134dd895fd1ef size:53232710 https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u312-b07/OpenJDK8U-jre_sparcv9_solaris_hotspot_8u312b07.tar.gz sha256:62db15678d4212307c3ccb6743cf44636d81cf08cbf150517a86f65f17f8900d
+				parameter "extractjre" = "sunosbased"
+			else
+				//Unsupported
+				continue if FALSE
+			endif
+
+		elseif {(name of it as lowercase starts with "aix" and ((version of it as string = "7.1" AND parenthesized part 1 of match (regex "^[0-9]{4}-([0-9]{2})$") of (current technology level of it as string) >= "04") OR version of it as string = "7.2")) of operating system}
+			if {architecture of operating system = "ppc64"}
+				prefetch openjdk.tar.gz sha1:e42ea144018ce547a13e85e4a2692b2fc0f45eeb size:42806130 https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u312-b07/OpenJDK8U-jre_ppc64_aix_hotspot_8u312b07.tar.gz sha256:735c2afd5fc4573a2cd3f1629f1fbc6607849f95230a494560037fa40bdc9e03
+				parameter "extractjre" = "aixbased"
+			else
+				//Unsupported
+				continue if FALSE
+			endif
+		else
+			//Unsupported OS
+			continue if FALSE
+		endif
+
+		// Extract downloaded JRE using specific command sets
+		// Currently it appears only one command is needed to cover all types but leaving separator till after extensive testing
+		if {(parameter "extractjre") = "rhelbased"}
+			wait /bin/sh -c "tar -xf __Download/openjdk.tar.gz -C '{parameter "jrefolder"}'"
+		elseif {(parameter "extractjre") = "sunosbased"}
+			wait /bin/sh -c "tar -xf __Download/openjdk.tar.gz -C '{parameter "jrefolder"}'"
+		elseif {(parameter "extractjre") = "aixbased"}
+			wait /bin/sh -c "tar -xf __Download/openjdk.tar.gz -C '{parameter "jrefolder"}'"
+		else
+			continue if FALSE
+		endif
+
+		// cleanup of downloaded files
+		delete __Download/openjdk.tar.gz
+
+		continue if {exists folders whose (name of it as lowercase starts with "jdk" and exists file "java" of folder "bin" of it) of folder (parameter "jrefolder") | false}
+	endif
+
+	// need if statement to not error out action syntax
+	if {exists folder (parameter "jrefolder")}
+		parameter "javabin" = "{(pathname of items 1 of (maximum of modification times of folders whose (name of it as lowercase starts with "jdk" and exists file "java" of folder "bin" of it) of it, folders whose (name of it as lowercase starts with "jdk" and exists file "java" of folder "bin" of it) of it) whose (item 0 of it = modification time of item 1 of it) of folder (parameter "jrefolder")) & "/bin/java"}"
+	endif
+
+	// run scanner differently if the JRE is kept after scan
+	if {parameter "keepjre" of action}
+		run sh -c "{parameter "javabin"} -jar {parameter "log4jscanner"} --scan-log4j1 --no-symlink --silent --report-path {parameter "scanlog"} /"
+	else
+		wait sh -c "{parameter "javabin"} -jar {parameter "log4jscanner"} --scan-log4j1 --no-symlink --silent --report-path {parameter "scanlog"} /"
+
+		//cleanup (need to retest its working...)
+		//parameter "startTime" = "{now}"
+		//pause while {(now - time(parameter "startTime") < 10*second)}
+
+		//run rm -rf "{parameter "jrefolder"}"
+		//delete "{parameter "log4jscanner"}"
+	endif
+
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

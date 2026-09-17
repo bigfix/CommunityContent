@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : TIP: Optimize McAfee VirusScan Enterprise 7.0/8.0i to Run with BES Clients
+  ID       : 551
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>TIP: Optimize McAfee VirusScan Enterprise 7.0/8.0i to Run with BES Clients</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P><FONT size=2>The listed computers are running both McAfee VirusScan Enterprise and the BES Client. As a result, the McAfee VirusScan client may be continuously scanning the BES Client's program files, resulting in computer performance issues. To avoid this conflict, BigFix recommends that users prohibit the VirusScan program from examining the BES Client program folder.<BR><BR><B>Note:</B> Deploying this Fixlet message may prevent the McAfee VirusScan client from scanning any of the files in the BES Client folder for viruses (by default "C:\Program Files\BigFix Enterprise\BES Client"). BigFix recommends that users do a manual full system scan periodically, including this folder, to ensure a virus-free system.</FONT></P> <P><FONT size=2><STRONG>Note:</STRONG> Affected computers will report back as 'Fixed' once the&nbsp;action has run successfully, but the change will not take effect until McAfee VirusScan is restarted.</FONT></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[(exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration" of registry) AND ((not exists value whose ((it as string  = ("3|7|" & pathname of parent folder of regapp "besclient.exe" & "\")) or (it as string = ("3|15|" & pathname of parent folder of regapp "besclient.exe" & "\")) or (it as string = ("3|7|" & pathname of parent folder of regapp "besclient.exe")) or (it as string = ("3|15|" & pathname of parent folder of regapp "besclient.exe")) AND (name of it as string) contains "ExcludedItem") of key ("HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" & (if (value "OnlyUseDefaultConfig" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" of registry = 1) then "Default" else (if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\High" of registry as string contains "BESClient.exe") then "High" else if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\Low" of registry as string contains "BESClient.exe") then "Low" else "Default"))) of registry))]]></Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 01:37:13 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 21 Jul 2005 21:39:52 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Warn Important</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action795">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to optimize interactions between McAfee VirusScan and the BES Client.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\{(if (value "OnlyUseDefaultConfig" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" of registry = 1) then "Default" else (if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\High" of registry as string contains "BESClient.exe") then "High" else if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\Low" of registry as string contains "BESClient.exe") then "Low" else "Default"))}]" "{("ExcludedItem_" & (number of values whose (name of it starts with "ExcludedItem") of key ("HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" & (if (value "OnlyUseDefaultConfig" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" of registry = 1) then "Default" else (if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\High" of registry as string contains "BESClient.exe") then "High" else if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\Low" of registry as string contains "BESClient.exe") then "Low" else "Default"))) of registry) as string)}"="{("3|7|" & escape of (pathname of parent folder of regapp "besclient.exe"))}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\{(if (value "OnlyUseDefaultConfig" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" of registry = 1) then "Default" else (if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\High" of registry as string contains "BESClient.exe") then "High" else if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\Low" of registry as string contains "BESClient.exe") then "Low" else "Default"))}]" "NumExcludeItems"={"dword:" & ((number of values whose (name of it starts with "ExcludedItem") of key ("HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" & (if (value "OnlyUseDefaultConfig" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\" of registry = 1) then "Default" else (if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\High" of registry as string contains "BESClient.exe") then "High" else if (value "ProcessList" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Network Associates\TVD\Shared Components\On Access Scanner\McShield\Configuration\Low" of registry as string contains "BESClient.exe") then "Low" else "Default")))of registry as hexadecimal as string))}]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

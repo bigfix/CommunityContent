@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Update  Zoom for Windows Desktop Version 4.6.10 (20033.0407)
+  ID       : 26686
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:04:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Update Zoom for Windows Desktop Version 4.6.10 (20033.0407)</Title>
+    <Description><![CDATA[This task will deploy: Zoom for Windows Desktop <FONT style="BACKGROUND-COLOR: #ffffff" color=#000000 size=3 face=Helvetica>Version 4.6.10 (20033.0407)</FONT><BR>This task is applicable on: Windows ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists running application &quot;Zoom.exe&quot;</Relevance>
+    <Relevance><![CDATA[(exists value "DisplayVersion" whose (it as string as version < "4.6.20033") of keys whose (value "DisplayName" of it as string = "Zoom") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2020-04-07</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2020 11:34:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch ZoomInstallerFull.msi sha1:b2fe318c0ecc3ff534bf94ec82dcd496df636730 size:29916160 https://zoom.us/client/latest/ZoomInstallerFull.msi sha256:d64c29929e402f71821ab07d5d4985e51a28e0ec0e254ce764ad3e18090095ad
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\ZoomInstallerFull.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action27959">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view release notes.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.zoom.us/hc/en-us/articles/201361953-New-Updates-for-Windows</ActionScript>
+    </Action>
+  </Task>
+</BES>

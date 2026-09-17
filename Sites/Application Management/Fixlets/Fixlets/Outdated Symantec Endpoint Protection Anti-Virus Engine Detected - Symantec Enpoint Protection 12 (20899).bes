@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Outdated Symantec Endpoint Protection Anti-Virus Engine Detected - Symantec Enpoint Protection 12
+  ID       : 20899
+  Author   : andym
+  Domain   : BESC
+  Imported : 2016-07-11T02:14:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Outdated Symantec Endpoint Protection Anti-Virus Engine Detected - Symantec Enpoint Protection 12</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD><P> BigFix has detected that Symantec Endpoint Protection is using an older version of Anti-Virus Engine (AVE) that is vulnerable to the Malformed PE Header Parser Memory Access Violation (SYM16-008).</P><P> Please use the action below to trigger Symantec LiveUpdate to update the Symantec Anti-Virus Engine (AVE).</P><P><STRONG>Note:</STRONG> The Fixlet is released in https://bigfix.me/, which is not an official release channel of IBM BigFix. We highly suggest testing the content before deploying to production. Use of the content is done at the user’s own risk and the user will be solely responsible for any damage to any computer system or loss of data that results from use of the content.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance><![CDATA[exists running application "rtvscan.exe" whose (version of it >= "12" as version) OR exists running application "Smc.exe" whose (version of it >= "12" as version) OR exists regapp "Smc.exe" whose (version of it>="12" as version)]]></Relevance>
+    <Relevance><![CDATA[exists file "NAVENG32.DLL" whose (version of it < "20151.1.1.4") of folders of folder "ProgramData\Symantec\Symantec Endpoint Protection\CurrentVersion\Data\Definitions\VirusDefs\" of drive of system folder | False]]></Relevance>
+    <Category>Unspecified</Category>
+    <Source>BigFix</Source>
+    <SourceID>SYM16-008</SourceID>
+    <SourceReleaseDate>2016-07-11</SourceReleaseDate>
+    <CVENames>CVE-2016-2208</CVENames>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action21791">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to trigger the LiveUpdate.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {x64 of operating system}
+wait {name of drive of system folder & "\Program Files (x86)\Symantec\Symantec Endpoint Protection\SepLiveUpdate.exe"} /s
+else
+wait {name of drive of system folder & "\Program Files\Symantec\Symantec Endpoint Protection\SepLiveUpdate.exe"} /s
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action21792">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about the Security Advisories relating to Symantec Antivirus Engine Malformed PE Header Parser Memory Access Violation.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[https://www.symantec.com/security_response/securityupdates/detail.jsp?fid=security_advisory&pvid=security_advisory&year=&suid=20160516_00]]></ActionScript>
+    </Action>
+    <Action ID="Action21793">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information on how to check the version of AV Engine from the client computer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.symantec.com/docs/TECH95856</ActionScript>
+    </Action>
+  </Task>
+</BES>

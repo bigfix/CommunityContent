@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install Adobe Remote Update Manager (RUM) - Mac
+  ID       : 20256
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-04-26T14:30:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install Adobe Remote Update Manager (RUM) - Mac</Title>
+    <Description>
+- http://www.adobe.com/devnet/creativesuite/enterprisedeployment.html</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>not exists files &quot;RemoteUpdateManager&quot; of (folders &quot;/usr/local/bin&quot;; folders &quot;/usr/sbin&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-04-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 26 Apr 2016 21:29:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch RemoteUpdateManager.dmg sha1:8cd9da516de0151ac33c8f95be57341609566ae1 size:1694545 http://download.macromedia.com/pub/developer/creativesuite/AAMEE/mac/RemoteUpdateManager.dmg sha256:4daf48d3b9254da9667e449e98d7c1be6fb55b3488b2a002078f1220fd82221c
+
+parameter &quot;app_name&quot; = &quot;RemoteUpdateManager&quot;
+parameter &quot;InstallFile&quot; = &quot;RemoteUpdateManager.dmg&quot;
+
+delete &quot;/tmp/{parameter &quot;InstallFile&quot;}&quot;
+copy &quot;__Download/{parameter &quot;InstallFile&quot;}&quot; &quot;/tmp/{parameter &quot;InstallFile&quot;}&quot;
+
+// Mount the Disk Image
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}&quot; &quot;/tmp/{parameter &quot;InstallFile&quot;}&quot;
+
+// Install MAN page
+copy &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}/Remote Update Manager/RemoteUpdateManager.1&quot; &quot;/usr/share/man/man1/RemoteUpdateManager.1&quot;
+    // following line not needed:
+//wait chmod 444 &quot;/usr/share/man/man1/RemoteUpdateManager.1&quot;
+
+// Install
+copy &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}/Remote Update Manager/RemoteUpdateManager&quot; &quot;/usr/local/bin/RemoteUpdateManager&quot;
+
+// Clean up
+wait /usr/bin/hdiutil detach -force &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}&quot;
+delete &quot;/tmp/{parameter &quot;InstallFile&quot;}&quot;
+delete &quot;__Download/{parameter &quot;InstallFile&quot;}&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

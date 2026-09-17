@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Prey for Mac - 1.6.3
+  ID       : 22631
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-11-15T10:39:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Prey for Mac - 1.6.3</Title>
+    <Description><![CDATA[This task will deploy Prey for Mac <BR><BR>http://preyproject.com/ <BR><BR>This task is applicable on Mac OS X 10.7+ ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.7"]]></Relevance>
+    <Relevance>not exists file &quot;/usr/local/lib/prey/current/bin/prey&quot;</Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceReleaseDate>2016-11-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 15 Nov 2016 18:37:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;PreyAPI&quot; with description &quot;Please enter your Prey API key found here: https://panel.preyproject.com/settings&quot;
+
+prefetch prey-mac-1.6.3-x86.pkg sha1:e047e5e45818fcb0d4ace92fd962f0cd41cd8203 size:18467042 http://prey-releases.s3.amazonaws.com/node-client/1.6.3/prey-mac-1.6.3-x86.pkg sha256:eef70a6ca7e94163edb2bea4abbaea0c2e369202d2d2136c0f3e425465eacfb6
+
+wait /bin/sh -c &quot;API_KEY={parameter &quot;PreyAPI&quot; of action} /usr/sbin/installer -pkg __Download/prey-mac-1.6.3-x86.pkg -target /&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

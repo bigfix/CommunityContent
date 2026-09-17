@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Microsoft Office 2011 (Mac) 14.3.7 Update
+  ID       : 2594
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2013-09-11T10:41:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Office 2011 (Mac) 14.3.7 Update</Title>
+    <Description><![CDATA[<P>Microsoft Office 2011 (Mac) 14.3.7 Update </P>
+<P><FONT color=#ff0000><STRONG>Applying this update closes all browsers &amp; office applicaitons!</STRONG></FONT></P>]]></Description>
+    <Relevance>operating system as string starts with &quot;Mac&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance>exists folder &quot;/Applications/Microsoft Office 2011&quot;</Relevance>
+    <Relevance><![CDATA[exists folder "MicrosoftComponentPlugin.framework" whose (version of it >= "14.1.0" as version and version of it < "14.3.7" as version) of folder "/Applications/Microsoft Office 2011/Office"]]></Relevance>
+    <Source>Microsoft</Source>
+    <SourceReleaseDate>2013-09-10</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 11 Sep 2013 17:05:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to&amp;nbsp;update microsoft Office - it will close browsers and office applications.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch Office2011-1437Update_EN-US.dmg sha1:f04e96c170b834e0fbb34fb2d00027ae74cd08f8 size:118844783 http://download.microsoft.com/download/C/6/3/C634FC8C-A1E0-40B9-9B56-87EA64EFCC5F/Office2011-1437Update_EN-US.dmg
+
+
+delete "/tmp/Office2011-1437Update_EN-US.dmg"
+move __Download/Office2011-1437Update_EN-US.dmg /tmp/Office2011-1437Update_EN-US.dmg
+wait hdiutil attach -quiet -private -mountpoint "/tmp/Office2011-1437UpdateEN" /tmp/Office2011-1437Update_EN-US.dmg
+wait cp -r "/tmp/Office2011-1437UpdateEN/Office 2011 14.3.7 Update.pkg" "/tmp/Office 2011 14.3.7 Update.pkg"
+wait /bin/sh -c "hdiutil detach -force '/tmp/Office2011-1437UpdateEN'"
+delete "/tmp/Office2011-1437Update_EN-US.dmg"
+
+// kill browser processes
+wait /usr/bin/killall "Safari"
+wait /usr/bin/killall "Google Chrome"
+wait /usr/bin/killall "Opera"
+wait /usr/bin/killall "firefox"
+
+// Kill Office Processes (using killall works better then a single process kill as RDC and other apps open multiple processes with multiple process IDs)
+wait /usr/bin/killall "Remote Desktop Connection"
+wait /usr/bin/killall "Microsoft AutoUpdate"
+wait /usr/bin/killall "Microsoft PowerPoint"
+wait /usr/bin/killall "Microsoft Excel"
+wait /usr/bin/killall "Microsoft Word"
+wait /usr/bin/killall "Microsoft Document Connection"
+wait /usr/bin/killall "Microsoft Outlook"
+
+// Use the special install flag only for 10.7+ systems
+if {system version < "10.7"}
+	wait /bin/sh -c "installer -pkg '/tmp/Office 2011 14.3.7 Update.pkg' -target /"
+else
+	wait /bin/sh -c "installer -allowUntrusted -pkg '/tmp/Office 2011 14.3.7 Update.pkg' -target /"
+endif
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action2844">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view Microsoft&apos;s description of the Microsoft Office for Mac 2011 14.3.7 Update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.microsoft.com/kb/2877813</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

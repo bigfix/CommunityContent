@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : RUNIT
+  ID       : 26835
+  Author   : mickyt71
+  Domain   : BESC
+  Imported : 2021-02-16T18:02:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>RUNIT</Title>
+    <Description><![CDATA[<DIV class=subsection><STRONG><U>RUNIT</U></STRONG> </DIV>
+<P class=subsection>In the spirit of the BigFix Mantra <EM><STRONG>Find More, Fix More, Do More</STRONG></EM>, this task runs any command entered by the operator and logs the output to the RUNIT.log in the besclient Logs folder.&nbsp; With the power of BigFix you can run any command as Local System on Windows Systems or root on other Systems.&nbsp; The user will be prompted for the command on execution.</P>
+<P class=subsection>You can also&nbsp;use&nbsp;(Action 2) to retrieve the log with Upload Manager and the review the output on the BigFix Server.</P>
+<P class=subsection><STRONG><FONT color=#ff0000>***WARNING*** - It is highly recommended (although not necessary) that you are targetting the correct system and only 1 system </FONT></STRONG><STRONG><FONT color=#ff0000>- <EM>"With great power comes great responsibility"</EM></FONT></STRONG></P>
+<P class=subsection><STRONG><U>Revision History:</U></STRONG></P>
+<UL>
+<LI>
+<DIV class=subsection>12/02/2012 - Michael Thompson - Initial creation</DIV>
+<LI>
+<DIV class=subsection>2021/02/17 - Michael Thompson - Modified the behaviour of invocation and logging due to unreliable results</DIV></LI></UL>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>BigFix Management</Category>
+    <Source>internal</Source>
+    <SourceID>mickyt71</SourceID>
+    <SourceReleaseDate>2012-02-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 17 Feb 2021 06:34:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run RUNIT on an endpoint.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Query the user of the command to run
+action parameter query "remotecmd" with description "Please provide remote command to run:"
+// Check OS
+if {name of operating system contains "Win"}
+  // Run command in Windows context
+  parameter "logfile" = "{parent folder of client folder of current site}\__Global\Logs\RUNIT.log"
+  appendfile echo STARTING RUNIT LOGFILE > "{parameter "logfile"}"
+  appendfile DATE /T >> "{parameter "logfile"}"
+  appendfile TIME /T >> "{parameter "logfile"}"
+  appendfile echo --------------------------------------- >> "{parameter "logfile"}"
+  appendfile echo COMMAND: {parameter "remotecmd"} >> "{parameter "logfile"}"
+  appendfile {parameter "remotecmd"} >> "{parameter "logfile"}"
+  delete runit.cmd
+  move __appendfile runit.cmd
+  waithidden cmd.exe /c runit.cmd
+else
+  // Run in Linux context
+  wait /bin/sh -c "{parameter "remotecmd"} > {parent folder of client folder of current site}/__Global/Logs/RUNIT.log"
+endif
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28109">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to retrieve the RUNIT.log from a system with the Upload Manager.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set the client settings and parameters
+setting &quot;_BESClient_ArchiveManager_OperatingMode&quot;=&quot;2&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+parameter &quot;logFolder&quot; = &quot;{parent folder of client folder of current site}/__Global/Logs&quot;
+parameter &quot;logFile&quot; = &quot;RUNIT.log&quot;
+setting &quot;_BESClient_ArchiveManager_FileSet-client&quot;=&quot;{parameter &quot;logFolder&quot;}/{parameter &quot;logFile&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+
+// Suck up the results
+archive now
+</ActionScript>
+    </Action>
+  </Task>
+</BES>

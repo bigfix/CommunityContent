@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall phpBB on Ubuntu 12.04
+  ID       : 1436
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T22:11:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall phpBB on Ubuntu 12.04</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists folder &quot;/var/www/phpBB3&quot;</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 30 Apr 2013 21:56:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+//create sql drop file
+delete __appendfile
+appendfile drop database phpBB;
+delete "phpBB.sql"
+move __appendfile "phpBB.sql"
+//remove file and execute drop file
+delete __appendfile
+appendfile #!/bin/sh
+appendfile rm -rf /var/www/phpBB3
+appendfile mysql -u root < phpBB.sql
+appendfile
+delete "uninstall.sh"
+move __appendfile "uninstall.sh"
+wait chmod +x uninstall.sh
+wait ./uninstall.sh
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

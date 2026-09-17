@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Splunk - Rollback to Previous Version of "inputs.conf" File
+  ID       : 4008
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2015-03-25T10:36:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Splunk - Rollback to Previous Version of &quot;inputs.conf&quot; File</Title>
+    <Description><![CDATA[Used to revert back changes to "inputs.conf" on Splunk Forwarders.
+<BR>
+<BR>
+This task is used in conjunction with the task found here: <a href=http://bigfix.me/cdb/Fixlet/4003>Splunk - Add "monitor" to Splunk Forwarders</a>]]></Description>
+    <Relevance>if windows of operating system then exists file whose (name of it starts with &quot;inputs.conf.bak.&quot;) of folder &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local&quot; else exists file whose (name of it starts with &quot;inputs.conf.bak.&quot;) of folder &quot;/opt/splunkforwarder/etc/system/local&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-03-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 25 Mar 2015 17:33:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Query user for the change number used to make the change. This will define the specific inputs.conf file to revert back to.
+action parameter query "rfcReference" with Description "Enter the change control number used to create the backup. (Example: CXXXXXXX)"
+
+//Define path to inputs.conf file needing to be altered
+if {name of operating system contains "Win"}
+parameter "filePath"="C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf"
+elseif {name of operating system does not contain "Win"}
+parameter "filePath"="/opt/splunkforwarder/etc/system/local/inputs.conf"
+endif
+
+//Check that a backup for that RFC number exists
+continue if {exists file ((parameter "filePath" of action as string) & ".bak." & (parameter "rfcReference" of action as string))}
+
+//Stop the Splunk service
+if {name of operating system contains "Win"}
+dos net stop splunkforwarder
+elseif {name of operating system contains "Linux"}
+delete __appendfile
+appendfile service splunk stop
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system contains "Sun"}
+delete __appendfile
+appendfile /opt/splunkforwarder/bin/splunk stop
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+endif
+
+//Remove the current inputs.conf file and rename the backup
+delete "{parameter "filePath" of action as string}"
+move "{parameter "filePath" of action as string}.bak.{parameter "rfcReference" of action as string}" "{parameter "filePath" of action as string}"
+
+//Clear any locked files
+if {name of operating system contains "Win"}
+dos "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" clean locks
+elseif {name of operating system contains "Linux"}
+delete __appendfile
+appendfile ./splunk clean locks
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system contains "Sun"}
+delete __appendfile
+appendfile /opt/splunkforwarder/bin/splunk clean locks
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+endif
+
+//Start the Splunk service
+if {name of operating system contains "Win"}
+dos net start splunkforwarder
+elseif {name of operating system contains "Linux"}
+delete __appendfile
+appendfile service splunk start
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system contains "Sun"}
+delete __appendfile
+appendfile /opt/splunkforwarder/bin/splunk start
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+run "{(client folder of current site as string) & "/__appendfile"}"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

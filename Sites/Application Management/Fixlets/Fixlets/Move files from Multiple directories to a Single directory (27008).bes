@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Move files from Multiple directories to a Single directory
+  ID       : 27008
+  Author   : Nishi_Puthran
+  Domain   : BESC
+  Imported : 2023-08-31T04:03:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Move files from Multiple directories to a Single directory</Title>
+    <Description>This task help move files (.txt, .zip, .gz, .dll, etc) from Multiple directories to a Single directory.
+
+Fetches all the files containing &quot;.zip&quot; extension from Sha1 folder of Root server directory and concatenating the output in bat file. Then move them to a single folder.</Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2023-08-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 31 Aug 2023 10:56:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete __appendfile
+delete movefiles.bat
+appendfile move &quot;{concatenation &quot;%22 E:\Upload_Files\%0d%0amove %22&quot; of ((pathname of it) of files whose (name of it contains &quot;.zip&quot;) of descendant folders of folder &quot;E:\Program Files (x86)\BigFix Enterprise\BES Server\UploadManagerData\BufferDir\sha1\&quot;)}{&quot;%22&quot;} &quot;E:\Upload_Files\&quot;
+
+copy __appendfile movefiles.bat
+waithidden cmd.exe /c movefiles.bat
+delete __appendfile</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

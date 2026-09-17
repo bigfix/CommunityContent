@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: Visual Studio 2010 Tools for Office Runtime - Windows
+  ID       : 3767
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-04-11T14:15:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: Visual Studio 2010 Tools for Office Runtime - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P><FONT size=2>
+<P>This installs the Visual Studio 2010 Tools for Office Runtime, which is required to run Microsoft Office based solutions built using Microsoft Visual Studio 2010, 2012, and 2013.</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://www.microsoft.com/en-us/download/details.aspx?id=42513">http://www.microsoft.com/en-us/download/details.aspx?id=42513</A></P>
+<P>&nbsp;</P></FONT>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance>/* Require .NET 4+ */ (exists values &quot;Install&quot; whose(1 = it as string as integer) of (keys &quot;Full&quot; of it) of keys whose(name of it starts with &quot;v4&quot; AND (exists key &quot;Full&quot; of it)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of x32 registry)</Relevance>
+    <Relevance>/* VS2010 tools for office runtime is not already installed */  not exists keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;Microsoft Visual Studio 2010 Tools for Office Runtime&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance><![CDATA[/* Requires Office ... 2007,2010,2013 */ (it >= "12.0.0" AND it < "16.0") of unique value of (following text of last " " of preceding text of first "," of it as string as version) of string values of selects "Name from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null" of wmi]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Apr 2014 21:13:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// http://www.microsoft.com/en-us/download/details.aspx?id=40790
+// http://download.microsoft.com/download/1/D/1/1D16DA35-34C2-47FB-9BA5-35EED9603C42/vstor_redist.exe
+prefetch vstor_redist.exe sha1:d40db6440bd2b5b5aa00da63f408469ff22a9542 size:40058464 http://download.microsoft.com/download/1/D/1/1D16DA35-34C2-47FB-9BA5-35EED9603C42/vstor_redist.exe
+
+// Install
+wait __Download\vstor_redist.exe /q /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

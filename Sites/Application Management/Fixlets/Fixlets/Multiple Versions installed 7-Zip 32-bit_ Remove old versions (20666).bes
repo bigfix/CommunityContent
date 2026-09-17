@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Multiple Versions installed 7-Zip 32-bit: Remove old versions
+  ID       : 20666
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-05-18T09:21:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Multiple Versions installed 7-Zip 32-bit: Remove old versions</Title>
+    <Description><![CDATA[<P>Remove old versions of 7-zip 32-bit.</P>
+<P>Removes versions older than the latest installed version, including EXE and MSI versions.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[(number of keys whose (value "DisplayName" of it as string as lowercase contains "7-zip") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry) > 1 )]]></Relevance>
+    <SourceReleaseDate>2016-05-18</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 18 May 2016 15:47:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Find the Max Version EXE and MSI
+parameter "MaxVersion" = "{maximum of unique values of ((values "DisplayVersion" of keys whose (value "DisplayName" of it as string as lowercase contains "7-zip") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)) as string as version)}"
+
+// Remove the 64-bit EXE version
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "DisplayVersion" of it as string as version < parameter "MaxVersion" AND value "UninstallString" of it as string as lowercase contains "uninstall") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)}
+waithidden {value "UninstallString" of key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "DisplayVersion" of it as string as version < parameter "MaxVersion" AND value "UninstallString" of it as string as lowercase contains "uninstall") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)} /S
+endif
+
+// Remove old 64-bit MSI versions
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "DisplayVersion" of it as string as version < parameter "MaxVersion" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)}
+delete __createfile
+delete uninstall.bat
+createfile until _end_
+{ concatenations "%0d%0a" of ((pathname of system folder & "\msiexec.exe /X ")  & (preceding text of last "}}" of it) & "}} /quiet /norestart") of names of keys whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "DisplayVersion" of it as string as version < parameter "MaxVersion" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry) }
+_end_
+move __createfile uninstall.bat
+waithidden uninstall.bat
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

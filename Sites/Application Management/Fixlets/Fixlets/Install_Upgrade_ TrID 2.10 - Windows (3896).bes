@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: TrID 2.10 - Windows
+  ID       : 3896
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-15T12:51:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: TrID 2.10 - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string contains "TrID" AND value "DisplayVersion" of it as string as version >= "2.10") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-10-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 15 Oct 2014 19:22:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// -- START:DOWNLOADS -----------------------
+
+//  - This is the commandline 7zip console which is use to unpack installers
+//  - https://www.virustotal.com/en/file/2a3afe19c180f8373fa02ff00254d5394fec0349f5804e0ad2f6067854ff28ac/analysis
+prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+// DOWNLOAD zipinst
+//   http://www.nirsoft.net/utils/zipinst.html
+prefetch zipinst.exe sha1:6a1290fd85019dc80e34abeb4be5bcbbc742d012 size:39424 http://www.nirsoft.net/utils/zipinst.exe
+
+// DOWNLOAD
+prefetch trid_w32.zip sha1:63c395f363164de84033ff6e3fb1a9886800c73c size:30602 http://mark0.net/download/trid_w32.zip
+prefetch triddefs.zip sha1:d1525aa9de2a4e677a798a36cce9c0ca88c2d9ae size:736657 http://mark0.net/download/triddefs.zip
+// http://mark0.net/download/triddefs.trd.md5
+
+// -- END:DOWNLOADS -------------------------
+
+
+// ADD TO UTILITY CACHE (to use in multiple tasks)
+utility __Download\zipinst.exe
+utility __Download\unzip.exe
+utility __Download\7za.zip
+
+// EXTRACT using unzip: the 7zip command line utility
+waithidden __Download\unzip.exe -o &quot;{pathname of file &quot;7za.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; 7za.exe -d &quot;{pathname of folder &quot;__Download&quot; of client folder of current site}&quot;
+
+// EXTRACT using 7zip: the triddefs update
+waithidden &quot;{(pathname of file &quot;7za.exe&quot; of folder &quot;__Download&quot; of client folder of current site)}&quot; e -y -o&quot;{ pathname of folder &quot;__Download&quot; of client folder of current site }&quot; &quot;{pathname of file &quot;triddefs.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+
+// ADD new triddefs to trid_w32.zip
+waithidden &quot;{(pathname of file &quot;7za.exe&quot; of folder &quot;__Download&quot; of client folder of current site)}&quot; a -y &quot;{pathname of file &quot;trid_w32.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; -ir!.\__Download\*.trd
+
+// Create zipinst config file
+//   http://www.nirsoft.net/utils/zipinst.html
+delete __createfile
+delete __Download\zipinst.zic
+createfile until END_OF_FILE
+[install]
+ProductName=TrID
+ProductVersion=2.10
+CompanyName=Marco Pontello
+Description=http://mark0.net/soft-trid-e.html
+ZipFile={ pathname of files whose(name of it = &quot;trid_w32.zip&quot;) of folder &quot;__Download&quot; of client folder of current site }
+AddUninstall=1
+AddUninstallShortcut=0
+DesktopShortcut=0
+InstallTo=1
+StartMenuShortcut=0
+NoUserInteraction=1
+NoExtraUninstallInfo=0
+NoSuccessMessage=1
+UninstallInDestFolder=1
+END_OF_FILE
+
+move __createfile &quot;{pathname of client folder of current site}\__Download\zipinst.zic&quot;
+
+// INSTALL
+waithidden __Download\zipinst.exe /cfg &quot;{pathname of client folder of current site}\__Download\zipinst.zic&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

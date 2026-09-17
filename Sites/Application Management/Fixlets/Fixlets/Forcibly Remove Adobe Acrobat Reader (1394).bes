@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Forcibly Remove Adobe Acrobat Reader
+  ID       : 1394
+  Author   : DavidSmith
+  Domain   : BESC
+  Imported : 2013-01-30T15:46:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Forcibly Remove Adobe Acrobat Reader</Title>
+    <Description><![CDATA[<H2>Adobe Reader and Acrobat Cleaner Tool</H2>
+<DIV class=columns-2-Abb-A>
+<P>The Adobe Reader and Acrobat Cleaner Tool removes a standalone installation of Reader or Acrobat, including any preferences and settings that may be preserved during a standard program uninstall. The tool has both a user interface as well as a command line interface.</P></DIV>
+<P>While most installs, uninstalls, updates, and repair operations happen without incident, there are cases where a user may not be able to complete such tasks due to some registry or file conflict on the machine. This is particularly problematic when permissions set on registry entries or files prevent the successful installation of new installs and/or updates. The Adobe Reader and Acrobat Cleaner Tool is designed to fix such issues by cleaning up corrupted installations, including removing or fixing corrupted files, removing or changing permissions registry entries, etc. The tool provides options for removing problematic Acrobat items only while leaving Reader untouched and vice versa.</P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists keys whose (value &quot;DisplayName&quot; of it as string contains &quot;Adobe Reader&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <SourceReleaseDate>2013-01-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 30 Jan 2013 21:41:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch acrobat_ittools_cleaner_p1_040612.zip sha1:43e3e81ca00835f876ae8bb81d070acc2c6e9a28 size:719310 http://labsdownload.adobe.com/pub/labs/acrobat_ittools/acrobat_ittools_cleaner_p1_040612.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+waithidden __Download\unzip.exe -qq -o -d &quot;./&quot; __Download\acrobat_ittools_cleaner_p1_040612.zip
+waithidden AdbeArCleaner.exe /silent /product=1
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action1644">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about the AdbeArCleaner Utility.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://labs.adobe.com/downloads/acrobatcleaner.html</ActionScript>
+    </Action>
+  </Task>
+</BES>

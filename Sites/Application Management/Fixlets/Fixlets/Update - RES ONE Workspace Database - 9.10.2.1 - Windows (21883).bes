@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace Database - 9.10.2.1 - Windows
+  ID       : 21883
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-10-03T16:47:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace Database - 9.10.2.1 - Windows</Title>
+    <Description><![CDATA[<P>Updates the corresponding RES ONE Workspace component to RES ONE Workspace 2015 SR2 with version&nbsp;9.10.2.1</P>
+<P>If your Database is also a client <STRONG>this fixlet will upgrade the client</STRONG> at the same time as it upgrades the server.</P>
+<P>If your Database is also a relay <STRONG>this fixlet will upgrade the relay</STRONG> at the same time as it upgrades the server.</P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;res&quot;</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")]]></Relevance>
+    <Relevance><![CDATA[exists key "HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager" whose (value "Version" of it as string as version < "9.10.2.1" as version) of x32 registry]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-10-03
+prefetch RES-ONE-Workspace-2015-Auto-Service-Pack-9.10.2.1.exe sha1:F3C645642109BE0C9FD6D7B971B8F0990D8BEBC1 size:48951144 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-Auto-Service-Pack-9.10.2.1.exe sha256:EC95C5F04FFF41C25E302A226D09733C6BE73FC90C48D97D8C5026CB7AAD4CF2
+
+waithidden &quot;__Download\RES-ONE-Workspace-2015-Auto-Service-Pack-9.10.2.1.exe&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

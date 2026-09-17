@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Open Monitor Manual - PG279Q - Windows
+  ID       : 26639
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2019-08-09T03:50:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Open Monitor Manual - PG279Q - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (current users;logged on users)</Relevance>
+    <Relevance>exists string values whose(it contains &quot;PG279Q&quot;) of selects &quot;MonitorType from Win32_DesktopMonitor&quot; of wmis</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-08-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Aug 2019 15:47:30 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// PG279Q
+// http://dlcdnet.asus.com/pub/ASUS/LCD%20Monitors/PG279/PG279Q_English.pdf
+prefetch PG279Q_English.pdf sha1:985f2e5b3aff6cac912d883cc99a3dac2ca1654a size:4123590 https://dlcdnets.asus.com/pub/ASUS/LCD%20Monitors/PG279/PG279_English.pdf sha256:8cd8762e9c38122dcce219ba36ddde08bbf9dc9be466b975b8a42598c7eb58bb
+
+parameter &quot;DestinationFile&quot;=&quot;C:\Users\Public\Documents\Monitor_Manual_PG279Q.pdf&quot;
+
+delete {parameter &quot;DestinationFile&quot;}
+copy __Download\PG279Q_English.pdf {parameter &quot;DestinationFile&quot;}
+
+// Open PDF in default viewer
+override run
+runas=currentuser
+run explorer.exe {parameter &quot;DestinationFile&quot;}
+
+// - https://msdn.microsoft.com/en-us/library/aa394122(v=vs.85).aspx
+// - https://www.ibm.com/support/knowledgecenter/en/SS2TKN_9.5.0/com.ibm.bigfix.doc/Platform/Action/c_override.html
+// - https://stackoverflow.com/questions/6557920/how-to-open-a-pdf-in-fullscreen-view-via-command-line
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

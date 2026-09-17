@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall KB 3114717 - MS Office Issues - Windows
+  ID       : 9144
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-02-12T18:46:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall KB 3114717 - MS Office Issues - Windows</Title>
+    <Description>WARNING: this may automatically reboot the system twice if a user is logged in.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys whose(exists values &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;kb3114717&quot; AND it as string as lowercase contains &quot;32-bit&quot;) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-02-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 13 Feb 2016 01:41:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// uninstall KB 3114717
+
+delete __createfile
+
+createfile until END_OF_FILE
+{ concatenations "%0d%0a" of ("msiexec /qn /package " & (preceding text of first "_" of it) & " /uninstall " & (following text of last "_" of it)) of names of keys whose(exists values "DisplayName" whose(it as string as lowercase contains "kb3114717" AND it as string as lowercase contains "32-bit") of it) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries;x32 registries) }
+END_OF_FILE
+
+delete __Download\uninstall.bat
+copy __createfile __Download\uninstall.bat
+
+waithidden __Download\uninstall.bat]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

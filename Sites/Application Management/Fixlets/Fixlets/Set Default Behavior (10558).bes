@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set Default Behavior
+  ID       : 10558
+  Author   : RESQA
+  Domain   : SYST
+  Imported : 2016-03-24T05:00:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set Default Behavior</Title>
+    <Description>This task changes the default behavior of RES so end users do not know that RES is running </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists setting &quot;RES_IEM_Integration_Endpoint&quot; whose (value of it = &quot;1&quot;) of client</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160321-102103
+
+
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\defaults.xml"}"
+createfile until __done
+<?xml version="1.0"?>
+<!-- RES Workspace Manager Building Block -->
+<!-- Created by Administrator on 6/29/2014 6:38:18 PM -->
+<respowerfuse>
+	<version>9.9.1.95</version>
+	<buildingblock>
+		<application>
+			<guid>{"%7b3E0EC101-FA69-4E94-8544-85CED0CC2C64%7d"}</guid>
+			<configuration>
+				<menu>Start\Application Security</menu>
+				<title>Refresh Application Security Database</title>
+				<description>Refreshes the approved application list.</description>
+				<commandline>%RESPFDIR%\pwrgate.exe</commandline>
+				<workingdir>%RESPFDIR%</workingdir>
+				<parameters>-2</parameters>
+				<subscribed>no</subscribed>
+				<runwithsccm>no</runwithsccm>
+				<administrativenote></administrativenote>
+				<unmanagedshortcuts>keep</unmanagedshortcuts>
+				<createmenushortcut>yes</createmenushortcut>
+				<startmenu>none</startmenu>
+				<desktop>always</desktop>
+				<quicklaunch>none</quicklaunch>
+				<defaulticon>no</defaulticon>
+				<icon32x256>0000010001002020000001000800A808000016000000280000002000000040000000010008000000000000040000000000000000000000010000000100000000000022238D0027288D00292A8A00282A8D002A2C8E002E2F8E002F3088002E308D003031880034358B0031328F0033348D00393A8D003D3E8E002727900023249400262795002728910027289500292A910025269A0026279D002728990027289F00292A9A0028299C003D3E92002728A2002728A400292AA2002B2CA3002829A500292AAA002A2AAD002C2DAC002D2DB1002D2DB5002E2EB9002E2EBD002F30B9003031BB003030BD00414291004445910047489500484994004C4D9400505197005152980056579A0058599B0058599D005B5C9E005E5FA0006162A1006565A4006768A5006869A6006E6FA9007172AB007576AD007979AF007A7AB0007E7FB2001E1DC700201FC8002F2FC0002322C9002625C9002827C9002A29CA003031C1003131C5003131C9003232CC003736CD003B3ACF003232D000403FD0004343D0004544D1004B4AD3005656D5005858D6005E5ED7007070DB007979DE007C7BDE007D7DDF008283B6008484B6008383B9008888B8008B8CBA008C8CBA009999C2009FA0C600A1A1C700A2A3C800A5A6CA00A8A9CB00AAAACC00B1B1D100B6B6D300B6B7D400B8B9D5008382E0008D8CE3009696E5009D9CE700A4A3E800B2B1EB00B4B3EC00B4B4EC00BEBEEF00C0BFEF00C0BFF000C2C2DA00C5C5DE00C9C9DE00CECEE200D0D1E300D2D2E500D6D6E600D9D9E900DCDCE900C4C3F000C4C4F100CACAF200CECDF300D0D0F300D0D0F400D6D6F500D7D8F500D8D8F600DEDEF700E1E1EE00E6E6F100ECEDF400EDEDFA00F0EFFC00F0F0F600F5F5F900F5F5FF00F8F8FB00F9F9FD00FEFEFE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF004B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B4B494B4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B251005081320494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1A2C60797C6839052A4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1A338AFFFFFFFFFF6005494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B270D8AFFFFFFFFFFFFFF3D1A4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E1640FFFFFFFFFFFFFFFF7C08494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1066FFFFFFFFFFFFFFFF8F2C274E4E4B4B4B4B4E4B4B4B4B4B4B4B4B4B4B4B4B1064FFFFFFFFFFFFFFFF8E1B4749221510101520274B4E4B4B4B4B4B4B4B4B4E203DFFFFFFFFFFFFFFFF7E051008355F6466603D2C10254B4B4B4B4B4B4B4B4B2A087CFFFFFFFFFFFFFF905C5B7CFFFFFFFFFFFF8E642C164B4B4B4B4B4B4B4B4B202F7EFFFFFFFFFFFFFFFFFFFF82FFFFFFFFFFFFFF8A38104B4B4B4B4B4B4B4B4B200D5B6A776477FFFFFFFF73475885FFFFFFFFFFFFFF3A104B4B4B4B4B4B4B4B4B27161313011B90FFFFFF5345454B526EFFFFFFFFFF8E2F224E4B4B4B4B4B4B4B4B4B4B4B203AFFFFFFFF6D45474444446CFFFFFFFFFF68054B4B4B4B4B4B4B4B4B4B4B4B0577FFFFFFFF824454584F474472FFFFFFFFFF31254E4B4B4B4B4B4B4B4B4B272E90FFFFFFFF724288FF864C414B88FFFFFFFF5F154B4B4B4B4B4B4B4B4B4E223AFFFFFFFFFF8558FFFFFF8258546FFFFFFFFF68134B4B4B4B4B4B4B4B4B4E1D40FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF78054B4B4B4B4B4B4B4B4B4E1D3EFFFFFF856B4B4B4B4B4B4B4B4B5674FFFFFF78054B4B4B4B4B4B4B4B4B4E2238FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF68104B4B4B4B4B4B4B4B4B4B272C8FFFFFFF804B4B4B4B4B4B4B4B6DFFFFFFFF5B154E4B4B4B4B4B4B4B4B4B4B056AFFFFFF4B72727272727272724BFFFFFF902F254E4B4B4B4B4B4B4B4B4B4E2033FFFFFF4B72FFFFFFFFFFFF804BFFFFFF64014B4B4B4B4B4B4B4B4B4B4B4B4B0161FFFF4B72727272727272724BFFFF8A0D254E4B4B4B4B4B4B4B4B4B4B4B4E27086AFF75504B4B4B4B4B4B5075FF8E311A4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E250862FFFF908D8D8D8D8D90FF7C30164B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E2705387790FFFFFFFFFF7E5F08204B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4920052F3B5F5F40330810274E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B252015151D22494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B4B4E4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</icon32x256>
+				<icon32x16>0000010001002020000001000800A808000016000000280000002000000040000000010008000000000000040000000000000000000000010000000100000000000022238D0027288D00292A8A00282A8D002A2C8E002E2F8E002F3088002E308D003031880034358B0031328F0033348D00393A8D003D3E8E002727900023249400262795002728910027289500292A910025269A0026279D002728990027289F00292A9A0028299C003D3E92002728A2002728A400292AA2002B2CA3002829A500292AAA002A2AAD002C2DAC002D2DB1002D2DB5002E2EB9002E2EBD002F30B9003031BB003030BD00414291004445910047489500484994004C4D9400505197005152980056579A0058599B0058599D005B5C9E005E5FA0006162A1006565A4006768A5006869A6006E6FA9007172AB007576AD007979AF007A7AB0007E7FB2001E1DC700201FC8002F2FC0002322C9002625C9002827C9002A29CA003031C1003131C5003131C9003232CC003736CD003B3ACF003232D000403FD0004343D0004544D1004B4AD3005656D5005858D6005E5ED7007070DB007979DE007C7BDE007D7DDF008283B6008484B6008383B9008888B8008B8CBA008C8CBA009999C2009FA0C600A1A1C700A2A3C800A5A6CA00A8A9CB00AAAACC00B1B1D100B6B6D300B6B7D400B8B9D5008382E0008D8CE3009696E5009D9CE700A4A3E800B2B1EB00B4B3EC00B4B4EC00BEBEEF00C0BFEF00C0BFF000C2C2DA00C5C5DE00C9C9DE00CECEE200D0D1E300D2D2E500D6D6E600D9D9E900DCDCE900C4C3F000C4C4F100CACAF200CECDF300D0D0F300D0D0F400D6D6F500D7D8F500D8D8F600DEDEF700E1E1EE00E6E6F100ECEDF400EDEDFA00F0EFFC00F0F0F600F5F5F900F5F5FF00F8F8FB00F9F9FD00FEFEFE000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF004B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B4B494B4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B251005081320494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1A2C60797C6839052A4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1A338AFFFFFFFFFF6005494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B270D8AFFFFFFFFFFFFFF3D1A4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E1640FFFFFFFFFFFFFFFF7C08494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B1066FFFFFFFFFFFFFFFF8F2C274E4E4B4B4B4B4E4B4B4B4B4B4B4B4B4B4B4B4B1064FFFFFFFFFFFFFFFF8E1B4749221510101520274B4E4B4B4B4B4B4B4B4B4E203DFFFFFFFFFFFFFFFF7E051008355F6466603D2C10254B4B4B4B4B4B4B4B4B2A087CFFFFFFFFFFFFFF905C5B7CFFFFFFFFFFFF8E642C164B4B4B4B4B4B4B4B4B202F7EFFFFFFFFFFFFFFFFFFFF82FFFFFFFFFFFFFF8A38104B4B4B4B4B4B4B4B4B200D5B6A776477FFFFFFFF73475885FFFFFFFFFFFFFF3A104B4B4B4B4B4B4B4B4B27161313011B90FFFFFF5345454B526EFFFFFFFFFF8E2F224E4B4B4B4B4B4B4B4B4B4B4B203AFFFFFFFF6D45474444446CFFFFFFFFFF68054B4B4B4B4B4B4B4B4B4B4B4B0577FFFFFFFF824454584F474472FFFFFFFFFF31254E4B4B4B4B4B4B4B4B4B272E90FFFFFFFF724288FF864C414B88FFFFFFFF5F154B4B4B4B4B4B4B4B4B4E223AFFFFFFFFFF8558FFFFFF8258546FFFFFFFFF68134B4B4B4B4B4B4B4B4B4E1D40FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF78054B4B4B4B4B4B4B4B4B4E1D3EFFFFFF856B4B4B4B4B4B4B4B4B5674FFFFFF78054B4B4B4B4B4B4B4B4B4E2238FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF68104B4B4B4B4B4B4B4B4B4B272C8FFFFFFF804B4B4B4B4B4B4B4B6DFFFFFFFF5B154E4B4B4B4B4B4B4B4B4B4B056AFFFFFF4B72727272727272724BFFFFFF902F254E4B4B4B4B4B4B4B4B4B4E2033FFFFFF4B72FFFFFFFFFFFF804BFFFFFF64014B4B4B4B4B4B4B4B4B4B4B4B4B0161FFFF4B72727272727272724BFFFF8A0D254E4B4B4B4B4B4B4B4B4B4B4B4E27086AFF75504B4B4B4B4B4B5075FF8E311A4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E250862FFFF908D8D8D8D8D90FF7C30164B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E2705387790FFFFFFFFFF7E5F08204B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4920052F3B5F5F40330810274E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B252015151D22494B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4E4B4B4E4E4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B4B0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</icon32x16>
+				<icon16x256>0000010001001010000001000800680500001600000028000000100000002000000001000800000000000001000000000000000000000001000000010000000000001B1CA7001B1BAA003636AA003333AE003334AE003535AE003838AA003838AD003B3CAE002D2DB2002929B5002727BA002828B8003031B0003F40A9003F40AF004041A9004041AD004545AE004A4AAE004F50B0006E6FB2007879B8002727C4002A2AC0002828C7002B2CC8002D2DCA002E2ECD003131CC003030D0008384BC008B8CC1009191C2009C9DC6009FA0C700A2A2C800A9A9CB00ADADCE00B3B3D200B5B6D200BBBBD300C0C0DC00C8C9E000D5D5E100D8D8E800DCDCEA00E3E3E900E4E4EB00E5E5EC00E8E8ED00EAEAF300EFEFF100F1F0F200F2F2F400F4F4F500F7F8F600FFFFFA00FEFEFE00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF001B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1F1A08120B1F1F1F1F1F1F1F1F1F1B1B1A163338270E1F1F1F1F1F1F1F1F1B1B0838FFFFFF171A1F1B1F1F1F1F1F1B1B14FFFFFFFF21020812080C1B1F1F1B1B0B2AFFFFFF2C2735FF3525081B1F1B1B1F0520222CFFFFFFFFFFFF2E081F1B1B1F1F180128FFFFFF20FFFFFF230C1B1B1F1F1B1238FFFF021B02FFFF33051B1B1F1F1B15FFFF201B021B20FF39121B1B1F1F1B1238FFFF021B02FFFF33051B1B1F1F1F0B28FFFFFF20FFFFFF230C1B1B1F1F1F1B1233FFFFFFFFFF2E051F1B1B1F1F1F1F1B12272F352F23051B1F1B1B1F1F1F1F1F1B0C0812050C1F1F1F1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</icon16x256>
+				<icon16x16>0000010001001010000001000800680500001600000028000000100000002000000001000800000000000001000000000000000000000001000000010000000000001B1CA7001B1BAA003636AA003333AE003334AE003535AE003838AA003838AD003B3CAE002D2DB2002929B5002727BA002828B8003031B0003F40A9003F40AF004041A9004041AD004545AE004A4AAE004F50B0006E6FB2007879B8002727C4002A2AC0002828C7002B2CC8002D2DCA002E2ECD003131CC003030D0008384BC008B8CC1009191C2009C9DC6009FA0C700A2A2C800A9A9CB00ADADCE00B3B3D200B5B6D200BBBBD300C0C0DC00C8C9E000D5D5E100D8D8E800DCDCEA00E3E3E900E4E4EB00E5E5EC00E8E8ED00EAEAF300EFEFF100F1F0F200F2F2F400F4F4F500F7F8F600FFFFFA00FEFEFE00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF001B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1F1A08120B1F1F1F1F1F1F1F1F1F1B1B1A163338270E1F1F1F1F1F1F1F1F1B1B0838FFFFFF171A1F1B1F1F1F1F1F1B1B14FFFFFFFF21020812080C1B1F1F1B1B0B2AFFFFFF2C2735FF3525081B1F1B1B1F0520222CFFFFFFFFFFFF2E081F1B1B1F1F180128FFFFFF20FFFFFF230C1B1B1F1F1B1238FFFF021B02FFFF33051B1B1F1F1B15FFFF201B021B20FF39121B1B1F1F1B1238FFFF021B02FFFF33051B1B1F1F1F0B28FFFFFF20FFFFFF230C1B1B1F1F1F1B1233FFFFFFFFFF2E051F1B1B1F1F1F1F1B12272F352F23051B1F1B1B1F1F1F1F1F1B0C0812050C1F1F1F1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</icon16x16>
+			</configuration>
+			<settings>
+				<enabled>yes</enabled>
+				<instances>1</instances>
+				<startstyle>normal</startstyle>
+				<priority>normal</priority>
+				<requiredconnectionstate>both</requiredconnectionstate>
+				<nopowerhelp>no</nopowerhelp>
+				<noinstancemsg>no</noinstancemsg>
+				<nonewappmsg>no</nonewappmsg>
+				<onlyresshell>no</onlyresshell>
+				<onlywindowsshell>no</onlywindowsshell>
+				<systemtray>yes</systemtray>
+				<autoall>no</autoall>
+				<noauto>no</noauto>
+				<password>no</password>
+				<nocpushield>no</nocpushield>
+				<nopowerload>no</nopowerload>
+				<nomemoryshield>no</nomemoryshield>
+				<separatememory>no</separatememory>
+				<hidefrommenu>no</hidefrommenu>
+				<checkappexists>yes</checkappexists>
+				<genericisolation>no</genericisolation>
+				<nofolderredir>no</nofolderredir>
+			</settings>
+			<powerzones/>
+			<accesscontrol access_mode="or">
+				<accesstype>all</accesstype>
+			</accesscontrol>
+			<licensing>
+				<type>named</type>
+				<cost>0</cost>
+				<count>0</count>
+				<user>0</user>
+				<users>0</users>
+			</licensing>
+			<zone_mode>or</zone_mode>
+			<appguard>
+				<learning>no</learning>
+				<onlypm>no</onlypm>
+				<unauthorizedappaction>default</unauthorizedappaction>
+			</appguard>
+			<netguard>
+				<learning>no</learning>
+			</netguard>
+			<security_privileges>
+				<access_token>do_nothing</access_token>
+			</security_privileges>
+			<notifications>
+				<disabled>
+					<rtftext/>
+					<backcolor>-2147483643</backcolor>
+					<size>
+						<height>0</height>
+						<width>0</width>
+					</size>
+				</disabled>
+				<notification>
+					<show>no</show>
+					<once>no</once>
+					<runoncefile/>
+					<rtftext/>
+					<backcolor>-2147483643</backcolor>
+					<size>
+						<height>0</height>
+						<width>0</width>
+					</size>
+				</notification>
+			</notifications>
+			<powerhours>
+				<enabled>no</enabled>
+			</powerhours>
+			<citrix>
+				<enabled>no</enabled>
+			</citrix>
+			<tsremoteapp>
+				<enabled>no</enabled>
+			</tsremoteapp>
+			<instantdatasources/>
+			<instantmapi/>
+			<userpreference_settings>
+				<configview>basic</configview>
+				<autozptmode>no</autozptmode>
+				<enabled>no</enabled>
+				<apply>yes</apply>
+				<userpref_load_policy>default</userpref_load_policy>
+				<preserve>yes</preserve>
+				<userpref_store_policy>roam</userpref_store_policy>
+				<overridelocalcaching>no</overridelocalcaching>
+				<rollback>no</rollback>
+				<rollback_sessions>5</rollback_sessions>
+				<rollback_console>no</rollback_console>
+				<rollback_default>no</rollback_default>
+				<rollback_console_default>no</rollback_console_default>
+				<starttracking>afterappstart</starttracking>
+				<foldertotrack>%APPDATA%</foldertotrack>
+				<registrytotrack>HKEY_CURRENT_USER</registrytotrack>
+				<extraprocesstotrack/>
+				<exclude_filesize unit="" enabled="no"/>
+				<preservesettings>application_end</preservesettings>
+				<samplingmode>no</samplingmode>
+				<samplingratio>
+					<numerator>1</numerator>
+					<denominator>10</denominator>
+				</samplingratio>
+			</userpreference_settings>
+			<selectworkspacebyuser>no</selectworkspacebyuser>
+			<selectworkspacebyusermsg>Please select one of the following workspace containers:</selectworkspacebyusermsg>
+		</application>
+		<application_settings>
+			<shortcutcreation>add</shortcutcreation>
+			<autolaunchnewappsonrefresh>yes</autolaunchnewappsonrefresh>
+			<check4disabledapps>no</check4disabledapps>
+			<disableactivesetup>yes</disableactivesetup>
+			<disableautolaunchformanapps>no</disableautolaunchformanapps>
+			<disableprocintercept>yes</disableprocintercept>
+			<limitofflineapps>no</limitofflineapps>
+			<limitonlineapps>no</limitonlineapps>
+			<limitsubscribedapps>no</limitsubscribedapps>
+			<refreshonchangedstartmenu>yes</refreshonchangedstartmenu>
+			<removeemptymenus>yes</removeemptymenus>
+			<offline>no</offline>
+			<online>no</online>
+			<exceptions/>
+		</application_settings>
+		<application_defaults>
+			<configuration>
+				<menu></menu>
+				<title></title>
+				<description></description>
+				<commandline>-</commandline>
+				<workingdir></workingdir>
+				<parameters></parameters>
+				<subscribed>no</subscribed>
+				<runwithsccm>no</runwithsccm>
+				<administrativenote></administrativenote>
+				<unmanagedshortcuts>keep</unmanagedshortcuts>
+				<createmenushortcut>yes</createmenushortcut>
+				<intercept_launch>ignore</intercept_launch>
+				<startmenu>none</startmenu>
+				<desktop>none</desktop>
+				<quicklaunch>none</quicklaunch>
+				<defaulticon>yes</defaulticon>
+			</configuration>
+			<settings>
+				<enabled>yes</enabled>
+				<instances>1</instances>
+				<startstyle>normal</startstyle>
+				<priority>normal</priority>
+				<requiredconnectionstate>both</requiredconnectionstate>
+				<nopowerhelp>no</nopowerhelp>
+				<noinstancemsg>no</noinstancemsg>
+				<nonewappmsg>no</nonewappmsg>
+				<onlyresshell>no</onlyresshell>
+				<onlywindowsshell>no</onlywindowsshell>
+				<systemtray>yes</systemtray>
+				<autoall>no</autoall>
+				<noauto>no</noauto>
+				<password>no</password>
+				<nocpushield>no</nocpushield>
+				<nopowerload>no</nopowerload>
+				<nomemoryshield>no</nomemoryshield>
+				<separatememory>no</separatememory>
+				<hidefrommenu>no</hidefrommenu>
+				<checkappexists>no</checkappexists>
+				<genericisolation>no</genericisolation>
+				<nofolderredir>no</nofolderredir>
+			</settings>
+			<powerzones/>
+			<accesscontrol access_mode="or">
+				<accesstype>secrole</accesstype>
+				<secroles/>
+			</accesscontrol>
+			<licensing>
+				<type>named</type>
+				<cost>0</cost>
+				<count>0</count>
+				<user>0</user>
+				<users>0</users>
+			</licensing>
+			<zone_mode>or</zone_mode>
+			<appguard>
+				<learning>no</learning>
+				<onlypm>no</onlypm>
+				<unauthorizedappaction>default</unauthorizedappaction>
+			</appguard>
+			<netguard>
+				<learning>no</learning>
+			</netguard>
+			<notifications>
+				<disabled>
+					<rtftext/>
+					<backcolor>-2147483643</backcolor>
+					<size>
+						<height>0</height>
+						<width>0</width>
+					</size>
+				</disabled>
+				<notification>
+					<show>no</show>
+					<once>no</once>
+					<runoncefile/>
+					<rtftext/>
+					<backcolor>-2147483643</backcolor>
+					<size>
+						<height>0</height>
+						<width>0</width>
+					</size>
+				</notification>
+			</notifications>
+			<powerhours>
+				<enabled>no</enabled>
+			</powerhours>
+			<citrix>
+				<enabled>no</enabled>
+			</citrix>
+			<tsremoteapp>
+				<enabled>no</enabled>
+			</tsremoteapp>
+			<userpreference_settings>
+				<configview>basic</configview>
+				<autozptmode>no</autozptmode>
+				<enabled>no</enabled>
+				<apply>yes</apply>
+				<userpref_load_policy>default</userpref_load_policy>
+				<preserve>yes</preserve>
+				<userpref_store_policy>roam</userpref_store_policy>
+				<overridelocalcaching>no</overridelocalcaching>
+				<rollback>no</rollback>
+				<rollback_sessions>5</rollback_sessions>
+				<rollback_console>no</rollback_console>
+				<rollback_default>no</rollback_default>
+				<rollback_console_default>no</rollback_console_default>
+				<starttracking>afterappstart</starttracking>
+				<foldertotrack>%APPDATA%</foldertotrack>
+				<registrytotrack>HKEY_CURRENT_USER</registrytotrack>
+				<extraprocesstotrack/>
+				<exclude_filesize unit="" enabled="no"/>
+				<preservesettings>application_end</preservesettings>
+				<samplingmode>no</samplingmode>
+				<samplingratio>
+					<numerator>1</numerator>
+					<denominator>10</denominator>
+				</samplingratio>
+			</userpreference_settings>
+			<selectworkspacebyuser>no</selectworkspacebyuser>
+			<selectworkspacebyusermsg>Please select one of the following workspace containers:</selectworkspacebyusermsg>
+		</application_defaults>
+		<startmenulockdown>
+			<enabled>yes</enabled>
+			<commonshell>
+				<redtaskbar>no</redtaskbar>
+				<alwayshiderun>no</alwayshiderun>
+				<noclose>no</noclose>
+				<hideshutdown>no</hideshutdown>
+				<norecentdocshistory>no</norecentdocshistory>
+				<hideclock>no</hideclock>
+				<hidedisconnect>no</hidedisconnect>
+				<hidelogoff>no</hidelogoff>
+				<hidelockdesktop>no</hidelockdesktop>
+				<hideshowtasklist>no</hideshowtasklist>
+			</commonshell>
+			<alwayshidelogoffstartmenu>no</alwayshidelogoffstartmenu>
+			<windowsshell>
+				<noviewcontextmenu>no</noviewcontextmenu>
+				<nochangestartmenu>no</nochangestartmenu>
+				<start_searchprograms>no</start_searchprograms>
+				<notraycontextmenu>no</notraycontextmenu>
+				<hidescahealth>no</hidescahealth>
+				<hideiconsatstartrefresh>no</hideiconsatstartrefresh>
+				<nosettaskbar>no</nosettaskbar>
+				<nosetactivedesktop>no</nosetactivedesktop>
+				<nostartmenudownloads>no</nostartmenudownloads>
+				<nostartmenumygames>no</nostartmenumygames>
+				<nosmhelp>no</nosmhelp>
+				<nostartmenuhomegroup>no</nostartmenuhomegroup>
+				<nosmmydocs>no</nosmmydocs>
+				<nofavoritesmenu>no</nofavoritesmenu>
+				<nostartmenumymusic>no</nostartmenumymusic>
+				<nostartmenunetworkplaces>no</nostartmenunetworkplaces>
+				<nosmmypictures>no</nosmmypictures>
+				<nonetworkconnections>no</nonetworkconnections>
+				<nouserfolderinstartmenu>no</nouserfolderinstartmenu>
+				<norecentdocsmenu>no</norecentdocsmenu>
+				<nostartmenurecordedtv>no</nostartmenurecordedtv>
+				<nofind>no</nofind>
+				<nosmconfigureprograms>no</nosmconfigureprograms>
+				<nostartmenuvideos>no</nostartmenuvideos>
+				<nontsecurity>no</nontsecurity>
+				<noactivedesktopchanges>no</noactivedesktopchanges>
+			</windowsshell>
+			<bothshell>
+				<protectemergencyexit>no</protectemergencyexit>
+				<showhibernate>no</showhibernate>
+				<showrestart>no</showrestart>
+				<showstandby>no</showstandby>
+			</bothshell>
+			<exitpassword></exitpassword>
+		</startmenulockdown>
+		<startmenuappearance>
+			<enabled>yes</enabled>
+			<bothshell>
+				<noreloadcredentialsonrefresh>no</noreloadcredentialsonrefresh>
+				<norefreshonstandbyorhibernate>no</norefreshonstandbyorhibernate>
+				<norefreshondisplaychange>no</norefreshondisplaychange>
+				<norefreshonnetworkchange>no</norefreshonnetworkchange>
+				<norefreshonreconnect>no</norefreshonreconnect>
+				<notifynew>no</notifynew>
+				<notifyhangingapp>no</notifyhangingapp>
+				<notifymissingdefaultprinter>no</notifymissingdefaultprinter>
+				<refreshonusbdevicechange>no</refreshonusbdevicechange>
+				<hideservername>no</hideservername>
+				<placemousepointeronstart>no</placemousepointeronstart>
+				<neverhideclientprinters>no</neverhideclientprinters>
+			</bothshell>
+			<windowsshell>
+				<autoprograms>no</autoprograms>
+				<nosimplestartmenu>no</nosimplestartmenu>
+				<nostartbanner>no</nostartbanner>
+				<highqualityicons>no</highqualityicons>
+				<intellimenus>no</intellimenus>
+			</windowsshell>
+			<commonshell>
+				<menuinsteadofstart>no</menuinsteadofstart>
+				<showtimeampm>no</showtimeampm>
+				<disablesingleclickdesktop>no</disablesingleclickdesktop>
+				<noblinkingtime>no</noblinkingtime>
+				<forceshowexcelwindowsintaskbar>no</forceshowexcelwindowsintaskbar>
+				<hidestartbutton>no</hidestartbutton>
+				<showbatterystate>no</showbatterystate>
+				<alwaysunicode>no</alwaysunicode>
+			</commonshell>
+			<unicodefont>Arial Unicode MS</unicodefont>
+		</startmenuappearance>
+		<explorerlockdown>
+			<enabled>yes</enabled>
+			<commonshell>
+				<startmenuadmintools>no</startmenuadmintools>
+				<noaddremoveprograms>no</noaddremoveprograms>
+				<nocontrolpanel>no</nocontrolpanel>
+				<nomanagemycomputerverb>no</nomanagemycomputerverb>
+				<nosetfolders>no</nosetfolders>
+				<nointerneticon>no</nointerneticon>
+				<nomycomputer>no</nomycomputer>
+				<nomydocuments>no</nomydocuments>
+				<nonethood>no</nonethood>
+				<norecyclebin>no</norecyclebin>
+				<removeopenwith>no</removeopenwith>
+				<nonetconnectdisconnect>no</nonetconnectdisconnect>
+				<nopropertiesmycomputer>no</nopropertiesmycomputer>
+			</commonshell>
+			<windowsshell>
+				<showclassicwmstartmenu>no</showclassicwmstartmenu>
+				<allowusertotogglewmstartmenu>no</allowusertotogglewmstartmenu>
+				<windows8desktop>no</windows8desktop>
+				<allowusertotogglewindows8desktop>no</allowusertotogglewindows8desktop>
+			</windowsshell>
+		</explorerlockdown>
+		<powerfuselockdown>
+			<enabled>yes</enabled>
+			<alwayshidelogoff>no</alwayshidelogoff>
+			<alwayshiderefresh>no</alwayshiderefresh>
+			<noautolaunchpa>no</noautolaunchpa>
+			<nosplash>no</nosplash>
+			<hideminisplash>no</hideminisplash>
+			<maxautostartapps>0</maxautostartapps>
+			<alwayshideph>no</alwayshideph>
+			<alwayshideam>no</alwayshideam>
+			<alwayshidesm>no</alwayshidesm>
+			<alwayshideem>no</alwayshideem>
+			<alwayshidesettings>no</alwayshidesettings>
+			<alwayshidepp>no</alwayshidepp>
+			<hideaddprinter>no</hideaddprinter>
+			<hidepowerpanelcolors>no</hidepowerpanelcolors>
+			<hidepowerpanelbackground>no</hidepowerpanelbackground>
+			<bothshell>
+				<limitchangedesktoppics>no</limitchangedesktoppics>
+			</bothshell>
+			<hidepowerpanelpassword>no</hidepowerpanelpassword>
+			<hidepowerpanelnoshowusername>no</hidepowerpanelnoshowusername>
+			<hidepowerpanelquicklaunch>no</hidepowerpanelquicklaunch>
+			<hideappsinmenu>no</hideappsinmenu>
+			<hidepowerpanelstartup>no</hidepowerpanelstartup>
+			<hideswapmousebutton>no</hideswapmousebutton>
+			<hideadvancedpowerprint>no</hideadvancedpowerprint>
+			<onlyshowpasswordcolor>no</onlyshowpasswordcolor>
+			<commonshell>
+				<nowelcomemsg>yes</nowelcomemsg>
+			</commonshell>
+			<forcetaskbarontop>no</forcetaskbarontop>
+			<desktopappearance>
+				<desktoppics>|</desktoppics>
+			</desktopappearance>
+		</powerfuselockdown>
+		<lockdownexceptions/>
+	</buildingblock>
+</respowerfuse>
+
+__done
+
+copy __createfile "{(value of variable "temp" of environment) & "\defaults.xml"}"
+wait "{(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}" /add "{(value of variable "temp" of environment) & "\defaults.xml"}"
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

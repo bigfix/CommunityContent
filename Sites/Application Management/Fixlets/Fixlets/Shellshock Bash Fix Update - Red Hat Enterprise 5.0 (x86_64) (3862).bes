@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Shellshock Bash Fix Update - Red Hat Enterprise 5.0 (x86_64)
+  ID       : 3862
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2014-09-25T14:17:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Shellshock Bash Fix Update - Red Hat Enterprise 5.0 (x86_64)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Updated bash packages that fix one bug are now available for Red Hat Enterprise Linux 5. Please see errata page for more information.</P>
+<P><STRONG>Note:</STRONG> A target package will only be installed if a previous version of that package exists on the targeted system. Additionally, any dependency packages required to install that target package will also be installed.</P>
+<P><STRONG>Important Note:</STRONG> The following file must be downloaded from the Red Hat site, renamed to its corresponding checksum value, and placed in the BES Server download cache for this action to complete successfully. The <I>"Run Download Cacher Tool - Red Hat Enterprise"</I> task can be used to facilitate this process.</P>Target RPMs
+<UL>
+<LI>bash-3.2-33.el5.1.x86_64.rpm</LI></UL></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>Number of Target Files:</H4>1 </DIV>
+<DIV class=FixletProperty>
+<H4>Total Target File Size:</H4>1.79 MB </DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>N/A </DIV>]]></Description>
+    <Relevance>architecture of operating system = &quot;x86_64&quot;</Relevance>
+    <Relevance>exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server) release 5&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND not exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance><![CDATA[version of client >= "7.2.4.75"]]></Relevance>
+    <Relevance><![CDATA[(exists package "bash" whose (rpm version record of it < rpm package version record "3.2-33.el5.1") of it) of rpm]]></Relevance>
+    <Category>Bug Fix Advisory</Category>
+    <Source>Red Hat</Source>
+    <SourceReleaseDate>2014-09-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x_fixlet-resolver-version</Name>
+      <Value>2.0.15</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-applicable-os-conf</Name>
+      <Value>RHEL5_IA32_SERVER RHEL5_IA32_DESKTOP</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 16 Jul 2013 22:27:33 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-target-rpm</Name>
+      <Value>bash-3.2-32.el5_9.1.i386.rpm</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-channelization</Name>
+      <Value>5 </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 25 Sep 2014 21:11:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "et1" = "{exists package "bash" whose (rpm version record of it < rpm package version record "3.2-33.el5.1") of rpm}"
+
+delete __appendfile
+appendfile
+
+if {((parameter "et1" as boolean))}
+   appendfile bash-3.2-33.el5.1.x86_64.rpm
+   prefetch bash-3.2-33.el5.1.x86_64.rpm sha1:76a044a2a2cd354938866a1466ea5ee246b66d1d size:1901276 RedHatProtocol://bash-3.2-33.el5.1.x86_64.rpm sha256:760393f35d86476ac94147fe66035ca417ee03d5b950baa64084cc5a7edfe46a
+
+endif
+
+wait rpm -U {concatenation " __Download/" of lines of file "__appendfile"}]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

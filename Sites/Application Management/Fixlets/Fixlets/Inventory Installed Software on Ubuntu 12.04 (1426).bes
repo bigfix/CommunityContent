@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Inventory Installed Software on Ubuntu 12.04
+  ID       : 1426
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T21:11:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Inventory Installed Software on Ubuntu 12.04</Title>
+    <Description><![CDATA[<P><A href="http://www.howtogeek.com/howto/linux/show-the-list-of-installed-packages-on-ubuntu-or-debian/">http://www.howtogeek.com/howto/linux/show-the-list-of-installed-packages-on-ubuntu-or-debian/</A><BR>suggests using the following commands to get a list of currently installed software:</P>
+<P>dpkg --get-selections</P>
+<P>or find files within a package using:</P>
+<P>dpkg -L openssh-server</P>
+<P>&nbsp;</P>
+<P>to dump all "available" packages... use the following command:</P>
+<P>
+<TABLE>
+<TBODY>
+<TR>
+<TD class=votecell>
+<DIV class=vote><SPAN class="vote-count-post "></SPAN><FONT color=#000000></FONT>&nbsp;</DIV></TD>
+<TD class=answercell>
+<DIV class=post-text>
+<H3>On local system</H3>
+<P>Using your local package management caches a simple use of some shell scripting:</P><PRE><CODE>apt-cache dumpavail | grep ^Package | cut -d " " -f 2 | sort | uniq
+</CODE></PRE>
+<P>This just lists package names, so it's not the same as using the Software Centre API, but it will list all package names you can use later to query the API with, I guess. This lists 38820 packages on my system. Be aware that it may contain non-Ubuntu repository backed packages, so not all of them might be available in the SC.</P>
+<P>Note: on <CODE>amd64</CODE> systems with Multiarch enabled <CODE>apt-cache</CODE> will list many double ones, so that's why the <CODE>uniq</CODE> tool is used.</P></DIV></TD></TR></TBODY></TABLE><BR>Or online at:</P>
+<P><A href="http://packages.ubuntu.com/precise/allpackages?format=txt.gz">http://packages.ubuntu.com/precise/allpackages?format=txt.gz</A>&nbsp;or <A href="http://packages.ubuntu.com/precise/">http://packages.ubuntu.com/precise/</A>&nbsp; (click the link at the bottom that says "all packages"</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;apt-cache&quot; of folder &quot;/usr/bin&quot;</Relevance>
+    <Relevance>exists file &quot;dpkg&quot; of folder &quot;/usr/bin&quot;</Relevance>
+    <Category>Inventory</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 27 Apr 2013 22:14:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+//first get a list of currently installed applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile dpkg --get-selections > "{pathname of parent folder of client}/installedApps.txt"
+delete "installedApps.sh"
+delete "{pathname of parent folder of client}/installedApps.txt"
+move __appendfile "installedApps.sh"
+wait chmod +x installedApps.sh
+wait ./installedApps.sh
+//then get a list of all available applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile apt-cache dumpavail | grep ^Package | cut -d " " -f 2 | sort | uniq > "{pathname of parent folder of client}/availableApps.txt"
+delete "availableApps.sh"
+delete "{pathname of parent folder of client}/availableApps.txt"
+move __appendfile "availableApps.sh"
+wait chmod +x availableApps.sh
+wait ./availableApps.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

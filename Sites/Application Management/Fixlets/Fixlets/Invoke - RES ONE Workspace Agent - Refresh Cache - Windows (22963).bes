@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Invoke - RES ONE Workspace Agent - Refresh Cache - Windows
+  ID       : 22963
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Invoke - RES ONE Workspace Agent - Refresh Cache - Windows</Title>
+    <Description><![CDATA[<P>This task will force a cache update on the RES One Workspace Windows agents.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+
+// Enter your action script here
+waithidden net stop &quot;res&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager\UpdateGUIDs]&quot; &quot;Global&quot;=&quot;{{00000000-0000-0000-0000-000000000000}&quot;
+waithidden net start &quot;res&quot;</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace Agent - 9.10.2.0 - CentOS
+  ID       : 22941
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace Agent - 9.10.2.0 - CentOS</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace 2015 SR2 Agent!</P>
+<P>This parameterized Fixlet allows you to deploy RES ONE Workspace Agent that connects via Relay Authentication to a RES ONE Workspace Relay (This is the only form of agent to environment connection currently supported).</P>
+<P>To deploy an agent you must determine what it's parent relay is going to be to connect into the environment as well as whether or not to inherit settings.</P>
+<P><STRONG>Relay Parent&nbsp;Selection</STRONG>:<BR>This dropdown is populated with the current RES Relays deployed in the environment as well as a value, "Current BigFix Relay" which uses the currently configured BigFix Agent relay as the RES ONE Workspace Agent's relay.</P>
+<P><FONT color=#ff0000><STRONG>NOTES: Grayed out settings used in this fixlet are configured via the Environment Configuration section of the Deployment Wizard!</STRONG></FONT><BR>- For <STRONG>"Relay"</STRONG> authentication, the Environment Configuration section below must be populated<STRONG>.</STRONG></P></DIV>
+
+<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
+
+<script>
+    loaded = false;
+
+	function loadGlobalization() {
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(globalization);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
+		return globalizationSanitized;
+	}
+
+	function loadUtils() {
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+	}
+
+    function loadScript(url, callback) {
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = loadUtils() + loadGlobalization();
+        script.onreadystatechange = callback;
+        script.onload = callback;
+
+        head.appendChild(script);
+    }
+
+    function scriptLoaded() {
+        if (!loaded) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
+                loaded = true;
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
+                FixletUtils.initFixletRender();
+            } else {
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
+            }
+        }
+    }
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>
+]]></Description>
+    <Relevance>unix of operating system</Relevance>
+    <Relevance>not exists file &quot;/etc/init.d/reswmad&quot;</Relevance>
+    <Relevance>(exists match (regex &quot;CentOS.* (5.11|7.0|7.1|7.2)&quot;) of name of it) of operating system</Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-res-release-display-name</Name>
+      <Value>RES ONE Workspace 2015 SR2</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section1&quot; :{
+	&quot;Name&quot;: &quot;Method&quot;,
+	&quot;Title&quot;: &quot;Agent Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;rlParent&quot;,
+	    &quot;Title&quot;: &quot;Relay Parent&quot;,
+	    &quot;Description&quot;: &quot;Select the parent of this relay&quot;,
+		&quot;UIType&quot;: &quot;select&quot;,
+		&quot;Override&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;\&quot;Current BigFix Relay\&quot;;unique values of ((concatenation of (hostname of computer of it as lowercase;\&quot;:\&quot;; value of it)) of results of property 5 of fixlets whose (name of it = \&quot;RES ONE Workspace - Relay - Universal\&quot;) of site of current fixlet;substrings separated by \&quot;,\&quot; of (values of shared variables whose (name of it contains \&quot;RelayServers\&quot;) of wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot;) of site of current fixlet) as lowercase)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Authentication&quot;,
+	    &quot;Description&quot;: &quot;Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Relay&quot;]
+	}
+	]
+},
+&quot;Section5&quot; : {
+	&quot;Name&quot;: &quot;EnvConfig&quot;,
+	&quot;Title&quot;: &quot;Environment Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;RESEnvPwdHash&quot;,
+	    &quot;Title&quot;: &quot;RES Environment Password Hash&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment Password Hash&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Encrypt&quot;: &quot;false&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;respw_hash\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESRELPORT&quot;,
+	    &quot;Title&quot;: &quot;RES Relay Port&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Relay Port&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;resrelport\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESEnvGUID&quot;,
+	    &quot;Title&quot;: &quot;RES Environment GUID&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment GUID&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;unique values of (values of shared variables whose (name of it contains \&quot;EnvironmentGUID\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet);(values of results of properties whose (name of it = \&quot;RES ONE Workspace Database - Site GUID - Windows\&quot;) of fixlets whose (name of it = \&quot;RES ONE Workspace - Database - Windows\&quot;) of site of current fixlet))&quot;
+	}
+]
+}
+}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:42:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23938">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+if  {((exists match (regex "CentOS.* (5.11)") of name of it) AND ((architecture of it = "x86_64") or (exists match (regex "^i[6-9]86$") of architecture of it))) of operating system}
+	prefetch RESWMnixAgent.rpm sha1:48FA335FC81B4C85F95452EC02B377991D11E692 size:361695 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/res-wm-agent-9.10.2.0-2.121.x86_64_centos511.rpm sha256:65F76D4EFF272623BC0107E833766DACBC7461FCF97CE4D1E2DC015DB759E463
+elseif  {((exists match (regex "CentOS.* (7.0)") of name of it) AND ((architecture of it = "x86_64") or (exists match (regex "^i[6-9]86$") of architecture of it))) of operating system}
+	prefetch RESWMnixAgent.rpm sha1:FC299BD42929636AC9928D20A446D6B9AFD460DB size:275696 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/res-wm-agent-9.10.2.0-2.121.x86_64_centos7-0.rpm sha256:31A41021AEDAC26EBA0D9C72025DCB20EB72F8CC3429A2D99C9CEFA06AE3B39C
+elseif  {((exists match (regex "CentOS.* (7.1)") of name of it) AND ((architecture of it = "x86_64") or (exists match (regex "^i[6-9]86$") of architecture of it))) of operating system}
+	prefetch RESWMnixAgent.rpm sha1:2392AF43CC48B65F537D4D4F9536A82A31DDBC1D size:276668 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/res-wm-agent-9.10.2.0-2.121.x86_64_centos7-1.rpm sha256:13EA0ABE12F5C0D4DF903F9B40AA2C100FD99BCDDAB92339C7C8157801D26138
+elseif  {((exists match (regex "CentOS.* (7.2)") of name of it) AND ((architecture of it = "x86_64") or (exists match (regex "^i[6-9]86$") of architecture of it))) of operating system}
+	prefetch RESWMnixAgent.rpm sha1:715FC67911EA1EE78B1AD9B6C1A1568251047758 size:279284 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/res-wm-agent-9.10.2.0-2.121.x86_64_centos7-2.rpm sha256:463072EBA74EAE171C44E75A2C26F4230FACF56B277D22674945A13BF0AD6461
+else
+	// No Known Configuration
+	continue if false
+endif
+continue if {exists file "__Download/RESWMnixAgent.rpm"}
+
+if {parameter "rlParent" of action = "Current BigFix Relay"}
+	// This Relay List will provide 127.0.0.1 if the current device is a relay
+	parameter "RelayList"="{(preceding text of first ":" of name of registration server as lowercase) & ":" & parameter "RESRELPORT" of action}"
+
+	// This Relay List will provide the relay's parent if the current device is a relay
+	//parameter "RelayList"="{((if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (preceding text of first ":" of name of registration server) else (preceding text of first ":" of following text of first "://" of value of setting "_BESRelay_PostResults_ParentRelayURL" of client)) & ":" & parameter "RESRELPORT" of action)}"
+else
+	parameter "RelayList"="{parameter "rlParent" of action}"
+endif
+
+wait sh -c "rpm -ivh '__Download/RESWMnixAgent.rpm'"
+
+wait chkconfig --add reswmad
+wait chkconfig reswmad on
+
+delete __createfile
+delete agent_config.sh
+
+createfile until __end
+sed -i 's/LearningMode=no/LearningMode=yes/g' /etc/res/resauthd.conf
+sed -i 's/AllowAny=no/AllowAny=yes/g' /etc/res/resauthd.conf
+rm /etc/res/reswmad.conf
+touch /etc/res/reswmad.conf
+echo RSENVGUID={(parameter "RESEnvGUID" of action)} >> /etc/res/reswmad.conf
+echo RSPASSWORD={(parameter "RESEnvPwdHash" of action)} >> /etc/res/reswmad.conf
+echo RSPWHASHED=Yes >> /etc/res/reswmad.conf
+echo RSLIST={parameter "RelayList"} >> /etc/res/reswmad.conf
+__end
+
+move __createfile agent_config.sh
+wait bash agent_config.sh
+
+wait /etc/init.d/reswmad start
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

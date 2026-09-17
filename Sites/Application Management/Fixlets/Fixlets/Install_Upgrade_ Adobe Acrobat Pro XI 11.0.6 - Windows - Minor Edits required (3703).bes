@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Adobe Acrobat Pro XI 11.0.6 - Windows - Minor Edits required
+  ID       : 3703
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-24T13:10:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Acrobat Pro XI 11.0.6 - Windows - Minor Edits required</Title>
+    <Description><![CDATA[<P>This task will install Adobe Acrobat Pro XI 11.0.6 without the use of an AIP, which allows it to be upgraded through the product itself, or through the IBM provided updates in the "Updates for Windows Applications" site.</P>
+<P>&nbsp;</P>
+<P><STRONG>NOTE:</STRONG> Minor edits of this Task are required for this to work!</P>
+<P><STRONG>Edit1:</STRONG> You must download the Acrobat installer and place on either your own webserver, or the root server cache manually, and then replace the URL with your custom URL. Adobe does not allow anonymous downloads directly from:&nbsp; <A href="http://trials3.adobe.com/AdobeProducts/APRO/11/win32/AcrobatPro_11_Web_WWMUI.exe"><FONT color=#000080>http://trials3.adobe.com/AdobeProducts/APRO/11/win32/AcrobatPro_11_Web_WWMUI.exe</FONT></A></P>
+<P><STRONG>Edit2:</STRONG> You must use APTEE to generate an prov.xml file and then copy and paste the "EnigmaData" from that file into the correct location in the createfile command in this task. See the comments in the ActionScript inside this task for more information. Using APTEE this way requires that you have a Volume License from Adobe.</P>
+<P><STRONG>Latest version of this task is&nbsp;found here:</STRONG> <A href="http://bigfix.me/fixlet/details/3659"><FONT color=#000080>http://bigfix.me/fixlet/details/3659</FONT></A></P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://prodesigntools.com/adobe-acrobat-xi-pro-standard-reader-direct-download-links.html"><FONT color=#000080>http://prodesigntools.com/adobe-acrobat-xi-pro-standard-reader-direct-download-links.html</FONT></A></P>
+<P><A href="http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/creativesuite/pdfs/Adobe_Provisioning_Toolkit_Enterprise_Edition_v5.pdf">http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/creativesuite/pdfs/Adobe_Provisioning_Toolkit_Enterprise_Edition_v5.pdf</A></P>
+<P><U><FONT color=#5386b3><A href="http://www.adobe.com/devnet/creativesuite/enterprisedeployment/licensing-identifiers.html">http://www.adobe.com/devnet/creativesuite/enterprisedeployment/licensing-identifiers.html</A></FONT></U></P>
+<P><A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/index.html"><FONT color=#000080>http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/index.html</FONT></A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose (value "DisplayName" of it as string contains "Adobe Acrobat" AND (it >= "11.0.06" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 24 Jan 2014 20:07:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Important logs:
+//     C:\Users\<user>\AppData\Local\Temp\
+//                                        amt3.log
+//                                        AdobeARM.log
+//                                        AdobeSFX.log
+//                                        swtag.log
+//                                        BootStrap.log
+//                                        PDApp.log
+//                                        oobelib.log
+//     C:\temp\AdobeAcrobatMSI.log
+
+
+// Download Adobe Acrobat Pro 11.x installer
+//  Need to sign in to download from Adobe.
+// http://prodesigntools.com/adobe-acrobat-xi-pro-standard-reader-direct-download-links.html
+prefetch AcrobatPro_11_Web_WWMUI.exe sha1:d076661ddcf228f4bde5d8745f377641151b9eb6 size:525508520 http://trials3.adobe.com/AdobeProducts/APRO/11/win32/AcrobatPro_11_Web_WWMUI.exe
+
+// Download Adobe Acrobat Pro 11.0.4 MSP
+// http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.04/misc/AcrobatUpd11004.msp
+prefetch AcrobatUpd11004.msp sha1:fd279a159d3565528a9570caff377169b02a81e3 size:134643712 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.04/misc/AcrobatUpd11004.msp
+
+// Download Adobe Acrobat Pro 11.0.5 MSP
+// http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.05/misc/AcrobatSecUpd11005.msp
+prefetch AcrobatSecUpd11005.msp sha1:0a5dc812616af208f028b2ebaee7ffaf5f9da3bb size:8671232 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.05/misc/AcrobatSecUpd11005.msp
+
+// Download Adobe Acrobat Pro 11.0.6 MSP
+// http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.06/misc/AcrobatUpd11006.msp
+prefetch AcrobatUpd11006.msp sha1:a311d69c7b9ccee366b213f72253a63cb2c649d0 size:142704640 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.06/misc/AcrobatUpd11006.msp
+
+// Extract Installer Files - Must extract to an empty subfolder, all files in folder are deleted
+wait __Download\AcrobatPro_11_Web_WWMUI.exe /a /q /s /x /d "{(pathname of client folder of current site)}\__Download\AcrobatPro"
+
+move __Download\AcrobatUpd11004.msp "__Download\AcrobatPro\Adobe Acrobat XI\AcrobatUpd11004.msp"
+move __Download\AcrobatSecUpd11005.msp "__Download\AcrobatPro\Adobe Acrobat XI\AcrobatSecUpd11005.msp"
+move __Download\AcrobatUpd11006.msp "__Download\AcrobatPro\Adobe Acrobat XI\AcrobatUpd11006.msp"
+
+// create a prov.xml
+// Product ID or LEID for Adobe Acrobat 11 Pro: "V6{}AcrobatPro-AS2-Win-GM"  <-- hard to find, check the logs.
+// Serailization file (prov.xml) generated using APTEE:  adobe_prtk.exe --tool=VolumeSerialize --generate --serial=xxxx-xxxx-xxxx-xxxx-xxxx-xxxx --leid=V6{}AcrobatPro-AS2-Win-GM --regsuppress=ss --eulasuppress --locales=ALL
+//     NOTE: Using APTEE, the generated prov.xml seemed to be the same regardless of "--locales=ALL" vs "--locales=us_EN" or "--serial=xxxx-xxxx-xxxx-xxxx-xxxx-xxxx" vs "--serial=xxxxxxxxxxxxxxxxxxxxxxxx" - not sure if this is true in all cases.
+// Need to escape the "{}" found in the LEID in the prov.xml file. (this is already done below)
+delete prov.xml
+delete __createfile
+createfile until endCreateFile
+<?xml version="1.0" encoding="UTF-8"?>
+<Provisioning version="6.2">
+	<EnigmaData>NEED TO REPLACE THIS TEXT WITH THE DATA GENERATED BY {APTEE} SPECIFIC TO YOUR SERIALNUMBER</EnigmaData>
+	<DeployerID>
+		<adobeid></adobeid>
+		<guid></guid>
+	</DeployerID>
+	<CustomOverrides leid="V6{{}AcrobatPro-AS2-Win-GM"><Property protected="1" key="REG_SERIAL_OVERRIDE">Suppress</Property><Property protected="1" key="EULADelay">-1</Property></CustomOverrides>
+</Provisioning>
+endCreateFile
+
+move __createfile prov.xml
+
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/properties.html
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/bootstrapper.html
+// The command line for the installation took a lot of experimentation to get right. It helped to look at the MSI log to see how parameters were being passed from the setup.ini to MSIEXEC
+//   Note:  "There is no parameter merging; if any parameter passed as app argument all parameters from INI file will be ignored."
+// Setup.exe installation option effects.
+//   /sAll                           --> Run installer in silent mode.
+//   /rs                             --> Reboot Suppress. Setup.exe will not initiate reboot even if it is required.
+//   /l                              --> Enable Logging
+//   /msi /qn /norestart             --> pass "/qn /norestart" along to MSI, this may be redundant with "/rs" above
+//   PRESERIALIZATIONFILEPATH="path\to\prov.xml"    --> The absolute path to the prov.xml file.
+//   PATCH="path\to\patch1.msp;path\to\patchN.msp"  --> The absolute path to the msp's to be applied
+//   DISABLE_ARM_SERVICE_INSTALL=1   --> Do not install updater service
+//   EULA_ACCEPT=YES                 --> Accept the EULA to bypass it on first launch
+//   DISABLE_AIR_SHARE=YES           --> Do not install AdobeAIR
+//   SUPPRESS_APP_LAUNCH=YES         --> Do not launch Reader after installation
+//   ALLUSERS=1                      --> Install for all users
+//   DISABLEDESKTOPSHORTCUT=1        --> Do not create desktop shortcut
+//   REGISTRATION_SUPPRESS=1         --> Suppresses the product registration screen.
+//
+// The following are not used:
+//   ISX_SERIALNUMBER=               --> Not needed if using APTEE prov.xml. This property accepts a retail or volume serial number so that the product is pre-serialized (licensed) during the install.
+//   /ini "path\to\file.ini"         --> Specify the location of a custom setup.ini file. This is not needed in most cases since the customization can be done dynamically on the command line.
+
+//  INSTALL:
+wait "__Download\AcrobatPro\Adobe Acrobat XI\setup.exe" /sAll /rs /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 REGISTRATION_SUPPRESS=1 PRESERIALIZATIONFILEPATH="{(pathname of client folder of current site)}\prov.xml" PATCH="{(pathname of client folder of current site)}\__Download\AcrobatPro\Adobe Acrobat XI\AcrobatUpd11004.msp;{(pathname of client folder of current site)}\__Download\AcrobatPro\Adobe Acrobat XI\AcrobatSecUpd11005.msp;{(pathname of client folder of current site)}\__Download\AcrobatPro\Adobe Acrobat XI\AcrobatUpd11006.msp" /L*v C:\Windows\Temp\AdobeAcrobatMSI.log
+
+//  DISABLE UPDATES:
+//     If you delete these keys, they may come back after an update, but they should not if they are empty set.
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]" "Acrobat Assistant 8.0"=""
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]" "Adobe ARM"=""
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]" "AdobeAAMUpdater-1.0"=""
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Windows/Updater-Win.html
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe ARM\1.0\ARM]" "iCheck"=dword:00000000
+
+
+//  SERIALIZE: (Not needed if "PRESERIALIZATIONFILEPATH" works.
+
+// Download Adobe Provisioning Toolkit Enterprise Edition (APTEE)
+// http://www.adobe.com/devnet/creativesuite/enterprisedeployment.html
+// http://download.macromedia.com/pub/developer/creativesuite/APTEE/Win/Adobe_Provisioning_Toolkit_6_2_ALL.exe
+//prefetch Adobe_Provisioning_Toolkit_6_2_ALL.exe sha1:4801b126880f2b5de8243086a171a3d9ddd6ea3d size:2035224 http://download.macromedia.com/pub/developer/creativesuite/APTEE/Win/Adobe_Provisioning_Toolkit_6_2_ALL.exe
+
+// Extract APTEE
+//wait __Download\Adobe_Provisioning_Toolkit_6_2_ALL.exe /a /q /s /x /d "{(pathname of client folder of current site)}\__Download"
+
+// http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/creativesuite/pdfs/Adobe_Provisioning_Toolkit_Enterprise_Edition_v5.pdf
+//wait "__Download\Adobe Provisioning Toolkit Enterprise Edition\adobe_prtk.exe" --tool=VolumeSerialize --provfile="{(pathname of client folder of current site)}\prov.xml"]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

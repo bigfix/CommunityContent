@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Disable OS X Gatekeeper
+  ID       : 1421
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2013-04-11T11:05:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Disable OS X Gatekeeper</Title>
+    <Description>Disabling Gatekeeper allows others to install and run unsigned applications and packages.</Description>
+    <Relevance>(not exists file &quot;/var/db/SystemPolicy-prefs.plist&quot;) OR (exists string &quot;enabled&quot; whose (it as string = &quot;yes&quot;) of dictionaries of files &quot;/var/db/SystemPolicy-prefs.plist&quot;)</Relevance>
+    <Relevance><![CDATA[(system version >= "10.8" AND system version < "10.9")]]></Relevance>
+    <Category>Mac OS X Configuration/Security</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2013-04-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Apr 2013 16:04:30 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-sh">#!/bin/sh
+# Disable Gatekeeper
+spctl --master-disable</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

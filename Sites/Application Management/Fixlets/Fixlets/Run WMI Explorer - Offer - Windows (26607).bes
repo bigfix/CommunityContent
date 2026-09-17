@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Run WMI Explorer - Offer - Windows
+  ID       : 26607
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2019-02-21T12:03:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Run WMI Explorer - Offer - Windows</Title>
+    <Description>This will appear as an Offer in the Client UI and open WMI Explorer when run. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>1 = number of unique values of home directories of users of (current users;logged on users)</Relevance>
+    <Relevance>not exists processes &quot;WmiExplorer.exe&quot;</Relevance>
+    <Category>Offer</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2019-02-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 21 Feb 2019 19:19:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+parameter &quot;ZipFile&quot; = &quot;WmiExplorer&quot;
+parameter &quot;EXEFile&quot; = &quot;{ parameter &quot;ZipFile&quot; }&quot;
+
+prefetch WmiExplorer.zip sha1:863e81a414ce1427263f04f374155d94563b45c6 size:226095 https://github.com/vinaypamnani/wmie2/releases/download/v2.0.0.2/WmiExplorer_2.0.0.2.zip sha256:343695ae7bcd048da51ebe0949bdf746f7c16f648746d9a4554b2cb888007851
+
+parameter &quot;CurrentUserTempFolder&quot; = &quot;{ pathnames of folders &quot;AppData\Local\Temp&quot; of (folders it) of unique value of home directories of users of (current users;logged on users) }\BES&quot;
+
+if{ not exists folders (parameter &quot;CurrentUserTempFolder&quot;) }
+folder create {parameter &quot;CurrentUserTempFolder&quot;}
+endif
+
+
+delete __createfile
+
+// https://github.com/jgstew/tools/blob/master/VBS/zipExtractSimple.vbs
+createfile until _END_OF_FILE_
+strOutputDir   = &quot;__Download&quot;
+strZipFilePath = &quot;__Download\{ parameter &quot;ZipFile&quot; }.zip&quot;
+CreateObject( &quot;Shell.Application&quot; ).NameSpace( CreateObject(&quot;Scripting.FileSystemObject&quot;).GetAbsolutePathName( strOutputDir ) ).copyHere ( CreateObject( &quot;Shell.Application&quot; ).NameSpace( CreateObject(&quot;Scripting.FileSystemObject&quot;).GetAbsolutePathName( strZipFilePath ) ).Items() ), 1044
+_END_OF_FILE_
+
+
+delete zipExtract.vbs
+copy __createfile zipExtract.vbs
+waithidden cmd /c cscript zipExtract.vbs //Nologo
+
+delete &quot;{parameter &quot;CurrentUserTempFolder&quot;}\{parameter &quot;EXEFile&quot;}.exe&quot;
+copy &quot;__Download\{parameter &quot;EXEFile&quot;}.exe&quot; &quot;{parameter &quot;CurrentUserTempFolder&quot;}\{parameter &quot;EXEFile&quot;}.exe&quot;
+
+override run
+runas=currentuser
+run &quot;{parameter &quot;CurrentUserTempFolder&quot;}\{parameter &quot;EXEFile&quot;}.exe&quot; .
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

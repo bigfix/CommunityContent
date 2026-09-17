@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Firefox - 24.0 - Mac
+  ID       : 3646
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T07:16:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Firefox - 24.0 - Mac</Title>
+    <Description><![CDATA[<P>Mozilla has released a new version of the Firefox browser. Use the action below to update Firefox to the latest version (24.0).</P>
+<P><STRONG>File Size:</STRONG>&nbsp;43.9 MB</P>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance><![CDATA[exists application "Firefox.app" whose (version of it >= "" as version AND version of it < "24.0" as version)]]></Relevance>
+    <Relevance><![CDATA[free space of filesystem of folder (pathname of client) > 92066432]]></Relevance>
+    <Category>Update</Category>
+    <Source>Mozilla</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-09-16</SourceReleaseDate>
+    <SANSID>SANS C1</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 17 Sep 2013 17:11:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+
+  add prefetch item name=Firefox_24_0 sha1=d9804148dd1ea7120ee0e38d2521cca43a5dbab0 size=46033216 url=http://download.cdn.mozilla.net/pub/mozilla.org/firefox/releases/24.0/mac/en-US/Firefox%2024.0.dmg
+
+end prefetch block
+
+// Create variables to house the name of the .dmg file, mount name and current install location. Makes updating the script easier.
+
+// NOTE: Install_Mount MUST match the name used in the prefetch block!
+
+parameter "Install_DMG" = "Firefox 24.0.dmg"
+
+parameter "Install_Mount" = "Firefox_24_0"
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+
+parameter "baseFolder" =  "__Download/"
+
+// Move files into subfolders and unescape file names
+
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"
+
+move "__Download/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+// Mount the Disk Image
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+parameter "Install_Location" = "{posix path of application (name whose (it ends with ".app") of folders of folder ("/tmp/" & parameter "Install_Mount"))}"
+
+wait sh -c "rm -R '{parameter "Install_Location"}'"
+
+wait sh -c "cp -Rfp /tmp/{parameter "Install_Mount"}/*.app {parameter "Install_Location"}"
+
+wait sh -c "chown -R root:admin '{parameter "Install_Location"}'"
+
+wait sh -c "chmod -R 775 '{parameter "Install_Location"}'"
+
+wait sh -c "xattr -d com.apple.quarantine '{parameter "Install_Location"}'"
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/{parameter "Install_Mount"} | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

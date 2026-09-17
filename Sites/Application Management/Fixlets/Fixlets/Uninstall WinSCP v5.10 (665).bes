@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall WinSCP v5.10
+  ID       : 665
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-13T16:35:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall WinSCP v5.10</Title>
+    <Description><![CDATA[WinSCP is an open source free <A class=wikilink1 title=free_sftp_client_for_windows href="http://bigfix.me:52311/eng/docs/free_sftp_client_for_windows"><FONT color=#000080>SFTP client</FONT></A>, <A class=wikilink1 title=scp href="http://bigfix.me:52311/eng/docs/scp"><FONT color=#000080>SCP</FONT></A> client, <A class=wikilink1 title=ftps href="http://bigfix.me:52311/eng/docs/ftps"><FONT color=#000080>FTPS</FONT></A> client and <A class=wikilink1 title=free_ftp_client_for_windows href="http://bigfix.me:52311/eng/docs/free_ftp_client_for_windows"><FONT color=#000080>FTP client</FONT></A> for Windows. Its main function is file transfer between a local and a remote computer. Beyond this, WinSCP offers scripting and basic file manager functionality. ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;WinSCP 5.1&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-05</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Nov 2012 14:44:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;app&quot;=&quot;winscp3_is1&quot;
+//first retrieve our uninstall command...
+parameter &quot;QuietUninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+parameter &quot;UninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+continue if {(parameter &quot;UninstallString&quot; != &quot;&quot;) OR (parameter &quot;QuietUninstallString&quot; != &quot;&quot;)}
+if {parameter &quot;QuietUninstallString&quot; != &quot;&quot;}
+	if {parameter &quot;QuietUninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+		waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+	else
+		waithidden {parameter &quot;QuietUninstallString&quot;}
+	endif
+else
+	if {parameter &quot;UninstallString&quot; != &quot;&quot;}
+		if {parameter &quot;UninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+			waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+		else
+			waithidden {parameter &quot;UninstallString&quot;} /quiet /norestart
+		endif
+	endif
+endif
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action902">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about WinSCP.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://winscp.net/eng/index.php</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Splunk - Accept License and Start Splunk Forwarder
+  ID       : 25280
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2018-03-08T06:08:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Splunk - Accept License and Start Splunk Forwarder</Title>
+    <Description>Fixlet used to determine whether a Splunk Forwarder needs to have the license accepted before starting the forwarder on Linux hosts</Description>
+    <Relevance>name of operating system does not contain &quot;Win&quot;</Relevance>
+    <Relevance>exists file &quot;ftr&quot; of folder whose (name of it contains &quot;splunk&quot;) of folder &quot;/opt&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-05-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Aug 2015 13:59:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /opt/{name of folder whose (name of it contains &quot;splunk&quot;) of folder &quot;/opt&quot; as string}/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt
+wait /opt/{name of folder whose (name of it contains &quot;splunk&quot;) of folder &quot;/opt&quot; as string}/bin/splunk enable boot-start -user root</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

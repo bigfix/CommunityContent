@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Internet Download Speed Test
+  ID       : 26595
+  Author   : N0m4d1c
+  Domain   : BESC
+  Imported : 2019-01-11T13:00:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Internet Download Speed Test</Title>
+    <Description><![CDATA[<P><SPAN style="FONT-SIZE: 14px; FONT-FAMILY: Roboto, sans-serif; WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(32,33,36); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(248,249,250); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial">This&nbsp;task&nbsp;finds the latitude and longitude of&nbsp;a machine&nbsp;to find the closest </SPAN><A style="FONT-SIZE: 14px; TEXT-DECORATION: none; FONT-FAMILY: Roboto, sans-serif; VERTICAL-ALIGN: baseline; BACKGROUND: rgb(248,249,250); WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(26,115,232); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PADDING-LEFT: 0px; ORPHANS: 2; WIDOWS: 2; MARGIN: 0px; LETTER-SPACING: normal; PADDING-RIGHT: 0px; TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; -webkit-tap-highlight-color: transparent" href="http://speedtest.net/" rel="noopener nofollow noreferrer" target=_blank>speedtest.net</A><SPAN style="FONT-SIZE: 14px; FONT-FAMILY: Roboto, sans-serif; WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(32,33,36); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(248,249,250); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial"> servers. <BR>It then sorts the servers removing duplicate companies and then by distance. <BR>It then hits the closest servers and downloads a 25Mb file 12 times for each server (just like </SPAN><A style="FONT-SIZE: 14px; TEXT-DECORATION: none; FONT-FAMILY: Roboto, sans-serif; VERTICAL-ALIGN: baseline; BACKGROUND: rgb(248,249,250); WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(26,115,232); PADDING-BOTTOM: 0px; FONT-STYLE: normal; PADDING-TOP: 0px; PADDING-LEFT: 0px; ORPHANS: 2; WIDOWS: 2; MARGIN: 0px; LETTER-SPACING: normal; PADDING-RIGHT: 0px; TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; -webkit-tap-highlight-color: transparent" href="http://speedtest.net/" rel="noopener nofollow noreferrer" target=_blank>speedtest.net</A><SPAN style="FONT-SIZE: 14px; FONT-FAMILY: Roboto, sans-serif; WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(32,33,36); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(248,249,250); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial">) and calculates the average download speed. It does this for 8 servers (I chose 8 to have a bigger data set when comparing speeds).<BR></SPAN><SPAN style="FONT-SIZE: 14px; FONT-FAMILY: Roboto, sans-serif; WHITE-SPACE: pre-wrap; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FLOAT: none; FONT-WEIGHT: 400; COLOR: rgb(32,33,36); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; DISPLAY: inline !important; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(248,249,250); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial">It will then find the fastest speed of the 8 servers&nbsp;and saves it to a file on the computer that can later be read by a bigfix analysis.</SPAN></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>BigFix.me</Category>
+    <SourceID>n0m4d1c</SourceID>
+    <SourceReleaseDate>2019-01-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>action-ui-metadata</Name>
+      <Value>{&quot;icon&quot;:&quot;data:image/png;base64,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&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Jan 2019 20:59:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action27870">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Checks if temp folder is there and deletes it if the dir exsists
+if {not exists folder "C:\Apps" }
+	folder create "C:\Apps"
+endif
+
+if {not exists folder "C:\Apps\Temp" }
+	folder create "C:\Apps\Temp"
+endif
+
+if {exists file "C:\Apps\Temp\Test-NetworkSpeed_Average.ps1" }
+	delete "C:\Apps\Temp\Test-NetworkSpeed_Average.ps1"
+endif
+
+if {exists file "C:\Apps\Temp\InternetSpeed.txt" }
+	delete "C:\Apps\Temp\InternetSpeed.txt"
+endif
+
+delete __createfile
+
+//Create PS File
+createfile until _end_
+
+#Gets the download speed 12 times and calculates the average speed
+Function Servers($svr1)
+{{
+    #Runs a speed test on the  the highest result.
+    $DLResults1 = downloadSpeed($svr1)
+    $SpeedResults1 = [int]$DLResults1
+    $DLResults2 = downloadSpeed($svr1)
+    $SpeedResults2 = [int]$DLResults2
+    $DLResults3 = downloadSpeed($svr1)
+    $SpeedResults3 = [int]$DLResults3
+    $DLResults4 = downloadSpeed($svr1)
+    $SpeedResults4 = [int]$DLResults4
+    $DLResults5 = downloadSpeed($svr1)
+    $SpeedResults5 = [int]$DLResults5
+    $DLResults6 = downloadSpeed($svr1)
+    $SpeedResults6 = [int]$DLResults6
+    $DLResults7 = downloadSpeed($svr1)
+    $SpeedResults7 = [int]$DLResults7
+    $DLResults8 = downloadSpeed($svr1)
+    $SpeedResults8 = [int]$DLResults8
+    $DLResults9 = downloadSpeed($svr1)
+    $SpeedResults9 = [int]$DLResults9
+    $DLResults10 = downloadSpeed($svr1)
+    $SpeedResults10 = [int]$DLResults10
+    $DLResults11 = downloadSpeed($svr1)
+    $SpeedResults11 = [int]$DLResults11
+    $DLResults12 = downloadSpeed($svr1)
+    $SpeedResults12 = [int]$DLResults12
+
+    $total = ($SpeedResults1 + $SpeedResults2 + $SpeedResults3 +$SpeedResults4 + $SpeedResults5 + $SpeedResults6 +$SpeedResults7 + $SpeedResults8 + $SpeedResults9 +$SpeedResults10 + $SpeedResults11 + $SpeedResults12)
+    $average = $total / 12
+    $AvgSpeed = [Math]::Round($average, 2)
+    return $AvgSpeed
+}
+
+#Downloads a 25 Mb file and calculates the download speed
+Function downloadSpeed($strUploadUrl)
+{{
+    $topServerUrlSpilt = ([System.Uri]$strUploadUrl).Host
+    $url = 'http://' + $topServerUrlSpilt + ':8080/speedtest/download?nocache=89eacbae-a67d-4b4d-a448-b835d7dc4658&size=25000000'
+    $col = new-object System.Collections.Specialized.NameValueCollection
+    $wc = new-object system.net.WebClient
+    $wc.QueryString = $col
+    $downloadElaspedTime = (measure-command {{$webpage1 = $wc.DownloadData($url)}).totalmilliseconds
+    $string = [System.Text.Encoding]::ASCII.GetString($webpage1)
+    $downSize = ($webpage1.length + $webpage2.length) / 1Mb
+    $downloadSize = [Math]::Round($downSize, 2)
+    $downloadTimeSec = $downloadElaspedTime * 0.001
+    $downSpeed = ($downloadSize / $downloadTimeSec) * 8
+    $downloadSpeed = [Math]::Round($downSpeed, 2)
+	return $downloadSpeed
+}
+
+<#
+Using this method to make the submission to speedtest. Its the only way i could figure out how to interact with the page since there is no API.
+More information for later here: https://support.microsoft.com/en-us/kb/290591
+#>
+$objXmlHttp = New-Object -ComObject MSXML2.ServerXMLHTTP
+$objXmlHttp.Open("GET", "http://www.speedtest.net/speedtest-config.php", $False)
+$objXmlHttp.Send()
+
+#Retrieving the content of the response.
+[xml]$content = $objXmlHttp.responseText
+
+<#
+Gives me the Latitude and Longitude so i can pick the closer server to me to actually test against. It doesnt seem to automatically do this.
+Lat and Longitude for tampa at my house are $orilat = 27.9238 and $orilon = -82.3505
+This is corroborated against: http://www.travelmath.com/cities/Tampa,+FL - It checks out.
+#>
+$oriLat = $content.settings.client.lat
+$oriLon = $content.settings.client.lon
+
+#Making another request. This time to get the server list from the site.
+$objXmlHttp1 = New-Object -ComObject MSXML2.ServerXMLHTTP
+$objXmlHttp1.Open("GET", "http://www.speedtest.net/speedtest-servers.php", $False)
+$objXmlHttp1.Send()
+
+#Retrieving the content of the response.
+[xml]$ServerList = $objXmlHttp1.responseText
+
+<#
+$Cons contains all of the information about every server in the speedtest.net database.
+I was going to filter this to US servers only which would speed this up a lot but i know we have overseas partners we run this against.
+Results returned look like this for each individual server:
+
+url     : http://speedtestnet.rapidsys.com/speedtest/upload.php
+lat     : 27.9709
+lon     : -82.4646
+name    : Tampa, FL
+country : United States
+cc      : US
+sponsor : Rapid Systems
+id      : 1296
+
+#>
+$cons = $ServerList.settings.servers.server
+
+#Below we calculate servers relative closeness to you by doing some math against latitude and longitude.
+foreach($val in $cons)
+{{
+	$R = 6371;
+	[float]$dlat = ([float]$oriLat - [float]$val.lat) * 3.14 / 180;
+	[float]$dlon = ([float]$oriLon - [float]$val.lon) * 3.14 / 180;
+	[float]$a = [math]::Sin([float]$dLat/2) * [math]::Sin([float]$dLat/2) + [math]::Cos([float]$oriLat * 3.14 / 180 ) * [math]::Cos([float]$val.lat * 3.14 / 180 ) * [math]::Sin([float]$dLon/2) * [math]::Sin([float]$dLon/2);
+	[float]$c = 2 * [math]::Atan2([math]::Sqrt([float]$a ), [math]::Sqrt(1 - [float]$a));
+	[float]$d = [float]$R * [float]$c;
+
+	$ServerInformation +=
+@([pscustomobject]@{{Distance = $d; Country = $val.country; Sponsor = $val.sponsor; Url = $val.url })
+
+}
+
+#sorts the servers by removing duplicates companies and then by closest
+$serverinformation = $serverinformation | Sort-Object -Property sponsor -Unique
+$serverinformation = $serverinformation  | Sort-Object -Property distance
+
+#Gets the download speed of 8 of the closest servers
+for($s = 0; $s -lt 8; $s++)
+{{
+
+    $Test1 = Servers($serverinformation[$s].url)
+    $SpeedsArray += @([pscustomobject]@{{Speed = $Test1;})
+}
+
+#Sorts the download speeds by highest speed first
+$UnsortedResults = $SpeedsArray | Sort-Object speed -Descending
+
+$WanSpeed = $UnsortedResults[0].speed
+
+$WanSpeed | Out-File C:\Apps\Temp\InternetSpeed.txt
+
+_end_
+
+//saves the ps1 file
+move __createfile C:\Apps\Temp\Test-NetworkSpeed_Average.ps1
+
+//runs the ps1 file with the ExecutionPolicy unrestricted
+waithidden powershell.exe -ExecutionPolicy unrestricted -command "C:\Apps\Temp\Test-NetworkSpeed_Average.ps1"]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

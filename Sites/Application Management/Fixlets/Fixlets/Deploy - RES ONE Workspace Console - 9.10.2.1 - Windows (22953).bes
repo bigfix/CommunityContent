@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace Console - 9.10.2.1 - Windows
+  ID       : 22953
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace Console - 9.10.2.1 - Windows</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace 2015 SR2 Console!</P>
+<P>Installing a Workspace console requires installing (or reinstalling if it's already present) the RES ONE Workspace client. This means you must provide configuration information for the underlying client when actioning this Fixlet.</P></DIV>
+
+<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
+
+<script>
+    loaded = false;
+
+	function loadGlobalization() {
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(globalization);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
+		return globalizationSanitized;
+	}
+
+	function loadUtils() {
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+	}
+
+    function loadScript(url, callback) {
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = loadUtils() + loadGlobalization();
+        script.onreadystatechange = callback;
+        script.onload = callback;
+
+        head.appendChild(script);
+    }
+
+    function scriptLoaded() {
+        if (!loaded) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
+                loaded = true;
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
+                FixletUtils.initFixletRender();
+            } else {
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
+            }
+        }
+    }
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>
+]]></Description>
+    <Relevance>NOT exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-res-release-display-name</Name>
+      <Value>RES ONE Workspace 2015 SR2</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section0&quot; :{
+	&quot;Name&quot;: &quot;Console&quot;,
+	&quot;Title&quot;: &quot;Console Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;ConsoleAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Console Authentication Method&quot;,
+	    &quot;Description&quot;: &quot;Console Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Windows - Only&quot;]
+	}
+	]
+
+},
+&quot;Section1&quot; :{
+	&quot;Name&quot;: &quot;Agent&quot;,
+	&quot;Title&quot;: &quot;Agent Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;rlParent&quot;,
+	    &quot;Title&quot;: &quot;Relay Parent&quot;,
+	    &quot;Description&quot;: &quot;Select the parent of this relay&quot;,
+		&quot;UIType&quot;: &quot;select&quot;,
+		&quot;Override&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;\&quot;Current BigFix Relay\&quot;;unique values of ((concatenation of (hostname of computer of it as lowercase;\&quot;:\&quot;; value of it)) of results of property 5 of fixlets whose (name of it = \&quot;RES ONE Workspace - Relay - Universal\&quot;) of site of current fixlet;substrings separated by \&quot;,\&quot; of (values of shared variables whose (name of it contains \&quot;RelayServers\&quot;) of wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot;) of site of current fixlet) as lowercase)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;inheritSettings&quot;,
+	    &quot;Title&quot;: &quot;Inheritance Rules&quot;,
+	    &quot;Description&quot;: &quot;Inherit Settings&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Do not Inherit Settings&quot;,&quot;Inherit Settings&quot;]
+	},
+	{
+	    &quot;Name&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Authentication&quot;,
+	    &quot;Description&quot;: &quot;Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Relay&quot;]
+	}
+	]
+},
+&quot;Section2&quot; : {
+	&quot;Name&quot;: &quot;dbInfo&quot;,
+	&quot;Title&quot;: &quot;Database Information&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbServer&quot;,
+	    &quot;Title&quot;: &quot;Database Server&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbserver\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbName&quot;,
+	    &quot;Title&quot;: &quot;Database Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database on the DB Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+},
+&quot;Section5&quot; : {
+	&quot;Name&quot;: &quot;EnvConfig&quot;,
+	&quot;Title&quot;: &quot;Environment Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;RESEnvPwdHash&quot;,
+	    &quot;Title&quot;: &quot;RES Environment Password Hash&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment Password Hash&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Encrypt&quot;: &quot;false&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;respw_hash\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESRELPORT&quot;,
+	    &quot;Title&quot;: &quot;RES Relay Port&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Relay Port&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;resrelport\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESEnvGUID&quot;,
+	    &quot;Title&quot;: &quot;RES Environment GUID&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment GUID&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;unique values of (values of shared variables whose (name of it contains \&quot;EnvironmentGUID\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet);(values of results of properties whose (name of it = \&quot;RES ONE Workspace Database - Site GUID - Windows\&quot;) of fixlets whose (name of it = \&quot;RES ONE Workspace - Database - Windows\&quot;) of site of current fixlet))&quot;
+	}
+]
+}
+}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23952">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+prefetch RESWMAgent.msi sha1:B0E7A19B6A3CB0213D44FE7384DC6412E4DA4E6D size:36743680 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-Agent-SR2.msi sha256:DC24EE38A78FA7936385B5206B6EE5012A612752B7A21FE26EF5D94DC6F4B638
+//remove agent if it is installed already
+prefetch RES-ONE-Workspace.msi sha1:7FFF35953F335DF486BAB9B6BB7F57BC4BDD1424 size:48955392 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-SR2.1.msi sha256:5462E21B7FD8EDCE6F363FA12AD0DC1D352E617F655CA441BC28443D3D0FA4F9
+
+// action log all
+
+//
+// Validation
+//
+
+continue if {parameter "rlParent" of action != ""}
+continue if {parameter "RESEnvGUID" of action != ""}
+continue if {parameter "RESRELPORT" of action != ""}
+continue if {parameter "RESEnvPwdHash" of action != ""}
+
+//
+// Change Action Parameter into acceptable Inheritance settings for MSI
+//
+
+if {parameter "inheritSettings" of action = "Inherit Settings"}
+	parameter "inherit"="yes"
+else
+	parameter "inherit"="no"
+endif
+
+//
+// Remove RES ONE Agent if it is installed
+//
+
+action uses wow64 redirection {not x64 of operating system}
+
+If {exists service "res" and exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
+  If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+    If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+      regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
+    else
+      regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
+    EndIf
+  EndIf
+  waithidden cmd /C net stop "res"
+
+  wait msiexec /x __Download\RESWMAgent.msi autoruncomposer=no remove=all reboot=R /qn
+EndIf
+
+//
+// Install Console with Agent
+//
+
+if {parameter "rlParent" of action = "Current BigFix Relay"}
+	parameter "CurrentRelay"="{(preceding text of first ":" of name of registration server as lowercase ) & ":" & parameter "RESRELPORT" of action}"
+	parameter "ConfRelay1"="{(";" & preceding text of first ":" of following text of first "//" of value of setting "__RelayServer1" of client as string as lowercase & ":" & parameter "RESRELPORT" of action) | ""}"
+	parameter "ConfRelay2"="{(";" & preceding text of first ":" of following text of first "//" of value of setting "__RelayServer2" of client as string as lowercase  & ":" & parameter "RESRELPORT" of action) | ""}"
+	parameter "RelayList"="{ concatenations ";" of unique values of substrings separated by ";" of (parameter "CurrentRelay" & parameter "ConfRelay1" & parameter "ConfRelay2")}"
+else
+	parameter "RelayList"="{parameter "rlParent" of action}"
+endif
+
+action uses wow64 redirection true
+
+wait msiexec /i __Download\RES-ONE-Workspace.msi RSENVGUID="{(parameter "RESEnvGUID" of action)}" RSPASSWORD="{parameter "RESEnvPwdHash" of action}" RSPWHASHED=Yes RSDISCOVER=No RSLIST="{parameter "RelayList"}" DBTYPE=MSSQL DBSERVER="{parameter "dbServer" of action}" DBNAME="{parameter "dbName" of action}" INHERITSETTINGS={parameter "INHERIT"} /qn
+notify client forcerefresh
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

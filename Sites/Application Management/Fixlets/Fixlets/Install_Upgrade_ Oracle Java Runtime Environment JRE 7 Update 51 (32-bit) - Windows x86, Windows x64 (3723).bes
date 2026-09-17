@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Oracle Java Runtime Environment JRE 7 Update 51 (32-bit) - Windows x86, Windows x64
+  ID       : 3723
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-03T09:37:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Oracle Java Runtime Environment JRE 7 Update 51 (32-bit) - Windows x86, Windows x64</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=3>About Java Runtime Environment (JRE)</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>The Java Runtime Environment (JRE) is a free&nbsp;execution environment developed by Oracle for Java applications and applets.</P></BLOCKQUOTE>
+<P><FONT color=#0080ff size=3><STRONG>Licensing</STRONG></FONT></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>JRE&nbsp;is freeware.</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT size=3>About This Task</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This task will install/upgrade: Oracle Java Runtime Environment&nbsp;JRE 7 update&nbsp;51 (32-bit).<BR><BR>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7, Windows 7 x64, Windows&nbsp;8 and Windows&nbsp;8 x64. </P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT size=3>Action Description</FONT></STRONG></P>
+<P dir=ltr><STRONG><FONT color=#ff0000>Important note:</FONT></STRONG> Any running web browsers or Java applications should be terminated before installing this update. ( except for action 3, which will close them automatically)</P>
+<UL dir=ltr>
+<LI>
+<DIV><STRONG>Action1: Install/upgrade and disable auto-updates.</STRONG></DIV></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action installs&nbsp;the Java Runtime Environment (JRE)&nbsp;and disables Java Updates.</P></BLOCKQUOTE>
+<UL dir=ltr>
+<LI><STRONG>Action2:&nbsp;Install/upgrade&nbsp;only if&nbsp;JRE, Internet Explorer, and Firefox&nbsp;are&nbsp;not running and disable auto-updates.</STRONG></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P style="MARGIN-RIGHT: 0px" dir=ltr>This action installs&nbsp;the Java Runtime Environment&nbsp;(JRE) only if&nbsp;it, Internet Explorer, and Firefox are&nbsp;not running; if one of these applications is running, the action may report back as failed. To ensure that the update is eventually applied, you may want to the deploy this action as a policy and configure the installation to retry&nbsp;if it fails.</P></BLOCKQUOTE>
+<UL dir=ltr>
+<LI><STRONG>Action3: Install/upgrade&nbsp;regardless of whether or not JRE,&nbsp;Internet Explorer, and Firefox are currently running and disable auto-updates.</STRONG></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr>This action&nbsp;installs the Java Runtime Environment&nbsp;(JRE) regardless of whether or not it, Internet Explorer, and Firefox are running, then installs the newer version. Use this action ensure that the update is applied when the action is deployed.</P>
+<P style="MARGIN-RIGHT: 0px" dir=ltr><STRONG><FONT color=#ff0000>Important note:</FONT></STRONG> This action will close any running instances of JRE, Internet Explorer, and Firefox on the client machines. Please schedule the update to occur at a time when such a service interruption is acceptable.</P>
+<P style="MARGIN-RIGHT: 0px" dir=ltr>&nbsp;</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT color=#ff0000 size=3>Important Note</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr>This task <EM>only</EM> upgrades Java Runtime Environment&nbsp;(JRE) 7 (e.g., JRE 7uX will upgrade, but JRE 6uX will not). Multiple, newer, or&nbsp;older versions of JRE&nbsp;may be&nbsp;installed on client machines at the same time; however, this is generally not recommended. The fixlet "Multiple JRE Versions Installed" (ID 7052001)&nbsp;can be used to uninstall older versions of JRE before using this task.</P>
+<P dir=ltr>The 32-bit version of JRE is required for and only works with 32-bit browsers. <STRONG>64-bit&nbsp;systems with 32-bit browsers will also need the 32-bit version of JRE</STRONG>.</P></BLOCKQUOTE>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not (( /* Check if JAVA is installed */ exists key whose (value "DisplayName" of it as string contains "Java 7" AND (it >= "7.0.510" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry) AND (12 = /* There should be 12 JAR files, if not then Java has an issue */ (number of files whose(name of it as lowercase ends with ".jar") of folders "Java\jre7\lib" of (if (x64 of operating system) then (folders "C:\Program Files (x86)") else (folders "C:\Program Files")))))]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-01-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Mar 2014 16:36:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Note: update .exe will restart service automatically
+if {exists running service "JavaQuickStarterService"}
+	delete __appendfile
+	delete stop_javaquickstarter.bat
+	appendfile net stop JavaQuickStarterService
+	move __appendfile stop_javaquickstarter.bat
+	waithidden stop_javaquickstarter.bat
+endif
+
+if {exists running application whose (name of it as lowercase = "jusched.exe")}
+	waithidden taskkill /F /T /IM jusched.exe
+	pause while {exists running application "jusched.exe"}
+endif
+
+// Download JAVA installer - using same cached copy as the IBM fixlets
+prefetch jre-windows-i586.exe sha1:72aa32f97a0ddd306d436ac3f13fabb841b94a76 size:29141928 http://download.oracle.com/MANUAL_BES_CACHING_REQUIRED/jre-7u51-windows-i586.exe
+
+// Delete log file if it exists
+delete "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}"
+
+//install java runtime environment (IEXPLORER=1: register as default Java VM for IE, MOZILLA=1: register with Mozilla-based browsers, JAVAUPDATE=0: disable Java Update)
+waithidden __Download/jre-windows-i586.exe /s /norestart /v"IEXPLORER=1 MOZILLA=1 JAVAUPDATE=0 JU=0 AUTOUPDATECHECK=0 SYSTRAY=0 /L*v \"{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}\""
+
+action may require restart "72aa32f97a0ddd306d436ac3f13fabb841b94a76"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4048">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;only if JRE, Internet Explorer, and Firefox are not running and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {(not exists running applications whose((it = "firefox.exe" OR it = "iexplore.exe" OR it = "java.exe" OR it = "javaw.exe" OR it = "javaws.exe") of (name of it as lowercase)))}
+
+// Note: update .exe will restart service automatically
+if {exists running service "JavaQuickStarterService"}
+	delete __appendfile
+	delete stop_javaquickstarter.bat
+	appendfile net stop JavaQuickStarterService
+	move __appendfile stop_javaquickstarter.bat
+	waithidden stop_javaquickstarter.bat
+endif
+
+if {exists running application whose (name of it as lowercase = "jusched.exe")}
+	waithidden taskkill /F /T /IM jusched.exe
+	pause while {exists running application "jusched.exe"}
+endif
+
+// Download JAVA installer - using same cached copy as the IBM fixlets
+prefetch jre-windows-i586.exe sha1:72aa32f97a0ddd306d436ac3f13fabb841b94a76 size:29141928 http://download.oracle.com/MANUAL_BES_CACHING_REQUIRED/jre-7u51-windows-i586.exe
+
+// Delete log file if it exists
+delete "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}"
+
+//install java runtime environment (IEXPLORER=1: register as default Java VM for IE, MOZILLA=1: register with Mozilla-based browsers, JAVAUPDATE=0: disable Java Update)
+waithidden __Download/jre-windows-i586.exe /s /norestart /v"IEXPLORER=1 MOZILLA=1 JAVAUPDATE=0 JU=0 AUTOUPDATECHECK=0 SYSTRAY=0 /L*v \"{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}\""
+
+action may require restart "72aa32f97a0ddd306d436ac3f13fabb841b94a76"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action4049">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;regardless of whether or not JRE, Internet Explorer, and Firefox are running and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//close any running instance of Java, Internet Explorer, or Firefox
+if {exists running application whose (name of it as lowercase = "java.exe")}
+	waithidden taskkill /F /T /IM java.exe
+	pause while {exists running application "java.exe"}
+endif
+if {exists running application whose (name of it as lowercase = "javaw.exe")}
+	waithidden taskkill /F /T /IM javaw.exe
+	pause while {exists running application "javaw.exe"}
+endif
+if {exists running application whose (name of it as lowercase = "javaws.exe")}
+	waithidden taskkill /F /T /IM javaws.exe
+	pause while {exists running application "javaws.exe"}
+endif
+if {exists running application whose (name of it as lowercase = "iexplore.exe")}
+	waithidden taskkill /F /T /IM iexplore.exe
+	pause while {exists running application "iexplore.exe"}
+endif
+if {exists running application whose (name of it as lowercase = "firefox.exe")}
+	waithidden taskkill /F /T /IM firefox.exe
+	pause while {exists running application "firefox.exe"}
+endif
+pause while {exists running application "java.exe" OR exists running application "javaw.exe" OR exists running application "javaws.exe" OR exists running application "iexplore.exe" OR exists running application "firefox.exe"}
+
+// Note: update .exe will restart service automatically
+if {exists running service "JavaQuickStarterService"}
+	delete __appendfile
+	delete stop_javaquickstarter.bat
+	appendfile net stop JavaQuickStarterService
+	move __appendfile stop_javaquickstarter.bat
+	waithidden stop_javaquickstarter.bat
+endif
+
+if {exists running application whose (name of it as lowercase = "jusched.exe")}
+	waithidden taskkill /F /T /IM jusched.exe
+	pause while {exists running application "jusched.exe"}
+endif
+
+// Download JAVA installer - using same cached copy as the IBM fixlets
+prefetch jre-windows-i586.exe sha1:72aa32f97a0ddd306d436ac3f13fabb841b94a76 size:29141928 http://download.oracle.com/MANUAL_BES_CACHING_REQUIRED/jre-7u51-windows-i586.exe
+
+// Delete log file if it exists
+delete "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}"
+
+//install java runtime environment (IEXPLORER=1: register as default Java VM for IE, MOZILLA=1: register with Mozilla-based browsers, JAVAUPDATE=0: disable Java Update)
+waithidden __Download/jre-windows-i586.exe /s /norestart /v"IEXPLORER=1 MOZILLA=1 JAVAUPDATE=0 JU=0 AUTOUPDATECHECK=0 SYSTRAY=0 /L*v \"{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\software_java32.txt"}\""
+
+action may require restart "72aa32f97a0ddd306d436ac3f13fabb841b94a76"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

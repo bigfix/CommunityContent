@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: Microsoft Camera Codec Pack (16.0.0652.0621)
+  ID       : 3684
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-15T08:51:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: Microsoft Camera Codec Pack (16.0.0652.0621)</Title>
+    <Description><![CDATA[This task will deploy: Microsoft Camera Codec Pack (16.0.0652.0621).<BR><BR>This task is applicable on: Windows Vista x64 and Windows 7 x64. ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* x64 only (there is a 32bit version) */ x64 of operating system</Relevance>
+    <Relevance><![CDATA[/* WinVista or later */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[/* Win7 or earlier */ version of operating system < "6.2"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose (value "DisplayName" of it as string as lowercase contains "Microsoft Camera Codec Pack" as lowercase AND value "DisplayVersion" of it as string as version >= "16.0.0652.0621" as version) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2014-01-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 15 Jan 2014 15:50:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// http://download.microsoft.com/download/A/1/F/A1F26927-3966-4E2E-A30A-DC78D3408527/MicrosoftCodecPack_amd64.msi
+// http://download.microsoft.com/download/A/1/F/A1F26927-3966-4E2E-A30A-DC78D3408527/MicrosoftCodecPack_x86.msi
+
+download http://download.microsoft.com/download/A/1/F/A1F26927-3966-4E2E-A30A-DC78D3408527/MicrosoftCodecPack_amd64.msi
+continue if {(size of it = 8878080 AND sha1 of it = "4c6315b9a962d884561975fc8d8e68c8439ca224") of file "MicrosoftCodecPack_amd64.msi" of folder "__Download"}
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\MicrosoftCodecPack_amd64.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Safari
+  ID       : 2538
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-19T06:28:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Safari</Title>
+    <Description><![CDATA[<P>This fixlet will configure Safari:</P>
+<P>- Set the homepage and contents of new tabs/windows</P>
+<P>- Disable welcome page</P>
+<P>- This task is applicable on Mac OS X</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Category>Mac Software Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2013-07-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Jul 2013 13:26:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete &quot;/Library/Preferences/com.apple.Safari.plist&quot;
+action parameter query &quot;homePage&quot; with description &quot;Home Page (or blank for about:blank)&quot; with default value &quot;http://www.apple.com&quot;
+if {parameter &quot;homePage&quot; = &quot;&quot;}
+parameter &quot;homePage&quot; = {parameter &quot;about:blank&quot;}
+endif
+wait /usr/bin/defaults write /Library/Preferences/com.apple.Safari HomePage -string &quot;{parameter &quot;homePage&quot;}&quot;
+wait /usr/bin/defaults write /Library/Preferences/com.apple.Safari &quot;Contents of New Tabs&quot; -int 1
+wait /usr/bin/defaults write /Library/Preferences/com.apple.Safari &quot;Contents of New Windows&quot; -int 0
+wait /usr/bin/defaults write /Library/Preferences/com.apple.Safari LastDisplayedWelcomePageVersionString -string &quot;{version of folder &quot;/Applications/Safari.app&quot;}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

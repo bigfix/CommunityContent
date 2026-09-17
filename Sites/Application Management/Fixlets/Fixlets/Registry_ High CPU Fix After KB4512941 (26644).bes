@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Registry: High CPU Fix After KB4512941
+  ID       : 26644
+  Author   : KatWin
+  Domain   : BESC
+  Imported : 2019-09-04T18:18:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Registry: High CPU Fix After KB4512941</Title>
+    <Description><![CDATA[This task will edit the Windows Registry: Updates the BingSearchEnabled DWORD value to "1" (if&nbsp;it's "0")&nbsp;under HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search<BR><BR>This task is applicable on: Windows 10.\n\n ]]></Description>
+    <Relevance>(name of operating system = &quot;Win10&quot;) AND (exists value &quot;BingSearchEnabled&quot; whose (it as integer = 0 AND it as integer != 1) of keys &quot;Software\Microsoft\Windows\CurrentVersion\Search&quot; of current user keys (logged on users) of registry)</Relevance>
+    <Relevance>exists value whose (name of it = &quot;InstallLocation&quot;) whose (it as string contains &quot;KB4512941&quot;) of  keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages&quot; of native registry</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceReleaseDate>2019-09-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 05 Sep 2019 01:11:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset64 &quot;[HKEY_USERS\{(component string of sid of security account (name of current user))}\Software\Microsoft\Windows\CurrentVersion\Search]&quot; &quot;BingSearchEnabled&quot;=dword:00000001</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

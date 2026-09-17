@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy VLC 2.0.7
+  ID       : 2521
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T10:52:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy VLC 2.0.7</Title>
+    <Description><![CDATA[This task will deploy VLC 2.0.7 <BR><BR>This task is applicable on Mac OS X 10.5, Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.5" AND system version < "10.9")]]></Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "VLC.app" and ((bundle version of it) >= "2.0.7" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 12:59:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch vlc-2.0.7.dmg sha1:ea190de6108f77d5ed9eb775b872eea4ce9eee3c size:44577073 http://get.videolan.org/vlc/2.0.7/macosx/vlc-2.0.7.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/VLC&quot; &quot;{posix path of file &quot;vlc-2.0.7.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+continue if {exists folder &quot;/tmp/VLC/VLC.app&quot;}
+wait /bin/rm -rf &quot;/Applications/VLC.app&quot;
+wait /bin/cp -Rfp &quot;/tmp/VLC/VLC.app&quot; &quot;/Applications&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/VLC&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

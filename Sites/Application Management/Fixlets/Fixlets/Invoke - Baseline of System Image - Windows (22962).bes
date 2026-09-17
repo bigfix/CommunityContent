@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Invoke - Baseline of System Image - Windows
+  ID       : 22962
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Invoke - Baseline of System Image - Windows</Title>
+    <Description><![CDATA[Deploy this task to trusted and secured endpoints or gold images.&nbsp; This task will enumerate and record all EXE and their associated hashes to be imported in to the applications whitelist. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:42:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+action uses wow64 redirection false
+
+// action log all
+
+action parameter query "Algorithm" with description "Please enter the hashing algorithm"
+action parameter query "Container" with description "Please enter the destination container"
+
+// If the action fails here you are trying to use MD5 on a system with FIPS cryptography requirements
+// There is no FIPS-Compliant MD5 algorithm
+continue if {not ((parameter "Algorithm" of action = "MD5") and exists (values "Enabled" whose (it=1) of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\FipsAlgorithmPolicy" of registry))}
+
+parameter "BaselineStorage"="{pathname of folder "__Global" of data folder of client}\RES Baseline Wizard"
+
+delete __createfile
+
+folder create "{parameter "BaselineStorage"}"
+
+delete "{parameter "BaselineStorage"}\baseline.ps1"
+delete "{parameter "BaselineStorage"}\authorizedfiles.txt"
+delete "{parameter "BaselineStorage"}\baseline.log"
+delete "{parameter "BaselineStorage"}\{computer name}.txt"
+
+createfile until _end_
+param (
+    $Directory = "C:\",
+    $OutDir = ".",
+    $Algorithm = "SHA256",
+    $Container = ""
+)
+
+function write-log {{
+    param (
+        $Message
+    )
+    write-host $Message
+    $Message >> "$OutDir\Baseline.log"
+}
+
+Function get-authorizedfileinfo {{
+    Param(
+    [parameter(Mandatory=$True)]$file,
+    [parameter(Mandatory=$false)][ValidateSet("MD5", "SHA1", "SHA256")]$Algorithm = "SHA256"
+    )
+
+    Switch ($Algorithm)
+    {{
+        "SHA1"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
+        "SHA256"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+        "MD5"   {{ $AlgorithmObj = New-Object System.Security.Cryptography.MD5CryptoServiceProvider }
+        Default {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+    }
+    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash([System.IO.File]::ReadAllBytes($File.FullName)))) -replace ("-","")
+
+    return @{{Hash = $Hashstring;Path = $File.FullName}
+}
+
+write-log "Hashing Directory: $Directory"
+write-log "Output Directory: $OutDir"
+write-log "Algorithm: $Algorithm"
+write-log "Containers: $Container"
+
+$Files = Get-ChildItem -force -Recurse $Directory -Filter "*.exe" -ErrorAction SilentlyContinue
+
+foreach ($File in $Files) {{
+    try {{
+        write-log "Processing file: $($File.Name)"
+        $FileInfo = get-authorizedfileinfo -file $File -Algorithm $Algorithm
+
+        if (!($FileInfo.Path) -or !($FileInfo.Hash)) {{throw "Invalid Authorized File Info"}
+
+        "$($FileInfo.Path)`t$($FileInfo.Hash)`t*`tAllow`t$Container" >> "$OutDir\authorizedfiles.txt"
+    } catch {{
+        write-log "Error processing $File"
+    }
+}
+_end_
+
+copy __createfile "{parameter "BaselineStorage"}\baseline.ps1"
+
+waithidden powershell.exe -executionpolicy bypass -file "{parameter "BaselineStorage"}\baseline.ps1" -Directory "{name of drive of system folder}\\" -OutDir "{parameter "BaselineStorage"}" -Algorithm "{parameter "Algorithm" of action}" -Container "{parameter "Container" of action}"
+
+move "{parameter "BaselineStorage"}\AuthorizedFiles.txt" "{parameter "BaselineStorage"}\{computer name}.txt"
+
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="52428800" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-authfiles"="{parameter "BaselineStorage"}\*.*" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+
+archive now
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

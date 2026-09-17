@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy TextMate 1.5.11
+  ID       : 2527
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T11:15:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy TextMate 1.5.11</Title>
+    <Description><![CDATA[This task will deploy TextMate 1.5.11 <BR><BR>This task is applicable on Mac OS X 10.5, Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.5" AND system version < "10.9")]]></Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "TextMate.app" and ((version of it) >= "1.5.11" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 18:04:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TextMate_1.5.11_r1635.zip sha1:e3cdd8baaae8a81679932f48fc3af192ed045b16 size:12998020 http://archive.textmate.org/TextMate_1.5.11_r1635.zip
+move __Download/TextMate_1.5.11_r1635.zip &quot;/tmp/TextMate_1.5.11_r1635.zip&quot;
+continue if {exists file &quot;/tmp/TextMate_1.5.11_r1635.zip&quot;}
+wait /bin/rm -rf &quot;/Applications/TextMate.app&quot;
+wait /usr/bin/unzip -qn /tmp/TextMate_1.5.11_r1635.zip -x &quot;__MACOSX/*&quot; -d /Applications
+wait /usr/bin/defaults write /Library/Preferences/com.macromates.textmate.plist OakRegistrationOwner -string &quot;My Organization&quot;
+wait /usr/bin/defaults write /Library/Preferences/com.macromates.textmate.plist OakRegistrationLicenseKey -string &quot;XXXXXXX-XXXXXXX-XXXXXXX-XXXXXXX&quot;
+wait /bin/ln -sf /Applications/TextMate.app/Contents/SharedSupport/Support/bin/mate /usr/local/bin/mate
+wait /bin/mkdir -p /usr/local/bin
+delete &quot;/etc/paths.d/mate&quot;
+createfile until END_OF_FILE
+/usr/local/bin
+END_OF_FILE
+copy __createfile &quot;/etc/paths.d/mate&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

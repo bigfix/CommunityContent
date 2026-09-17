@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall: MSI - Microsoft Web Developer Tools - Visual Studio - Windows
+  ID       : 17407
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-04-21T10:34:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall: MSI - Microsoft Web Developer Tools - Visual Studio - Windows</Title>
+    <Description><![CDATA[<P>This task will uninstall the MSI: Microsoft Web Developer Tools - Visual Studio</P><P>This task was automatically generated using the task: "RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows"</P><P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Only run if Microsoft Web Developer Tools - Visual Studio is installed */ 1 = number of keys whose( (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;Microsoft Web Developer Tools - Visual Studio&quot; as lowercase) of it) AND (exists values whose(it as string as lowercase starts with &quot;msiexec&quot;) of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries )</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-04-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>20 Apr 2016 22:50:19 -070 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall Microsoft Web Developer Tools - Visual Studio</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden msiexec.exe /X { name of keys whose( (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;Microsoft Web Developer Tools - Visual Studio&quot; as lowercase) of it) AND (exists values whose(it as string as lowercase starts with &quot;msiexec&quot;) of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries ) } /qn</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

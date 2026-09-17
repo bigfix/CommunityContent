@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Trend Micro Endpoint Security Platform Relay (Version 8.2.1310.0)
+  ID       : 215
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Trend Micro Endpoint Security Platform Relay (Version 8.2.1310.0)</Title>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD><P><FONT size=2><B>Installs the Trend Micro Endpoint Security Platform Relay 8.2.1310.0 on the selected Windows computers. <BR><BR></B></FONT><FONT size=2>For more information on Trend Micro Endpoint Security Platform Relays, please visit the following support web pages:</P> <UL> <LI><A href="http://support.bigfix.com/bes/misc/besrelays.html">Trend Micro Endpoint Security Platform Relay FAQ</A> - Information on using Trend Micro Endpoint Security Platform Relays to reduce bandwidth on slow WAN links, increase scalability, and increase performance. <LI><A href="http://support.bigfix.com/bes/misc/besrelayhealth.html">Trend Micro Endpoint Security Platform Relay Health</A> - Information on best practices for setting up and maintaining Trend Micro Endpoint Security Platform Relays.</FONT></LI></UL></TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>
+7.27 MB
+ </DIV>
+]]></Description>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance>if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; whose (exists value &quot;value&quot; of it) of registry) then (value &quot;value&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; of registry as string = &quot;Trend&quot;) else (&quot;Trend&quot;=&quot;BigFix&quot;)</Relevance>
+    <Relevance>not exists regapp &quot;besrelay.exe&quot;</Relevance>
+    <Relevance>not (exists key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry AND exists value &quot;BESInstalled&quot; of key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry AND value &quot;BESInstalled&quot; of key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry = 1)</Relevance>
+    <Relevance>evaluation of client license = false</Relevance>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance><![CDATA[version of registration server >= "8.2"]]></Relevance>
+    <Relevance>((name of it starts with &quot;Win&quot;) AND (platform id of it != 3)) of operating system</Relevance>
+    <Category>Upgrade</Category>
+    <Source>IBM</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-07-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 21 Nov 2011 22:07:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Deploy Relay</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 22 Aug 2012 21:11:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the Trend Micro Endpoint Security Platform Relay to the default location.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+delete __Local\Get\BESRelay.exe
+// If the next line fails, there is not enough free space to complete this action
+continue if {7620816  < free space of drive of client folder of current site}
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]" "Logging"="voicewarmupx"
+wait __Local\Get\BESRelay.exe /s /v"RESTARTBESCLIENT=0 REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable /qn"
+delete __Local\Get\BESRelay.exe
+// Now force a relay selection to our newly installed relay
+relay select]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(not exists running service &quot;BESRelay&quot;) AND ((it &lt; &quot;8.2.1310.0&quot;) of (if (version of client &gt;= &quot;8.0&quot;) then version of service &quot;BESRelay&quot; else version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of service &quot;BESRelay&quot;)))</SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action385">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to be prompted for a path where the Trend Micro Endpoint Security Platform Relay will be installed.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "Relay Install Location" with description "Please enter the path where you would like the Trend Micro Endpoint Security Platform Relay installed:" with default value "C:\Program Files\BigFix Enterprise\BES Relay"
+continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+delete __Local\Get\BESRelay.exe
+// If the next line fails, there is not enough free space to complete this action
+continue if {7620816  < free space of drive of client folder of current site}
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]" "Logging"="voicewarmupx"
+wait __Local\Get\BESRelay.exe /s /v"INSTALLDIR=\"{parameter "Relay Install Location" of action}\" RESTARTBESCLIENT=0 REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable /qn"
+delete __Local\Get\BESRelay.exe
+// Now force a relay selection to our newly installed relay
+relay select]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(not exists running service &quot;BESRelay&quot;) AND ((it &lt; &quot;8.2.1310.0&quot;) of (if (version of client &gt;= &quot;8.0&quot;) then version of service &quot;BESRelay&quot; else version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of service &quot;BESRelay&quot;)))</SuccessCriteria>
+    </Action>
+    <Action ID="Action386">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the Trend Micro Endpoint Security Platform Relay on the drive with the most free space.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+delete __Local\Get\BESRelay.exe
+// If the next line fails, there is not enough free space to complete this action
+continue if {7620816  < free space of drive of client folder of current site}
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]" "Logging"="voicewarmupx"
+wait __Local\Get\BESRelay.exe /s /v"INSTALLDIR=\"{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}\Program Files\BigFix Enterprise\BES Relay\" RESTARTBESCLIENT=0 REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable /qn"
+delete __Local\Get\BESRelay.exe
+// Now force a relay selection to our newly installed relay
+relay select]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(not exists running service &quot;BESRelay&quot;) AND ((it &lt; &quot;8.2.1310.0&quot;) of (if (version of client &gt;= &quot;8.0&quot;) then version of service &quot;BESRelay&quot; else version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of service &quot;BESRelay&quot;)))</SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

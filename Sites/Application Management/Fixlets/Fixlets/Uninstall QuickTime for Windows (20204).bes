@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall QuickTime for Windows
+  ID       : 20204
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-04-21T19:38:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall QuickTime for Windows</Title>
+    <Description><![CDATA[<P>This task will uninstall: All versions of QuickTime</P>
+
+<P>According to Trend-Micro, Apple is no longer updating QuickTime for Windows.</P>
+
+<P><FONT color=#ff0000><STRONG><FONT size=5>Warning</FONT>: If the quicktime web plugin is currently in use by Internet Explorer, the browser may crash during uninstall. As such this task has no default action.</STRONG></FONT></P>
+
+<P>This task is applicable on: Windows XP, Windows XP x64, Windows 2003, Windows 2003 x64, Windows Vista, Windows Vista x64, Windows 2008, Windows 2008 x64, Windows 7, Windows 7 x64, Windows 2008 R2, Windows XP Embedded, Windows 8, Windows 8 x64, Windows 2012, Windows 8.1, Windows 8.1 x64 and Windows 2012 R2. </P>]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;quicktime&quot; and name of it starts with &quot;{&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries</Relevance>
+    <Category>Software Distribution</Category>
+    <SourceReleaseDate>2016-04-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Apr 2016 20:29:04 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 15 Apr 2016 13:30:58 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 15 Apr 2016 13:32:32 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>uninstall quicktime, quicktime, uninstall, remove, quicktime eol, EOL, us-cert</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>12966</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-versions-ids</Name>
+      <Value>12961,12962,12963,12964,12965</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action21014">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to quit quicktime and initiate the removal process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Quit QuickTime Player if it is running
+if {exists running application "quicktimeplayer.exe"}
+	waithidden taskkill /F /IM quicktimeplayer.exe
+endif
+
+//Uninstalling quicktime player while the user is using the web plugin in internet explorer will crash internet explorer and requires a restart, firefox does not have this problem
+waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries} /QN REBOOT=ReallySuppress
+if ({exit code of action}=3010)
+	action requires restart
+endif
+exit {exit code of action}]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action21015">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to quit quicktime player and internet explorer, and initiate the removal process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Quit QuickTime Player if it is running
+if {exists running application "quicktimeplayer.exe"}
+	waithidden taskkill /F /IM quicktimeplayer.exe
+endif
+//Quit internet explorer just in case it is are activly using quicktime, firefox does not have this problem
+if {exists running application "iexplore.exe"}
+	waithidden taskkill /F /IM iexplore.exe
+endif
+
+//Uninstalling quicktime player
+waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries} /QN REBOOT=ReallySuppress
+if ({exit code of action}=3010)
+	action requires restart
+endif
+exit {exit code of action}]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action21016">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view the US-Cert bulletin.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.us-cert.gov/ncas/alerts/TA16-105A</ActionScript>
+    </Action>
+    <Action ID="Action21017">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/12966</ActionScript>
+    </Action>
+  </Task>
+</BES>

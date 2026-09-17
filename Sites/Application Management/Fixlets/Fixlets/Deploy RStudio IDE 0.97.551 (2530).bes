@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RStudio IDE 0.97.551
+  ID       : 2530
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-08T07:58:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RStudio IDE 0.97.551</Title>
+    <Description><![CDATA[This task will deploy RStudio IDE&nbsp;0.97.551 <BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance>exists application whose (name of it as string is &quot;R.app&quot;) of applications folder</Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "RStudio.app" and ((version of it) >= "0.97.551" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Jul 2013 14:54:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch RStudio-0.97.551.dmg sha1:2a665fcb918f33422337c02eeb0f28ecf30467af size:31392562 http://download1.rstudio.org/RStudio-0.97.551.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/RSTUDIO&quot; &quot;{posix path of file &quot;RStudio-0.97.551.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+continue if {exists folder &quot;/tmp/RSTUDIO/RStudio.app&quot;}
+wait /bin/rm -rf &quot;/Applications/RStudio.app&quot;
+wait /bin/cp -Rfp &quot;/tmp/RSTUDIO/RStudio.app&quot; &quot;/Applications&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/RSTUDIO&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

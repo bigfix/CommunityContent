@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Avamar Windows Client
+  ID       : 779
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T21:54:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Avamar Windows Client</Title>
+    <Description>This task will uninstall the Avamar Client, both 32bit and 64bit from all Windows versions.
+
+Related:
+
+- https://bigfix.me/analysis/details/2994538
+- https://bigfix.me/fixlet/details/759
+- https://bigfix.me/fixlet/details/761</Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;EMC Avamar&quot; as lowercase) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2011-08-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Aug 2011 17:19:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall the Avamar Client.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string contains &quot;EMC Avamar&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry} /qn
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

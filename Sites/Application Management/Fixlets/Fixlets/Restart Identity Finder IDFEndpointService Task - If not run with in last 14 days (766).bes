@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Restart Identity Finder IDFEndpointService Task - If not run with in last 14 days
+  ID       : 766
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T21:15:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Restart Identity Finder IDFEndpointService Task - If not run with in last 14 days</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;IDFEndpointService&quot;</Relevance>
+    <Relevance><![CDATA[if (exists folder "C:\Users\" AND exists folders whose (exists folder "AppData\Local\Identity Finder\logs" of it) of folder "C:\Users\" AND exists files whose (name of it ends with ".log" AND name of it starts with "IDF_") of folders "AppData\Local\Identity Finder\logs" of folders whose (exists folder "AppData\Local\Identity Finder\logs" of it) of folder "C:\Users\") then (14*day < (now - maximum of creation times of files whose (name of it ends with ".log" AND name of it starts with "IDF_") of folders "AppData\Local\Identity Finder\logs" of folders whose (exists folder "AppData\Local\Identity Finder\logs" of it) of folder "C:\Users\")) else TRUE]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2011-11-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 23 Nov 2011 20:01:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden net stop IDFEndpointService
+waithidden net start IDFEndpointService</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

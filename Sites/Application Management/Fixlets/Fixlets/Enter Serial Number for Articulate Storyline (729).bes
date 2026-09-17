@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Enter Serial Number for Articulate Storyline
+  ID       : 729
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T08:09:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Enter Serial Number for Articulate Storyline</Title>
+    <Description><![CDATA[<P>This task will enter a serial number for Articulate Storyline into the activation dialog so the user can activate on their own.</P>
+<P><A href="http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43"><FONT color=#000080>http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43</FONT></A></P>
+<P><BR>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7 and Windows 7 x64. </P>]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance>exists current user AND (1 = number of logged on users)</Relevance>
+    <Relevance><![CDATA[(exists key whose (value "DisplayName" of it as string contains "Articulate Storyline" AND (it >= "1.0.15" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry)]]></Relevance>
+    <Relevance><![CDATA[not exists key "Software\Articulate\Fireball\1.0\SL1" whose (exists value "LastAttempt" of it AND value "LastAttempt" of it as string starts with "SL1") of (key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry)]]></Relevance>
+    <Category>Activation</Category>
+    <Source>http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2012-06-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 06 Dec 2012 14:10:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "SerialNumber" with description "Please enter the Serial Number for Articulate Storyline"
+action parameter query "CurrentUser" with description "Please enter the User that the Serial Number is assigned to."
+//for some reason, Articulate storyline stores this info in the HKCU registry, which makes this complicated
+continue if{exists current user AND (1 = number of logged on users) AND (parameter "CurrentUser" = name of current user) AND (parameter "SerialNumber" starts with "SL1") AND (25 = length of parameter "SerialNumber")}
+regset64 "[{("HKEY_USERS\" & (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry) & "\Software\Articulate\Fireball\1.0\SL1" )}]" "LastAttempt"="{parameter "SerialNumber"}"]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

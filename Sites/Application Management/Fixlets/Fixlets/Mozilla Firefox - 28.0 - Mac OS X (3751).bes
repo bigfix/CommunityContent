@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Mozilla Firefox - 28.0 - Mac OS X
+  ID       : 3751
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2014-03-31T12:16:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Mozilla Firefox - 28.0 - Mac OS X</Title>
+    <Description><![CDATA[<P>Mozilla has released a new version of the Firefox browser. Use the action below to update Firefox to the latest version (28.0).</P>
+<P><STRONG>File Size:</STRONG>&nbsp;47.2 MB</P>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance><![CDATA[free space of filesystem of folder (pathname of client) > 92066432]]></Relevance>
+    <Relevance><![CDATA[exists application "Firefox.app" whose (version of it >= "" as version AND version of it < "28.0" as version)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Mozilla</Source>
+    <SourceID>MFSA 2014-32; MFSA 2014-31; MFSA 2014-30; MFSA 2014-29; MFSA 2014-28; MFSA 2014-27; MFSA 2014-26; MFSA 2014-25; MFSA 2014-24; MFSA 2014-23; MFSA 2014-22; MFSA 2014-21; MFSA 2014-20; MFSA 2014-19; MFSA 2014-18; MFSA 2014-17; MFSA 2014-16; MFSA 2014-15</SourceID>
+    <SourceReleaseDate>2014-04-18</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <CVENames>CVE-2014-1514; CVE-2014-1513; CVE-2014-1512; CVE-2014-1510; CVE-2014-1511; CVE-2014-1505; CVE-2014-1509; CVE-2014-1508; CVE-2014-1507; CVE-2014-1506; CVE-2014-1504; CVE-2014-1502; CVE-2014-1501; CVE-2014-1500; CVE-2014-1499; CVE-2014-1498; CVE-2014-1497; CVE-2014-1496; CVE-2014-1493; CVE-2014-1494 </CVENames>
+    <SANSID>SANS C1</SANSID>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Thu, 24 Oct 2013 07:16:47 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 07:16:47 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Firefox, Mac</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 31 Mar 2014 19:12:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+
+  add prefetch item name=Firefox_28_0 sha1=68c745c0dd4f4cf74f2c3cfb2b4cd134c7020a60 size=49460460 url=http://download-installer.cdn.mozilla.net/pub/firefox/releases/28.0/mac/en-US/Firefox%2028.0.dmg
+
+end prefetch block
+
+// Create variables to house the name of the .dmg file, mount name and current install location. Makes updating the script easier.
+
+// NOTE: Install_Mount MUST match the name used in the prefetch block!
+
+parameter "Install_DMG" = "Firefox 28.0.dmg"
+
+parameter "Install_Mount" = "Firefox_28_0"
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+
+parameter "baseFolder" =  "__Download/"
+
+// Move files into subfolders and unescape file names
+
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"
+
+move "__Download/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+// Mount the Disk Image
+
+wait hdiutil attach -quiet -private -mountpoint "/tmp/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+parameter "Install_Location" = "{posix path of application (name whose (it ends with ".app") of folders of folder ("/tmp/" & parameter "Install_Mount"))}"
+
+wait sh -c "rm -R '{parameter "Install_Location"}'"
+
+wait sh -c "cp -Rfp /tmp/{parameter "Install_Mount"}/*.app {parameter "Install_Location"}"
+
+wait sh -c "chown -R root:admin '{parameter "Install_Location"}'"
+
+wait sh -c "chmod -R 775 '{parameter "Install_Location"}'"
+
+wait sh -c "xattr -d com.apple.quarantine '{parameter "Install_Location"}'"
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/{parameter "Install_Mount"} | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action4090">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/fixlet/details/3750</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

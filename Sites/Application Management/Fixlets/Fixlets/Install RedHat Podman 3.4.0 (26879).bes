@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install RedHat Podman 3.4.0
+  ID       : 26879
+  Author   : erowley2501
+  Domain   : BESC
+  Imported : 2021-10-12T12:49:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install RedHat Podman 3.4.0</Title>
+    <Description><![CDATA[<P>Download and install RedHat&nbsp;Podman 3.4.0.</P>
+<P>Podman Website: <A href="https://podman.io/">https://podman.io/</A></P>
+<P>Podman GitHub Repo: <A href="https://github.com/containers/podman/">https://github.com/containers/podman/</A> </P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "3.4.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Podman") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-10-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Oct 2021 19:48:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch podman-v3.4.0.msi sha1:1bec2b26793f6e379acf432058ff202e528e26fa size:17407488 https://github.com/containers/podman/releases/download/v3.4.0/podman-v3.4.0.msi sha256:3d522e5fda661b803ddc43333b10ddf9e6d6d2c03de7cd7e5939483e165710eb
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\podman-v3.4.0.msi"}" /qn /quiet /norestart
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

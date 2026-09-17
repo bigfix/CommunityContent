@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Box for Office v3.7.6
+  ID       : 3778
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-04-22T12:10:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Box for Office v3.7.6</Title>
+    <Description><![CDATA[<P>This task will deploy: Box for Office.<BR><BR><A href="https://support.box.com/hc/en-us/articles/201644003">https://support.box.com/hc/en-us/articles/201644003</A> </P>
+<P>BoxSync does not need to be installed for Box for Office to function.</P>
+<P>Box for Office Supports MSOffice 2007,2010,2013</P>
+<P>Box for Office must match the bitness of the Office install. 64bit BoxForOffice for 64bit Office, but 32bit BoxForOffice for 32bit Office.</P>
+<P>Box for Office is being depricated in favor of Box Edit in the future.</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://www.microsoft.com/en-us/download/details.aspx?id=42513">http://www.microsoft.com/en-us/download/details.aspx?id=42513</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows installer >= 3.1 */ (exists file "msiexec.exe" whose (version of it >= "3.1") of system folder)]]></Relevance>
+    <Relevance>/* Requires .NET 4 Full */ (exists values &quot;Install&quot; whose(1 = it as string as integer) of (keys &quot;Full&quot; of it) of keys whose(name of it starts with &quot;v4&quot; AND (exists key &quot;Full&quot; of it)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of x32 registry)</Relevance>
+    <Relevance><![CDATA[/* Only install if missing or an older version of BoxForOffice is installed */ (not exists keys whose (value "DisplayName" of it as string starts with "Box for Office" AND (value "DisplayVersion" of it as string as version) >= "3.7.6" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry;native registry))]]></Relevance>
+    <Relevance>/* Requires Visual Studio 2010 Tools for Office Runtime */  exists keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;Microsoft Visual Studio 2010 Tools for Office Runtime&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance><![CDATA[/* Requires Office ... 2007,2010,2013 */ exists (following text of last " " of preceding text of first "," of it as string as version) whose(it >= "12.0.0" AND it < "16.0") of string values whose(it as lowercase contains "office") of selects "Name from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null" of wmi]]></Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 22 Apr 2014 19:09:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Use prefetch block to only download the correct version that needs installed.
+begin prefetch block
+
+	// Download x64 version if x64 OS & x64 office installed. ( The If statement does not verify the version of the office product )
+	if{ (x64 of operating system) AND (/* Check for at least 1 MS Office x64 product installed */ 1 < number of keys whose(exists (value "DisplayName" of it as string) whose(it starts with "Microsoft Office" AND (it contains "Word" OR it contains "Excel" OR it contains "Access" OR it contains "PowerPoint"))) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registry)) }
+		add prefetch item name=MSOffice.msi sha1=823c651186eb1fddd240612cc81d1f871e59dcd6 size=8723456 url=https://sync.box.com/toolbar/OFFICE/MSIs/x64/MSOffice.msi
+    else
+	// Download x86 version if x32 OS _OR_ x64 OS with x32 office
+		add prefetch item name=MSOffice.msi sha1=a8d7515846a5b3aeab52662c4d16146a87b39276 size=8966656 url=https://sync.box.com/toolbar/OFFICE/MSIs/x86/MSOffice.msi
+	endif
+
+	collect prefetch items
+end prefetch block
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\MSOffice.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

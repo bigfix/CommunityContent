@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : SYM16-015 - Symantec Endpoint Protection 12.1 - Target Versions earlier than 12.1.6 MP5 (x86)
+  ID       : 21971
+  Author   : chenli
+  Domain   : BESC
+  Imported : 2016-10-05T01:19:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>SYM16-015 - Symantec Endpoint Protection 12.1 - Target Versions earlier than 12.1.6 MP5 (x86)</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This sample Fixlet&nbsp;updates&nbsp;Symantec Endpoint Protections&nbsp;with&nbsp;version earlier than&nbsp;12.1.6.MP5 on x86 systems&nbsp;in&nbsp;response to the advisory&nbsp;SYM16-015.</P> <P><STRONG>Note:</STRONG> The patch must be manually cached for it to run correctly. For more information on how to manually cache files, see <A href="http://www-01.ibm.com/support/docview.wss?uid=swg21506037">this technote </A>.<BR><BR></P> <P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This Fixlet does not have a default action because additional preparation is required before deployment. For more information on default actions, see <A href="http://support.bigfix.com/cgi-bin/kbdirect.pl?id=474">this technote</A>.</P> <P>To deploy the fixlet successfully,&nbsp;complete the following instructions: </P> <P>1. Find the current installed Symantec Endpoint Protection build number by using the following relevance in the Fixlet Debugger tool: &nbsp;<BR>Q: value "PRODUCTVERSION" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion" of native&nbsp;registry.<BR>The queried answer provides the version number of the product. For example, A: 12.1.5337.5000. </P> <P><STRONG>Note:</STRONG> To use the Fixlet Debugger tool, run the FixletDebugger.exe file, which is located in Program Files &gt; BigFix Enterprise &gt; BES Console &gt; QnA. For more information about the Fixlet Debugger, see <A href="http://www.ibm.com/support/knowledgecenter/SS6MER_9.5.0/com.ibm.bigfix.doc/Platform/Relevance/c_using_the_fixlet_debugger.html">Using the Fixlet Debugger tool</A>.</P> <P>2. Download&nbsp;respective patch from <A href="https://support.symantec.com/en_US/article.INFO3931.html">Symantec article&nbsp;page</A>.</P> <P>3.&nbsp;Extract&nbsp;the patch files and find corresponging installer for current&nbsp;product&nbsp;version. For example, if the&nbsp;current build version is 5337, the installation file&nbsp;would be&nbsp;Sep_5337To7061_clientDAXMSI.exe</P> <P>4. Use the Fixlet Debugger tool to calculate the sha1, size, and sha256 values of the installer. For example, use the following relevance: Q: (sha1 of it, size of it, sha256 of it) of file "C:\Users\ADMIN\Downloads\SEP_To_7061\Sep_5337To7061_clientDAXMSI.exe".</P> <P>5. Update the Fixlet action to use the queried values of the sha1, size, and sha256 properties. Use the same sha1 value in the 'action may require restart' command.</P> <P>6. Rename the installer file with the sha1 value. For example, if the sha1 value is f8fd93c438713d5110860d5c3be2953f17510988, rename the "Sep_5337To7061_clientDAXMSI.exe" file to "f8fd93c438713d5110860d5c3be2953f17510988".</P> <P>7. Place the renamed installer file in the BES Server download cacher folder. For more information about manually caching file downloads on the BES Server, see <A href="http://www-01.ibm.com/support/docview.wss?uid=swg21506037">this technote</A>.<BR></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false</Relevance>
+    <Relevance><![CDATA[exist value "PRODUCTVERSION" whose ( it as string as version < "12.1.7004.6500") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion" of native registry]]></Relevance>
+    <Relevance>not (ia64 of operating system or x64 of operating system)</Relevance>
+    <Relevance><![CDATA[not exist value "PRODUCTVERSION" whose ( it as string as version >= "12.1.7061.6600") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\CurrentVersion" of native registry]]></Relevance>
+    <Category>Security Update</Category>
+    <SourceReleaseDate>2016-10-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action22898">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Sep_5337To7061_clientDAXMSI.exe sha1:f8fd93c438713d5110860d5c3be2953f17510988 size:19744640  https://MANUAL_BES_CACHING_REQUIRED/Sep_5337To7061_clientDAXMSI.exe sha256:cd985f30b77898f08d0d17390b7f250c01162eed2e6753d23585c633ea0aab78
+
+waithidden __Download\Sep_5337To7061_clientDAXMSI.exe /S
+
+action may require restart &quot;f8fd93c438713d5110860d5c3be2953f17510988&quot;</ActionScript>
+    </Action>
+    <Action ID="Action22899">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about solutions for SYM16-015.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.symantec.com/en_US/article.INFO3900.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

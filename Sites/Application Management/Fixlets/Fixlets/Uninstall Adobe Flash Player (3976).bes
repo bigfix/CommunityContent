@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Adobe Flash Player
+  ID       : 3976
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2015-02-06T13:29:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Adobe Flash Player</Title>
+    <Description><![CDATA[Removes both 32- and 64-bit Adobe Flash from Windows systems.&nbsp; Kills browsers and Flash itself as necessary. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>/* Check for system folders */  exists files whose (((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot;) OR (it = &quot;swflash.ocx&quot;) OR (it as string contains &quot;npswf32&quot; AND it as string contains &quot;.dll&quot;)) of (name of it as lowercase) ) of folders &quot;macromed\flash&quot; of (system folder;system wow64 folder) OR  /* check for Firefox extension */ (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file &quot;NPSWF32.dll&quot; of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-02-06</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 06 Feb 2015 20:28:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// This is currently written to download the uninstaller directly from Adobe, but I do not know how often they update the uninstaller
+// so the size and sha1 will not be valid forever.  May want to grab a copy to host internally and change the URL.
+
+begin prefetch block
+	add prefetch item name=uninstall_flash_player.exe sha1=d120cfa9f7d2945e4ed0ff938c4afe18931f7203 size=961200 url=http://download.macromedia.com/get/flashplayer/current/support/uninstall_flash_player.exe
+	collect prefetch items
+end prefetch block
+
+action uses wow64 redirection false
+
+delete __appendfile
+waithidden taskkill.exe /im iexplore.exe /f
+waithidden taskkill.exe /im firefox.exe /f
+waithidden taskkill.exe /im chrome.exe /f
+waithidden taskkill.exe /im plugin-container.exe /f
+waithidden taskkill.exe /im &quot;FlashUtil*&quot; /f
+
+waithidden __Download\uninstall_flash_player.exe -uninstall
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

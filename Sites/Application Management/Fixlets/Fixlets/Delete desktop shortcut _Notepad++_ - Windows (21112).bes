@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Delete desktop shortcut "Notepad++" - Windows
+  ID       : 21112
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-07-24T19:54:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Delete desktop shortcut &quot;Notepad++&quot; - Windows</Title>
+    <Description><![CDATA[<P>This task will delete a desktop shortcut</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files &quot;Notepad++.lnk&quot; of (folders it) of unique values of (it as string as trimmed string) of values &quot;Common Desktop&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries)</Relevance>
+    <Category>Configuration</Category>
+    <Source>RESTAPI: Windows</Source>
+    <SourceID>https://forum.bigfix.com/users/jgstew</SourceID>
+    <SourceReleaseDate>2016-07-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 25 Jul 2016 02:50:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to delete the shortcut</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete &quot;{ pathname of files &quot;Notepad++.lnk&quot; of (folders it) of unique values of (it as string as trimmed string) of values &quot;Common Desktop&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries) }&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

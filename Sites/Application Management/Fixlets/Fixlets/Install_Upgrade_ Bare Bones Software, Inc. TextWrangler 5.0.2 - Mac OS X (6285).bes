@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Upgrade: Bare Bones Software, Inc. TextWrangler 5.0.2 - Mac OS X
+  ID       : 6285
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-11-17T13:28:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Upgrade: Bare Bones Software, Inc. TextWrangler 5.0.2 - Mac OS X</Title>
+    <Description><![CDATA[<P>This task will install/upgrade: TextWrangler 5.0.2</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.6.8"]]></Relevance>
+    <Relevance><![CDATA[not exists folder "/Applications/TextWrangler.app" whose (version of it >= "5.0.2" as version)]]></Relevance>
+    <Category>Software Installers</Category>
+    <Source>AutoPkgBESEngine.py v0.32</Source>
+    <SourceID>james-admin</SourceID>
+    <SourceReleaseDate>2015-11-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>AutoPkgBESEngine.py</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 17 Nov 2015 07:32:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Action1 - Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to take action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TextWrangler.dmg sha1:c8cf70b755fe7699428c4c5f207331be48febf59 size:10000786 https://s3.amazonaws.com/BBSW-download/TextWrangler_5.0.2.dmg
+parameter &quot;download_format&quot; = &quot;dmg&quot;
+parameter &quot;download_filename&quot; = &quot;TextWrangler_5.0.2.dmg&quot;
+parameter &quot;app_name_key&quot; = &quot;TextWrangler&quot;
+parameter &quot;app_name&quot; = &quot;TextWrangler&quot;
+parameter &quot;bundle_id&quot; = &quot;com.barebones.textwrangler&quot;
+
+parameter &quot;NAME&quot; = &quot;TextWrangler&quot;
+parameter &quot;FILENAME&quot; = &quot;TextWrangler.{parameter &quot;download_format&quot;}&quot;
+delete &quot;/tmp/{parameter &quot;FILENAME&quot;}&quot;
+move &quot;__Download/{parameter &quot;FILENAME&quot;}&quot; &quot;/tmp/{parameter &quot;FILENAME&quot;}&quot;
+
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/TextWrangler&quot; &quot;/tmp/{parameter &quot;FILENAME&quot;}&quot;
+
+continue if {exists folder &quot;/tmp/TextWrangler/TextWrangler.app&quot;}
+
+wait /bin/rm -rf &quot;/Applications/TextWrangler.app&quot;
+wait /bin/cp -Rfp &quot;/tmp/TextWrangler/TextWrangler.app&quot; &quot;/Applications&quot;
+
+wait /usr/bin/hdiutil detach -force &quot;/tmp/TextWrangler&quot;
+delete &quot;/tmp/{parameter &quot;FILENAME&quot;}&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

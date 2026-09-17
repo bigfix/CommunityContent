@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Microsoft Outlook 2016 Update 15.19.1 - 15.x - Mac OS X
+  ID       : 9190
+  Author   : alexk
+  Domain   : BESC
+  Imported : 2016-02-21T15:30:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Outlook 2016 Update 15.19.1 - 15.x - Mac OS X</Title>
+    <Description><![CDATA[<P>Use this action to update Microsoft Outlook 2016 for Mac to version 15.19.1. The update is relevant on Macs running Yosemite or newer with Outlook 2016 installed.</P>
+<P>Update 15.19.1 was released on February 16, 2016</P>
+<P>MS16-015: <A href="https://support.microsoft.com/en-us/kb/3134241">https://support.microsoft.com/en-us/kb/3134241</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.10.0"]]></Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Microsoft Outlook.app" and version of it < "15.19.1" AND version of it >= "15.15.0")]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-01-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 21 Feb 2016 22:07:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Outlook_15.19.1_160212_Updater.pkg sha1:a2637fe7c718231189b83673c741e60cb1a66eb7 size:726904393 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Outlook_15.19.1_160212_Updater.pkg sha256:56f75c94b2236fe838165ab91026f9ae1f34f093331905a8da100caee53b4bcf
+
+// Delete the Outlook Update PKG in case it exists
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Outlook_15.19.1_160212_Updater.pkg&apos; &quot;
+
+// Kill all Outlook processes to forcibly close Outlook
+// Uncomment the next line to forcibly close Outlook by killing the process
+// wait /usr/bin/killall -9 &quot;Microsoft Outlook&quot;
+
+// Move the downloaded Outlook Update PKG to the temp directory
+move &quot;{posix path of file &quot;Microsoft_Outlook_15.19.1_160212_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Microsoft_Outlook_15.19.1_160212_Updater.pkg&quot;
+
+// Install the Outlook Update
+wait installer -pkg &quot;/private/tmp/Microsoft_Outlook_15.19.1_160212_Updater.pkg&quot; -target /
+
+// Delete the Outlook Update PKG in the temp directory
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Outlook_15.19.1_160212_Updater.pkg&apos; &quot;
+
+// Uncomment the next line to require a restart after the update
+// action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

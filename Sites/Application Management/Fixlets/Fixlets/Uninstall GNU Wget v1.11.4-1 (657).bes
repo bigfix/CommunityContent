@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall GNU Wget v1.11.4-1
+  ID       : 657
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-04T10:09:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall GNU Wget v1.11.4-1</Title>
+    <Description><![CDATA[GNU Wget is a <A href="http://bigfix.me:52311/philosophy/free-sw"><FONT color=#000080>free software</FONT></A> package for retrieving files using HTTP, HTTPS and FTP, the most widely-used Internet protocols. It is a non-interactive commandline tool, so it may easily be called from scripts, <TT>cron</TT> jobs, terminals without X-Windows support, etc. ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;GnuWin32: Wget-1.11.4-1&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-02</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 04 Nov 2012 15:25:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;app&quot;=&quot;Wget-1.11.4-1_is1&quot;
+//first retrieve our uninstall command...
+parameter &quot;QuietUninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+parameter &quot;UninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+continue if {(parameter &quot;UninstallString&quot; != &quot;&quot;) OR (parameter &quot;QuietUninstallString&quot; != &quot;&quot;)}
+if {parameter &quot;QuietUninstallString&quot; != &quot;&quot;}
+	if {parameter &quot;QuietUninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+		waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+	else
+		waithidden {parameter &quot;QuietUninstallString&quot;}
+	endif
+else
+	if {parameter &quot;UninstallString&quot; != &quot;&quot;}
+		if {parameter &quot;UninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+			waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+		else
+			waithidden {parameter &quot;UninstallString&quot;} /quiet /norestart
+		endif
+	endif
+endif
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action896">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about GNU Wget.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.gnu.org/software/wget/</ActionScript>
+    </Action>
+  </Task>
+</BES>

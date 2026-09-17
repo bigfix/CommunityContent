@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Remove Microsoft.MicrosoftOfficeHub Windows Store App from current user
+  ID       : 23890
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-03-15T14:28:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Remove Microsoft.MicrosoftOfficeHub Windows Store App from current user</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (current users;logged on users)</Relevance>
+    <Relevance><![CDATA[exists folders whose(name of it as lowercase starts with ("Microsoft.MicrosoftOfficeHub" & "_") as lowercase) of folders "AppData\Local\Packages" of folders whose(exists name whose(it is contained by set of names of (current users; logged on users)) of it) of folders "C:\Users"]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-08-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 26 Aug 2016 06:38:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "AppName" = "Microsoft.MicrosoftOfficeHub"
+parameter "NumOfApp" = "{number of folders whose(name of it contains (parameter "AppName" & "_")) of folders "AppData\Local\Packages" of folders of folders "C:\Users"}"
+
+dos echo {parameter "NumOfApp"} > __Download\NumOfApp.txt
+
+action uses wow64 redirection {not x64 of operating system}
+
+
+// Get-AppxPackage -allusers {parameter "AppName"} | Remove-AppxPackage
+// Get-AppxProvisionedPackage -Online | Where-Object -Property DisplayName -EQ {parameter "AppName"} | Select-Object –Property PackageName | Remove-AppxProvisionedPackage -Online
+
+override wait
+runas=currentuser
+hidden=true
+wait powershell -ExecutionPolicy Bypass -command "Get-AppxPackage {parameter "AppName"} | Remove-AppxPackage"
+
+parameter "NumOfAppAfter" = "{number of folders whose(name of it contains (parameter "AppName" & "_")) of folders "AppData\Local\Packages" of folders of folders "C:\Users"}"
+//parameter "Success" = "{ (number of folders whose(name of it contains (parameter "AppName" & "_")) of folders "AppData\Local\Packages" of folders of folders "C:\Users") != (it as integer) of (parameter "NumOfApp") }"
+continue if { (number of folders whose(name of it contains (parameter "AppName" & "_")) of folders "AppData\Local\Packages" of folders of folders "C:\Users") != (it as integer) of (parameter "NumOfApp") }
+
+// References:
+// - https://bigfix.me/relevance/details/3017477
+// - http://www.askvg.com/guide-how-to-remove-all-built-in-apps-in-windows-10/
+// - http://www.howtogeek.com/224798/how-to-uninstall-windows-10s-built-in-apps-and-how-to-reinstall-them/
+// - https://technet.microsoft.com/en-us/library/dn376476.aspx
+// - https://technet.microsoft.com/en-us/library/dn376467.aspx
+// - https://technet.microsoft.com/en-us/library/hh824882.aspx]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

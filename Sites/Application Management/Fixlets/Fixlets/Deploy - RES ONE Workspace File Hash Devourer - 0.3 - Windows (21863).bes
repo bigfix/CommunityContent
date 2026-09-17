@@ -1,0 +1,633 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace File Hash Devourer - 0.3 - Windows
+  ID       : 21863
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-10-03T16:46:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace File Hash Devourer - 0.3 - Windows</Title>
+    <Description>Deploy the RES ONE Workspace File Hash Devourer </Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists folder &quot;\RES Software\File Hash Devourer\Configuration&quot; of program files x32 folder</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-10-03
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://www.7-zip.org/a/7za920.zip
+
+prefetch 7z1602-x64.exe sha1:0D2C251DBF1BF3CF47DA6D8118679995A979AD2A size:1378550 http://www.7-zip.org/a/7z1602-x64.exe sha256:F1601B09CD0C9627B1AAB7299B83529E8FBC6B5078E43DFD81A1B0BFCDF4A308
+
+
+prefetch bfarchive.zip sha1:11AEB6E54F5977B9F00E3D8F3DA35CC2C0DE80FA size:118880 https://github.com/bigfix/bfarchive/releases/download/v9.3.3/bfarchive-win-x86.zip sha256:3B66DADADACAD567E22B4E824FB6B16D7D8710513A39282475F982C5904C08BF
+
+
+folder create "__Download\FHD"
+folder create "__Download\FHD\Bin"
+folder create "__Download\FHD\Configuration"
+folder create "__Download\FHD\Extractors"
+folder create "__Download\FHD\Extractors\7zip"
+folder create "__Download\FHD\Extractors\BFArchive"
+
+waithidden __Download\unzip.exe -o "{pathname of file "7za.zip" of folder "__Download" of client folder of current site}" 7za.exe -d "{pathname of folder "__Download" of client folder of current site}"
+
+waithidden __Download\7za.exe x "{pathname of file "7z1602-x64.exe" of folder "__Download" of client folder of current site}" -o"{pathname of folder "__Download\FHD\Extractors\7zip" of client folder of current site}"
+
+waithidden __Download\unzip.exe -o "{pathname of file "bfarchive.zip" of folder "__Download" of client folder of current site}" BFArchive.exe -d "{pathname of folder "__Download\FHD\Extractors\BFArchive" of client folder of current site}"
+
+delete "__Download\FHD\Extractors\BFArchive\license.txt"
+
+createfile until _end_
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "{{}"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright 2014 International Business Machines, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+_end_
+
+move __createfile "__Download\FHD\Extractors\BFArchive\license.txt"
+
+delete "__Download\FHD\install.bat"
+
+createfile until _end_
+powershell.exe -executionpolicy bypass -file "%~dp0Install.ps1"
+_end_
+
+move __createfile "__Download\FHD\install.bat"
+
+delete "__Download\FHD\install.ps1"
+
+createfile until _end_
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+$InstallationDirectory = "${{env:ProgramFiles(x86)}\RES Software\File Hash Devourer"
+
+remove-item $InstallationDirectory -Recurse -force -ErrorAction SilentlyContinue
+
+move-item "$PSScriptRoot" "$InstallationDirectory" -force
+
+& SchTasks /Create /F /SC Daily /ST 12:00 /TN "Devour File Hashes" /RU "SYSTEM" /TR "powershell.exe -executionpolicy Bypass -File '$InstallationDirectory\Bin\Devourer.ps1'"
+
+_end_
+
+move __createfile "__Download\FHD\install.ps1"
+
+delete "__Download\FHD\Bin\Devourer.ps1"
+
+createfile until _end_
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function load-config {{
+    param (
+        $Path
+    )
+    [XML] $XML = New-Object System.XML.XMLDocument
+
+    $XML.Load($Path)
+
+    return $XML
+}
+
+function write-log {{
+    param(
+        $Message
+    )
+    $LogFile = "$($Configuration.Config.LogDirectory)\FHD-$Runtime.log"
+
+    $FormattedMessage = "$((get-date).tostring()) - $((Get-PSCallStack).FunctionName[1]) - $Message"
+
+    write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+
+    rotate-logs
+}
+
+function rotate-logs {{
+    $Logs = @(get-item -Path "$($Configuration.Config.LogDirectory)\*" | ? {{ $_.LastWriteTime -lt (get-date).AddDays(-14) })
+
+    foreach ($Log in $Logs) {{
+        remove-item $Log -ErrorAction SilentlyContinue
+    }
+}
+
+function Process-Extractors {{
+    param (
+        $File,
+        $Staging
+    )
+
+    foreach ($Extractor in $Global:Configuration.Config.Extractor) {{
+        Process-Extractor -Extractor $Extractor -File $File -Staging $Staging
+    }
+
+    return $Staging
+}
+
+function Process-Extractor {{
+    param (
+        $Extractor,
+        $File,
+        $Staging
+    )
+
+    #Match Extractor Filter
+    if ($File.Extension -notlike $Extractor.Filter) {{ write-log "Skipping $File due to filter $($Extractor.Filter)" }
+
+    #Swap Command Line Arguments with Values
+    $CmdLine = $Extractor.CmdLine.ToString()
+    $CmdLine = $CmdLine.replace("!Archive!","""$($File.FullName)""")
+    $CmdLine = $CmdLine.replace("!Outdir!","""$Staging""")
+
+    #Process Extraction
+    start-process -FilePath $Extractor.exe -ArgumentList $CmdLine -Wait -WindowStyle hidden | out-null
+
+}
+
+function Process-Files {{
+    param (
+        $Files,
+        $Staging,
+        [switch] $Recursive,
+        $Recursion = 1,
+        $MaxRecursion = 3
+    )
+
+    if ($Recursive -and $Recursion -gt $MaxRecursion) {{
+        return
+    }
+
+    #Loop through each file that has been recently modified
+    foreach ($File in $Files) {{ # Make 7-Zip Overwrite do not prompt
+
+        #Create Staging Area
+        $Storage = $Staging + "\" + (([GUID]::NewGuid()).guid)
+
+        new-item -Path $Storage -ItemType directory -ErrorAction SilentlyContinue | out-null
+
+        write-log "Processing $(if ($Recursion -eq 2) {{"child "})$(if ($Recursion -eq 3) {{"grandchild "})$($File) in $Storage"
+
+        #Process Archives
+        $Output = Process-Extractors -Staging $Storage -File $File
+
+        #Recurse if necessary
+        if ((Get-ChildItem -Path $Output) -and $Recursive) {{
+            Process-Files -Files (Get-ChildItem -Path $Output) -Staging $Staging -Recursive -Recursion ($Recursion + 1) | out-null
+        }
+
+        #The Parent Executables need to get hashed in addition to their contents
+        #Nested executables are already captured by the parent so don't copy them again
+        if (($Recursion -eq 1) -and $File.Extension -eq ".exe") {{ copy-item -Path $File.FullName -Destination "$Storage\$($File.Name)" -Container }
+
+        #Baseline whatever we've got so far
+        & .\Baseline.ps1 -Directory $Storage -OutDir $PSScriptRoot -Algorithm $Global:Configuration.Config.Algorithm -Container $Global:Configuration.Config.Container -Append -quiet | out-null
+
+        #Cleanup Staging Area
+        remove-item -Path $Storage -Recurse -ErrorAction SilentlyContinue
+    }
+}
+
+cd $PSScriptRoot
+
+$Runtime = (get-date).tostring("yyyyMMdd-HHmmss")
+
+#Load Configuration
+[XML]$Global:Configuration = load-config -Path "$PSScriptRoot\..\Configuration\Config.xml"
+
+#Create Directory Structure
+new-item $($Configuration.Config.LogDirectory) -ItemType directory -ErrorAction SilentlyContinue
+new-item $($Configuration.Config.OutputDirectory) -ItemType directory -ErrorAction SilentlyContinue
+
+if (test-path "$PSScriptRoot\AuthorizedFiles.txt" ) {{
+    write-log "Previous AuthorizedFiles Found -- skipping scan and attempting import."
+    & $PSScriptRoot\Import.ps1 -inputdir $PSScriptRoot -InputFilter "AuthorizedFiles.txt"
+} else {{
+
+    foreach ($Repository in $Configuration.Config.Repository) {{
+
+        write-log "Processing $($Repository.Name) at $((resolve-path $Repository.Path).path)"
+        write-log "Skipping files older than $([DateTime]$Repository.TimeStamp)"
+        write-log "Using $($Repository.Staging) for temporary storage"
+
+        #Clean Staging Directory
+        remove-item $Repository.Staging -recurse -ErrorAction SilentlyContinue | out-null
+        new-item $Repository.Staging -ItemType directory -ErrorAction SilentlyContinue | out-null
+
+        #Get List of Files older than the TimeStamp in the Repository (Initialize Empty Array for PS <= 2.0)
+        $Files = @(Get-ChildItem -force -Recurse (resolve-path $Repository.Path).path -Filter "*" -ErrorAction SilentlyContinue | ? {{ $_.LastWriteTime -gt ([DateTime]$Repository.TimeStamp) })
+
+        #Process File List
+        Process-Files $Files -Staging (resolve-path $Repository.Staging).path -Recursive
+
+        #Update Repository Timestamp
+        $Repository.TimeStamp = (get-date).tostring()
+        $Configuration.Save("$PSScriptRoot\..\Configuration\Config.xml")
+
+    }
+
+	move-item "$PSScriptRoot\AuthorizedFiles.log" "$($Configuration.Config.LogDirectory)\FHD-$Runtime-Hashing.log" -ErrorAction SilentlyContinue
+	copy-item "$PSScriptRoot\AuthorizedFiles.txt" "$($Configuration.Config.OutputDirectory)\AuthorizedFiles-$Runtime.txt" -ErrorAction SilentlyContinue
+
+	& $PSScriptRoot\Import.ps1 -inputdir $PSScriptRoot -InputFilter "AuthorizedFiles.txt"
+
+	move-item "$PSScriptRoot\Import.log" "$($Configuration.Config.LogDirectory)\FHD-$Runtime-Import.log" -ErrorAction SilentlyContinue
+}
+
+_end_
+
+move __createfile "__Download\FHD\Bin\Devourer.ps1"
+
+delete "__Download\FHD\Bin\Import.ps1"
+createfile until _end_
+param (
+    $InputDir = ".",
+    $InputFilter = "authfiles*.txt",
+    $PwrTech = "${{env:ProgramFiles(x86)}\RES Software\Workspace Manager\PwrTech.exe"
+)
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+    $LogFile = "$PSScriptRoot\Import.log"
+
+    $FormattedMessage = "$((get-date).tostring()) - $((Get-PSCallStack).FunctionName[1]) - $Message"
+
+    write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+}
+
+#Get List of Files older than the TimeStamp in the Repository (Initialize Empty Array for PS <= 2.0)
+$Files = @(Get-ChildItem -force -Recurse (resolve-path $InputDir).path -Filter $InputFilter -ErrorAction SilentlyContinue)
+
+foreach ($File in $Files) {{
+    write-log "Processing $($File.FullName)"
+
+    write-log "Deduplicating File Hashes"
+
+    $Hashes = get-content -path $File.FullName
+
+    write-log "Starting with $($Hashes.Count) hashes"
+
+    $Hashes = $Hashes | Sort-Object | Get-Unique
+
+	set-content -path $File.FullName -value $Hashes -force
+
+    write-log "Deduplicated down to $($Hashes.count) hashes"
+
+	write-log "Running: & ""$PwrTech"" /importhashes=""$($File.FullName)"" /createifnotexists"
+
+    $Output = & "$PwrTech" /importhashes="$($File.FullName)" /createifnotexists | Out-String
+
+    write-log $Output
+
+	if (($Output -join "`r`n") -like "*Finished importing file hashes*") {{
+		remove-item $File.FullName -erroraction silentlycontinue
+		write-log "Success. Deleting $($File.FullName)"
+	} else {{
+		write-log "Failure. Leaving $($File.FullName)"
+	}
+
+    write-log "Done Processing $($File.FullName)"
+}
+_end_
+
+move __createfile "__Download\FHD\Bin\Import.ps1"
+
+delete "__Download\FHD\Bin\Baseline.ps1"
+
+createfile until _end_
+param (
+    $Directory = "C:\",
+    $OutFile = "$(Split-Path $MyInvocation.MyCommand.Path -Parent)\AuthorizedFiles.txt",
+    $Algorithm = "SHA256",
+    $Container = "",
+    $LogFile = "$(Split-Path $MyInvocation.MyCommand.Path -Parent)\AuthorizedFiles.log",
+    $Filter = "*.exe",
+    [switch] $Append = $false,
+    [switch] $FullPath = $false,
+    [switch] $Quiet
+)
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+
+    $FormattedMessage = "$((get-date).tostring()) - $((Get-PSCallStack).FunctionName[1]) - $Message"
+
+    if (!($Quiet)) {{
+        write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+    }
+}
+
+Function get-authorizedfileinfo {{
+    Param(
+        [parameter(Mandatory=$True)]$file,
+        [parameter(Mandatory=$false)][ValidateSet("MD5", "SHA1", "SHA256")]$Algorithm = "SHA256"
+    )
+    Switch ($Algorithm)
+    {{
+        "SHA1"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
+        "SHA256"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+        "MD5"   {{ $AlgorithmObj = New-Object System.Security.Cryptography.MD5CryptoServiceProvider }
+        Default {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+    }
+    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash([System.IO.File]::ReadAllBytes($File.FullName)))) -replace ("-","")
+
+    return @{{Hash = $Hashstring; Path = $File.FullName; Name = $File.Name}
+}
+
+if (!($Append)) {{
+    remove-item $LogFile -ErrorAction SilentlyContinue
+    remove-item $OutFile -ErrorAction SilentlyContinue
+}
+
+#Output Supplied Parameters
+write-log "Log File: $LogFile"
+write-log "Append Output: $Append"
+write-log "Output File: $LogFile"
+write-log "Input Directory: $Directory"
+write-log "File Filter: $Filter"
+write-log "Hashing Algorithm: $Algorithm"
+write-log "Destination Container: $Container"
+write-log "Use Full Path: $FullPath"
+
+#Get File List to Hash
+$Files = Get-ChildItem -force -Recurse $Directory -Filter "$Filter" -ErrorAction SilentlyContinue
+
+foreach ($File in $Files) {{
+    try {{
+        write-log "Hashing: $($File.Name)"
+
+        $FileInfo = get-authorizedfileinfo -file $File -Algorithm $Algorithm
+
+        if (!($FileInfo.Path) -or !($FileInfo.Hash)) {{throw "Invalid Authorized File Info"}
+
+        "$(if($FullPath){{$FileInfo.Path}else{{"*\$($FileInfo.Name)"})`t$($FileInfo.Hash)`t*`tAllow`t$Container" >> $OutFile
+    } catch {{
+        write-log "Error Hashing: $File"
+    }
+}
+_end_
+
+move __createfile "__Download\FHD\Bin\Baseline.ps1"
+
+delete __createfile
+delete "__Download\FHD\Configuration\Config.xml"
+
+createfile until _end_
+<Config>
+  <Container></Container>
+  <Algorithm>SHA256</Algorithm>
+  <LogDirectory>..\Logs</LogDirectory>
+  <OutputDirectory>..\Output</OutputDirectory>
+  <Type>Delta</Type>
+  <Repository Name="SHA1">
+    <Path>{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client}\bfmirror\downloads\sha1</Path>
+    <Staging>..\Staging\SHA1</Staging>
+    <TimeStamp>1/1/0001 12:00:00 AM</TimeStamp>
+  </Repository>
+   <Repository Name="Uploads">
+    <Path>{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client}\Uploads</Path>
+    <Staging>..\Staging\Uploads</Staging>
+    <TimeStamp>1/1/0001 12:00:00 AM</TimeStamp>
+  </Repository>
+  <Extractor Name="BFArchive">
+    <Exe>..\Extractors\BFArchive\BFArchive.exe</Exe>
+    <Filter>*</Filter>
+    <CmdLine>-x !Archive! !Outdir!</CmdLine>
+  </Extractor>
+  <Extractor Name="7Zip">
+    <Exe>..\Extractors\7zip\7z.exe</Exe>
+    <Filter>*</Filter>
+    <CmdLine>x !Archive! -o!Outdir! *.exe</CmdLine>
+  </Extractor>
+</Config>
+_end_
+
+move __createfile "__Download\FHD\Configuration\Config.xml"
+
+waithidden "__Download\FHD\Install.bat"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

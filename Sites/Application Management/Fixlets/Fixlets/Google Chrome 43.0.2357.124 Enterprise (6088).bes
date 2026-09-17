@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Google Chrome 43.0.2357.124 Enterprise
+  ID       : 6088
+  Author   : mgraepel
+  Domain   : BESC
+  Imported : 2015-06-12T12:29:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Google Chrome 43.0.2357.124 Enterprise</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Google has released a new version of the Chrome browser (43.0.2357.124). The listed computers have an older version of Google Chrome installed. Follow the link for the enterprise edition of 'Google Chrome 43.0.2357.124' download on this </FONT><A href="http://www.google.com/chrome/eula.html?msi=true">page</A>.</P>
+<P><B><FONT color=#ff0000>Important Note:</FONT></B> This Fixlet will detect the existence of an outdated Google Chrome for both the consumer edition and the enterprise edition. Installing the enterprise edition of Google Chrome <B>may not</B> uninstall nor update the consumer edition. Additionally, problems may occur when installing the enterprise edition of Google Chrome on a computer that already has the consumer edition present. BigFix recommends that the consumer edition of Google Chrome is uninstalled before installing the enterprise edition. Fixlet message "Google Chrome - Consumer Edition Installed" (ID 14011003) can be used to uninstall the consumer edition of Google Chrome.</P>
+<P><FONT color=#ff0000><STRONG>Important Note: </STRONG></FONT>If this Fixlet is still relevant after installing the latest enterprise edition of Google Chrome, the issue is most likely that the computer has an outdated consumer edition installed. Fixlet message "Google Chrome - Consumer Edition Installed" (ID 14011003) can be used to detect this condition.</P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "7"]]></Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance>exists regapp &quot;chrome.exe&quot;</Relevance>
+    <Relevance><![CDATA[(exists key whose ((value "name" of it as string = "Google %c5%a9%b7%d2" or value "name" of it as string = "Google Chrome") and value "pv" of it as string as version < "43.0.2357.124") of keys "HKEY_LOCAL_MACHINE\Software\Google\Update\Clients" of registry) OR (exists key whose ((value "name" of it as string = "Google %c5%a9%b7%d2" or value "name" of it as string = "Google Chrome") and value "pv" of it as string as version < "43.0.2357.124") of keys "Software\Google\Update\Clients" of current user keys (logged on users) of registry)]]></Relevance>
+    <Category>Audit</Category>
+    <Source>Google</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2015-06-09</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2015-1235; CVE-2015-1236; CVE-2015-1237; CVE-2015-1238; CVE-2015-1240; CVE-2015-1241; CVE-2015-1242; CVE-2015-1244; CVE-2015-1245; CVE-2015-1246; CVE-2015-1247; CVE-2015-1248; CVE-2015-1249</CVENames>
+    <SANSID>N/A</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 15 Apr 2015 01:43:51 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Google Chrome</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 12 Jun 2015 18:49:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch GoogleChromeStandaloneEnterprise.msi sha1:646aee678d0882e410920fbfd9a35979812cf3da size:43520677 "https://dl.google.com/tag/s/appguid={8A69D345-D564-463C-AFF1-A69D9E530F96}&iid={00000000-0000-0000-0000-000000000000}&lang=en&browser=3&usagestats=0&appname=Google%2520Chrome&needsadmin=prefers/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi" sha256:bdb10695f615715512e5ac39def0a361
+
+waithidden taskkill /F /IM chrome.exe
+
+//Uninstall Older Versions
+If {exists keys whose (value "Displayname" of it as string as lowercase contains "google chrome" ) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry}
+waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "google chrome" and name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry} /QN REBOOT=ReallySuppress
+endif
+
+waithidden "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\GoogleChromeStandaloneEnterprise.msi"}" /qn /norestart]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

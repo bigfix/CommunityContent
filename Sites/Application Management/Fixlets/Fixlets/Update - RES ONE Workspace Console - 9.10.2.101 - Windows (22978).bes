@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace Console - 9.10.2.101 - Windows
+  ID       : 22978
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace Console - 9.10.2.101 - Windows</Title>
+    <Description><![CDATA[<P>Updates an existing 9.10.2.1 agent to hotfix level 9.10.2.101.</P>
+<P>This Hotfix applies only to Consoles.</P>]]></Description>
+    <Relevance>NOT exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe") /* Console is Installed */]]></Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; whose (value &quot;Version&quot; of it as string as version = &quot;9.10.2.1&quot; as version) of x32 registry</Relevance>
+    <Category>Upgrade</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+prefetch Auto-RES-ONE-Workspace-2015-SR2-Hotfix-9.10.2.101.exe sha1:4CAF195584AE5913CFC5FDB3361D0CBE5293A5F9 size:6688616 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/Auto-RES-ONE-Workspace-2015-SR2-Hotfix-9.10.2.101.exe sha256:BF305783A54DB996ED3A71D77EDE9ABC40CB8CDF8DF1F8E3192C98261803BF0A
+
+waithidden &quot;__Download\Auto-RES-ONE-Workspace-2015-SR2-Hotfix-9.10.2.101.exe&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

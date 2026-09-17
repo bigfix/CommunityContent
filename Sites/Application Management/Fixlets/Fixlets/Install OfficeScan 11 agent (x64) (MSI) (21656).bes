@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install OfficeScan 11 agent (x64) (MSI)
+  ID       : 21656
+  Author   : jinhli
+  Domain   : BESC
+  Imported : 2016-09-14T23:48:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install OfficeScan 11 agent (x64) (MSI)</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This sample Fixlet installs OfficeScan 11 agent with the MSI installation package on the target x64 computers.</P> <P>For the action to complete successfully, you must do the following steps before deploying this Fixlet: </P> <P>1. Download the OfficeScan agent MSI installation package from the OfficeScan web install page or generate the installer with Agent Packager. For more information about the Agent Packager, see the <A href="http://docs.trendmicro.com/en-us/enterprise/officescan.aspx">OfficeScan Administrator's Guide</A>.</P> <P>2. Use the Fixlet Debugger tool to calculate the sha1, size, and sha256 values of the agent installer and take note of the values. For example, use the following relevance to query the required values: Q: (sha1 of it, size of it, sha256 of it) of file "C:\Users\ADMIN\Downloads\officescan11agent.msi"</P> <P><STRONG>Note:</STRONG> To use the Fixlet Debugger tool, run the FixletDebugger.exe file, which is located in Program Files &gt; BigFix Enterprise &gt; BES Console &gt; QnA. For more information about the Fixlet Debugger, see <A href="http://www.ibm.com/support/knowledgecenter/SS6MER_9.5.0/com.ibm.bigfix.doc/Platform/Relevance/c_using_the_fixlet_debugger.html">Using the Fixlet Debugger tool</A>.</P> <P>3. Update the Fixlet action to use the queried values of the sha1, size, and sha256 properties. Ensure to use the same sha1 checksum in the 'action may require restart' command.</P> <P>4. Rename the agent installer with the sha1 checksum. For example, if the sha1 checksum is 5fdb66fd3f98a5aad943e762c04abd6c004f415f, rename the "officescan11agent.msi" file to "5fdb66fd3f98a5aad943e762c04abd6c004f415f".</P> <P>5. Place the renamed agent installer in the BigFix Server download cacher folder. For more information about manually caching file downloads on the BES Server, see <A href="http://www-01.ibm.com/support/docview.wss?uid=swg21506037">this technote</A>.<BR></P> <P><STRONG>Note:</STRONG> In certain environments, the Program Compatibility Assistant might prompt a compatibility issue message after a successful deployment of the Fixlet. However, this message does not affect the OfficeScan agent installation.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false</Relevance>
+    <Relevance>not exist keys whose (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;Trend Micro OfficeScan Agent&quot; as lowercase) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries )</Relevance>
+    <Relevance>not((it starts with &quot;Win&quot; AND it does not start with &quot;Win20&quot;) of name of operating system AND (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry)</Relevance>
+    <Relevance>(((name of it = &quot;WinXP&quot;) AND service pack major version of it = 2) OR ((name of it = &quot;Win2003&quot;) AND service pack major version of it = 2) OR ((name of it = &quot;WinVista&quot; OR name of it = &quot;Win2008&quot;) AND (service pack major version of it = 1 OR service pack major version of it = 2)) OR ((name of it = &quot;Win7&quot; OR name of it = &quot;Win2008R2&quot;) AND (service pack major version of it = 0 OR service pack major version of it = 1)) OR (name of it = &quot;Win2012&quot;) OR (name of it = &quot;Win2012R2&quot;) OR (name of it = &quot;Win8&quot;) OR (name of it = &quot;Win8.1&quot;)) of operating system</Relevance>
+    <Relevance>(x64 of operating system) AND (not ia64 of operating system)</Relevance>
+    <SourceReleaseDate>2016-09-14</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:40:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action22579">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch officescan_agent_x64.msi sha1:5fdb66fd3f98a5aad943e762c04abd6c004f415f size:104794112  https://officescan/agent_cloud_x64.msi sha256:ce08cd09099bfa72736be257d32601d53111c533682903ada9e65f54527fc1b9
+
+waithidden msiexec.exe /i &quot;__Download\officescan_agent_x64.msi&quot; /quiet /norestart
+
+action may require restart &quot;5fdb66fd3f98a5aad943e762c04abd6c004f415f&quot;</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

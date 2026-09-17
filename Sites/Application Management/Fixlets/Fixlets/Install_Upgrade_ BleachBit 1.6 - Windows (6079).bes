@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: BleachBit 1.6 - Windows
+  ID       : 6079
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-06-04T11:34:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: BleachBit 1.6 - Windows</Title>
+    <Description><![CDATA[<P>This task will install BleachBit.</P>
+<P>BleachBit is an open source alternative to CCleaner with a command line interface.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string starts with "BleachBit" AND (value "DisplayVersion" of it as string as version) >= "1.6" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries;x32 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-05-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 28 May 2015 16:43:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Download BleachBit Installer
+// https://www.virustotal.com/en/file/935ece8fa5c9bb5f449d6994c7a98d390213bad429466ffa28c06438ed9dad09/analysis/
+prefetch BleachBit.exe sha1:8956c0dac7309982ad2581f0f2d96309923b8606 size:6356328 http://katana.oooninja.com/bleachbit/sf/BleachBit-1.6-setup.exe
+
+waithidden __Download\BleachBit.exe /S
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>
