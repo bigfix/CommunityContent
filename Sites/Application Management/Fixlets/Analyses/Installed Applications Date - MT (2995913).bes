@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Installed Applications Date - MT
+  ID       : 2995913
+  Author   : manojthathera
+  Domain   : BESC
+  Imported : 2016-03-28T02:19:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Installed Applications Date - MT</Title>
+    <Description>This will return the date of the Applications Installed.</Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Aug 2015 08:02:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Installed Applications Date" EvaluationPeriod="PT6H">((if (exists value &quot;displayname&quot; of it AND exists value &quot;displayname&quot; of it as string) then (value &quot;displayname&quot; of it as string) else (&quot;No Display Name&quot;)), (if (exists value &quot;InstallDate&quot; of it AND exists value &quot;InstallDate&quot; of it as string) then (value &quot;InstallDate&quot; of it as string) else (&quot;No Install Date&quot;)), ((((current date - date (last 2 of it &amp; &quot; &quot; &amp; (month (last 2 of first 6 of it as integer) as three letters) &amp; &quot; &quot; &amp; first 4 of it)) of first 8 of (values &quot;InstallDate&quot; of it as string))) as string | &quot;Bad or missing install date&quot;)) of keys whose (exists value &quot;UninstallString&quot; of it AND ((not exists value &quot;SystemComponent&quot; of it) OR (exists value &quot;SystemComponent&quot; of it AND name of it starts with &quot;{&quot; AND name of it contains &quot;}&quot; AND (exists match (regex &quot;(9|A|B|C)(0|1)1(2|4)\d\d\d\d-(0011|0012|0013|0014|0017|002E|002F|0030|0031|0033|0035|003A|003B|0044|0051|0052|0053|0057|00BA |00CA|10D7|110D)-(0000|0409)-(0|1)000-(0|1)000000FF1CE$&quot;) of preceding text of first &quot;}&quot; of following text of first &quot;{&quot; of name of it))) AND (if (exists value &quot;DisplayName&quot; of it AND exists value &quot;DisplayName&quot; of it as string) then ((it does not contain &quot;Hotfix&quot; AND it does not contain &quot;Security Update for&quot; AND it does not contain &quot;Update for&quot; AND it does not contain &quot;Security Update for Windows&quot; AND it does not contain &quot;Update for Windows&quot; AND it does not contain &quot;Security Update for Microsoft&quot; AND (length of it &gt; 0) AND (number of substrings &quot; &quot; of it &lt; length of it)) of (value &quot;DisplayName&quot; of it as string)) else true)) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (if x64 of operating system then (x32 registry; x64 registry) else registry)</Property>
+  </Analysis>
+</BES>

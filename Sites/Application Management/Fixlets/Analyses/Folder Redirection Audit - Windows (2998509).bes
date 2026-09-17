@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Folder Redirection Audit - Windows
+  ID       : 2998509
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-01-06T17:12:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Folder Redirection Audit - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>Reference: <A href="https://bigfix.me/relevance/details/3019150">https://bigfix.me/relevance/details/3019150</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[( exists values whose(it as string starts with "\\") of (keys "Shell Folders" of it; keys "User Shell Folders" of it) of keys "Software\Microsoft\Windows\CurrentVersion\Explorer" of keys of keys "HKEY_USERS" of (x64 registries;x32 registries) ) OR ( exists selects "resultantPath FROM RSOP_FolderRedirectionPolicySetting WHERE resultantPath != '$not configured$'" of (wmis it) of ("ROOT\RSOP\User\" & it) of (concatenations "_" of substrings separated by "-" of it) of string values of selects "SID FROM Win32_UserProfile" of wmis )]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 07 Jan 2017 00:51:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="number of redirected folders - WMI" EvaluationPeriod="PT6H">number of selects &quot;resultantPath FROM RSOP_FolderRedirectionPolicySetting WHERE resultantPath != &apos;$not configured$&apos;&quot; of (wmis it) of (&quot;ROOT\RSOP\User\&quot; &amp; it) of (concatenations &quot;_&quot; of substrings separated by &quot;-&quot; of it) of string values of selects &quot;SID FROM Win32_UserProfile&quot; of wmis</Property>
+    <Property ID="2" Name="Parent Folder Name of Redirected Folders ( typically the username )" EvaluationPeriod="PT12H">unique values whose(&quot;My Documents&quot; != it AND &quot;Documents&quot; != it AND &quot;AppData&quot; != it AND &quot;%25USERNAME%25&quot; != it AND &quot;Windows&quot; != it AND &quot;&quot; != it) of (it as trimmed string) of following texts of lasts &quot;\&quot; of ( if (exists it whose(&quot;\&quot; = it) of characters (length of it - 1) of it) then ( preceding texts of lasts &quot;\&quot; of it) else it ) of unique values of (it as trimmed string) of (preceding text of last &quot;\&quot; of it | it) of string values of selects &quot;resultantPath FROM RSOP_FolderRedirectionPolicySetting WHERE resultantPath != &apos;$not configured$&apos;&quot; of (wmis it) of (&quot;ROOT\RSOP\User\&quot; &amp; it) of (concatenations &quot;_&quot; of substrings separated by &quot;-&quot; of it) of string values of selects &quot;SID FROM Win32_UserProfile&quot; of wmis</Property>
+    <Property ID="3" Name="Parent Folder PathName of Redirected Folders - WMI" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of (preceding text of last &quot;\&quot; of it | it) of string values of selects &quot;resultantPath FROM RSOP_FolderRedirectionPolicySetting WHERE resultantPath != &apos;$not configured$&apos;&quot; of (wmis it) of (&quot;ROOT\RSOP\User\&quot; &amp; it) of (concatenations &quot;_&quot; of substrings separated by &quot;-&quot; of it) of string values of selects &quot;SID FROM Win32_UserProfile&quot; of wmis</Property>
+  </Analysis>
+</BES>

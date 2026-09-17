@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe PDApp.log - Windows
+  ID       : 2994704
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-08-12T08:34:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe PDApp.log - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014754442">https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014754442</A></P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014754440">https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014754440</A></P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014749721">https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014749721</A></P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014757716">https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014757716</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists lines of files &quot;PDApp.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Aug 2014 15:33:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="# lines of PDApp.log" EvaluationPeriod="P2D">number of lines of files &quot;PDApp.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+    <Property ID="3" Name="modtime of PDApp.log" EvaluationPeriod="PT12H">((((year of it as string &amp; month of it as two digits &amp; day_of_month of it as two digits) of date (local time zone) of it) of modification time of it) &amp; &quot; &quot; &amp; pathname of it) of files &quot;PDApp.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+    <Property ID="4" Name="# errors of PDApp.log" EvaluationPeriod="P2D">number of lines whose(concatenation of characters whose (it != &quot;%00&quot;) of it contains &quot; [ERROR] &quot;) of files &quot;PDApp.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+    <Property ID="5" Name="Last 100 lines of PDApp.log" EvaluationPeriod="P2D">( /* -&gt; Unicode to ASCII (non-ASCII characters will still be present if any exist and they will not show up correctly) -&gt; */ concatenation of characters whose (it != &quot;%00&quot;) of item 1 of /* -&gt; This &quot;it&quot; refers to the last 100 lines of the file -&gt; */ it) whose( /* -&gt; remove empty lines, which is why this relevance can return less than 100 lines per file -&gt; */ it as trimmed string != &quot;&quot;) of ( /* -&gt; this is the number of lines of the file from the previous statement -&gt; */ item 1 of it, (lines of /* -&gt; the file object -&gt; */ item 0 of it) ) /* -&gt; This whose statement is responsible for filtering for only the last 100 lines of the file -&gt; */ whose ( (line number of /* -&gt; lines of the file -&gt; */ item 1 of it) &gt; ( /* -&gt; number of lines of the file -&gt; */ item 0 of it - 100 /* &lt;- This is the number of lines to return, which is subtracted from the total # of lines &lt;- */ ) ) of ( /* -&gt; the parent file object itself -&gt; */ it, number of lines of it) of /* this will gather up all of the PDApp.log files -&gt; */ files &quot;PDApp.log&quot; of /* -&gt; All of the folders that there might be a PDApp.log file -&gt; */  ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of /* -&gt; Equivalent to (folder &quot;C:\&quot;) -&gt; */ root folders of drives of system folders))</Property>
+  </Analysis>
+</BES>

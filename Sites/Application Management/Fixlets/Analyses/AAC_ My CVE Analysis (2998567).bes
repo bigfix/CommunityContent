@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AAC: My CVE Analysis
+  ID       : 2998567
+  Author   : kapax
+  Domain   : BFME
+  Imported : 2017-05-29T09:31:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AAC: My CVE Analysis</Title>
+    <Description><![CDATA[Returns the list of CVEs associated&nbsp;with relevant Patch fixlets, based on&nbsp;the file created by the Fixlet&nbsp; "AAC&nbsp;- Dump CVE Relevent PatchFixlets in a file"&nbsp; ]]></Description>
+    <Relevance>exist files &quot;RelevantFixlets.lst&quot; of parent folder of data folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 May 2017 14:21:33 +0000</Value>
+    </MIMEField>
+    <Domain>BFME</Domain>
+    <Property ID="1" Name="CVE-LIST">if exist lines whose (it contains &quot;CVE&quot;) of (files &quot;RelevantFixlets.lst&quot; of parent folder of data folder of client) then unique values of (((substrings separated by &quot;;&quot; of (preceding texts of first &quot;|&quot; of it) of lines of (files &quot;RelevantFixlets.lst&quot; of parent folder of data folder of client))) as trimmed string  ) else nothing</Property>
+    <Property ID="2" Name="Relevant CVE Patches">if exist lines whose (it contains &quot;CVE&quot;) of files &quot;RelevantFixlets.lst&quot; of parent folder of data folder of client then unique values of (((substrings separated by &quot;;&quot; of (following texts of last &quot;|&quot; of it) of lines whose (it does not contain &quot;(Superseded)&quot; ) of (file &quot;RelevantFixlets.lst&quot; of parent folder of data folder of client))) as trimmed string  ) else nothing </Property>
+  </Analysis>
+</BES>

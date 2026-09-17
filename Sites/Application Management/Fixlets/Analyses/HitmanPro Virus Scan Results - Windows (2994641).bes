@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : HitmanPro Virus Scan Results - Windows
+  ID       : 2994641
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-02-21T10:23:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>HitmanPro Virus Scan Results - Windows</Title>
+    <Description><![CDATA[<P>Results from the most recent scan by HitmanPro, the&nbsp;<FONT size=2>"Second Opinion Malware Scanner" <FONT size=2></P>
+<P><STRONG>From:</STRONG> <A href="http://www.surfright.nl/en/hitmanpro">http://www.surfright.nl/en/hitmanpro</A></P></FONT></FONT>
+<P>This Analysis requires the use of the Task found here:&nbsp; <A href="http://bigfix.me/fixlet/details/3721">http://bigfix.me/fixlet/details/3721</A></P>
+<P>The latest version of this Analysis can be found here:&nbsp;&nbsp;&nbsp; (link to bigfix.me URL to be added)</P>
+<P>&nbsp;</P>
+<P>Known Issues:</P>
+<UL>
+<LI>The XML Document inspector seems to have issue with HitmanPro results xml files that contain no item results in some cases. More testing is needed.
+<LI>False positives are likely. Please investigate throughly before over reacting or remediating results widely.</LI></UL>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* Only relevant on machines with HitmanPro scan results */ exists file ((pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\results_HitmanPro.xml")]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 21 Feb 2014 17:23:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Time of Last Scan" EvaluationPeriod="PT12H">modification times of files ((pathname of folder &quot;__BESData\__Global\Logs&quot; of parent folder of client) &amp; &quot;\results_HitmanPro.xml&quot;)</Property>
+    <Property ID="2" Name="ScanType" EvaluationPeriod="PT12H">unique values of node values of xpaths &quot;/Log/@scan&quot; of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;</Property>
+    <Property ID="3" Name="# of results" EvaluationPeriod="PT12H">number of xpaths &quot;/Log/Item&quot; of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;</Property>
+    <Property ID="4" Name="Result (type,count)" EvaluationPeriod="PT12H">(it, multiplicity of it) of unique values of node values of xpaths &quot;/Log/Item/@type&quot; of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;</Property>
+    <Property ID="5" Name="Valid results file?" EvaluationPeriod="P2D">exists xml documents of files ((pathname of folder &quot;__BESData\__Global\Logs&quot; of parent folder of client) &amp; &quot;\results_HitmanPro.xml&quot;)</Property>
+    <Property ID="6" Name="Threat Score of worst result" EvaluationPeriod="PT12H">maximum of (it as integer) of preceding texts of lasts &quot;.&quot; of unique values of node values of xpaths &quot;/Log/Item/@score&quot; of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;</Property>
+    <Property ID="7" Name="FilePath of worst result" EvaluationPeriod="P2D">unique values of node values of xpaths &quot;File/@path&quot; of xpaths &quot;/Log/Item&quot; whose(((it as integer) of preceding text of last &quot;.&quot; of node value of attribute &quot;score&quot; of it) = (maximum of (it as integer) of preceding texts of lasts &quot;.&quot; of unique values of node values of attributes &quot;score&quot; of xpaths &quot;/Log/Item&quot; of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;)) of xml document of file &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\Logs\results_HitmanPro.xml&quot;</Property>
+    <Property ID="8" Name="Size of ResultsFile" EvaluationPeriod="PT12H">sum of sizes of files ((pathname of folder &quot;__BESData\__Global\Logs&quot; of parent folder of client) &amp; &quot;\results_HitmanPro.xml&quot;)</Property>
+  </Analysis>
+</BES>

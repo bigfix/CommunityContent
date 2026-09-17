@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Docker Host Info - Linux
+  ID       : 2998578
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-09-11T14:54:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Docker Host Info - Linux</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>unix of operating system</Relevance>
+    <Relevance>exists folders &quot;/var/lib/docker/containers&quot; OR ( exists (packages &quot;docker-ce&quot; of it; packages &quot;docker&quot; of it; packages &quot;docker-engine&quot; of it; packages &quot;docker.io&quot; of it) whose(if exists properties whose(it as string contains &quot;currently installed of &quot;) then (currently installed of it) else TRUE) of (if exists properties whose(it as string contains &quot;debianpackage:&quot;) then debianpackages else if exists properties whose(it as string contains &quot;rpm:&quot;) then rpms else ERROR &quot;The operators are not defined.&quot;) )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 08 Sep 2017 21:09:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Containers" EvaluationPeriod="PT1H">unique values of names of folders of folders &quot;/var/lib/docker/containers&quot;</Property>
+    <Property ID="2" Name="Container Hostnames" EvaluationPeriod="PT1H">unique values of (it as trimmed string) whose(it != &quot;&quot;) of lines of files &quot;hostname&quot; of folders of folders &quot;/var/lib/docker/containers&quot;</Property>
+    <Property ID="3" Name="Number of Running Containers" EvaluationPeriod="PT1H">number of (it as boolean) whose(it) of values of keys &quot;Running&quot; of values of keys &quot;State&quot; of jsons of files &quot;config.v2.json&quot; of folders of folders &quot;/var/lib/docker/containers&quot;</Property>
+    <Property ID="4" Name="Docker Version" EvaluationPeriod="PT12H">unique values of maxima of versions of (packages &quot;docker-ce&quot; of it; packages &quot;docker&quot; of it; packages &quot;docker-engine&quot; of it; packages &quot;docker.io&quot; of it) whose(if exists properties whose(it as string contains &quot;currently installed of &quot;) then (currently installed of it) else TRUE) of (if exists properties whose(it as string contains &quot;debianpackage:&quot;) then debianpackages else if exists properties whose(it as string contains &quot;rpm:&quot;) then rpms else ERROR &quot;The operators are not defined.&quot;)</Property>
+    <Property ID="5" Name="Number of Containers" EvaluationPeriod="PT15M">number of folders of folders &quot;/var/lib/docker/containers&quot;</Property>
+  </Analysis>
+</BES>

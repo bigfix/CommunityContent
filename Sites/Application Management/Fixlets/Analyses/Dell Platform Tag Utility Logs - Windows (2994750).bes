@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Platform Tag Utility Logs - Windows
+  ID       : 2994750
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-11-25T14:27:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Platform Tag Utility Logs - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files whose(name of it starts with &quot;results_Dell_Platform_Tags_&quot; AND name of it as lowercase ends with &quot;.log&quot;) of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 25 Nov 2014 20:52:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="lines of SOT.log" EvaluationPeriod="PT12H">lines whose(it != &quot;&quot; AND it does not start with &quot;(C) Copyright&quot;) of files &quot;results_Dell_Platform_Tags_SOT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="2" Name="lines of RPT.log" EvaluationPeriod="PT12H">lines whose(it != &quot;&quot; AND it does not start with &quot;(C) Copyright&quot;) of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="3" Name="mod time of RPT.log" EvaluationPeriod="PT12H">modification times of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="4" Name="Owner Tag (RPT.log)" EvaluationPeriod="PT12H">(it as trimmed string) whose(it != &quot;&quot; AND it != &quot;&lt;not set&gt;&quot;) of following texts of firsts &quot;Owner Tag ...... &quot; of lines whose(it contains &quot;Owner Tag ...... &quot;) of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="5" Name="Owner Tag (combined)" EvaluationPeriod="PT12H">unique values of ( ( (it as trimmed string) of string values whose(it as trimmed string != &quot;&quot;) of selects &quot;PropertyOwnershipTag from DCIM_Chassis&quot; of wmi &quot;root\dcim\sysman&quot; ) ; ( (it as trimmed string) whose(it != &quot;&lt;not set&gt;&quot; AND it != &quot;&quot;) of following texts of firsts &quot;Owner Tag ...... &quot; of lines whose(it contains &quot;Owner Tag ...... &quot;) of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client ) )</Property>
+    <Property ID="6" Name="Asset Tag (RPT.log)" EvaluationPeriod="PT12H">(it as trimmed string) whose(it != &quot;&quot; AND it != &quot;&lt;not set&gt;&quot;) of following texts of firsts &quot;Asset Tag ...... &quot; of lines whose(it contains &quot;Asset Tag ...... &quot;) of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="7" Name="lines of SAT.log" EvaluationPeriod="PT12H">lines whose(it != &quot;&quot; AND it does not start with &quot;(C) Copyright&quot;) of files &quot;results_Dell_Platform_Tags_SAT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="8" Name="Asset Tag (combined)" EvaluationPeriod="PT12H">unique values of ( ( (it as trimmed string) whose(it != &quot;&quot; AND it != &quot;&lt;not set&gt;&quot;) of following texts of firsts &quot;Asset Tag ...... &quot; of lines whose(it contains &quot;Asset Tag ...... &quot;) of files &quot;results_Dell_Platform_Tags_RPT.log&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client );( (it as trimmed string) of string values whose(it as trimmed string != &quot;&quot;) of selects &quot;ElementName from DCIM_Chassis&quot; of wmi &quot;root\dcim\sysman&quot; ) )</Property>
+  </Analysis>
+</BES>

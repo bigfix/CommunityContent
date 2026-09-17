@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : CommVault - Windows
+  ID       : 2998373
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-25T14:05:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>CommVault - Windows</Title>
+    <Description><![CDATA[This analysis provides information related to the currently installed CommVault Backup Agent for Windows devices.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists services whose (service name of it starts with &quot;GxEvMgrC&quot;)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="CommVault - State - Windows" EvaluationPeriod="PT1H">state of services whose (service name of it starts with &quot;GxEvMgrC&quot;)</Property>
+    <Property ID="2" Name="CommVault - Target - Windows" EvaluationPeriod="PT1H">( name of it, value &quot;sCSHOSTNAME&quot; of key &quot;CommServe&quot; of it) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry</Property>
+    <Property ID="3" Name="CommVault - Version - Windows" EvaluationPeriod="PT1H">(name of it, value &quot;sVERSION&quot; of key &quot;Base&quot; of it) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry</Property>
+    <Property ID="4" Name="CommVault - Client Port - Windows" EvaluationPeriod="P1D">(name of it, value &quot;nCLIENT_PORT&quot; of key &quot;Firewall&quot; of it) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry</Property>
+    <Property ID="5" Name="CommVault - Installed Packages - Windows" EvaluationPeriod="P1D">(name of it, concatenations &quot;; &quot; of (values &quot;Pkgname&quot; of keys of key &quot;InstalledPackages&quot; of it as string)) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry</Property>
+    <Property ID="6" Name="CommVault - Agent GUID - Windows" EvaluationPeriod="P1D">(values &quot;sGUID&quot; of it as string) of keys of key &quot;Machines&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry</Property>
+    <Property ID="7" Name="CommVault - Last Job Time - Windows" EvaluationPeriod="PT6H">creation time of items 1 of (maximum of creation times of folders of it, folders of it) whose (item 0 of it = creation time of item 1 of it) of (folder &quot;CV_JobResults\2\0&quot; of folder ((preceding text of first &quot;%00&quot; of (it as string)) of (value &quot;dJOBRESULTSDIR&quot; of keys of key &quot;Machines&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry)))</Property>
+    <Property ID="8" Name="CommVault - Last Job ID - Windows" EvaluationPeriod="PT6H">name of items 1 of (maximum of creation times of folders of it, folders of it) whose (item 0 of it = creation time of item 1 of it) of (folder &quot;CV_JobResults\2\0&quot; of folder ((preceding text of first &quot;%00&quot; of (it as string)) of (value &quot;dJOBRESULTSDIR&quot; of keys of key &quot;Machines&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry)))</Property>
+    <Property ID="9" Name="CommVault - Last Job Targets - Windows" EvaluationPeriod="PT6H">(preceding text of first &quot;|&quot; of following text of first &quot;|&quot; of it) of lines of file &quot;ScanStatus.txt&quot; of (item 1 of (maximum of creation times of folders of it, folders of it) whose (item 0 of it = creation time of item 1 of it) of (folder &quot;CV_JobResults\2\0&quot; of folder ((preceding text of first &quot;%00&quot; of (it as string)) of (value &quot;dJOBRESULTSDIR&quot; of keys of key &quot;Machines&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\CommVault Systems\Galaxy&quot; of native registry))))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Acrobat DC Continuous Track Updater and Update Mode Status - Mac and Windows
+  ID       : 2998126
+  Author   : cdh
+  Domain   : BESC
+  Imported : 2016-05-12T15:16:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Acrobat DC Continuous Track Updater and Update Mode Status - Mac and Windows</Title>
+    <Description><![CDATA[<P>For bUpdater: 0 means update is disabled, 1&nbsp;means updater is&nbsp;enabled<BR><BR><A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Macintosh/Updater-Mac.html">http://www.adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Macintosh/Updater-Mac.html</A></P>
+<P><A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Windows/Updater-Win.html">http://www.adobe.com/devnet-docs/acrobatetk/tools/PrefRef/Windows/Updater-Win.html</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance><![CDATA[if (mac of operating system) then (exists application whose (name of it = "Adobe Acrobat.app" AND version of it >= "15.000.00000" and version of it < "16")) else (if (windows of operating system) then (exists regapp whose (name of it = "Acrobat.exe" and version of it >= "15.000.00000" and version of it < "16")) else false)]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 12 May 2016 22:08:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Acrobat DC bUpdater" EvaluationPeriod="P1D">if (windows of operating system) then (unique values of (it as string) of values &quot;bUpdater&quot; of keys &quot;HKLM\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockdown&quot; of (x32 registries; x64 registries)) else (if (mac of operating system AND exists files &quot;/Library/Preferences/com.adobe.Acrobat.Pro.plist&quot; AND exists booleans of values of entries whose (key of it is &quot;bUpdater&quot;) of dictionary &quot;FeatureLockdown&quot; of dictionary &quot;DC&quot; of dictionaries of files &quot;/Library/Preferences/com.adobe.Acrobat.Pro.plist&quot;) then (if (it as lowercase = &quot;true&quot;) then &quot;1&quot; else (if (it as lowercase = &quot;false&quot;) then &quot;0&quot; else &quot;&lt;none&gt;&quot;)) of (it as string) of booleans of values of entries whose (key of it is &quot;bUpdater&quot;) of dictionary &quot;FeatureLockdown&quot; of  dictionary &quot;DC&quot; of dictionaries of files &quot;/Library/Preferences/com.adobe.Acrobat.Pro.plist&quot; else &quot;&lt;none&gt;&quot;)</Property>
+    <Property ID="3" Name="Acrobat DC Updater Mode" EvaluationPeriod="P1D">if (windows of operating system) then ((if (it = &quot;0&quot; OR it = &quot;1&quot;) then &quot;Do not download or install updates automatically&quot; else (if (it = &quot;2&quot;) then &quot;Automatically download updates but let the user choose when to install them.&quot; else (if (it = &quot;3&quot;) then &quot;Automatically download and install updates.&quot; else (if (it = &quot;4&quot;) then &quot;Notify the user downloads are available but do not download them.&quot; else &quot;Not Configured&quot;) ))) of (unique values of (it as string) of values &quot;Mode&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe ARM\Legacy\Acrobat&quot; of (x32 registries; x64 registries))) else ((if (it = &quot;0&quot;) then &quot;Automatically download and install updates.&quot; else (if (it = &quot;3&quot;) then &quot;Do not check for updates.&quot; else &quot;Not Configured&quot;)) of (unique values of (it as string) of (integers &quot;UpdateMode&quot; of dictionaries of files &quot;/Library/Application Support/Adobe/ARMDC/Registered Products/com.adobe.acrobat.dc.plist&quot;)))</Property>
+  </Analysis>
+</BES>

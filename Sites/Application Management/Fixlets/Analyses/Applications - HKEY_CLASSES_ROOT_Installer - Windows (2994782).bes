@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - HKEY_CLASSES_ROOT\Installer - Windows
+  ID       : 2994782
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T07:53:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - HKEY_CLASSES_ROOT\Installer - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;This is a work in progress, but I'm not sure if I'll be adding much to it.</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://support.microsoft.com/kb/314481">http://support.microsoft.com/kb/314481</A></P>
+<P><A href="http://technet.microsoft.com/en-us/library/bb892810.aspx">http://technet.microsoft.com/en-us/library/bb892810.aspx</A></P>
+<P><A href="http://www.dfinews.com/articles/2012/09/microsoft-windows-artifacts">http://www.dfinews.com/articles/2012/09/microsoft-windows-artifacts</A></P>
+<P><A href="http://technet.microsoft.com/en-us/library/bb742606.aspx#EOAA">http://technet.microsoft.com/en-us/library/bb742606.aspx#EOAA</A></P>
+<P><A href="http://superuser.com/questions/561006/what-to-consider-when-manually-removing-a-msi-installation">http://superuser.com/questions/561006/what-to-consider-when-manually-removing-a-msi-installation</A></P>
+<P><A href="http://www.itninja.com/question/how-can-i-use-vbscript-to-enumerate-hkey-classes-root-installer-products-and-delete-a-key-and-all-subkeys-only-if-a-reg-sz-values-exists-within-it">http://www.itninja.com/question/how-can-i-use-vbscript-to-enumerate-hkey-classes-root-installer-products-and-delete-a-key-and-all-subkeys-only-if-a-reg-sz-values-exists-within-it</A></P>
+<P><A href="https://blugrin.com/Support/Silverlight/Clean-a-Corrupted-Silverlight-Installation-in-Windows">https://blugrin.com/Support/Silverlight/Clean-a-Corrupted-Silverlight-Installation-in-Windows</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists keys of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registries</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 14:52:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ProductNames" EvaluationPeriod="P2D">values &quot;ProductName&quot; of keys of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registries</Property>
+    <Property ID="2" Name="ProductNames(combined), #occurrences" EvaluationPeriod="P1D">(it, multiplicity of it) of unique values of ( ((it as string as trimmed string) of values &quot;ProductName&quot; of keys of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registries) ; ( (it as string as trimmed string) of values &quot;DisplayName&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries) ) ; ( (it as string as trimmed string) of values &quot;DisplayName&quot; of keys &quot;InstallProperties&quot; of keys of keys &quot;Products&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData&quot; of (x64 registries;x32 registries) ) ; ( (it as string as trimmed string) of values &quot;ProductName&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Installer\Products&quot; of (x64 registries;x32 registries) ) )</Property>
+    <Property ID="3" Name="DisplayNames - ProductNames" EvaluationPeriod="P1D">elements of ( ( set of unique values of (it as string as trimmed string) of values &quot;DisplayName&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries) ) - ( set of unique values of (it as string as trimmed string) of values &quot;ProductName&quot; of keys of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of (x64 registries;x32 registries) ) )</Property>
+  </Analysis>
+</BES>

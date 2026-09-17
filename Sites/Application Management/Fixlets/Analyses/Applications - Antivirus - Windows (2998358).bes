@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Antivirus - Windows
+  ID       : 2998358
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-17T15:32:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Antivirus - Windows</Title>
+    <Description><![CDATA[<P>Provides information on what Anti-virus programs are registered with the Windows Security Center.</P>
+<P>Kudos, compliments, and credit to Jgstew for the&nbsp;relevance: <A href="https://bigfix.me/analysis/details/2996950">https://bigfix.me/analysis/details/2996950</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1"]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Antivirus - Installed - Windows" EvaluationPeriod="P1D">unique values of string values of selects &quot;displayname from AntiVirusProduct&quot; of (if exists (wmis &quot;root\SecurityCenter2&quot;) then (wmis &quot;root\SecurityCenter2&quot;) else (wmis &quot;root\SecurityCenter&quot;))</Property>
+    <Property ID="2" Name="Antivirus - Status - Windows" EvaluationPeriod="P1D">(item 0 of it, &quot;Out of date: &quot; &amp; bit 3 of item 1 of it as string, &quot;Auto-Update: &quot; &amp; bit 17 of item 1 of it as string, &quot;Is Antivirus: &quot; &amp; bit 18 of item 1 of it as string, &quot;Is Antispyware: &quot; &amp; bit 19 of item 1 of it as string, &quot;Is Firewall: &quot; &amp; bit 16 of item 1 of it as string, &quot;On Access Scanning: &quot; &amp; bit 12 of item 1 of it as string) of (string value of property &quot;displayName&quot; of it, string value of property &quot;productState&quot; of it as integer as bit set ) of select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot; </Property>
+    <Property ID="3" Name="Antivirus - Status - Bitset" EvaluationPeriod="P1D">(item 0 of it, item 1 of it, item 1 of it as integer as hexadecimal, item 1 of it as integer as bit set) of (string value of property &quot;displayName&quot; of it, string value of property &quot;productState&quot; of it) of select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;</Property>
+    <Property ID="4" Name="Antivirus - Old Definitions - Windows" EvaluationPeriod="PT1H">(string value of property &quot;displayName&quot; of it) of (select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;) whose (bit 3 of (string value of property &quot;productState&quot; of it as integer as bit set))</Property>
+    <Property ID="5" Name="Antivirus - Auto-Update Disabled - Windows" EvaluationPeriod="P1D">(string value of property &quot;displayName&quot; of it) of (select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;) whose (not bit 17 of (string value of property &quot;productState&quot; of it as integer as bit set))</Property>
+    <Property ID="6" Name="Antivirus - On Access Scanning Providers - Windows" EvaluationPeriod="P1D">(string value of property &quot;displayName&quot; of it) of (select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;) whose (bit 12 of (string value of property &quot;productState&quot; of it as integer as bit set))</Property>
+    <Property ID="7" Name="Antivirus - Firewall Providers - Windows" EvaluationPeriod="P1D">(string value of property &quot;displayName&quot; of it) of (select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;) whose (bit 16 of (string value of property &quot;productState&quot; of it as integer as bit set))</Property>
+    <Property ID="8" Name="Antivirus - Anti-Spyware Providers - Windows" EvaluationPeriod="P1D">(string value of property &quot;displayName&quot; of it) of (select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;) whose (bit 19 of (string value of property &quot;productState&quot; of it as integer as bit set))</Property>
+  </Analysis>
+</BES>

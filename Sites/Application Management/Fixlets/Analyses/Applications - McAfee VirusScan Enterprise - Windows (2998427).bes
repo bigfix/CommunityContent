@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - McAfee VirusScan Enterprise - Windows
+  ID       : 2998427
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-27T23:53:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - McAfee VirusScan Enterprise - Windows</Title>
+    <Description><![CDATA[<P>Provide information covering McAfee VirusScan Enterprise .</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="McAfee VirusScan Enterprise - Engine Version - Windows" EvaluationPeriod="P1D">value &quot;EngineVersionMajor&quot; of key &quot;HKLM\SOFTWARE\McAfee\AVEngine&quot; of registry as string | &quot;None&quot;</Property>
+    <Property ID="4" Name="McAfee VirusScan Enterprise - Definitions Version - Windows" EvaluationPeriod="P1D">value &quot;AVDatVersion&quot; of key &quot;HKLM\SOFTWARE\McAfee\AVEngine&quot; of registry as string | &quot;None&quot;</Property>
+    <Property ID="5" Name="McAfee VirusScan Enterprise - Definitions Date (Raw) - Windows" EvaluationPeriod="P1D">value &quot;AVDatDate&quot; of key &quot;HKLM\SOFTWARE\McAfee\AVEngine&quot; of registry as string | &quot;None&quot;</Property>
+    <Property ID="6" Name="McAfee VirusScan Enterprise - Client Status - Windows" EvaluationPeriod="P1D">if ((not exists running application &quot;vshwin32.exe&quot;) AND (not exists running application &quot;mcshield.exe&quot;)) then &quot;Not Running&quot; else &quot;Running&quot;</Property>
+    <Property ID="7" Name="McAfee VirusScan Enterprise - Definitions Date (As Date) - Windows" EvaluationPeriod="P1D">(it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of concatenations &quot;&quot; of substrings separated by &quot;/&quot; of (value &quot;AVDatDate&quot; of key &quot;HKLM\SOFTWARE\McAfee\AVEngine&quot; of registry as string | &quot;None&quot;)</Property>
+  </Analysis>
+</BES>

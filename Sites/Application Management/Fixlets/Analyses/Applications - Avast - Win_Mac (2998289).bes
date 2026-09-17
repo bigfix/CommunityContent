@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Avast - Win\Mac
+  ID       : 2998289
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:00:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Avast - Win\Mac</Title>
+    <Description><![CDATA[Provides information on the installed version of Avast
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Avast - Suite Name - Win\Mac" EvaluationPeriod="P1D">if (if (mac of operating system) then (exists &quot;/Applications/Avast.app&quot; and exists folder &quot;/Library/Application Support/Avast/config/bcc&quot;) else (exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;Avast Business Security&quot;))) then (&quot;Avast! for Business (Cloud)&quot;) else (&quot;None&quot;)</Property>
+    <Property ID="2" Name="Avast - Avast for Business (Cloud) - Installed - Win\Mac" EvaluationPeriod="PT1H">if (mac of operating system) then (exists &quot;/Applications/Avast.app&quot; and exists folder &quot;/Library/Application Support/Avast/config/bcc&quot;) else (exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;Avast Business Security&quot;))</Property>
+  </Analysis>
+</BES>

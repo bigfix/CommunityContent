@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AutoPKG Audit - Mac OS X
+  ID       : 2994769
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-03-27T13:51:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AutoPKG Audit - Mac OS X</Title>
+    <Description><![CDATA[<P>AutoPKG config info</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="https://github.com/autopkg/autopkg">https://github.com/autopkg/autopkg</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance>(exists folders &quot;/Library/AutoPkg&quot;) OR (exists strings whose(it as lowercase as trimmed string = &quot;autopkg&quot;) of values of entries whose(key of it = &quot;displayName&quot;) of dictionaries of values of arrays of files &quot;/Library/Receipts/InstallHistory.plist&quot;) OR (exists dictionaries whose(exists entries whose(key of it = &quot;PackageIdentifier&quot; AND string of value of it as lowercase contains &quot;autopkg&quot;) of it) of files whose(name of it as lowercase ends with &quot;.plist&quot;) of folders &quot;/private/var/db/receipts&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 27 Mar 2015 20:46:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Version of AutoPKG" EvaluationPeriod="PT6H">unique values of ((strings of values of entries whose(key of it = &quot;Version&quot;) of dictionaries of files &quot;/Library/AutoPkg/autopkglib/version.plist&quot;);(strings of values of entries whose(key of it = &quot;PackageVersion&quot;) of dictionaries whose(exists entries whose(key of it = &quot;PackageIdentifier&quot; AND string of value of it as lowercase contains &quot;autopkg&quot;) of it) of files whose(name of it as lowercase ends with &quot;.plist&quot;) of folders &quot;/private/var/db/receipts&quot;))</Property>
+    <Property ID="2" Name="User AutoPkg RecipeRepos" EvaluationPeriod="PT12H">unique values of names of folders of folders whose(name of it as lowercase starts with &quot;reciperepos&quot;) of folders &quot;Library/AutoPkg&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="3" Name="AutoPkg Recipes" EvaluationPeriod="PT12H">names of (files of it; files of folders of it) whose(name of it as lowercase ends with &quot;.recipe&quot;) of ((folders &quot;Recipes&quot; of folders &quot;Library/AutoPkg&quot; of folders of folders &quot;/Users&quot;);(folders of folders whose(name of it as lowercase starts with &quot;reciperepos&quot;) of folders &quot;Library/AutoPkg&quot; of folders of folders &quot;/Users&quot;);(folders &quot;/Library/AutoPkg/Recipes&quot;))</Property>
+    <Property ID="4" Name="AutoPkg Recipes #" EvaluationPeriod="PT6H">number of (files of it; files of folders of it) whose(name of it as lowercase ends with &quot;.recipe&quot;) of ((folders &quot;Recipes&quot; of folders &quot;Library/AutoPkg&quot; of folders of folders &quot;/Users&quot;);(folders of folders whose(name of it as lowercase starts with &quot;reciperepos&quot;) of folders &quot;Library/AutoPkg&quot; of folders of folders &quot;/Users&quot;);(folders &quot;/Library/AutoPkg/Recipes&quot;))</Property>
+  </Analysis>
+</BES>

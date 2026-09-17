@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe License Debugging Audit - PCD - Windows
+  ID       : 2994673
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-07-16T16:31:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe License Debugging Audit - PCD - Windows</Title>
+    <Description><![CDATA[<P>Returns information for the Adobe PCD cache. (SQLite)</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://leereid.wordpress.com/2013/02/13/everything-about-adobes-cache-db-well-not-quite/">http://leereid.wordpress.com/2013/02/13/everything-about-adobes-cache-db-well-not-quite/</A></P>
+<P><A href="http://www.techonthenet.com/sql/where.php">http://www.techonthenet.com/sql/where.php</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html">http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html</A></P>
+<P>Find a related analysis here:&nbsp; <A href="http://bigfix.me/analysis/details/2994669">http://bigfix.me/analysis/details/2994669</A></P>
+<P>Find the latest version of this analysis here:&nbsp; <A href="http://bigfix.me/analysis/details/2994668">http://bigfix.me/analysis/details/2994668</A></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>exists files &quot;cache.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD\cache&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of windows folder</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 16 Jul 2014 17:23:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="subDomains of PCD cache.db" EvaluationPeriod="P2D">unique values of (it as string) of columns &quot;subDomain&quot; of rows whose(it as string does not contain &quot;DummySubDomain&quot;) of statements &quot;SELECT * FROM domain_data&quot; of sqlite databases of files &quot;cache.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD\cache&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="2" Name="Status" EvaluationPeriod="P2D">rows of statements &quot;SELECT * FROM domain_data WHERE subDomain != &apos;DummySubDomain&apos; AND value != &apos;licensed&apos;&quot; of sqlite databases of files &quot;cache.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD\cache&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="3" Name="Languages" EvaluationPeriod="P2D">unique values of (it as string) of columns &quot;value&quot; of rows of statements &quot;SELECT * FROM domain_data WHERE KEY = &apos;installedLanguages&apos;&quot; of sqlite databases of files &quot;pcd.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="4" Name="InstallDates - YYYYMMDD" EvaluationPeriod="P2D">unique values of (((year of it as string &amp; month of it as two digits &amp; day_of_month of it as two digits) of date (local time zone) of it) of it ) of (it * second + &quot;01 Jan 1970 00:00:00&quot; as local time) of unique values of (it as string as integer) of columns &quot;value&quot; of rows of statements &quot;SELECT * FROM domain_data WHERE KEY = &apos;InstallDate&apos;&quot; of sqlite databases of files &quot;pcd.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="5" Name="driverLEIDs" EvaluationPeriod="P2D">unique values of (it as string) of columns &quot;value&quot; of rows of statements &quot;SELECT * FROM domain_data WHERE KEY = &apos;driverLEID&apos;&quot; of sqlite databases of files &quot;pcd.db&quot; of folders &quot;Common Files\Adobe\Adobe PCD&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+  </Analysis>
+</BES>

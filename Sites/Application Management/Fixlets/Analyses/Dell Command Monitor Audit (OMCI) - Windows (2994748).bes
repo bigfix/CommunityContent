@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Command Monitor Audit (OMCI) - Windows
+  ID       : 2994748
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-11-10T07:32:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Command Monitor Audit (OMCI) - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://en.community.dell.com/cfs-file/__key/telligent-evolution-components-attachments/13-4491-00-00-20-15-07-64/OMCI_5F00_Health_5F00_Monitoring_5F00_and_5F00_Indication_5F00_Whitepaper.pdf?forcedownload=true">http://en.community.dell.com/cfs-file/__key/telligent-evolution-components-attachments/13-4491-00-00-20-15-07-64/OMCI_5F00_Health_5F00_Monitoring_5F00_and_5F00_Indication_5F00_Whitepaper.pdf?forcedownload=true</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi &quot;root\DELLOMCI&quot; or exists wmi &quot;root\dcim\sysman&quot;</Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Nov 2014 22:00:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Monitor Version" EvaluationPeriod="PT12H">unique values of (it as string) of values &quot;DisplayVersion&quot; of keys whose(exists (value &quot;DisplayName&quot; of it as string as lowercase) whose(it contains &quot;Command | Monitor&quot; as lowercase OR it contains &quot;OpenManage Client Instrumentation&quot; as lowercase) AND exists (value &quot;Publisher&quot; of it as string as lowercase) whose(it contains &quot;dell&quot; as lowercase) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry)</Property>
+    <Property ID="2" Name="InstallLocation" EvaluationPeriod="PT12H">unique values of ( pathnames of folders &quot;Command Monitor&quot; of folders (values &quot;InstallLocation&quot; of it as string as trimmed string) ; pathnames of folders (preceding texts of lasts &quot;\&quot; of (values &quot;Readme&quot; of it as string as trimmed string)) ) of keys whose(exists (value &quot;DisplayName&quot; of it as string as lowercase) whose(it contains &quot;Command | Monitor&quot; as lowercase OR it contains &quot;OpenManage Client Instrumentation&quot; as lowercase) AND exists (value &quot;Publisher&quot; of it as string as lowercase) whose(it contains &quot;dell&quot; as lowercase) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry)</Property>
+    <Property ID="3" Name="dcsbdy (polling intervals)" EvaluationPeriod="PT12H">lines whose( it as trimmed string != &quot;&quot; AND it as trimmed string does not start with &quot;;&quot; ) of files whose(name of it as lowercase starts with &quot;dcsbdy&quot; AND name of it as lowercase ends with &quot;.ini&quot;) of folders &quot;omsa\ini&quot; of folders (unique values of ( pathnames of folders &quot;Command Monitor&quot; of folders (values &quot;InstallLocation&quot; of it as string as trimmed string) ; pathnames of folders (preceding texts of lasts &quot;\&quot; of (values &quot;Readme&quot; of it as string as trimmed string)) ) of keys whose(exists (value &quot;DisplayName&quot; of it as string as lowercase) whose(it contains &quot;Command | Monitor&quot; as lowercase OR it contains &quot;OpenManage Client Instrumentation&quot; as lowercase) AND exists (value &quot;Publisher&quot; of it as string as lowercase) whose(it contains &quot;dell&quot; as lowercase) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry))</Property>
+    <Property ID="4" Name="file sections" EvaluationPeriod="P2D">lines whose(it starts with &quot;[&quot; AND it ends with &quot;]&quot;) of files whose(name of it as lowercase starts with &quot;dcsbdy&quot; AND name of it as lowercase ends with &quot;.ini&quot;) of folders &quot;omsa\ini&quot; of folders (unique values of ( pathnames of folders &quot;Command Monitor&quot; of folders (values &quot;InstallLocation&quot; of it as string as trimmed string) ; pathnames of folders (preceding texts of lasts &quot;\&quot; of (values &quot;Readme&quot; of it as string as trimmed string)) ) of keys whose(exists (value &quot;DisplayName&quot; of it as string as lowercase) whose(it contains &quot;Command | Monitor&quot; as lowercase OR it contains &quot;OpenManage Client Instrumentation&quot; as lowercase) AND exists (value &quot;Publisher&quot; of it as string as lowercase) whose(it contains &quot;dell&quot; as lowercase) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry))</Property>
+    <Property ID="5" Name="Sections with Polling Disabled" EvaluationPeriod="P2D">(previous line of previous line of it) of lines whose(it as trimmed string starts with &quot;RunDelay=0&quot;) of files whose(name of it as lowercase starts with &quot;dcsbdy&quot; AND name of it as lowercase ends with &quot;.ini&quot;) of folders &quot;omsa\ini&quot; of folders (unique values of ( pathnames of folders &quot;Command Monitor&quot; of folders (values &quot;InstallLocation&quot; of it as string as trimmed string) ; pathnames of folders (preceding texts of lasts &quot;\&quot; of (values &quot;Readme&quot; of it as string as trimmed string)) ) of keys whose(exists (value &quot;DisplayName&quot; of it as string as lowercase) whose(it contains &quot;Command | Monitor&quot; as lowercase OR it contains &quot;OpenManage Client Instrumentation&quot; as lowercase) AND exists (value &quot;Publisher&quot; of it as string as lowercase) whose(it contains &quot;dell&quot; as lowercase) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry))</Property>
+  </Analysis>
+</BES>

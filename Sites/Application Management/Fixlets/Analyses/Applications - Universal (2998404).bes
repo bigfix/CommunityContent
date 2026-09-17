@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Universal
+  ID       : 2998404
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-21T13:25:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Universal</Title>
+    <Description><![CDATA[Application Inventory
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Applications - Currently Running - Universal" EvaluationPeriod="PT1H">if (exists running applications | false) then (unique values of (running applications as string)) else (nothing)</Property>
+    <Property ID="2" Name="Applications - Registered Applications - Universal" EvaluationPeriod="PT1H">unique values of (regapps as string)</Property>
+  </Analysis>
+</BES>

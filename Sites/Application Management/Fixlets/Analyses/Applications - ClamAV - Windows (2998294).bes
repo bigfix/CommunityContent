@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - ClamAV - Windows
+  ID       : 2998294
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:01:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - ClamAV - Windows</Title>
+    <Description><![CDATA[Provides information on the currently installed ClamAV engine.
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;ClamAV&quot;)) | false</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ClamAV - Version - Windows" EvaluationPeriod="P1D">(value &quot;DisplayVersion&quot; of it as string | &quot;none&quot;) of (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;ClamAV&quot;)</Property>
+    <Property ID="2" Name="ClamAV - Installed - Windows" EvaluationPeriod="P1D">(exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;ClamAV&quot;)) | false</Property>
+    <Property ID="3" Name="ClamAV - Quarantine - Windows" EvaluationPeriod="P1D">(if (exists (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) &amp; &quot;\__Global\Quarantine&quot;)) | false) then (names of files of (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) &amp; &quot;\__Global\Quarantine&quot;))) else (&quot;none&quot;))</Property>
+    <Property ID="4" Name="ClamAV - Last Scan - Infected Files - Windows" EvaluationPeriod="P1D">(following text of first &quot;: &quot; of line starting with &quot;Infected files&quot; of it) of items 1 of (maximum of modification times of files whose(name of it as lowercase ends with &quot;.log&quot;) of it, files whose(name of it as lowercase ends with &quot;.log&quot; of it) of it) whose (item 0 of it = modification time of item 1 of it) of folder &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\ClamAVLogs&quot;</Property>
+    <Property ID="5" Name="ClamAV - Last Scan - Duration (Sec) - Windows" EvaluationPeriod="P1D">(preceding text of first &quot; sec (&quot; of following text of first &quot;: &quot; of line starting with &quot;Time&quot; of it) of items 1 of (maximum of modification times of files whose(name of it as lowercase ends with &quot;.log&quot;) of it, files whose(name of it as lowercase ends with &quot;.log&quot; of it) of it) whose (item 0 of it = modification time of item 1 of it) of folder &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\ClamAVLogs&quot;</Property>
+    <Property ID="6" Name="ClamAV - Last Scan - Data Read - Windows" EvaluationPeriod="P1D">(preceding text of first &quot; (ratio&quot; of following text of first &quot;: &quot; of line starting with &quot;Data read&quot; of it) of items 1 of (maximum of modification times of files whose(name of it as lowercase ends with &quot;.log&quot;) of it, files whose(name of it as lowercase ends with &quot;.log&quot; of it) of it) whose (item 0 of it = modification time of item 1 of it) of folder &quot;C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\ClamAVLogs&quot;</Property>
+    <Property ID="7" Name="ClamAV - Quarantine # - Windows" EvaluationPeriod="P1D">(if (exists (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) &amp; &quot;\__Global\Quarantine&quot;)) | false) then (number of files of (folder ((pathname of parent folder of client folder of current site | pathname of data folder of client) &amp; &quot;\__Global\Quarantine&quot;))) else (0))</Property>
+  </Analysis>
+</BES>

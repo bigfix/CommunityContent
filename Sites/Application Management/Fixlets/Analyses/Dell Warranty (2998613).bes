@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Warranty
+  ID       : 2998613
+  Author   : roniley
+  Domain   : BESC
+  Imported : 2020-10-23T11:52:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Warranty</Title>
+    <Description><![CDATA[<SPAN itemprop="description">This analysis pairs with the "Invoke - Gather Dell Warranty - Windows" fixlet in order to provide warranty information about Dell devices.</SPAN> ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 21 Oct 2020 16:45:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Dell Last Gather" EvaluationPeriod="P2D">modification time of file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="2" Name="Dell Ship Date" EvaluationPeriod="P2D">unique values of (it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (5,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of preceding text of first &quot;T&quot; of (it as text) of selects &quot;/List/item/shipDate/text()&quot; of xml document of file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="3" Name="Dell Warranty Names" EvaluationPeriod="P2D">unique values of (it as trimmed string) of node values of selects &quot;serviceLevelDescription/text()&quot; of selects &quot;/List/item/entitlements/entitlement&quot; whose( exists (it) whose(it &gt; current date) of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;endDate/text()&quot; of it ) of xml documents of file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="4" Name="Dell Active Warranties" EvaluationPeriod="P2D">unique values of (it as trimmed string) of node values of selects &quot;serviceLevelDescription/text()&quot; of selects &quot;/List/item/entitlements/entitlement&quot; whose( exists (it) whose(it &gt; current date) of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;endDate/text()&quot; of it ) of xml documents of files &quot;BigFixDellWarranty.xml&quot; of folders &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="5" Name="Dell Expired Warranties" EvaluationPeriod="P2D">unique values of (it as trimmed string) of node values of selects &quot;serviceLevelDescription/text()&quot; of selects &quot;/List/item/entitlements/entitlement&quot; whose( exists (it) whose(it &lt; current date) of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;endDate/text()&quot; of it ) of xml documents of files &quot;BigFixDellWarranty.xml&quot; of folders &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="6" Name="Dell Hardware Description" EvaluationPeriod="P2D">( ( ( (it as integer) of first 4 of node value of select &quot;endDate/text()&quot; of it ) - ( (it as integer) of first 4 of node value of select &quot;startDate/text()&quot; of it ) ) as string &amp; &quot; Year &quot; &amp; ( node value of select &quot;serviceLevelDescription/text()&quot; of it ) ) whose (it contains &quot;Business Day&quot;) of selects &quot;/List/item/entitlements/entitlement&quot; of xml documents of file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+    <Property ID="7" Name="Dell Complete Care Description" EvaluationPeriod="P2D">( ( ( (it as integer) of first 4 of node value of select &quot;endDate/text()&quot; of it ) - ( (it as integer) of first 4 of node value of select &quot;startDate/text()&quot; of it ) ) as string &amp; &quot; Year &quot; &amp; ( node value of select &quot;serviceLevelDescription/text()&quot; of it ) ) whose (it contains &quot;Complete Care&quot;) of selects &quot;/List/item/entitlements/entitlement&quot; of xml documents of file &quot;BigFixDellWarranty.xml&quot; of folder &quot;Dell&quot; of folder &quot;ProgramData&quot; of drive of system folder</Property>
+  </Analysis>
+</BES>

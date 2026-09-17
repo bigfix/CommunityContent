@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Avast for Business (Cloud) - Engine - Win\Mac
+  ID       : 2998291
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:00:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Avast for Business (Cloud) - Engine - Win\Mac</Title>
+    <Description><![CDATA[Provides information on the current engine being used by the Avast for Business (Cloud) client on the device.
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1" /* Supports >WinXP */ or mac of operating system and version of operating system >= "10.6" /* Supports > Snow Leopard */]]></Relevance>
+    <Relevance>if (mac of operating system) then (exists &quot;/Applications/Avast.app&quot; and exists folder &quot;/Library/Application Support/Avast/config/bcc&quot;) else ((exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;Avast Business Security&quot;))) /* Is Avast Installed */</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Avast for Business (Cloud) - Definitions Version - Win\Mac" EvaluationPeriod="P1D">key &quot;Latest&quot; of section &quot;Definitions&quot; of file &quot;aswdefs.ini&quot; of (if (windows of operating system) then (folder &quot;defs&quot; of folder &quot;Avast&quot; of folder &quot;Avast Software&quot; of (if (x64 of operating system) then (program files x64 folder) else (program files folder))) else (folder &quot;/Library/Application Support/Avast/vps9/defs&quot;))</Property>
+    <Property ID="3" Name="Avast for Business (Cloud) - Program Version - Win\Mac" EvaluationPeriod="P1D">(if (windows of operating system) then (version of file &quot;avastui.exe&quot; of folder (value &quot;ProgramFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string) as string) else (line 1 of file &quot;version.tag&quot; of folder &quot;/Library/Application Support/Avast&quot;))</Property>
+  </Analysis>
+</BES>

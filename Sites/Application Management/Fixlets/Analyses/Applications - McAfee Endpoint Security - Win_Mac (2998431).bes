@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - McAfee Endpoint Security - Win\Mac
+  ID       : 2998431
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-29T07:29:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - McAfee Endpoint Security - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides configuration information for McAfee Endpoint Security Windows and Mac&nbsp;clients. </P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance><![CDATA[if (windows of operating system) then (exists folder (pathname of program files folder & "\McAfee\Endpoint Security")) else (exists folder "/Applications/McAfee Endpoint Security for Mac.app")]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="McAfee Endpoint Security - Client Status - Win\Mac" EvaluationPeriod="PT1H">if (exists Processes whose (set of (&quot;vshwin32.exe&quot;;&quot;mcshield.exe&quot;;&quot;VShieldScanner&quot;) contains name of it)) then &quot;Running&quot; else &quot;Not Running&quot;</Property>
+    <Property ID="2" Name="McAfee Endpoint Security - Firewall State - Win\Mac" EvaluationPeriod="PT1H">if (windows of operating system) then (if ((value &quot;RequestedSetting&quot; of key &quot;HKLM\Software\McAfee\Endpoint\Firewall&quot; of native registry as integer | 0) = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;) else (if (exists booleans &quot;IsFirewallEnabled&quot; whose (it = true) of dictionaries of files &quot;/Library/Preferences/com.mcafee.ssm.StatefulFirewall.plist&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;)</Property>
+    <Property ID="3" Name="McAfee Endpoint Security - Firewall Rules Policy - Win\Mac" EvaluationPeriod="PT1H">rows of statement &quot;SELECT value from AGENT_CHILD where name=&apos;PolicyNameFwRules&apos;&quot; of sqlite database of file &quot;ma.db&quot; of folder &quot;db&quot; of (if (windows of operating system) then (folders (value &quot;DataPath&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Agent&quot; of native registry as string)) else (folders &quot;/var/McAfee/agent&quot;))</Property>
+    <Property ID="4" Name="McAfee Endpoint Security - Installed Modules - Windows" EvaluationPeriod="P1D">names of keys of key &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\Modules&quot; of native registry</Property>
+    <Property ID="5" Name="McAfee Endpoint Security - Scheduled Tasks - Windows" EvaluationPeriod="P1D"> values &quot;szTaskName&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\tasks&quot; of native registry</Property>
+    <Property ID="6" Name="McAfee Endpoint Security - Version - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (values &quot;ProductVersion&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint\AV&quot; of native registry) else (strings &quot;CFBundleShortVersionString&quot; of global dictionaries of bundles of folders &quot;/Applications/McAfee Endpoint Security for Mac.app&quot;)</Property>
+    <Property ID="7" Name="McAfee Endpoint Security - Auto Update - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (if ((value &quot;EnableAutoUpdate&quot; of key &quot;HKLM\Software\McAfee\Endpoint\AV\AVCM&quot; of native registry as integer | 0) = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;) else (if (exists booleans &quot;Update_Auto&quot; whose (it = true) of dictionaries of files &quot;/Library/Preferences/com.mcafee.ssm.antimalware.plist&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;)</Property>
+    <Property ID="8" Name="McAfee Endpoint Security - Definitions - Windows" EvaluationPeriod="PT12H">if (windows of operating system) then (values &quot;szRepDATVer&quot; of keys &quot;HKLM\SOFTWARE\McAfee\AVSolution\DatReputation&quot; of native registry as string) else (nothing)</Property>
+    <Property ID="9" Name="McAfee Endpoint Security - Engine Version - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then ((it as text ) of selects &quot;/businessObject/AvEngineVersion&quot; of xml documents of files &quot;AvContentMgr.xml&quot; of folders (values &quot;InstallDir&quot; of keys &quot;Common\BusinessObjectRegistry\AVCMGR&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Endpoint&quot; of native registry as string)) else (strings &quot;Update_EngineVersion&quot; of dictionaries of files &quot;/Library/Preferences/com.mcafee.ssm.antimalware.plist&quot;)</Property>
+    <Property ID="10" Name="McAfee Endpoint Security - Definitions - Mac" EvaluationPeriod="PT12H">if (mac of operating system) then (strings &quot;Update_DATVersion&quot; of dictionaries of files &quot;/Library/Preferences/com.mcafee.ssm.antimalware.plist&quot;) else nothing</Property>
+    <Property ID="11" Name="McAfee Endpoint Security - Firewall Options Policy - Win\Mac" EvaluationPeriod="PT1H">rows of statement &quot;SELECT value from AGENT_CHILD where name=&apos;PolicyNameFwOptions&apos;&quot; of sqlite database of file &quot;ma.db&quot; of folder &quot;db&quot; of (if (windows of operating system) then (folders (value &quot;DataPath&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\McAfee\Agent&quot; of native registry as string)) else (folders &quot;/var/McAfee/agent&quot;))</Property>
+  </Analysis>
+</BES>

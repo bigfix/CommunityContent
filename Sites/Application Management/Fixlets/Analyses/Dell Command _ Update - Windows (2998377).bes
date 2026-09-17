@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Command | Update - Windows
+  ID       : 2998377
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-30T19:57:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Command | Update - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Dell Command | Update - Raw Report - Windows" EvaluationPeriod="PT1H">lines of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="3" Name="Dell Command | Update - Urgent Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;urgency&quot; of it as text = &quot;Urgent&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="4" Name="Dell Command | Update - Important Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;urgency&quot; of it as text = &quot;Important&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="5" Name="Dell Command | Update - Recommended Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;urgency&quot; of it as text = &quot;Recommended&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="6" Name="Dell Command | Update - Optional Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;urgency&quot; of it as text = &quot;Optional&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="7" Name="Dell Command | Update - Updates Available - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="8" Name="Dell Command | Update - Download Source URLs - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text, select &quot;file&quot; of it as text) of selects &quot;/updates/update&quot;  of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="9" Name="Dell Command | Update - Driver Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;type&quot; of it as text = &quot;Driver&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="10" Name="Dell Command | Update - BIOS Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;type&quot; of it as text = &quot;BIOS&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+    <Property ID="11" Name="Dell Command | Update - Application Updates - Windows" EvaluationPeriod="PT1H">(select &quot;name&quot; of it as text, select &quot;version&quot; of it as text) of selects &quot;/updates/update&quot; whose (select &quot;type&quot; of it as text = &quot;Application&quot;) of xml document of file &quot;report.xml&quot; of folder &quot;ProgramData\Dell\CommandUpdate&quot; of drive of system folder</Property>
+  </Analysis>
+</BES>

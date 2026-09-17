@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Command | Configure - Windows
+  ID       : 2998535
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-13T13:16:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Command | Configure - Windows</Title>
+    <Description><![CDATA[<P>This analysis provides information on the current configuration of the bios on Dell devices.</P>
+<P>This analysis relies on <STRONG>Fixlet</STRONG>: <STRONG>Invoke - Dell Command | Configure Probe - Windows</STRONG> in the C3-Inventory site.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Inventory/wiki/Dell-Command-%7C-Configure-Usage">https://github.com/strawgate/C3-Inventory/wiki/Dell-Command-%7C-Configure-Usage</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;report.ini&quot; of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Dell - System Name - Windows" EvaluationPeriod="P1D">keys &quot;sysname&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="2" Name="Dell - Bios Version - Windows" EvaluationPeriod="P1D">keys &quot;biosver&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="3" Name="Dell - Auto On - Windows" EvaluationPeriod="P1D">keys &quot;autoon&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="4" Name="Dell - Auto On: Hour - Windows" EvaluationPeriod="P1D">keys &quot;autoonhr&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="5" Name="Dell - Auto On: Minute - Windows" EvaluationPeriod="P1D">keys &quot;autoonmn&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="6" Name="Dell - Boot Order - Windows" EvaluationPeriod="P1D">keys &quot;bootorder&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="7" Name="Dell - Chassis Intrusion - Windows" EvaluationPeriod="P1D">keys &quot;chasintrusion&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="8" Name="Dell - First Power On Date - Windows" EvaluationPeriod="P1D">following texts of firsts &quot;=&quot; of lines containing &quot;;firstpowerondate&quot; of file &quot;report.ini&quot; of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="9" Name="Dell - TPM - Windows" EvaluationPeriod="P1D">keys &quot;TPM&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="10" Name="Dell - TPM Activation - Windows" EvaluationPeriod="P1D">keys &quot;tpmactivation&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="11" Name="Dell - Virtualization - Windows" EvaluationPeriod="P1D">keys &quot;virtualization&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="12" Name="Dell - WakeOnLan - Windows" EvaluationPeriod="P1D">keys &quot;wakeonlan&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="13" Name="Dell - Wireless Lan - Windows" EvaluationPeriod="P1D">keys &quot;wirelesslan&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="14" Name="Dell - Manufacture Date - Windows" EvaluationPeriod="P1D">following texts of firsts &quot;=&quot; of lines containing &quot;;mfgdate&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="15" Name="Dell - AC Power Restore Action - Windows" EvaluationPeriod="P1D">keys &quot;acpower&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="16" Name="Dell - Block S3 Sleep State - Windows" EvaluationPeriod="P1D">keys &quot;blocks3&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="17" Name="Dell - TPM PPI ACPI - Windows" EvaluationPeriod="P1D">keys &quot;tpmppiacpi&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="18" Name="Dell - TPM PPI DPO - Windows" EvaluationPeriod="P1D">keys &quot;tpmppidpo&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="19" Name="Dell - TPM PPI PO - Windows" EvaluationPeriod="P1D">keys &quot;tpmppipo&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="20" Name="Dell - Legacy Boot Rom - Windows" EvaluationPeriod="P1D">keys &quot;legacyorom&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+    <Property ID="21" Name="Dell - Secure Boot - Windows" EvaluationPeriod="P1D">keys &quot;secureboot&quot; of sections &quot;cctk&quot; of files &quot;report.ini&quot; of folders (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)</Property>
+  </Analysis>
+</BES>

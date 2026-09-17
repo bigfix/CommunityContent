@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell Warranty Info - Windows
+  ID       : 2994797
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T15:04:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell Warranty Info - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>This analysis provides the results from this task:&nbsp; <A href="http://bigfix.me/fixlet/details/6048">http://bigfix.me/fixlet/details/6048</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance>exists files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 22:03:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Time Retrieved" EvaluationPeriod="PT6H">creation times of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="2" Name="Warranty Expiration Date" EvaluationPeriod="PT12H">maxima of unique values of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:Warranties/a:Warranty/a:EndDate/text()&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="3" Name="Ship Date" EvaluationPeriod="PT12H">unique values of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:ShipDate/text()&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="4" Name="Alll Warranties" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of node values of selects &quot;a:ServiceLevelDescription/text()&quot; of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:Warranties/a:Warranty&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="5" Name="Current Warranties" EvaluationPeriod="PT1H">unique values of (it as trimmed string) of node values of selects &quot;a:ServiceLevelDescription/text()&quot; of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:Warranties/a:Warranty&quot; whose( exists (it) whose(it &gt; current date) of ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenations of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node values of selects &quot;a:EndDate/text()&quot; of it ) of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="6" Name="CustomerNumber" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of node values of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:CustomerNumber/text()&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="7" Name="OrderNumber" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of node values of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:OrderNumber/text()&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="8" Name="MachineDescription" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of node values of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:MachineDescription/text()&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+    <Property ID="9" Name="Warranty Info" EvaluationPeriod="PT6H">( ( ( (it as integer) of first 4 of node value of select &quot;a:EndDate/text()&quot; of it ) - ( (it as integer) of first 4 of node value of select &quot;a:StartDate/text()&quot; of it ) ) as string &amp; &quot; Year &quot; &amp; ( node value of select &quot;a:ServiceLevelDescription/text()&quot; of it ) &amp; &quot;, Provider: &quot; &amp; (node value of select &quot;a:ServiceProvider/text()&quot; of it) &amp; &quot;, Start Date: &quot; &amp;( (preceding text of first &quot;T&quot; of it) of node value of select &quot;a:StartDate/text()&quot; of it )&amp; &quot;, End Date: &quot; &amp;( (preceding text of first &quot;T&quot; of it) of node value of select &quot;a:EndDate/text()&quot; of it )&amp; &quot;, Days Left: &quot; &amp; ( (if (it != &quot;00:00:00&quot;) then it else &quot;0 days&quot;) of (it as string) of (if (it &gt; 0*day) then it else 0*day) of (( ((it as date) of (last 2 of it &amp; &quot; &quot; &amp; (substring (4,2) of it as integer as month as three letters) &amp; &quot; &quot; &amp; first 4 of it) of it) of (it as trimmed string) of (concatenation of substrings separated by &quot;-&quot; of it) of (preceding text of first &quot;T&quot; of it) of node value of select &quot;a:EndDate/text()&quot; of it ) - current date) ) ) of selects &quot;/GetAssetWarrantyResponse/GetAssetWarrantyResult/a:Response/a:DellAsset/a:Warranties/a:Warranty&quot; of xml documents of files &quot;results_Dell_GetAssetWarranty.xml&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Property>
+  </Analysis>
+</BES>

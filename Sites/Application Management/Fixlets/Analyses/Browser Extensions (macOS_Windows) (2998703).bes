@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Browser Extensions (macOS/Windows)
+  ID       : 2998703
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2025-12-15T13:07:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Browser Extensions (macOS/Windows)</Title>
+    <Description><![CDATA[<SPAN itemprop="description">This analysis returns the installed add-ons/extensions for Chrome, Firefox, Edge, and Safari per user profile.</SPAN> ]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 15 Dec 2025 20:48:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Chrome Extensions" EvaluationPeriod="P1D">unique values of (it as string) of (name of it, (((values whose (it as string does not contain &quot;__MSG&quot; and it as string is not contained by set of (&quot;Docs&quot;;&quot;Sheets&quot;;&quot;Slides&quot;;&quot;Gmail&quot;;&quot;Google Drive&quot;;&quot;YouTube&quot;)) of keys &quot;name&quot; of jsons of it), name of parent folder of parent folder of it) of files &quot;manifest.json&quot; of folders of folders of folders (&quot;\AppData\Local\Google\Chrome\User Data\Default\Extensions\&quot;;&quot;/Library/Application Support/Google/Chrome/Default/Extensions/&quot;) of it;((values whose (it as string is not contained by set of (&quot;Docs&quot;;&quot;Sheets&quot;;&quot;Slides&quot;;&quot;Gmail&quot;;&quot;Google Drive&quot;;&quot;YouTube&quot;)) of keys &quot;message&quot; of values of keys &quot;appName&quot; of jsons whose (exists keys &quot;appName&quot; of it) of it), name of parent folder of parent folder of parent folder of parent folder of it) of files &quot;messages.json&quot; of folders whose (name of it as lowercase contains &quot;en&quot;) of folders &quot;_locales&quot; of folders of folders of folders (&quot;\AppData\Local\Google\Chrome\User Data\Default\Extensions\&quot;;&quot;/Library/Application Support/Google/Chrome/Default/Extensions/&quot;) of it)) of folders of folders (&quot;/Users/&quot;)</Property>
+    <Property ID="3" Name="Firefox Add-ons" EvaluationPeriod="P1D">unique values of (it as string) of (name of it, ((values of keys &quot;name&quot; of values of keys &quot;defaultLocale&quot; of it, values of keys &quot;syncGUID&quot; of it) of elements whose (value of key &quot;location&quot; of it as string is not contained by set of (&quot;app-builtin&quot;;&quot;app-system-defaults&quot;;&quot;app-system-addons&quot;;&quot;app-builtin-addons&quot;) and value of key &quot;type&quot; of it as string is &quot;extension&quot;) of values of keys &quot;addons&quot; of jsons of it) of files &quot;extensions.json&quot; of folders of folders (&quot;\AppData\Roaming\Mozilla\Firefox\Profiles\&quot;;&quot;/Library/Application Support/Firefox/Profiles/&quot;) of it) of folders of folders &quot;/Users/&quot;</Property>
+    <Property ID="5" Name="Safari Extensions" EvaluationPeriod="P1D">unique values of (it as string) of (name of it, keys of entries of dictionaries of files &quot;Extensions.plist&quot; of folders (&quot;/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions/&quot;;&quot;/Library/Containers/com.apple.Safari/Data/Library/Safari/AppExtensions/&quot;) of it) of (folders of folders &quot;/Users/&quot;)</Property>
+    <Property ID="6" Name="Edge Extensions" EvaluationPeriod="P1D">unique values of (it as string) of (name of it, (((values whose (it as string does not contain &quot;__MSG&quot; and it as string is not &quot;Edge relevant text changes&quot;) of keys &quot;name&quot; of jsons of it), name of parent folder of parent folder of it) of files &quot;manifest.json&quot; of folders of folders of folders (&quot;\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\&quot;;&quot;/Library/Application Support/Microsoft Edge/Default/Extensions&quot;) of it;((values of keys &quot;message&quot; of values of keys &quot;appName&quot; of jsons whose (exists keys &quot;appName&quot; of it) of it),name of parent folder of parent folder of parent folder of parent folder of it) of files &quot;messages.json&quot; of folders whose (name of it as lowercase contains &quot;en&quot;) of folders &quot;_locales&quot; of folders of folders of folders (&quot;\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\&quot;;&quot;/Library/Application Support/Microsoft Edge/Default/Extensions&quot;) of it)) of folders of folders (&quot;/Users/&quot;)</Property>
+  </Analysis>
+</BES>

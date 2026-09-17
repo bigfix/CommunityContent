@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - McAfee - Win\Mac
+  ID       : 2998413
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-22T18:10:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - McAfee - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides information on what suite of McAfee Antivirus is installed.</P>
+<P>Currently detects:</P>
+<UL>
+<LI>McAfee VirusScan Enterprise
+<LI>McAfee Endpoint Security
+<LI>McAfee ePolicy Orchestrator
+<LI>McAfee Endpoint Protection</LI></UL>
+<P>The Suite Name property will return a string of, "None" if there is nothing installed so that it will show up properly when graphed in Web Reports.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="McAfee - Suite Name - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (if (exists folder (pathname of program files folder &amp; &quot;\McAfee\Endpoint Security&quot;)) then (&quot;Endpoint Security&quot;) else (if (exists folder (pathname of program files folder &amp; &quot;\McAfee\VirusScan Enterprise&quot;)) then (&quot;VirusScan Enterprise&quot;) else (&quot;None&quot;))) else (if (exists regapp &quot;VirusScan.app&quot; or exists regapp &quot;McAfee Security.app&quot;) then &quot;VirusScan Enterprise&quot; else (if (exists regapp &quot;McAfee Endpoint Security for Mac.app&quot;) then (&quot;Endpoint Security&quot;) else (if (exists regapp &quot;McAfee Endpoint Protection for Mac.app&quot;) then (&quot;Endpoint Protection&quot;) else (&quot;None&quot;))))</Property>
+    <Property ID="2" Name="McAfee Endpoint Security - Installed - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (exists folder (pathname of program files folder &amp; &quot;\McAfee\Endpoint Security&quot;)) else (exists regapp &quot;McAfee Endpoint Security for Mac.app&quot;)</Property>
+    <Property ID="3" Name="McAfee VirusScan Enterprise - Installed - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (exists folder (pathname of program files folder &amp; &quot;\McAfee\VirusScan Enterprise&quot;)) else (exists regapp &quot;VirusScan.app&quot;)</Property>
+    <Property ID="4" Name="McAfee ePolicy Orchestrator - Installed - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (exists keys whose (value &quot;DisplayName&quot; of it as string is &quot;McAfee Agent&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot; of (x32 registries; x64 registries)) else(exists file &quot;config.xml&quot; of folder whose (name of it starts with &quot;EPOAGENT&quot;) of folders &quot;/private/etc/cma.d&quot;)</Property>
+    <Property ID="5" Name="McAfee Endpoint Protection - Installed - Mac" EvaluationPeriod="P1D">exists regapp &quot;McAfee Endpoint Protection for Mac.app&quot;</Property>
+  </Analysis>
+</BES>

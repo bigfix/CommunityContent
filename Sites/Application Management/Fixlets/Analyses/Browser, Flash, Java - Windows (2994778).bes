@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Browser, Flash, Java - Windows
+  ID       : 2994778
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-05T07:31:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Browser, Flash, Java - Windows</Title>
+    <Description><![CDATA[<P>Find the latest version of this Analysis here: <A href="http://bigfix.me/analysis/details/72"><FONT color=#000080>http://bigfix.me/analysis/details/72</FONT></A> </P>
+<P>This analysis reports the versions of browsers and related plugins.</P>
+<P>Chrome reporting is a work in progress.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 09 Dec 2014 20:59:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="IE Version" EvaluationPeriod="PT12H">versions of regapps &quot;iexplore.exe&quot;</Property>
+    <Property ID="3" Name="Java 32bit" EvaluationPeriod="PT12H">(concatenations &quot;, &quot; whose(it != &quot;&quot;) of names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment&quot; of registry)</Property>
+    <Property ID="4" Name="Java 64bit" EvaluationPeriod="PT12H">concatenations &quot;, &quot; whose(it != &quot;&quot;) of names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment&quot; of x64 registry</Property>
+    <Property ID="5" Name="Flash 32bit" EvaluationPeriod="PT12H">(unique values of versions of files whose (((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot; ) OR (it = &quot;swflash.ocx&quot; )) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder as string)</Property>
+    <Property ID="6" Name="Flash 64bit" EvaluationPeriod="PT12H">(unique values of versions of files whose (((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot; ) OR (it = &quot;swflash.ocx&quot; )) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system x64 folder as string)</Property>
+    <Property ID="7" Name="Firefox version (regapps)" EvaluationPeriod="PT12H">(it as string) of versions of regapps &quot;firefox.exe&quot;</Property>
+    <Property ID="8" Name="Chrome Installs" EvaluationPeriod="PT12H">/* Check for Chrome - business versions */ ((versions of it, pathnames of it) of regapps &quot;chrome.exe&quot;); /* Check for Chrome - user installed versions */ ((versions of it, pathnames of it) of files &quot;Chrome.exe&quot; of folders &quot;AppData\Local\Google\Chrome\Application&quot; of folders whose(exists folder &quot;AppData\Local\Google\Chrome\Application&quot; of it) of (if (version of operating system &lt; &quot;5.1&quot;) then (folders &quot;Documents and Settings&quot;) else (folders &quot;users&quot;)) of root folder of drive of system folder)</Property>
+    <Property ID="9" Name="# of Chrome Installs (some double counted)" EvaluationPeriod="PT12H">/* Check for Chrome - business versions */ (number of regapps &quot;chrome.exe&quot;) + /* Check for Chrome - user installed versions */ (number of files &quot;Chrome.exe&quot; of folders &quot;AppData\Local\Google\Chrome\Application&quot; of folders whose(exists folder &quot;AppData\Local\Google\Chrome\Application&quot; of it) of (if (version of operating system &lt; &quot;5.1&quot;) then (folders &quot;Documents and Settings&quot;) else (folders &quot;users&quot;)) of root folder of drive of system folder)</Property>
+    <Property ID="10" Name="Chrome Versions" EvaluationPeriod="PT12H">unique values of ((values &quot;ProductVersion&quot; of version blocks of regapps &quot;Chrome.exe&quot;);((it as string) of versions of regapps &quot;chrome.exe&quot;);((it as string) of versions of files &quot;Chrome.exe&quot; of folders &quot;AppData\Local\Google\Chrome\Application&quot; of folders whose(exists folder &quot;AppData\Local\Google\Chrome\Application&quot; of it) of (if (version of operating system &lt; &quot;5.1&quot;) then (folders &quot;Documents and Settings&quot;) else (folders &quot;users&quot;)) of root folder of drive of system folder))</Property>
+    <Property ID="11" Name="Chrome Install Locations" EvaluationPeriod="PT12H">unique values of (it as lowercase) of (/* Check for Chrome - business versions */ (pathnames of regapps &quot;chrome.exe&quot;); /* Check for Chrome - user installed versions */ (pathnames of files &quot;Chrome.exe&quot; of folders &quot;AppData\Local\Google\Chrome\Application&quot; of folders whose(exists folder &quot;AppData\Local\Google\Chrome\Application&quot; of it) of (if (version of operating system &lt; &quot;5.1&quot;) then (folders &quot;Documents and Settings&quot;) else (folders &quot;users&quot;)) of root folder of drive of system folder))</Property>
+    <Property ID="12" Name="# of Chrome Installs (de-duplicated)" EvaluationPeriod="PT12H">number of unique values of (it as lowercase) of (/* Check for Chrome - business versions */ (pathnames of regapps &quot;chrome.exe&quot;); /* Check for Chrome - user installed versions */ (pathnames of files &quot;Chrome.exe&quot; of folders &quot;AppData\Local\Google\Chrome\Application&quot; of folders whose(exists folder &quot;AppData\Local\Google\Chrome\Application&quot; of it) of (if (version of operating system &lt; &quot;5.1&quot;) then (folders &quot;Documents and Settings&quot;) else (folders &quot;users&quot;)) of root folder of drive of system folder))</Property>
+    <Property ID="13" Name="besJavaInstallation Flags" EvaluationPeriod="PT6H">names of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry</Property>
+    <Property ID="14" Name="LastWrite of besJavaInstallation" EvaluationPeriod="PT6H">last write times of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry</Property>
+    <Property ID="15" Name="Age of besJavaInstallation Flags" EvaluationPeriod="PT6H">if(not exists values whose(name of it starts with &quot;InstallingJava&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry) then NOTHING else ((if(it &lt; 2*day) then NOTHING else it) of (now - last write time of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry))</Property>
+    <Property ID="16" Name="Flash Versions (registry)" EvaluationPeriod="PT12H">unique values of (value &quot;DisplayVersion&quot; of it as string as trimmed string) of keys whose (value &quot;DisplayName&quot; of it as string as trimmed string as lowercase contains &quot;adobe flash player&quot;) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x32 registry ; native registry)</Property>
+    <Property ID="17" Name="Firefox version (registry)" EvaluationPeriod="PT12H">unique values of (value &quot;DisplayVersion&quot; of it as string as trimmed string) of keys whose (value &quot;DisplayName&quot; of it as string as trimmed string as lowercase contains &quot;firefox&quot;) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x32 registry ; native registry)</Property>
+  </Analysis>
+</BES>

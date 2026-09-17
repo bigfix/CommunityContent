@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell OpenManage Inventory Agent Audit - Windows   wmi "root\dell\sysinv"
+  ID       : 2994794
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T11:44:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell OpenManage Inventory Agent Audit - Windows wmi &quot;root\dell\sysinv&quot;</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi &quot;root\dell\sysinv&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 18:43:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Dell_PCIDevice" EvaluationPeriod="PT12H">unique values of string values of selects &quot;ElementName FROM Dell_PCIDevice&quot; of wmi &quot;root\dell\sysinv&quot;</Property>
+    <Property ID="2" Name="Dell_GenericDevice" EvaluationPeriod="PT12H">unique values of string values of selects &quot;ElementName FROM Dell_GenericDevice&quot; of wmi &quot;root\dell\sysinv&quot;</Property>
+    <Property ID="3" Name="Dell_SoftwareIdentity" EvaluationPeriod="PT12H">selects &quot;ElementName,VersionString FROM Dell_SoftwareIdentity&quot; of wmi &quot;root\dell\sysinv&quot;</Property>
+    <Property ID="4" Name="SystemTypeID" EvaluationPeriod="PT12H">string values of selects &quot;SystemTypeID FROM Dell_OEMComputerSystem&quot; of wmi &quot;Root\Dell\sysinv&quot;</Property>
+  </Analysis>
+</BES>
