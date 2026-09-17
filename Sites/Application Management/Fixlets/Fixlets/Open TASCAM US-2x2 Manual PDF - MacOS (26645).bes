@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Open TASCAM US-2x2 Manual PDF - MacOS
+  ID       : 26645
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2019-09-17T19:48:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Open TASCAM US-2x2 Manual PDF - MacOS</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists names whose(it = &quot;US-2x2&quot; OR it = &quot;US-4x4&quot;) of nodes of nodes of nodes &quot;AppleUSBLegacyRoot&quot; of nodes &quot;AppleUSBHostResources&quot; of nodes &quot;IOResources&quot; of service planes of iokit registries</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2019-09-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 18 Sep 2019 02:47:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch e_us-2x2_4x4_rm_vd.pdf sha1:32196ecf7927b948b13be20e6485f20d669f579b size:2547750 https://tascam.com/content/downloads/products/889/e_us-2x2_4x4_rm_vd.pdf sha256:689e2cdd0051888bb3f9da110b11a4dfba844226b9339ebc16ee0697b81bd3ef
+
+delete /Users/Shared/Downloads/e_us-2x2_4x4_rm_vd.pdf
+
+folder create /Users/Shared/Downloads
+
+copy __Download/e_us-2x2_4x4_rm_vd.pdf /Users/Shared/Downloads/e_us-2x2_4x4_rm_vd.pdf
+
+run open /Users/Shared/Downloads/e_us-2x2_4x4_rm_vd.pdf
+
+// Related: https://bigfix.me/fixlet/details/26639
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall - Avast for Business - Mac
+  ID       : 21271
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-17T15:33:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall - Avast for Business - Mac</Title>
+    <Description><![CDATA[Removes Avast for Business
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists regapp &quot;Avast.app&quot;</Relevance>
+    <Category>Anti-Virus</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-17</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:40:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait sh -c &quot;&apos;/Library/Application Support/Avast/hub/uninstall.sh&apos;&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

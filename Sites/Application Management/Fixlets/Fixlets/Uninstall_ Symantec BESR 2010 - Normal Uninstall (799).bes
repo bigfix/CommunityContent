@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Uninstall: Symantec BESR 2010 - Normal Uninstall
+  ID       : 799
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T22:11:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall: Symantec BESR 2010 - Normal Uninstall</Title>
+    <Description>This fixlet uninstalls BESR 2010 </Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string contains &quot;Symantec Backup Exec System Recovery 2010&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Relevance>&quot;9.0.2.37914&quot; != value &quot;DisplayVersion&quot; of key whose (value &quot;displayname&quot; of it as string contains &quot;Symantec Backup Exec System Recovery 2010&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 10 Jun 2011 18:49:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// The uninstall of BESR 2010 version 9.0.2.37914 is known to fail. You must use the &quot;BruteForceFix&quot; instead
+Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string contains &quot;Symantec Backup Exec System Recovery 2010&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

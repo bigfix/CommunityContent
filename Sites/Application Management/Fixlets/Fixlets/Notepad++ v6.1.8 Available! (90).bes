@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Notepad++ v6.1.8 Available!
+  ID       : 90
+  Author   : danielheth
+  Domain   : SYST
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Notepad++ v6.1.8 Available!</Title>
+    <Description><![CDATA[This task will deploy: Notepad++ v6.1.8.<BR><BR>This task is applicable on: Windows 2000, Windows XP, Windows XP x64, Windows 2003, Windows 2003 x64, Windows Vista, Windows Vista x64, Windows 2008, Windows 2008 x64, Windows 7, Windows 7 x64, Windows 2008 R2 and Windows XP Embedded. ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[if exists key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Notepad++" of registry then     if exists value "DisplayVersion" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Notepad++" of registry then         value "DisplayVersion" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Notepad++" of registry > "6.1.8"     else         true else     true]]></Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 19:04:06 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch npp.6.1.8.Installer.exe sha1:79ca700488017dc39faced9ec12daacaccef9fd8 size:5844269 http://download.tuxfamily.org/notepadplus/6.1.8/npp.6.1.8.Installer.exe
+wait __Download\npp.6.1.8.Installer.exe /S
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action237">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about Notepad++.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://notepad-plus-plus.org/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

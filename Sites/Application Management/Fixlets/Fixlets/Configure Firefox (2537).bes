@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Firefox
+  ID       : 2537
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-19T05:36:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Firefox</Title>
+    <Description><![CDATA[<P>This fixlet will configure Firefox:</P>
+<P>- Disable all updates (Locked)</P>
+<P>- Disable the default browser prompt (Locked)</P>
+<P>- Set the homepage (Preference)</P>
+<P>- This task is applicable on Mac OS X</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists folder &quot;/Applications/Firefox.app&quot;</Relevance>
+    <Category>Mac Software Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2013-07-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Jul 2013 12:32:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">createfile until END_OF_FILE
+pref(&quot;general.config.obscure_value&quot;, 0);
+pref(&quot;general.config.filename&quot;, &quot;firefox_BigFix.cfg&quot;);
+END_OF_FILE
+delete &quot;/Applications/Firefox.app/Contents/MacOS/defaults/pref/local-settings.js&quot;
+move __createfile &quot;/Applications/Firefox.app/Contents/MacOS/defaults/pref/local-settings.js&quot;
+action parameter query &quot;homePage&quot; with description &quot;Home Page (or blank for about:blank)&quot; with default value &quot;http://www.apple.com&quot;
+if {parameter &quot;homePage&quot; = &quot;&quot;}
+parameter &quot;homePage&quot; = {parameter &quot;about:blank&quot;}
+endif
+createfile until END_OF_FILE
+lockPref(&quot;app.update.auto&quot;, false);
+lockPref(&quot;app.update.enabled&quot;, false);
+lockPref(&quot;app.update.autoUpdateEnabled&quot;, false);
+lockPref(&quot;extensions.update.enabled&quot;, false);
+lockPref(&quot;browser.search.update&quot;, false);
+pref(&quot;browser.shell.checkDefaultBrowser&quot;, false);
+pref(&quot;browser.startup.homepage&quot;, &quot;{parameter &quot;homePage&quot;}&quot;);
+pref(&quot;browser.startup.homepage_reset&quot;, &quot;{parameter &quot;homePage&quot;}&quot;);
+pref(&quot;browser.startup.homepage_override.mstone&quot;, &quot;ignore&quot;);
+END_OF_FILE
+delete &quot;/Applications/Firefox.app/Contents/MacOS/firefox_BigFix.cfg&quot;
+move __createfile &quot;/Applications/Firefox.app/Contents/MacOS/firefox_BigFix.cfg&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

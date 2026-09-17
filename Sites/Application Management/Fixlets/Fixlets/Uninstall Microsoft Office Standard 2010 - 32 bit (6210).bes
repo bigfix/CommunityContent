@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Uninstall Microsoft Office Standard 2010 - 32 bit
+  ID       : 6210
+  Author   : nlphelps
+  Domain   : BESC
+  Imported : 2015-09-16T10:38:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Microsoft Office Standard 2010 - 32 bit</Title>
+    <Description>
+    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet. 
+    &lt;P&gt;&lt;B&gt;Source Wizard:&lt;/B&gt; &lt;A href=&quot;https://bigfix.me/uninstall&quot;&gt;https://bigfix.me/uninstall&lt;/A&gt;&lt;/P&gt;
+    &lt;P&gt;This fixlet is constructed from the following variables provided by the developer:&lt;/P&gt;
+    &lt;P&gt;&lt;B&gt;Registry Source:&lt;/B&gt; HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&lt;/P&gt;
+    &lt;P&gt;&lt;B&gt;Display Name:&lt;/B&gt; Microsoft Office Standard 2010&lt;/P&gt;
+    &lt;P&gt;&lt;B&gt;Application Guid:&lt;/B&gt; {90140000-0012-0000-0000-0000000FF1CE}&lt;/P&gt;
+    &lt;P&gt;&lt;B&gt;Uninstall Command String:&lt;/B&gt; msiexec.exe /x{appGuid} /quiet /norestart&lt;/P&gt;
+</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft Office Standard 2010&quot; AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>nlphelps</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2015-09-16</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 16 Sep 2015 10:38:030</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//User Defined Uninstall String
+waithidden msiexec.exe /x{{{90140000-0012-0000-0000-0000000FF1CE}} /quiet /norestart
+    </ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action956">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about the Windows Installer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://msdn.microsoft.com/en-us/library/windows/desktop/aa367449(v=vs.85).aspx</ActionScript>
+    </Action>
+  </Task>
+</BES>

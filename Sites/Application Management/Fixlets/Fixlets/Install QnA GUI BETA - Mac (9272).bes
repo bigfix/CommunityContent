@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install QnA GUI BETA - Mac
+  ID       : 9272
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-09T15:28:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install QnA GUI BETA - Mac</Title>
+    <Description><![CDATA[<P>This task installs the QnA GUI BETA for Mac. This is a GUI wrapper around the IBM BigFix QnA tool which is used to help write relevance.</P>
+<P><A href="https://github.com/rustymyers/QnAGUI">https://github.com/rustymyers/QnAGUI</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[not exists versions whose(it >= "1.0") of folders "/Applications/QnA GUI.app"]]></Relevance>
+    <Relevance><![CDATA["10.9" <= version of operating system]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-03-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 09 Mar 2016 22:27:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Flagged as a potential virus 0 times
+// https://www.virustotal.com/en/file/20e7d8129160e779d0f6e44a2affc2fd858370696095ff91ef952005ab719423/analysis/1457559181/
+// TrID: ZIP compressed archive (100.0%)
+prefetch QnAGUI.zip sha1:8c297edc901391b009c6d1eedcbd132b63c409be size:2028897 https://cdn.rawgit.com/jgstew/QnAGUI/b599007639afc119040256e1e7a106d02089d561/Releases/QnA%20GUI.zip sha256:20e7d8129160e779d0f6e44a2affc2fd858370696095ff91ef952005ab719423
+
+delete /tmp/QnAGUI.zip
+copy __Download/QnAGUI.zip /tmp/QnAGUI.zip
+wait /usr/bin/unzip -qn /tmp/QnAGUI.zip -d /Applications
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

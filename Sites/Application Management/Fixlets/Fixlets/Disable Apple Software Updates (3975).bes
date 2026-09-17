@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Disable Apple Software Updates
+  ID       : 3975
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2015-02-06T13:15:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Disable Apple Software Updates</Title>
+    <Description>Disables OS X from running Apple Software Updates. Relevance will catch machines with Software Updates On.</Description>
+    <Relevance><![CDATA[system version >= "10.9"]]></Relevance>
+    <Relevance>if (exists file &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot; AND boolean &quot;AutomaticCheckEnabled&quot; of dictionaries of file &quot;/Library/Preferences/com.apple.SoftwareUpdate.plist&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2013-06-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 28 Jun 2013 18:31:41 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 28 Jun 2013 11:43:44 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 28 Jun 2013 13:02:33 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Apple Software Update</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-sh">#!/bin/sh
+sudo softwareupdate --schedule off</ActionScript>
+    </DefaultAction>
+    <Action ID="Action4424">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/cdb/fixlet/2497</ActionScript>
+    </Action>
+  </Task>
+</BES>

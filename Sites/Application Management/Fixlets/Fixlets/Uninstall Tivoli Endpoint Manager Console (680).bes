@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Tivoli Endpoint Manager Console
+  ID       : 680
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-30T11:43:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Tivoli Endpoint Manager Console</Title>
+    <Description>Uninstall the BigFix Console</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Tivoli Endpoint Manager Console&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-02</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 30 Nov 2012 17:42:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;app&quot;=&quot;{name of key whose (value &quot;DisplayName&quot; of it as string contains &quot;Tivoli Endpoint Manager Console&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry}&quot;
+waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet</ActionScript>
+    </DefaultAction>
+    <Action ID="Action941">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read about the forum thread for this fixlet.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[http://www.ibm.com/developerworks/forums/thread.jspa?threadID=450196&tstart=105]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

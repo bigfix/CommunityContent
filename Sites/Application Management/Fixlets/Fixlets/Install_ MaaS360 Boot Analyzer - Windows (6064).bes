@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install: MaaS360 Boot Analyzer - Windows
+  ID       : 6064
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-12T12:43:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install: MaaS360 Boot Analyzer - Windows</Title>
+    <Description><![CDATA[This task will deploy: MaaS360 Boot Analyzer.<BR><BR>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>not exists folders &quot;MaaS360\BootAnalyzer&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folders of drives of system folders</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-06-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 May 2015 19:43:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//  http://www.thewindowsclub.com/measure-boot-time-windows
+//  http://trials.maas360.com/forms/register_service_m.php?I=T_BOOT&MRA=pad
+//  http://www.softpedia.com/get/System/System-Info/MaaS360-Boot-Analyzer.shtml
+//  Related:  http://www.greatis.com/bootracer/download.htm
+
+prefetch BootAnalyzerInstaller.exe sha1:7ce12214b5c541803a143675e0916d5a478606ac size:4083752 http://content.maas360.com/www/tools/bootAnalyzer/BootAnalyzerInstaller.exe
+wait __Download\BootAnalyzerInstaller.exe /S
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Go 1.17
+  ID       : 26869
+  Author   : erowley2501
+  Domain   : BESC
+  Imported : 2021-09-08T21:35:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Go 1.17</Title>
+    <Description><![CDATA[<P>Download and install Go 1.17.</P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "1.17.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Go Programming Language") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-09-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 09 Sep 2021 04:34:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch go1.17.windows-amd64.msi sha1:41d90bc6f42d860f2080686993f90aa915098763 size:130314240 https://golang.org/dl/go1.17.windows-amd64.msi sha256:705254e0a459edae2c6bf4c88be0b4a14ac1cbbf9607a379112235f0271e6c4b
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\go1.17.windows-amd64.msi"}" /qn /norestart]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

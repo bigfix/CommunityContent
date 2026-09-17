@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Delete Keygen.exe - MT
+  ID       : 10604
+  Author   : manojthathera
+  Domain   : BESC
+  Imported : 2016-03-28T02:33:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Delete Keygen.exe - MT</Title>
+    <Description><![CDATA[This Task will Remove all the files which&nbsp;contains name "Keygen".]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Manoj Thathera</Source>
+    <SourceReleaseDate>2015-10-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 30 Nov 2015 11:38:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">appendfile @echo OFF
+appendfile del A:\*Keygen*.* /s
+appendfile del B:\*Keygen*.* /s
+appendfile del C:\*Keygen*.* /s
+appendfile del D:\*Keygen*.* /s
+appendfile del E:\*Keygen*.* /s
+appendfile del F:\*Keygen*.* /s
+
+appendfile echo ____________________________________________________________________________
+
+move __appendfile C:\deleteKG.bat
+
+wait &quot;C:\deleteKG.bat&quot;
+
+delete C:\deleteKG.bat</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

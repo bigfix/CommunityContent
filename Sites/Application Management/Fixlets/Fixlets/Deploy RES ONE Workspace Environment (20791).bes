@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RES ONE Workspace Environment
+  ID       : 20791
+  Author   : RES
+  Domain   : SYST
+  Imported : 2016-06-02T10:54:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RES ONE Workspace Environment</Title>
+    <Description><![CDATA[
+      This task will deploy the initial RES ONE Workspace&nbsp;Environment using the designated RES IEM Integration Endpoint. <script>document.body.ontakeaction = function() {
+var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbname = EvaluateRelevance('(if (exists shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var respw = EvaluateRelevance('(if (exists shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressa = EvaluateRelevance('(if (exists shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var gname = EvaluateRelevance('(if (exists shared variable "gname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "gname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var domname = EvaluateRelevance('(if (exists shared variable "domname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "domname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var UseSQL ="no";
+var authtype = EvaluateRelevance('(if (exists shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbuser = EvaluateRelevance('(if (exists shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbpassword = EvaluateRelevance('(if (exists shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1", {WMserver: dbserver, WMDB: dbname, serviceaccount: ressa, domainname: domname, BigfixConnector: gname, UseSQL: UseSQL, AuthType: authtype, DBuser: dbuser},{RESPW: respw, secret: ressapwd, DBPWD: dbpassword }  );
+	return false;
+}
+</script>
+    ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Relevance>exists service whose (display name of it as lowercase contains &quot;sql server&quot;)</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160527-192409
+
+
+prefetch RES-ONE-Workspace-2015.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
+prefetch Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha1:71B269170D2288689F295FEE57C7C7E47799CBFB size:6132584 http://downloads.ressoftware.com/downloads/cdm/040116/Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha256:70A250F4F7B2B14B332AC4E1919A9329CA5B8B7DB2814791965BC9A32A347B0F
+
+
+action parameter query "WMDB" with description "Please enter the Workspace Manager Database Name (WorkspaceManager)"
+action parameter query "WMserver" with description "Please enter the SQL Server Name (BigFixServer)"
+
+delete __createfile
+delete createdb.sql
+IF {(parameter "AuthType" of action as lowercase = "sqlauth")}
+	createfile until __end
+	IF DB_Id('{parameter "WMDB" of action}') IS NULL
+	BEGIN
+	  create database [{parameter "WMDB" of action}]
+	End
+	GO
+	USE [{parameter "WMDB" of action}]; exec sp_addrolemember 'db_owner' , [{parameter "DBuser" of action}]
+	Go
+	__end
+	copy __createfile createdb.sql
+
+	waithidden sqlcmd -S {parameter "WMserver" of action} -U {parameter "DBuser" of action} -P "{parameter "DBPWD" of action}" -i createdb.sql
+	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" /qn
+elseif {(parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "yes")}
+	createfile until __end
+	IF DB_Id('{parameter "WMDB" of action}') IS NULL
+	BEGIN
+	  create database [{parameter "WMDB" of action}]
+	End
+	GO
+	ALTER LOGIN [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}] WITH DEFAULT_DATABASE=[{parameter "WMDB" of action}], DEFAULT_LANGUAGE=[us_english]
+	GO
+	USE [{parameter "WMDB" of action}];
+	If not Exists (select loginname from master.dbo.syslogins where loginname = '{parameter "domainname" of action}\{parameter "BigfixConnector" of action}' and dbname = '{parameter "WMDB" of action}')
+	Begin
+	  CREATE USER [{parameter "BigfixConnector" of action}] from login [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}]
+	End
+	GO
+	USE [{parameter "WMDB" of action}]; exec sp_addrolemember 'db_owner' , [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}]
+	Go
+	ALTER LOGIN [{parameter "DBuser" of action}] WITH DEFAULT_DATABASE=[{parameter "WMDB" of action}], DEFAULT_LANGUAGE=[us_english]
+	GO
+	USE [{parameter "WMDB" of action}];
+	If not Exists (select loginname from master.dbo.syslogins where loginname = '{parameter "DBuser" of action}' and dbname = '{parameter "WMDB" of action}')
+	Begin
+	  CREATE USER [{parameter "DBuser" of action}] from login [{parameter "DBuser" of action}]
+	End
+	GO
+	USE [{parameter "WMDB" of action}]; exec sp_addrolemember 'db_owner' , [{parameter "DBuser" of action}]
+	Go
+	__end
+	copy __createfile createdb.sql
+
+	waithidden sqlcmd -S {parameter "WMserver" of action} -U {parameter "DBuser" of action} -P "{parameter "DBPWD" of action}" -i createdb.sql
+	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" /qn
+else
+	createfile until __end
+	IF DB_Id('{parameter "WMDB" of action}') IS NULL
+	BEGIN
+	  create database [{parameter "WMDB" of action}]
+	End
+	GO
+	ALTER LOGIN [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}] WITH DEFAULT_DATABASE=[{parameter "WMDB" of action}], DEFAULT_LANGUAGE=[us_english]
+	GO
+	USE [{parameter "WMDB" of action}];
+	If not Exists (select loginname from master.dbo.syslogins where loginname = '{parameter "domainname" of action}\{parameter "BigfixConnector" of action}' and dbname = '{parameter "WMDB" of action}')
+	Begin
+	  CREATE USER [{parameter "BigfixConnector" of action}] from login [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}]
+	End
+	GO
+	USE [{parameter "WMDB" of action}]; exec sp_addrolemember 'db_owner' , [{parameter "domainname" of action}\{parameter "BigfixConnector" of action}]
+	Go
+	__end
+	copy __createfile createdb.sql
+
+	waithidden sqlcmd -S {parameter "WMserver" of action} -E -i createdb.sql
+	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi /qn
+
+	IF {x64 of operating system}
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBType"="MSSQL"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
+	ELSE
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBType"="MSSQL"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
+	EndIf
+endif
+
+waithidden cmd.exe /c "{"%22"&(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe"&"%22" & " /FIPS /createtables ") & "/ADDGROUPTOTECHMGR="&(parameter "domainname" of action)&"\"&(parameter "BigfixConnector" of action)}"
+
+waithidden cmd.exe /c "{"%22"&(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe"&"%22" & " /sethashedpassword=")&(parameter "RESPW" of action)}"
+
+action uses wow64 redirection false
+
+//BATCH GETSITEGUID START
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\getSiteGuid.bat"}"
+IF {(parameter "AuthType" of action as lowercase = "sqlauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "yes"))}
+  createfile until __done
+    sqlcmd -S {parameter "WMserver" of action} -U {parameter "DBuser" of action} -P "{parameter "DBPWD" of action}" -h -1 -W -Q {"%22"}SET NOCOUNT ON;USE [{parameter "WMDB" of action}] ;SELECT strValue from [{parameter "WMDB" of action}].[dbo].[tblSettings] where strSetting = 'EnvironmentGUID';SET NOCOUNT OFF{"%22"}|FIND /I {"%22"}{"%7b"}{"%22"} > {(value of variable "temp" of environment) & "\guid.txt"}
+    set /P cdmguid=<{(value of variable "temp" of environment) & "\guid.txt"}
+    del {(value of variable "temp" of environment) & "\guid.txt"}
+    REG ADD HKLM\SOFTWARE\Wow6432Node\RES\CDM /v CDMsiteGUID /t {"%22"}REG_SZ{"%22"} /d {"%22"}%cdmguid%{"%22"} /f
+  __done
+  copy __createfile "{(value of variable "temp" of environment) & "\getSiteGuid.bat"}"
+  waithidden cmd.exe /c {(value of variable "temp" of environment) & "\getSiteGuid.bat"}
+ELSE
+  createfile until __done
+    sqlcmd -S {parameter "WMserver" of action} -h -1 -W -Q {"%22"}SET NOCOUNT ON;USE [{parameter "WMDB" of action}] ;SELECT strValue from [{parameter "WMDB" of action}].[dbo].[tblSettings] where strSetting = 'EnvironmentGUID';SET NOCOUNT OFF{"%22"}|FIND /I {"%22"}{"%7b"}{"%22"} > {(value of variable "temp" of environment) & "\guid.txt"}
+    set /P cdmguid=<{(value of variable "temp" of environment) & "\guid.txt"}
+    del {(value of variable "temp" of environment) & "\guid.txt"}
+    REG ADD HKLM\SOFTWARE\Wow6432Node\RES\CDM /v CDMsiteGUID /t {"%22"}REG_SZ{"%22"} /d {"%22"}%cdmguid%{"%22"} /f
+  __done
+  copy __createfile "{(value of variable "temp" of environment) & "\getSiteGuid.bat"}"
+  waithidden cmd.exe /c {(value of variable "temp" of environment) & "\getSiteGuid.bat"}
+ENDIF
+delete "{(value of variable "temp" of environment) & "\getSiteGuid.bat"}"
+//BATCH GETSITEGUID END
+
+notify client forcerefresh
+
+//set workspace AccountNames settings and retention
+delete __createfile
+delete logretention.xml
+createfile until __end
+<?xml version="1.0"?>
+<respowerfuse>
+	<version>9.9.2.3</version>
+	<buildingblock>
+		<advancedsettings>
+			<keeplogs>90</keeplogs>
+		</advancedsettings>
+	</buildingblock>
+</respowerfuse>
+__end
+copy __createfile logretention.xml
+waithidden "{(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}" /add /overwrite logretention.xml
+
+delete __createfile
+delete "accountnames.xml"
+createfile until __end
+<?xml version="1.0"?>
+<respowerfuse>
+	<version>9.10.0.0</version>
+	<buildingblock>
+		<directoryservices>
+			<directoryservice>
+				<allowquery>no</allowquery>
+				<type>ad</type>
+				<usetokenbag>no</usetokenbag>
+				<tokenbagexception>no</tokenbagexception>
+				<mountpoint/>
+				<queryusername/>
+				<querypassword/>
+				<name></name>
+				<netbiosdomain resolved="yes"></netbiosdomain>
+				<domainlocalgroups>yes</domainlocalgroups>
+				<groupnesting>yes</groupnesting>
+				<usedisplaynames>no</usedisplaynames>
+				<accesscontrol>accountnames</accesscontrol>
+				<guid></guid>
+				<enabled>yes</enabled>
+			</directoryservice>
+		</directoryservices>
+	</buildingblock>
+</respowerfuse>
+__end
+copy __createfile accountnames.xml
+waithidden "{(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}" /add /overwrite accountnames.xml
+
+delete __createfile
+delete createdb.sql
+createfile until __end
+  use [{parameter "WMDB" of action}];
+  IF EXISTS (Select * FROM tblSettings Where strSetting = 'RelayServerPassword' AND strValue = 'DA39A3EE5E6B4B0D3255BFEF95601890AFD80709')
+  begin
+	Update tblSettings
+	Set strValue = LTRIM(RTRIM('{parameter "RESPW" of action}'))
+	Where strSetting = 'RelayServerPassword'
+  end
+  GO
+ __end
+copy __createfile createdb.sql
+
+IF {(parameter "AuthType" of action as lowercase = "sqlauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "yes"))}
+	waithidden sqlcmd -S {parameter "WMserver" of action} -U {parameter "DBuser" of action} -P "{parameter "DBPWD" of action}" -i createdb.sql
+else
+	waithidden sqlcmd -S {parameter "WMserver" of action} -E -i createdb.sql
+endif
+
+waithidden "__Download\Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

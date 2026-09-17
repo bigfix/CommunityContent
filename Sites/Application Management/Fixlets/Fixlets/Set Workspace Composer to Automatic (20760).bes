@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Workspace Composer to Automatic
+  ID       : 20760
+  Author   : RES
+  Domain   : SYST
+  Imported : 2016-06-01T08:14:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Workspace Composer to Automatic</Title>
+    <Description>This Fixlet will turn on Workspace Manager </Description>
+    <Relevance>(unix of operating system and line (1) of file &quot;/etc/res/resauthd.conf&quot; = &quot;LearningMode=yes&quot;) or (mac of operating system and line (1) of file &quot;/etc/res/resauthd.conf&quot; = &quot;LearningMode=yes&quot;) or (if (windows of operating system and exists service &quot;RESPESVC&quot;) then exists values &quot;Shell&quot; whose (it as string as lowercase contains &quot;explorer.exe&quot; or it as string as lowercase contains &quot;cmd.exe&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry else false)</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 27 May 2016 23:25:24 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+        if {unix of operating system}
+        delete __createfile
+        delete agent_config.sh
+        createfile until __end
+        sed -i &apos;s/LearningMode=yes/LearningMode=no/g&apos; /etc/res/resauthd.conf
+        sed -i &apos;s/AllowAny=yes/AllowAny=no/g&apos; /etc/res/resauthd.conf
+        __end
+        move __createfile agent_config.sh
+        wait bash agent_config.sh
+        wait chkconfig reswmad on
+        wait /etc/init.d/reswmad start
+        delete agent_config.sh
+        elseif {mac of operating system}
+        delete __createfile
+        delete agent_config.sh
+        createfile until __end
+        sed -i &apos;&apos; &apos;s/LearningMode=yes/LearningMode=no/g&apos; /etc/res/resauthd.conf
+        sed -i &apos;&apos; &apos;s/AllowAny=yes/AllowAny=no/g&apos; /etc/res/resauthd.conf
+        launchctl load /Library/LaunchDaemons/com.ressoftware.reswmad.plist
+        launchctl load /Library/LaunchDaemons/com.ressoftware.resauthd.plist
+        __end
+        move __createfile agent_config.sh
+        wait bash agent_config.sh
+        delete agent_config.sh
+        else
+        if {x64 of operating system}
+        regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]&quot; &quot;Shell&quot;=&quot;\&quot;%respfdir%\\pwrstart.exe\&quot;&quot;
+        else
+        regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]&quot; &quot;Shell&quot;=&quot;\&quot;%respfdir%\\pwrstart.exe\&quot;&quot;
+        endif
+        endif
+
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

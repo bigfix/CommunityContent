@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall TeamViewer - MT
+  ID       : 10603
+  Author   : manojthathera
+  Domain   : BESC
+  Imported : 2016-03-28T02:06:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall TeamViewer - MT</Title>
+    <Description><![CDATA[Standard Uninstallation Fixlet Template. See the Uninstall Wizard for details related to this fixlet.
+<P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+<P>This fixlet is constructed from the following variables provided by the developer:</P>
+<P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+<P><B>Display Name:</B> TeamViewer</P>
+<P><B>Application Guid:</B> Ex 02EB5871-4DC4-4126-91D6-F1FA82166313</P>
+<P><B>Uninstall Command String:</B> C:\Program Files\TeamViewer\Version9\uninstall.exe /S</P>]]></Description>
+    <Relevance>( exists services whose((service name of it as lowercase contains &quot;TeamViewer&quot; as lowercase )) )</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Techsa Services</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2014-04-11</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 11 Apr 2014 04:46:07 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 11 Apr 2014 04:46:07 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Uninstall Wizard Fixlet</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 28 Mar 2016 06:59:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//Uninstall String for Teamviewer above version 9
+wait taskkill.exe /IM &quot;TeamViewer.exe&quot; /T /F
+if {exists folder &quot;C:\Program Files (x86)\TeamViewer&quot;}
+ waithidden C:\Program Files (x86)\TeamViewer\uninstall.exe /S
+elseif  {exists folder &quot;C:\Program Files\TeamViewer&quot;}
+waithidden C:\Program Files\TeamViewer\uninstall.exe /S
+
+// Uninstall String for Teamviewer version 9
+elseif {exists folder &quot;C:\Program Files\TeamViewer\Version9&quot;}
+waithidden C:\Program Files\TeamViewer\Version9\uninstall.exe /S
+
+//Folder Deletion
+waithidden CMD.EXE /C rmdir /Q /S &quot;C:\Program Files (x86)\TeamViewer&quot;
+waithidden CMD.EXE /C rmdir /Q /S &quot;C:\Program Files\TeamViewer&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

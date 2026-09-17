@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : grails-databinding detection scan (Linux)
+  ID       : 26942
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-07-20T09:12:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>grails-databinding detection scan (Linux)</Title>
+    <Description><![CDATA[<H3>This is Community Content. When you use these solutions, it is incumbent on your organization to test any solutions provided across the broadest available system base including various OS, storage solutions, and application inventory.</H3>
+<P></P>
+<P>Please see the <A href="https://forum.bigfix.com/t/log4j-vulnerability-identification-and-3rd-party-remediation-solution-testing-statement/40273"><FONT color=#0066cc>Community Solution Testing Statement</FONT></A></P>
+<P>This Task performs a filesystem scan on Windows systems to attempt detecting Spring Framework versions that may be vulnerable to the following vulnerabilties reported in&nbsp;July 2022:</P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"></SPAN>&nbsp;</P><SPAN style="FONT-SIZE: 11pt">
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><A href="https://nvd.nist.gov/vuln/detail/CVE-2022-35912"><FONT color=#0066cc>https://nvd.nist.gov/vuln/detail/CVE-2022-35912</FONT></A></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN></P>
+<P><A href="https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97"><FONT color=#0066cc>https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97</FONT></A></P>
+<P>&nbsp;</P></SPAN>
+<P>This Task performs a filesystem search across all fixed disks on Windows platforms, to locate Grails databinding JAR files, either directly on the filesystem or embedded in a .WAR or .EAR&nbsp;archive file.&nbsp; In the case any .WAR / .EAR file is found on the system, the 'unzip.exe' utility is used to perform a listing of files inside the archive to locate Spring-related .JAR files.&nbsp; Specifically, this Task searches for any versions of <STRONG>grails-databinding-*.jar</STRONG>.&nbsp; Information on the Grails vulnerability is still evolving and the list of vulnerable versions is still subject to change.</P>
+<P>Scan results are stored in a "Scans" subdirectory beneath the "BES Client" folder. 'grails-databinding-scan-output.txt' contains the full script output for potential debugging or diagnosis, and "grails-databinding-scan.txt' contains a listing of detected files in one of the forms</P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><BR>/opt/grails/libs/grails-databinding-5.1.9.jar</P>
+<P>/opt/grails/grails-dist.war::grails.RELEASE/libs/grails-databinding-5.1.9.RELEASE.jar</P></BLOCKQUOTE>
+<P dir=ltr>The first sample entry indicates a detected grails-databinding.jar file directly in the filesystem, while the second entry indicates a Grails .jar file embedded within a .WAR archive.</P>
+<P>This Task has several known limitations:</P>
+<UL>
+<LI>Archives are not extracted recursively - only .JAR files contained directly within a .WAR archive are found; archives embedded within multiple layers of .WAR archives are not detected.
+<LI>There is no option to throttle the scan in terms of processor or disk i/o usage.&nbsp; Scans should be executed during non-critical hours, and staggered over time especially where multiple systems share a storage resource, such as a SAN or virtual machine storage pool.</LI></UL>
+<P>This detection method uses&nbsp;Linux Bash script with&nbsp;external&nbsp;dependencies on 'df', 'find', 'sed', and&nbsp;'unzip'.&nbsp; Results of the scan may be retrieved using the related Analysis.</P>]]></Description>
+    <Relevance>name of operating system as lowercase contains &quot;linux&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Category>Vulnerability Scan</Category>
+    <Source>HCL BigFix Services</Source>
+    <SourceReleaseDate>2022-07-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Jul 2022 15:01:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "ScansFolder" = "{(if (version of client >= "9" as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site "actionsite"))}/Scans"
+folder create "{parameter "ScansFolder"}"
+parameter "output"="{pathname of folder (parameter "ScansFolder")}/grails-databinding-scan.txt"
+parameter "exec_output"="{pathname of folder (parameter "ScansFolder")}/grails-databinding-scan-output.txt"
+delete "{parameter "output"}"
+delete "{parameter "exec_output"}"
+
+delete __createfile
+createfile until EOF_EOF_EOF_EOF
+#!/bin/sh
+
+OUTPUT_FILE={parameter "output"}
+
+function handle_file() {{
+ echo Handling $1
+ if [[ $1 == *\.war || $1 == *\.WAR ||  $1 == *\.zip || $1 == *\.ZIP || $1 == *\.ear || $1 == *\.EAR ]]
+ then
+ echo "${{1} is an archive, searing content via unzip";
+ for embeddedfile in `unzip -Z -1 "$1"  *grails-databinding-*.jar -x *-sources.jar *-javadoc.jar`
+ do
+  echo ${{1}::${{embeddedfile}>>${{OUTPUT_FILE}
+ done
+else
+echo ${{1}>>${{OUTPUT_FILE}
+fi
+
+}
+
+for j in `df -l --output=target -x tmpfs -x devtmpfs | sed 1d`
+
+ do echo "searching $j"
+ for targetfile in `find $j -xdev \( -name "*grails-databinding*.jar" -o -name "*.war" -o -name "*.ear" \) -a ! \(  -name "*-sources.jar"  -o  -name "*-javadoc.jar" \)`
+  do handle_file "$targetfile"
+ done
+
+done
+
+
+
+EOF_EOF_EOF_EOF
+
+delete run_scan.sh
+copy __createfile run_scan.sh
+wait chmod +x run_scan.sh
+wait /bin/sh -c "./run_scan.sh > '{parameter "exec_output"}' 2>&1"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

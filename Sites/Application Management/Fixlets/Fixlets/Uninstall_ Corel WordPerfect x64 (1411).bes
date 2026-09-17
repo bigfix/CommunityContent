@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall: Corel WordPerfect x64
+  ID       : 1411
+  Author   : 55FDC13E-285A-4207-97E8-32E29239932A
+  Domain   : BESC
+  Imported : 2013-02-20T10:34:56
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall: Corel WordPerfect x64</Title>
+    <Description><![CDATA[<P>This task will Uninstall: Corel WordPerfect 12</P>
+<P>This task is applicable on: Windows 7. </P>]]></Description>
+    <Relevance>(name of it = &quot;Win7&quot;) of operating system</Relevance>
+    <Relevance>EXISTS value &quot;UninstallString&quot; OF key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{20BFD848-897A-48BB-97A7-CDB5A8D4719E}&quot; OF registry</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 26 Jul 2012 13:38:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden {pathname of system folder}\MsiExec.exe /X{{20BFD848-897A-48BB-97A7-CDB5A8D4719E} /qn /norestart
+action may require restart</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Symantec Endpoint protection Service Not Running
+  ID       : 24856
+  Author   : wilson.arya
+  Domain   : BESC
+  Imported : 2017-11-26T23:12:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Symantec Endpoint protection Service Not Running</Title>
+    <Description><![CDATA[The listed computers do not have one or more services that are required for Symantec Endpoint protection to run. These computers currently do not have anti-virus protection.<br>Click the link in the Actions box to start the services and provide the computers with anti-virus protection.]]></Description>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC&quot; of native registry)</Relevance>
+    <Relevance>(not exists running service whose (service name of it = &quot;SepMasterService&quot;))</Relevance>
+    <Category>Running Status</Category>
+    <Source>Symantec</Source>
+    <SourceReleaseDate>2017-11-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-client-manager-data</Name>
+      <Value>{&quot;services&quot;:&quot;SepMasterService&quot;,&quot;type&quot;:&quot;Fixlet&quot;,&quot;vendor&quot;:&quot;Symantec&quot;,&quot;contentType&quot;:&quot;Services Checking&quot;,&quot;product&quot;:&quot;Symantec Endpoint protection&quot;,&quot;reportType&quot;:&quot;Running Status&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 09 Nov 2017 07:46:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action26120">
+      <Description>
+        <PreLink>Click</PreLink>
+        <Link>here</Link>
+        <PostLink>to execute the action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch changeservicestartmode.exe sha1:c038d28f2a34fb592fee9af7263086e96a259353 size:40960 http://software.bigfix.com/download/bes/util/changeservicestartmode.exe sha2:47927E84F8C271C5D9416F69559BBD7D10DF82DA03EAA28F7B325A33F77B450A
+utility __Download\changeservicestartmode.exe
+wait __Download\changeservicestartmode.exe &quot;SepMasterService&quot; auto
+wait {pathname of system folder}\net start &quot;SepMasterService&quot;</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

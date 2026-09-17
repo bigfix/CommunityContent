@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy "Lotus Notes 8.5.2 FP1" msi install
+  ID       : 2597
+  Author   : linuxjim
+  Domain   : SYST
+  Imported : 2013-09-13T07:56:56
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy &quot;Lotus Notes 8.5.2 FP1&quot; msi install</Title>
+    <Description><![CDATA[This task will download 3 files from the "Lotus Notes 8.5.2 FP1" Software Distribution Package onto selected endpoints <BR><BR><B>Installation Command:</B> msiexec.exe /i "ClientUpdate.msi" /qn<BR><BR><B>Run Command As:</B> System User<BR><BR><B>Download Size:</B> 26,446.8 KB ]]></Description>
+    <Relevance>windows of operating system AND (if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else true)</Relevance>
+    <Relevance><![CDATA[/* Relevance generated from file "ClientUpdate.msi" */ (exists file "msiexec.exe" of system folder) AND (disjunction of (NOT exists keys "{7A48BD87-9F3D-4B6D-B247-7AE5883B530B}" whose ( value "DisplayVersion" of it as string as version >= "1.00.0001" as version AND value "Language" of it as string = "0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )))]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Lotus Notes 8.5.2 FP1</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-01-20</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;comment&quot;:null,&quot;hasEditAccess&quot;:true,&quot;isEditMode&quot;:false,&quot;lastmodified&quot;:&quot;Thu Jan 20 12:11:13 GMT-0500 2011&quot;,&quot;warningFlags&quot;:1,&quot;owner&quot;:&quot;besadmin&quot;,&quot;fixletcount&quot;:0,&quot;product&quot;:&quot;Lotus Notes 8.5.2 FP1&quot;,&quot;files&quot;:[{&quot;dateadded&quot;:&quot;Thu, 20 Jan 2011 12:11:04 -0500&quot;,&quot;id&quot;:&quot;53A5687CB26DC41F2AB4033E97E13ADEFD3740D6_1295543473442872&quot;,&quot;metaDataType&quot;:&quot;unspecified_metadata&quot;,&quot;size&quot;:7,&quot;compressed_data_for_package&quot;:false,&quot;fileHostedStatus&quot;:1,&quot;included&quot;:false,&quot;exe_metadata&quot;:null,&quot;filePointerName&quot;:&quot;SWD_FilePointer_53A5687CB26DC41F2AB4033E97E13ADEFD3740D6&quot;,&quot;msi_metadata&quot;:null,&quot;folderoffset&quot;:&quot;&quot;,&quot;sha1&quot;:&quot;53A5687CB26DC41F2AB4033E97E13ADEFD3740D6&quot;,&quot;filename&quot;:&quot;build.status&quot;},{&quot;dateadded&quot;:&quot;Thu, 20 Jan 2011 12:11:04 -0500&quot;,&quot;id&quot;:&quot;360D9E4BC282B8EBDCA982927B47D86021FA5D42_1295543473443596&quot;,&quot;metaDataType&quot;:&quot;msi_metadata&quot;,&quot;size&quot;:3226112,&quot;compressed_data_for_package&quot;:false,&quot;fileHostedStatus&quot;:1,&quot;included&quot;:false,&quot;exe_metadata&quot;:null,&quot;filePointerName&quot;:&quot;SWD_FilePointer_360D9E4BC282B8EBDCA982927B47D86021FA5D42&quot;,&quot;msi_metadata&quot;:{&quot;ProductCode&quot;:&quot;{7A48BD87-9F3D-4B6D-B247-7AE5883B530B}&quot;,&quot;Manufacturer&quot;:&quot;Your Company Name&quot;,&quot;ProductVersion&quot;:&quot;1.00.0001&quot;,&quot;ProductName&quot;:&quot;IBM Lotus Notes Client Update Installer&quot;,&quot;ProductLanguage&quot;:&quot;1033&quot;,&quot;msi_metadata_version&quot;:&quot;1.0.0.9&quot;,&quot;LaunchConditions&quot;:[],&quot;UpgradeCode&quot;:&quot;{5BA7CD07-4D6C-4D16-B1A6-2B50DD5F17AD}&quot;},&quot;folderoffset&quot;:&quot;&quot;,&quot;sha1&quot;:&quot;360D9E4BC282B8EBDCA982927B47D86021FA5D42&quot;,&quot;filename&quot;:&quot;ClientUpdate.msi&quot;},{&quot;dateadded&quot;:&quot;Thu, 20 Jan 2011 12:11:04 -0500&quot;,&quot;id&quot;:&quot;E7EA47CC1903C99B44526C163105D6EE3292955A_1295543473443407&quot;,&quot;metaDataType&quot;:&quot;exe_metadata&quot;,&quot;size&quot;:7128592,&quot;compressed_data_for_package&quot;:false,&quot;fileHostedStatus&quot;:1,&quot;included&quot;:false,&quot;exe_metadata&quot;:{&quot;CompanyName&quot;:&quot;Your Company Name      &quot;,&quot;ProductVersion&quot;:&quot;1.00&quot;,&quot;exe_metadata_version&quot;:&quot;1.0.0.9&quot;,&quot;FileVersion&quot;:&quot;1.00.000&quot;,&quot;ProductName&quot;:&quot;IBM Lotus Not&quot;},&quot;filePointerName&quot;:&quot;SWD_FilePointer_E7EA47CC1903C99B44526C163105D6EE3292955A&quot;,&quot;msi_metadata&quot;:null,&quot;folderoffset&quot;:&quot;&quot;,&quot;sha1&quot;:&quot;E7EA47CC1903C99B44526C163105D6EE3292955A&quot;,&quot;filename&quot;:&quot;setup.exe&quot;},{&quot;dateadded&quot;:&quot;Thu, 20 Jan 2011 12:11:04 -0500&quot;,&quot;id&quot;:&quot;A390F0B5AD0E4F6879723EF1141ED4EB443FBF75_1295543473443461&quot;,&quot;metaDataType&quot;:&quot;unspecified_metadata&quot;,&quot;size&quot;:23855414,&quot;compressed_data_for_package&quot;:true,&quot;fileHostedStatus&quot;:1,&quot;included&quot;:false,&quot;exe_metadata&quot;:null,&quot;filePointerName&quot;:&quot;SWD_FilePointer_A390F0B5AD0E4F6879723EF1141ED4EB443FBF75&quot;,&quot;msi_metadata&quot;:null,&quot;folderoffset&quot;:&quot;&quot;,&quot;sha1&quot;:&quot;A390F0B5AD0E4F6879723EF1141ED4EB443FBF75&quot;,&quot;filename&quot;:&quot;compressedPackageData.bftemp&quot;}],&quot;vendor&quot;:&quot;IBM&quot;,&quot;isPrivate&quot;:false,&quot;description&quot;:null,&quot;filecount&quot;:4,&quot;version&quot;:&quot;8.5.2 FP1&quot;,&quot;fixlets&quot;:[],&quot;children&quot;:[],&quot;pkgvariablekey&quot;:&quot;SWD_Package_besadmin_1295543411963597&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;{\&quot;comment\&quot;:null,\&quot;hasEditAccess\&quot;:true,\&quot;isEditMode\&quot;:false,\&quot;lastmodified\&quot;:\&quot;Thu Jan 20 12:11:13 GMT-0500 2011\&quot;,\&quot;warningFlags\&quot;:1,\&quot;owner\&quot;:\&quot;besadmin\&quot;,\&quot;fixletcount\&quot;:0,\&quot;product\&quot;:\&quot;Lotus Notes 8.5.2 FP1\&quot;,\&quot;files\&quot;:[{\&quot;dateadded\&quot;:\&quot;Thu, 20 Jan 2011 12:11:04 -0500\&quot;,\&quot;id\&quot;:\&quot;53A5687CB26DC41F2AB4033E97E13ADEFD3740D6_1295543473442872\&quot;,\&quot;metaDataType\&quot;:\&quot;unspecified_metadata\&quot;,\&quot;size\&quot;:7,\&quot;compressed_data_for_package\&quot;:false,\&quot;fileHostedStatus\&quot;:1,\&quot;included\&quot;:false,\&quot;exe_metadata\&quot;:null,\&quot;filePointerName\&quot;:\&quot;SWD_FilePointer_53A5687CB26DC41F2AB4033E97E13ADEFD3740D6\&quot;,\&quot;msi_metadata\&quot;:null,\&quot;folderoffset\&quot;:\&quot;\&quot;,\&quot;sha1\&quot;:\&quot;53A5687CB26DC41F2AB4033E97E13ADEFD3740D6\&quot;,\&quot;filename\&quot;:\&quot;build.status\&quot;},{\&quot;dateadded\&quot;:\&quot;Thu, 20 Jan 2011 12:11:04 -0500\&quot;,\&quot;id\&quot;:\&quot;360D9E4BC282B8EBDCA982927B47D86021FA5D42_1295543473443596\&quot;,\&quot;metaDataType\&quot;:\&quot;msi_metadata\&quot;,\&quot;size\&quot;:3226112,\&quot;compressed_data_for_package\&quot;:false,\&quot;fileHostedStatus\&quot;:1,\&quot;included\&quot;:false,\&quot;exe_metadata\&quot;:null,\&quot;filePointerName\&quot;:\&quot;SWD_FilePointer_360D9E4BC282B8EBDCA982927B47D86021FA5D42\&quot;,\&quot;msi_metadata\&quot;:{\&quot;ProductCode\&quot;:\&quot;{7A48BD87-9F3D-4B6D-B247-7AE5883B530B}\&quot;,\&quot;Manufacturer\&quot;:\&quot;Your Company Name\&quot;,\&quot;ProductVersion\&quot;:\&quot;1.00.0001\&quot;,\&quot;ProductName\&quot;:\&quot;IBM Lotus Notes Client Update Installer\&quot;,\&quot;ProductLanguage\&quot;:\&quot;1033\&quot;,\&quot;msi_metadata_version\&quot;:\&quot;1.0.0.9\&quot;,\&quot;LaunchConditions\&quot;:[],\&quot;UpgradeCode\&quot;:\&quot;{5BA7CD07-4D6C-4D16-B1A6-2B50DD5F17AD}\&quot;},\&quot;folderoffset\&quot;:\&quot;\&quot;,\&quot;sha1\&quot;:\&quot;360D9E4BC282B8EBDCA982927B47D86021FA5D42\&quot;,\&quot;filename\&quot;:\&quot;ClientUpdate.msi\&quot;},{\&quot;dateadded\&quot;:\&quot;Thu, 20 Jan 2011 12:11:04 -0500\&quot;,\&quot;id\&quot;:\&quot;E7EA47CC1903C99B44526C163105D6EE3292955A_1295543473443407\&quot;,\&quot;metaDataType\&quot;:\&quot;exe_metadata\&quot;,\&quot;size\&quot;:7128592,\&quot;compressed_data_for_package\&quot;:false,\&quot;fileHostedStatus\&quot;:1,\&quot;included\&quot;:false,\&quot;exe_metadata\&quot;:{\&quot;CompanyName\&quot;:\&quot;Your Company Name      \&quot;,\&quot;ProductVersion\&quot;:\&quot;1.00\&quot;,\&quot;exe_metadata_version\&quot;:\&quot;1.0.0.9\&quot;,\&quot;FileVersion\&quot;:\&quot;1.00.000\&quot;,\&quot;ProductName\&quot;:\&quot;IBM Lotus Not\&quot;},\&quot;filePointerName\&quot;:\&quot;SWD_FilePointer_E7EA47CC1903C99B44526C163105D6EE3292955A\&quot;,\&quot;msi_metadata\&quot;:null,\&quot;folderoffset\&quot;:\&quot;\&quot;,\&quot;sha1\&quot;:\&quot;E7EA47CC1903C99B44526C163105D6EE3292955A\&quot;,\&quot;filename\&quot;:\&quot;setup.exe\&quot;},{\&quot;dateadded\&quot;:\&quot;Thu, 20 Jan 2011 12:11:04 -0500\&quot;,\&quot;id\&quot;:\&quot;A390F0B5AD0E4F6879723EF1141ED4EB443FBF75_1295543473443461\&quot;,\&quot;metaDataType\&quot;:\&quot;unspecified_metadata\&quot;,\&quot;size\&quot;:23855414,\&quot;compressed_data_for_package\&quot;:true,\&quot;fileHostedStatus\&quot;:1,\&quot;included\&quot;:false,\&quot;exe_metadata\&quot;:null,\&quot;filePointerName\&quot;:\&quot;SWD_FilePointer_A390F0B5AD0E4F6879723EF1141ED4EB443FBF75\&quot;,\&quot;msi_metadata\&quot;:null,\&quot;folderoffset\&quot;:\&quot;\&quot;,\&quot;sha1\&quot;:\&quot;A390F0B5AD0E4F6879723EF1141ED4EB443FBF75\&quot;,\&quot;filename\&quot;:\&quot;compressedPackageData.bftemp\&quot;}],\&quot;vendor\&quot;:\&quot;IBM\&quot;,\&quot;isPrivate\&quot;:false,\&quot;description\&quot;:null,\&quot;filecount\&quot;:4,\&quot;version\&quot;:\&quot;8.5.2 FP1\&quot;,\&quot;fixlets\&quot;:[],\&quot;children\&quot;:[],\&quot;pkgvariablekey\&quot;:\&quot;SWD_Package_besadmin_1295543411963597\&quot;}&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;A390F0B5AD0E4F6879723EF1141ED4EB443FBF75&quot;,&quot;360D9E4BC282B8EBDCA982927B47D86021FA5D42&quot;,&quot;53A5687CB26DC41F2AB4033E97E13ADEFD3740D6&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_besadmin_1295543411963597</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>msiexec.exe /i &quot;ClientUpdate.msi&quot; /qn</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 25 Jan 2013 15:12:45 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Action ID="Action2847">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download all specified files
+begin prefetch block
+  add prefetch item name=53A5687CB26DC41F2AB4033E97E13ADEFD3740D6 sha1=53a5687cb26dc41f2ab4033e97e13adefd3740d6 size=7 url=SWDProtocol://127.0.0.1:52311/uploads/53A5687CB26DC41F2AB4033E97E13ADEFD3740D6/build.status.bfswd
+  add prefetch item name=A390F0B5AD0E4F6879723EF1141ED4EB443FBF75 sha1=a390f0b5ad0e4f6879723ef1141ed4eb443fbf75 size=23855414 url=SWDProtocol://127.0.0.1:52311/uploads/A390F0B5AD0E4F6879723EF1141ED4EB443FBF75/compressedPackageData.bftemp.bfswd
+  add prefetch item name=360D9E4BC282B8EBDCA982927B47D86021FA5D42 sha1=360d9e4bc282b8ebdca982927b47d86021fa5d42 size=3226112 url=SWDProtocol://127.0.0.1:52311/uploads/360D9E4BC282B8EBDCA982927B47D86021FA5D42/ClientUpdate.msi.bfswd
+end prefetch block
+
+// All SWD Files will go into a folder in the clients __BESData folder. This folder get cleared on every restart.
+parameter "baseFolder" =  "__Download\"
+
+// Make Relative Folders
+delete __createfile
+delete makeDirs.bat
+createfile until _end_
+@ECHO OFF
+mkdir "{parameter "baseFolder"}"
+_end_
+move __createfile makeDirs.bat
+waithidden makeDirs.bat
+
+// Move files into subfolders and unescape file names
+move "__Download\A390F0B5AD0E4F6879723EF1141ED4EB443FBF75" "__Download\compressedPackageData.bftemp"
+move "__Download\360D9E4BC282B8EBDCA982927B47D86021FA5D42" "{parameter "baseFolder"}ClientUpdate.msi"
+move "__Download\53A5687CB26DC41F2AB4033E97E13ADEFD3740D6" "{parameter "baseFolder"}build.status"
+
+
+// extract any compressed files
+extract compressedPackageData.bftemp
+
+delete __createfile
+delete moveArchive.bat
+//move all the extracted files and folders to our new folder.
+createfile until _end_
+@ECHO OFF
+{concatenations "%0d%0a" of (("move %22" & item 1 of it as string & "%22 %22" & parameter "baseFolder" & "" & item 0 of it as string & "%22") of ((name of it, pathname of it) of files whose (name of it != "RunAsCurrentUser.exe" AND name of it != "compressedPackageData.bftemp") of it) of (download folder) ; ("move %22" & it as string & "%22 %22" & parameter "baseFolder" & "%22") of ((pathname of it) of folders whose (pathname of it does not end with (preceding text of last "\" of parameter "baseFolder" as string)) of it) of (download folder))}
+_end_
+move __createfile moveArchive.bat
+waithidden moveArchive.bat
+
+
+
+// Run setup process
+delete __createfile
+delete run.bat
+
+// Use .bat to set working directy to packages root, for setup command.
+createfile until _end_
+@ECHO OFF
+cd "{parameter "baseFolder"}"
+msiexec.exe /i "ClientUpdate.msi" /qn
+_end_
+
+move __createfile run.bat
+
+// You will not be able to stop or take action on an applicable BES Client until your installer completes,
+// so ensure no user input is required.
+// If your package absolutely must interact with the user, replace waithidden with run.
+waithidden run.bat]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

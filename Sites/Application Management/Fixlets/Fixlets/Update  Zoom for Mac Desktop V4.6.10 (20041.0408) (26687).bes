@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Update  Zoom for Mac Desktop V4.6.10 (20041.0408)
+  ID       : 26687
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:06:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Update  Zoom for Mac Desktop V4.6.10 (20041.0408)</Title>
+    <Description>This task will update Zoom&amp;nbsp; V4.6.10 (20041.0408)&lt;BR&gt;&lt;BR&gt;</Description>
+    <Relevance>((system version &gt;= &quot;10.7&quot; AND system version &lt; &quot;10.8&quot;) OR (system version &gt;= &quot;10.8&quot; AND system version &lt; &quot;10.9&quot;) OR (system version &gt;= &quot;10.9&quot; AND system version &lt; &quot;10.10&quot;) OR (system version &gt;= &quot;10.10&quot; AND system version &lt; &quot;10.11&quot;) OR (system version &gt;= &quot;10.11&quot; AND system version &lt; &quot;10.12&quot;) OR (system version &gt;= &quot;10.12&quot; AND system version &lt; &quot;10.13&quot;) OR (system version &gt;= &quot;10.13&quot; AND system version &lt; &quot;10.15&quot;) OR (system version &gt;= &quot;10.15&quot;)) AND TRUE</Relevance>
+    <Relevance>exists application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
+    <Relevance>not exists running application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
+    <Relevance>version of regapp &quot;zoom.us.app&quot; &lt; &quot;4.6.10 (20041.0408)&quot; as version</Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2020-04-07</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2020 14:18:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ZoomInstallerIT.pkg sha1:97acc2ce270273d00f4c6e6b5d8a61c80329ee72 size:33900487 https://zoom.us/Client/4.6.20041.0408/ZoomInstallerIT.pkg sha256:2ead087afe420041c7e07493a060417df5b32638cb04e2274771e30fec4335a8
+
+wait installer -pkg &quot;__Download/ZoomInstallerIT.pkg&quot; -target /
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

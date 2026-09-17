@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Register Avamar Client with Server
+  ID       : 759
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T20:50:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Register Avamar Client with Server</Title>
+    <Description><![CDATA[<P>Use this task to register or activate Avamar clients with the server in a particular domain group. The different groups have different levels of backup.</P>
+<P>This task is applicable on all windows computers with Avamar Client installed, but not currently registered to the Avamar server.</P>]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;EMC Avamar&quot; as lowercase) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance><![CDATA[exists file (value "InstallLocation" of key whose (value "DisplayName" of it as string as lowercase contains "EMC Avamar" as lowercase) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry as string & "bin\avagent.exe")]]></Relevance>
+    <Relevance><![CDATA[not exists file (value "InstallLocation" of key whose (value "DisplayName" of it as string as lowercase contains "EMC Avamar" as lowercase) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry as string & "var\avagent.cfg") whose (exists lines whose (it as lowercase contains "avamar.domain.tld") of it)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2011-08-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 07 Dec 2012 02:49:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to register the Avamar client&amp;nbsp;with Group1.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Stop the EMC Avamar service
+waithidden CMD.EXE /C NET STOP "Backup Agent"
+//Register the EMC Avamar client with the Server
+// the commandline parameter "mcsaddr" is the server, which for this example is: "avamar.domain.tld"
+// the commandline parameter "dpndomain" is the group that determines the type of backup. For this example: "Group1", "Group2"
+wait {(value "InstallLocation" of key whose (value "DisplayName" of it as string as lowercase contains "EMC Avamar" as lowercase) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry as string & "bin\avagent.exe")} --quiet --init --daemon=false --mcsaddr="avamar.domain.tld" --dpndomain="Group1" --logfile="%TEMP%\avagent_cmdline.log"
+//Start the EMC Avamar service
+waithidden CMD.EXE /C NET START "Backup Agent"]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action1016">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to register the Avamar client with Group2.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Stop the EMC Avamar service
+waithidden CMD.EXE /C NET STOP "Backup Agent"
+//Register the EMC Avamar client with the Server
+// the commandline parameter "mcsaddr" is the server, which for this example is: "avamar.domain.tld"
+// the commandline parameter "dpndomain" is the group that determines the type of backup. For this example: "Group1", "Group2"
+wait {(value "InstallLocation" of key whose (value "DisplayName" of it as string as lowercase contains "EMC Avamar" as lowercase) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry as string & "bin\avagent.exe")} --quiet --init --daemon=false --mcsaddr="avamar.domain.tld" --dpndomain="Group2" --logfile="%TEMP%\avagent_cmdline.log"
+//Start the EMC Avamar service
+waithidden CMD.EXE /C NET START "Backup Agent"]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Mozilla Firefox 45.0.2 Available - Mac OS X
+  ID       : 20205
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-04-22T12:39:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Mozilla Firefox 45.0.2 Available - Mac OS X</Title>
+    <Description>This fixlet is created using the &quot;Fixlet Maker&quot; wizard. </Description>
+    <Relevance><![CDATA[(name of operating system = "Mac OS X") AND (if system version >= "10.6" then version of client >= "8.2" else true)]]></Relevance>
+    <Relevance><![CDATA[exists application "Firefox.app" whose (version of it < "45.0.2" as version)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Firefox</Source>
+    <SourceReleaseDate>2016-04-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 24 Jan 2014 08:33:23 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-additional-notes</Name>
+      <Value>Only supports Mozilla Firefox  &quot;.dmg&quot; (Enterprise Edition) stand-alone installer.</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-template-os</Name>
+      <Value>Mac</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product-name</Name>
+      <Value>Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-template-id</Name>
+      <Value>mozillaFirefoxMacTemplate</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-vendor-name</Name>
+      <Value>Mozilla</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 22 Apr 2016 18:54:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action21018">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Firefox_45.0.2.dmg sha1:a766d171b111222cff2f772f75ae1ac08bcff88c size:84813074 http://download-installer.cdn.mozilla.net/pub/firefox/releases/45.0.2/mac/en-US/Firefox%2045.0.2.dmg sha256:d50dfd5b118dfceef48f3b761ac898782931a1216bf16d0e551c3c79f2347eb2
+
+move &quot;{posix path of file &quot;Firefox_45.0.2.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Firefox_45.0.2.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  &quot;/Volumes/Firefox&quot; &quot;/private/tmp/Firefox_45.0.2.dmg&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Firefox_45.0.2.dmg&apos; &quot;
+
+wait cp -r &quot;/Volumes/Firefox/Firefox.app&quot; &quot;/Applications/&quot;
+
+wait hdiutil detach -force &quot;/Volumes/Firefox&quot;
+
+action requires restart</ActionScript>
+    </Action>
+    <Action ID="Action21019">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Firefox regardless of whether or not Firefox is currently running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Firefox_45.0.2.dmg sha1:a766d171b111222cff2f772f75ae1ac08bcff88c size:84813074 http://download-installer.cdn.mozilla.net/pub/firefox/releases/45.0.2/mac/en-US/Firefox%2045.0.2.dmg sha256:d50dfd5b118dfceef48f3b761ac898782931a1216bf16d0e551c3c79f2347eb2
+
+move &quot;{posix path of file &quot;Firefox_45.0.2.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Firefox_45.0.2.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  &quot;/Volumes/Firefox&quot; &quot;/private/tmp/Firefox_45.0.2.dmg&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Firefox_45.0.2.dmg&apos; &quot;
+
+wait sh -c &quot;killall &apos;firefox&apos; &quot;
+
+wait cp -r &quot;/Volumes/Firefox/Firefox.app&quot; &quot;/Applications/&quot;
+
+wait hdiutil detach -force &quot;/Volumes/Firefox&quot;
+
+action requires restart</ActionScript>
+    </Action>
+    <Action ID="Action21020">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Mozilla.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c1</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

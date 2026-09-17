@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Thunderbird - 24.0.1 - Win
+  ID       : 3644
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T07:11:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Thunderbird - 24.0.1 - Win</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>Mozilla has released a new version of the Thunderbird email client. Use the action below to update Thunderbird to the latest version (24.0.1).<BR><BR><B>Note</B>: Affected computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.<BR><BR><B>Note</B>: Client machines may briefly display a cancellable extraction progress windows during installation of this update.<BR><BR><B><FONT color=#ff0000>Important Note:</FONT></B> Choosing the "Upgrade Thunderbird regardless of whether or not Thunderbird running action" will close any running instance of Thunderbird on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.</TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>21.1 MB </DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance>exists key whose (name of it as lowercase starts with &quot;mozilla&quot; AND exists key whose (name of it = &quot;Mozilla Thunderbird&quot;) of it) of key &quot;HKLM\SOFTWARE\&quot; of registry</Relevance>
+    <Relevance>exists value &quot;CurrentVersion&quot; whose (it as string contains &quot;en-US&quot;) of keys &quot;HKEY_LOCAL_MACHINE\Software\Mozilla\Mozilla Thunderbird&quot; of registry</Relevance>
+    <Relevance><![CDATA[(exists regapp "thunderbird.exe" whose (product version of it < "24.0.1")) OR (exists value "CurrentVersion" whose ((preceding text of first " " of (it as string)) as version < "24.0.1") of keys "HKEY_LOCAL_MACHINE\Software\Mozilla\Mozilla Thunderbird" of registry)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Mozilla</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-10-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 03 Apr 2013 13:38:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 14:02:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to upgrade Thunderbird only if Thunderbird is not currently running. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {exists value "CurrentVersion" whose (it as string contains "en-US") of keys "HKEY_LOCAL_MACHINE\Software\Mozilla\Mozilla Firefox" of registry}
+download http://download-installer.cdn.mozilla.net/pub/mozilla.org/thunderbird/releases/24.0.1/win32/en-US/Thunderbird%20Setup%2024.0.1.exe
+
+continue if {(size of it = 22143816 AND sha1 of it = "f16e71d116541fb9ca654a4415b44562fbf2c104") of file "Thunderbird%2520Setup%252024.0.1.exe" of folder "__Download" AND NOT exists running application whose (name of it as lowercase = "thunderbird.exe")}
+
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete]" "MozillaThunderbirdDesktopIcon"="{if (exists file ((value "Common Desktop" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of registry as string)&"\Mozilla Thunderbird.lnk")) then "" else escape of (value "Common Desktop" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of registry as string & "\Mozilla Thunderbird.lnk")}"
+
+wait __Download\Thunderbird%20Setup%2024.0.1.exe -ms -ira -hideBanner -cleanUpOnUpgrade
+
+delete {value "MozillaThunderbirdDesktopIcon" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete" of registry as string}
+
+regdelete "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete]" "MozillaThunderbirdDesktopIcon"
+
+// Number is the sha1
+action may require restart "f16e71d116541fb9ca654a4415b44562fbf2c104"
+
+endif]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action3918">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to upgrade Thunderbird regardless of whether or not Thunderbird is currently running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {exists value "CurrentVersion" whose (it as string contains "en-US") of keys "HKEY_LOCAL_MACHINE\Software\Mozilla\Mozilla Firefox" of registry}
+download http://download-installer.cdn.mozilla.net/pub/mozilla.org/thunderbird/releases/24.0.1/win32/en-US/Thunderbird%20Setup%2024.0.1.exe
+
+continue if {(size of it = 22143816 AND sha1 of it = "f16e71d116541fb9ca654a4415b44562fbf2c104") of file "Thunderbird%2520Setup%252024.0.1.exe" of folder "__Download"}
+
+waithidden taskkill /F /IM thunderbird.exe
+
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete]" "MozillaThunderbirdDesktopIcon"="{if (exists file ((value "Common Desktop" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of registry as string)&"\Mozilla Thunderbird.lnk")) then "" else escape of (value "Common Desktop" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of registry as string & "\Mozilla Thunderbird.lnk")}"
+
+wait __Download\Thunderbird%20Setup%2024.0.1.exe -ms -ira -hideBanner -cleanUpOnUpgrade
+
+delete {value "MozillaThunderbirdDesktopIcon" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete" of registry as string}
+
+regdelete "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\FilesToDelete]" "MozillaThunderbirdDesktopIcon"
+
+// Number is the sha1
+action may require restart "f16e71d116541fb9ca654a4415b44562fbf2c104"
+
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action3919">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this Thunderbird release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.mozilla.com/en-US/thunderbird/24.0.1/releasenotes/</ActionScript>
+    </Action>
+    <Action ID="Action3920">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Mozilla.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.mozilla.org/security/known-vulnerabilities/thunderbird.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

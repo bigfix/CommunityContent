@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Adobe Reader XI 11.0.04 - Windows
+  ID       : 2610
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-10-02T09:32:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Reader XI 11.0.04 - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;<STRONG>&nbsp;<FONT size=3>About Adobe Reader</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>Adobe Reader&nbsp;is an&nbsp;application developed by Adobe Systems to view and&nbsp;print files in portable document format (PDF). Adobe's solution for creating and manipulating PDF files is Adobe Acrobat Professional, which requires a license.</P></BLOCKQUOTE>
+<P><FONT color=#0080ff size=3><STRONG>Licensing</STRONG></FONT></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>Adobe Reader is freeware.</P></BLOCKQUOTE><STRONG>
+<P><FONT size=3>About This Task</FONT></P></STRONG>
+<BLOCKQUOTE>This task will install/upgrade: Adobe Reader XI 11.0.04.<BR><BR>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7, Windows 7 x64, Windows&nbsp;8 and Windows&nbsp;8 x64. </BLOCKQUOTE>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose (value "DisplayName" of it as string contains "Adobe Reader" AND (it >= "11.0.04" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-09-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 02 Oct 2013 16:31:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//download Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
+    wait "{pathname of system folder & "\msiexec.exe"}" /x "{{AC76BA86-7AD7-1033-7B44-AB0000000001}" /qn /norestart
+endif
+
+//install Adobe Reader without desktop shortcut
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

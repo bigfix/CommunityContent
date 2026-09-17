@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Studio Code 5.0
+  ID       : 2519
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T10:51:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Studio Code 5.0</Title>
+    <Description><![CDATA[<P>This task will deploy Studio Code 5.0 </P>
+<P>- Unlicensed Version<BR><BR>This task is applicable on Mac OS X 10.8 </P>]]></Description>
+    <Relevance><![CDATA[(system version >= "10.8" AND system version < "10.9")]]></Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "Studiocode.app" and ((version of it) >= "5.0.0" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 12:34:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Studiocode500Installer.dmg sha1:f500d7a65f22ce161e7955f32c58b97ae7939bec size:38294360 http://software.sportstec.com.au/software/studiocode/Studiocode500Installer.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/STUDIOCODE&quot; &quot;{posix path of file &quot;Studiocode500Installer.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /tmp/STUDIOCODE/Studiocode\ 5.0.0.mpkg -target /&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/STUDIOCODE&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

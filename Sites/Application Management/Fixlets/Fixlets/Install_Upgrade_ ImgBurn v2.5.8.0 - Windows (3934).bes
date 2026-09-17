@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: ImgBurn v2.5.8.0 - Windows
+  ID       : 3934
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-19T11:21:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: ImgBurn v2.5.8.0 - Windows</Title>
+    <Description><![CDATA[<P>This task will install ImgBurn. <FONT size=2>ImgBurn is a lightweight CD / DVD / HD DVD / Blu-ray burning application.</FONT></P>
+<P><FONT size=2></FONT>&nbsp;</P>
+<P><FONT size=2><STRONG>References:</STRONG></FONT></P>
+<P><FONT size=2><A href="http://www.imgburn.com/">http://www.imgburn.com/</A></P></FONT>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string contains "ImgBurn" AND value "DisplayVersion" of it as string as version >= "2.5.8.0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (native registry;registry)]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-12-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Dec 2014 18:20:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch SetupImgBurn.exe sha1:5ca96a0c243390c378dee1a629684ea261e2cfc4 size:3469871 http://download.imgburn.com/SetupImgBurn_2.5.8.0.exe
+
+// http://wpkg.org/ImgBurn
+// http://www.itninja.com/software/lightning-uk/imgburn/2-6624
+// http://www.catonrug.net/2013/02/imgburn-silent-install.html
+//
+// Installer type: NSIS
+waithidden __Download\SetupImgBurn.exe /S
+
+// Delete desktop shortcut
+delete &quot;C:\Users\Public\Desktop\ImgBurn.lnk&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Safety Monitor v4.1
+  ID       : 1424
+  Author   : 63C9CE60-2093-46C5-805B-4B12A070C9BF
+  Domain   : SYST
+  Imported : 2013-04-30T07:55:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Safety Monitor v4.1</Title>
+    <Description><![CDATA[This task will download 1 files from the "Safety Monitor" Software Distribution Package onto selected endpoints <BR><BR><B>Installation Command:</B> a<BR><BR><B>Run Command As:</B> System User<BR><BR><B>Download Size:</B> 45,068.5 KB ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win7&quot;</Relevance>
+    <Relevance><![CDATA[(exists file "msiexec.exe" of system folder) AND (disjunction of (exists keys "{F8B04732-604E-4129-8510-AFFFA047C476}" whose ( value "DisplayVersion" of it as string as version >= "4.1" as version AND value "Language" of it as string = "1033") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )))]]></Relevance>
+    <Relevance>exists file &quot;C:\Program Files (x86)\Scientech\SM41\sm41.exe&quot;</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Safety Monitor</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-02-08</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;48A759407DB1084F56977B39CB22ABEAE23049B0&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>a</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_sxb0588_1360342748704597</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;pkgvariablekey&quot;:&quot;SWD_Package_sxb0588_1360342748704597&quot;,&quot;vendor&quot;:&quot;Point Beach&quot;,&quot;creator&quot;:&quot;sxb0588&quot;,&quot;lastmodified&quot;:&quot;Fri Feb 8 14:11:17 GMT-0500 2013&quot;,&quot;owner&quot;:&quot;sxb0588&quot;,&quot;version&quot;:&quot;4.1&quot;,&quot;description&quot;:null,&quot;files&quot;:[{&quot;id&quot;:&quot;48A759407DB1084F56977B39CB22ABEAE23049B0_1360350677092102&quot;,&quot;folderoffset&quot;:&quot;&quot;,&quot;osd_metadata&quot;:null,&quot;compressed_data_for_package&quot;:true,&quot;exe_metadata&quot;:null,&quot;msi_metadata&quot;:null,&quot;size&quot;:46150147,&quot;filename&quot;:&quot;compressedPackageData.bftemp&quot;,&quot;sha1&quot;:&quot;48A759407DB1084F56977B39CB22ABEAE23049B0&quot;,&quot;spb_metadata&quot;:null,&quot;dateadded&quot;:&quot;Fri, 08 Feb 2013 14:11:13 -0500&quot;}],&quot;comment&quot;:null,&quot;product&quot;:&quot;Safety Monitor&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 08 Feb 2013 19:32:04 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// ---------------------------------------------EDITING INSTRUCTIONS---------------------------------------------------------------------
+// When editing this task through the Manage Software Distribution Packages dashboard, you will have the option to preserve any custom edits you make to this action.
+// If you select the option to preserve custom edits, only areas bound by the comment markers 'Preparation Marker' and 'Command Marker' are updated.
+// To ensure that all your custom Action Script changes can be preserved, only make changes to areas that are not bound by the comment markers.
+// Removing the comment markers may result in the Action Script not updating correctly during the next edit.
+// See KB Article 1818 (http://support.bigfix.com/cgi-bin/kbdirect.pl?id=1818) for more information.
+// --------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------->Files
+// Download all specified files
+begin prefetch block
+  add prefetch item name=48A759407DB1084F56977B39CB22ABEAE23049B0 sha1=48a759407db1084f56977b39cb22abeae23049b0 size=46150147 url=SWDProtocol://127.0.0.1:52311/uploads/48A759407DB1084F56977B39CB22ABEAE23049B0/compressedPackageData.bftemp.bfswd
+end prefetch block
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter "baseFolder" =  "{pathname of windows folder}\MSI\SafetyMonitor_v4.1\"
+folder delete {parameter "baseFolder"}
+// Move files into subfolders and unescape file names
+move "__Download/48A759407DB1084F56977B39CB22ABEAE23049B0" "__Download/compressedPackageData.bftemp"
+// extract any compressed files
+extract compressedPackageData.bftemp
+delete "__Download/compressedPackageData.bftemp"
+move "__Download/" "{parameter "baseFolder"}"
+//------------------------------------------------------------->Installation
+//run app. with XP compatibility mode
+regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]" "C:\\Windows\\MSI\\SafetyMonitor_v4.1\\setup.exe"="WINXPSP3 RUNASADMIN"
+//install app
+waithidden "C:\Windows\MSI\SafetyMonitor_v4.1\setup.exe" /v/qn
+continue if {exit code of action = 0}
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

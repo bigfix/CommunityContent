@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Modify Value of Line In File
+  ID       : 26946
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2022-08-10T14:37:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Modify Value of Line In File</Title>
+    <Description></Description>
+    <Relevance>exists file &quot;C:\temp\ClientAgent.cfg&quot;</Relevance>
+    <Relevance>following text of first &quot;=&quot; of (lines of file &quot;c:\temp\ClientAgent.cfg&quot; as string) whose (it contains &quot;SITE_CONTROLLER_ADDRESS&quot;) = &quot;&quot;</Relevance>
+    <Source>Mike Consuegra</Source>
+    <SourceReleaseDate>2019-09-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Aug 2022 21:36:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Delete</Link>
+        <PostLink>&amp;nbsp;hosts file entry.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;ipaddress&quot; with description &quot;Enter the value to add to the &apos;SITE_CONTROLLER_ADDRESS&apos; field:&quot;
+
+delete __createfile
+
+createfile until EOF
+{concatenation &quot;%0D%0A&quot; of ((it) as string) whose (it does not contain &quot;SITE_CONTROLLER_ADDRESS=&quot;) of (lines of file &quot;c:\temp\ClientAgent.cfg&quot;)}
+SITE_CONTROLLER_ADDRESS={parameter &quot;ipaddress&quot;}
+EOF
+
+dos del /F &quot;c:\temp\ClientAgent.cfg&quot;
+
+move __createfile &quot;C:\temp\ClientAgent.cfg&quot;
+
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

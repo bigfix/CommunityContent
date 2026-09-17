@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Stellarium 0.12.1
+  ID       : 2524
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T10:57:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Stellarium 0.12.1</Title>
+    <Description><![CDATA[This task will deploy Stellarium 0.12.1 <BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "Stellarium.app" and ((bundle version of it) >= "0.12.1" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 13:03:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Stellarium-0.12.1.dmg sha1:24a3dd8d203fe56de08bb40f4c5c6e5fe43b64c4 size:82081721 http://iweb.dl.sourceforge.net/project/stellarium/Stellarium-MacOSX/0.12.1/Stellarium-0.12.1.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/STELLARIUM&quot; &quot;{posix path of file &quot;Stellarium-0.12.1.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+continue if {exists folder &quot;/tmp/STELLARIUM/Stellarium.app&quot;}
+wait /bin/rm -rf &quot;/Applications/Stellarium.app&quot;
+wait /bin/cp -Rfp &quot;/tmp/STELLARIUM/Stellarium.app&quot; &quot;/Applications&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/STELLARIUM&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Find and delete Chrome
+  ID       : 3978
+  Author   : btucker7587
+  Domain   : BESC
+  Imported : 2015-02-10T17:51:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Find and delete Chrome</Title>
+    <Description>Find and Uninstall Google Chrome installed at Enterprise level</Description>
+    <Relevance>exists file whose (name of it as string = &quot;setup.exe&quot;) of folder &quot;C:\Program Files (x86)\Google\Chrome\Application\39.0.2171.71\Installer\&quot; AND exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Chrome&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry AND exists regapp whose (name of it = &quot;chrome.exe&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-02-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 04 Feb 2015 06:37:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//stop Chrome from running
+if {exists running application whose (name of it as lowercase = &quot;chrome.exe&quot;)}
+    waithidden taskkill /F /T /IM chrome.exe
+    pause while {exists running application &quot;chrome.exe&quot;}
+endif
+
+continue if {not exists running application whose (name of it as lowercase = &quot;chrome.exe&quot;)}
+
+//uninstall Chrome
+waithidden &quot;C:\Program Files (x86)\Google\Chrome\Application\39.0.2171.71\Installer\setup.exe&quot; --uninstall --multi-install --chrome --system-level --force-uninstall</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

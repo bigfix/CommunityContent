@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Configure Polycom CMA Desktop Server address
+  ID       : 738
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T14:38:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Configure Polycom CMA Desktop Server address</Title>
+    <Description><![CDATA[This task will configure: Polycom CMA Desktop v5.2.2.<BR><BR>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7 and Windows 7 x64. ]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance><![CDATA[exists key whose (value "DisplayName" of it as string contains "Polycom CMA Desktop" AND (it >= "5.2" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry]]></Relevance>
+    <Relevance><![CDATA[exists file (value "InstallLocation" of key whose (value "DisplayName" of it as string contains "Polycom CMA Desktop" AND (it >= "5.2" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry as string & "assets\config\configuration.xml")]]></Relevance>
+    <Relevance><![CDATA["0.0.0.0" != (it as text) of xpath "//Varies/specCmaServerIpAddress" of xml document of file (value "InstallLocation" of key whose (value "DisplayName" of it as string contains "Polycom CMA Desktop" AND (it >= "5.2" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry as string & "assets\config\configuration.xml")]]></Relevance>
+    <Category>Software Configuration</Category>
+    <Source>jgs194</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2012-06-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 06 Dec 2012 20:39:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Set default Server IP address:
+delete __createfile
+// Using ActionScript, this will create a new VBScript file, write to it, execute it with cscript, and delete it.
+// Begin reading lines and write to the VBScript file.
+createfile until END_OF_FILE
+'Begin VBScript Code
+Set xmlDoc = _
+  CreateObject("Microsoft.XMLDOM")
+xmlDoc.Async = "False"
+xmlDoc.Load("{value "InstallLocation" of key whose (value "DisplayName" of it as string contains "Polycom CMA Desktop" AND (it >= "5.2.2.13044" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry}assets\config\configuration.xml")
+Set colNodes=xmlDoc.selectNodes ("/Varies/specCmaServerIpAddress")
+For Each objNode in colNodes
+   objNode.Text = "0.0.0.0"
+Next
+Set colNodes=xmlDoc.selectNodes ("/Varies/cmaServerType")
+For Each objNode in colNodes
+   objNode.Text = "specify"
+Next
+Set colNodes=xmlDoc.selectNodes ("/Varies/signinAutoStart")
+For Each objNode in colNodes
+   objNode.Text = "disable"
+Next
+xmlDoc.Save "{value "InstallLocation" of key whose (value "DisplayName" of it as string contains "Polycom CMA Desktop" AND (it >= "5.2.2.13044" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry}assets\config\configuration.xml"
+END_OF_FILE
+// Copy the newly created file to a filename that has a .vbs extension.
+delete EditXML.vbs
+copy __createfile EditXML.vbs
+waithidden cscript.exe EditXML.vbs
+delete EditXML.vbs]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

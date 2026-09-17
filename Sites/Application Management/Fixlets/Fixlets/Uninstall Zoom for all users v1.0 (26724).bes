@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Zoom for all users v1.0
+  ID       : 26724
+  Author   : G_Davies
+  Domain   : SYST
+  Imported : 2020-12-01T07:18:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Zoom for all users v1.0</Title>
+    <Description><![CDATA[This task will uninstall&nbsp;the Zoom client using the zoom uninstaller utility<BR><FONT color=#ff0000><BR></FONT><A href="https://support.zoom.us/hc/en-us/article_attachments/360069358032/CleanZoom.zip">https://support.zoom.us/hc/en-us/article_attachments/360069358032/CleanZoom.zip</A><BR><BR><B>Installation Command:</B> "CleanZoom.exe" /slient<BR>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[free space of drive of client > 1000000]]></Relevance>
+    <Relevance><![CDATA[(exists value "DisplayName" whose (it as string as lowercase contains "zoom") of keys ( "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\ZoomUMX";"HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall") of (x64 registries; x32 registries)) OR (exists logged on user AND exists file whose (name of it as lowercase contains "installer.exe") of folder ("C:\Users\" & (name of logged on user) & "\AppData\Roaming\Zoom\uninstall"))]]></Relevance>
+    <Category>Software Removal</Category>
+    <Source>Zoom Unistaller</Source>
+    <SourceReleaseDate>2020-11-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>{&quot;username&quot;:&quot;&quot;,&quot;passwordType&quot;:&quot;required&quot;,&quot;userType&quot;:&quot;system&quot;,&quot;targetuser&quot;:&quot;&quot;,&quot;asAdmin&quot;:&quot;true&quot;,&quot;completion&quot;:&quot;job&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>action-ui-metadata</Name>
+      <Value>{&quot;icon&quot;:&quot;&quot;,&quot;size&quot;:&quot;813800&quot;,&quot;version&quot;:&quot;1.0&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>&quot;CleanZoom.exe&quot; /slient</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;creator&quot;:&quot;BFAdmin&quot;,&quot;product&quot;:&quot;Zoom Unustaller&quot;,&quot;files&quot;:[{&quot;rpm_metadata&quot;:null,&quot;file_url&quot;:null,&quot;msi_metadata&quot;:null,&quot;id&quot;:&quot;922f9374c55c7dea6f084a16789e11b81b6637ce_1603281434317569&quot;,&quot;ReferenceName&quot;:&quot;/922f9374c55c7dea6f084a16789e11b81b6637ce/CleanZoom.exe&quot;,&quot;filename&quot;:&quot;CleanZoom.exe&quot;,&quot;appx_metatdata&quot;:null,&quot;dateadded&quot;:&quot;Wed, 21 Oct 2020 12:57:14 +0100&quot;,&quot;size&quot;:813800,&quot;compressed_data_for_package&quot;:false,&quot;appv_metadata&quot;:null,&quot;exe_metadata&quot;:{&quot;exe_metadata_version&quot;:&quot;1.0.0.9&quot;,&quot;CompanyName&quot;:&quot;&quot;,&quot;FileVersion&quot;:&quot;&quot;,&quot;ProductVersion&quot;:&quot;&quot;,&quot;ProductName&quot;:&quot;&quot;},&quot;folderoffset&quot;:&quot;&quot;,&quot;spb_metadata&quot;:null,&quot;HasAnonymousReference&quot;:false,&quot;sha256&quot;:&quot;95b06977a8e2c8648d1d03dc31ef227b8cdf831a1d1bdef410c680e2c1c58157&quot;,&quot;uploadSuffix&quot;:&quot;bfswd&quot;,&quot;osd_metadata&quot;:null,&quot;sha1&quot;:&quot;922f9374c55c7dea6f084a16789e11b81b6637ce&quot;,&quot;ReferenceID&quot;:&quot;1365&quot;}],&quot;fullInstallCommand&quot;:null,&quot;version&quot;:&quot;1.0&quot;,&quot;pkgTag&quot;:&quot;&quot;,&quot;owner&quot;:&quot;BFAdmin&quot;,&quot;vendor&quot;:&quot;Zoom&quot;,&quot;pkgvariablekey&quot;:&quot;SWD_Package_BFAdmin_160328128877691&quot;,&quot;lastmodified&quot;:&quot;Wed Oct 21 12:57:14 GMT+0100 2020&quot;,&quot;description&quot;:null,&quot;os&quot;:[],&quot;useCommandLine&quot;:false,&quot;comment&quot;:null,&quot;site&quot;:null,&quot;runAsSystem&quot;:null,&quot;categories&quot;:[]}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedPathOptions</Name>
+      <Value>{&quot;customPathName&quot;:null,&quot;deleteCustomPath&quot;:false,&quot;customPath&quot;:false}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedLogOptions</Name>
+      <Value>{&quot;individualLogCustomerName&quot;:null,&quot;uploadTheLog&quot;:false,&quot;individualLog&quot;:false}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_BFAdmin_160328128877691</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-prePostInstall</Name>
+      <Value>{&quot;selected&quot;:false,&quot;postType&quot;:null,&quot;postInstall&quot;:null,&quot;preType&quot;:null,&quot;preInstall&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgTag</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgType</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;922f9374c55c7dea6f084a16789e11b81b6637ce&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runFileSha1</Name>
+      <Value>922f9374c55c7dea6f084a16789e11b81b6637ce</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdUseCommandLine</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdDeployCategory</Name>
+      <Value>Install</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2020 15:16:30 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Action ID="Action27995">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download all specified files
+begin prefetch block
+	add prefetch item name=CleanZoom.zip sha1=0c704491749a4672c388936e8f613b45c021b7e4 size=378630 url=https://support.zoom.us/hc/en-us/article_attachments/360069358032/CleanZoom.zip
+	add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+end prefetch block
+
+parameter "baseFolder" =  "__Download/"
+
+waithidden __Download\unzip.exe -o __Download\CleanZoom.zip CleanZoom.exe -d "{pathname of download folder}"
+
+// Log setup
+parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_RemovalResults.log"
+
+//**End Preparation Marker
+delete __createfile
+parameter "logFolder" = "{parameter "mainSWDLogFolder"}"
+// Run setup process
+delete run.bat
+
+// Use .bat to set working directory to packages root, for setup command.
+createfile until _end_
+@ECHO OFF
+cd "{parameter "baseFolder"}"
+rem //comment marker
+echo %DATE% %TIME% >> "{parameter "logFolder"}\{parameter "logFile"}"
+echo Action ID: {id of active action} >> "{parameter "logFolder"}\{parameter "logFile"}"
+rem //**Begin Command Marker
+echo Command: "CleanZoom.exe" /slient >> "{parameter "logFolder"}\{parameter "logFile"}"
+set errorlevel=
+"CleanZoom.exe" /slient >> "{parameter "logFolder"}\{parameter "logFile"}" 2>&1
+set SWDExitCode=%errorlevel%
+rem //**End Command Marker
+
+echo Return code: %SWDExitCode% >> "{parameter "logFolder"}\{parameter "logFile"}"
+echo. >> "{parameter "logFolder"}\{parameter "logFile"}"
+exit %SWDExitCode%
+_end_
+
+move __createfile run.bat
+override wait
+hidden=true
+completion=job
+wait run.bat
+
+//**Begin Closing Marker
+// Get the return code of the previous action.
+parameter "returnCode" = "{exit code of action}"
+
+// Task will now exit.
+exit {parameter "returnCode"}
+//**End Closing Marker]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

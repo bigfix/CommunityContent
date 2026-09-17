@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Dynamic Install VLC - Windows
+  ID       : 27378
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2025-08-21T07:30:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Dynamic Install VLC - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;VLC&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x32 registries; x64 registries)</Relevance>
+    <Relevance>exists files &quot;Update.fxf&quot; of folders &quot;Updates for Windows Applications Extended&quot; of data folders of client</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-08-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Aug 2025 03:07:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+add prefetch item name=vlc-setup-win64.exe { ( ("sha1=" & parenthesized part 3 of first match (case insensitive regex " *(prefetch |add prefetch item ).*sha1(=|:)(\S{40})( |\b)") of it) & (" size=" & parenthesized part 3 of first match (case insensitive regex " *(prefetch |add prefetch item ).*size(=|:)(\d+)( |\b)") of it) & (" url=" & parenthesized part 2 of first match (case insensitive regex " *(prefetch .* (http\S+)|add prefetch item .*url=(\S+))( |\b)") of it) & ( (" sha256=" & parenthesized part 3 of first match (case insensitive regex " *(prefetch |add prefetch item ).*sha256(=|:)(\S{64})( |\b)") of it) | "" ) ) of lines containing "https://get.videolan.org/vlc" whose(it contains "prefetch") of files "Update.fxf" of folders "Updates for Windows Applications Extended" of data folders of client }
+end prefetch block
+
+// Install:
+override wait
+hidden=true
+completion=job
+wait __Download\vlc-setup-win64.exe /L=1031 /S /NCRC
+
+if { exists (now - it) whose(it < 2 * minute) of creation times of files "VLC media player.lnk" of /* C:\Users\Public\Desktop */ csidl folders 25 }
+delete "{pathnames of files "VLC media player.lnk" of /* C:\Users\Public\Desktop */ csidl folders 25}"
+endif
+
+// END]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

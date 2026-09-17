@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy FileMaker Pro 12 Update 12.0.4
+  ID       : 2541
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-24T10:06:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy FileMaker Pro 12 Update 12.0.4</Title>
+    <Description><![CDATA[<P>This task will deploy FileMaker Pro 12 Update 12.0.4 <BR></P>
+<P>- Requires FIleMaker Pro 12</P>
+<P><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 </P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance><![CDATA[(exists application "FileMaker Pro.app" whose (version of it < "12.0.4" as version))]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 23 Jul 2013 00:38:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch fm_updater_12.0.4.403.dmg sha1:2f9673946f2bf7cd1f6ccc91acddd2b34c01271a size:586898054 http://fmdl.filemaker.com/UPDT/12/fm_updater_12.0.4.403.dmg
+delete &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
+move &quot;{posix path of file &quot;fm_updater_12.0.4.403.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/FMPROUPDATE1204&quot; &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /tmp/FMPROUPDATE1204/FileMaker\ 12v4\ Updates.pkg -target /&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/FMPROUPDATE1204&quot;
+delete &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

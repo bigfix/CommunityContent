@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy SAOImage DS9 7.2
+  ID       : 2525
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T10:59:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy SAOImage DS9 7.2</Title>
+    <Description><![CDATA[<P>This task will deploy SAOImage DS9 7.2 </P>
+<P>- Requires XQuartz/X11<BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 </P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance>not exists file &quot;/usr/local/bin/ds9&quot; whose (sha1 of it = &quot;e5d637df76e3ae7d7b93ba69520a0a83e5820b65&quot;) AND not exists file &quot;/usr/local/bin/ds9.zip&quot; whose (sha1 of it = &quot;2a038493afb37e6f038f59f87d7f05a10698199e&quot;)</Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 17:37:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ds9.darwinmountainlion.7.2.tar.gz sha1:4d7d17fd619ef5aa2fc14618811207faad797d76 size:18896170 http://hea-www.harvard.edu/RD/ds9/download/darwinmountainlion/ds9.darwinmountainlion.7.2.tar.gz
+wait tar xz -C /usr/local/bin -f __Download/ds9.darwinmountainlion.7.2.tar.gz
+delete &quot;/etc/paths.d/ds9&quot;
+createfile until END_OF_FILE
+/usr/local/bin
+END_OF_FILE
+copy __createfile &quot;/etc/paths.d/ds9&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

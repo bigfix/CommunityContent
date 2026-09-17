@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall: Google Toolbar - msiexec
+  ID       : 3689
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-15T09:51:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall: Google Toolbar - msiexec</Title>
+    <Description><![CDATA[<P>This fixlet uninstalls the Google Toolbar. If deployed as policy, this will remove any incidental installs of Google Toolbar.</P>
+<P>Latest version found here: <A href="http://bigfix.me/fixlet/details/792"><FONT color=#000080>http://bigfix.me/fixlet/details/792</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string = &quot;Google Toolbar for Internet Explorer&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 15 Jan 2014 16:50:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string = &quot;Google Toolbar for Internet Explorer&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>
