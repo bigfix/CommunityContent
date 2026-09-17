@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Client UI Enable/Disable Main Dialog
+  ID       : 373
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Client UI Enable/Disable Main Dialog</Title>
+    <Description><![CDATA[
+This task can be used to control the BES Client UI Main Dialog of your BES Clients. When this mode is enabled, the client UI window will show offers and action history information.&nbsp; When this mode is disabled, the BES Client UI will not appear to end users.<BR><BR>Message boxes are not considered part of the BES Client UI Main Dialog and will continue to appear even if the BES Client UI Main Dialog is disabled.<BR><BR><b>Note:</b> Tray modes of “OffersTray” and “AlwaysTray” are incompatible with the main dialog being disabled.<BR><BR><b>Note:</b> Windows 9x/ME operating systems will require the computer to be restarted to complete the task. On newer Windows operating systems, the BES Client service will be restarted. Please schedule this task to occur at a time when a service interruption is acceptable. <BR><BR><b>Note: </b>Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.0"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 25 Jul 2007 22:44:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action588">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to enable the BES Client Main Dialog. (Default)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_HasMainDialog&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+    <Action ID="Action589">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable the BES Client Main Dialog and set Tray Mode to &quot;ActionsTray&quot;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_HasMainDialog&quot;=&quot;0&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ActionManager_TrayMode&quot;=&quot;ActionsTray&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

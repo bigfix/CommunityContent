@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Encrypted Reports
+  ID       : 413
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Encrypted Reports</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This task can be used to control whether the BES Client encrypts its reports back to the BES Server.&nbsp;It also&nbsp;requires <FONT size=2>the BES Clients to&nbsp;run the relay selection algorithm&nbsp;immediately.</FONT></P> <P>If the BES Client is set to <STRONG>require</STRONG> encryption to send reports, the BES Client will not send any reports if no encryption certificate could be found, or if the parent relay does not support receipt of encrypted documents.</P> <P>If the BES Client is set to use encryption <STRONG>if possible</STRONG>, the BES Client will attempt to use encryption but will send its reports in cleartext if encryption is impossible.</P> <P>If the BES Client is set to <STRONG>disable</STRONG> encryption, the BES Client will not encrypt its reports to the BES Server even if encryption is possible.</P> <P><FONT size=2><STRONG>Note:</STRONG> Do <STRONG>not</STRONG> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly perform auto relay selection. </FONT></P> <P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG>&nbsp;Depending on the details of your network,&nbsp;causing all the BES Clients to simultaneously do relay autoselection might cause a heavy load on the routers while they handle the ICMP traffic from the BES Clients. If you are worried about this, use the "temporal distribution" option&nbsp;in the Execution tab of the Take Action dialog when sending this action.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 09 Jul 2008 09:24:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action632">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use encryption for reports &lt;b&gt;if possible&lt;/b&gt;. (Recommended for most deployments) </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Report_Encryption&quot;=&quot;Optional&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+relay select</ActionScript>
+    </Action>
+    <Action ID="Action633">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to &lt;b&gt;require&lt;/b&gt; encryption to send reports. (Use for highest security - Please use with caution and read all information above) </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Report_Encryption&quot;=&quot;Required&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+relay select</ActionScript>
+    </Action>
+    <Action ID="Action634">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to &lt;b&gt;disable&lt;/b&gt; encryption for reports. (Default behavior)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Report_Encryption&quot;=&quot;None&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+relay select</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Console Info
+  ID       : 2994791
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T11:32:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Console Info</Title>
+    <Description><![CDATA[<P>This analysis reports information about the BES Console configuration.</P>
+<P>The latest version of this analysis can be found here: &nbsp;<A href="http://bigfix.me/analysis/details/2994564"><FONT color=#000080>http://bigfix.me/analysis/details/2994564</FONT></A></P>]]></Description>
+    <Relevance>exists regapp &quot;BESConsole.exe&quot;</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 18:31:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Version" EvaluationPeriod="P1D">version of regapp &quot;BESConsole.exe&quot;</Property>
+    <Property ID="3" Name="_BESData_Comm_TimeoutSeconds" EvaluationPeriod="P1D">(it as string as trimmed string as integer) of values of settings &quot;_BESData_Comm_TimeoutSeconds&quot; of client</Property>
+    <Property ID="5" Name="Debug Enabled?" EvaluationPeriod="PT12H">number of keys &quot;Software\BigFix\Enterprise Console&quot; whose(exists value &quot;DebugOut&quot; of it OR exists value &quot;EnabledLogs&quot; of it) of keys of key &quot;HKEY_USERS&quot; of registry</Property>
+    <Property ID="6" Name="Number of Users" EvaluationPeriod="PT1H">number of logged on users</Property>
+    <Property ID="7" Name="Size of Console Debug Logs" EvaluationPeriod="PT12H">sum of sizes of files ((values &quot;DebugOut&quot; of keys &quot;Software\BigFix\Enterprise Console&quot; whose(exists value &quot;DebugOut&quot; of it) of keys of key &quot;HKEY_USERS&quot; of registry) as string)</Property>
+    <Property ID="8" Name="Console Computer property columns with a width of 0" EvaluationPeriod="P2D">keys whose(exists values &quot;width&quot; whose(it as integer = 0) of it) of keys of keys &quot;Software\BigFix\Enterprise Console\Preferences\bes.win.psu.edu\ComputerListCtrlColumns&quot; of keys of key &quot;HKEY_USERS&quot; of registry</Property>
+  </Analysis>
+</BES>

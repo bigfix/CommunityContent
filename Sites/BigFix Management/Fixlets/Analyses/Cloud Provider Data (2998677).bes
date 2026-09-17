@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Cloud Provider Data
+  ID       : 2998677
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:06:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Cloud Provider Data</Title>
+    <Description>Cloud Provider Data</Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Cloud Provider Name" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name of cloud provider) then name of cloud provider else nothing) else nothing</Property>
+    <Property ID="2" Name="Cloud Private IP" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists private ip of cloud provider) then private ip of cloud provider else nothing) else nothing</Property>
+    <Property ID="3" Name="Cloud Region" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists region of cloud provider) then region of cloud provider else nothing) else nothing</Property>
+    <Property ID="4" Name="Cloud Unique ID" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists unique id of cloud provider) then unique id of cloud provider else nothing) else nothing</Property>
+    <Property ID="5" Name="Cloud Version" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists version of cloud provider) then version of cloud provider else nothing) else nothing</Property>
+  </Analysis>
+</BES>

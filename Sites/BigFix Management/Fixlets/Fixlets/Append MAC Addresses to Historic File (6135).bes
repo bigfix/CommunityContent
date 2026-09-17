@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Append MAC Addresses to Historic File
+  ID       : 6135
+  Author   : ctangora
+  Domain   : BESC
+  Imported : 2015-08-10T07:05:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Append MAC Addresses to Historic File</Title>
+    <Description><![CDATA[<P>For use to track transient MAC's on all machines.</P>
+<P>Appends current MAC associated with machine to file in client storage folder.</P>
+<P>This file is then read by a custom property to get a historic list of MAC's associated with each machine.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Meta Data</Category>
+    <Source>Tangora</Source>
+    <SourceReleaseDate>2015-08-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 10 Aug 2015 12:30:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+
+if {windows of operating system}
+	parameter "hMAC" = "{(storage folder of client as string) & "\historicMAC.list"}"
+else
+	parameter "hMAC" = "{(storage folder of client as string) & "/historicMAC.list"}"
+endif
+
+
+if {exists file "historicMAC.list" of folder (storage folder of client as string)}
+	appendfile {concatenation "%0d%0a" of lines of file (parameter "hMAC")}
+endif
+
+appendfile {concatenation "%0d%0a" of mac addresses of adapters of network}
+delete "{parameter "hMAC"}"
+copy __appendfile "{parameter "hMAC"}"
+
+delete __appendfile
+appendfile {concatenation "%0d%0a" of unique values of lines of file (parameter "hMAC")}
+delete "{parameter "hMAC"}"
+copy __appendfile "{parameter "hMAC"}"
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

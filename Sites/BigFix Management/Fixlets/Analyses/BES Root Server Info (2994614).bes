@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Root Server Info
+  ID       : 2994614
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-12-09T11:36:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Root Server Info</Title>
+    <Description><![CDATA[<P>This analysis is an attempt to return all important configuration information of the BES Root server, as well as other useful information.</P>
+<P>Latest version of this Analysis found here:&nbsp; <A href="http://bigfix.me/analysis/details/2994612"><FONT color=#000080>http://bigfix.me/analysis/details/2994612</FONT></A></P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 09 Dec 2013 18:33:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="SOAP Creds" EvaluationPeriod="P2D">(name of it &amp; &quot; -&gt; &quot; &amp; it as string) of values whose(name of it does not contain &quot;Password&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports&quot; of registry</Property>
+    <Property ID="4" Name="REST Creds" EvaluationPeriod="P2D">(name of it &amp; &quot; -&gt; &quot; &amp; it as string) of values whose(name of it starts with &quot;REST&quot; AND name of it does not contain &quot;Password&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\MFSConfig&quot; of registry</Property>
+    <Property ID="5" Name="PowerWoLSCS Creds" EvaluationPeriod="P2D">/* I have no clue what this is, it is not set */ (name of it &amp; &quot; -&gt; &quot; &amp; it as string) of values whose(name of it starts with &quot;PowerWoLSCS&quot; AND name of it does not contain &quot;Password&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\MFSConfig&quot; of registry</Property>
+    <Property ID="6" Name="HostName" EvaluationPeriod="P2D">value &quot;hostname&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Installer&quot; of registry</Property>
+    <Property ID="7" Name="StoragePath" EvaluationPeriod="P2D">value &quot;StoragePath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GlobalOptions&quot; of registry</Property>
+    <Property ID="8" Name="DownloadMirror URL" EvaluationPeriod="P2D">value &quot;DownloadMirror URL&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService&quot; of registry</Property>
+    <Property ID="9" Name="GatherDB DataPath" EvaluationPeriod="P2D">value &quot;DataDirectoryPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherDB&quot; of registry</Property>
+    <Property ID="10" Name="FillDB DataPath" EvaluationPeriod="P2D">value &quot;DataDirectoryPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry</Property>
+    <Property ID="11" Name="Version" EvaluationPeriod="P2D">value &quot;Version&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry</Property>
+    <Property ID="12" Name="Port" EvaluationPeriod="P2D">value &quot;Port&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry</Property>
+    <Property ID="13" Name="ActionSiteEpoch" EvaluationPeriod="P2D">value &quot;ActionSiteEpoch&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESRelay\GlobalOptions&quot; of registry</Property>
+    <Property ID="14" Name="BFGather Location" EvaluationPeriod="P2D">value &quot;BFGather Location&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BigFix Server\BFGather&quot; of registry</Property>
+    <Property ID="15" Name="MirrorServer DownloadWhitelist" EvaluationPeriod="P2D">lines of file &quot;Mirror Server\Config\DownloadWhitelist.txt&quot; of folder (value &quot;StoragePath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GlobalOptions&quot; of registry as string)</Property>
+    <Property ID="16" Name="ReplicationPluginMaxConnections" EvaluationPeriod="P2D">if (not exists value &quot;ReplicationPluginMaxConnections&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Database&quot; of registry) then (ERROR &quot;Default - 16&quot;) else ((it as string as integer) of value &quot;ReplicationPluginMaxConnections&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Database&quot; of registry)</Property>
+    <Property ID="17" Name="Ave Creation Time age in Mirror Cache" EvaluationPeriod="P1D">(sum of (now - it) of creation times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string)) / (number of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="18" Name="Ave Mod Time age in Mirror Cache" EvaluationPeriod="P1D">(sum of (now - it) of modification times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string)) / (number of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="19" Name="Ave Access Time age in Mirror Cache" EvaluationPeriod="P1D">(sum of (now - it) of accessed times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string)) / (number of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="20" Name="Oldest File Creation Time in Mirror Cache" EvaluationPeriod="P1D">now - (minimum of creation times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="21" Name="Oldest Mod Time age in Mirror Cache" EvaluationPeriod="P1D">now - (minimum of modification times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="22" Name="Oldest Access Time age in Mirror Cache" EvaluationPeriod="P1D">now - (minimum of accessed times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="23" Name="Current Mirror Cache Size (MB)" EvaluationPeriod="P1D">(it / (1024*1024)) of sum of sizes of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string)</Property>
+    <Property ID="24" Name="Max Mirror Cache Size (MB)" EvaluationPeriod="P1D">value of setting &quot;_BESGather_Download_CacheLimitMB&quot; of client</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Client UI Tray Mode Selection
+  ID       : 374
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Client UI Tray Mode Selection</Title>
+    <Description><![CDATA[
+This task can be used to control the Client UI Tray Mode of your BES Clients.&nbsp; Tray Mode determines the behavior of the BigFix tray icon.<BR><BR><b>"OffersTray" Mode: </b>In this mode, the tray behaves like it is in "AlwaysTray" mode if there is at least one offer available. Otherwise it behaves like it is in "ActionsTray" mode. This mode is not compatible with the BES Client Main Dialog disabled.<BR><BR><b>"ActionsTray" Mode:</b> In this mode, the UI only shows a tray icon if there are currently pending action requests. Clicking the tray icon will cause the Action Request Dialog to open.<BR><BR><b>"AlwaysTray" Mode:</b> In this mode, the UI always shows a tray icon, and clicking the tray icon causes the Main Dialog to open. This mode is not compatible with the BES Client Main Dialog disabled.<BR><BR><b>Note:</b> Windows 9x/ME operating systems will require the computer to be restarted to complete the task. On newer Windows operating systems, the BES Client service will be restarted. Please schedule this task to occur at a time when a service interruption is acceptable. <BR><BR><b>Note:</b> Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.0"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 25 Jul 2007 23:07:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action590">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set TrayMode to &quot;OffersTray&quot; and enable the BES Client Main Dialog. (Default)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_TrayMode&quot;=&quot;OffersTray&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ActionManager_HasMainDialog&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+    <Action ID="Action591">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set TrayMode to &quot;ActionsTray&quot;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_TrayMode&quot;=&quot;ActionsTray&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+    <Action ID="Action592">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set TrayMode to &quot;AlwaysTray&quot; and enable the BES Client Main Dialog.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_TrayMode&quot;=&quot;AlwaysTray&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ActionManager_HasMainDialog&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

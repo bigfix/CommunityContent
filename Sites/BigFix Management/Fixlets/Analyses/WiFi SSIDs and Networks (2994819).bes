@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : WiFi SSIDs and Networks
+  ID       : 2994819
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-08-21T10:22:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>WiFi SSIDs and Networks</Title>
+    <Description>Looking for configured WiFi networks </Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 19 Aug 2015 23:08:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Network Profiles" EvaluationPeriod="PT6H">unique values of (it as string) of (values &quot;Description&quot; of it; values &quot;ProfileName&quot; of it) of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="2" Name="Network Signatures" EvaluationPeriod="PT6H">unique values of (it as string) of (values &quot;Description&quot; of it; values &quot;FirstNetwork&quot; of it) of keys of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="3" Name="Intranet (Local Domains)" EvaluationPeriod="PT6H">unique values of (preceding text of first &quot;.&quot; of it | it) of names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Nla\Cache\Intranet&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="4" Name="Domains" EvaluationPeriod="PT6H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of (values &quot;DhcpDomain&quot; of it; values &quot;Domain&quot; of it) of keys of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="5" Name="WiFi Profile Names" EvaluationPeriod="PT6H">node values of selects &quot;/WLANProfile/name/text()&quot; of xml documents of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders of folders &quot;C:\ProgramData\Microsoft\Wlansvc\Profiles\Interfaces&quot;</Property>
+    <Property ID="6" Name="WLAN Profile &amp; SSID names" EvaluationPeriod="PT6H">unique values of node values of (selects &quot;/WLANProfile/name/text()&quot; of it; selects &quot;/WLANProfile/SSIDConfig/SSID/name/text()&quot; of it) of xml documents of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders of folders &quot;C:\ProgramData\Microsoft\Wlansvc\Profiles\Interfaces&quot;</Property>
+  </Analysis>
+</BES>

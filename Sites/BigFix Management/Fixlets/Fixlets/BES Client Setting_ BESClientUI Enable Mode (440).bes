@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: BESClientUI Enable Mode
+  ID       : 440
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: BESClientUI Enable Mode</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This task can be used to set whether the BES Client UI is enabled for all sessions, local sessions only, or not at all.</P> <p>The BES Client UI is used to show message boxes to the end-users logged into the computer (including pre-action messages, action running messages, and restart/shutdown messages). If the BES Client UI is not running in the user session, the user will not see any BigFix messages.</P> <P>If the BES Client UI is enabled for <STRONG>all</STRONG> sessions, the&nbsp;BES Client UI will be shown in local and remote sessions.</P> <P>If the BES Client UI is enabled for only <STRONG>local</STRONG> sessions, the BES Client UI will only be shown when the user is logged on at the local computer console (and will not launch for remotely connected users through Remote Desktop, Citrix, etc.)</p> <P>If the BES Client UI is set to <strong>none</STRONG>, the BES Client UI will be disabled and will not be shown to any user sessions, including local and remote.</P> <P><STRONG>Note:</STRONG> If <STRONG>local</STRONG> or <STRONG>none</STRONG>, the BES Client won't be able to show any messages to users logged into the system (including action messages, restart messages, and custom client dashboards). </P> <P><STRONG>Note:</STRONG> Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting. </P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2009-01-19</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 25 Aug 2008 21:09:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action664">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client UI to be shown for &lt;b&gt;all &lt;/b&gt;sessions.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIEnableMode"="all" on "{parameter "action issue date" of action}" for client
+runhidden cmd /C net stop besclient && net start besclient > NUL 2> NUL]]></ActionScript>
+    </Action>
+    <Action ID="Action665">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client UI to be shown for only &lt;b&gt;local &lt;/b&gt;sessions.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIEnableMode"="local" on "{parameter "action issue date" of action}" for client
+runhidden cmd /C net stop besclient && net start besclient > NUL 2> NUL]]></ActionScript>
+    </Action>
+    <Action ID="Action666">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;b&gt;disable &lt;/b&gt;the BES Client UI.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIEnableMode"="none" on "{parameter "action issue date" of action}" for client
+runhidden cmd /C net stop besclient && net start besclient > NUL 2> NUL]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

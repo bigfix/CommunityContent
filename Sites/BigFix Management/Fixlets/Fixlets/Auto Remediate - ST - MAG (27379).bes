@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Auto Remediate - ST - MAG
+  ID       : 27379
+  Author   : Mike_English
+  Domain   : PTCH
+  Imported : 2025-08-26T15:13:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Auto Remediate - ST - MAG</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>&nbsp;This task will use the&nbsp;Windows Task Scheduler&nbsp;as the Action Scheduler.</P></DIV><script>
+		loaded = false;
+		var CODE_SITE_NAME = 'BES Support' ;
+		function loadScript (siteName, callback) {
+		loaded = false;
+		var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+		var code = EvaluateRelevance(relevanceQuery);
+		var head = document.getElementsByTagName("head")[0];
+		var script   = document.createElement("script");
+		script.type  = "text/javascript";
+		script.text = code;
+		head.appendChild(script);
+		callback();
+		}
+		function scriptLoaded(){
+		if (!loaded){
+		if ( typeof FixletUtils !== 'undefined') {
+		loaded = true;
+		/*
+		* Please Note: The following code will be moved to library with next publish of lib and user will have to only call method
+		*/
+		var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+		var messages = EvaluateRelevance(relQuery);
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(messages);
+		matches[1]=matches[1].replace(/<br>/gi,"");
+		eval(matches[1]);
+		FixletUtils.initFixletRender();
+		} } }
+		loadScript(CODE_SITE_NAME, scriptLoaded);
+		</script>
+<DIV class=FixletProperty></DIV></DIV>]]></Description>
+    <Relevance>(windows of operating system) AND (exists main gather service)</Relevance>
+    <Source>michael.english@hcl-software.com</Source>
+    <SourceReleaseDate>2025-01-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{     &quot;CustomSite&quot;: {     &quot;Name&quot;: &quot;CustomSiteName&quot;,     &quot;Title&quot;: &quot;Custom Site Name:&quot;,      &quot;Description&quot;: &quot;Select the custom site name&quot;,     &quot;UIType&quot;: &quot;select&quot;,     &quot;ValueType&quot;: &quot;relevance&quot;,     &quot;Values&quot;: &quot;names of bes custom sites&quot;,     &quot;Required&quot;:&quot;1&quot;     },    &quot;Operator&quot;: {    &quot;Name&quot;: &quot;Operator&quot;,    &quot;Title&quot;: &quot;Operator Name:&quot;,    &quot;Description&quot;: &quot;Enter the name for the master operator account&quot;,    &quot;UIType&quot;: &quot;Textbox&quot;, &quot;Required&quot;:&quot;1&quot;   },    &quot;MOpwd&quot;: {    &quot;Name&quot;: &quot;MOpwd&quot;,    &quot;Title&quot;: &quot;Operator Password:&quot;,    &quot;Description&quot;: &quot;Enter the password for the master operator account&quot;,    &quot;UIType&quot;: &quot;Textbox&quot;, &quot;Encrypt&quot; : &quot;true&quot;, &quot;SubUIType&quot; : &quot;Password&quot;,     &quot;Required&quot;:&quot;1&quot;   }, &quot;RootURL&quot;: {     &quot;Name&quot;: &quot;RootURL&quot;,     &quot;Title&quot;: &quot;Root URL:&quot;,      &quot;Description&quot;: &quot;Please enter the URL to the Root Server&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;ValueType&quot;: &quot;relevance&quot;,     &quot;Values&quot;: &quot;urls of current bes server&quot;,     &quot;Required&quot;:&quot;1&quot;     },    &quot;Interval&quot;: {    &quot;Name&quot;: &quot;Interval&quot;,    &quot;Title&quot;: &quot;Interval:&quot;,    &quot;Description&quot;: &quot;Please enter the interval in hours of how ofter the scheduled task should run&quot;,    &quot;UIType&quot;: &quot;Textbox&quot;, &quot;Required&quot;:&quot;1&quot;, &quot;Default&quot;:&quot;4&quot;   }     }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 21 Aug 2025 15:59:09 +0000</Value>
+    </MIMEField>
+    <Domain>PTCH</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "scriptFolder" = "{(parent folder of data folder of client as string) & "\AUTO_REMEDIATE\" & (parameter "CustomSiteName")}"
+parameter "scriptFile" = "{(parameter "scriptFolder") & "\securekey"}"
+
+if {not exists folder (parameter "ScriptFolder")}
+   folder create "{parameter "ScriptFolder"}"
+endif
+
+parameter "psFile" = {"%22" & (parameter "scriptFolder") & "\AutoRemediate.ps1" & "%22"}
+
+if {not exists folder (parameter "psfile")}
+delete __createfile
+delete "{parameter "ScriptFile"}"
+createfile until _EOF_
+#Securing the password using SecureString with 16 byte (128 bit) encryption key then storing key in file.
+#Encryption key is explicitly provided using the -Key or -SecureKey parameters with cmdlets like ConvertFrom-SecureString or ConvertTo-SecureString, PowerShell uses the Advanced Encryption Standard (AES) algorithm. The specified key must be a valid length for AES, typically 128, 192, or 256 bits.
+[Byte[]] $key = (1..16)
+$Password = "{parameter "MOpwd"}" | ConvertTo-SecureString -AsPlainText -Force
+$Password | ConvertFrom-SecureString -key $key | Out-File "{parameter "ScriptFile"}"
+_EOF_
+delete "{parameter "ScriptFolder"}\encryptMO.ps1"
+move __createfile "{parameter "ScriptFolder"}\encryptMO.ps1"
+waithidden powershell -ExecutionPolicy Bypass -File "{parameter "ScriptFolder"}\encryptMO.ps1"
+delete "{parameter "ScriptFolder"}\encryptMO.ps1"
+
+if {not exists folder (parameter "scriptFolder")}
+	folder create "{parameter "scriptFolder"}"
+endif
+
+delete __createfile
+createfile until _EOF_
+Set-Location -Path "{parameter "scriptFolder"}"
+#
+# here we are decrypting the key and using the credetials to run our first rest api query which looks for any existing AutoRemdiate MAG and deletes it to prevent stacking.
+$key = @(1..16)
+$dataFile = "secureKey"
+$password = Get-Content $dataFile | ConvertTo-SecureString -Key $key
+$creds = New-Object System.Management.Automation.PSCredential ("{parameter "Operator"}", $password)
+add-type @"
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+#
+$qry = @"
+(%28ids%20of%20it%20as%20integer%29%20of%20bes%20actions%20whose%20%28name%20of%20it%20starts%20with%20%22AutoMAG%3A%20{parameter "CustomSiteName"}%22%20and%20state%20of%20it%20%3D%20%22Open%22%20and%20time%20issued%20of%20it%20%3C%20now%20or%20name%20of%20it%20starts%20with%20%22AutoMAG%22%20and%20state%20of%20it%20%21%3D%20%22Open%22%29)
+"@
+$BigFix_URL = "{parameter "RootURL"}"
+$URL = "$BigFix_URL/api/query?relevance=$qry"
+$responseQuery = (Invoke-RestMethod -Method GET -Uri $URL -Credential $creds).InnerXml
+$answerData = $responseQuery | Select-Xml -XPath "//Answer[@type = 'integer']"
+#
+$answerData.Node.'#text'
+foreach ($id in $answerData.Node.'#text') {
+$BigFix_URL = "{parameter "RootURL"}"
+$URL = "$BigFix_URL/api/action/$id"
+$responsePost = (Invoke-WebRequest -Method DELETE -Uri $URL -Credential $creds).InnerXml
+$responsePost
+}
+#
+# we run our second rest api query which looks for any relevant fixlet in the site and provides the ID.
+$rel = @"
+(%28tuple%20string%20item%200%20of%20it%20of%20it%29%20of%20%28%28it%20as%20string%29%20of%20%28%28id%20of%20it%29%20of%20fixlets%20whose%20%28fixlet%20flag%20of%20it%20%3D%20true%20and%20exists%20applicable%20computers%20of%20it%20and%20exists%20action%200%20of%20it%29%20of%20bes%20custom%20sites%20whose%20%28name%20of%20it%20%3D%20%22{parameter "CustomSiteName"}%22%29%29%29)
+"@
+$BigFix_URL = "{parameter "RootURL"}"
+$URL = "$BigFix_URL/api/query?relevance=$rel"
+$xml_headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$xml_headers.Add("Content-Type", "application/xml")
+$responseQuery = (Invoke-RestMethod -Method GET -Uri $URL -Credential $creds).InnerXml
+$answerData = $responseQuery | Select-Xml -XPath "//Answer[@type = 'string']"
+#
+$mag = ""
+foreach ($id in $answerData.Node.'#text') {
+    $mag += "<SourcedMemberAction><SourceFixlet><Sitename>{parameter "CustomSiteName"}</Sitename><FixletID>$id</FixletID><Action>Action1</Action></SourceFixlet></SourcedMemberAction>"
+}
+#
+# we run our third and final rest api query which looks for any relevant endpoints to be used for targeting.
+$rel2 = @"
+(concatenation%20%22%22%20of%20unique%20values%20of%20substrings%20separated%20by%20%22%20%22%20of%20%28tuple%20string%20item%200%20of%20it%29%20of%20%28%28it%20as%20string%29%20of%20%28%28%20%28%22%3CComputerID%3E%22%20%26%20concatenation%20%22%3C%2FComputerID%3E%20%3CComputerID%3E%22%20of%20substrings%20separated%20by%20%22%20%22%20of%20unique%20values%20of%20%28%28if%20%28exists%20ids%20of%20Applicable%20Computers%20of%20it%20%7C%20false%29%20then%20%28concatenations%20%22%20%22%20of%20%28ids%20of%20Applicable%20Computers%20of%20it%20as%20string%29%29%20else%20%28%22%3Cnone%3E%22%29%29%29%20%26%20%22%3C%2FComputerID%3E%22%20of%20it%29%29%20of%20fixlets%20whose%20%28fixlet%20flag%20of%20it%20%3D%20true%20and%20exists%20applicable%20computers%20of%20it%20and%20exists%20action%200%20of%20it%29%20of%20bes%20custom%20sites%20whose%20%28name%20of%20it%20%3D%20%22{parameter "CustomSiteName"}%22%29%29%29)
+"@
+$URL2 = "$BigFix_URL/api/query?relevance=$rel2"
+$responseQuery2 = (Invoke-RestMethod -Method GET -Uri $URL2 -Credential $creds).InnerXml
+$answerData2 = $responseQuery2 | Select-Xml -XPath "//Answer[@type = 'string']"
+#
+$target = $answerData2.Node.'#text'
+#
+# here we are creatng the xml file to be used when we submit our post.
+$xml = @"
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <MultipleActionGroup>
+    <Title>AutoMAG: {parameter "CustomSiteName"}</Title>
+    <Relevance>true</Relevance>
+    $mag
+    <Target>
+      $target
+    </Target>
+  </MultipleActionGroup>
+</BES>
+"@
+$BigFix_URL = "{parameter "RootURL"}"
+$URL = "$BigFix_URL/api/actions"
+$xml_headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$xml_headers.Add("Content-Type", "application/xml")
+$responsePost = (Invoke-RestMethod -Method POST -Uri $URL -Headers $xml_headers -Credential $creds -Body $xml).InnerXml
+$responsePost
+_EOF_
+delete "{parameter "psFile"}"
+move __createfile "{parameter "psFile"}"
+endif
+//We now create the scheduled task
+wait cmd.exe /C schtasks /create /sc hourly /mo "{parameter "Interval"}" /tn "AutoRemediate_{parameter "CustomSiteName"}" /tr "powershell.exe -ExecutionPolicy Bypass -File '{parameter "psFile"}'" /F /ru SYSTEM /rl HIGHEST]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

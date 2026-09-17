@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Client UI Balloon Mode Selection
+  ID       : 375
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Client UI Balloon Mode Selection</Title>
+    <Description><![CDATA[
+This task can be used to control the Client UI Balloon Mode of your BES Clients. Balloon Mode determines whether notifications will appear in Windows balloons or dialog boxes.<BR><BR><b>"HalfBalloon" Mode:</b> If "HalfBalloon" mode is enabled, "running" messages will be displayed using the messaging dialog box while "notification" messages will be displayed using the Windows balloon notification mechanism.<BR><BR><b>"AlwaysBalloon" Mode: </b>If "AlwaysBallon" enabled, all messages will be displayed using the Windows balloon notification mechanism.<BR><BR><b>"NoBalloon" Mode: </b>If "NoBalloon" Mode is enabled, all messages will be displayed in the messaging dialog box.<BR><BR><b>Note:</b> Windows 9x/ME operating systems will require the computer to be restarted to complete the task. On newer Windows operating systems, the BES Client service will be restarted. Please schedule this task to occur at a time when a service interruption is acceptable. <BR><BR><b>Note: </b>Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.0"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 25 Jul 2007 23:07:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action593">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set BalloonMode to &quot;HalfBalloon&quot;. (Default)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_BalloonMode&quot;=&quot;HalfBalloon&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+    <Action ID="Action594">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set BalloonMode to &quot;AlwaysBalloon&quot;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_BalloonMode&quot;=&quot;AlwaysBalloon&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+    <Action ID="Action595">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set BalloonMode to &quot;NoBalloon&quot;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_ActionManager_BalloonMode&quot;=&quot;NoBalloon&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+if {name of operating system does not contain &quot;Win9&quot; AND name of operating system != &quot;WinME&quot;}
+delete __appendfile
+appendfile net stop BESClient
+appendfile net start BESClient
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden clientRestart.bat
+else
+action requires restart
+endif</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

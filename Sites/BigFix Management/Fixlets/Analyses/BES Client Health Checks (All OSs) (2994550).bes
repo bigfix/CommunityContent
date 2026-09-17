@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Client Health Checks (All OSs)
+  ID       : 2994550
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-07-18T21:33:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Client Health Checks (All OSs)</Title>
+    <Description><![CDATA[<P>This is a multiple OS version of jgstews <A href="http://bigfix.me/cdb/analysis/88">http://bigfix.me/cdb/analysis/88</A></P>
+<P>Collect some data about the BES Client settings &amp; performance. This is a work in progress and will likely be expanded.</P>
+<P>Note:&nbsp; Removed the "data folder of client" which only works in v9, in favor of the older "parent folder of&nbsp;client folder of current site" so it will work with v8.2 deployments.</P>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Jul 2013 04:31:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="5" Name="Evaluation Loop Average" EvaluationPeriod="PT6H">less significance 3 of (average of evaluationcycle of client as floating point / 1000 / 60)</Property>
+    <Property ID="3" Name="Start type of BESClient" EvaluationPeriod="P1D">if windows of operating system then  start type of service &quot;BESClient&quot; as string  else &quot;&lt;N/A&gt;&quot;</Property>
+    <Property ID="4" Name="DelayedAutoStart" EvaluationPeriod="P1D">if windows of operating system then  (value &quot;DelayedAutoStart&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\BESClient&quot; of registry) as string else &quot;&lt;N/A&gt;&quot;</Property>
+    <Property ID="6" Name="Evaluation Cycle Maximum" EvaluationPeriod="PT6H">((maximum of it /1000* second)/minute) of evaluationcycle of client</Property>
+    <Property ID="8" Name="Download Cache Limit (MB)" EvaluationPeriod="PT6H">if (not exists setting &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of client) then  ERROR &quot;not set&quot;  else (value of setting &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of client)</Property>
+    <Property ID="9" Name="Utility Cache Limit (MB)" EvaluationPeriod="PT6H">if (not exists setting &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of client) then  ERROR &quot;not set&quot;  else (value of setting &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of client)</Property>
+    <Property ID="10" Name="CommandPollInterval" EvaluationPeriod="PT6H">if(not exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose(value of it = &quot;1&quot;) of client) then ERROR &quot;disabled&quot; else (if(not exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client))</Property>
+    <Property ID="1" Name="Download Cache Size (MB)" EvaluationPeriod="PT12H">(sum of sizes of descendants of folder ((pathname of parent folder of client folder of current site) &amp; &quot;/__Global/__Cache/Downloads&quot;)) / (1024*1024)</Property>
+    <Property ID="2" Name="Utility Cache Size (MB)" EvaluationPeriod="PT12H">(sum of sizes of descendants of folder ((pathname of parent folder of client folder of current site) &amp; &quot;/__Global/__Cache/Utilities&quot;)) / (1024*1024)</Property>
+    <Property ID="7" Name="Log&amp;History Size (MB)" EvaluationPeriod="PT12H">(( (if number of files whose(name of it ends with &quot;.log&quot;) of it &gt; 0 then sum of sizes of files whose(name of it ends with &quot;.log&quot;) of it else 0)  +  (if number of files whose(name of it ends with &quot;.log&quot;) of folder &quot;__Global\Logs&quot; of it &gt; 0 then  sum of sizes of files whose(name of it ends with &quot;.log&quot;) of folder &quot;__Global\Logs&quot; of it else 0)  +  (if number of files whose(name of it ends with &quot;History.db&quot;) of folder &quot;__Global&quot; of it &gt; 0 then sum of sizes of files whose(name of it ends with &quot;History.db&quot;) of folder &quot;__Global&quot; of it else 0) ) of (parent folder of client folder of current site)) / (1024 * 1024)</Property>
+  </Analysis>
+</BES>

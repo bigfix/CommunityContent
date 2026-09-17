@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Relay Upload Manager Settings
+  ID       : 16
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Relay Upload Manager Settings</Title>
+    <Description><![CDATA[<P>Analysis which pulls back all of the Archive Manager related settings so we can confirm all is working correctly.</P>
+<P>NOTE:&nbsp; See <A href="http://support.bigfix.com/product/documents/Upload_Archive_Manager_80_101211.pdf">http://support.bigfix.com/product/documents/Upload_Archive_Manager_80_101211.pdf</A> for more details.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:31:03 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="9" Name="Relay Buffer Directory" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client then   value of setting &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="10" Name="Buffer Directory Max Size" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxSize&quot; of client then   value of setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxSize&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="11" Name="Buffer Directory Max Count" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxCount&quot; of client then   value of setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxCount&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="12" Name="Compressed File Max Size" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_CompressedFileMaxSize&quot; of client then   value of setting &quot;_BESRelay_UploadManager_CompressedFileMaxSize&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="13" Name="Chunk Size" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_ChunkSize&quot; of client then   value of setting &quot;_BESRelay_UploadManager_ChunkSize&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="14" Name="Throttle KBPS" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_ThrottleKBPS&quot; of client then   value of setting &quot;_BESRelay_UploadManager_ThrottleKBPS&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="15" Name="Parent URL" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_ParentURL&quot; of client then   value of setting &quot;_BESRelay_UploadManager_ParentURL&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="16" Name="Progress" EvaluationPeriod="PT0S">if exists setting &quot;_BESRelay_UploadManager_Progress&quot; of client then   value of setting &quot;_BESRelay_UploadManager_Progress&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="17" Name="Cleanup Hours" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_UploadManager_CleanupHours&quot; of client then   value of setting &quot;_BESRelay_UploadManager_CleanupHours&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="18" Name="PostFile Chunk Size" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_PostFile_ChunkSize&quot; of client then   value of setting &quot;_BESRelay_PostFile_ChunkSize&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="19" Name="PostFile Throttle KBPS" EvaluationPeriod="P1D">if exists setting &quot;_BESRelay_PostFile_ThrottleKBPS&quot; of client then   value of setting &quot;_BESRelay_PostFile_ThrottleKBPS&quot; of client as string  else &quot;&quot;</Property>
+  </Analysis>
+</BES>

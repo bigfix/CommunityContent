@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Hold Mode For Missing Client UI
+  ID       : 236
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Hold Mode For Missing Client UI</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>When the Client UI is missing because it failed to launch or is configured to not be available, the BES Client can be configured to prevent actions from running until the Client UI is available.&nbsp; This task can be used to set the BES Client behavior in these circumstances.</P> <P>If the BES Client hold mode is set to <STRONG>all</STRONG>, then&nbsp;no actions will be run&nbsp;unless the Client UI can be displayed, regardless of whether the Client UI failed to launch&nbsp;or was configured to be unavailable.</P> <P>If the BES Client hold mode&nbsp;is set to <STRONG>none</STRONG>, then&nbsp;the BES Client will run all actions, regardless of the availability of the Client UI.</P> <P>If the BES Client hold mode is set to <STRONG>failed</STRONG>, then the BES Client will hold actions only if the Client UI is missing because it failed to launch.&nbsp; In the event that the Client UI is missing because it was configured to be unavailable, actions will still be run.</P> <P><FONT size=2><STRONG>Note:</STRONG> Do <STRONG>not</STRONG> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly restart itself.</FONT></P> <P><STRONG>Note: </STRONG>Applying this setting may cause the BES Client to restart.</P> <P><STRONG>Note:</STRONG> Affected computers may report back as 'Pending Restart' once the task has run successfully, but will not report back their final status until the computer has been restarted.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.2.4.60"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 05 Aug 2009 16:59:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action419">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client hold mode to &lt;b&gt;all&lt;/b&gt;. (Holds actions if Client UI is missing for any reason) </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIMissingHoldMode"="all" on "{parameter "action issue date" of action}" for client
+// Restart the BES Client
+// Win2000+
+if {name of operating system as lowercase starts with "win" AND name of operating system does not contain "Win9" AND name of operating system != "WinME"}
+	delete __appendfile
+	appendfile @echo off
+	appendfile echo Your administrator is restarting the BES Client... Please Wait...
+	appendfile net stop BESClient
+	appendfile net start BESClient
+	delete clientRestart.bat
+	copy __appendfile clientRestart.bat
+	runhidden clientRestart.bat
+// RHEL/SUSE
+elseif {(name of operating system contains "Linux") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) AND  (NOT exists file "/etc/vmware-release" whose (exists line whose (it contains "VMware ESX Server") of it))}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// AIX
+elseif {(name of operating system as string = "AIX 5.1" OR name of operating system as string = "AIX 5.2" OR name of operating system as string = "AIX 5.3") AND ((exists file "SBESClientd" of it AND exists file "KBESClientd" of it) of folder "/etc/rc.d/rc2.d/")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/rc.d/rc2.d/KBESClientd stop
+	appendfile sleep 30
+	appendfile /etc/rc.d/rc2.d/SBESClientd start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Mac OS X
+elseif {(name of operating system = "Mac OS X") AND (exists folder "/Library/Receipts/BESAgent.pkg")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	if {((exists file "/Library/LaunchDaemons/BESAgentDaemon.plist") AND (system version >= "10.4"))}
+		appendfile /bin/launchctl unload /Library/LaunchDaemons/BESAgentDaemon.plist
+		appendfile sleep 5
+		appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+	else
+		appendfile /sbin/SystemStarter stop BESAgent
+		appendfile sleep 5
+		appendfile /sbin/SystemStarter start BESAgent
+	endif
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Solaris
+elseif {(name of operating system = "SunOS 5.8" OR name of operating system = "SunOS 5.9" OR name of operating system = "SunOS 5.10") AND (exists file "/etc/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// HP-UX
+elseif {(name of operating system contains "HP-UX") AND (exists file "/sbin/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// ESX 3
+elseif {(name of operating system starts with "VMware ESX Server 3") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) }
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// Win98 and other unhandled OS's
+else
+	action requires restart
+endif
+]]></ActionScript>
+    </Action>
+    <Action ID="Action420">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client hold mode to &lt;b&gt;none&lt;/b&gt;. (Does not hold actions if Client UI is missing for any reason)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIMissingHoldMode"="none" on "{parameter "action issue date" of action}" for client
+// Restart the BES Client
+// Win2000+
+if {name of operating system as lowercase starts with "win" AND name of operating system does not contain "Win9" AND name of operating system != "WinME"}
+	delete __appendfile
+	appendfile @echo off
+	appendfile echo Your administrator is restarting the BES Client... Please Wait...
+	appendfile net stop BESClient
+	appendfile net start BESClient
+	delete clientRestart.bat
+	copy __appendfile clientRestart.bat
+	runhidden clientRestart.bat
+// RHEL/SUSE
+elseif {(name of operating system contains "Linux") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) AND  (NOT exists file "/etc/vmware-release" whose (exists line whose (it contains "VMware ESX Server") of it))}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// AIX
+elseif {(name of operating system as string = "AIX 5.1" OR name of operating system as string = "AIX 5.2" OR name of operating system as string = "AIX 5.3") AND ((exists file "SBESClientd" of it AND exists file "KBESClientd" of it) of folder "/etc/rc.d/rc2.d/")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/rc.d/rc2.d/KBESClientd stop
+	appendfile sleep 30
+	appendfile /etc/rc.d/rc2.d/SBESClientd start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Mac OS X
+elseif {(name of operating system = "Mac OS X") AND (exists folder "/Library/Receipts/BESAgent.pkg")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	if {((exists file "/Library/LaunchDaemons/BESAgentDaemon.plist") AND (system version >= "10.4"))}
+		appendfile /bin/launchctl unload /Library/LaunchDaemons/BESAgentDaemon.plist
+		appendfile sleep 5
+		appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+	else
+		appendfile /sbin/SystemStarter stop BESAgent
+		appendfile sleep 5
+		appendfile /sbin/SystemStarter start BESAgent
+	endif
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Solaris
+elseif {(name of operating system = "SunOS 5.8" OR name of operating system = "SunOS 5.9" OR name of operating system = "SunOS 5.10") AND (exists file "/etc/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// HP-UX
+elseif {(name of operating system contains "HP-UX") AND (exists file "/sbin/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// ESX 3
+elseif {(name of operating system starts with "VMware ESX Server 3") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) }
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// Win98 and other unhandled OS's
+else
+	action requires restart
+endif
+]]></ActionScript>
+    </Action>
+    <Action ID="Action421">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client hold mode to &lt;b&gt;failed&lt;/b&gt;. (Default behavior. Holds actions if Client UI is missing due to a failure)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_UIMissingHoldMode"="failed" on "{parameter "action issue date" of action}" for client
+// Restart the BES Client
+// Win2000+
+if {name of operating system as lowercase starts with "win" AND name of operating system does not contain "Win9" AND name of operating system != "WinME"}
+	delete __appendfile
+	appendfile @echo off
+	appendfile echo Your administrator is restarting the BES Client... Please Wait...
+	appendfile net stop BESClient
+	appendfile net start BESClient
+	delete clientRestart.bat
+	copy __appendfile clientRestart.bat
+	runhidden clientRestart.bat
+// RHEL/SUSE
+elseif {(name of operating system contains "Linux") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) AND  (NOT exists file "/etc/vmware-release" whose (exists line whose (it contains "VMware ESX Server") of it))}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// AIX
+elseif {(name of operating system as string = "AIX 5.1" OR name of operating system as string = "AIX 5.2" OR name of operating system as string = "AIX 5.3") AND ((exists file "SBESClientd" of it AND exists file "KBESClientd" of it) of folder "/etc/rc.d/rc2.d/")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/rc.d/rc2.d/KBESClientd stop
+	appendfile sleep 30
+	appendfile /etc/rc.d/rc2.d/SBESClientd start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Mac OS X
+elseif {(name of operating system = "Mac OS X") AND (exists folder "/Library/Receipts/BESAgent.pkg")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	if {((exists file "/Library/LaunchDaemons/BESAgentDaemon.plist") AND (system version >= "10.4"))}
+		appendfile /bin/launchctl unload /Library/LaunchDaemons/BESAgentDaemon.plist
+		appendfile sleep 5
+		appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+	else
+		appendfile /sbin/SystemStarter stop BESAgent
+		appendfile sleep 5
+		appendfile /sbin/SystemStarter start BESAgent
+	endif
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+// Solaris
+elseif {(name of operating system = "SunOS 5.8" OR name of operating system = "SunOS 5.9" OR name of operating system = "SunOS 5.10") AND (exists file "/etc/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// HP-UX
+elseif {(name of operating system contains "HP-UX") AND (exists file "/sbin/init.d/BESClient")}
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /sbin/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// ESX 3
+elseif {(name of operating system starts with "VMware ESX Server 3") AND (exists file ("/etc/init.d/BESClient-" & version of client as string)) }
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} stop
+	appendfile sleep 5
+	appendfile /etc/init.d/BESClient-{version of client} start
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	run "{(client folder of current site as string) & "/__appendfile"}"
+// Win98 and other unhandled OS's
+else
+	action requires restart
+endif
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

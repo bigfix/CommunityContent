@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Pre Cache Relevant Fixlets
+  ID       : 2994525
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-06-04T06:00:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Pre Cache Relevant Fixlets</Title>
+    <Description><![CDATA[Generates a space delimited result of all relevant fixlet IDs that can be copied/pasted directly into the BES Support "File Pre-Cache Wizard." This will allow you to send all of the sha files to a specific endpoint that are relevant to that endpoint without having to start the patching/fixlet process. This fixlet is specific to a custom site, just change the name of the site to whatever you choose, i.e. "Patches for Windows (English)" if you want to use the Tivoli site.&nbsp;
+
+*I also filter out certain fixlets as "Internal", just remove that clause if you use "Internal" fixlets.]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Jun 2013 12:55:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="IDs">concatenations &quot; &quot; of (ids of relevant fixlets whose (not exists values of headers &quot;X-Fixlet-Type&quot; of it or (value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;task&quot; and value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;analysis&quot; and value of headers &quot;X-Fixlet-Source&quot; of it != &quot;Internal&quot;)) of sites whose (name of it = &quot;My Custom Site&quot;) as string)</Property>
+  </Analysis>
+</BES>

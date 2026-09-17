@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Quiet Mode Properties
+  ID       : 10
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Quiet Mode Properties</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists setting &quot;_BESClient_Resource_QuietEnable&quot; of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:31:03 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="QuietEnable" EvaluationPeriod="PT6H">value of setting &quot;_BESClient_Resource_QuietEnable&quot; of client</Property>
+    <Property ID="2" Name="QuietStartTime" EvaluationPeriod="PT6H">value of setting &quot;_BESClient_Resource_QuietStartTime&quot; of client</Property>
+    <Property ID="3" Name="QuietSeconds" EvaluationPeriod="PT6H">value of setting &quot;_BESClient_Resource_QuietSeconds&quot; of client</Property>
+    <Property ID="4" Name="Report_MinimumInterval" EvaluationPeriod="PT12H">value of setting &quot;_BESClient_Report_MinimumInterval&quot; of client</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : [BES Relay Settings] - Relay Settings Policy
+  ID       : 26720
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2020-11-10T06:42:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>[BES Relay Settings] - Relay Settings Policy</Title>
+    <Description>https://www.linkedin.com/pulse/bigfix-tune-control-your-client-fit-needs-brad-sexton/</Description>
+    <Relevance>NOT exists main gather service</Relevance>
+    <Relevance>exists relay service</Relevance>
+    <Relevance><![CDATA[( not exists settings "_BESGather_Download_CacheLimitMB" whose( (it >= 30000) of (it as string as integer) of values of it ) of client )]]></Relevance>
+    <Source>Brad Sexton</Source>
+    <SourceReleaseDate>2018-09-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 10 Nov 2020 14:41:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESGather_Download_CacheLimitMB&quot;=&quot;30000&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

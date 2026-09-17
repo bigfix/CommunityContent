@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Client Helper Service - Windows - expanded
+  ID       : 2994617
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-12-09T11:57:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Client Helper Service - Windows - expanded</Title>
+    <Description><![CDATA[<P>This is an expansion of the "BES Client Helper Service" analysis.</P>
+<P>The latest version of this Analysis can be found here:&nbsp; <A href="http://bigfix.me/analysis/details/2994528"><FONT color=#000080>http://bigfix.me/analysis/details/2994528</FONT></A></P>
+<P>&nbsp;</P>
+<P>See the related "Enable logging for BES Client Helper Service" fixlet here: &nbsp;<A href="http://bigfix.me/fixlet/details/2567"><FONT color=#000080>http://bigfix.me/fixlet/details/2567</FONT></A></P>]]></Description>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>exists service &quot;BESClientHelper&quot;</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 31 Oct 2008 22:29:09 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 09 Dec 2013 18:56:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="6" Name="ServiceInstallationParameters" EvaluationPeriod="P1D">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; whose (exists value &quot;ServiceInstallationParameters&quot; of it) of registry) then ERROR &quot;not set&quot; else (value &quot;ServiceInstallationParameters&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; of registry) as string</Property>
+    <Property ID="7" Name="ServiceRunPeriod" EvaluationPeriod="P1D">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; whose (exists value &quot;ServiceRunPeriod&quot; of it) of registry) then ERROR &quot;not set&quot; else (value &quot;ServiceRunPeriod&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; of registry) as string</Property>
+    <Property ID="8" Name="LastRunTime" EvaluationPeriod="PT1H">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; whose (exists value &quot;LastRunTime&quot; of it) of registry) then ERROR &quot;not set&quot; else (value &quot;LastRunTime&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; of registry) as string</Property>
+    <Property ID="9" Name="Size of Log" EvaluationPeriod="PT1H">if(not exists file &quot;BESClientHelper.log&quot; of parent folder of client) then ERROR &quot;no log&quot; else (size of file &quot;BESClientHelper.log&quot; of parent folder of client)</Property>
+  </Analysis>
+</BES>

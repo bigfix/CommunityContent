@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Operating System - Universal
+  ID       : 2998259
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2016-07-19T17:53:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Operating System - Universal</Title>
+    <Description><![CDATA[<P>Provides information across operating systems </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="OS - Full Name - Universal" EvaluationPeriod="P1D">if (windows of operating system) then (string value of selects &quot;caption from win32_operatingsystem&quot; of wmi &amp; &quot; &quot; &amp; csd version of operating system) else (if (Mac of Operating System) then (name of operating system) else (if (unix of operating system) then (name of operating system) else ERROR &quot;Unknown&quot;)) </Property>
+    <Property ID="2" Name="OS - Version Number - Universal" EvaluationPeriod="P1D">version of operating system</Property>
+    <Property ID="3" Name="OS - Uptime - Universal" EvaluationPeriod="PT1H">uptime of operating system</Property>
+    <Property ID="4" Name="OS - Time Zone - Universal" EvaluationPeriod="P1D">local time zone </Property>
+    <Property ID="5" Name="OS - Architecture - Universal" EvaluationPeriod="P1D">architecture of operating system</Property>
+    <Property ID="6" Name="OS - Boot Time - Universal" EvaluationPeriod="PT1H">boot time of operating system</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BigFix Client - Configuration - Universal
+  ID       : 2998284
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:57:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BigFix Client - Configuration - Universal</Title>
+    <Description><![CDATA[<P>This analysis provides detailed information on the current configuration of the BigFix Client.</P>
+<P>This analysis is almost entirely based on the analysis written by jgstew (kudos, compliments, and credit completely to him) available here: <A href="https://bigfix.me/analysis/details/2994765">https://bigfix.me/analysis/details/2994765</A></P>
+<P>For general information or to report issues with C3 Platform Kickstart content please visit GitHub here: <A href="https://github.com/strawgate/C3-Platform-Kickstart">https://github.com/strawgate/C3-Platform-Kickstart</A></P>]]></Description>
+    <Relevance><![CDATA[version of client > "8.0" /* some of the properties may work fine in older clients, and some require v9+ */]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="Setting - Download_DownloadsCacheLimitMB - Universal" EvaluationPeriod="PT12H">if (not exists setting &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; whose (exists value of it) of client) then ERROR &quot;not set - 20&quot; else (value of setting &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; whose (exists value of it) of client)</Property>
+    <Property ID="4" Name="Setting - Download_UtilitiesCacheLimitMB - Universal" EvaluationPeriod="PT12H">if (not exists setting &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; whose (exists value of it) of client) then ERROR &quot;not set - 10&quot; else (value of setting &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; whose (exists value of it) of client)</Property>
+    <Property ID="19" Name="Setting - Resource_SleepIdle - Universal" EvaluationPeriod="P1D">if (not exists setting &quot;_BESClient_Resource_SleepIdle&quot; of client OR not exists value of setting &quot;_BESClient_Resource_SleepIdle&quot; of client) then 480 /* Default value */ else (value of setting &quot;_BESClient_Resource_SleepIdle&quot; of client as integer)</Property>
+    <Property ID="20" Name="Setting - Resource_WorkIdle - Universal" EvaluationPeriod="P1D">if (not exists setting &quot;_BESClient_Resource_WorkIdle&quot; of client OR not exists value of setting &quot;_BESClient_Resource_WorkIdle&quot; of client) then 10 /* Default value */ else (value of setting &quot;_BESClient_Resource_WorkIdle&quot; of client as integer)</Property>
+    <Property ID="23" Name="Setting - UploadManager_BufferDirectory - Universal" EvaluationPeriod="P7D">if (not exists setting &quot;_BESClient_UploadManager_BufferDirectory&quot; whose (exists value of it) of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_UploadManager_BufferDirectory&quot; whose (exists value of it) of client)</Property>
+    <Property ID="38" Name="Setting - Report_MinimumInterval - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_Report_MinimumInterval&quot; of client</Property>
+    <Property ID="39" Name="Setting - Register_IntervalSeconds - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_Register_IntervalSeconds&quot; of client</Property>
+    <Property ID="40" Name="Setting - RelaySelect_IntervalSeconds - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_RelaySelect_IntervalSeconds&quot; of client</Property>
+    <Property ID="41" Name="Setting - Report_MinimumAnalysisInterval - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_Report_MinimumAnalysisInterval&quot; of client</Property>
+    <Property ID="42" Name="Setting - Resource_StartupNormalSpeed - Universal" EvaluationPeriod="P1D">/* This should either not exist, or be set to 0. If it is set to 1, it will cause the client to be more aggressive, then it will switch back to 0 automatically */ values of settings &quot;_BESClient_Resource_StartupNormalSpeed&quot; of client</Property>
+    <Property ID="43" Name="Setting - Download_RetryMinutes - Universal" EvaluationPeriod="P1D">/* Recommend setting to 1 min for clients */ values of settings &quot;_BESClient_Download_RetryMinutes&quot; of client</Property>
+    <Property ID="44" Name="Setting - Download_NormalStageDiskLimitMB - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_Download_NormalStageDiskLimitMB&quot; of client</Property>
+    <Property ID="45" Name="Setting - Download_PreCacheStageDiskLimitMB - Universal" EvaluationPeriod="P1D">values of settings &quot;_BESClient_Download_PreCacheStageDiskLimitMB&quot; of client</Property>
+    <Property ID="50" Name="Setting - Download_RetryLimit - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_Download_RetryLimit&quot; of client | ERROR &quot;6&quot;</Property>
+    <Property ID="51" Name="Setting - ArchiveManager_MaxArchiveSize - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client | ERROR &quot;1000000&quot;</Property>
+    <Property ID="52" Name="Setting - ArchiveManager_OperatingMode - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_ArchiveManager_OperatingMode&quot; of client | ERROR &quot;0&quot;</Property>
+    <Property ID="53" Name="Setting - ArchiveManager_IntervalSeconds - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_ArchiveManager_IntervalSeconds&quot; of client | ERROR &quot;86400&quot;</Property>
+    <Property ID="54" Name="Setting - UploadManager_BufferDirectory - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_UploadManager_BufferDirectory&quot; of client | ERROR &quot;__BESData/__Global/Upload&quot;</Property>
+    <Property ID="55" Name="Setting - Log_Days - Universal" EvaluationPeriod="PT12H">value of settings &quot;_BESClient_Log_Days&quot; of client | ERROR &quot;10&quot;</Property>
+    <Property ID="61" Name="Setting - All Client Settings - Universal" EvaluationPeriod="P1D">settings whose(value of it as trimmed string != &quot;&quot; AND name of it starts with &quot;_BESClient&quot;) of client</Property>
+    <Property ID="63" Name="Setting - Command Polling - Universal" EvaluationPeriod="P1D">if(not exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose(value of it = &quot;1&quot;) of client) then ERROR &quot;disabled&quot; else (if(not exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client))</Property>
+    <Property ID="64" Name="Setting - ComputerType - Universal" EvaluationPeriod="P1D">if (not exists setting &quot;_BESClient_ComputerType&quot; whose (exists value of it) of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_ComputerType&quot; whose (exists value of it) of client)</Property>
+  </Analysis>
+</BES>

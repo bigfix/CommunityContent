@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AAC::Clean OldActions
+  ID       : 26853
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2021-03-29T16:56:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AAC::Clean OldActions</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This&nbsp;Fixlet prompts for a password that will be required to access the REST API used to run a query and delete expired actions</P>
+<P>The password is the password of current operator.</P>
+<P>You can exclude&nbsp;actions from&nbsp;deletion defining a regular expression that matches (case insensitive) the titles&nbsp;you would like to exclude (like ".*do not delete.*|.*keep this.*")&nbsp;</P>
+<P>Server name can be used to bypass certificate check (will block the login action) </P>
+<P>The list of deleted actions will be retained in directory "&lt;Client folder&gt;\HCL\" in a file named "&lt;ExecutionTimestamp&gt;_OldActions.xml"<BR>&nbsp;</P></DIV><script>
+    loaded = false;
+    var CODE_SITE_NAME = 'BES Support' ;
+    function loadScript (siteName, callback) {
+      loaded = false;
+      var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+      var code = EvaluateRelevance(relevanceQuery);
+      var head = document.getElementsByTagName("head")[0];
+      var script   = document.createElement("script");
+      script.type  = "text/javascript";
+      script.text = code;
+      head.appendChild(script);
+      callback();
+    }
+    function scriptLoaded(){
+      if (!loaded) {
+        if ( typeof FixletUtils !== 'undefined') {
+           loaded = true;
+           var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+           var messages = EvaluateRelevance(relQuery);
+           var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+           var matches = regex.exec(messages);
+           matches[1]=matches[1].replace(/<br>/gi,"");
+           eval(matches[1]);
+           FixletUtils.initFixletRender();
+        }
+    }
+}
+    loadScript(CODE_SITE_NAME, scriptLoaded);
+  </script>
+<DIV class=FixletProperty></DIV><BR>
+<P>Written by <A href="mailto:Andrea.Capasso@hcl.com">Andrea.Capasso@hcl.com</A> using documentation from <A href="https://www.ibm.com/developerworks/community/wikis/home/wiki/90553c0b-42eb-4df0-9556-d3c2e0ac4c52?lang=en">BigFix Wiki </A>for <A href="https://www.ibm.com/developerworks/community/wikis/form/api/wiki/90553c0b-42eb-4df0-9556-d3c2e0ac4c52/page/2efca3e3-1a65-4845-b84c-5e27cb620375/attachment/7656c719-4b4e-4c52-9d0b-568e40f1601e/media/Creating%20Parameterized%20Fixlets%20V1.0.doc">parametrized fixlets</A>&nbsp;</P>
+<P><STRONG>NOTE:</STRONG>Currently tested on Windows Server only - prepared for Linux</P></DIV>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Category>Utility</Category>
+    <Source>andrea.capasso@hcl.com</Source>
+    <SourceReleaseDate>2017-08-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value> { &quot;RDPW&quot;: { &quot;Name&quot;: &quot;RDPW&quot;, &quot;Title&quot;: &quot;BFUser Password:&quot;, &quot;Description&quot;: &quot;User password to access Bigfix Rest API :&quot;, &quot;Encrypt&quot; : &quot;true&quot;,  &quot;UIType&quot;: &quot;Textbox&quot;, &quot;SubUIType&quot; : &quot;Password&quot;, &quot;Required&quot; : &quot;1&quot; } }             </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 Mar 2021 23:53:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Delete the actions expired or closed older than the given days.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "User" with description "Leave empty for your operator ID, use '*' for all operators" with default "*"
+action parameter query "Days" with description "Enter the number of days to retain expired/stopped actions: " with default "3650"
+action parameter query "Exclude" with description "Enter a regex expression that appear in the title to exclude actions from deletion: " with default ".*do not delete.*|.*Policy.*"
+action parameter query "Server" with description "BigFix server (empty to use current): " with default ""
+
+action log all
+if {parameter "User" = "" }
+    parameter "UserFilter"="{"and name of issuer of it = %25%2522" & (concatenation "" of values of headers "action-issuer-name" of action) & "%25%2522"}"
+elseif {parameter "User" = "*" }
+    parameter "UserFilter"=""
+else
+    parameter "UserFilter"="{"and name of issuer of it = %25%2522" & (parameter "User") & "%25%2522"}"
+endif
+
+if {parameter "Server" = "" }
+    parameter "BFServer"="{host name of root server}"
+else
+    parameter "BFServer"="{parameter "Server"}"
+endif
+
+if {windows of operating system}
+  parameter "sep"="\"
+  parameter "ServerFolder"="{value "EnterpriseServerFolder" of key "HKLM\SOFTWARE\BigFix\Enterprise Server" of registry}"
+  parameter "BFAPIEXE"="{parameter "ServerFolder" & "IEM CLI\iem.exe"}"
+else
+  parameter "sep"="/"
+  parameter "ServerFolder"="{"/opt/BESServer/"}"
+  parameter "BFAPIEXE"="{parameter "ServerFolder" & "IEM CLI/iem"}"
+endif
+
+folder create "{pathname of storage folder of client & parameter "sep" & "HCL"}"
+parameter "TargetFolder"="{pathname of folder "HCL" of storage folder of client & parameter "sep"}"
+parameter "ExecutionTimestamp"="{(((year of it as string & month of it as two digits & day_of_month of it as two digits) of  Current Date ) & "T" &((two digit hour of it & two digit minute of it) of current time_of_day))}"
+
+action log commands
+appendfile "{parameter "BFAPIEXE"}" login -q --server={parameter "BFServer"} --user={concatenation "" of values of headers "action-issuer-name" of action} --password="{parameter "RDPW"}"
+action log all
+appendfile "{parameter "BFAPIEXE"}" get query --relevance "(id of it, state of it, name of it, name of issuer of it, now-Time Issued of it) of BES Actions whose ( exists State of it and (now - (Time Issued of it) > {parameter "Days"} * day)  and state of it != %%22Open%%22 and name of it != case insensitive regex %%22.*{parameter "Exclude"}.*%%22 {parameter "UserFilter"})" --outFile "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_"  & "OldActions.xml"}"
+delete "run.cmd"
+move __appendfile run.cmd
+if {windows of operating system}
+	wait run.cmd
+else
+	wait sh run.cmd
+endif
+delete run.cmd
+
+action log commands
+appendfile {concatenation "%0d%0a" of (parameter "BFAPIEXE" & " delete action/" & concatenation "" of node values of first child of it) of child nodes whose (node name of it = "Answer" and node value of attribute 0 of it = "integer") of child nodes whose (node name of it = "Tuple") of child nodes whose (node name of it = "Result")   of child node 0 of child node 1 of xml document of file (parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_"  & "OldActions.xml" )}
+action log all
+delete "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.cmd"}"
+move __appendfile "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.cmd"}"
+
+if {windows of operating system}
+	wait "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.cmd"}"
+else
+	wait sh "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.cmd"}"
+endif
+
+delete "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.cmd"}"
+
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28133">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Create a list of action IDs&amp;nbsp;to delete in file &quot;&amp;lt;Client folder&amp;gt;\HCL\&amp;lt;ExecutionTimestamp&amp;gt;_actionIDList.txt&quot;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "User" with description "Leave empty for your operator ID, use '*' for all operators" with default "*"
+action parameter query "Days" with description "Enter the number of days to retain expired/stopped actions: " with default "3650"
+action parameter query "Exclude" with description "Enter a regex expression that appear in the title to exclude actions from deletion: " with default ".*do not delete.*|.*Policy.*"
+action parameter query "Server" with description "BigFix server (empty to use current): " with default ""
+
+action log all
+if {parameter "User" = "" }
+    parameter "UserFilter"="{"and name of issuer of it = %25%2522" & (concatenation "" of values of headers "action-issuer-name" of action) & "%25%2522"}"
+elseif {parameter "User" = "*" }
+    parameter "UserFilter"=""
+else
+    parameter "UserFilter"="{"and name of issuer of it = %25%2522" & (parameter "User") & "%25%2522"}"
+endif
+
+if {parameter "Server" = "" }
+    parameter "BFServer"="{host name of root server}"
+else
+    parameter "BFServer"="{parameter "Server"}"
+endif
+
+if {windows of operating system}
+  parameter "sep"="\"
+  parameter "ServerFolder"="{value "EnterpriseServerFolder" of key "HKLM\SOFTWARE\BigFix\Enterprise Server" of registry}"
+  parameter "BFAPIEXE"="{parameter "ServerFolder" & "IEM CLI\iem.exe"}"
+else
+  parameter "sep"="/"
+  parameter "ServerFolder"="{"/opt/BESServer/"}"
+  parameter "BFAPIEXE"="{parameter "ServerFolder" & "IEM CLI/iem"}"
+endif
+
+folder create "{pathname of storage folder of client & parameter "sep" & "HCL"}"
+parameter "TargetFolder"="{pathname of folder "HCL" of storage folder of client & parameter "sep"}"
+parameter "ExecutionTimestamp"="{(((year of it as string & month of it as two digits & day_of_month of it as two digits) of  Current Date ) & "T" &((two digit hour of it & two digit minute of it) of current time_of_day))}"
+
+action log commands
+appendfile "{parameter "BFAPIEXE"}" login -q --server={parameter "BFServer"} --user={concatenation "" of values of headers "action-issuer-name" of action} --password="{parameter "RDPW"}"
+action log all
+appendfile "{parameter "BFAPIEXE"}" get query --relevance "(id of it, state of it, name of it, name of issuer of it, now-Time Issued of it) of BES Actions whose ( exists State of it and (now - (Time Issued of it) > {parameter "Days"} * day)  and state of it != %%22Open%%22 and name of it != case insensitive regex %%22.*{parameter "Exclude"}.*%%22 {parameter "UserFilter"})" --outFile "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_"  & "OldActions.xml"}"
+delete "run.cmd"
+move __appendfile run.cmd
+if {windows of operating system}
+	wait run.cmd
+else
+	wait sh run.cmd
+endif
+delete run.cmd
+
+action log command
+appendfile {concatenation "%0d%0a" of (concatenation "" of node values of first child of it) of child nodes whose (node name of it = "Answer" and node value of attribute 0 of it = "integer") of child nodes whose (node name of it = "Tuple") of child nodes whose (node name of it = "Result")   of child node 0 of child node 1 of xml document of file (parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_"  & "OldActions.xml" )}
+delete "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.lst"}"
+move __appendfile "{parameter "TargetFolder" & (parameter "ExecutionTimestamp") & "_" & "actionIDList.lst"}"
+]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

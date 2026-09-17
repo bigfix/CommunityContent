@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Global Properties Re-Write
+  ID       : 13
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Global Properties Re-Write</Title>
+    <Description><![CDATA[<DIV class=subsection>This set of properties attempts to bring some of the more common properties into a format that is easier to parse/compare by stripping parts from existing property values, and also to make more generic properties from provided BigFix ones.
+<P>e.g. The original RAM property currently returns "1024 MB", and here, whould return "1024" with the Property Name of RAM (MB)</P></DIV>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:31:03 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="WM_OSType" EvaluationPeriod="P1D">IF (name of operating system as lowercase starts with &quot;aix&quot;) THEN &quot;AIX&quot; ELSE IF (name of operating system as lowercase starts with &quot;hp-ux&quot;) THEN &quot;HPUX&quot; ELSE IF (name of operating system as lowercase starts with &quot;sunos&quot;) THEN &quot;SUNOS&quot; ELSE IF ((name of operating system as lowercase starts with &quot;linux&quot; OR name of operating system as lowercase starts with &quot;vmware esx&quot;)) THEN &quot;LINUX&quot; ELSE IF ((name of operating system as lowercase starts with &quot;mac&quot;)) THEN &quot;MAC&quot; ELSE IF ((name of operating system as lowercase starts with &quot;win&quot;)) THEN &quot;WINDOWS&quot; ELSE &quot;other&quot;</Property>
+    <Property ID="2" Name="WM_SystemType" EvaluationPeriod="P1D">IF (name of operating system as lowercase starts with &quot;win&quot;) THEN (if (name of operating system = &quot;Win95&quot; OR name of operating system = &quot;Win98&quot; or name of operating system = &quot;WinME&quot;) then &quot;Workstation&quot; else (if (value &quot;ProductType&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions&quot; of registry = &quot;WinNT&quot;) then &quot;Workstation&quot; else &quot;Server&quot;)) ELSE IF (name of operating system as lowercase contains &quot;server&quot; OR name of operating system as lowercase contains &quot;aix&quot; OR name of operating system as lowercase contains &quot;hp-ux&quot; OR name of operating system as lowercase contains &quot;sunos&quot; OR name of operating system as lowercase contains &quot;vmware esx&quot; OR (name of operating system as lowercase contains &quot;linux&quot; AND (name of operating system as lowercase contains &quot;redhat enterprise as &quot; OR name of operating system as lowercase contains &quot;redhat enterprise es &quot;))) THEN &quot;Server&quot; ELSE if ((name of operating system as lowercase contains &quot;linux&quot; AND name of operating system as lowercase contains &quot;desktop&quot;) OR name of operating system as lowercase contains &quot;mac os x&quot;) THEN &quot;Workstation&quot; else &quot;Unknown&quot; &amp; name of operating system</Property>
+    <Property ID="3" Name="WM_CPU (MHz)" EvaluationPeriod="P1D">(significant digits 2 of (speed of main processor / mhz)) as integer</Property>
+    <Property ID="4" Name="WM_CPU (Family)" EvaluationPeriod="P1D">family name of main processor as string</Property>
+    <Property ID="5" Name="WM_RAM (MB)" EvaluationPeriod="PT6H">(if (it &gt; 128) then (((it / 32) * 32) + (if (it mod 32 &gt; 16) then 32 else 0)) else it) of (size of ram / (1024*1024)) as integer</Property>
+    <Property ID="6" Name="WM_SystemDrive-TotalSize (MB)" EvaluationPeriod="P1D">((total space of drive of system folder)/(1024 * 1024)) as integer</Property>
+    <Property ID="7" Name="WM_SystemDrive-FreeSpace (MB)" EvaluationPeriod="PT1H">((free space of drive of system folder)/(1024 * 1024)) as integer</Property>
+    <Property ID="8" Name="Drive||Free|Total of Local Drives (MB)" EvaluationPeriod="PT30M">IF name of operating system as lowercase contains &quot;win&quot; THEN concatenation &quot;,&quot; of (preceding text of first &quot;:&quot; of name of it as string &amp; &quot;||&quot; &amp; (if exists free space of it then ((free space of it/ (1024 * 1024)) as string) else &quot;NONE&quot;) &amp; &quot;|&quot; &amp; (if exists total space of it then ((total space of it / (1024 * 1024)) as string) else &quot;NONE&quot;)) of drives whose (type of it = &quot;DRIVE_FIXED&quot;) ELSE concatenation &quot;,&quot; of (following text of first &quot;/&quot; of name of it as string &amp; &quot;||&quot; &amp; (if exists free space of it then ((free space of it/ (1024 * 1024)) as string) else &quot;NONE&quot;) &amp; &quot;|&quot; &amp; (if exists total space of it then ((total space of it / (1024 * 1024)) as string) else &quot;NONE&quot;)) of drives whose (type of it = &quot;DRIVE_FIXED&quot;)</Property>
+  </Analysis>
+</BES>

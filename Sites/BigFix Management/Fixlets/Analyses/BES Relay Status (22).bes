@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Relay Status
+  ID       : 22
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Relay Status</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P><FONT size=2>This analysis contains information about the health of the BES&nbsp;Relay deployment. This information will be useful in&nbsp;assessing&nbsp;where the BES Relays are set up properly and whether the BES Clients are correctly reporting to them.</P> <P>After activating this analysis, you will see the following properties:</P> <UL> <LI>BES Relay Installed Status <LI>BES Client's Parent Relay <LI>BES Relay's Parent Relay <LI>Manual Selection Status</LI></UL></FONT></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 09 May 2012 00:58:12 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 13 Oct 2004 01:49:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BES Relay Installed Status">if exists relay service then &quot;Yes - &quot; &amp; state of service &quot;BESRelay&quot; else if exists main gather service then &quot;Main BES Server&quot; else &quot;Not Installed&quot;</Property>
+    <Property ID="3" Name="BES Client&apos;s Parent Relay">if ((it starts with &quot;127.&quot; OR it starts with &quot;::&quot;) of (name of registration server as string)) then (if ((exists  setting&quot;_BESRelay_PostResults_ParentRelayURL&quot; of it AND exists value of setting&quot;_BESRelay_PostResults_ParentRelayURL&quot; of it) of client) then &quot;n/a (BES Relay Installed)&quot; else &quot;n/a (BES Server Installed)&quot;) else (name of registration server as string)</Property>
+    <Property ID="4" Name="BES Relay&apos;s Parent Relay">if ((it starts with &quot;127.&quot; OR it starts with &quot;::&quot;) of (name of registration server as string)) then (if ((exists  setting&quot;_BESRelay_PostResults_ParentRelayURL&quot; of it AND exists value of setting&quot;_BESRelay_PostResults_ParentRelayURL&quot; of it) of client) then (preceding text of first &quot;/&quot; of (following text of first &quot;//&quot; of (value of setting &quot;_BESRelay_PostResults_ParentRelayURL&quot; of client as string))) else &quot;n/a (BES Server Installed)&quot;) else &quot;n/a (BES Relay Not Installed)&quot;</Property>
+    <Property ID="5" Name="Manual Selection Status">if ((it starts with &quot;127.&quot; OR it starts with &quot;::&quot;) of (name of registration server as string)) then (&quot;n/a (Local Relay/Server)&quot;) else(if ((exists setting &quot;__RelaySelect_Automatic&quot; of client) and (value of setting &quot;__RelaySelect_Automatic&quot; of client = &quot;1&quot;)) then &quot;n/a (Automatic)&quot; else if ((not exists setting &quot;__RelayServer1&quot; of client OR not exists value of setting &quot;__RelayServer1&quot; of client OR value of setting &quot;__RelayServer1&quot;  of client = &quot;&quot;) AND (not exists setting &quot;__RelayServer2&quot; of client OR not exists value of setting &quot;__RelayServer2&quot; of client OR value of setting &quot;__RelayServer2&quot;  of client = &quot;&quot;)) then &quot;Primary and Secondary Relay Not Set&quot; else if ((exists setting &quot;__RelayServer1&quot; of client) AND (exists setting &quot;__RelayServer1&quot; whose (value of it as string != &quot;&quot;) of client ) AND ((preceding text of first &quot;/&quot; of following text of first &quot;//&quot; of (value of setting &quot;__RelayServer1&quot; of client as string)) as lowercase) = (name of registration server as string as lowercase)) then &quot;Using Primary Relay&quot; else if ((exists setting &quot;__RelayServer2&quot; of client) AND (exists setting &quot;__RelayServer2&quot; whose (value of it as string != &quot;&quot;) of client ) AND ((preceding text of first &quot;/&quot; of following text of first &quot;//&quot; of (value of setting &quot;__RelayServer2&quot; of client as string)) as lowercase) = (name of registration server as string as lowercase)) then &quot;Using Secondary Relay&quot; else if ((name of registration server as string as lowercase) = (preceding text of first &quot;/&quot; of following text of first &quot;//&quot; of (value of setting &quot;__Relay_Control_RootServer&quot; of client as string as lowercase))) then &quot;Defaulting to Main BES Server&quot; else &quot;Unknown State&quot;)</Property>
+  </Analysis>
+</BES>

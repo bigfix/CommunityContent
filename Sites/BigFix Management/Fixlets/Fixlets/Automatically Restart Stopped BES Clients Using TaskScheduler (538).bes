@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Automatically Restart Stopped BES Clients Using TaskScheduler
+  ID       : 538
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Automatically Restart Stopped BES Clients Using TaskScheduler</Title>
+    <Description><![CDATA[
+The BES Client service can be stopped on client machines for various reasons. To ensure the BES Client service is running across your environment, use the action below to use the Windows Task Scheduler and schedule a task that starts the BES Client service and sets the service start mode to "automatic" everyday (or on an arbitrary schedule).<BR><BR><b>Note:</b> Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly schedule new tasks.<BR><BR><b>Note: </b>Two tasks will be scheduled on client machines, the first at the time supplied as an action parameter and the second one minute later.&nbsp; Avoid using the time 23:59, as the second task will run at 00:00 of the same day, which is 23 hours and 59 minutes earlier.&nbsp; All other times will behave as expected.<BR><BR><b>Note:</b>&nbsp; The "schedule" service must be running for this task to be relevant.&nbsp; On Windows NT machines, this service is not activated by default.
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[((if (version of client >= "8.0") then (windows of it) else (name of it starts with "Win")) AND platform id of it != 3) of operating system]]></Relevance>
+    <Relevance>(it does not contain &quot;Win9&quot; AND it != &quot;WinME&quot;) of name of operating system</Relevance>
+    <Relevance>exists running service &quot;schedule&quot;</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 01 Feb 2005 00:36:43 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to schedule a BES Client restart task that runs every day. (You will be prompted for the schedule time).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "RunTime" with description "Please supply the schedule time. (Use 24 hour time in the format HH:MM)" with default ""
+dos at {parameter "RunTime" of action} /every:M,T,W,Th,F,S,Su "{pathname of client folder of site "BESSupport" & "\changeservicestartmode.exe"}" BESClient auto
+dos at {(first 5 of following text of position 17 of ((((first 17 of (now as string)) & parameter "RunTime" of action & (last 9 of (now as string))) as time + 1 * minute) as string))} /every:M,T,W,Th,F,S,Su cmd /c net start BESClient]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action780">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to schedule a BES Client restart task providing your own run schedule. (You will be prompted for the schedule time and interval).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "RunTime" with description "Please supply the schedule time. (Use 24 hour time in the format HH:MM)" with default ""
+action parameter query "Interval" with description "Please specify the schedule interval as one or more days of the week (use the following abbreviations: M,T,W,Th,F,S,Su) or one or more days of the month (use the numbers 1 through 31). Use commas to separate multiple interval entries." with default ""
+dos at {parameter "RunTime" of action} {if (parameter "Interval" of action equals "") then ("") else ("/every:" & parameter "Interval" of action)} "{pathname of client folder of site "BESSupport" & "\changeservicestartmode.exe"}" BESClient auto
+dos at {(first 5 of following text of position 17 of ((((first 17 of (now as string)) & parameter "RunTime" of action & (last 9 of (now as string))) as time + 1 * minute) as string))} {if (parameter "Interval" of action equals "") then ("") else ("/every:" & parameter "Interval" of action)} cmd /c net start BESClient]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

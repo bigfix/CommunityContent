@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Archive Manager Settings
+  ID       : 7
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Archive Manager Settings</Title>
+    <Description><![CDATA[<P>Analysis which pulls back all of the Archive Manager related settings so we can confirm all is working correctly.</P>
+<P>NOTE:&nbsp; See <A href="http://support.bigfix.com/product/documents/Upload_Archive_Manager_80_101211.pdf">http://support.bigfix.com/product/documents/Upload_Archive_Manager_80_101211.pdf</A> for more details.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:31:03 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Operating Mode" EvaluationPeriod="P1D">if exists setting &quot;_BESClient_ArchiveManager_OperatingMode&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_OperatingMode&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="2" Name="Send All" EvaluationPeriod="P1D">if exists setting &quot;_BESClient_ArchiveManager_SendAll&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_SendAll&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="3" Name="Max Archive Size" EvaluationPeriod="P1D">if exists setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="4" Name="Interval Seconds" EvaluationPeriod="P1D">if exists setting &quot;_BESClient_ArchiveManager_IntervalSeconds&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_IntervalSeconds&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="5" Name="Last Archive" EvaluationPeriod="P1D">if exists setting &quot;_BESClient_ArchiveManager_LastArchive&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_LastArchive&quot; of client as string  else &quot;&quot;</Property>
+    <Property ID="6" Name="Last Interval Number" EvaluationPeriod="PT15M">if exists setting &quot;_BESClient_ArchiveManager_LastIntervalNumber&quot; of client then   value of setting &quot;_BESClient_ArchiveManager_LastIntervalNumber&quot; of client as string  else &quot;&quot;</Property>
+  </Analysis>
+</BES>

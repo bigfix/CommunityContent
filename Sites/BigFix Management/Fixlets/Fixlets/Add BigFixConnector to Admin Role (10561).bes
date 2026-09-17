@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Add BigFixConnector to Admin Role
+  ID       : 10561
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-03-24T05:00:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Add BigFixConnector to Admin Role</Title>
+    <Description><![CDATA[
+        <script>document.body.ontakeaction = function() {
+          var gname = EvaluateRelevance('(if (exists shared variable "gname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "gname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+          var domname = EvaluateRelevance('(if (exists shared variable "domname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "domname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+ 	        TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1", {domainname: domname, BigfixConnector: gname},{}  );
+	        return false;
+          }
+        </script> This task will add the AD group to the RES ONE Workspace Technical Manager admin role that is used for the BigFix connector.
+      ]]></Description>
+    <Relevance>exists setting &quot;RES_IEM_Integration_Endpoint&quot; whose (value of it = &quot;1&quot;) of client</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Relevance><![CDATA[10 < 1]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160321-102103
+
+
+action parameter query "domainname" with description "Please enter your BigFix domain name (demo-res.com)"
+action parameter query "BigFixConnector" with description "Please enter your BigFix AD group name (BigFixConnector)"
+
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\bigfixconnectorguid.vbs"}"
+createfile until __end
+Set wmi = GetObject("winmgmts://./root/cimv2")
+
+groupname = "{parameter "BigFixConnector" of action}"
+
+qry = "SELECT * FROM Win32_Group WHERE Name='" & groupname & "'"
+For Each group In wmi.ExecQuery(qry)
+  sid = group.SID
+Next
+
+If Not IsEmpty(sid) Then
+  WScript.Echo sid
+Else
+  WScript.Echo "SID For group " & groupname & " could not be resolved."
+End If
+__end
+
+copy __createfile "{(value of variable "temp" of environment) & "\bigfixconnectorguid.vbs"}"
+
+delete "{(value of variable "temp" of environment) & "\bigfixconnectorguid.txt"}"
+
+waithidden cmd /c cscript /nologo "{(value of variable "temp" of environment) & "\bigfixconnectorguid.vbs"}" >> "{(value of variable "temp" of environment) & "\bigfixconnectorguid.txt"}"
+
+delete __createfile
+createfile until __end
+<?xml version="1.0"?>
+<!-- RES Workspace Manager Building Block -->
+<!-- Created by Branden Wood_ADM on 4/29/2015 12:03:50 PM -->
+<respowerfuse>
+	<version>9.9.3.0</version>
+	<buildingblock>
+		<securityroles>
+			<securityrole>
+				<name>BigFix Connector</name>
+				<description/>
+				<enabled>yes</enabled>
+				<guid>{"%7b"}5B635250-F7F6-4673-A756-8AB92106B0F1{"%7d"}</guid>
+				<techmanager>yes</techmanager>
+				<nodes/>
+				<scope>
+					<accesscontrol/>
+				</scope>
+				<accesscontrol access_mode="or">
+					<access>
+						<type>group</type>
+						<object>{parameter "domainname" of action}\{parameter "BigFixConnector" of action}</object>
+						<sid>{line of file ((value of variable "temp" of environment) & "\bigfixconnectorguid.txt") as string}</sid>
+					</access>
+				</accesscontrol>
+			</securityrole>
+		</securityroles>
+	</buildingblock>
+</respowerfuse>
+
+__end
+delete {(value of variable "temp" of environment) & "\adminrole.xml"}
+copy __createfile {(value of variable "temp" of environment) & "\adminrole.xml"}
+
+wait "{pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe"}" /add "{value of variable "temp" of environment}\adminrole.xml"
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

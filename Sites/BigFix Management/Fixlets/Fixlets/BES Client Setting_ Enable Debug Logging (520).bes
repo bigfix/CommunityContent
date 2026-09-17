@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Enable Debug Logging
+  ID       : 520
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Enable Debug Logging</Title>
+    <Description><![CDATA[
+ For troubleshooting purposes, it is sometimes useful to enable the advanced debug log on a BES Client so it will log every activity. Use the action below to enable this log.&nbsp; The file will be named "besclientdebug.log" and located in the same folder as the BES Client.<BR><BR>When you enable this log, you will be prompted for a level of detail. The higher the value, the greater the detail of the messages written to the log. If you do not know which level to choose, then choose 1000.<BR><BR><b>Note:</b> Do <b>not</b> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>not exists setting &quot;_BESClient_EMsg_Detail&quot; of client OR value of setting &quot;_BESClient_EMsg_Detail&quot; of client = &quot;0&quot;</Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 29 Jun 2012 22:02:45 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 22 Jun 2004 21:26:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action751">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to enable the debug logging.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_EMsg_Detail" with description "Please enter the level of detail for the BES Client debug log (1-10000):" and with default value "1000"
+// Fail if level of detail is not between 1 and 10000
+continue if {parameter "_BESClient_EMsg_Detail" of action as integer >= 1 AND parameter "_BESClient_EMsg_Detail" of action as integer <= 10000}
+setting "_BESClient_EMsg_Detail"="{parameter "_BESClient_EMsg_Detail" of action}" on "{parameter "action issue date" of action}" for client
+if {name of operating system contains "Android"}
+setting "_BESClient_EMsg_File"="/mnt/sdcard/besclientdebug.log" on "{parameter "action issue date" of action}" for client
+else
+setting "_BESClient_EMsg_File"="{if (name of operating system as lowercase starts with "win") then (pathname of parent folder of regapp "BESClient.exe" & "\") else (pathname of (parent folder of parent folder of (client folder of current site)) & "/")}besclientdebug.log" on "{parameter "action issue date" of action}" for client
+endif
+setting "_BESClient_EMsg_EvalLog"="1" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action752">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about logging on Windows clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21505962</ActionScript>
+    </Action>
+    <Action ID="Action753">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about logging on non-Windows clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21506110</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

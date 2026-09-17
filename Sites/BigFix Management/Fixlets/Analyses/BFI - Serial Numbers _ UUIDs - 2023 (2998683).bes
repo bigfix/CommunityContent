@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BFI - Serial Numbers / UUIDs - 2023
+  ID       : 2998683
+  Author   : ArturZ
+  Domain   : BESC
+  Imported : 2023-03-03T10:01:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BFI - Serial Numbers / UUIDs - 2023</Title>
+    <Description><![CDATA[Learn more about this analysis online: <A href="https://bigfix.me/analysis/details/2998681">https://bigfix.me/analysis/details/2998681</A><BR><BR>
+<P>This analysis is getting the Serial number in following order:</P>
+<OL>
+<LI>Computer Property <SPAN class=relevanceString><FONT color=#008080>"BigFix_Custom_Serial"</FONT></SPAN>
+<LI><FONT color=#0000ff><FONT color=#000000>serial </FONT><SPAN class=relevanceKeyword><FONT color=#0000ff>of</FONT></SPAN><FONT color=#000000> hardware Inspector</FONT></FONT>
+<LI>MAC: <SPAN class=relevanceString><FONT color=#008080>"IOPlatformSerialNumber"</FONT></SPAN> <SPAN class=relevanceKeyword><FONT color=#0000ff>of</FONT></SPAN> dictionary
+<LI>Other OS: BigFix Inventory most recent Capacity Scan</LI></OL>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Mon, 24 Jan 2022 08:31:02 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Mon, 24 Jan 2022 09:17:29 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Serial Number, UUID</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>2998669</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-versions-ids</Name>
+      <Value>2998640,2998643,2998644,2998645</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 03 Mar 2023 18:01:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="9" Name="Serial Number" EvaluationPeriod="P7D">if ((exists setting &quot;BigFix_Custom_Serial&quot; of client) and (exists value of setting &quot;BigFix_Custom_Serial&quot; of client)) then value of setting &quot;BigFix_Custom_Serial&quot; of client else ( if exists property &quot;hardware&quot; then serial of hardware as string else (  if(name of operating system as lowercase starts with &quot;mac&quot;) then (string &quot;IOPlatformSerialNumber&quot; of dictionary of service plane of iokit registry)else(if(name of operating system as lowercase starts with &quot;win&quot;)then(if(exists folder((if(version of client &gt;= &quot;9&quot; as version)then(pathname of parent folder of data folder of client)else(pathname of parent folder of regapp &quot;besclient.exe&quot;))&amp; &quot;\LMT\CIT\tlm_hw_scans&quot;))then(unique values of(it as text)of(xpaths &quot;Hardware/ComponentID/SerialNumber&quot; of xml documents of files whose(name of it as lowercase contains &quot;tlm_hw_&quot; and modification time of it = (maximum of modification times of files of folder((if(version of client &gt;= &quot;9&quot; as version) then(pathname of parent folder of data folder of client) else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp; &quot;\LMT\CIT\tlm_hw_scans\&quot;)))of folders((if(version of client &gt;= &quot;9&quot; as version)then(pathname of parent folder of data folder of client)else(pathname of parent folder of regapp &quot;besclient.exe&quot;))&amp; &quot;\LMT\CIT\tlm_hw_scans\&quot;)))else &quot;Not supported: use BigFix_Custom_Serial Computer Property to set serial&quot;)else(if(exists folder(((if(version of client &gt;= &quot;9&quot; as version)then(pathname of parent folder of data folder of client)else(pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)))&amp; &quot;/LMT/CIT/tlm_hw_scans/&quot;))then(if exists property &quot;xml document&quot; then(unique values of(it as text)of(xpaths &quot;Hardware/ComponentID/SerialNumber&quot; of xml documents of files whose(name of it as lowercase contains &quot;tlm_hw_&quot; and modification time of it = (maximum of modification times of files of folder((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)) &amp; &quot;/LMT/CIT/tlm_hw_scans&quot;)))of folders(((if(version of client &gt;= &quot;9&quot; as version)then(pathname of parent folder of data folder of client)else(pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)))&amp; &quot;/LMT/CIT/tlm_hw_scans/&quot;)))else(unique values of(following texts of lasts &quot;&gt;&quot; of preceding texts of lasts &quot;&lt;&quot; of lines containing &quot;&lt;SerialNumber&gt;&quot; whose(line number of it &lt; 15)of files whose(name of it as lowercase contains &quot;tlm_hw_&quot; and modification time of it = (maximum of modification times of files of folder((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)) &amp; &quot;/LMT/CIT/tlm_hw_scans&quot;)))of folders(((if(version of client &gt;= &quot;9&quot; as version)then(pathname of parent folder of data folder of client)else(pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)))&amp; &quot;/LMT/CIT/tlm_hw_scans/&quot;)))) else &quot;Not supported: use BigFix_Custom_Serial Computer Property to set serial&quot;) ) ))</Property>
+  </Analysis>
+</BES>

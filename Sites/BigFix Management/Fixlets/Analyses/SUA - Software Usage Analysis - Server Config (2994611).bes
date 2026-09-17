@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SUA - Software Usage Analysis - Server Config
+  ID       : 2994611
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-12-06T11:11:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SUA - Software Usage Analysis - Server Config</Title>
+    <Description><![CDATA[<P>&nbsp;This Analysis audits many different aspects of the SUA server setup.</P>
+<P>&nbsp;</P>
+<P>Latest version found here: <A href="http://bigfix.me/analysis/details/2994602"><FONT color=#000080>http://bigfix.me/analysis/details/2994602</FONT></A></P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://technet.microsoft.com/en-us/library/cc739424(v=ws.10).aspx"><FONT color=#000080>http://technet.microsoft.com/en-us/library/cc739424(v=ws.10).aspx</FONT></A></P>
+<P><A href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Securing%20a%20TEMA%20installation"><FONT color=#000080>https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Securing%20a%20TEMA%20installation</FONT></A><A href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Securing%20a%20TEMA%20installation"><FONT color=#000080>https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Securing%20a%20TEMA%20installation</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists folder (parent folder of folder (parenthesized part of match (regex "^%22?([^%22]+)\\TEMAnalytics.exe%22?") of (value whose (name of it = "ImagePath") of keys "HKLM\SYSTEM\CurrentControlSet\services\TEMA" of registry as string)) as string & "\work\tema\webapp\WEB-INF\domains\sam")]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 13 Nov 2013 20:20:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="DB Server Config" EvaluationPeriod="P2D">lines whose(it does not contain &quot;password&quot;) of file &quot;database.yml&quot; of folder &quot;config&quot; of (parent folder of folder (parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry as string)))</Property>
+    <Property ID="3" Name="Version" EvaluationPeriod="P2D">(parenthesized part of match (regex &quot;[&apos;%22]([\d\.]+)[&apos;%22]&quot;) of concatenation of lines containing &quot;full_string&quot; of file (parent folder of folder (parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry as string)) as string &amp; &quot;\work\tema\webapp\WEB-INF\config\version.rb&quot;)) as string</Property>
+    <Property ID="4" Name="reg config" EvaluationPeriod="P2D">(name of it &amp; &quot; -&gt; &quot; &amp; it as string) of values of key &quot;TEMA\Parameters\Java&quot; of key whose(exists key &quot;TEMA&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation&quot; of registry</Property>
+    <Property ID="5" Name="reg service config" EvaluationPeriod="P2D">(name of it &amp; &quot; -&gt; &quot; &amp; it as string) of values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry</Property>
+    <Property ID="6" Name="JVM" EvaluationPeriod="P2D">value &quot;Jvm&quot; of key &quot;TEMA\Parameters\Java&quot; of key whose(exists key &quot;TEMA&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation&quot; of registry</Property>
+    <Property ID="7" Name="Java Version" EvaluationPeriod="P2D">file &quot;java.dll&quot; of parent folder of parent folder of file ((it as string) of (value &quot;Jvm&quot; of key &quot;TEMA\Parameters\Java&quot; of key whose(exists key &quot;TEMA&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation&quot; of registry))</Property>
+    <Property ID="8" Name="DB Server" EvaluationPeriod="P2D">unique values of (following text of first &quot;host:&quot; of it as trimmed string) of lines whose(it contains &quot;host:&quot;) of file &quot;database.yml&quot; of folder &quot;config&quot; of (parent folder of folder (parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry as string)))</Property>
+    <Property ID="9" Name="Java Max Memory" EvaluationPeriod="P1D">value &quot;JvmMx&quot; of key &quot;TEMA\Parameters\Java&quot; of key whose(exists key &quot;TEMA&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation&quot; of registry</Property>
+    <Property ID="10" Name="Successful Imports" EvaluationPeriod="P1D">number of files whose(exists lines whose(it contains &quot; INFO: Import succeeded in &quot;) of it) of folder &quot;log\imports&quot; of (parent folder of folder (parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry as string)))</Property>
+    <Property ID="11" Name="SUA service" EvaluationPeriod="PT1H">exists running service &quot;TEMA&quot;</Property>
+    <Property ID="12" Name="Bin Folder Path" EvaluationPeriod="P2D">((it as string) of parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (it as string) of value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry)</Property>
+    <Property ID="13" Name="master.tag" EvaluationPeriod="P2D">(it as trimmed string) whose(it does not start with &quot;#&quot; AND it != &quot;&quot;) of lines of file &quot;master.tag&quot; of folder &quot;admin&quot; of parent folder of folder ((it as string) of parenthesized part of match (regex &quot;^%22?([^%22]+)\\TEMAnalytics.exe%22?&quot;) of (it as string) of value whose (name of it = &quot;ImagePath&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\services\TEMA&quot; of registry)</Property>
+    <Property ID="14" Name="image path of service &quot;TEMA&quot;" EvaluationPeriod="P2D">image path of service &quot;TEMA&quot;</Property>
+    <Property ID="15" Name="login account of service &quot;TEMA&quot;" EvaluationPeriod="P2D">login account of service &quot;TEMA&quot;</Property>
+    <Property ID="16" Name="start type of service &quot;TEMA&quot;" EvaluationPeriod="P2D">start type of service &quot;TEMA&quot;</Property>
+    <Property ID="17" Name="version of service &quot;TEMA&quot;" EvaluationPeriod="P2D">version of service &quot;TEMA&quot;</Property>
+    <Property ID="18" Name="dns name" EvaluationPeriod="P2D">dns name</Property>
+    <Property ID="19" Name="SUA service user member of local admin group?" EvaluationPeriod="PT6H">/* This may not work, or be applicable in all cases */ exists members whose(it as string as lowercase contains following text of first &quot;\&quot; of (it as string as lowercase) of login account of service &quot;TEMA&quot;) of local group &quot;Administrators&quot;</Property>
+    <Property ID="20" Name="SUA RAM usage" EvaluationPeriod="PT6H">working set size of process whose (name of it as lowercase is &quot;temanalytics.exe&quot;)</Property>
+    <Property ID="21" Name="SUA RAM usage - WMI" EvaluationPeriod="PT6H">((((string value of selects &quot;WorkingSetSize from win32_process where Name = &apos;temanalytics.exe&apos;&quot; of wmi) as integer) / (1024*1024)) as string &amp; &quot; MB&quot;)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BigBrother
+  ID       : 2998694
+  Author   : Mike_English
+  Domain   : BESC
+  Imported : 2024-07-23T14:14:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BigBrother</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=2>Additional info on the Location Info property:</FONT></STRONG><BR><BR><STRONG>Latitude</STRONG> - Gets or sets the latitude of the GeoCoordinate.<BR><STRONG>Longitude</STRONG> - Gets or sets the longitude of the GeoCoordinate.<BR><STRONG>Altitude</STRONG> - Gets the altitude of the GeoCoordinate, in meters.<BR><STRONG>HorizontalAccuracy</STRONG> - Gets or sets the accuracy of the latitude and longitude that is given by the GeoCoordinate, in meters.<BR><STRONG>VerticalAccuracy</STRONG> - Gets or sets the accuracy of the altitude given by the GeoCoordinate, in meters.<BR><STRONG>Speed</STRONG> - Gets or sets the speed in meters per second.<BR><STRONG>Course</STRONG> - Gets or sets the heading in degrees, relative to true north.<BR><STRONG>IsUnknown</STRONG> - Gets a value that indicates whether the GeoCoordinate does not contain latitude or longitude data. </P>
+<P>(Copy and paste the MAP URL into a browser)</P>]]></Description>
+    <Relevance>exist file &quot;c:\windows\temp\bb&quot; | false</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 13 Jul 2024 16:53:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Location Info">lines of file &quot;c:\windows\temp\bb&quot;</Property>
+    <Property ID="3" Name="Accuracy">&quot;Approximate &quot; &amp; (following text of first &quot;Horizontal&quot; of (line whose (it contains &quot;HorizontalAccuracy&quot;) of file &quot;c:\windows\temp\bb&quot;) &amp; &quot; Meters&quot;)</Property>
+    <Property ID="4" Name="MAP URL">(&quot;https://www.google.com/maps/place/&quot; &amp; concatenation &quot; &quot; of (substrings separated by &quot;||Longitude          : &quot; of (following text of first &quot;: &quot; of  (preceding text of first &quot;||Altitude&quot; of (concatenation &quot;||&quot; of (lines of file &quot;c:\windows\temp\bb&quot;))))))</Property>
+  </Analysis>
+</BES>

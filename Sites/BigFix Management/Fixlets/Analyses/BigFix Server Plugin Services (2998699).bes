@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BigFix Server Plugin Services
+  ID       : 2998699
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2024-10-17T08:59:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BigFix Server Plugin Services</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance>exists folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 17 Oct 2024 15:57:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Plugin Folder" EvaluationPeriod="PT1H">pathnames of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+    <Property ID="2" Name="Mod Time of Plugin Service Log" EvaluationPeriod="PT30M">modification times of files &quot;Logs/MFS.log&quot; of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+    <Property ID="4" Name="Names of defined plugins" EvaluationPeriod="PT30M">unique values of preceding texts of firsts &quot;&lt;/Name&gt;&quot; of following texts of firsts &quot;&lt;Name&gt;&quot; of lines containing &quot;&lt;/Name&gt;&quot; of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders &quot;Config&quot; of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+    <Property ID="5" Name="Mod Time of Plugin Logs" EvaluationPeriod="PT1H">(names of it, modification times of files whose(name of it as lowercase ends with &quot;.log&quot;) of it) of folders whose(name of it != &quot;Logs&quot;) of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+    <Property ID="6" Name="Find Plugin Binary" EvaluationPeriod="PT6H">pathnames of files ( (it; it &amp; &quot;.exe&quot;) of unique values of (names of folders whose(name of it != &quot;Logs&quot;) of it ; preceding texts of firsts &quot;&lt;/Name&gt;&quot; of following texts of firsts &quot;&lt;Name&gt;&quot; of lines containing &quot;&lt;/Name&gt;&quot; of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders &quot;Config&quot; of it) of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client ) of folders of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+    <Property ID="7" Name="Files in Plugin Commands" EvaluationPeriod="PT1H">pathnames of (files it) of following texts of firsts &quot;%22&quot; of substrings separated by &quot;%22 &quot; of unique values of preceding texts of firsts &quot;&lt;/Command&gt;&quot; of following texts of firsts &quot;&lt;Command&gt;&quot; of lines containing &quot;&lt;/Command&gt;&quot; of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders &quot;Config&quot; of folders &quot;Applications&quot; of parent folders of (folders it) of values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client</Property>
+  </Analysis>
+</BES>

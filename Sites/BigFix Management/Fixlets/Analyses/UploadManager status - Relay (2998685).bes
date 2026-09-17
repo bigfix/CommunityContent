@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : UploadManager status - Relay
+  ID       : 2998685
+  Author   : andrea.proietto
+  Domain   : BESC
+  Imported : 2023-05-03T08:54:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>UploadManager status - Relay</Title>
+    <Description><![CDATA[<P>Use this Analysis with its companion "UploadManager status - Client" and "BES Support" Analysis "BES Relay Status" to troubleshoot Client upload issues</P>
+<P>v1.0</P>]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance>in agent context</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 May 2023 15:47:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Max buffer size">value of setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxSize&quot; of client as string | (if exists main gather service then &quot;Maximum (default)&quot; else &quot;1073741824 (default)&quot;)</Property>
+    <Property ID="2" Name="Max file count">value of setting &quot;_BESRelay_UploadManager_BufferDirectoryMaxCount&quot; of client as string | (if exists main gather service then &quot;Maximum (default)&quot; else &quot;10000 (default)&quot;)</Property>
+    <Property ID="3" Name="Max archive size">value of setting &quot;_BESRelay_UploadManager_CompressedFileMaxSize&quot; of client as string | &quot;20971520 (default)&quot;</Property>
+    <Property ID="4" Name="Current buffer size">sum of sizes of descendants of folder (value of setting &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client | ((if exists main gather service then if windows of operating system then folder of main gather service as string else &quot;/var/opt/BESServer&quot; else if windows of operating system then folder of relay service as string else &quot;/var/opt/BESRelay&quot;) &amp; &quot;/UploadManagerData/BufferDir&quot;))</Property>
+    <Property ID="5" Name="Current file count">number of descendants of folder (value of setting &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client | ((if exists main gather service then if windows of operating system then folder of main gather service as string else &quot;/var/opt/BESServer&quot; else if windows of operating system then folder of relay service as string else &quot;/var/opt/BESRelay&quot;) &amp; &quot;/UploadManagerData/BufferDir&quot;))</Property>
+  </Analysis>
+</BES>

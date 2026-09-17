@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AAC::BackupClientSettings
+  ID       : 26852
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2021-03-17T12:41:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AAC::BackupClientSettings</Title>
+    <Description><![CDATA[<P>If you need to replace a system with a fresh client and have to replicate all the client settings of the original endpoint, this task will create a text file with the settings commands that in a task will recreate the same values and affective dates on teh new system</P>
+<P>Any values with no Effective dates will be set with execution timestamp.</P>
+<P>Creates a list of client settings for reuse in a task or fixlet&nbsp;. </P>
+<P>The file name is "dump_of_settings.txt" and will be found in subfolder "HCL" of BigFix client's storage directory </P>
+<P>Written by <A href="mailto:Andrea.Capasso@hcl.com"><FONT color=#0066cc>Andrea.Capasso@hcl.com</FONT></A></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Utilities</Category>
+    <Source>Internal</Source>
+    <SourceID>andrea.capasso@hcl.com</SourceID>
+    <SourceReleaseDate>2021-03-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 17 Mar 2021 19:40:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "TargetFolder"="{pathname of storage folder of client & "/HCL"}"
+folder create "{parameter "TargetFolder"}"
+
+createfile until __EOF__
+{concatenation "%0d%0a" of  (( "setting %22" & item 0 of it & "%22=%22" & item 1 of it & "%22 on %22" & item 2 of it & "%22 for client") as string) of (name of it, value of it, effective date of it as universal string | "%7bnow%7d" ) of settings whose (name of it does not contain "__AdminBy__" and name of it does not contain "__Client_Role_") of client}
+__EOF__
+
+delete "{parameter "TargetFolder" & "/dump_of_settings.txt"}"
+move __createfile "{parameter "TargetFolder" & "/dump_of_settings.txt"}"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28131">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action (List sorted by name)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "TargetFolder"="{pathname of storage folder of client & "/HCL"}"
+folder create "{parameter "TargetFolder"}"
+
+createfile until __EOF__
+{concatenation "%0d%0a" of (("setting %22" & tuple string item 0 of it & "%22=%22" & tuple string item 1 of it & "%22 on %22" &  tuple string item 2 of it & "%22 of client") as string) of  unique values of (it as string) of (name of it, value of it, effective date of it as universal string | "%7bnow%7d" ) of settings whose (name of it does not contain "__AdminBy__" and name of it does not contain "__Client_Role_") of client}
+__EOF__
+
+delete "{parameter "TargetFolder" & "/dump_of_settings.txt"}"
+move __createfile "{parameter "TargetFolder" & "/dump_of_settings.txt"}"]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

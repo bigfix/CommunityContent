@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Client Relay Selection Info - Universal
+  ID       : 2994770
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-04-14T13:09:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Client Relay Selection Info - Universal</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 14 Apr 2015 20:08:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Name of relay" EvaluationPeriod="PT1H">names of selected servers</Property>
+    <Property ID="2" Name="IP of relay" EvaluationPeriod="PT1H">ip addresses of selected servers</Property>
+    <Property ID="3" Name="port of relay" EvaluationPeriod="PT1H">port numbers of selected servers</Property>
+    <Property ID="4" Name="priority of relay" EvaluationPeriod="PT1H">priorities of selected servers</Property>
+    <Property ID="5" Name="weight of relay" EvaluationPeriod="PT1H">weights of selected servers</Property>
+    <Property ID="6" Name="distance of relay" EvaluationPeriod="PT1H">upper bounds of distances of selected servers</Property>
+    <Property ID="7" Name="competition size" EvaluationPeriod="PT1H">competition sizes of selected servers</Property>
+    <Property ID="8" Name="competition weight" EvaluationPeriod="PT1H">competition weights of selected servers</Property>
+    <Property ID="9" Name="last relay select time" EvaluationPeriod="PT1H">last relay select times</Property>
+    <Property ID="10" Name="name of regServer" EvaluationPeriod="PT1H">names of registration servers</Property>
+    <Property ID="11" Name="version of regServer" EvaluationPeriod="PT1H">versions of registration servers</Property>
+    <Property ID="12" Name="version of relay" EvaluationPeriod="PT1H">versions of current relays</Property>
+    <Property ID="13" Name="authenticating relay?" EvaluationPeriod="PT1H">authenticating of current relays</Property>
+    <Property ID="14" Name="name of download server" EvaluationPeriod="PT1H">names of download servers</Property>
+    <Property ID="15" Name="full gateway addresses of selected server" EvaluationPeriod="PT1H">full gateway addresses of selected servers</Property>
+  </Analysis>
+</BES>

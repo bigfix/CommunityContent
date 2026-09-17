@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BESChildKiller Results
+  ID       : 2998503
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2016-12-14T14:59:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BESChildKiller Results</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>exists folder &quot;ChildProcessKiller\Log&quot; of data folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 12 Dec 2016 22:08:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BESChildKiller Stopped Processes" EvaluationPeriod="PT6H">(item 0 of it &amp; &quot; : &quot; &amp; item 1 of it as string) of (name of it, lines whose (it contains &quot;Stopping Process&quot; or previous line of it starts with &quot;====&quot; or it contains &quot;The process with PID&quot;) of it) of files of folders &quot;ChildProcessKiller\Log&quot; of data folder of client</Property>
+  </Analysis>
+</BES>

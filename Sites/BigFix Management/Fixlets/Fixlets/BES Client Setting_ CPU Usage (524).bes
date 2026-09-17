@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: CPU Usage
+  ID       : 524
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: CPU Usage</Title>
+    <Description><![CDATA[
+The BES Client is designed to use only a small fraction of the computer's CPU (&lt; 1-2%) on average. Use the options below to configure the BES Client to use more CPU (and work faster) or use less CPU (and work slower).<BR><BR><b>Note:</b> The default CPU usage settings are optimized to avoid using too much CPU on the computers and to avoid making the BES Clients too slow to evaluate Fixlet messages and actions.<BR><BR><b>Important Note:</b> Locked BES Clients will report back as "Failed" and will not change its CPU usage. To change the CPU usage of locked clients, you can unlock them before deploying the action, or tweak the action script and remove the "continue if" action command.
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 22 Jun 2004 23:25:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action760">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use &lt;b&gt;very low &lt;/b&gt;CPU usage (&amp;lt; .5%). (Not Recommended)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// low CPU usage
+continue if {not locked of action lock state}
+setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;2&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;500&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action761">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use &lt;b&gt;default&lt;/b&gt; CPU usage (&amp;lt; 1-2%).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// default CPU usage
+continue if {not locked of action lock state}
+setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;10&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;480&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action762">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use &lt;b&gt;medium &lt;/b&gt;CPU usage (&amp;lt; 5%). (Not Recommended)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// medium CPU usage
+continue if {not locked of action lock state}
+setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;25&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;460&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action763">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use &lt;b&gt;high &lt;/b&gt;CPU usage (&amp;lt; 10%). (Not Recommended)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// high CPU usage
+continue if {not locked of action lock state}
+setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;50&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;450&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action764">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the BES Client to use &lt;b&gt;very high&lt;/b&gt; CPU usage (&amp;lt; 20%). (Not Recommended)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// very high CPU usage
+continue if {not locked of action lock state}
+setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;100&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;400&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action765">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information on &quot;_BESClient_Resource_WorkIdle&quot;, &quot;_BESClient_Resource_SleepIdle&quot;, and other advanced BES configuration settings.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/misc/besconfigsettings.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

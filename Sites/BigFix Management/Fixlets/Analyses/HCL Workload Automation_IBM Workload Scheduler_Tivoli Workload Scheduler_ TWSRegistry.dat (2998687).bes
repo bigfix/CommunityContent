@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : HCL Workload Automation/IBM Workload Scheduler/Tivoli Workload Scheduler: TWSRegistry.dat
+  ID       : 2998687
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2023-11-03T01:11:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>HCL Workload Automation/IBM Workload Scheduler/Tivoli Workload Scheduler: TWSRegistry.dat</Title>
+    <Description><![CDATA[<P>This analysis will collect data from the file TWSRegistry.dat and will parse it to extract information about:</P>
+<UL>
+<LI>Agent
+<LI>PackageVersion
+<LI>MajorVersion
+<LI>Package
+<LI>ProductID
+<LI>Owner
+<LI>InstallationPath
+<LI>FeatureList
+<LI>Registry
+<LI>TargetVersion
+<LI>Upgrade.lck </LI></UL>
+<P>Written by <A href="mailto:andrea.capasso@hcl.software">andrea.capasso@hcl.software</A> </P>]]></Description>
+    <Relevance>if exists true whose (if true then in proxy agent context else false) then false else true /* Native Agent */</Relevance>
+    <Relevance>exist files  &quot;TWSRegistry.dat&quot; whose (exist lines of it)  of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;) /* With Workload Automation Agent registry */</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 12 Oct 2023 12:01:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="HWA::Agent">following text of first &quot;=&quot; of (tuple string items 11 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="2" Name="HWA::PackageVersion">(it as version)  of  (following texts of firsts &quot;.&quot; of tuple string items 1 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of  files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="3" Name="HWA::MajorVersion">(it as version)  of  (following texts of firsts &quot;.&quot; of tuple string items 2 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of  files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="5" Name="HWA::Package">following text of first &quot;=&quot; of (preceding texts of firsts &quot;.&quot; of tuple string items 1 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="6" Name="HWA::ProductID">following text of first &quot;=&quot; of (tuple string items 6 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="7" Name="HWA::Owner">following text of first &quot;=&quot; of (tuple string items 9 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="8" Name="HWA::InstallationPath">following text of first &quot;=&quot; of (tuple string items 8 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="9" Name="HWA::FeatureList">following text of first &quot;=&quot; of (tuple string items 5 of (concatenation &quot;, &quot; of following texts of firsts &quot;/Tivoli/Workload_Scheduler/maestro_DN_&quot; of variables of files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)))</Property>
+    <Property ID="10" Name="HWA::Registry">concatenation &quot;, &quot; of following texts of firsts &quot;/maestro_DN_&quot; of variables of  files &quot;TWSRegistry.dat&quot; of (if windows of operating system then (windows folder;system x64 folder; system x32 folder) else folders &quot;/etc/TWS&quot;)</Property>
+    <Property ID="11" Name="HWA::TargetVersion">if (exists file &quot;__TWSUpgrade.lck&quot; whose (exists lines of it) of (client folders of (sites whose (type of it = &quot;Custom Site&quot; and name of it as lowercase contains &quot;hwa&quot;); current sites))) then ((following texts of firsts &quot;TargetVersion=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of it) of (client folders of (sites whose (type of it = &quot;Custom Site&quot; and name of it as lowercase contains &quot;hwa&quot;); current sites))) as version else nothing</Property>
+    <Property ID="12" Name="HWA::Upgrade.lck">exist files &quot;__TWSUpgrade.lck&quot; whose (exists lines of it) of (client folders of (sites whose (type of it = &quot;Custom Site&quot; and name of it as lowercase contains &quot;hwa&quot;); current sites))</Property>
+  </Analysis>
+</BES>

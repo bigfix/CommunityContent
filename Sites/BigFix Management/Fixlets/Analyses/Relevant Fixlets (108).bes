@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Relevant Fixlets
+  ID       : 108
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-05-08T08:01:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Relevant Fixlets</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 14 Aug 2012 13:32:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="Relevant Fixlets">number of relevant fixlets whose (not exists values of headers &quot;X-Fixlet-Type&quot; of it or (value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;task&quot; and value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;analysis&quot; and value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;baseline&quot; and value of headers &quot;X-Fixlet-Source&quot; of it != &quot;Internal&quot;)) of sites whose (name of it = &quot;My Custom Site&quot;)</Property>
+    <Property ID="4" Name="Fixlets">(if number of relevant fixlets whose (not exists values of headers &quot;X-Fixlet-Type&quot; of it or (value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;task&quot; and value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;analysis&quot; and value of headers &quot;X-Fixlet-Source&quot; of it != &quot;Internal&quot;)) of sites whose (name of it = &quot;My Custom Site&quot;) as string = &quot;0&quot; then &quot;Fully Patched&quot; else values of headers &quot;Subject&quot; of relevant fixlets whose (not exists values of headers &quot;X-Fixlet-Type&quot; of it or (value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;task&quot; and value of headers &quot;X-Fixlet-Type&quot; of it as lowercase != &quot;analysis&quot; and value of headers &quot;X-Fixlet-Source&quot; of it != &quot;Internal&quot;)) of sites whose (name of it = &quot;My Custom Site&quot;))</Property>
+  </Analysis>
+</BES>
