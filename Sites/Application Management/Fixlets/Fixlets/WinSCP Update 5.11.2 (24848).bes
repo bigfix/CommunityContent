@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : WinSCP Update 5.11.2
+  ID       : 24848
+  Author   : contens
+  Domain   : BESC
+  Imported : 2017-10-13T05:29:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>WinSCP Update 5.11.2</Title>
+    <Description>WinSCP Software Update to Version 5.11.2 </Description>
+    <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 9166680 * 2) and (exists value "DisplayVersion" whose (it as string as version < "5.11.2") of keys whose (value "DisplayName" of it as string starts with "WinSCP") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries))]]></Relevance>
+    <Source>WinSCP</Source>
+    <SourceReleaseDate>2017-10-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Oct 2017 12:18:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Klicken Sie </PreLink>
+        <Link>hier</Link>
+        <PostLink>, um diese Aktion zu implementieren</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 448bd40e73a8aef7e78a99ab3567c19609136768.exe sha1:448bd40e73a8aef7e78a99ab3567c19609136768 size:9441120 https://iweb.dl.sourceforge.net/project/winscp/WinSCP/5.11.2/WinSCP-5.11.2-Setup.exe sha256:84d3e95575939b88cfe57242b07b52662aaeea833ba2b67218ca498a0fe93ec0
+
+override wait
+hidden=true
+completion=job
+wait &quot;__Download\448bd40e73a8aef7e78a99ab3567c19609136768.exe&quot; /verysilent /norestart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: Safari 8.0.4 - Yosemite (10.10.2 Client) - Audit
+  ID       : 4000
+  Author   : Chuxin
+  Domain   : BESC
+  Imported : 2015-03-19T10:34:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: Safari 8.0.4 - Yosemite (10.10.2 Client) - Audit</Title>
+    <Description><![CDATA[<DIV class=FixletMessage><TABLE><TBODY><TR><TD><P>This update is recommended for all Safari users and includes several improvements to performance, usability, compatibility, and security.</P>
+<P><STRONG>Note: </STRONG>This Fixlet Message is for audit purposes only. The software is only available via Apple Software Update on the Mac OS X endpoint.</P>
+<P><STRONG>Note: </STRONG>To avoid any service interruptions on the endpoints, use the default action only when the endpoints do not have running instances of related applications such as Apple Safari, and so on. If any of the related application is running on the endpoints, the default action might fail. Schedule the update to occur at a time when the client machine is not using these applications.</P>
+<P><STRONG>Note: </STRONG>Ensure that the endpoints have continuous internet connection to install the update successfully.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty><H4>CVE:</H4><FONT size=2>CVE-2015-1068, CVE-2015-1069, CVE-2015-1070, CVE-2015-1071, CVE-2015-1072, CVE-2015-1073, CVE-2015-1074, CVE-2015-1075, CVE-2015-1076, CVE-2015-1077, CVE-2015-1078, CVE-2015-1079, CVE-2015-1080, CVE-2015-1081, CVE-2015-1082, CVE-2015-1083, CVE-2015-1084</FONT></DIV>]]></Description>
+    <Relevance>(exists string &quot;ProductVersion&quot; whose (it as string = &quot;10.10.2&quot;) of dictionary of it) of file &quot;/System/Library/CoreServices/SystemVersion.plist&quot;</Relevance>
+    <Relevance><![CDATA[not exists application whose (version of it >= "8.0.4" AND name of it = "Safari.app")]]></Relevance>
+    <Category>Security Update</Category>
+    <Source>Apple</Source>
+    <SourceID>APPLE-SA-2015-03-17-1</SourceID>
+    <SourceReleaseDate>2015-03-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <CVENames>CVE-2015-1068, CVE-2015-1069, CVE-2015-1070, CVE-2015-1071, CVE-2015-1072, CVE-2015-1073, CVE-2015-1074, CVE-2015-1075, CVE-2015-1076, CVE-2015-1077, CVE-2015-1078, CVE-2015-1079, CVE-2015-1080, CVE-2015-1081, CVE-2015-1082, CVE-2015-1083, CVE-2015-1084</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PTCH Patch Apple Safari Application</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 04:04:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action4447">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view more information from Apple on this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.apple.com/en-is/HT204560</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

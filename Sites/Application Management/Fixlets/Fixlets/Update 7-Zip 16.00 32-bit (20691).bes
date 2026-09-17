@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update 7-Zip 16.00 32-bit
+  ID       : 20691
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-05-24T23:59:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update 7-Zip 16.00 32-bit</Title>
+    <Description><![CDATA[<P>Updates 7-Zip to version 16.00.</P>
+<P>Removes ALL other installations, with the choice of installing the MSI or EXE version.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND (if exists value "DisplayVersion" of it then value "DisplayVersion" of it as string as version else maximum of (matches (regex "([0-9]+\.[0-9]+)") of (value "DisplayName" of it as string) as version)) < "16.00") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)]]></Relevance>
+    <Category>Security Update</Category>
+    <SourceReleaseDate>2016-05-16</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2016-2335; CVE-2016-2334</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 25 May 2016 06:56:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to remove the EXE version and update the MSI version.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 7z1600.msi sha1:7d9b07f645a372fbe138415fb5281dd068fda586 size:1278976 http://www.7-zip.org/a/7z1600.msi sha256:53056c647c6a0560f4d304d12a179a8b8aee84f0655afe641a332e5d71d74ae6
+
+// Remove the 32-bit EXE version
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "UninstallString" of it as string as lowercase contains "uninstall") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)}
+waithidden {value "UninstallString" of key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND value "UninstallString" of it as string as lowercase contains "uninstall") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)} /S
+endif
+
+// Remove the 32-bit MSI versions
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)}
+delete __createfile
+delete uninstall.bat
+createfile until _end_
+{ concatenations "%0d%0a" of ((pathname of system folder & "\msiexec.exe /X ")  & (preceding text of last "}}" of it) & "}} /quiet /norestart") of names of keys whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry) }
+_end_
+move __createfile uninstall.bat
+waithidden uninstall.bat
+endif
+
+// Install
+waithidden "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\7z1600.msi"}" /qn /QN REBOOT=ReallySuppress
+parameter "Exitcode" = "{if exist exit code of action then exit code of action as string else "0"}"
+if {parameter "Exitcode" != "0"}
+	action requires restart 7d9b07f645a372fbe138415fb5281dd068fda586
+endif
+exit {parameter "Exitcode"}
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action21559">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to remove the MSI version and update the EXE version.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 7z1600.exe sha1:1113b886ab112db70ed23399a47420573eb825a5 size:1107003 http://www.7-zip.org/a/7z1600.exe sha256:e7bf99071ec843474147bf9aac263141d83973ff766c8abbd82e931a04c586da
+
+// Remove the 32-bit MSI versions
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry)}
+delete __createfile
+delete uninstall.bat
+createfile until _end_
+{ concatenations "%0d%0a" of ((pathname of system folder & "\msiexec.exe /X ")  & (preceding text of last "}}" of it) & "}} /quiet /norestart") of names of keys whose (value "DisplayName" of it as string as lowercase contains "7-zip" AND name of it starts with "{") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registry) }
+_end_
+move __createfile uninstall.bat
+waithidden uninstall.bat
+endif
+
+// Install
+waithidden "__Download\7z1600.exe" /S
+action requires restart 1113b886ab112db70ed23399a47420573eb825a5]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

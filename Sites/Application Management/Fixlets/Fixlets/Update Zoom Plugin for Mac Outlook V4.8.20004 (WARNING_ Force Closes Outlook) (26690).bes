@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Update Zoom Plugin for Mac Outlook V4.8.20004 (WARNING: Force Closes Outlook)
+  ID       : 26690
+  Author   : suzib6sw
+  Domain   : BESC
+  Imported : 2020-04-08T10:14:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Update Zoom Plugin for Mac Outlook V4.8.20004 (WARNING: Force Closes Outlook)</Title>
+    <Description><![CDATA[This task will deploy Zoom Plugin for Mac Outlook 4.8.20004<BR>This task is applicable on Mac OS X 10.14 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system < "10.15"]]></Relevance>
+    <Relevance><![CDATA[exists application whose (name of it as lowercase = "PluginLauncher.app" as lowercase) whose (version of it < "4.8.20004")]]></Relevance>
+    <Category>Update</Category>
+    <Source>Zoom</Source>
+    <SourceID>PLF</SourceID>
+    <SourceReleaseDate>2020-04-07</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 07 Apr 2020 15:10:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ZoomMacOutlookPlugin.pkg sha1:8a138e228cec4b5252af4f52ad52459d8b3712e5 size:2379335 https://zoom.us/client/latest/ZoomMacOutlookPlugin.pkg sha256:6ed0008a1bdcd7b6c05359f056bd1352eafbfb6cf1b7b4533d570031a2a2892a
+
+
+if {exists  process whose (name of it = &quot;Microsoft Outlook&quot;)}
+wait /usr/bin/killall &quot;Microsoft Outlook&quot;
+endif
+wait installer -pkg &quot;__Download/ZoomMacOutlookPlugin.pkg&quot; -target /
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

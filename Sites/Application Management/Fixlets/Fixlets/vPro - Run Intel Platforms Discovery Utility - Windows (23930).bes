@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : vPro - Run Intel Platforms Discovery Utility - Windows
+  ID       : 23930
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-03-17T21:47:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>vPro - Run Intel Platforms Discovery Utility - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[not exists it whose( (now - (modification time of it)) < 4 * day ) of files "results_Intel_Platform_Discovery.xml" of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-09-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Jan 2016 20:55:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+// https://downloadcenter.intel.com/download/24667
+prefetch PlatformDiscovery.zip sha1:7cc8e6685ebaceaf0dfe1aea953d8d6d18295d09 size:1097500 https://downloadmirror.intel.com/24667/eng/PlatformDiscovery.zip
+
+utility __Download\unzip.exe
+utility __Download\PlatformDiscovery.zip
+
+waithidden __Download\unzip.exe -o "{ download path "PlatformDiscovery.zip" }" -d "{ pathname of download folder }"
+
+// Command Line Options
+// You can use any of these global command options from the Command Line Interface:
+// - /? –Displays the help
+// - /ReportToRCS RCSaddress – Sends platform discovery data to the RCS at the specified address.  To Integrate with an Intel® SCS RCS server, please visit the Intel® SCS website at: https://www-ssl.intel.com/content/www/us/en/software/setup-configuration-software.html
+// - /List – Displays a list of the solutions that this version of the utility can discover (instead of performing discovery)
+// - /LogFile or <logfile> – Creates a log file. If the command is supplied without the filename parameter, a new log file will then be created each time a discovery is run. If a filename is supplied, then the existing file will be overwritten each time a new discovery is run.
+// - /Verbose – Changes the logging level to verbose, a detailed log.
+
+// waithidden cmd /C echo "{ download path "PlatformDiscovery.exe" }" > "{ pathname of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client)) }/results_Intel_Platform_Discovery.xml"
+wait cmd /C "{ download path "PlatformDiscovery.exe" }" > __Download\results_Intel_Platform_Discovery.xml
+
+// Only continue if the command succeeded
+continue if{ 0 = exit code of active action }
+
+// Only continue if the xml file exists like it should, otherwise the next command would delete the old data but without new data to replace it.
+continue if{exists files "results_Intel_Platform_Discovery.xml" of download folders}
+
+delete "{ pathname of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client)) }/results_Intel_Platform_Discovery.xml"
+
+copy "{ download path "results_Intel_Platform_Discovery.xml" }" "{ pathname of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client)) }/results_Intel_Platform_Discovery.xml"
+
+// unnessiary error checking
+continue if{ exists files "results_Intel_Platform_Discovery.xml" of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client)) }
+
+// ForceRefresh should only happen to a small number of clients
+//notify client ForceRefresh
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

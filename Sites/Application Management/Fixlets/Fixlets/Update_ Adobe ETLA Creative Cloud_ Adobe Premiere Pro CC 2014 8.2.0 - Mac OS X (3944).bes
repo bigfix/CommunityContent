@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update: Adobe ETLA Creative Cloud: Adobe Premiere Pro CC 2014 8.2.0 - Mac OS X
+  ID       : 3944
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2015-01-15T10:22:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update: Adobe ETLA Creative Cloud: Adobe Premiere Pro CC 2014 8.2.0 - Mac OS X</Title>
+    <Description>Adobe Premiere Pro CC 2014 8.2.0 Update </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[exists folder "/Applications/Adobe Premiere Pro CC 2014/Adobe Premiere Pro CC 2014.app" whose (version of it >= "8.0.0" as version AND version of it < "8.2.0" as version)]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2015-01-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Jan 2015 14:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AdobeCCPremiereUpdate.dmg sha1:61c46ca603f1d07448ccd53ed4469e0129d7c871 size:299902197 http://prodesigntools.com/swupdl/updates/oobe/aam20/mac/AdobePremierePro-8.0.0-Trial/8.2.0/setup.dmg
+
+delete &quot;/tmp/AdobeCCPremiereUpdate.dmg&quot;
+move &quot;__Download/AdobeCCPremiereUpdate.dmg&quot; &quot;/tmp/AdobeCCPremiereUpdate.dmg&quot;
+
+wait /usr/bin/hdiutil attach -quiet -nobrowse -private -mountpoint &quot;/tmp/AdobeCCPremiereUpdate&quot; &quot;/tmp/AdobeCCPremiereUpdate.dmg&quot;
+
+wait /tmp/AdobeCCPremiereUpdate/AdobePatchInstaller.app/Contents/MacOS/AdobePatchInstaller --mode=silent --skipProcessCheck=1
+
+wait /usr/bin/hdiutil detach -force &quot;/tmp/AdobeCCPremiereUpdate&quot;
+delete &quot;/tmp/AdobeCCPremiereUpdate.dmg&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: Java Runtime Environment 7 update 85 Available - Mac OS X
+  ID       : 6119
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2015-07-15T01:44:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: Java Runtime Environment 7 update 85 Available - Mac OS X</Title>
+    <Description><![CDATA[<div class=FixletMessage><TABLE><TBODY><TR><TD> <P>Oracle has released a new version of the Java SE Runtime Environment (JRE). Use the action below to update Java to version 7, update 85.</P> <P>This update is available for Mac OS X 10.7.3 and later.</P> <P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P> <P><STRONG><FONT color=#ff0000>Important Note: </FONT></STRONG>Follow the link for the 'Java SE Runtime Environment (JRE) 7 update 85' download on this <A href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">page</A>. The file "jre-7u85-macosx-x64.dmg" must be downloaded, renamed "25d71247f75a723da8a5ff30ae160e008eede5a5", and placed in the BES Server download cache for this action to complete successfully. For more information about manually caching file downloads on the BES Server, please see the following BigFix Support Knowledge Base <A href="http://support.bigfix.com/cgi-bin/kbdirect.pl?id=390">article</A>.</P></TD></TR></TBODY></TABLE>         </div>   <div class=FixletProperty>     <h4>File Size:</h4> 48.66 MB          </div> <div class=FixletProperty>     <h4>CVE:</h4> CVE-2015-4760; CVE-2015-2628; CVE-2015-4731; CVE-2015-2590; CVE-2015-4732; CVE-2015-4733; CVE-2015-2638; CVE-2015-4736; CVE-2015-4748; CVE-2015-2597; CVE-2015-2664; CVE-2015-2632; CVE-2015-2601; CVE-2015-2613; CVE-2015-2621; CVE-2015-2659; CVE-2015-2619; CVE-2015-2637; CVE-2015-2596; CVE-2015-4749; CVE-2015-4729; CVE-2015-4000; CVE-2015-2808; CVE-2015-2627; CVE-2015-2625          </div>]]></Description>
+    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance><![CDATA[(exists string "ProductVersion" whose (it as version >= "10.7.3" AND (NOT(it as string = "10.7"))) of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist"]]></Relevance>
+    <Relevance>(exists folder &quot;/Library/PreferencePanes/JavaControlPanel.prefPane/Contents/&quot; whose (exists file &quot;Info.plist&quot; whose ((match (regex &quot;^([0-9]+\.[0-9]+\.[0-9]+)&quot;) of (string &quot;CFBundleShortVersionString&quot; of it)) of dictionary of it as version = &quot;1.7.0&quot;) of it))</Relevance>
+    <Relevance><![CDATA[(exists folder "/Library/PreferencePanes/JavaControlPanel.prefPane/Contents/" whose (exists file "Info.plist" whose ((string "CFBundleShortVersionString" of dictionary of it as version = "1.7.0") or (((parenthesized part 1 of it & "." & parenthesized part 2 of it) of match (regex "^([0-9]+\.[0-9]+\.[0-9]+)_([0-9]+)") of (string "CFBundleShortVersionString" of it)) of dictionary of it as version < "1.7.0.85")) of it))]]></Relevance>
+    <Category>Security Update</Category>
+    <Source>Oracle</Source>
+    <SourceID>21270433</SourceID>
+    <SourceReleaseDate>2015-07-15</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2015-4760; CVE-2015-2628; CVE-2015-4731; CVE-2015-2590; CVE-2015-4732; CVE-2015-4733; CVE-2015-2638; CVE-2015-4736; CVE-2015-4748; CVE-2015-2597; CVE-2015-2664; CVE-2015-2632; CVE-2015-2601; CVE-2015-2613; CVE-2015-2621; CVE-2015-2659; CVE-2015-2619; CVE-2015-2637; CVE-2015-2596; CVE-2015-4749; CVE-2015-4729; CVE-2015-4000; CVE-2015-2808; CVE-2015-2627; CVE-2015-2625</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PTCH Patch Oracle Java Application</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product</Name>
+      <Value>JavaOracle</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 04:04:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action6603">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch jre-7u85-macosx-x64.dmg sha1:25d71247f75a723da8a5ff30ae160e008eede5a5 size:51103871 http://download.oracle.com/MANUAL_BES_CACHING_REQUIRED/jre-7u79-macosx-x64.dmg sha256:43aa4bf6f754dc6cf35f3386f44887f931cbbf72c774aac3f2c6feb188fd3ab8
+
+wait cp &quot;{posix path of file &quot;jre-7u85-macosx-x64.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/Volumes/jre-7u85-macosx-x64&quot;  &quot;/private/tmp/jre-7u85-macosx-x64.dmg&quot;
+
+wait rm -rf &quot;/private/tmp/jre-7u85-macosx-x64.dmg&quot;
+
+wait cp -r &quot;/Volumes/jre-7u85-macosx-x64/Java 7 update 85.pkg&quot; &quot;/private/tmp/Java 7 update 85.pkg&quot;
+
+wait /bin/bash -c &quot;devname=`df | grep jre-7u85-macosx-x64 | awk &apos;{{print $1}&apos;`; hdiutil detach -force $devname;&quot;
+
+wait installer -pkg &quot;/private/tmp/Java 7 update 85.pkg&quot; -target /
+
+action may require restart &quot;25d71247f75a723da8a5ff30ae160e008eede5a5&quot;
+</ActionScript>
+    </Action>
+    <Action ID="Action6604">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about the latest version of JRE. </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.oracle.com/technetwork/java/javase/7u-relnotes-515228.html</ActionScript>
+    </Action>
+    <Action ID="Action6605">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Oracle. </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://java.sun.com/javase/technologies/security/index.jsp</ActionScript>
+    </Action>
+    <Action ID="Action6606">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information from SANS on vulnerabilities in cross-platform applications.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c1</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

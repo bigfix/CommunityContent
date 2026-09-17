@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : VLC - 2.1.0 - Win
+  ID       : 3642
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T06:50:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>VLC - 2.1.0 - Win</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>VideoLAN has released a new version of VLC. Use the action below to update VLC to the latest version (2.1.0).</TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>21.1 MB </DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance><![CDATA[exists file (value of variable "ProgramFiles" of environment & "\VideoLAN\VLC\vlc.exe") OR ((x64 of operating system) AND exists file (value of variable "ProgramFiles(x86)" of environment & "\VideoLAN\VLC\vlc.exe"))]]></Relevance>
+    <Relevance><![CDATA[(value "FileVersion" of version block 1 of file ((value of variable "ProgramFiles" of environment) & "\VideoLAN\VLC\vlc.exe") < "2.1.0" as version) OR ((x64 of operating system) AND (value "FileVersion" of version block 1 of file ((value of variable "ProgramFiles(x86)" of environment) & "\VideoLAN\VLC\vlc.exe") < "2.1.0" as version))]]></Relevance>
+    <Relevance><![CDATA[free space of drive of client > 48557298]]></Relevance>
+    <Category>Update</Category>
+    <Source>VideoLAN</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-09-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 03 Apr 2013 13:38:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 26 Sep 2013 20:42:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to upgrade VLC. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Download all specified files
+begin prefetch block
+  add prefetch item name=VLC_2_1_0 sha1=8f45a84e7ddccc5503bbec6417789f164b00ff83 size=24278649 url=http://get.videolan.org/vlc/2.1.0/win32/vlc-2.1.0-win32.exe
+end prefetch block
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
+
+// Move files into subfolders and unescape file names
+move &quot;__Download/VLC_2_1_0&quot; &quot;{parameter &quot;baseFolder&quot;}vlc-2.1.0-win32.exe&quot;
+
+wait {parameter &quot;baseFolder&quot;}vlc-2.1.0-win32.exe /S</ActionScript>
+    </DefaultAction>
+    <Action ID="Action3913">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this VLC release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.videolan.org/vlc/releases/2.1.0.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

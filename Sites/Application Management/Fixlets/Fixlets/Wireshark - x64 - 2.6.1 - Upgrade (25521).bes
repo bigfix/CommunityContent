@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Wireshark - x64 - 2.6.1 - Upgrade
+  ID       : 25521
+  Author   : rdshift
+  Domain   : BESC
+  Imported : 2018-06-13T09:39:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Wireshark - x64 - 2.6.1 - Upgrade</Title>
+    <Description><![CDATA[<P>This task will deploy: Wireshark x64 2.6.1.<BR><BR>This task is applicable on: Windows.<BR><BR>It will neither install or update WinPCAP.</P>]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not pending restart &quot;27d5e6075d1b9c5ae680df622bcd77da0cb33048&quot;</Relevance>
+    <Relevance><![CDATA[exists key whose (value "DisplayName" of it as string as lowercase contains "wireshark" AND (if exists value "DisplayVersion" of it then value "DisplayVersion" of it as string as version else maximum of (matches (regex "([0-9]+\.[0-9]+)") of (value "DisplayName" of it as string) as version)) < "2.6.1") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of ((x64 registries; x32 registries))]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2018-06-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 13 Jun 2018 16:36:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch 27d5e6075d1b9c5ae680df622bcd77da0cb33048 sha1:27d5e6075d1b9c5ae680df622bcd77da0cb33048 size:49356800 https://www.wireshark.org/download/win64/Wireshark-win64-2.6.1.msi sha256:1796964f494a869719bb47075f9bc16d505d6f67b6f423df865ab5191b6b0c02
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\Wireshark-win64-2.6.1.msi"}" /qn /norestart]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

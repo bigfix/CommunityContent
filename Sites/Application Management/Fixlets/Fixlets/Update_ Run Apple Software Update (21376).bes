@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update: Run Apple Software Update
+  ID       : 21376
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2016-09-02T10:57:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update: Run Apple Software Update</Title>
+    <Description>Run the Apple Software Update Utility </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/usr/sbin/softwareupdate&quot;</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2016-09-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 02 Sep 2016 17:56:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Install </PreLink>
+        <Link>Recommended</Link>
+        <PostLink>&amp;nbsp;Apple Software Updates</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "/tmp/SysMan_SoftwareUpdateLog.log"
+wait /usr/bin/touch "/tmp/SysMan_SoftwareUpdateLog.log"
+
+wait /bin/bash -c "/usr/sbin/softwareupdate --install --recommended > /tmp/SysMan_SoftwareUpdateLog.log"
+
+if {exit code of action != 0}
+	exit {exit code of action as integer}
+elseif {exists lines whose (it contains "restart") of file "/tmp/SysMan_SoftwareUpdateLog.log"}
+	action requires restart
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action22283">
+      <Description>
+        <PreLink>Install </PreLink>
+        <Link>All</Link>
+        <PostLink>&amp;nbsp;Apple Software Updates</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "/tmp/SysMan_SoftwareUpdateLog.log"
+wait /usr/bin/touch "/tmp/SysMan_SoftwareUpdateLog.log"
+
+wait /bin/bash -c "/usr/sbin/softwareupdate --install --all > /tmp/SysMan_SoftwareUpdateLog.log"
+
+if {exit code of action != 0}
+	exit {exit code of action as integer}
+elseif {exists lines whose (it contains "restart") of file "/tmp/SysMan_SoftwareUpdateLog.log"}
+	action requires restart
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+    <Action ID="Action22284">
+      <Description>
+        <PreLink>Prompt for </PreLink>
+        <Link>Specific</Link>
+        <PostLink>&amp;nbsp;Apple Software&amp;nbsp;Update to Install&amp;nbsp;by Label</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "/tmp/SysMan_SoftwareUpdateLog.log"
+wait /usr/bin/touch "/tmp/SysMan_SoftwareUpdateLog.log"
+
+action parameter query "AppleSoftwareUpdateLabel" with description "Enter the label of the update to run (can be found by running `softwareupdate -l`):" and with default value ""
+
+wait /bin/bash -c "/usr/sbin/softwareupdate --install '{parameter "AppleSoftwareUpdateLabel"}' > /tmp/SysMan_SoftwareUpdateLog.log"
+
+if {exit code of action != 0}
+	exit {exit code of action as integer}
+elseif {exists lines whose (it contains "restart") of file "/tmp/SysMan_SoftwareUpdateLog.log"}
+	action requires restart
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+    <Action ID="Action22285">
+      <Description>
+        <PreLink></PreLink>
+        <Link>List</Link>
+        <PostLink>&amp;nbsp;Available Apple Software Updates to Log File</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "/tmp/SysMan_SoftwareUpdateScanLog.log"
+wait /usr/bin/touch "/tmp/SysMan_SoftwareUpdateScanLog.log"
+
+wait /bin/bash -c "/usr/sbin/softwareupdate --list > /tmp/SysMan_SoftwareUpdateScanLog.log"
+
+if {exit code of action != 0}
+	exit {exit code of action as integer}
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

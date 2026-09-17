@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update Google Chrome to Latest Version Available (WIndows 10 / Server 2016 and higher)
+  ID       : 27003
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2023-06-06T06:20:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update Google Chrome to Latest Version Available (WIndows 10 / Server 2016 and higher)</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> This is a Community Fixlet, with no official support from HCL BigFix.&nbsp; Because of the dynamic nature of Google Chrome updates, this Fixlet does not validate the sha1 or sha256 hashes of the downloaded Google Chrome installer.</P>
+<P>This Fixlet attempts to update Google Chrome to the latest version available.&nbsp; Computers will report Relevant if there is any version of Google Chrome installed, even if the version is already up-to-date.&nbsp; The Fixlet will&nbsp;download the Enterprise version of Google Chrome from&nbsp;this </FONT><A href="https://enterprise.google.com/chrome/chrome-browser/#download">page</A>.</P>
+<P><B><FONT color=#ff0000>Important Note:</FONT></B> This Fixlet will detect the existence of Google Chrome for both the consumer edition and the enterprise edition. Installing the enterprise edition of Google Chrome <B>might not</B> uninstall nor update the consumer edition. Additionally, problems might occur when installing the enterprise edition of Google Chrome on a computer that already has the consumer edition present. BigFix recommends that the consumer edition of Google Chrome is uninstalled before installing the enterprise edition. Use Fixlet message "Google Chrome - Consumer Edition Installed" (ID 14011003) to uninstall the consumer edition of Google Chrome.</P>
+<P><FONT color=#ff0000><STRONG>Important Note: </STRONG></FONT>This Fixlet will remain Relevant even after upgrading Chrome to the latest available version.</P>
+<P><B>Note:</B> Google does not provide a way to detect if the application has a 32-bit or 64-bit architecture. The only other way to confirm architecture is to examine its uninstaller executable, which BigFix does not currently support.</P>
+<P>It is assumed that only a 64-bit version of the application is installed on a 64-bit operating system. A 32-bit version of the application that is installed on a 64-bit operating system will be converted to a 64-bit version. Currently, the conversion has no known impact and no user action is required in relation to this conversion.</P>
+<P><FONT color=#ff0000><STRONG>Note: </STRONG></FONT>The latest Google Chrome version available will be download at the time the Action is taken.&nbsp; That version is downloaded and cached on the Root Server and Relays.&nbsp; That version will continue to be distributed to clients, even if Google releases an updated Chrome version after the action is taken.&nbsp; Clients that report to this action later,&nbsp;or Reapply this action after some period of time, will continue to deploy the version of Chrome that was available at the time the action was taken.</P>
+<P><FONT color=#ff0000><STRONG>Note: </STRONG></FONT><FONT color=#000000>Google has sunsetted support for Google Chrome on Windows 8.1 and lower.&nbsp; See the announcement at <A href="https://support.google.com/chrome/a/thread/185534987">https://support.google.com/chrome/a/thread/185534987</A>&nbsp;for more details.</FONT></P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "7"]]></Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance>exists regapp &quot;chrome.exe&quot;</Relevance>
+    <Relevance>(exists key whose ((value &quot;name&quot; of it as string = &quot;Google %c5%a9%b7%d2&quot; or value &quot;name&quot; of it as string = &quot;Chrome&quot; or value &quot;name&quot; of it as string = &quot;Google Chrome&quot;)) of keys &quot;HKEY_LOCAL_MACHINE\Software\Google\Update\Clients&quot; of registry) OR (exists key whose (( value &quot;DisplayName&quot; of it as string = &quot;Chrome&quot; or value &quot;DisplayName&quot; of it as string = &quot;Google Chrome&quot;)) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry)</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= version "10"]]></Relevance>
+    <Category>Update</Category>
+    <Source>Google</Source>
+    <SourceID>Unspecified</SourceID>
+    <SourceReleaseDate>2022-03-20</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>Unspecified</CVENames>
+    <SANSID>Unspecified</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 21 Mar 2022 14:22:12 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-bfsync-source-modification-time</Name>
+      <Value>Tue, 15 Nov 2022 16:19:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-cpe23-item-name</Name>
+      <Value>cpe:2.3:a:google:chrome:99.0.4844.82:*:*:*:*:*:*:*</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Google Chrome</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-bfsync-source-actionsite</Name>
+      <Value>http://BES-Dev-Root:52311/cgi-bin/bfgather.exe/actionsite</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-bfsync-source-id</Name>
+      <Value>4856</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Jun 2023 13:19:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.&lt;BR&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">begin prefetch block
+if {x64 of operating system}
+add nohash prefetch item name=googlechromestandaloneenterprise.msi url=https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B03FE9563-80F9-119F-DA3D-72FBBB94BC26%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable%26brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi
+else
+add nohash prefetch item name=googlechromestandaloneenterprise.msi url=https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B03FE9563-80F9-119F-DA3D-72FBBB94BC26%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable%26brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise.msi
+endif
+end prefetch block
+
+wait msiexec.exe /q /I &quot;__Download\googlechromestandaloneenterprise.msi&quot;
+action may require restart &quot;e775c4882053851c89d8a5a022db3567632ac22f&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action28324">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this Google Chrome release.&lt;BR&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://googlechromereleases.blogspot.com/search/label/Stable%20updates</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

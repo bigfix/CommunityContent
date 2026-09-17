@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update: Adobe Remote Update Manager (RUM) - Windows
+  ID       : 3854
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T14:03:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update: Adobe Remote Update Manager (RUM) - Windows</Title>
+    <Description><![CDATA[<P>This task will run the Adobe Remote Update Manager&nbsp;for&nbsp;Windows.</P>
+<P>This will attempt to update all Adobe (CC and CS6 and possibly others)&nbsp;products on the system silently. This could cause a lot of network traffic and take a while if there are many updates to install. Use of an Adobe Update Server is recommended for slow WAN links.</P>
+<P>Check the results of this task through the "<STRONG>Adobe RemoteUpdateManager Log Audit - Windows</STRONG>" analysis.<BR></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* the RUM will fail if the UpdaterCore does not exist */ exists files &quot;Common Files\Adobe\OOBE\PDApp\UWA\UpdaterCore.dll&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Relevance>
+    <Relevance><![CDATA[/* Only run if not run within the past 7 days */ not exists files "RemoteUpdateManager.log" whose((now - modification time of it) < 7*day) of (folders "temp" of windows folders)]]></Relevance>
+    <Relevance>exists files &quot;Common Files\Adobe\OOBE_Enterprise\RemoteUpdateManager\RemoteUpdateManager.exe&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Relevance>
+    <Category>Updater</Category>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-05-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Sep 2014 20:48:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// analysis of the download from adobe that contains the application:  https://www.virustotal.com/en/file/9e35dedf2dc50d21d2bb9cc5d1e2f6ef93028135b0c5086de79c37d1627394d8/analysis/
+// analysis of the actual updater application:  https://www.virustotal.com/en/file/a667f8c4acb661ea17e3f82b3c776e31020d18859fb114198bd84d12b7f44571/analysis/1407521692/
+
+// The following prefetch and extraction should not be needed, and it downloads an older version than what is included in creative cloud.
+//prefetch RemoteUpdateManager.exe sha1:19818dcaf81701ece59f21c8a80ff434ac2930cf size:1548488 http://download.macromedia.com/pub/developer/creativesuite/AAMEE/win/RemoteUpdateManager.exe
+//waithidden __Download\RemoteUpdateManager.exe /a /q /s /x /d &quot;{(pathname of client folder of current site)}\__Download&quot;
+
+
+// UPDATE:  Install any missing updates
+if{(exists files &quot;Common Files\Adobe\OOBE_Enterprise\RemoteUpdateManager\RemoteUpdateManager.exe&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder) AND (exists files &quot;Common Files\Adobe\OOBE\PDApp\UWA\UpdaterCore.dll&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder)}
+	waithidden &quot;{pathname of file &quot;Common Files\Adobe\OOBE_Enterprise\RemoteUpdateManager\RemoteUpdateManager.exe&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder}&quot;
+endif
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>
