@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Apache Commons Text detection scan (Linux)
+  ID       : 26954
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-10-21T12:01:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Apache Commons Text detection scan (Linux)</Title>
+    <Description><![CDATA[<H3>This is Community Content. When you use these solutions, it is incumbent on your organization to test any solutions provided across the broadest available system base including various OS, storage solutions, and application inventory.</H3>
+<P></P>
+<P>Please see the <A href="https://forum.bigfix.com/t/log4j-vulnerability-identification-and-3rd-party-remediation-solution-testing-statement/40273"><FONT color=#0066cc>Community Solution Testing Statement</FONT></A></P>
+<P>This Task performs a filesystem scan on Linux systems to attempt detecting Apache Commons Text versions vulnerable to CVE-2022-42889.</P>
+<UL>
+<LI><A href="https://lists.apache.org/thread/n2bd4vdsgkqh2tm14l1wyc3jyol7s1om">https://lists.apache.org/thread/n2bd4vdsgkqh2tm14l1wyc3jyol7s1om</A>
+<LI><A href="https://nvd.nist.gov/vuln/detail/CVE-2022-42889">https://nvd.nist.gov/vuln/detail/CVE-2022-42889</A><BR></LI></UL>
+<P>&nbsp;</P>
+<P>This Task performs a filesystem search across all fixed disks on Linux platforms, to locate Apache Commons Text JAR files, either directly on the filesystem or embedded in a .WAR archive file.&nbsp; In the case any .WAR file is found on the system, the 'unzip' utility is used to perform a listing of files inside the archive to locate Apache Commons Text-related JAR files.&nbsp; Specifically, this Task searches for any versions of commons-text-X.X.X.jar.</P>
+<P>Scan results are stored in a "Scans" subdirectory beneath the "BES Client" folder. 'apache-commons-text.log' contains the full script output for potential debugging or diagnosis, and 'apache-commons-text.txt' contains a listing of detected files in one of the forms</P>
+<UL>
+<LI>/tmp/commons-text/1.4/commons-text-1.4.jar
+<LI>/tmp/commons-text.war::commons-text/1.10.0/commons-text-1.10.0.jar<BR></LI></UL>
+<P>The first sample entry indicates a detected .jar file directly in the filesystem, while the second entry indicates a detected .jar file embedded within a .WAR archive.</P>
+<P>This Task has several known limitations:</P>
+<P></P>
+<UL>
+<LI>Archives are not extracted recursively - only .JAR files contained directly within a .WAR archive are found; archives embedded within multiple layers of .WAR archives are not detected.
+<LI>There is no option to throttle the scan in terms of processor or disk i/o usage.&nbsp; Scans should be executed during non-critical hours, and staggered over time especially where multiple systems share a storage resource, such as a SAN or virtual machine storage pool.</LI></UL>
+<P>This detection method uses&nbsp;Linux Bash script with&nbsp;external&nbsp;dependencies on 'df', 'find', 'sed', and&nbsp;'unzip'.&nbsp; Results of the scan may be retrieved using the related Analysis.</P>]]></Description>
+    <Relevance>name of operating system as lowercase contains &quot;linux&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-03-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 20 Oct 2022 22:52:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "ScansFolder" = "{(if (version of client >= "9" as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site "actionsite"))}/Scans"
+folder create "{parameter "ScansFolder"}"
+parameter "output"="{pathname of folder (parameter "ScansFolder")}/apache-commons-text.txt"
+parameter "exec_output"="{pathname of folder (parameter "ScansFolder")}/apache-commons-text.log"
+delete "{parameter "output"}"
+delete "{parameter "exec_output"}"
+
+delete __createfile
+createfile until EOF_EOF_EOF_EOF
+#!/bin/sh
+
+# Enable trace output from script
+set -o xtrace
+
+OUTPUT_FILE={parameter "output"}
+
+handle_file() {{
+ echo Handling $1
+ case $1 in
+ *.war|*.zip|*.ear|*.WAR|*.ZIP|*.EAR)
+ echo "${{1} is an archive, searching content via unzip";
+ for embeddedfile in `unzip -Z -1 "$1"  *commons-text-*.jar -x *-sources.jar *-javadoc.jar *-tests.jar`
+ do
+  echo ${{1}::${{embeddedfile}>>${{OUTPUT_FILE}
+ done
+;;
+ *)
+ echo ${{1}>>${{OUTPUT_FILE}
+;;
+esac
+}
+
+
+
+for j in `df -l --output=target -x tmpfs -x devtmpfs | sed 1d`
+
+ do echo "searching $j"
+ for targetfile in `find $j -xdev \( -name "commons-text-*.jar" -o -name "*.war" \) -a ! \(  -name "*-sources.jar"  -o  -name "*-javadoc.jar" -o  -name "*-tests.jar" \)`
+  do handle_file "$targetfile"
+ done
+
+done
+
+
+
+EOF_EOF_EOF_EOF
+
+delete run_scan.sh
+copy __createfile run_scan.sh
+wait chmod +x run_scan.sh
+wait /bin/sh -x -c "./run_scan.sh > '{parameter "exec_output"}' 2>&1"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

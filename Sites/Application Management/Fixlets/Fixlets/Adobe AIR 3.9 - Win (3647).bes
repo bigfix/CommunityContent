@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Adobe AIR 3.9 - Win
+  ID       : 3647
+  Author   : kerryt9455
+  Domain   : SYST
+  Imported : 2013-10-24T07:17:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Adobe AIR 3.9 - Win</Title>
+    <Description><![CDATA[<P>This Task will update Adobe AIR to version 3.9 if AIR exists on the computer.</P>
+<P><STRONG>Note:</STRONG> This Fixlet is currently built for Adobe AIR 3.9.0.1030.&nbsp; If Adobe updates the version on their website this fixlet will no longer run properly.&nbsp; To correct the issue, the new SHA1 and File Size must be placed in the action script and the new version number placed in the relevance.</P>]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance><![CDATA[(exists key whose (value "DisplayName" of it as string as lowercase = "adobe air" AND name of it starts with "%7b" AND name of it ends with "%7d" and value "DisplayVersion" of it < "3.9.0.1030") of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry) OR (exists key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%7b00203668-8170-44A0-BE44-B632FA4D780F%7d" of registry) OR (exists key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%7bA2BCA9F1-566C-4805-97D1-7FDC93386723%7d" of registry)]]></Relevance>
+    <Relevance><![CDATA[free space of drive of client > 36161744]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Adobe</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-10-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;C78683EE7E788561DE56D7A5911494D03308AF7D&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>&quot;AdobeAIRInstaller.exe&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_kwtobin_1379342055935489</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runFileSha1</Name>
+      <Value>C78683EE7E788561DE56D7A5911494D03308AF7D</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;version&quot;:&quot;3.8&quot;,&quot;lastmodified&quot;:&quot;Mon Sep 16 09:34:51 GMT-0500 2013&quot;,&quot;owner&quot;:&quot;kwtobin&quot;,&quot;creator&quot;:&quot;kwtobin&quot;,&quot;files&quot;:[{&quot;sha1&quot;:&quot;C78683EE7E788561DE56D7A5911494D03308AF7D&quot;,&quot;exe_metadata&quot;:{&quot;FileVersion&quot;:&quot;3.8.0.1430&quot;,&quot;CompanyName&quot;:&quot;Adobe Systems Inc.&quot;,&quot;exe_metadata_version&quot;:&quot;1.0.0.9&quot;,&quot;ProductName&quot;:&quot;Adobe AIR &quot;,&quot;ProductVersion&quot;:&quot;3.8&quot;},&quot;folderoffset&quot;:&quot;&quot;,&quot;msi_metadata&quot;:null,&quot;dateadded&quot;:&quot;Mon, 16 Sep 2013 09:34:50 -0500&quot;,&quot;filename&quot;:&quot;AdobeAIRInstaller.exe&quot;,&quot;compressed_data_for_package&quot;:false,&quot;spb_metadata&quot;:null,&quot;id&quot;:&quot;C78683EE7E788561DE56D7A5911494D03308AF7D_1379342091035850&quot;,&quot;size&quot;:18070536,&quot;osd_metadata&quot;:null}],&quot;description&quot;:null,&quot;product&quot;:&quot;Air&quot;,&quot;vendor&quot;:&quot;Adobe&quot;,&quot;comment&quot;:null,&quot;pkgvariablekey&quot;:&quot;SWD_Package_kwtobin_1379342055935489&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 14:15:17 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Download all specified files
+begin prefetch block
+  add prefetch item name=9CA7ADD6BC71A80CC11776E0BCB5C2C43C57E6BF sha1=9ca7add6bc71a80cc11776e0bcb5c2c43c57e6bf size=18080872 url=http://airdownload.adobe.com/air/win/download/3.9/AdobeAIRInstaller.exe
+end prefetch block
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
+
+// Move files into subfolders and unescape file names
+move &quot;__Download/9CA7ADD6BC71A80CC11776E0BCB5C2C43C57E6BF&quot; &quot;{parameter &quot;baseFolder&quot;}AdobeAIRInstaller.exe&quot;
+
+//Remove old versions of AIR
+// Adobe AIR 1.0.8.4990
+if {exists key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%7b00203668-8170-44A0-BE44-B632FA4D780F%7d&quot; of registry}
+waithidden &quot;{pathname of system folder}\msiexec.exe&quot; /qn REBOOT=ReallySuppress /x {&quot;%7b00203668-8170-44A0-BE44-B632FA4D780F%7d&quot;}
+endif
+
+// Adobe AIR 1.5.0.7220
+if {exists key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%7bA2BCA9F1-566C-4805-97D1-7FDC93386723%7d&quot; of registry}
+waithidden &quot;{pathname of system folder}\msiexec.exe&quot; /qn REBOOT=ReallySuppress /x {&quot;%7bA2BCA9F1-566C-4805-97D1-7FDC93386723%7d&quot;}
+endif
+
+// Adobe AIR - newer versions
+if {exists key whose (value &quot;DisplayName&quot; of it as string as lowercase = &quot;adobe air&quot; AND name of it starts with &quot;%7b&quot; AND name of it ends with &quot;%7d&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry}
+waithidden &quot;{pathname of system folder}\msiexec.exe&quot; /qn REBOOT=ReallySuppress /x {name of key whose (value &quot;DisplayName&quot; of it as string as lowercase = &quot;adobe air&quot; AND name of it starts with &quot;%7b&quot; AND name of it ends with &quot;%7d&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry}
+endif
+
+// Install new version
+wait __Download\AdobeAIRInstaller.exe -silent -eulaAccepted</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

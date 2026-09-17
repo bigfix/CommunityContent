@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Add Gold Image Baselines to Approved Application List
+  ID       : 21133
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-08-11T12:55:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Add Gold Image Baselines to Approved Application List</Title>
+    <Description><![CDATA[This fixlet will be relevant when there are gold image baseline results in the baseline share.&nbsp; When executed these applications and their associated hash values will be added to the whitelist.&nbsp; If the application is already in existence, the new hash will be added. ]]></Description>
+    <Relevance><![CDATA[number of (pathnames of find files "authfiles*.txt" of (descendant folders of folder (pathname of parent folder of parent folder of file of service "BESRootServer" as string))) > 0]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-08-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Aug 2016 18:48:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-08-10
+
+
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\importbaseline.bat"}"
+createfile until __done
+cd /d {"%22"}{(pathname of parent folder of parent folder of file of service "BESRootServer" as string)}\BES Server\UploadManagerData\BufferDir{"%22"}
+for /f {"%22"}delims=|{"%22"} %%f in ('dir /b /s authfiles*.txt') do "{pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe"}" /importhashes={"%22"}%%f{"%22"} /createifnotexists
+for /f {"%22"}delims=|{"%22"} %%f in ('dir /b /s authfiles*.txt') do @del /Q /F {"%22"}%%f{"%22"}
+__done
+copy __createfile "{(value of variable "temp" of environment) & "\importbaseline.bat"}"
+waithidden cmd /c "{(value of variable "temp" of environment) & "\importbaseline.bat"}"
+
+delete "{(value of variable "temp" of environment) & "\importbaseline.bat"}"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
