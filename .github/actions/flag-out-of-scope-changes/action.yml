@@ -278,11 +278,15 @@ runs:
       run: |
         set -euo pipefail
         # Body is read from the file the scan step rendered (a Markdown table
-        # of every out-of-scope file) via `-f body=@<path>`, which sends the
+        # of every out-of-scope file) via `-F body=@<path>`, which sends the
         # file's bytes as a single JSON string value - never shell-
         # interpolated, so no filename in it can break out of the table or
-        # inject extra API parameters.
+        # inject extra API parameters. This must be `-F` (typed field, which
+        # gh gives "magic" @filename handling), not `-f` (raw-field, which
+        # treats a leading `@` as a literal string) - `-f` is what silently
+        # produced a review body of the literal text "@/path/to/file.md"
+        # instead of the file's contents.
         gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
           -f event="REQUEST_CHANGES" \
-          -f body=@"${{ runner.temp }}/out-of-scope-review-body.md" \
+          -F body=@"${{ runner.temp }}/out-of-scope-review-body.md" \
           >/dev/null
