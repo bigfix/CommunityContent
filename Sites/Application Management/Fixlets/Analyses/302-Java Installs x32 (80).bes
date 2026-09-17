@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Java Installs x32
+  ID       : 80
+  Author   : 55FDC13E-285A-4207-97E8-32E29239932A
+  Domain   : BESC
+  Imported : 2013-02-20T10:50:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Java Installs x32</Title>
+    <Description>Queries for x32 Bit Java Installs.</Description>
+    <Relevance>name OF operating system AS lowercase starts with &quot;win&quot; AS lowercase</Relevance>
+    <Relevance>NOT(name OF operating system AS lowercase starts with &quot;win200&quot; AS lowercase)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Jan 2013 16:31:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Java Installed x32">values &quot;DisplayName&quot; of keys whose (((it contains &quot;java&quot; OR it contains &quot;j2se&quot;) AND (it contains &quot;runtime environment&quot; OR it contains &quot;update&quot;)) of (value &quot;DisplayName&quot; of it as string as lowercase) ) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Property>
+  </Analysis>
+</BES>

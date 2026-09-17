@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES ONE Workspace - Agent - Universal
+  ID       : 2998494
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:58:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES ONE Workspace - Agent - Universal</Title>
+    <Description><![CDATA[Provides the configuration for the RES ONE Workspace Agent&nbsp;across supported Operating Systems ]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or unix of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="RES ONE Workspace Agent - State - Universal">if (windows of operating system) then (state of service &quot;RES&quot; | &quot;Not Installed&quot;) else (if (exists file &quot;/etc/res/resauthd.conf&quot;) then (IF (exists process whose (name of it starts with &quot;reswmad&quot;)) then (&quot;Running&quot;) ELSE &quot;Stopped&quot;) else (&quot;Not Installed&quot;))</Property>
+    <Property ID="2" Name="RES ONE Workspace Agent - Version - Universal">if (windows of operating system) then (value &quot;Version&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | &quot;Not Installed&quot;) else (if (exists file &quot;/etc/res/reswmad.version&quot;) then (line (1) of file &quot;/etc/res/reswmad.version&quot;) else (&quot;Not Installed&quot;))</Property>
+    <Property ID="3" Name="RES ONE Workspace Agent - Composer - Universal">If (windows of operating system) then ( if (exists values &quot;Shell&quot; whose (it as string contains &quot;pfwsmgr&quot; or it as string contains &quot;pwrstart&quot;) of keys (&quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon&quot;;&quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon&quot;) of native registry)     then &quot;Automatic&quot;    else (if (not exists service &quot;RES&quot;) then (error &quot;none&quot;) else (&quot;Manual&quot;))) ELSE ( (IF (exists line whose (it contains &quot;LearningMode&quot; and it contains &quot;no&quot;) of file &quot;/etc/res/resauthd.conf&quot;) then &quot;Automatic&quot; ELSE &quot;Manual&quot;) | error &quot;none&quot;)</Property>
+    <Property ID="5" Name="RES ONE Workspace Agent - Current Shell - Windows">If (windows of operating system) then (value &quot;Shell&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry as string) ELSE IF (exists file &quot;/etc/res/resauthd.conf&quot;) then (line (1) of file &quot;/etc/res/resauthd.conf&quot; &amp; &quot; - &quot; &amp; line (2) of file &quot;/etc/res/resauthd.conf&quot;) ELSE error &quot;none&quot;</Property>
+    <Property ID="6" Name="RES ONE Workspace Agent - Relay List - Universal">if (windows of operating system) then (substrings separated by &quot;;&quot; whose (it as trimmed string != &quot;&quot;) of ((value &quot;CachedDiscoverList&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string) | error &quot;none&quot;)) else (following text of first &quot;=&quot; of line containing &quot;RSLIST&quot; of file &quot;/etc/res/reswmad.conf&quot; | error &quot;none&quot;)</Property>
+    <Property ID="7" Name="RES ONE Workspace Agent - Last Sync - Windows">if (windows of operating system) then (value &quot;LastSyncUTC&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="8" Name="RES ONE Workspace Agent - Installation Directory - Windows">if (windows of operating system) then (value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry  as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="9" Name="RES ONE Workspace Agent - Database Name - Windows">if (windows of operating system) then (value &quot;DBName&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="10" Name="RES ONE Workspace Agent - Database Server - Windows">if (windows of operating system) then (value &quot;DBServer&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="11" Name="RES ONE Workspace Agent - Database Type - Windows">if (windows of operating system) then (value &quot;DBType&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="12" Name="RES ONE Workspace Agent - Computer ID - Windows">if (windows of operating system) then (value &quot;ComputerGUID&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="13" Name="RES ONE Workspace Agent - Authorized Files Optimization Mode - Windows">if (windows of operating system) then (value &quot;OPTIMIZEAUTHORIZEDFILESMODE&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+    <Property ID="14" Name="RES ONE Workspace Agent - Authorized Files Optimization Threshold - Windows">if (windows of operating system) then (value &quot;OPTIMIZEAUTHORIZEDFILESTHRESHOLD&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string | error &quot;none&quot;) else (error &quot;Not Applicable&quot;)</Property>
+  </Analysis>
+</BES>

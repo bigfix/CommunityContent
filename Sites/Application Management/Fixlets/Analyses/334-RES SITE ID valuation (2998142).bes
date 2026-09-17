@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES SITE ID valuation
+  ID       : 2998142
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-05-27T16:55:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES SITE ID valuation</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists settings whose (name of it = &quot;RES_IEM_Integration_Endpoint&quot;) of client</Relevance>
+    <Relevance>exists values &quot;CDMsiteGUID&quot; whose(it as string as trimmed string != &quot;&quot;) of keys &quot;HKLM\Software\RES\CDM&quot; of x32 registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 04 Sep 2015 16:38:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="RES Site ID" EvaluationPeriod="PT5M">value &quot;CDMsiteGUID&quot; of key &quot;HKLM\Software\RES\CDM&quot; of x32 registry</Property>
+    <Property ID="2" Name="RES2BES Connector Version" EvaluationPeriod="PT5M">if (exists file (pathname of parent folder of parent folder of file of service &quot;res&quot; &amp; &quot;\res2bes\res2bes.exe&quot;)) then (version of file (pathname of parent folder of parent folder of file of service &quot;res&quot; &amp; &quot;\res2bes\res2bes.exe&quot;) as string) else &quot;Not Installed&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Java Configuration Audit - Windows
+  ID       : 2994637
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-02-07T14:43:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Java Configuration Audit - Windows</Title>
+    <Description><![CDATA[<P>This is a work in progress</P>
+<P>This analysis is to examine various aspects of Java installation and configuration.</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://docs.oracle.com/javase/7/docs/technotes/guides/deployment/deployment-guide/properties.html">http://docs.oracle.com/javase/7/docs/technotes/guides/deployment/deployment-guide/properties.html</A></P>
+<P><A href="http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/exception_site_list.html"><FONT color=#000080>http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/exception_site_list.html</FONT></A></P>
+<P><A href="http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/properties.html"><FONT color=#000080>http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/properties.html</FONT></A></P>
+<P><A href="http://jdmsysadmin.wordpress.com/2014/01/16/java-7-update-51-global-exceptions-list/">http://jdmsysadmin.wordpress.com/2014/01/16/java-7-update-51-global-exceptions-list/</A></P>
+<P><A href="https://blogs.oracle.com/java-platform-group/entry/updated_security_baseline_7u45_impacts">https://blogs.oracle.com/java-platform-group/entry/updated_security_baseline_7u45_impacts</A></P>
+<P>deployment.user.security.exception.sites</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance>/* Java is Installed */ (exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment&quot; of (registry;native registry)) OR (exists keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;Java&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (registry;native registry)) OR (exists folders &quot;Java&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)) OR (exists folders whose(exists folders &quot;AppData\LocalLow\Sun\Java&quot; of it) of folder &quot;C:\Users&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 06 Feb 2014 20:38:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Versions" EvaluationPeriod="PT12H">unique values of (names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment&quot; of (registry;native registry))</Property>
+    <Property ID="4" Name="exception.sites - per user" EvaluationPeriod="PT12H">unique values of (it as string) of lines of files &quot;exception.sites&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+    <Property ID="5" Name="baseline.timestamp - per user" EvaluationPeriod="PT12H">modification times of files &quot;baseline.timestamp&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+    <Property ID="6" Name="update.timestamp - per user" EvaluationPeriod="PT12H">modification times of files &quot;update.timestamp&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+    <Property ID="7" Name="baseline.versions - per user" EvaluationPeriod="PT12H">unique values of (it as string) of lines of files &quot;baseline.versions&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+    <Property ID="8" Name="deployment.properties - per user" EvaluationPeriod="PT12H">unique values of (it as string) of lines of files &quot;deployment.properties&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+    <Property ID="9" Name="Java Folders" EvaluationPeriod="P2D">folders &quot;Java&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)</Property>
+    <Property ID="11" Name="folders of Java" EvaluationPeriod="P2D">folders of folders &quot;Java&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)</Property>
+    <Property ID="12" Name="Missing alt-rt.jar? JRE7" EvaluationPeriod="P2D">if (not exists folders &quot;Java\jre7&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)) then FALSE else ((number of files &quot;lib\alt-rt.jar&quot; of folders &quot;Java\jre7&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)) != (number of folders &quot;Java\jre7&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)))</Property>
+    <Property ID="13" Name="# of BinFiles" EvaluationPeriod="P2D">((number of files whose((it ends with &quot;.dll&quot; OR it ends with &quot;.exe&quot;) of name of it) of folders &quot;bin&quot; of it) as string &amp; &quot;  &quot; &amp; name of it &amp; (if (x64 of operating system AND pathname of it as lowercase contains &quot;\program files\&quot;) then &quot;_x64&quot; else &quot;_x32&quot;)) of folders whose(name of it as lowercase starts with &quot;jre&quot;) of folders &quot;Java&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)</Property>
+    <Property ID="14" Name="# of LibJarFiles" EvaluationPeriod="P2D">((number of files whose((it ends with &quot;.dll&quot; OR it ends with &quot;.exe&quot; OR it ends with &quot;.jar&quot;) of (name of it as lowercase)) of folders &quot;lib&quot; of it) as string &amp; &quot;  &quot; &amp; name of it &amp; (if (x64 of operating system AND pathname of it as lowercase contains &quot;\program files\&quot;) then &quot;_x64&quot; else &quot;_x32&quot;)) of folders whose(name of it as lowercase starts with &quot;jre&quot;) of folders &quot;Java&quot; of (folders &quot;C:\Program Files&quot; ; folders &quot;C:\Program Files (x86)&quot;)</Property>
+    <Property ID="15" Name="Corrupt JRE7 32bit install?" EvaluationPeriod="P2D">(exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Java 7&quot; AND (it &gt;= &quot;7.0.450&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) AND (12 != (number of files whose(name of it as lowercase ends with &quot;.jar&quot;) of folders &quot;Java\jre7\lib&quot; of (if (x64 of operating system) then (folders &quot;C:\Program Files (x86)&quot;) else (folders &quot;C:\Program Files&quot;))))</Property>
+  </Analysis>
+</BES>

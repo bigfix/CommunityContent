@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Splunk Enterprise Security - Asset Lookup Fields
+  ID       : 2998592
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2018-05-07T13:22:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Splunk Enterprise Security - Asset Lookup Fields</Title>
+    <Description><![CDATA[Used to generate the asset fields for the assets lookup for Splunk Enterprise Security. Please reference <a href="http://docs.splunk.com/Documentation/ES/latest/Admin/Formatassetoridentitylist">Splunk Enterprise Security</a> documentation on formating evaluations for additional information for your environment. &nbsp; ]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 06 Jan 2017 14:52:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ES_ip" EvaluationPeriod="P1D">registration address of client</Property>
+    <Property ID="2" Name="ES_mac" EvaluationPeriod="P1D">if windows of operating system then concatenation &quot;|&quot; of (mac addresses of adapters of network) else if not windows of operating system then concatenation &quot;|&quot; of ((mac address of it as string) of ip interfaces whose (not loopback of it AND exists mac address of it) of network) else &quot;&quot;</Property>
+    <Property ID="3" Name="ES_nt_host" EvaluationPeriod="P1D">if windows of operating system then if exists folder &quot;C:\Program Files\SplunkUniversalForwarder&quot;then if exists file &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&quot;then if NOT (computer name as lowercase is substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&quot; as lowercase) then substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&quot; as lowercase else computer name else computer name else computer name else if exists folder &quot;/opt/splunkforwarder&quot;then if exists file &quot;/opt/splunkforwarder/etc/system/local/inputs.conf&quot;then if NOT (computer name as lowercase is substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;/opt/splunkforwarder/etc/system/local/inputs.conf&quot; as lowercase) then substring after &quot;= &quot; of line whose (it starts with &quot;host = &quot;) of file &quot;/opt/splunkforwarder/etc/system/local/inputs.conf&quot; as lowercase else computer name else computer name else computer name</Property>
+    <Property ID="4" Name="ES_dns" EvaluationPeriod="P1D">if ( exists true whose (if true then exists dns name else false) ) then dns name else &quot;&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES Component State
+  ID       : 2994803
+  Author   : brandenwood
+  Domain   : SYST
+  Imported : 2015-05-14T08:18:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES Component State</Title>
+    <Description>This analysis will retrieve the state of the various RES components deployed at endpoints. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES&quot; of x32 registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Apr 2015 01:30:45 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Property ID="1" Name="RES Automation Manager Agent State">if (exists services whose (service name of it as lowercase = &quot;reswas&quot;)) then (state of service &quot;reswas&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="2" Name="RES Automation Manager Console Service State">if (exists services whose (service name of it as lowercase = &quot;reswcs&quot;)) then (state of service &quot;reswcs&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="3" Name="RES Automation Manager Dispatcher+ State">if (exists services whose (service name of it as lowercase = &quot;reswds&quot;)) then (state of service &quot;reswds&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="4" Name="RES IT Store Catalog Services State">if (exists services whose (service name of it as lowercase = &quot;resocs&quot;)) then (state of service &quot;resocs&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="5" Name="RES IT Store Transaction Engine State">if (exists services whose (service name of it as lowercase = &quot;resote&quot;)) then (state of service &quot;resote&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="6" Name="RES Workspace Manager Agent State">if (exists services whose (service name of it as lowercase = &quot;res&quot;)) then (state of service &quot;res&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="7" Name="RES Workspace Manager PE State">if (exists services whose (service name of it as lowercase = &quot;respesvc&quot;)) then (state of service &quot;respesvc&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="8" Name="RES Workspace Manager Relay State">if (exists services whose (service name of it as lowercase = &quot;resrls&quot;)) then (state of service &quot;resrls&quot;) else (&quot;Not Installed&quot;)</Property>
+    <Property ID="9" Name="RES Workspace Manager Reporting Services State">if (exists services whose (service name of it as lowercase = &quot;reswmrs&quot;)) then (state of service &quot;reswmrs&quot;) else (&quot;Not Installed&quot;)</Property>
+  </Analysis>
+</BES>

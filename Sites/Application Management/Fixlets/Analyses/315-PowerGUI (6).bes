@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : PowerGUI
+  ID       : 6
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>PowerGUI</Title>
+    <Description>Pull back PowerGUI statistics. </Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:23:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ApplicationBase" EvaluationPeriod="PT12H">value &quot;ApplicationBase&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Property>
+    <Property ID="2" Name="ModuleName" EvaluationPeriod="PT12H">value &quot;ModuleName&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Property>
+    <Property ID="3" Name="PowerShellVersion" EvaluationPeriod="PT12H">value &quot;PowerShellVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Property>
+    <Property ID="4" Name="Vendor" EvaluationPeriod="PT12H">value &quot;Vendor&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Property>
+    <Property ID="5" Name="Version" EvaluationPeriod="PT12H">value &quot;Version&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Property>
+  </Analysis>
+</BES>
