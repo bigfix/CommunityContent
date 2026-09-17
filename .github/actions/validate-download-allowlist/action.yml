@@ -161,11 +161,15 @@ runs:
       run: |
         set -euo pipefail
         # Body is read from the file validate_download_allowlist.py rendered
-        # (a Markdown table of every flagged (file, URL) pair) via `-f
+        # (a Markdown table of every flagged (file, URL) pair) via `-F
         # body=@<path>`, which sends the file's bytes as a single JSON string
         # value - never shell-interpolated, so no URL/path in it can break out
-        # of the table or inject extra API parameters.
+        # of the table or inject extra API parameters. Must be `-F`
+        # (--field), not `-f` (--raw-field): only `-F` expands an `@<path>`
+        # value into the named file's contents - `-f` sends "@<path>" as a
+        # literal string, which is what previously showed up verbatim as the
+        # PR review comment instead of the rendered table.
         gh api --method POST "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
           -f event="REQUEST_CHANGES" \
-          -f body=@"${{ runner.temp }}/allowlist-review-body.md" \
+          -F body=@"${{ runner.temp }}/allowlist-review-body.md" \
           >/dev/null
