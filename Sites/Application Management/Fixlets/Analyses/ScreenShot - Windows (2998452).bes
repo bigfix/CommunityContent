@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : ScreenShot - Windows
+  ID       : 2998452
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-10-04T11:05:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>ScreenShot - Windows</Title>
+    <Description>This analysis feeds this webreport: https://gist.github.com/jgstew/e0f8e340c530371c0ea8b01bd1111cfb</Description>
+    <Relevance><![CDATA[exists files "ScreenShot.png.base64" whose(now - modification time of it < 24*hour) of folders "Logs" of folders "__Global" of data folders of client]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Oct 2016 17:26:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Screenshot" EvaluationPeriod="P30D">(substrings (0, length of it / 2) of it ; substrings (length of it / 2, length of it / 2 + (it mod 2) of length of it) of it) of lines of files &quot;ScreenShot.png.base64&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="2" Name="Screenshot Taken" EvaluationPeriod="PT1H">maxima of modification times of files &quot;ScreenShot.png.base64&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+  </Analysis>
+</BES>

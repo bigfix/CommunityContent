@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES Workspace Manager Configuration
+  ID       : 2994802
+  Author   : brandenwood
+  Domain   : SYST
+  Imported : 2015-05-14T08:18:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES Workspace Manager Configuration</Title>
+    <Description>This analysis collects various information regarding the Workspace Manager configuration on endpoints. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Apr 2015 01:29:28 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Property ID="1" Name="CachedDiscoverList">(if (exists value &quot;CachedDiscoverList&quot; of it) then ((it) whose (it as trimmed string != &quot;&quot;) of substrings separated by &quot;;&quot; of (value &quot;CachedDiscoverList&quot; of it as string)) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="2" Name="LastConsoleUser">(if (exists value &quot;LastConsoleUser&quot; of it) then (value &quot;LastConsoleUser&quot; of it as string) else (&quot;None&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="3" Name="LastSyncUTC">(if (exists value &quot;LastSyncUTC&quot; of it) then (value &quot;LastSyncUTC&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="4" Name="InstallDir">(if (exists value &quot;InstallDir&quot; of it) then (value &quot;InstallDir&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="5" Name="DBName">(if (exists value &quot;DBName&quot; of it) then (value &quot;DBName&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="6" Name="DBServer">(if (exists value &quot;DBServer&quot; of it) then (value &quot;DBServer&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="7" Name="DBType">(if (exists value &quot;DBType&quot; of it) then (value &quot;DBType&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+    <Property ID="9" Name="ComputerGUID">(if (exists value &quot;ComputerGUID&quot; of it) then (value &quot;ComputerGUID&quot; of it as string) else (&quot;&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Property>
+  </Analysis>
+</BES>

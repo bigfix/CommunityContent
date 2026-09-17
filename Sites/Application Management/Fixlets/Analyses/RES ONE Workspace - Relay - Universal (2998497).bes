@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES ONE Workspace - Relay - Universal
+  ID       : 2998497
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:58:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES ONE Workspace - Relay - Universal</Title>
+    <Description>Provides information regarding the RES ONE Workspace Relay Components.</Description>
+    <Relevance>(windows of operating system and exists service &quot;RESRLS&quot;) or (name of operating system contains &quot;TinyCore&quot; and exists file &quot;/opt/RES/bin/resrls&quot;)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="RES ONE Workspace Relay - Version - Universal">if (windows of operating system) then (version of service &quot;resrls&quot;) else ((line 1 of file &quot;/opt/RES/control/resrls.version&quot; as string) as version)</Property>
+    <Property ID="2" Name="RES ONE Workspace Relay - State - Universal">if (windows of operating system) then (state of service &quot;resrls&quot;) else (if (exists process &quot;resrls&quot;) then (&quot;Running&quot;) else (&quot;Stopped&quot;))</Property>
+    <Property ID="3" Name="RES ONE Workspace Relay - Connected Environments - Universal">if (windows of operating system) then ((value &quot;EnvironmentName&quot; of it, name of it, (if (value &quot;Enabled&quot; of it as integer = 1) then &quot;Enabled&quot; else &quot;Disabled&quot;) of (it)) of keys of key &quot;HKEY_LOCAL_MACHINE\Software\RES\Workspace Manager\RelayServer\Environments&quot; of native registry as string) else (following text of first &quot;&lt;environmentname&gt;&quot; of preceding text of last &quot;&lt;/environmentname&gt;&quot; of lines containing &quot;&lt;environmentname&gt;&quot; of file &quot;/opt/RES/RelayServerConfig.xml&quot;)</Property>
+    <Property ID="4" Name="RES ONE Workspace Relay - Cache Locations - Universal">if (windows of operating system) then (Values &quot;CacheLocation&quot; of keys &quot;Local&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\Software\RES\Workspace Manager\RelayServer\Environments&quot; of native registry as string) else (following text of first &quot;&lt;cachelocation&gt;&quot; of preceding text of last &quot;&lt;/cachelocation&gt;&quot; of lines containing &quot;&lt;cachelocation&gt;&quot; of file &quot;/opt/RES/RelayServerConfig.xml&quot;)</Property>
+    <Property ID="5" Name="RES ONE Workspace Relay - Port - Universal">if (windows of operating system) then (Values &quot;Port&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\RES\Workspace Manager\RelayServer&quot; of native registry as string) else (following text of first &quot;&lt;port&gt;&quot; of preceding text of last &quot;&lt;/port&gt;&quot; of lines containing &quot;&lt;port&gt;&quot; of file &quot;/opt/RES/RelayServerConfig.xml&quot;)</Property>
+    <Property ID="6" Name="RES ONE Workspace Relay - Connection Method - Universal">tuple string item ((it as integer) of (if (windows of operating system) then (Values &quot;ProviderType&quot; of keys &quot;Remote&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\Software\RES\Workspace Manager\RelayServer\Environments&quot; of native registry as string) else (following text of first &quot;&lt;cachelocation&gt;&quot; of preceding text of last &quot;&lt;/providertype&gt;&quot; of lines containing &quot;&lt;providertype&gt;&quot; of file &quot;/opt/RES/RelayServerConfig.xml&quot;))) of (&quot;Relay, SQL, Windows&quot;)</Property>
+  </Analysis>
+</BES>

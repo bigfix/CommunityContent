@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SMS\SCCM Health Check
+  ID       : 112
+  Author   : Christopher Luther
+  Domain   : BESC
+  Imported : 2013-05-16T14:17:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SMS\SCCM Health Check</Title>
+    <Description><![CDATA[<P>This Analysis will return the status of the SMS\SCCM client on each targeted endpoint. The analysis queries the CCmExec Windows service to determine if it exists and if it is running. </P>
+<P>In addition, the operating system and current user name will also be displayed. </P>]]></Description>
+    <Relevance>exists (operating system) whose (it as string as lowercase contains &quot;Win&quot; as lowercase)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 15 May 2013 22:30:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SMS\SCCM Health Check">if not exists service &quot;CCmExec&quot; then &quot;SMS\SCCM not installed&quot; else if exists service &quot;CCmExec&quot; then if exists running service &quot;CCmExec&quot; then &quot;SMS\SCCM installed and running&quot; else &quot;SMS\SCCM installed but not running&quot; else &quot;&lt;unknown&gt;&quot;</Property>
+    <Property ID="2" Name="SMS\SCCM Version">if not exists service &quot;CCmExec&quot; then &quot;&lt;n/a&gt;&quot; else if exists service &quot;CCmExec&quot; whose (exists version of it) then version of service &quot;CCmExec&quot; else &quot;&lt;unknown&gt;&quot;</Property>
+    <Property ID="3" Name="Operating system" EvaluationPeriod="P1D">operating system</Property>
+    <Property ID="4" Name="User Name">if exists true whose (if true then exists logged on user else false) then names of logged on users else if exists current user then name of current user else &quot;&lt;none&gt;&quot;</Property>
+  </Analysis>
+</BES>

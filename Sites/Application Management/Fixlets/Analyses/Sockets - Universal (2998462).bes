@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Sockets - Universal
+  ID       : 2998462
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-21T12:53:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Sockets - Universal</Title>
+    <Description><![CDATA[<P>Provides information on listening and established sockets.</P>
+<P>For listening sockets the following information is provided:</P>
+<OL>
+<LI>Process Name
+<LI>Connection Protocol (UDP/TCP)
+<LI>Listening Port</LI></OL>
+<P>For Established Sockets, the following information is provided:</P>
+<OL>
+<LI>Process Name
+<LI>Connection Protocol (Always TCP)
+<LI>Local Port
+<LI>Remote Connection Address
+<LI>Remote Port</LI></OL>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Sockets - Listening - Universal" EvaluationPeriod="PT1H">unique values of (concatenations of (it as string)) of (name of process of it | (if (windows of operating system) then &quot;SYSTEM&quot; else &quot;N\A&quot;), (if (udp of it) then (&quot;UDP&quot;) else (&quot;TCP&quot;)), local port of it) of sockets whose (udp of it or listening of tcp state of it) of network</Property>
+    <Property ID="2" Name="Sockets - Established - Universal" EvaluationPeriod="PT1H">unique values of (concatenations of (it as string)) of (name of process of it | (if (windows of operating system) then &quot;SYSTEM&quot; else &quot;N\A&quot;), &quot;TCP&quot;, local port of it, remote address of it as string | &quot;none&quot;, remote port of it) of sockets whose ((established of tcp state of it and remote address of it != &quot;127.0.0.1&quot;)) of network</Property>
+  </Analysis>
+</BES>

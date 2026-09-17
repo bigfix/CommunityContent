@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Symantec Endpoint protection Client Information
+  ID       : 2998579
+  Author   : wilson.arya
+  Domain   : BESC
+  Imported : 2017-11-26T23:11:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Symantec Endpoint protection Client Information</Title>
+    <Description><![CDATA[This analysis contains information about the Symantec Endpoint protection application installed on the computers in your deployment. <P>After activating this analysis, you will see the following properties:</P> <UL> <LI>Symantec Endpoint protection Client Version <LI>Symantec Endpoint protection Virus Definition Version <LI>Symantec Endpoint protection Client Status</LI></UL>]]></Description>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC&quot; of native registry)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-client-manager-data</Name>
+      <Value>{&quot;contentType&quot;:&quot;Client Information&quot;,&quot;definitionModTimeRequirement&quot;:&quot;2 Days&quot;,&quot;productExe&quot;:&quot;Smc.exe&quot;,&quot;definitionRelativeFileName&quot;:&quot;&quot;,&quot;definitionFileOtherFolderOption&quot;:null,&quot;type&quot;:&quot;Analysis&quot;,&quot;processes&quot;:&quot;ccSvcHst.exe&quot;,&quot;versionRegistryValueName&quot;:null,&quot;productFolderRegistryKey&quot;:&quot;HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Symantec\\\\Symantec Endpoint Protection\\\\CurrentVersion\\\\Comman Client\\\\PathExpansionMap&quot;,&quot;versionRegistryKey&quot;:null,&quot;productRegistryValueName&quot;:&quot;&quot;,&quot;productFolderCheckMethod&quot;:&quot;Path&quot;,&quot;definitionCheckingMethod&quot;:&quot;None&quot;,&quot;vendor&quot;:&quot;Symantec&quot;,&quot;definitionRegistryKey&quot;:null,&quot;reportType&quot;:&quot;Client Information&quot;,&quot;definitionFileFolderOption&quot;:&quot;ClientFolder&quot;,&quot;definitionFileFolderRegistryKey&quot;:null,&quot;productRegistry&quot;:&quot;HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Symantec\\\\Symantec Endpoint Protection\\\\SMC&quot;,&quot;exists64bitApp&quot;:true,&quot;services&quot;:&quot;SepMasterService&quot;,&quot;product&quot;:&quot;Symantec Endpoint protection&quot;,&quot;definitionFileFolderRegistryKeyValueName&quot;:null,&quot;versionCheckingMethod&quot;:&quot;FileVersion&quot;,&quot;productFolderPath&quot;:&quot;C:\\\\Program Files\\\\Symantec\\\\Symantec Endpoint Protection&quot;,&quot;productRegistryValue&quot;:&quot;&quot;,&quot;definitionFileDirectory&quot;:null,&quot;definitionRegistryValueName&quot;:null,&quot;productFolderRegistryValueName&quot;:&quot;BASEDIR&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 09 Nov 2017 07:46:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Client Version" EvaluationPeriod="P1D">(version of file &quot;Smc.exe&quot; of folder (&quot;C:\Program Files\Symantec\Symantec Endpoint Protection&quot;)) as string</Property>
+    <Property ID="2" Name="Client Definition Version" EvaluationPeriod="P1D">&quot;N/A&quot;</Property>
+    <Property ID="3" Name="Client Running Status" EvaluationPeriod="P1D">if ((not exists running application whose (name of it = &quot;ccSvcHst.exe&quot;)) OR (not exists running service whose (service name of it = &quot;SepMasterService&quot;))) then &quot;Not Running&quot; else &quot;Running&quot;</Property>
+  </Analysis>
+</BES>

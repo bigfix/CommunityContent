@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Public IP - Universal
+  ID       : 2998049
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-05-05T14:31:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Public IP - Universal</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists files whose(name of it as lowercase starts with &quot;public_ip_&quot; AND name of it as lowercase ends with &quot;.log&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 05 May 2016 21:30:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Combined" EvaluationPeriod="PT1H">unique values whose(it != &quot;&quot;) of (it; ( (tuple string item 1 of it | it) of concatenations &quot;, &quot; of (it as trimmed string) of following texts of firsts &quot;Address:&quot; of lines whose(it starts with &quot;Address:&quot;) of files &quot;public_ip_nslookup.log&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client )) of ( (it as trimmed string) of lines containing &quot;.&quot; of files whose(name of it as lowercase starts with &quot;public_ip_http&quot; AND name of it as lowercase ends with &quot;.log&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client )</Property>
+    <Property ID="2" Name="nslookup" EvaluationPeriod="PT1H">unique values whose(it != &quot;&quot;) of (tuple string item 1 of it | it) of concatenations &quot;, &quot; of (it as trimmed string) of following texts of firsts &quot;Address:&quot; of lines whose(it starts with &quot;Address:&quot;) of files &quot;public_ip_nslookup.log&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="3" Name="http" EvaluationPeriod="PT1H">unique values whose(it != &quot;&quot;) of (it as trimmed string) of lines containing &quot;.&quot; of files whose(name of it as lowercase starts with &quot;public_ip_http&quot; AND name of it as lowercase ends with &quot;.log&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="4" Name="PublicIPs of NICs" EvaluationPeriod="PT1H">unique values of ( addresses whose( (it as string does not start with &quot;172.&quot; OR it as string as version &lt; &quot;172.16&quot; as version OR it as string as version &gt; &quot;172.31&quot; as version) AND it as string does not start with &quot;10.&quot; AND it as string does not start with &quot;192.168.&quot; AND it as string does not start with &quot;169.254.&quot; AND it as string does not start with &quot;127.&quot; AND it as string does not start with &quot;0.&quot;) of adapters of network )</Property>
+    <Property ID="5" Name="PrivateIPs of NICs" EvaluationPeriod="PT1H">unique values of ( addresses whose( not ( (it as string does not start with &quot;172.&quot; OR it as string as version &lt; &quot;172.16&quot; as version OR it as string as version &gt; &quot;172.31&quot; as version) AND it as string does not start with &quot;10.&quot; AND it as string does not start with &quot;192.168.&quot; AND it as string does not start with &quot;169.254.&quot; AND it as string does not start with &quot;0.&quot;) ) of adapters of network )</Property>
+  </Analysis>
+</BES>

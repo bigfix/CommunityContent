@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES ONE Workspace Windows Composer Status
+  ID       : 2995889
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-03-24T04:22:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES ONE Workspace Windows Composer Status</Title>
+    <Description>This analysis gives the startup status of the various windows agents. </Description>
+    <Relevance>windows of operating system and exists service &quot;RESPESVC&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Mar 2016 18:38:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Composer Status">If ((value &quot;Shell&quot; of it as string as lowercase contains &quot;pfwsmgr&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry OR (value &quot;Shell&quot; of it as string as lowercase contains &quot;pwrstart&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry) then (&quot;Automatic&quot;) ELSE (&quot;Manual&quot;)</Property>
+    <Property ID="2" Name="Type of Install">value &quot;InstallationType&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of x32 registry</Property>
+    <Property ID="3" Name="Operating System">value &quot;ProductName&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of x32 registry</Property>
+    <Property ID="4" Name="Shell">value &quot;Shell&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry</Property>
+  </Analysis>
+</BES>

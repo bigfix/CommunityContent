@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : RES ONE Workspace - Troubleshooting - Universal
+  ID       : 2998498
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:58:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>RES ONE Workspace - Troubleshooting - Universal</Title>
+    <Description><![CDATA[<P>This analysis provides information about the current performance characteristics of a BigFix Agent. The analysis should aid in the troubleshooting of client performance issues related to UDP pings.</P>
+<P>Included in this analysis is information surrounding UDP Pings and Command Polling. </P>
+<P>The property, "<STRONG>Client - Last UDP Ping - Universal</STRONG>" returns the time of the most recent&nbsp;UDP ping received since the last time the computer restarted.</P>
+<P>The property, "<STRONG>Client - Receiving UDP Pings - Universal</STRONG>" should provide a better indicator towards whether UDP pings are working as it also searches the client log for the last two days for indicators that UDP pings are working.</P>
+<P>The property, "<STRONG>Client - Command Polling - Universal</STRONG>" provides information on whether or not Command Polling is configured. If UDP Pings are not working, Command Polling is how the client finds out about new content like analyses, fixlets and actions.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 01 Sep 2016 20:08:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Client - Receiving UDP Pings - Universal" EvaluationPeriod="P1D">exist last command time of client | exists lines containing &quot; command received&quot; of files whose (length of name of it = 12 and modification time of it &gt; now - 2*day) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="2" Name="Client - Last UDP Ping - Universal" EvaluationPeriod="PT1H">last command time of client</Property>
+    <Property ID="3" Name="Client - Command Polling - Universal" EvaluationPeriod="PT1H">if(not exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose(value of it = &quot;1&quot;) of client) then ERROR &quot;disabled&quot; else (if(not exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client))</Property>
+    <Property ID="4" Name="Client - AD Group Membership - Universal" EvaluationPeriod="PT1H">sids of groups of local computer of active directory</Property>
+  </Analysis>
+</BES>

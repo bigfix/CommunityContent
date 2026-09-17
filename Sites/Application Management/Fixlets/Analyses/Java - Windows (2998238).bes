@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Java - Windows
+  ID       : 2998238
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:49:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Java - Windows</Title>
+    <Description><![CDATA[Information about Java
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Java - Installed - Windows (x86)" EvaluationPeriod="P1D">values &quot;DisplayName&quot; of (keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;Java&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x32 registry)) as string</Property>
+    <Property ID="2" Name="Java - Installed - Windows (x64)" EvaluationPeriod="P1D">if (x64 of operating system) then (values &quot;DisplayName&quot; of (keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;Java&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registry)) as string) else (&quot;N/A (not 64-bit)&quot;)</Property>
+    <Property ID="3" Name="Java - Config - exceptions.sites - Windows" EvaluationPeriod="P1D">unique values of (it as string) of lines of files &quot;exception.sites&quot; of folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of folders whose(exists folders &quot;AppData\LocalLow\Sun\Java\Deployment\security&quot; of it) of folder &quot;C:\Users&quot;</Property>
+  </Analysis>
+</BES>

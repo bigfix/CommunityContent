@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SecureDoc Audit - Windows
+  ID       : 2994649
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-20T13:01:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SecureDoc Audit - Windows</Title>
+    <Description><![CDATA[<P>Report of information about SecureDoc for Windows if installed on the client.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WinMagic\SecureDoc&quot; of native registry) OR (exists file &quot;SecurDoc.exe&quot; of folders whose(name of it starts with &quot;SecureDoc&quot;) of folders whose(name of it = &quot;WinMagic&quot;) of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder) OR (exists service whose(exists ((service name of it; display name of it) whose(it as lowercase contains &quot;securedoc&quot;)) AND (&quot;sdservice.exe&quot; = name of file of it as lowercase)))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 20 May 2014 20:00:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Version of service" EvaluationPeriod="P2D">version of service whose(exists ((service name of it; display name of it) whose(it as lowercase contains &quot;securedoc&quot;)) AND (&quot;sdservice.exe&quot; = name of file of it as lowercase))</Property>
+    <Property ID="3" Name="state of service" EvaluationPeriod="PT6H">state of service whose(exists ((service name of it; display name of it) whose(it as lowercase contains &quot;securedoc&quot;)) AND (&quot;sdservice.exe&quot; = name of file of it as lowercase))</Property>
+    <Property ID="4" Name="start type of service" EvaluationPeriod="PT12H">start type of service whose(exists ((service name of it; display name of it) whose(it as lowercase contains &quot;securedoc&quot;)) AND (&quot;sdservice.exe&quot; = name of file of it as lowercase))</Property>
+    <Property ID="5" Name="Version of SecureDoc" EvaluationPeriod="P2D">unique values of versions of files whose(exists version of it AND exists name whose(it as lowercase ends with &quot;.dll&quot; OR it as lowercase ends with &quot;.exe&quot;) of it AND exists name whose(it as lowercase starts with &quot;sd&quot; OR it as lowercase starts with &quot;securdoc.&quot;) of it) of parent folder of file of service whose(exists ((service name of it; display name of it) whose(it as lowercase contains &quot;securedoc&quot;)) AND (&quot;sdservice.exe&quot; = name of file of it as lowercase))</Property>
+  </Analysis>
+</BES>

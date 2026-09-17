@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Munki Audit - Apple OS X
+  ID       : 2994604
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-18T13:15:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Munki Audit - Apple OS X</Title>
+    <Description><![CDATA[<FONT size=2>
+<P>Munki is a set of tools that, used together with a webserver-based repository of packages and package metadata, can be used by OS X administrators to manage software installs (and in many cases removals) on OS X client machines. Read more here: http://code.google.com/p/munki/</P>
+<P>This analysis will report on the results of munki installation and updates.</P>
+<P>Current version of this analysis is found here: <A href="http://bigfix.me/analysis/details/55"><FONT color=#000080>http://bigfix.me/analysis/details/55</FONT></A></P></FONT>]]></Description>
+    <Relevance><![CDATA[version of operating system >= "10.5"]]></Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>(exists file &quot;/Library/Managed Installs/Logs/Install.log&quot;) OR (exists file &quot;/usr/local/munki/munkilib/version.plist&quot;) OR (exists file &quot;/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log&quot;) OR (exists file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) OR (exists file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) OR (exists file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 18 Nov 2013 20:13:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="mod time of install log" EvaluationPeriod="PT12H">if(not exists file &quot;/Library/Managed Installs/Logs/Install.log&quot;) then &quot;&lt;Install Log missing&gt;&quot; else (modification time of file &quot;/Library/Managed Installs/Logs/Install.log&quot; as string)</Property>
+    <Property ID="2" Name="Munki Version" EvaluationPeriod="PT12H">if(not exists file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No Munki plist&gt;&quot; else if(not exists dictionary of file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No dictionary&gt;&quot; else if((not exists entries whose(exists keys of it AND exists values of it AND &quot;CFBundleShortVersionString&quot; = key of it) of dictionary of it) of file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No version entry&gt;&quot; else (((string of value of entry whose(exists keys of it AND exists values of it AND &quot;CFBundleShortVersionString&quot; = key of it) of dictionary of it) of file &quot;/usr/local/munki/munkilib/version.plist&quot;))</Property>
+    <Property ID="3" Name="mod time of MSU log" EvaluationPeriod="PT12H">if(not exists file &quot;/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log&quot;) then &quot;&lt;MSU Log missing&gt;&quot; else (modification time of file &quot;/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log&quot; as string)</Property>
+    <Property ID="4" Name="Munki Build" EvaluationPeriod="PT12H">if(not exists file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No Munki plist&gt;&quot; else if(not exists dictionary of file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No dictionary&gt;&quot; else if((not exists entries whose(exists keys of it AND exists values of it AND &quot;BuildNumber&quot; = key of it) of dictionary of it) of file &quot;/usr/local/munki/munkilib/version.plist&quot;) then &quot;&lt;No Build entry&gt;&quot; else (((string of value of entry whose(exists keys of it AND exists values of it AND &quot;BuildNumber&quot; = key of it) of dictionary of it) of file &quot;/usr/local/munki/munkilib/version.plist&quot;))</Property>
+    <Property ID="5" Name="Managed Installs" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) then &quot;&lt;InstallInfo missing&gt;&quot; else (concatenation &quot;; &quot; of (((strings &quot;name&quot; of it, strings &quot;version_to_install&quot; of it) of dictionaries of values of array &quot;managed_installs&quot; of dictionary of file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) as string))</Property>
+    <Property ID="6" Name="Managed Updates" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) then &quot;&lt;InstallInfo missing&gt;&quot; else (concatenation &quot;; &quot; of strings of values of array &quot;managed_updates&quot; of dictionary of file &quot;/Library/Managed Installs/InstallInfo.plist&quot;)</Property>
+    <Property ID="7" Name="Processed Uninstalls" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) then &quot;&lt;InstallInfo missing&gt;&quot; else (concatenation &quot;; &quot; of strings of values of array &quot;processed_uninstalls&quot; of dictionary of file &quot;/Library/Managed Installs/InstallInfo.plist&quot;)</Property>
+    <Property ID="8" Name="Processed Installs" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/InstallInfo.plist&quot;) then &quot;&lt;InstallInfo missing&gt;&quot; else (concatenation &quot;; &quot; of strings of values of array &quot;processed_installs&quot; of dictionary of file &quot;/Library/Managed Installs/InstallInfo.plist&quot;)</Property>
+    <Property ID="9" Name="Apple Updates" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) then &quot;&lt;No ApplicableUpdates.plist&gt;&quot; else if(not exists dictionary whose(exists array &quot;phaseResultsArray&quot; of it) of file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) then &quot;&lt;No Apple Updates&gt;&quot; else (concatenation &quot;; &quot; of (((strings &quot;name&quot; of it, strings &quot;version&quot; of it) of dictionaries of values of array &quot;phaseResultsArray&quot; of dictionary of file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) as string))</Property>
+    <Property ID="10" Name="mod time of AU log" EvaluationPeriod="PT6H">if(not exists file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) then &quot;&lt;No ApplicableUpdates.plist&gt;&quot; else ((modification time of file &quot;/Library/Managed Installs/swupd/ApplicableUpdates.plist&quot;) as string)</Property>
+  </Analysis>
+</BES>
