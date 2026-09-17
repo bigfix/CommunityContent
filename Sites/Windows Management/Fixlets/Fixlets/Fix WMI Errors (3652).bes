@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Fix WMI Errors
+  ID       : 3652
+  Author   : thetick
+  Domain   : BESC
+  Imported : 2013-11-05T11:30:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Fix WMI Errors</Title>
+    <Description><![CDATA[<P>Created By: Martin Carnegie<BR>Created: Nov 5, 2013<BR>Comments:<BR><FONT color=#ff0000><STRONG>NOTE: Please do testing of this fixlet before using in production as this could cause further issues with WMI!</STRONG></FONT></P>
+<P>This script contains two actions that can be used to fix WMI errors on Windows systems.<BR><BR>WMI Simple should be the first one used as it does not impact the system that much and seems to fix most issues. </P>
+<P>WMI Advanced should only be used if the WMI Simple does not fix the issue. This will require a reboot<BR><BR>Both wmi_simple and wmi_advanced were provided from a source at Microsoft, but I am unable to find that source.</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Win&quot;</Relevance>
+    <Relevance>not exists wmi | true</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>martin@zaazee.ca</Source>
+    <SourceReleaseDate>2013-11-05</SourceReleaseDate>
+    <SourceSeverity>Repair WMI on Windows systems</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 05 Nov 2013 18:27:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy WMI Simple (Recommended).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// WMI Simple
+delete __creatfile
+delete wmi_simple.bat
+
+createfile until __END
+
+cd %windir%\system32\wbem
+for /f %%s in ('dir /b *.dll') do regsvr32 /s %%s
+wmiprvse /regserver
+winmgmt /resyncperf
+winmgmt /salvagerepository
+for /f %%s in ('dir /b *.mof *.mfl') do mofcomp %%s
+
+__END
+
+copy __createfile wmi_simple.bat
+
+waithidden cmd.exe /c wmi_simple.bat > {value of variable "temp" of environment}\wmi_simple.log 2>&1]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action3929">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy WMI Advanced.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// WMI Advanced
+delete __creatfile
+delete wmi_advanced.bat
+
+createfile until __END
+
+net stop winmgmt
+c:
+cd %systemroot%\system32\wbem
+rd /S /Q repository
+regsvr32 /s %systemroot%\system32\scecli.dll
+regsvr32 /s %systemroot%\system32\userenv.dll
+mofcomp cimwin32.mof
+mofcomp cimwin32.mfl
+mofcomp rsop.mof
+mofcomp rsop.mfl
+for /f %%s in ('dir /b /s *.dll') do regsvr32 /s %%s
+for /f %%s in ('dir /b *.mof') do mofcomp %%s
+for /f %%s in ('dir /b *.mfl') do mofcomp %%s
+echo DONE - you must reboot
+
+__END
+
+copy __createfile wmi_advanced.bat
+
+waithidden cmd.exe /c wmi_advanced.bat > {value of variable "temp" of environment}\wmi_advanced.log 2>&1
+
+//According to the MS script, the system should be restarted after the script is executed.
+action requires restart]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

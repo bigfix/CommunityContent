@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Disable Named Pipes
+  ID       : 108
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Disable Named Pipes</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance><![CDATA[exists key ("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\" & (value "MSSQLSERVER" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL" of native registry as string) & "\MSSQLServer\SuperSocketNetLib\Np") of native registry]]></Relevance>
+    <Relevance><![CDATA[exists value "Enabled" whose (it != 0) of key ("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\" & (value "MSSQLSERVER" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL" of native registry as string) & "\MSSQLServer\SuperSocketNetLib\Np") of native registry]]></Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-08-20</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 30 Aug 2012 15:51:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable MS SQL Named Pipes.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+if {x64 of operating system}
+	regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\{(value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry as string)}\MSSQLServer\SuperSocketNetLib\Np]&quot; &quot;Enabled&quot;=DWORD:00000000
+else
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\{(value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry as string)}\MSSQLServer\SuperSocketNetLib\Np]&quot; &quot;Enabled&quot;=DWORD:00000000
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : TROUBLESHOOTING: Volume Snapshot Service - VSS - Backups
+  ID       : 6043
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T12:14:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>TROUBLESHOOTING: Volume Snapshot Service - VSS - Backups</Title>
+    <Description>This task will flush all old shadow copies and set the max shadow copy storage to 10GB </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2011-08-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 19:13:43 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Delete all old shadow copies
+waithidden cmd.exe /C vssadmin delete shadows /all
+//Set max VSS Shadow Copy storage to 10GB
+waithidden cmd.exe /C vssadmin Resize ShadowStorage /For=C: /On=C: /MaxSize=10GB</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

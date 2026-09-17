@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Remove logged in user from local Administrators group
+  ID       : 24889
+  Author   : ReynardMuldrake
+  Domain   : BESC
+  Imported : 2018-01-25T12:38:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Remove logged in user from local Administrators group</Title>
+    <Description><![CDATA[This action will remove the logged in user from the local Administrators group from the target workstation.&nbsp; It will only appear relevant if the active user is already a member of the group. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(select (&quot;ProductType from Win32_OperatingSystem&quot;) of WMI) as string contains &quot;1&quot;</Relevance>
+    <Relevance>exists (members whose ((it as a string) contains (name of logged on user)) of local group &quot;administrators&quot;)</Relevance>
+    <Category>Group Membership</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-01-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 25 Jan 2018 20:36:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[waithidden net localgroup administrators {"DOMAIN\"& name of logged on user} /delete]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Windows7810DeviceControl
+  ID       : 24647
+  Author   : tstacy
+  Domain   : BESC
+  Imported : 2017-09-26T17:42:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Windows7810DeviceControl</Title>
+    <Description><![CDATA[This task will edit the Windows Registry so only those device Hardware ID's are able to connect.&nbsp; Please only take action by ensuring that USB Devices are removed and a reboot occurs after the update.<VALUE><BR><BR></VALUE>This task is applicable on:&nbsp;Windows 7, Windows 8, Windows 8.1, Windows 10. ]]></Description>
+    <Relevance>(name of operating system = &quot;Win7&quot; OR name of operating system = &quot;Win8&quot; OR name of operating system = &quot;Win8.1&quot; OR name of operating system = &quot;Win10&quot;) AND (NOT exists value &quot;DenyUnspecified&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions&quot; of native registry)</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceReleaseDate>2017-09-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 26 Sep 2017 23:34:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here&amp;nbsp;</Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+
+delete __createfile
+delete wizardedit.reg
+
+createfile until @end_create_reg_file
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions]
+"DenyUnspecified"=dword:00000001
+"AllowDeviceIDs"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\AllowDeviceIDs]
+"1"="USB\\VID_125F&PID_0000&REV_1100"
+@end_create_reg_file
+
+move __createfile wizardedit.reg
+waithidden regedit /s "wizardedit.reg"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

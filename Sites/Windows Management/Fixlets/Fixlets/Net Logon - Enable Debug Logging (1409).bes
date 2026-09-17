@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Net Logon - Enable Debug Logging
+  ID       : 1409
+  Author   : DavidSmith
+  Domain   : BESC
+  Imported : 2013-02-19T12:25:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Net Logon - Enable Debug Logging</Title>
+    <Description><![CDATA[<P>If you are having accounts getting locked out... it is helpful to enable netlogon debug logging to track down where the problem is coming from.&nbsp; This task will enable debug logging on Windows Servers.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters&quot; of native registry</Relevance>
+    <Relevance>if exists value &quot;DBFlag&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters&quot; of native registry then exists value &quot;DBFlag&quot; whose (it as integer != 545325055) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters&quot; of native registry else true</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>dsmith</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-02-19</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 19 Feb 2013 18:22:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Enable Debug Logging.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//delete registry setting
+regdelete &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters]&quot; &quot;DBFlag&quot;
+//now configure debug setting
+regset &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters]&quot; &quot;DBFlag&quot;=dword:2080FFFF
+//restart netlogon service
+waithidden net stop &quot;netlogon&quot;
+waithidden net start &quot;netlogon&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action1657">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read the Microsoft KB 109626.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.microsoft.com/kb/109626</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Logged in users with local admin rights
+  ID       : 2998581
+  Author   : ReynardMuldrake
+  Domain   : BESC
+  Imported : 2018-01-25T12:07:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Logged in users with local admin rights</Title>
+    <Description>This analysis will show any logged in user with local admin rights on their workstation. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(select (&quot;ProductType from Win32_OperatingSystem&quot;) of WMI) as string contains &quot;1&quot;</Relevance>
+    <Relevance>exists (members whose ((it as a string) contains (name of logged on user)) of local group &quot;administrators&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 25 Jan 2018 19:43:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Logged in users with local admin rights">(members whose ((it as a string) contains (name of logged on user)) of local group &quot;administrators&quot;) </Property>
+  </Analysis>
+</BES>

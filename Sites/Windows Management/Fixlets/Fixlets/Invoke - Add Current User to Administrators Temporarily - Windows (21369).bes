@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Add Current User to Administrators Temporarily - Windows
+  ID       : 21369
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-01T07:37:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Add Current User to Administrators Temporarily - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet can be paired with the, "Invoke - Remove Expired Users from Temporary Administrators - Windows" fixlet to temporarily grant users administrative rights to workstations.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists logged on user</Relevance>
+    <Relevance>not exists members whose (sid of it = sid of logged on user) of local group &quot;administrators&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to grant the current user administrative rights for 1 hour.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait net localgroup &quot;administrators&quot; &quot;{sid of logged on user}&quot; /add
+
+parameter &quot;Timestamp&quot;=&quot;{now as string}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (1 * hour)}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (1 * hour)}&quot;
+
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action22270">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to grant the current user administrative rights for 8 hours. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait net localgroup &quot;administrators&quot; &quot;{sid of logged on user}&quot; /add
+
+parameter &quot;Timestamp&quot;=&quot;{now as string}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (8 * hour)}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (8 * hour)}&quot;
+
+</ActionScript>
+    </Action>
+    <Action ID="Action22271">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to grant the current user administrative rights for 1 day. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait net localgroup &quot;administrators&quot; &quot;{sid of logged on user}&quot; /add
+
+parameter &quot;Timestamp&quot;=&quot;{now as string}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (1 * day)}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (1 * day)}&quot;
+
+</ActionScript>
+    </Action>
+    <Action ID="Action22272">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to grant the current user administrative rights for&amp;nbsp;5 days. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait net localgroup &quot;administrators&quot; &quot;{sid of logged on user}&quot; /add
+
+parameter &quot;Timestamp&quot;=&quot;{now as string}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (5 * day)}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Start&quot;=&quot;{now as string}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\Software\Admin Expiration History\{parameter &quot;Timestamp&quot;}\{sid of logged on user}]&quot; &quot;Expiration&quot;=&quot;{now + (5 * day)}&quot;
+
+</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

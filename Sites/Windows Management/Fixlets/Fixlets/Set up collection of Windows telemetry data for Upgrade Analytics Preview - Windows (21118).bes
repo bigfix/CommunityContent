@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set up collection of Windows telemetry data for Upgrade Analytics Preview - Windows
+  ID       : 21118
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-07-27T11:18:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set up collection of Windows telemetry data for Upgrade Analytics Preview - Windows</Title>
+    <Description><![CDATA[<P>You must set up Upgrade Analytics through Microsoft to get the required "CommerciaId"</P>
+<P>More info here: <A href="https://www.microsoft.com/en-us/WindowsForBusiness/upgrade-analytics">https://www.microsoft.com/en-us/WindowsForBusiness/upgrade-analytics</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists lines containing &quot;Script finished successfully&quot; of files whose(name of it as lowercase ends with &quot;.txt&quot; AND exists lines of it) of folders of folders &quot;Temp\UpgradeAnalytics\Logs&quot; of windows folders</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-07-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 27 Jul 2016 18:16:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+action parameter query &quot;CommerciaId&quot;
+
+prefetch UpgradeAnalytics.zip sha1:e4ec6b46379428209183f2e5fb872f18ebb78f55 size:53320712 https://download.microsoft.com/download/C/9/3/C9308EB7-26B7-4956-8BC4-1565FD62B8EA/UpgradeAnalytics.zip sha256:fbeedff147a6a9f42ca6146ef8b9979fc669a493b2957a4e13446214f4628d1d
+
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+// ADD TO UTILITY CACHE (to use in multiple tasks)
+utility __Download\unzip.exe
+
+// EXTRACT using unzip
+waithidden __Download\unzip.exe -o &quot;{pathname of file &quot;UpgradeAnalytics.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; -d &quot;{pathname of folder &quot;temp&quot; of windows folder}&quot;
+
+
+delete __createfile
+createfile until _END_OF_FILE_
+@echo off
+@echo Running config batch
+cd {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}
+:: File share to store telemetry logs
+set logPath={pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}\Logs
+
+:: Commercial ID provided to you
+set commercialIDValue={parameter &quot;CommerciaId&quot;}
+
+:: By Default script logs to both console and log file.
+:: logMode == 0 log to console only
+:: logMode == 1 log to file and console
+:: logMode == 2 log to file only
+set logMode=1
+
+:: To run inventory scan in verbose mode change below value to $true
+set isVerboseLogging=$false
+
+:: To notify users with Pop-up messages about reboot - By default its false
+set isPopupMode=$false
+
+set source=%~dp0
+
+powershell -ExecutionPolicy unrestricted -Command &quot;dir %source%\*.ps1 | Unblock-File&quot;
+
+%source%Psexec.exe -accepteula -si powershell.exe -ExecutionPolicy Bypass -Command %source%ConfigScript.ps1 ^
+		-LogPath %logPath% ^
+		-FilePath %source% ^
+		-CommerciaIdInput %commercialIDValue% ^
+		-LogMode %logMode% ^
+		-VerboseLogging %isVerboseLogging% ^
+		-PopUpMode %isPopupMode%
+
+_END_OF_FILE_
+
+delete {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}\RunConfig.bat
+move __createfile {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}\RunConfig.bat
+
+waithidden {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}\RunConfig.bat
+
+// waithidden powershell -ExecutionPolicy Bypass -Command {pathname of files &quot;ConfigScript.ps1&quot; of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders} -LogPath {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders}\Logs -FilePath {pathname of folders &quot;Temp\UpgradeAnalytics&quot; of windows folders} -CommerciaIdInput {parameter &quot;CommerciaId&quot;} -LogMode 1 -VerboseLogging $true -PopUpMode $false
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

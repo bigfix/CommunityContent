@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : DNS Cache - Windows
+  ID       : 2995861
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-12T14:25:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>DNS Cache - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files &quot;results_dns_cache.txt&quot; of folders &quot;__Global\Logs&quot; of data folders of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 Mar 2016 21:24:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="recent DNS Cache Contents" EvaluationPeriod="PT6H">unique values of (following text of last &quot;: &quot; of it &amp; &quot; ;; &quot; &amp; following text of last &quot;: &quot; of unique value of previous lines of previous lines of previous lines of previous lines of previous lines of it) of lines whose(it contains &quot;A (Host) Record&quot; OR it contains &quot; ;; &quot;) of files &quot;results_dns_cache.txt&quot; of folders &quot;__Global\Logs&quot; of data folders of client</Property>
+    <Property ID="2" Name="DNS Cache History" EvaluationPeriod="PT12H">unique values of (it as trimmed string) of lines whose(it contains &quot; ;; &quot;) of files &quot;results_dns_cache_history.txt&quot; of folders &quot;__Global\Logs&quot; of data folders of client</Property>
+  </Analysis>
+</BES>

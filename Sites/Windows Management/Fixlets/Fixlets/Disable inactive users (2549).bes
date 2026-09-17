@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Disable inactive users
+  ID       : 2549
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-08-07T12:51:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Disable inactive users</Title>
+    <Description>Creates a batch script to disable users who have not logged in for 30 days and are currently active. If their account is disabled, this will skip over them.</Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance><![CDATA[exists users whose ((now - (last logon of it) > 30 * day) and name of it does not contain "$" and not account disabled flag of it)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-08-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 07 Aug 2013 19:48:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+delete __disable.bat
+appendfile {("net user " & name of it & " /active:no%0d%0a") of users whose ((now - (last logon of it) > 30 * day) and name of it does not contain "$" and not account disabled flag of it)}
+copy __appendfile __disable.bat
+waithidden __disable.bat
+delete __appendfile
+delete __disable.bat]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

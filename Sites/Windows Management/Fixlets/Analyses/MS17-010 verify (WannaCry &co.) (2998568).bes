@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : MS17-010 verify (WannaCry &co.)
+  ID       : 2998568
+  Author   : wwan
+  Domain   : BESC
+  Imported : 2017-06-06T07:05:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>MS17-010 verify (WannaCry &amp;co.)</Title>
+    <Description><![CDATA[<P>verify for MS17-010 vulnerability (WannaCry &amp; co.)</P>
+<P>version query based on <A href="https://support.microsoft.com/de-at/help/4023262/how-to-verify-that-ms17-010-is-installed">https://support.microsoft.com/de-at/help/4023262/how-to-verify-that-ms17-010-is-installed</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Jun 2017 14:03:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SMB1_UpToDate">( ( ((name of it = &quot;Win10&quot; OR Name of it = &quot;Win2016&quot; AND build number of it as string = &quot;14393&quot;) of operating system) AND it &gt;= &quot;10.0.14393.953&quot; ) OR ( ((name of it = &quot;Win10&quot; AND build number of it as string = &quot;10586&quot;) of operating system) AND it &gt;= &quot;10.0.10586.839&quot;) OR ( ((name of it = &quot;Win10&quot; AND build number of it as string = &quot;10240&quot;) of operating system) AND it &gt;= &quot;10.0.10240.17319&quot;) OR ( ((name of it = &quot;WinVista&quot; OR name of it = &quot;Win2008&quot; ) of operating system) AND (it &gt;= &quot;6.0.6002.19743&quot; OR it &gt;= &quot;6.0.6002.24067&quot;) ) OR ( ((name of it = &quot;Win7&quot; OR name of it = &quot;Win2008R2&quot;) of operating system) AND it &gt;= &quot;6.1.7601.23689&quot;) OR ( ((name of it = &quot;Win8&quot; OR name of it = &quot;Win2012&quot; ) of operating system) AND (it &gt;= &quot;6.2.9200.22099&quot;)) OR ( ((name of it = &quot;Win8.1&quot; OR name of it = &quot;Win2012R2&quot; ) of operating system) AND (it &gt;= &quot;6.3.9600.18604&quot;)) OR ( ((name of it = &quot;Win2003&quot;) of operating system) AND (it &gt;= &quot;5.2.3790.6021&quot;)) OR ( ((name of it = &quot;WinXP&quot;) of operating system) AND (it &gt;= &quot;5.1.2600.7208&quot;)) ) of versions of files &quot;srv.sys&quot; of folders &quot;drivers&quot; of native system folders</Property>
+    <Property ID="2" Name="OS">operating system</Property>
+    <Property ID="3" Name="SMB1_Ver">version of file &quot;srv.sys&quot; of folder &quot;drivers&quot; of native system folder</Property>
+  </Analysis>
+</BES>

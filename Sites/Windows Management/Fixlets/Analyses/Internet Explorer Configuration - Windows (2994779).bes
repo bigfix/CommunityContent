@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Internet Explorer Configuration - Windows
+  ID       : 2994779
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T07:13:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Internet Explorer Configuration - Windows</Title>
+    <Description><![CDATA[<P>This is a work in progress.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 14:11:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="versions of IE" EvaluationPeriod="PT12H">versions of regapps &quot;iexplore.exe&quot;</Property>
+    <Property ID="2" Name="AutoConfigURL" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;AutoConfigURL&quot; of keys &quot;Software\Microsoft\Windows\CurrentVersion\Internet Settings&quot; of keys whose(exists keys &quot;Software\Microsoft\Windows\CurrentVersion\Internet Settings&quot; of it) of keys &quot;HKEY_USERS&quot; of (x64 registries; x32 registries)</Property>
+  </Analysis>
+</BES>

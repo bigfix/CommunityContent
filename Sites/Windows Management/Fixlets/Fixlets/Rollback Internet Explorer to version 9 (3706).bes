@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Rollback Internet Explorer to version 9
+  ID       : 3706
+  Author   : 3FD90496-9646-4EF9-AA83-4F7E89B54964
+  Domain   : BESC
+  Imported : 2014-02-04T15:41:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Rollback Internet Explorer to version 9</Title>
+    <Description><![CDATA[<P>Rollback Internet Explorer to version 9</P>
+<P>This task requires a reboot upon completion. This task has been tested in 32 bit Windows 7.</P>]]></Description>
+    <Relevance><![CDATA[((name of it = "Win7") of operating system) and (version of regapp "iexplore.exe" > "9")]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-02-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Feb 2014 22:37:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait cmd.exe /c FORFILES /P %WINDIR%\servicing\Packages /M Microsoft-Windows-InternetExplorer-*11.*.mum /c &quot;cmd /c start /w pkgmgr /up:@fname /quiet /norestart&quot;
+wait cmd.exe /c FORFILES /P %WINDIR%\servicing\Packages /M Microsoft-Windows-InternetExplorer-*10.*.mum /c &quot;cmd /c start /w pkgmgr /up:@fname /quiet /norestart&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

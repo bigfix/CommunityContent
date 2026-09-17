@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Process Monitor - Microsoft Search Indexer - Windows
+  ID       : 22915
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-03T10:25:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Process Monitor - Microsoft Search Indexer - Windows</Title>
+    <Description><![CDATA[<P>Configures the BES Process monitor to monitor for a process.</P>
+<P>Specifically, this fixlet configures it to monitor the following Processes:</P>
+<OL>
+<LI>SearchIndexer.exe</LI></OL>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists processes (substrings separated by &quot;;&quot; of &quot;SearchIndexer.exe&quot;)</Relevance>
+    <Relevance>not exists values whose (it = &quot;SearchIndexer.exe&quot;) of settings &quot;besprocessmonitor-microsoft-windows-searchindexer&quot; of client</Relevance>
+    <Category>Service Monitor</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;besprocessmonitor-microsoft-windows-searchindexer&quot;=&quot;SearchIndexer.exe&quot; on &quot;{now}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

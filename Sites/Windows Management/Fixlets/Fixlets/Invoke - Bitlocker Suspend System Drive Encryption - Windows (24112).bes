@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Bitlocker Suspend System Drive Encryption - Windows
+  ID       : 24112
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-22T05:02:56
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Bitlocker Suspend System Drive Encryption - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet will suspend BitLocker protection on the system volume.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
+    <Relevance><![CDATA[(boolean value of selects ("ProtectionStatus from win32_EncryptableVolume where DriveLetter='" & name of drive of system folder & "'")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption")]]></Relevance>
+    <Category>Disk Encryption</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-28</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+
+parameter &quot;PowerShellExe&quot;=&quot;{ pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) }&quot;
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+
+manage-bde -protectors -disable &quot;{name of drive of system folder}&quot;
+
+_end_
+
+move __createfile powershell.ps1
+
+waithidden &quot;{parameter &quot;PowershellExe&quot;}&quot; -ExecutionPolicy Bypass -File powershell.ps1
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

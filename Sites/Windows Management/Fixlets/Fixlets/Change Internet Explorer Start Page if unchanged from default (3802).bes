@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Change Internet Explorer Start Page if unchanged from default
+  ID       : 3802
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-07-01T09:14:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Change Internet Explorer Start Page if unchanged from default</Title>
+    <Description><![CDATA[This action will&nbsp;change the Internet Explorer Start Page if it has not been changed from the default. ]]></Description>
+    <Relevance>exists current user AND (1 = number of logged on users)</Relevance>
+    <Relevance><![CDATA[exists (value "Start Page" of key "Software\Microsoft\Internet Explorer\Main" of (key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry) as string as lowercase) whose (it contains ".microsoft.com/" OR it contains "/dell?hl=en&client=dell-usuk-rel" OR it contains "startnow.com")]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2011-09-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Jul 2014 16:09:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[regset64 "[{("HKEY_USERS\" & (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry) & "\Software\Microsoft\Internet Explorer\Main" )}]" "Start Page"="http://www.google.com"]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

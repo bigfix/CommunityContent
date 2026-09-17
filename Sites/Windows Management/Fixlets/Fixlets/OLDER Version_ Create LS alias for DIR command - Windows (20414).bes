@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : OLDER Version: Create LS alias for DIR command - Windows
+  ID       : 20414
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-04-29T14:53:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>OLDER Version: Create LS alias for DIR command - Windows</Title>
+    <Description>This makes me hate windows less </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists folders &quot;C:\ProgramData\chocolatey\bin&quot;</Relevance>
+    <Relevance><![CDATA[exists (";" & it & ";") whose(it contains ";C:\ProgramData\chocolatey\bin;") of (it as string as trimmed string) of values of variables "PATH" of environments]]></Relevance>
+    <Relevance>not exists lines whose(it contains &quot;@dir %25*&quot;) of files &quot;C:\ProgramData\chocolatey\bin\ls.bat&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-04-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Apr 2016 21:24:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// http://stackoverflow.com/questions/9362692/how-to-create-ls-in-windows-command-prompt
+// http://stackoverflow.com/questions/20530996/aliases-in-windows-command-prompt
+
+delete __createfile
+createfile until END_OF_FILE
+@dir %*
+END_OF_FILE
+
+delete C:\ProgramData\chocolatey\bin\ls.bat
+copy __createfile C:\ProgramData\chocolatey\bin\ls.bat
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

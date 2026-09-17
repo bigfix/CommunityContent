@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Disk Cleanup - Windows
+  ID       : 21628
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-14T21:22:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Disk Cleanup - Windows</Title>
+    <Description><![CDATA[<P>This will invoke a Window Disk Cleanup with aggressive cleanup settings.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Category>Disk Cleanup</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-08-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+if {x64 of operating system}
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Active Setup Temp Folders]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\BranchCache]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Downloaded Program Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameNewsFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameStatisticsFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameUpdateFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Internet Cache Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Memory Dump Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Offline Pages Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Old ChkDsk Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Previous Installations]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Recycle Bin]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\RetailDemo Offline Content]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Service Pack Cleanup]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Setup Log Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\System error memory dump files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\System error minidump files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Setup Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Sync Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Thumbnail Cache]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Upgrade Discarded Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Defender]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Archive Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Queue Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting System Archive Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting System Queue Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Temp Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows ESD installation files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Upgrade Log Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+
+else
+
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Active Setup Temp Folders]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\BranchCache]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Downloaded Program Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameNewsFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameStatisticsFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\GameUpdateFiles]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Internet Cache Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Memory Dump Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Offline Pages Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Old ChkDsk Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Previous Installations]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Recycle Bin]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\RetailDemo Offline Content]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Service Pack Cleanup]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Setup Log Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\System error memory dump files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\System error minidump files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Setup Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Temporary Sync Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Thumbnail Cache]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Upgrade Discarded Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Defender]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Archive Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Queue Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting System Archive Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting System Queue Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Error Reporting Temp Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows ESD installation files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Windows Upgrade Log Files]&quot; &quot;StateFlags1337&quot;=dword:00000002
+
+endif
+
+waithidden cleanmgr /sagerun:1337</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

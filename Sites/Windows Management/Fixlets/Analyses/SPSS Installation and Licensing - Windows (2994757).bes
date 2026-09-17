@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SPSS Installation and Licensing - Windows
+  ID       : 2994757
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-19T14:38:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SPSS Installation and Licensing - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Dec 2014 21:32:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Versions" EvaluationPeriod="PT12H">unique values of (it as string) of values &quot;DisplayVersion&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry)</Property>
+    <Property ID="2" Name="Install Folders" EvaluationPeriod="PT12H">unique values of pathnames of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Property>
+    <Property ID="3" Name="License Files" EvaluationPeriod="PT12H">unique values of pathnames of files &quot;lservrc&quot; of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Property>
+    <Property ID="4" Name="License File Contents" EvaluationPeriod="PT12H">unique values of lines whose (it as trimmed string != &quot;&quot;) of files &quot;lservrc&quot; of folders (values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry) as string)</Property>
+    <Property ID="5" Name="License Expirations" EvaluationPeriod="PT12H">unique values of (preceding texts of firsts &quot;, exclusive&quot; of following texts of lasts &quot;, expires Midnight of &quot; of it) of lines containing &quot;, expires Midnight of &quot; whose (it contains &quot;, exclusive&quot;) of files &quot;lservrc&quot; of folders (values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry) as string)</Property>
+    <Property ID="6" Name="Network License Files" EvaluationPeriod="PT12H">unique values of pathnames of files &quot;spssprod.inf&quot; of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Property>
+    <Property ID="7" Name="Network License File Contents" EvaluationPeriod="PT12H">unique values of lines whose (it as trimmed string != &quot;&quot;) of files &quot;spssprod.inf&quot; of folders (values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry) as string)</Property>
+    <Property ID="8" Name="Network License Server" EvaluationPeriod="PT12H">unique values of (it as trimmed string) whose (it != &quot;&quot;) of keys &quot;DaemonHost&quot; of files &quot;spssprod.inf&quot; of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Property>
+    <Property ID="10" Name="License Status" EvaluationPeriod="PT6H">unique values of ( ( ( (if (it &lt; current date) then &quot;Expired on &quot; else &quot;Expires on &quot;) &amp; following text of first &quot;, &quot; of (it as string) ) of maxima of (it as date) of (following text of last &quot; &quot; of preceding text of first &quot;, &quot; of it &amp; &quot; &quot; &amp; preceding text of first &quot; &quot; of it &amp; &quot; &quot; &amp; following text of last &quot;, &quot; of it) of (it as trimmed string) of (preceding texts of firsts &quot;, exclusive&quot; of following texts of lasts &quot;, expires Midnight of &quot; of it) of lines containing &quot;, expires Midnight of &quot; whose (it contains &quot;, exclusive&quot;) of it) of files &quot;lservrc&quot; of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry)) )</Property>
+    <Property ID="11" Name="Network License Server (Filtered)" EvaluationPeriod="PT12H">unique values of (it as trimmed string) whose (it != &quot;&quot; AND ( /* The following should be true of any License Server that is a domain name, or an IPV4 address */ 1 &lt; number of substrings separated by &quot;.&quot; of it )) of keys &quot;DaemonHost&quot; of files &quot;spssprod.inf&quot; of folders ((it as string) of values &quot;InstallLocation&quot; of keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;IBM SPSS Statistics&quot;) of keys &quot;HKLM\SOFTWARE\MICROSOFT\Windows\CurrentVersion\Uninstall&quot; of (native registry; x32 registry))</Property>
+  </Analysis>
+</BES>

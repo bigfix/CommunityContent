@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Uninstall Analysis
+  ID       : 54
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-12-04T10:51:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Uninstall Analysis</Title>
+    <Description>Pulls back Registry Keys and Display Names for windows installed software </Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Dec 2012 16:37:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="QuietUninstallString" EvaluationPeriod="PT1H">(values &quot;DisplayName&quot; of it, values &quot;DisplayVersion&quot; of it, values &quot;UninstallString&quot; of it, values &quot;QuietUninstallString&quot; of it) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Property>
+    <Property ID="2" Name="UninstallString" EvaluationPeriod="PT1H">(values &quot;DisplayName&quot; of it, values &quot;DisplayVersion&quot; of it, values &quot;UninstallString&quot; of it) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Property>
+  </Analysis>
+</BES>

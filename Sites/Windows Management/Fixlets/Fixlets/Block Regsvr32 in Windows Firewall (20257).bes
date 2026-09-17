@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Block Regsvr32 in Windows Firewall
+  ID       : 20257
+  Author   : baiyf
+  Domain   : BESC
+  Imported : 2016-04-27T07:54:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Block Regsvr32 in Windows Firewall</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This&nbsp;task enforces a winodws firewall filter to disable Regsvr32 from connecting to remote locations.</P> <P><STRONG>Note: </STRONG>The task is released in <A href="https://bigfix.me/">https://bigfix.me/</A>, which is not an official release channel of IBM BigFix. We highly suggest testing the content before deploying to production. Use of the content is done at the user's own risk and the user will be solely responsible for any damage to any computer system or loss of data that results from use of the content.</P> <P><FONT color=#ff0000><STRONG>Warning: This fixlet will enable the windows firewall and add necessary rule to block outbound connection for Regsvr32.exe</STRONG></FONT></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>not exists values whose(it as string as lowercase contains &quot;block regsvr32&quot;) of keys &quot;HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of native registry</Relevance>
+    <Category>Unspecified</Category>
+    <SourceID>Unspecified</SourceID>
+    <SourceReleaseDate>2016-04-27</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>Unspecified</CVENames>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action21062">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to block Regsvr32.exe in firewall</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enable Firewall
+waithidden NetSh Advfirewall set allprofiles state on
+
+//Disable Regsvr32 & Regsvr
+waithidden netsh advfirewall firewall add rule name="Block Regsvr32" dir=out action=block program="{pathname of file "regsvr32.exe" of system folder}" enable=yes profile=any
+
+// Disable Regsvr32 if x64 OS
+if {x64 of operating system}
+
+waithidden netsh advfirewall firewall add rule name="Block Regsvr32 in SysWOW64" dir=out action=block program="{pathname of file "regsvr32.exe" of system wow64 folder}" enable=yes profile=any
+
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action21063">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view the blog about the exploit</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://subt0x10.blogspot.sg/2016/04/bypass-application-whitelisting-script.html</ActionScript>
+    </Action>
+  </Task>
+</BES>

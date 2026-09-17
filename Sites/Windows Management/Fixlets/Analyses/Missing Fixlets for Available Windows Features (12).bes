@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Missing Fixlets for Available Windows Features
+  ID       : 12
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Missing Fixlets for Available Windows Features</Title>
+    <Description><![CDATA[<P>This analysis pulls back the results file of our diffDISM.txt file.&nbsp; This file contains a list of Available Windows Features which we do not have fixlets for.&nbsp;</P>
+<P>You can take this data and manually create fixlets for each of these features.</P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists file &quot;diffDISM.txt&quot; of parent folder of client OR exists file &quot;DISM.txt&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Oct 2012 16:51:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Missing Fixlets" EvaluationPeriod="PT5M">if exists file &quot;diffDISM.txt&quot; of parent folder of client then lines of file &quot;diffDISM.txt&quot; of parent folder of client else &quot;&lt;no results&gt;&quot;</Property>
+    <Property ID="2" Name="Available Windows Features" EvaluationPeriod="PT5M">if exists file &quot;DISM.txt&quot; of parent folder of client then preceding texts of firsts &quot;|&quot; of lines whose (it contains &quot;|&quot; AND NOT(it contains &quot;----------&quot;) AND NOT(it contains &quot;Feature Name&quot;)) of file &quot;DISM.txt&quot; of parent folder of client as trimmed string else &quot;&lt;no results&gt;&quot;</Property>
+  </Analysis>
+</BES>

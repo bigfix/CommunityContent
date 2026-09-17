@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : WinGet (WinGet method)
+  ID       : 27387
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-09-16T09:39:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>WinGet (WinGet method)</Title>
+    <Description>Installs latest version of WinGet using WinGet. </Description>
+    <Relevance><![CDATA[(name of it starts with "Win" and version of it >= "10.0.16299.0") of operating system and true]]></Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string starts with &quot;Microsoft Visual C++ 2015-2022 Redistributable (x64)&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry and true</Relevance>
+    <Relevance>exists files &quot;winget.exe&quot; of folders whose (name of it starts with &quot;Microsoft.DesktopAppInstaller&quot; and name of it ends with &quot;x64__8wekyb3d8bbwe&quot;) of folder &quot;C:\Program Files\WindowsApps&quot; and true</Relevance>
+    <Relevance><![CDATA[not exists files "winget.exe" whose (version of it >= "1.24.25180.0") of folders whose (name of it starts with "Microsoft.DesktopAppInstaller" and name of it ends with "x64__8wekyb3d8bbwe") of folder "C:\Program Files\WindowsApps"]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-07-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 21 Jul 2025 19:19:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-PowerShell"># Get winget location that SYSTEM user can access
+$wingetPath = (Resolve-Path &apos;C:\Program Files\WindowsApps\Microsoft.DesktopAppInstaller_*_x64__8wekyb3d8bbwe\winget.exe&apos;)[-1].Path
+
+# Attempt to install winget using winget
+$process = Start-Process $wingetPath -ArgumentList &apos;install --id Microsoft.AppInstaller --accept-source-agreements --accept-package-agreements&apos; -Wait -PassThru
+
+# If install failed, attempt install with Repair-WinGetPackageManager
+if ($process.ExitCode -ne 0) {
+	$progressPreference = &apos;SilentlyContinue&apos;
+	Install-PackageProvider -Name NuGet -Force
+	Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery
+	Repair-WinGetPackageManager
+}</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

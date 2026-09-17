@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Real-time Downtime Validation
+  ID       : 2998602
+  Author   : clarm060
+  Domain   : BESC
+  Imported : 2020-02-03T12:49:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Real-time Downtime Validation</Title>
+    <Description><![CDATA[<P>This analysis provides the ability to track DC services, Shares, and Reboot status in a real-time report. Servers do not need to be a Domain controller to use this report but they will show false for all ADS services and shares.</P>
+<P>Note: Currently the Relevance for this Analysis pulls all endpoints with any windows OS. if you are going to target just a subset of devices change the Relevance to Computer groups (manual or Dynamic), By Active Directory OU, etc. to filter to the devices you want.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Feb 2020 20:34:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="AD Web" EvaluationPeriod="PT0S">if not exists service &quot;ADWS&quot; then &quot;Not Installed&quot; else if exists service &quot;ADWS&quot; then if exists running service &quot;ADWS&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot;</Property>
+    <Property ID="2" Name="AD Domain">if not exists service &quot;NTDS&quot; then &quot;Not Installed&quot; else if exists service &quot;NTDS&quot; then if exists running service &quot;NTDS&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot;</Property>
+    <Property ID="3" Name="Carbon Black">if not exists service &quot;Parity&quot; then &quot;Not Installed&quot; else if exists service &quot;Parity&quot; then if exists running service &quot;Parity&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot;</Property>
+    <Property ID="4" Name="CiscoAMP">if not exists (service) whose (it as string as lowercase contains &quot;CiscoAmp&quot; as lowercase) then &quot;Not Installed&quot; else if exists (service) whose (it as string as lowercase contains &quot;CiscoAmp&quot; as lowercase) then if exists (running service) whose (it as string as lowercase contains &quot;CiscoAmp&quot; as lowercase) then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot;</Property>
+    <Property ID="5" Name="LogRhythm">if not exists service &quot;SCSM&quot; then &quot;Not Installed&quot; else if exists service &quot;SCSM&quot; then if exists running service &quot;SCSM&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot; </Property>
+    <Property ID="6" Name="SCCM">if not exists service &quot;CCmExec&quot; then &quot;Not Installed&quot; else if exists service &quot;CCmExec&quot; then if exists running service &quot;CCmExec&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot;</Property>
+    <Property ID="7" Name="SEP">if not exists service &quot;SEPMasterService&quot; then &quot;Not Installed&quot; else if exists service &quot;SEPMasterService&quot; then if exists running service &quot;SEPMasterService&quot; then &quot;Running&quot; else &quot;Stopped&quot; else &quot;Pending&quot; </Property>
+    <Property ID="8" Name="Uptime of OS">uptime of operating system</Property>
+    <Property ID="9" Name="Reboot Pending">if (exists key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot; of native registry) then &quot;Updates&quot; else if (exists key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending&quot; of native registry) then (&quot;CBS&quot;) else if (exists value &quot;UpdateExeVolatile&quot; of keys &quot;HKLM\Software\Microsoft\Updates&quot; of native registry) then (&quot; UpdateExeVolatile&quot;) else (&quot;No&quot;)</Property>
+    <Property ID="10" Name="SysVol">Exists (folder(&quot;\\&quot; &amp; (computer name as string) &amp; &quot;\sysvol&quot;))</Property>
+  </Analysis>
+</BES>

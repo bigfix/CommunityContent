@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AutoAdminLogon audit - Windows
+  ID       : 2994788
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T09:49:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AutoAdminLogon audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.0"]]></Relevance>
+    <Relevance>(exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; whose(value &quot;AutoAdminLogon&quot; of it as string as trimmed string as integer = 1) of (x64 registries; x32 registries))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 16:48:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="AutoAdminLogon?" EvaluationPeriod="PT12H">(exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; whose(value &quot;AutoAdminLogon&quot; of it as string as trimmed string as integer = 1) of (x64 registries; x32 registries))</Property>
+    <Property ID="2" Name="DefaultUserName" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;DefaultUserName&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="3" Name="Password Length" EvaluationPeriod="PT12H">lengths of unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;DefaultPassword&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of (x64 registries; x32 registries)</Property>
+  </Analysis>
+</BES>

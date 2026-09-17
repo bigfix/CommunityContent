@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows Update check results - Windows
+  ID       : 2998507
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-12-23T15:40:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows Update check results - Windows</Title>
+    <Description><![CDATA[<P>This analysis reads the results from this action: <A href="https://github.com/jgstew/bigfix-content/blob/master/fixlet/Output%20Windows%20Update%20Results%20-%20Windows.bes">https://github.com/jgstew/bigfix-content/blob/master/fixlet/Output%20Windows%20Update%20Results%20-%20Windows.bes</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>exists files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 23 Dec 2016 23:28:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="numUpdates" EvaluationPeriod="PT12H">(it as integer) of keys &quot;Software&quot; of sections &quot;Windows Updates&quot; of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="3" Name="numDrivers" EvaluationPeriod="PT12H">(it as integer) of keys &quot;Driver&quot; of sections &quot;Windows Updates&quot; of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="4" Name="numTotal" EvaluationPeriod="PT12H">(it as integer) of keys &quot;Number&quot; of sections &quot;Windows Updates&quot; of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="6" Name="numHidden" EvaluationPeriod="PT12H">(it as integer) of keys &quot;Hidden&quot; of sections &quot;Windows Updates&quot; of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="7" Name="last check for updates" EvaluationPeriod="PT12H">modification times of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="8" Name="list of updates" EvaluationPeriod="P2D">unique values of (it as trimmed string) of following texts of firsts &quot;=&quot; of variables whose(it starts with &quot;[Windows Updates].Software&quot; AND it does not start with &quot;[Windows Updates].Software=&quot; AND it does not contain &quot;=Definition Update for Windows Defender&quot; AND it does not contain &quot;=Microsoft Silverlight (&quot;) of files &quot;results_WindowsUpdates.ini&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+  </Analysis>
+</BES>

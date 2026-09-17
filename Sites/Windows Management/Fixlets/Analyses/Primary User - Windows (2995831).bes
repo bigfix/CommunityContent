@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Primary User - Windows
+  ID       : 2995831
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-01-25T16:49:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Primary User - Windows</Title>
+    <Description><![CDATA[<P>This analysis attempts to identify the Primary User of the system.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 25 Jan 2016 23:39:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="PrimaryUser (Combined)" EvaluationPeriod="PT12H">ERROR &quot;NotYetWritten&quot;</Property>
+    <Property ID="4" Name="PrimaryUser Setting" EvaluationPeriod="PT1H">unique values of (it as string as trimmed string) of values of settings whose(&quot;PrimaryUser&quot; = name of it) of clients</Property>
+    <Property ID="5" Name="User with most logons" EvaluationPeriod="PT6H">unique values of names of users whose( logon count of it = maximum of logon counts of users )</Property>
+    <Property ID="6" Name="Last Logged on User - Windows" EvaluationPeriod="PT6H">unique values of items 1 of (modification time of it,name of parent folder of it) whose( item 0 of it = ( maximum of modification times of files &quot;NTUSER.DAT&quot; of folders whose ( exists file &quot;NTUSER.DAT&quot; of it AND name of it as lowercase is not contained by set of ( &quot;networkservice&quot;;&quot;localservice&quot;;&quot;administrator&quot;;&quot;default&quot;;&quot;public&quot;;&quot;la-client&quot;;&quot;OTHER_EXCLUDED_USERS&quot; ) ) of (folders &quot;c:\users&quot;; folders &quot;c:\Documents and Settings&quot;) ) ) of files &quot;NTUSER.DAT&quot; of folders whose ( exists file &quot;NTUSER.DAT&quot; of it AND name of it as lowercase is not contained by set of ( &quot;networkservice&quot;;&quot;localservice&quot;;&quot;administrator&quot;;&quot;default&quot;;&quot;public&quot;;&quot;la-client&quot;;&quot;OTHER_EXCLUDED_USERS&quot; ) ) of (folders &quot;c:\users&quot;; folders &quot;c:\Documents and Settings&quot;)</Property>
+    <Property ID="7" Name="Users" EvaluationPeriod="PT6H">(&quot;%22&quot; &amp; it &amp; &quot;%22&quot;) of concatenations &quot;%22;%22&quot; of unique values of (names of logged on users; names of users; names of current users; names of local users)</Property>
+    <Property ID="9" Name="Users logged in (in BESClient Log - 30 days)" EvaluationPeriod="PT12H">unique values of (preceding texts of lasts &quot;&apos;&quot; of following texts of firsts &quot;User interface process started for user &apos;&quot; of it) of lines whose(it contains &quot;User interface process started for user &apos;&quot;) of files whose( (exists lines of it) AND (name of it as uppercase ends with &quot;.LOG&quot;) AND ( (name of it starts with ((it as string) of ( current year )) ) OR (name of it starts with ((it as string) of ( current year - 1*year )) ) ) ) of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="10" Name="User with the most logins (in BESClient Log)" EvaluationPeriod="P1D">(it) whose( multiplicity of it = maximum of multiplicities of unique values of (preceding texts of lasts &quot;&apos;&quot; of following texts of firsts &quot;User interface process started for user &apos;&quot; of it) of lines whose(it contains &quot;User interface process started for user &apos;&quot;) of files whose( (exists lines of it) AND (name of it as uppercase ends with &quot;.LOG&quot;) AND ( (name of it starts with ((it as string) of ( current year )) ) OR (name of it starts with ((it as string) of ( current year - 1*year )) ) ) ) of folders &quot;__Global/Logs&quot; of (data folder of client) ) of unique values of (preceding texts of lasts &quot;&apos;&quot; of following texts of firsts &quot;User interface process started for user &apos;&quot; of it) of lines whose(it contains &quot;User interface process started for user &apos;&quot;) of files whose( (exists lines of it) AND (name of it as uppercase ends with &quot;.LOG&quot;) AND ( (name of it starts with ((it as string) of ( current year )) ) OR (name of it starts with ((it as string) of ( current year - 1*year )) ) ) ) of folders &quot;__Global/Logs&quot; of (data folder of client)</Property>
+  </Analysis>
+</BES>

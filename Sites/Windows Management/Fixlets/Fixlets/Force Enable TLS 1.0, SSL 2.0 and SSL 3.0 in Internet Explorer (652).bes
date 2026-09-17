@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Force Enable TLS 1.0, SSL 2.0 and SSL 3.0 in Internet Explorer
+  ID       : 652
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-31T09:53:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Force Enable TLS 1.0, SSL 2.0 and SSL 3.0 in Internet Explorer</Title>
+    <Description>Force Enable TLS 1.0, SSL 2.0 and SSL 3.0 in Internet Explorer on target machines. This must be run while the user(s) that you wish to enable these settings for is logged in.</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-31</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 31 Oct 2012 14:53:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset &quot;[HKEY_USERS\{name of key whose (value &quot;Logon User Name&quot; of key &quot;Explorer&quot; of key &quot;CurrentVersion&quot; of key &quot;Windows&quot; of key &quot;Microsoft&quot; of key &quot;Software&quot; of it as string as lowercase = name of current user as string as lowercase) of key &quot;HKEY_USERS&quot; of registry}\Software\Microsoft\Windows\CurrentVersion\Internet Settings]&quot; &quot;SecureProtocols&quot;=dword:000000a8</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

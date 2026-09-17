@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : ~Win10-1809::STAGE2::Install
+  ID       : 25594
+  Author   : Ken
+  Domain   : BESC
+  Imported : 2019-01-09T03:31:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>~Win10-1809::STAGE2::Install</Title>
+    <Description><![CDATA[<P class=FixletMessage>Win10-1809::STAGE1::Stage Installation Files</P>
+<DIV class=FixletMessage>
+<UL>
+<LI>Stage all required installation files to "c:\temp\Win10"&nbsp; (Precache for future deployment)</LI></UL></DIV>
+<P>Win10-1809::STAGE2::INSTALL</P>
+<UL>
+<LI>Perform inplace upgrade to Window 10&nbsp;1809</LI></UL>
+<P>Win10-1809::STAGE3::Cleanup</P>
+<UL>
+<LI>Removes the Stage Installation Files</LI></UL>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>x64 of operating system AND not ia64 of operating system</Relevance>
+    <Relevance>(it starts with &quot;Win&quot; AND it does not start with &quot;Win20&quot;) of name of operating system AND (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Relevance>
+    <Relevance>exists regapp &quot;powershell.exe&quot;</Relevance>
+    <Relevance>system ui language as string as lowercase = &quot;English (United States)&quot; as lowercase</Relevance>
+    <Relevance>exists value &quot;EditionID&quot; whose (it as string as lowercase = &quot;EducationN&quot; as lowercase OR it as string as lowercase = &quot;Education&quot; as lowercase OR it as string as lowercase = &quot;ProfessionalN&quot; as lowercase OR it as string as lowercase = &quot;Professional&quot; as lowercase OR it as string as lowercase = &quot;EnterpriseN&quot; as lowercase OR it as string as lowercase = &quot;Enterprise&quot; as lowercase) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Relevance>
+    <Relevance>operating system as string does not contain &quot;1809&quot;</Relevance>
+    <Relevance><![CDATA[(not exists values "ClearCaseMajorVersion" whose (it as string as version < "10") of keys "HKLM\SOFTWARE\Atria\ClearCase\CurrentVersion" of (x32 registries; x64 registries))]]></Relevance>
+    <Relevance>if exist file &quot;C:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO&quot; then true else false</Relevance>
+    <Category>Upgrade</Category>
+    <Source>Microsoft</Source>
+    <SourceID>Unspecified</SourceID>
+    <SourceReleaseDate>2019-01-07</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>Unspecified</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 02 Nov 2017 11:52:26 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product-family</Name>
+      <Value>Windows</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>no-relevance-health-check</Name>
+      <Value>false</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product</Name>
+      <Value>Win10</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-component</Name>
+      <Value>Unspecified</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Jan 2019 11:36:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+//Start inplace upgrade
+if {free space of drive of client > 5000000000}
+
+parameter "workISO" = "C:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO"
+continue if {exists file (parameter "workISO")}
+continue if {sha1 of file (parameter "workISO") = "6208b319de3aaf0d8ec5b8d0f710e2744f89d0b4"}
+
+// prepare a workpath to temporary files.
+parameter "workPath" = "{(value of variable "SystemDrive" of environment) & "\win10_upgrade_temp"}"
+waithidden cmd /C rmdir /S /Q "{parameter "workPath"}"
+waithidden cmd /C mkdir "{parameter "workPath"}"
+
+// Create the cleanup file.
+delete __appendfile
+delete setupcomplete.cmd
+
+appendfile @echo off
+appendfile SET WindowsISO="{parameter "workISO"}"
+// appendfile powershell.exe "Dismount-DiskImage ""%WindowsISO%"""
+// appendfile rmdir /S /Q "{parameter "workPath"}"
+
+move __appendfile setupcomplete.cmd
+
+
+// Create a debug invocation batch to help in case of failures.
+// This batch does not perform an update but with the scanonly option allows you to determine what the problem is.
+delete __appendfile
+
+appendfile @echo off
+appendfile SET WindowsISO="{parameter "workISO"}"
+appendfile FOR /F "skip=3" %%I IN ('powershell.exe "Get-DiskImage """%WindowsISO%""" | Get-Volume | Select-Object {{$_.DriveLetter}"') DO %%I:\setup.exe /auto upgrade /Compat ScanOnly /DynamicUpdate disable"
+appendfile echo %errorlevel% > "{parameter "workPath"}\out.log"
+
+move __appendfile "{(parameter "workPath") & "/upgradeCheck.bat"}"
+
+// Create the actual invocation script
+// Sleep and Dir were added or command would fail with %errorlevel%	183. Possibly a delay on mount.
+delete __appendfile
+delete mount.and.install.bat
+
+appendfile @echo on
+appendfile SET WindowsISO="{parameter "workISO"}"
+appendfile powershell.exe "Mount-DiskImage ""%WindowsISO%"""
+appendfile TIMEOUT 10
+appendfile FOR /F "skip=3" %%I IN ('powershell.exe "Get-DiskImage """%WindowsISO%""" | Get-Volume | Select-Object {{$_.DriveLetter}"') DO dir %%I: > "{parameter "workPath"}\dir.log" && %%I:\setup.exe /auto upgrade /Quiet /DynamicUpdate disable /postoobe "{pathname of client folder of current site & "\setupcomplete.cmd"}"
+appendfile echo %errorlevel% > "{parameter "workPath"}\out.log"
+move __appendfile mount.and.install.bat
+
+wait mount.and.install.bat > "{parameter "workPath"}\cmd.log"
+
+wait setupcomplete.cmd >"{parameter "workPath"}\setupcomplete.log"
+
+// setup must finish with RC=0 at this stage if things are ok. If that is not the case content of C:\"\win10_upgrade_temp dir holds useful info.
+// Apart from log files, you can run upgradeCheck manually to check with the UI what the problem is.
+
+action requires restart "6208b319de3aaf0d8ec5b8d0f710e2744f89d0b4"
+endif
+
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

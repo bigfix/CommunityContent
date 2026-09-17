@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Printer Audit - Windows
+  ID       : 2994742
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-17T07:54:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Printer Audit - Windows</Title>
+    <Description><![CDATA[<P>This Analysis provides information about Windows Printers.</P>
+<P>&nbsp;</P>
+<P>Related:</P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=d0fa8b7c-9d26-420c-b82b-fbe307f3f4b1&amp;ps=100"><FONT color=#000080>https://www.ibm.com/developerworks/community/forums/html/topic?id=d0fa8b7c-9d26-420c-b82b-fbe307f3f4b1&amp;ps=100</FONT></A></P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-21963">http://www.stigviewer.com/stig/windows_7/2014-04-02/finding/V-21963</A></P>
+<P><A href="http://www.scaprepo.com/view.jsp?id=CCE-18881-3">http://www.scaprepo.com/view.jsp?id=CCE-18881-3</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 17 Oct 2014 14:48:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="# Local Printers" EvaluationPeriod="PT12H">number of keys whose (value &quot;Port&quot; of it as string contains &quot;LPT&quot; OR value &quot;Port&quot; of it as string contains &quot;DOT4&quot; OR value &quot;Port&quot; of it as string contains &quot;USB&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry as string</Property>
+    <Property ID="2" Name="# IP Address Network Printers" EvaluationPeriod="PT12H">number of keys whose (4 = number of substrings separated by &quot;.&quot; of (value &quot;Port&quot; of it as string)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry as string</Property>
+    <Property ID="3" Name="Printers" EvaluationPeriod="PT12H">concatenation &quot;, &quot; of unique values of names whose(it as string does not contain &quot;Microsoft&quot; AND it as string does not contain &quot;PDF&quot; AND it as string as lowercase does not contain &quot;fax&quot; AND it as string does not contain &quot;OneNote&quot; AND it as string does not contain &quot;PaperPort&quot;) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry</Property>
+    <Property ID="5" Name="Printer Models" EvaluationPeriod="PT12H">concatenation &quot;, &quot; of unique values of (values &quot;Model&quot; whose(it as string does not contain &quot;Microsoft&quot; AND it as string does not contain &quot;PDF&quot; AND it as string as lowercase does not contain &quot;fax&quot; AND it as string does not contain &quot;OneNote&quot; AND it as string does not contain &quot;PaperPort&quot;) of keys of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry as string)</Property>
+    <Property ID="6" Name="Default Printers" EvaluationPeriod="PT12H">concatenation &quot;, &quot; of (unique values whose(it as string does not contain &quot;Microsoft&quot; AND it as string does not contain &quot;PDF&quot; AND it as string as lowercase does not contain &quot;fax&quot; AND it as string does not contain &quot;OneNote&quot; AND it as string does not contain &quot;PaperPort&quot;) of preceding texts of firsts &quot;,&quot; of ((values &quot;Device&quot; of keys &quot;windows&quot; whose ( exists values &quot;Device&quot; of it )  of keys &quot;Software\Microsoft\Windows NT\CurrentVersion&quot; of keys of key &quot;HKEY_USERS&quot; of registry) as string) as string)</Property>
+    <Property ID="7" Name="Printer Info from WMI" EvaluationPeriod="PT12H">selects &quot;Name,Caption,DeviceID,DriverName,PortName from win32_printer&quot; of wmi</Property>
+    <Property ID="8" Name="Printer Names from WMI (filtered)" EvaluationPeriod="PT12H">unique values whose(not exists (it as lowercase) whose(it = &quot;fax&quot; OR it contains &quot;webex &quot;  OR it contains &quot; converter&quot; OR it contains &quot; virtual printer&quot;  OR it contains &quot; publisher imagesetter&quot; OR it contains &quot; onenote &quot; OR it contains &quot;microsoft &quot; OR it contains &quot;pdf&quot;)) of string values of selects &quot;Name,Caption,DeviceID,DriverName from win32_printer&quot; of wmi</Property>
+    <Property ID="9" Name="Printer Info from ActiveDevices" EvaluationPeriod="PT12H">(friendly name of it | &quot;&lt;noFriName&gt;&quot;, description of it | &quot;&lt;noDesc&gt;&quot;, manufacturer of it | &quot;&lt;noManuf&gt;&quot;, location information of it | &quot;&lt;noLocInfo&gt;&quot; ) of  active devices whose(class of it = &quot;PrintQueue&quot; OR class of it = &quot;Printer&quot;)</Property>
+    <Property ID="10" Name="DoNotInstallCompatibleDriverFromWindowsUpdate (win7+)" EvaluationPeriod="PT12H">values &quot;DoNotInstallCompatibleDriverFromWindowsUpdate&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print&quot; of native registry</Property>
+    <Property ID="11" Name="PrinterNames of ControlSet (registry)" EvaluationPeriod="PT12H">unique values of names of keys of keys &quot;Control\Print\Printers&quot; of keys whose(name of it contains &quot;ControlSet&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of native registry</Property>
+    <Property ID="12" Name="PrinterDrivers of ControlSet (registry)" EvaluationPeriod="PT12H">unique values of names of keys of keys whose(name of it starts with &quot;Version-&quot;) of keys &quot;Drivers&quot; of keys of keys &quot;Control\Print\Environments&quot; of keys whose(name of it contains &quot;ControlSet&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of native registry</Property>
+    <Property ID="13" Name="Names of (PrinterDrivers &amp; PrinterNames) combined&amp;filtered" EvaluationPeriod="PT12H">unique values whose(not exists (it as lowercase) whose(it = &quot;fax&quot; OR it contains &quot;root print &quot; OR it contains &quot;remote desktop &quot; OR it contains &quot;webex &quot; OR it contains &quot; converter&quot; OR it contains &quot; virtual printer&quot; OR it contains &quot; publisher imagesetter&quot; OR it contains &quot; onenote &quot; OR it contains &quot;microsoft &quot; OR it contains &quot;pdf&quot;)) of ( (string values of selects &quot;Name,Caption,DeviceID,DriverName from win32_printer&quot; of wmi);( names of keys of keys &quot;Control\Print\Printers&quot; of keys whose(name of it contains &quot;ControlSet&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of native registry );( names of keys of keys whose(name of it starts with &quot;Version-&quot;) of keys &quot;Drivers&quot; of keys of keys &quot;Control\Print\Environments&quot; of keys whose(name of it contains &quot;ControlSet&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of native registry );(values &quot;Model&quot; of keys of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry as string);(( if (exists friendly name of it) then (friendly names of it) else (descriptions of it)  ) of active devices whose(class of it = &quot;PrintQueue&quot; OR class of it = &quot;Printer&quot;)) )</Property>
+  </Analysis>
+</BES>

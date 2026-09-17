@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Stop and disable Print Spooler service
+  ID       : 26914
+  Author   : jeffschafer
+  Domain   : BESC
+  Imported : 2022-03-10T14:12:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Stop and disable Print Spooler service</Title>
+    <Description><![CDATA[<B><FONT size=2 face=Arial><FONT size=2 face=Arial>
+<P dir=ltr>This fixlet will handle a few cases: </P>
+<P dir=ltr>1. If print spooler service is running and not set to disabled, it will stop it first then set service to disabled </P>
+<P dir=ltr>2. If print spooler is not running but service is not set to disabled, it will simply set service to disabled  </P></B></FONT></FONT>]]></Description>
+    <Relevance>(exists service &quot;spooler&quot; and not exists start types whose(it = &quot;disabled&quot;) of services &quot;spooler&quot;) and (name of operating system as lowercase contains &quot;win&quot;)</Relevance>
+    <Source>Bigfix AVP- Jeff Schafer</Source>
+    <SourceReleaseDate>2022-03-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Mar 2022 22:09:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {exists running service whose (service name of it as lowercase = "spooler")}
+delete __appendfile
+delete netquiet.bat
+appendfile @ECHO OFF
+appendfile start "" /min /b net %1 %2 /y > NUL 2> NUL
+move __appendfile netquiet.bat
+waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat stop "spooler"
+delete netquiet.bat
+waithidden cmd /C sc config spooler start= disabled
+else if {exists not running service "spooler" and not exists start type whose(it = "disabled") of service "spooler"}
+waithidden cmd /C sc config spooler start= disabled]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

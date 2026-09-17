@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: Fix console user column width settings - Windows -TODO:Testing
+  ID       : 3865
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-30T11:40:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Fix console user column width settings - Windows -TODO:Testing</Title>
+    <Description>This task sets the per user computer comlumns that have a width of 0 (hidden) to 100.</Description>
+    <Relevance>exists regapp &quot;BESConsole.exe&quot;</Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>FALSE  /* THIS IS UNTESTED! */</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-09-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 30 Sep 2014 17:28:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+if{ exists ( keys whose(exists values "width" whose(it as integer = 0) of it) of keys of keys "Software\BigFix\Enterprise Console\Preferences\bes.win.psu.edu\ComputerListCtrlColumns" of keys of key "HKEY_USERS" of registry ) }
+
+delete __createfile
+delete editRegistry.bat
+
+//    CREATEFILE - make a batch file
+// https://support.bigfix.com/inspectors/Action%20Objects_Win.html#action
+createfile until END_OF_FILE
+{ concatenation "%0d%0a" of ("REG ADD %22" & it & "%22 /v width /t REG_DWORD /d 100 /f") of (it as string) of (keys whose(exists values "width" whose(it as integer = 0) of it) of keys of keys "Software\BigFix\Enterprise Console\Preferences\bes.win.psu.edu\ComputerListCtrlColumns" of keys of key "HKEY_USERS" of registry) }
+END_OF_FILE
+
+move __createfile editRegistry.bat
+waithidden cmd.exe /C editRegistry.bat > "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client)}\config_editRegistry.bat.log"
+
+endif
+
+continue if{ not exists ( keys whose(exists values "width" whose(it as integer = 0) of it) of keys of keys "Software\BigFix\Enterprise Console\Preferences\bes.win.psu.edu\ComputerListCtrlColumns" of keys of key "HKEY_USERS" of registry ) }
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Inactive Users
+  ID       : 2994557
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-08-07T12:52:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Inactive Users</Title>
+    <Description>Lists the user accounts that have not logged onto the system in the last 30 days.</Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 07 Aug 2013 19:20:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Users">(name of it) of users whose ((now - (last logon of it) &gt; 30 * day) and name of it does not contain &quot;$&quot;)</Property>
+  </Analysis>
+</BES>

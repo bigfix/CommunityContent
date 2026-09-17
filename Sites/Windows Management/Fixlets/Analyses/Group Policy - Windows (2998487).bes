@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Group Policy - Windows
+  ID       : 2998487
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-14T15:35:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Group Policy - Windows</Title>
+    <Description><![CDATA[<P>Provides the following pieces of&nbsp;information regarding Group Policy:</P>
+<OL>
+<LI>Average network wait on startup
+<LI>Applied Group Policies
+<LI>Enforced Group Policies
+<LI>The Active Directory site the computer currently falls into
+<LI>Assigned Software Installations in Group Policy
+<LI>The currently connected domain controller
+<LI>If the computer is on a slow link
+<LI>Currently running startup and shutdown scripts
+<LI>Group Policy Preferences with tracing or debug logging enabled</LI></OL>
+<P>The applied group policies and enforced group policies properties show the name of the group policy object, at what level the policy is linked (Site, Domain, OU) and at what OU in active directory the policy is linked at.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Group Policy - Average Network Wait - Windows" EvaluationPeriod="P1D">values &quot;AvgWaitTimeoutAtStartup&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\history&quot; of native registry</Property>
+    <Property ID="2" Name="Group Policy - Applied Policies - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (value &quot;DisplayName&quot; of it, (if (it = 0) then &quot;Unknown&quot; else (if (it = 1) then &quot;Local Group Policy&quot; else (if (it = 2) then &quot;Site Linked&quot; else (if (it = 3) then &quot;Domain Linked&quot; else (&quot;OU Linked&quot;))))) of (value &quot;GPOLink&quot; of it as integer), value &quot;Link&quot; of it) of keys of keys of key &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\history&quot; of native registry</Property>
+    <Property ID="3" Name="Group Policy - Enforced Policies - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (value &quot;DisplayName&quot; of it, (if (it = 0) then &quot;Unknown&quot; else (if (it = 1) then &quot;Local Group Policy&quot; else (if (it = 2) then &quot;Site Linked&quot; else (if (it = 3) then &quot;Domain Linked&quot; else (&quot;OU Linked&quot;))))) of (value &quot;GPOLink&quot; of it as integer), value &quot;Link&quot; of it) of keys whose (bit 1 of (value &quot;Options&quot; of it as integer as bit set) = true) of keys of key &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\history&quot; of native registry</Property>
+    <Property ID="4" Name="Group Policy - Site - Windows" EvaluationPeriod="P1D">value &quot;Site-Name&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\State\Machine&quot; of native registry</Property>
+    <Property ID="5" Name="Group Policy - Assigned Software Installation - Windows" EvaluationPeriod="P1D">(value &quot;GPO Name&quot; of it, value &quot;Deployment Name&quot; of it, value &quot;GPO ID&quot; of it) of keys of keys &quot;HKEY_LOCAL_MACHINE\Software\microsofat\windows\currentversion\group policy\Appmgmt&quot; of native registry</Property>
+    <Property ID="6" Name="Group Policy - Connected Domain Controller - Windows" EvaluationPeriod="P1D">value &quot;DCName&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\History&quot; of native registry as string </Property>
+    <Property ID="7" Name="Group Policy - On Slow Link - Windows" EvaluationPeriod="P1D">if (value &quot;IsSlowLink&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\microsoft\windows\currentversion\group policy\History&quot; of native registry as integer | 0 = 0) then false else true</Property>
+    <Property ID="8" Name="Group Policy - Startup Scripts - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (value &quot;DisplayName&quot; of it as string, value &quot;FileSysPath&quot; of it as string) of keys of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Startup&quot; of native registry</Property>
+    <Property ID="9" Name="Group Policy - Shutdown Scripts - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (value &quot;DisplayName&quot; of it as string, value &quot;FileSysPath&quot; of it as string) of keys of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Shutdown&quot; of native registry </Property>
+    <Property ID="10" Name="Group Policy - Extensions with Debug Logging - Windows" EvaluationPeriod="P1D">(default value of it) of keys whose (set of names of (keys whose (value &quot;LogLevel&quot; of it as string != &quot;0&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Group Policy&quot; of native registry) contains name of it ) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions&quot; of native registry</Property>
+    <Property ID="11" Name="Group Policy - Extensions with Tracing Enabled - Windows" EvaluationPeriod="P1D">(default value of it) of keys whose (set of names of (keys whose (value &quot;LogLevel&quot; of it as string != &quot;0&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Group Policy&quot; of native registry) contains name of it ) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions&quot; of native registry</Property>
+    <Property ID="12" Name="Group Policy - Local Policy Settings - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (string value of property &quot;registryKey&quot; of it | &quot;&quot;, string value of property &quot;valueName&quot; of it, (if (length of (property &quot;value&quot; of it as string) &lt;= 16) then /* For short values convert the byte array*/((/*Convert to integer*/ hexadecimal integer /* Reverse the bytes */(concatenations of substrings separated by &quot;,&quot; of concatenation of characters ( lengths of following texts of positions of it ) of concatenation &quot;,&quot; of (concatenation of characters ( lengths of following texts of positions of it ) of it ) of /*Get bytes */(integer values of property &quot;value&quot; of it as hexadecimal))) as string | &quot;&quot;) else /* Long values let BigFix do it*/ (following text of first &quot;value=&quot; of (preceding text of last &quot;%00&quot; of it | it) of (preceding text of last &quot;%0d%0a&quot; of it | it) of (property &quot;value&quot; of it as string)))) of SELECT objects &quot;* FROM RSOP_RegistryPolicySetting WHERE GPOID=&apos;LocalGPO&apos; and valueName != &apos;&apos;&quot; /* valueName != &apos;&apos; removes blank keys, not sure if this breaks anything*/ of rsop computer wmi</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows Upgrades
+  ID       : 2998608
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2020-04-08T09:51:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows Upgrades</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exist file &quot;C:\in_place_upgrade\out.log&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2020 16:50:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="Upgrade Exit Code">if exist file &quot;C:\in_place_upgrade\out.log&quot; then line 1 of file &quot;C:\in_place_upgrade\out.log&quot; else &quot;N/A&quot;</Property>
+  </Analysis>
+</BES>

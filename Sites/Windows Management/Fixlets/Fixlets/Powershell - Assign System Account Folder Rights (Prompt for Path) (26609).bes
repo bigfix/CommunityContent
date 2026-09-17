@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Powershell - Assign System Account Folder Rights (Prompt for Path)
+  ID       : 26609
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : SYST
+  Imported : 2019-03-05T10:21:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Powershell - Assign System Account Folder Rights (Prompt for Path)</Title>
+    <Description></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>OSD</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2019-02-21</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>{&quot;passwordType&quot;:&quot;required&quot;,&quot;username&quot;:&quot;&quot;,&quot;asAdmin&quot;:&quot;true&quot;,&quot;userType&quot;:&quot;system&quot;,&quot;completion&quot;:&quot;none&quot;,&quot;targetuser&quot;:&quot;&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>action-ui-metadata</Name>
+      <Value>{&quot;icon&quot;:&quot;&quot;,&quot;size&quot;:&quot;9046533&quot;,&quot;version&quot;:&quot;0.0&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>a</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;lastmodified&quot;:&quot;Thu Feb 21 20:29:36 GMT-0500 2019&quot;,&quot;categories&quot;:[],&quot;useCommandLine&quot;:false,&quot;site&quot;:null,&quot;os&quot;:[],&quot;vendor&quot;:&quot;Wallpaper&quot;,&quot;pkgvariablekey&quot;:&quot;SWD_Package_brad.sexton@sexton.local_1550780131285592&quot;,&quot;runAsSystem&quot;:null,&quot;pkgTag&quot;:&quot;&quot;,&quot;product&quot;:&quot;OSD&quot;,&quot;files&quot;:[{&quot;file_url&quot;:null,&quot;msi_metadata&quot;:null,&quot;sha1&quot;:&quot;C861E36BD7A7F119757BCBA945BC6F23515E6715&quot;,&quot;id&quot;:&quot;C861E36BD7A7F119757BCBA945BC6F23515E6715_1550798976595193&quot;,&quot;filename&quot;:&quot;IMG_2071.JPG&quot;,&quot;appx_metatdata&quot;:null,&quot;dateadded&quot;:&quot;Thu, 21 Feb 2019 20:29:36 -0500&quot;,&quot;exe_metadata&quot;:null,&quot;compressed_data_for_package&quot;:false,&quot;spb_metadata&quot;:null,&quot;osd_metadata&quot;:null,&quot;size&quot;:6131476,&quot;folderoffset&quot;:&quot;&quot;,&quot;ReferenceName&quot;:&quot;/C861E36BD7A7F119757BCBA945BC6F23515E6715/IMG_2071.JPG&quot;,&quot;HasAnonymousReference&quot;:false,&quot;sha256&quot;:&quot;0b1fbb69323abf4c6d94221626b598ceae46320ffebad240464f0350ec5aa6e2&quot;,&quot;uploadSuffix&quot;:&quot;bfswd&quot;,&quot;appv_metadata&quot;:null,&quot;ReferenceID&quot;:&quot;5151&quot;,&quot;rpm_metadata&quot;:null},{&quot;file_url&quot;:null,&quot;msi_metadata&quot;:null,&quot;sha1&quot;:&quot;054E100047CA5C0AAAB3C01CB965313E5994A00F&quot;,&quot;id&quot;:&quot;054E100047CA5C0AAAB3C01CB965313E5994A00F_1550780146769758&quot;,&quot;filename&quot;:&quot;IMG_3675.JPG&quot;,&quot;appx_metatdata&quot;:null,&quot;dateadded&quot;:&quot;Thu, 21 Feb 2019 15:15:44 -0500&quot;,&quot;exe_metadata&quot;:null,&quot;compressed_data_for_package&quot;:false,&quot;spb_metadata&quot;:null,&quot;osd_metadata&quot;:null,&quot;size&quot;:2915057,&quot;folderoffset&quot;:&quot;&quot;,&quot;ReferenceName&quot;:&quot;/054E100047CA5C0AAAB3C01CB965313E5994A00F/IMG_3675.JPG&quot;,&quot;HasAnonymousReference&quot;:false,&quot;sha256&quot;:&quot;96f30e46ec7c5faac96da6d17ae69c091eb21dc779db2a9b9e8f1ce60e45e693&quot;,&quot;uploadSuffix&quot;:&quot;bfswd&quot;,&quot;appv_metadata&quot;:null,&quot;ReferenceID&quot;:&quot;5067&quot;,&quot;rpm_metadata&quot;:null}],&quot;fullInstallCommand&quot;:null,&quot;comment&quot;:null,&quot;description&quot;:null,&quot;owner&quot;:&quot;brad.sexton@sexton.local&quot;,&quot;version&quot;:&quot;0.0&quot;,&quot;creator&quot;:&quot;brad.sexton@sexton.local&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedPathOptions</Name>
+      <Value>{&quot;deleteCustomPath&quot;:false,&quot;customPath&quot;:false,&quot;customPathName&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedLogOptions</Name>
+      <Value>{&quot;individualLogCustomerName&quot;:null,&quot;uploadTheLog&quot;:false,&quot;individualLog&quot;:false}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_brad.sexton@sexton.local_1550780131285592</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-prePostInstall</Name>
+      <Value>{&quot;preInstall&quot;:null,&quot;postType&quot;:null,&quot;preType&quot;:null,&quot;selected&quot;:false,&quot;postInstall&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgTag</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgType</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;C861E36BD7A7F119757BCBA945BC6F23515E6715&quot;,&quot;054E100047CA5C0AAAB3C01CB965313E5994A00F&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdUseCommandLine</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdDeployCategory</Name>
+      <Value>Install</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 05 Mar 2019 18:20:28 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Disable wow64 redirection on x64 OSes
+action parameter query &quot;Path&quot; with description &quot;Please enter full path of the folder&quot;
+
+
+
+
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+
+set-executionpolicy unrestricted
+takeown /f {parameter &quot;Path&quot; of action} /R /D Y /A
+icacls {parameter &quot;Path&quot; of action} /Grant ‘System:(OI)(CI)F’ /T
+
+
+
+get-help | Out-File &quot;{(pathname of folder &quot;__BESData\__Global\Logs&quot; of parent folder of client)}\config_powershell.log&quot;
+
+
+END_OF_FILE
+
+delete powershell.ps1
+move __createfile powershell.ps1
+
+waithidden { pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) } -ExecutionPolicy unrestricted -File powershell.ps1
+
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Operating System - Windows
+  ID       : 2998541
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-14T07:43:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Operating System - Windows</Title>
+    <Description><![CDATA[<P>Provides information regarding the installed Windows Operating System.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="OS - Type - Windows" EvaluationPeriod="P1D">(if (value &quot;ProductType&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions&quot; of registry = &quot;WinNT&quot; | ERROR &quot;Unknown Operating System Type&quot;) then &quot;Workstation&quot; else &quot;Server&quot;) </Property>
+    <Property ID="6" Name="OS - Install Date - Windows" EvaluationPeriod="P1D">time value of (select &quot;InstallDate from win32_operatingsystem&quot; of wmi | ERROR &quot;No Install Date found in WMI&quot;)</Property>
+    <Property ID="9" Name="OS - System Language - Windows" EvaluationPeriod="P1D">system language</Property>
+    <Property ID="10" Name="OS - User Language - Windows" EvaluationPeriod="P1D">user language</Property>
+    <Property ID="11" Name="OS - Architecture - Windows" EvaluationPeriod="P1D">architecture of operating system</Property>
+    <Property ID="13" Name="OS - Installed Roles and Features - Windows" EvaluationPeriod="P1D">unique values of (concatenations of (it as string)) of (if (exists true whose (if true then (exists select object &quot;* from Win32_ServerFeature&quot; of wmi) else false)) then (string values of (selects &quot;Name from Win32_ServerFeature&quot; of wmi)) else &quot;None&quot;) </Property>
+    <Property ID="14" Name="OS - License Status - Windows" EvaluationPeriod="P1D">if ((select &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;)&quot; of wmi) as string contains &quot;1&quot;) then &quot;Activated&quot; else &quot;Not Activated&quot;</Property>
+    <Property ID="15" Name="OS - PowerShell Version - Windows" EvaluationPeriod="P1D">maximum of (it as string as version) of values &quot;PowerShellVersion&quot; of keys &quot;PowerShellEngine&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of native registry</Property>
+    <Property ID="16" Name="OS - .NET Framework Client Version - Windows" EvaluationPeriod="P1D">maximum of (it as string as version) of values &quot;Version&quot; of keys &quot;Client&quot; of keys of keys &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Property>
+    <Property ID="17" Name="OS - .NET Framework Full Version - Windows" EvaluationPeriod="P1D">maximum of (it as string as version) of values &quot;Version&quot; of keys &quot;Full&quot; of keys of keys &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Property>
+  </Analysis>
+</BES>

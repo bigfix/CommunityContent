@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: Disable serial port ForceFifoEnable - Windows
+  ID       : 6044
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T12:17:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Disable serial port ForceFifoEnable - Windows</Title>
+    <Description><![CDATA[<P>This task will set the ForceFifoEnable registry setting to 0</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://technet.microsoft.com/en-us/library/cc962417.aspx">http://technet.microsoft.com/en-us/library/cc962417.aspx</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>not exists values whose(name of it = &quot;ForceFifoEnable&quot; AND it as string as integer = 0) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Serial&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-09-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 Sep 2014 21:51:43 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//  http://technet.microsoft.com/en-us/library/cc962417.aspx
+regset64 &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Serial]&quot; &quot;ForceFifoEnable&quot;=dword:0
+
+// the setting may not take effect until the system has been restarted
+action requires restart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

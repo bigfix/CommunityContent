@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Remote Assistance - Windows
+  ID       : 2998526
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-24T14:01:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Remote Assistance - Windows</Title>
+    <Description><![CDATA[<P>This Analysis gathers enabled and install state data regarding Remote Assistance.</P>
+<P>&nbsp;</P>
+<P>Remote Assistance is by default not enabled or installed on Windows Server Operating Systems</P>
+<P>For general information or to report issues with C3 Remote Control content please visit GitHub here: <A href="https://github.com/strawgate/C3-Remote-Control">https://github.com/strawgate/C3-Remote-Control</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6.1"]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Remote Assistance - Installed" EvaluationPeriod="P1D">if (name of operating system as string starts with &quot;Win2&quot;) then (exists selects &quot;* from Win32_ServerFeature where (Name like &apos;Remote Assistance&apos;)&quot; of wmi) else (if (version of operating system &gt;= &quot;6.1&quot;) then (true) else (false))</Property>
+    <Property ID="2" Name="Remote Assistance - Enabled" EvaluationPeriod="P1D">(value &quot;fAllowUnsolicitedFullControl&quot; of key &quot;HKLM\Software\policies\Microsoft\Windows NT\Terminal Services&quot; of registry as integer | 0) = 1</Property>
+  </Analysis>
+</BES>

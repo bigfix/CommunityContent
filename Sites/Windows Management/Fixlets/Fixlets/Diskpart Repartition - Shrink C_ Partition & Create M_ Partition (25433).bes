@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Diskpart Repartition - Shrink C: Partition & Create M: Partition
+  ID       : 25433
+  Author   : rdshift
+  Domain   : BESC
+  Imported : 2018-04-10T09:44:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Diskpart Repartition - Shrink C: Partition &amp; Create M: Partition</Title>
+    <Description><![CDATA[<P>Requests new partition size to be:</P>
+<OL>
+<LI>Maximum: 49% of drive size if&nbsp;at least&nbsp;59% of drive is free, leaving&nbsp;at least&nbsp;10% free
+<LI>The greater of:
+<OL>
+<LI>Current free space of drive less 10% of total drive&nbsp;size
+<LI>49% of free space of drive
+<LI>20 GB minimum</LI></OL></LI></OL>
+<P>Repartitioning will&nbsp;probably fail on dynamic and dynamic&nbsp;disks, but should work on both GPT and MBR.</P>
+<P>If you change the drive name (line 22) or drive letter (line 23), please also update the relevance to match.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[if (NOT (exists ((volumes of drives) whose (it = "MDT")) OR exists drive "M:")) then ((free space of drive of system folder / 1024 / 1024 / 1024 /*gigs*/) >= 20 /*gigs*/) else false]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-03-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 04 Apr 2018 18:22:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// continue if {(last 1 of (selects "Partitions from Win32_DiskDrive" of wmi as string)) as integer < 4}
+
+// Preventative cleanup of unallocated space
+delete mdtreclaim.txt
+
+createfile until END
+select volume c
+extend noerr
+exit
+END
+
+move __createfile mdtreclaim.txt
+waithidden cmd.exe /c diskpart /s mdtreclaim.txt
+
+
+// Main repartition operation
+delete mdtdrive.txt
+
+createfile until END
+select volume c
+extend noerr
+shrink desired={if ((free space of drive of system folder / 1024 / 1024 ) - (total space of drive of system folder / 1024 / 1024 * 10/100)) > (total space of drive of system folder / 1024 / 1024 * 59/100 /* increased to 59% to account for leftover free space */) then (total space of drive of system folder / 1024 / 1024 * 49/100) else ((free space of drive of system folder / 1024 / 1024) - (total space of drive of system folder / 1024 / 1024 * 10/100))} minimum=20000
+create partition primary
+format quick fs=ntfs label="MDT" noerr
+assign letter="M"
+exit
+END
+
+move __createfile mdtdrive.txt
+waithidden cmd.exe /c diskpart /s mdtdrive.txt
+
+waithidden cmd.exe /c diskpart /s mdtreclaim.txt
+
+delete mdtdrive.txt
+delete mdtreclaim.txt]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

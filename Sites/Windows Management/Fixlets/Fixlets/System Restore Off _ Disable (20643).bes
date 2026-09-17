@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Restore Off / Disable
+  ID       : 20643
+  Author   : Sean
+  Domain   : BESC
+  Imported : 2016-05-17T07:54:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Restore Off / Disable</Title>
+    <Description><![CDATA[<DIV style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: #4f81bd 1pt solid; PADDING-BOTTOM: 4pt; PADDING-TOP: 0in; PADDING-LEFT: 0in; BORDER-LEFT: medium none; PADDING-RIGHT: 0in; mso-element: para-border-div; mso-border-bottom-themecolor: accent1">
+<P class=MsoTitle style="TEXT-ALIGN: center; MARGIN: 0in 0in 15pt" align=center><SPAN style="FONT-SIZE: 20pt"><FONT color=#17365d><FONT face=Cambria>Developer Documentation for System Restore Off<?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></FONT></FONT></SPAN></P></DIV>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt; LINE-HEIGHT: normal"><FONT size=3><FONT face=Calibri><B style="mso-bidi-font-weight: normal">Author(s):</B> Sean Seymour<o:p></o:p></FONT></FONT></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt; LINE-HEIGHT: normal"><FONT size=3><FONT face=Calibri><B style="mso-bidi-font-weight: normal">Document Version:</B> 2.3<o:p></o:p></FONT></FONT></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt; LINE-HEIGHT: normal"><FONT size=3><FONT face=Calibri><B style="mso-bidi-font-weight: normal">Last Updated:</B> 04/05/2016<o:p></o:p></FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Overview<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoNormal style="MARGIN: 0in 0in 10pt"><FONT size=3><FONT face=Calibri>System Restore has been found to cause issues with disk space on certain devices and issues with restoring old versions of programs on other devices. This package fixes the System Restore state if it has been disabled incorrectly, then deletes all system restore points and disables it correctly. On Windows 7 devices, it also disables the built in scheduled task that periodically creates restore points.<o:p></o:p></FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Affected Device(s)<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoListParagraphCxSpFirst style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Any device with System Restore Information &gt; 10 MB<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpLast style="MARGIN: 0in 0in 10pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT size=3><FONT face=Calibri>Any Win7+ device that has registry data or scheduled tasks indicating System Restore is active (details below)</FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Files Installed<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoNormal style="MARGIN: 0in 0in 10pt"><FONT size=3><FONT face=Calibri>Some temporary files are created, then executed and deleted.<o:p></o:p></FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Installation and Operation<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoNormal style="MARGIN: 0in 0in 10pt"><FONT face=Calibri><FONT size=3>From the BigFix console, Take Action on the System Restore Off fixlet. The client will run the actionscript, which does the following:<o:p></o:p></FONT></FONT></P>
+<H3 style="MARGIN: 10pt 0in 0pt"><FONT color=#4f81bd><FONT face=Cambria><FONT size=3>Windows XP<o:p></o:p></FONT></FONT></FONT></H3>
+<P class=MsoListParagraphCxSpFirst style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Sets <B style="mso-bidi-font-weight: normal">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\DiskPercent</B> to 1<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Temporarily sets <B style="mso-bidi-font-weight: normal">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore\DisableSR</B> to 0<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>If the System Restore service is running, restarts it. Otherwise it sets the System Restore service to automatically start then starts it<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpLast style="MARGIN: 0in 0in 10pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l1 level1 lfo1"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Disables the System Restore service via WMI, which also deletes all System Restore points <SPAN style="mso-bidi-font-family: Helvetica; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri">and sets the DisableSR registry value back to 1</SPAN>.<o:p></o:p></FONT></FONT></P>
+<H3 style="MARGIN: 10pt 0in 0pt"><FONT color=#4f81bd><FONT face=Cambria><FONT size=3>Windows 7+<o:p></o:p></FONT></FONT></FONT></H3>
+<P class=MsoListParagraphCxSpFirst style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l0 level1 lfo4"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Disables the <B style="mso-bidi-font-weight: normal">Microsoft\Windows\SystemRestore\SR</B> scheduled task<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l0 level1 lfo4"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Removes any values in <B style="mso-bidi-font-weight: normal">HKLM\Software\Microsoft\Windows NT\CurrentVersion\SPP\Clients</B><o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l0 level1 lfo4"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Attempts to remove existing restore points using <B style="mso-bidi-font-weight: normal"><SPAN style="COLOR: black">vssadmin delete shadows /all /quiet</SPAN></B><o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l0 level1 lfo4"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Creates a scheduled task to run on the next reboot that:<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 1in; TEXT-INDENT: -0.25in; mso-list: l0 level2 lfo4; mso-add-space: auto"><SPAN style='FONT-FAMILY: "Courier New"; mso-fareast-font-family: "Courier New"'><SPAN style="mso-list: Ignore"><FONT size=3>o</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>Deletes the contents of any remaining <SPAN style="COLOR: black">System Volume Information folders on the drives’ root folders</SPAN><o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 1in; TEXT-INDENT: -0.25in; mso-list: l0 level2 lfo4; mso-add-space: auto"><SPAN style='FONT-FAMILY: "Courier New"; mso-fareast-font-family: "Courier New"'><SPAN style="mso-list: Ignore"><FONT size=3>o</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3><SPAN style="COLOR: black">Deletes any temporary files that were created</SPAN><o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpLast style="MARGIN: 0in 0in 10pt 1in; TEXT-INDENT: -0.25in; mso-list: l0 level2 lfo4; mso-add-space: auto"><SPAN style='FONT-FAMILY: "Courier New"; mso-fareast-font-family: "Courier New"'><SPAN style="mso-list: Ignore"><FONT size=3>o</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT size=3><FONT face=Calibri><SPAN style="COLOR: black">Deletes the scheduled task</SPAN><o:p></o:p></FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Known Issues<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoNormal style="MARGIN: 0in 0in 10pt"><FONT size=3><FONT face=Calibri>It’s possible that something in the filesystem continues to use the System Restore files even after a reboot, which would prevent deletion. If this amount of data is more than 10 MB then the result of the BigFix action will show as Failed. In these rare cases I would suggest running the fixlet again. If the issue persists, connect to the device and attempt to delete the existing restore points and disable System Restore manually through the System control panel.<o:p></o:p></FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Rollback Procedures<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoNormal style="MARGIN: 0in 0in 10pt"><FONT size=3><FONT face=Calibri>Configure System Restore via the control panel, or create a fixlet to re-enable it.</FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Notes<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoListParagraphCxSpFirst style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l2 level1 lfo5"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>This fixlet requires a restart before completing fully.</FONT></FONT></P>
+<H1 style="MARGIN: 24pt 0in 0pt"><FONT size=5><FONT color=#365f91><FONT face=Cambria>Document Changelog<o:p></o:p></FONT></FONT></FONT></H1>
+<P class=MsoListParagraphCxSpFirst style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l3 level1 lfo2"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>04/05/2016, Sean Seymour: Version 2.3 - Fixed a bug in the actionscript command to create the scheduled task that runs after the reboot.<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l3 level1 lfo2"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>03/16/2016, Sean Seymour: Version 2.2 - Added Win7+ info<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l3 level1 lfo2"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3><SPAN style="mso-bidi-font-family: Helvetica; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri">11/03/2015</SPAN>, Sean Seymour: Version 2.1 <SPAN style="mso-bidi-font-family: Helvetica; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri"><SPAN style="mso-spacerun: yes">&nbsp;</SPAN>- Clarified that the DisableSR registry value gets set back to 1.</SPAN><o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpMiddle style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l3 level1 lfo2"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT face=Calibri><FONT size=3>10/28/2015, Sean Seymour: Version 2.0 with updated information regarding the WMI step<o:p></o:p></FONT></FONT></P>
+<P class=MsoListParagraphCxSpLast style="MARGIN: 0in 0in 10pt 0.5in; TEXT-INDENT: -0.25in; mso-list: l3 level1 lfo2"><SPAN style="FONT-FAMILY: Symbol; mso-fareast-font-family: Symbol; mso-bidi-font-family: Symbol"><SPAN style="mso-list: Ignore"><FONT size=3>·</FONT><SPAN style='FONT: 7pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></SPAN></SPAN><FONT size=3 face=Calibri>09/22/2015, Sean Seymour: Version 1.0 of this document created</FONT><o:p></o:p></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[((sum of sizes of descendants of folder "C:\System Volume Information" / (1024*1024)) > 10) or ((windows of operating system and version of operating system >= "6.1") and (exists value whose (name of it is "RPSessionInterval" and it > 0) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" of native registry) or (exists values of keys "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\SPP\Clients" of native registry) or exists scheduled task whose (path of it is "\Microsoft\Windows\SystemRestore\SR" and enabled of it))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 17 May 2016 14:50:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {name of operating system as string starts with "WinXP"}
+	parameter "ServiceName" = "srservice"
+
+	// Enable System Restore first, since it may be in a semi-disabled state
+	// which can seem off but is actually creating unregulated restore points.
+	// This can result in System Restore actually filling up all remaining drive
+	// space with restore points until it brings down the device.
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore]" "DiskPercent"=dword:1
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore]" "DisableSR"=dword:0
+
+	// Need the service available to make these changes.
+	if {exists running service (parameter "ServiceName")}
+		parameter "ServiceState" = "Running"
+	else
+		if {exists service (parameter "ServiceName")}
+			// If the service is disabled, we need to change the configuration first.
+			if {start type of service (parameter "ServiceName") = "disabled"}
+				waithidden cmd /s /c "sc config "{parameter "ServiceName"}" start= demand && sc start "{parameter "ServiceName"}""
+			else
+				waithidden cmd /c sc start "{parameter "ServiceName"}"
+			endif
+			parameter "ServiceState" = "{state of service (parameter "ServiceName")}"
+		else
+			parameter "ServiceState" = "Unknown"
+		endif
+	endif
+
+	continue if {(parameter "ServiceState") is not "Unknown"}
+endif
+
+// Check if PowerShell exists. Otherwise we will use vbscript.
+if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" whose (value "PowerShellVersion" of it as string as version >= "2.0") of native registry}
+	parameter "PowerShellExists" = "True"
+else
+	parameter "PowerShellExists" = "False"
+endif
+
+if {(parameter "PowerShellExists") is "True"}
+	waithidden powershell -executionpolicy bypass "[System.IO.DriveInfo]::GetDrives() | ? {{$_.DriveType -eq 'Fixed'} | % {{Disable-ComputerRestore -Drive $_}"
+else
+	// Disable System Restore via wmi & vbcript.
+	delete __createfile
+	delete run.vbs
+
+	createfile until _end_
+' Original source: http://windowsitpro.com/scripting/rem-disabling-system-restore
+Option Explicit
+Dim SystemRestoreEnabled, objRP, ReturnCode
+
+' Check if computer has any restore points.
+SystemRestoreEnabled = False
+For Each objRP In GetObject("winmgmts:{{impersonationlevel=impersonate}!root/default").InstancesOf("SystemRestore")
+  SystemRestoreEnabled = True
+  Exit For
+Next
+
+ReturnCode = 0
+
+If SystemRestoreEnabled Then
+  ' Disable System Restore for all drives on the computer
+  ReturnCode = GetObject("winmgmts:{{impersonationLevel=impersonate}!root/default:SystemRestore").Disable("")
+End If
+
+Wscript.Quit ReturnCode
+	_end_
+
+	move __createfile run.vbs
+
+	override wait
+	hidden=true
+	completion=job
+	wait cscript.exe run.vbs
+endif
+
+// The above code for Win7 simply disables the ability to restore system restore points.
+// There is additional work needed to:
+// 1. Disable the built in scheduled task that periodically creates restore points.
+// 2. Remove a registry key that may have some drives as System Restore 'clients'.
+// 3. Delete any existing restore points.
+// 4. Clean up the System Volume Information folders after the next reboot.
+if {windows of operating system and version of operating system >= "6.1"}
+	// 1. Disable the built in scheduled task that periodically creates restore points.
+	parameter "SysRestoreTaskPath" = "\Microsoft\Windows\SystemRestore\SR"
+	if {exists scheduled task whose (path of it is (parameter "SysRestoreTaskPath") and enabled of it)}
+		waithidden schtasks /change /tn {parameter "SysRestoreTaskPath"} /disable
+	endif
+
+	// 2. Remove a registry key that may have some drives as System Restore 'clients'.
+	action uses wow64 redirection false
+	parameter "SysRestoreClientPath" = "HKLM\Software\Microsoft\Windows NT\CurrentVersion\SPP\Clients"
+	waithidden reg delete "{parameter "SysRestoreClientPath"}" /va /f
+
+	// 3. Delete any existing restore points.
+	waithidden vssadmin delete shadows /all /quiet
+
+	// 4. Clean up the System Volume Information folders.
+	// Any remaining files in the System Volume Information folders are usually
+	// locked / in use until the next reboot. So create a scheduled task that
+	// will delete the files at startup then delete itself (the task).
+	parameter "SysVolInfoBasename" = "DeleteSysVolInfoContents"
+	parameter "OutputFolder" = "{storage folder of client as string & "\SystemRestoreOff"}"
+	parameter "TaskScriptPath" = "{parameter "OutputFolder"}\{parameter "SysVolInfoBasename"}.bat"
+
+	if {not exist folder (parameter "OutputFolder")}
+	  folder create "{parameter "OutputFolder"}"
+	endif
+
+	// Create a script to delete the contents of all files in the System Volume Information
+	// folder on the root of any fixed drive.
+	if {(parameter "PowerShellExists") is "True"}
+		parameter "ScriptCall" = "powershell -executionpolicy bypass -file {"%22"}%~n0.ps1{"%22"}"
+		parameter "ScriptPath" = "{parameter "OutputFolder"}\{parameter "SysVolInfoBasename"}.ps1"
+		delete __createfile
+		createfile until _end_
+[System.IO.DriveInfo]::GetDrives() | ? {{$_.DriveType -eq 'Fixed'} | % {{Get-ChildItem -Path (Join-Path $_ 'System Volume Information') -Recurse | Remove-Item -Force -Recurse}
+_end_
+	else
+		parameter "ScriptCall" = "cscript {"%22"}%~n0.vbs{"%22"}"
+		parameter "ScriptPath" = "{parameter "OutputFolder"}\{parameter "SysVolInfoBasename"}.vbs"
+
+		delete __createfile
+		createfile until _end_
+option explicit
+on error resume next
+const FixedDrive = 2
+dim file, folder, objDrive, objFolder, sysVolInfoPath
+dim objFSO: set objFSO = CreateObject("Scripting.FileSystemObject")
+dim colDrives: set colDrives = objFSO.Drives
+
+for each objDrive in colDrives
+	if FixedDrive = objDrive.DriveType then
+		sysVolInfoPath = objDrive.RootFolder & "System Volume Information"
+
+		set objFolder = objFSO.GetFolder(sysVolInfoPath)
+
+		for each folder in objFolder.SubFolders
+			objFSO.DeleteFolder folder.path, true
+		next
+
+		for each file in objFolder.Files
+			objFSO.DeleteFile file.path, true
+		next
+	end if
+next
+_end_
+	endif
+
+	// Copy fails if the file exists, so delete it first.
+	// Delete calls do not fail if the file is not there.
+	delete "{parameter "ScriptPath"}"
+	move __createfile "{parameter "ScriptPath"}"
+
+	// Create the batch file that the scheduled task will use to execute the script.
+	// When it's done it will delete the task, itself and any helper files in that dir.
+	// In some instances the call to vssadmin doesn't work pre-reboot, so throw it in here again.
+	delete __createfile
+	createfile until _end_
+@echo off
+cd /d "%~dp0"
+vssadmin delete shadows /all /quiet
+{parameter "ScriptCall"}
+schtasks /delete /tn "%~n0" /f
+cd /d %systemdrive%\
+start cmd /c rd /s/q "%~dp0"&exit /b
+_end_
+
+	// Copy the batch file to the predefined path for the scheduled task.
+	delete "{parameter "TaskScriptPath"}"
+	move __createfile "{parameter "TaskScriptPath"}"
+
+	// Create the startup task.
+	// The tr argument requires the quotes to be escaped if there are spaces in the path.
+	waithidden schtasks /create /ru System /tn "{parameter "SysVolInfoBasename"}" /sc onstart /tr "\"{parameter "TaskScriptPath"}"\" /f
+
+	action requires restart "SystemRestoreOff"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Windows Management Framework 5.0 - Windows 7, Windows 8.1, Windows Server 2008 R2, Windows Server 2012, Windows Server 2012 R2 (x64)
+  ID       : 22466
+  Author   : dkf278
+  Domain   : BESC
+  Imported : 2016-10-29T15:22:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Windows Management Framework 5.0 - Windows 7, Windows 8.1, Windows Server 2008 R2, Windows Server 2012, Windows Server 2012 R2 (x64)</Title>
+    <Description><![CDATA[<P>Windows Management Framework 5.0 includes updates to Windows PowerShell, Windows PowerShell Desired State Configuration (DSC), Windows Remote Management (WinRM), Windows Management Instrumentation (WMI). Release notes:</P>
+<P>Windows Management Framework (WMF) 5.0 brings functionality that has been updated from WMF 4.0. WMF 5.0 is available for installation only on Windows Server 2012 R2, Windows Server 2012, Windows 2008 R2, Windows 8.1, and Windows 7 SP1. Some of the new and updated features in this release include: <BR></P>
+<UL>
+<LI>Just Enough Administration (JEA)
+<LI>Creating Custom Types using PowerShell Classes
+<LI>Improvements in PowerShell Script Debugging
+<LI>Improvements in Desired State Configuration (DSC)
+<LI>Audit PowerShell Usage using Transcription and Logging
+<LI>Software Discovery, Install and Inventory with PackageManagement
+<LI>PowerShell Module Discovery, Install and Inventory with PowerShellGet
+<LI>PowerShell Script Discovery, Install and Management with PowerShellGet
+<LI>New and updated cmdlets based on community feedback
+<LI>Information Stream
+<LI>Generate PowerShell Cmdlets based on OData Endpoint
+<LI>Network Switch Management with PowerShell
+<LI>Software Inventory Logging (SIL)</LI></UL>
+<DIV class=supported-os><B><SPAN class=loc locid="aa4e2626-71f3-bb4d-db0b-1bf48b77fe51" srcid="aa4e2626-71f3-bb4d-db0b-1bf48b77fe51">Supported Operating System (s)</SPAN></B></DIV>
+<P itemprop="operatingSystem">Windows 7 Service Pack 1, Windows 8.1, Windows Server 2008 R2 SP1, Windows Server 2012, Windows Server 2012 R2 </P>
+<UL class="htmldetails other-requirements">
+<UL>
+<LI>Windows Server 2012 R2
+<LI>Windows Server 2012
+<LI>Windows Server 2008 R2 SP1
+<LI>Windows 8.1
+<LI>Windows 7 SP1</LI></UL><BR><B>**IMPORTANT**</B><BR>
+<UL>
+<LI>Please see <A href="http://go.microsoft.com/fwlink/?LinkID=823123"><FONT color=#0066cc>release notes</FONT></A> for the list of products that are compatible and incompatible with Windows Management Framework 5.0.
+<LI>WMF 5.0 requires Microsoft .NET Framework 4.5 or above. You can install Microsoft .NET Framework 4.5 or above by following the instructions at <A href="https://msdn.microsoft.com/en-us/library/5a4x27ek(v=vs.110).aspx"><FONT color=#0066cc>Installing the .NET Framework</FONT></A>.</LI></UL>
+<LI><STRONG>Note:</STRONG> Some computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.</LI></UL>
+<P><STRONG>Size of File</STRONG>:<STRONG><EM><U>20.7</U> <U>MB</U></EM></STRONG></P>]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>not ia64 of operating system</Relevance>
+    <Category>Windows Updates</Category>
+    <Source>www.dkforeman.com</Source>
+    <SourceID>KB3134760</SourceID>
+    <SourceReleaseDate>2016-10-28</SourceReleaseDate>
+    <SourceSeverity>Update</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 29 Oct 2016 10:43:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[download https://download.microsoft.com/download/2/C/6/2C6E1B4A-EBE5-48A6-B225-2D2058A9CEFB/Win7AndW2K8R2-KB3134760-x64.msu
+continue if {(size of it = 21779572 AND sha1 of it = "d720851ef4b5a37c1c8bdd2e5bf4c77dcc625e8c") of file "Win7AndW2K8R2-KB3134760-x64.msu" of folder "__Download"}
+// Is Windows Update service running?
+continue if {exists running service "wuauserv" OR NOT exists service "wuauserv" whose (start type of it = "disabled")}
+wait {system folder as string & "\"}wusa.exe __Download\Win7AndW2K8R2-KB3134760-x64.msu /quiet /norestart
+action requires restart "d720851ef4b5a37c1c8bdd2e5bf4c77dcc625e8c"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action23448">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to&amp;nbsp;read up on&amp;nbsp;the Knowledge Base Article for this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://go.microsoft.com/fwlink/?LinkID=717903</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

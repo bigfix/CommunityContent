@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Applocker maximum event log size may be too small
+  ID       : 20583
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-10T07:26:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Applocker maximum event log size may be too small</Title>
+    <Description><![CDATA[<P>The Applocker logs on the system are at their default values or set to a value less than 20 Megabytes</P>
+<P>Consider increasing the applocker log sizes to store more log data regarding Applocker</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(product info string of operating system = &quot;Enterprise&quot; or product info string of operating system = &quot;Server&quot;)</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2&quot; of native registry</Relevance>
+    <Relevance><![CDATA[((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/EXE and DLL" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/MSI and Script" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/Packaged app-Deployment" of native registry) or ((if (not exists value "MaxSize" of it) then (true) else (value "MaxSize" of it as integer < 20971520)) of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/Packaged app-Execution" of native registry)]]></Relevance>
+    <Category>Application Whitelisting</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-19</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

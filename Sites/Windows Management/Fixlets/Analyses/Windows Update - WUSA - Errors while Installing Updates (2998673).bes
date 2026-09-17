@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows Update - WUSA - Errors while Installing Updates
+  ID       : 2998673
+  Author   : orbiton
+  Domain   : BESC
+  Imported : 2022-04-23T20:35:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows Update - WUSA - Errors while Installing Updates</Title>
+    <Description>Windows Update - WUSA - Errors while Installing Updates</Description>
+    <Relevance>exists records whose (source of it = &quot;Microsoft-Windows-WUSA&quot; and event id of it = 3) of event log &quot;Setup&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 10 Jan 2022 10:06:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="WUSA Errors">(time generated of it, &quot;Record ID:&quot; &amp; record number of it as string, &quot;Event ID:&quot; &amp; event id of it as string, description of it) of records whose (source of it = &quot;Microsoft-Windows-WUSA&quot; and event id of it = 3) of event log &quot;Setup&quot;</Property>
+  </Analysis>
+</BES>

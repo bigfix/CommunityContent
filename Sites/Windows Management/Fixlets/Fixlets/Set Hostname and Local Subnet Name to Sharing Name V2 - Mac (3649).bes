@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Hostname and Local Subnet Name to Sharing Name V2 - Mac
+  ID       : 3649
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T07:28:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Hostname and Local Subnet Name to Sharing Name V2 - Mac</Title>
+    <Description><![CDATA[<P>This task gets the Sharing Name, Hostname and Local Subnet Name (Bonjour Name). It checks for apostrophes, spaces, and other illegal characters.&nbsp; It then checks to see if the cleaned&nbsp;Sharing Name matches the Hostname (with .local on the end).&nbsp; If they don't match it changes the Hostname to correct it.&nbsp; It also checks to see if the cleaned Sharing Name matches the Local Subnet Name.&nbsp; If it doesn't match it updates the Local Subnet Name to the Sharing Name with .local on the end. Finally, if the computer name doesn't match the sanitized name, it updates the sharing name.</P>
+<P>By making these names all match computers should appear in SEP and Secunia using their Sharing Name.</P>
+<P><STRONG>Note:</STRONG> The script will replace any spaces in the Sharing Name with hyphens!</P>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.5" as version]]></Relevance>
+    <Relevance>(not (hostname contains computer name)) OR ((it contains &quot;_&quot; or it contains &quot;&apos;&quot; or it contains &quot; &quot;) of hostname)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-04-06</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 08 Feb 2013 21:55:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-sh">#!/bin/bash
+
+sharename=`networksetup -getcomputername`
+compname=`networksetup -getcomputername | sed &apos;s/ /-/g&apos; | sed &quot;s/&apos;//g&quot; | sed &quot;s/â€™//g&quot; | sed &apos;s/_/-/g&apos;`
+hstname=`hostname`
+lclname=&quot;`systemsetup -getlocalsubnetname | sed &apos;s/Local Subnet Name: //&apos;`&quot;
+
+if [ &quot;${compname}.local&quot; != &quot;$hstname&quot; ]
+then
+	scutil --set HostName ${compname}.local
+fi
+
+if [ &quot;$compname&quot; != &quot;$lclname&quot; ]
+then
+	systemsetup -setlocalsubnetname $compname
+fi
+
+if [ &quot;$sharename&quot; != &quot;$compname&quot; ]
+then
+	scutil --set ComputerName $compname
+fi
+
+exit 0</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

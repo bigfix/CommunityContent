@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Unmount PST Files from Outlook
+  ID       : 26642
+  Author   : cjwolford
+  Domain   : BESC
+  Imported : 2019-08-23T13:19:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Unmount PST Files from Outlook</Title>
+    <Description>Unmount PST files from Outlook for Current User and close Outlook to unlock the file </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[(if exists regapp "outlook.exe" then (if ((version of regapp "outlook.exe" > "15.0.0.0") AND (version of regapp "outlook.exe" < "16.0.0.0")) then (if exists (names of values of key "Software\Microsoft\Office\15.0\Outlook\Search\Catalog" of keys of key "HKEY_USERS" of registry) whose (it as string contains ".pst") then true else false) else false) else false) OR (if exists regapp "outlook.exe" then (if version of regapp "outlook.exe" > "16.0.0.0" then (if exists (names of values of key "Software\Microsoft\Office\16.0\Outlook\Search\Catalog" of keys of key "HKEY_USERS" of registry) whose (it as string contains ".pst") then true else false) else false) else false) OR (if exists regapp "outlook.exe" then (if version of regapp "outlook.exe" = "10" then (if exists values whose (it as string contains ".pst") of keys of keys of keys "Software\Microsoft\Windows NT\CurrentVersion\Windows Messaging Subsystem\Profiles" of keys of keys "HKEY_USERS" of registry then true else false) else false) else false)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-08-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 23 Aug 2019 19:47:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Unmount using PowerShell</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Disable wow64 redirection on x64 OSes
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+$Outlook = New-Object -ComObject Outlook.Application
+$Namespace = $Outlook.getNamespace("MAPI")
+
+$all_psts = $Namespace.Stores | Where-Object {{($_.ExchangeStoreType -eq '3') -and ($_.FilePath -like '*.pst') -and ($_.IsDataFileStore -eq $true)}
+
+ForEach ($pst in $all_psts){{
+    $Outlook.Session.RemoveStore($pst.GetRootFolder())
+}
+Get-Process Outlook | Foreach-Object {{ $_.CloseMainWindow() | Out-Null } | stop-process –force
+END_OF_FILE
+
+// create temp folder if it doesn't exist
+if {not exists folder "c:\temp"}
+  folder create "c:\temp"
+endif
+
+delete "c:\temp\RemovePST.ps1"
+move __createfile "c:\temp\RemovePST.ps1"
+waithidden "{pathname of system folder & "\icacls.exe"}" "c:\temp\RemovePST.ps1" /grant Everyone:F
+
+override wait
+completion=job
+hidden=true
+runas=currentuser
+wait { pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) } -ExecutionPolicy Bypass -File "c:\temp\RemovePST.ps1"
+delete "c:\temp\RemovePST.ps1"
+
+// remove temp folder if it is empty
+if {exists folder "c:\temp" whose (not exists files of it and not exists folders of it)}
+  folder delete "c:\temp"
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action27917">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Unmount using VBScript</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Disable wow64 redirection on x64 OSes
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+On Error Resume Next
+Dim objOutlook 'As Outlook.Application
+Dim Stores     'As Outlook.Stores
+Dim objFolder  'As Outlook.Folder
+Dim i          'As Integer
+
+Set objOutlook = CreateObject("Outlook.Application")
+Set Stores = objOutlook.Session.Stores
+
+
+For i =  Stores.Count to 0 step -1
+
+If Stores(i).ExchangeStoreType = 3 Then
+   Set objFolder = Stores(i).GetRootFolder
+   objOutlook.Session.RemoveStore objFolder
+ Else
+End If
+
+Next
+
+On Error Resume Next
+Set Outlook = GetObject(, "Outlook.Application")
+If Err = 0 Then
+Outlook.Quit()
+End If
+END_OF_FILE
+
+// create temp folder if it doesn't exist
+if {not exists folder "c:\temp"}
+  folder create "c:\temp"
+endif
+
+delete "c:\temp\RemovePST.vbs"
+move __createfile "c:\temp\RemovePST.vbs"
+waithidden "{pathname of system folder & "\icacls.exe"}" "c:\temp\RemovePST.vbs" /grant Everyone:F
+
+override wait
+completion=job
+hidden=true
+runas=currentuser
+wait "{pathname of system folder & "\cscript.exe"}" c:\temp\RemovePST.vbs
+delete "c:\temp\RemovePST.vbs"
+
+// remove temp folder if it is empty
+if {exists folder "c:\temp" whose (not exists files of it and not exists folders of it)}
+  folder delete "c:\temp"
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

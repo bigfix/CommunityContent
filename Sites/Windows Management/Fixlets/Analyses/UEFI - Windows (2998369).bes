@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : UEFI - Windows
+  ID       : 2998369
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-25T11:44:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>UEFI - Windows</Title>
+    <Description><![CDATA[<P>UEFI status on Windows using the setupact log and SecureBoot using system registry</P>
+<P>Credit, kudos, and thanks to jgstew: <A href="https://bigfix.me/relevance/details/3007539">https://bigfix.me/relevance/details/3007539</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="UEFI - State - Windows" EvaluationPeriod="P1D">if (exists Selects &quot;* from Win32_DiskPartition Where Type = &apos;GPT: System&apos;&quot; of wmi) then &quot;UEFI&quot; else &quot;BIOS&quot;</Property>
+    <Property ID="2" Name="SecureBoot - State - Windows" EvaluationPeriod="P1D">if (exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecureBoot\State&quot; of native registry and value &quot;UEFISecureBootEnabled&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecureBoot\State&quot; of native registry = 1)  then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+  </Analysis>
+</BES>

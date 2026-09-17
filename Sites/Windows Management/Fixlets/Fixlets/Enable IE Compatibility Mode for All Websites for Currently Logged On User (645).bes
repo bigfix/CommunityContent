@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Enable IE Compatibility Mode for All Websites for Currently Logged On User
+  ID       : 645
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-26T17:16:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Enable IE Compatibility Mode for All Websites for Currently Logged On User</Title>
+    <Description>Enable Internet Explorer Compatibility Mode for All Websites for the Currently Logged On User </Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[NOT (exists value "AllSitesCompatibilityMode" whose (it = 1) of key "Software\Microsoft\Internet Explorer\BrowserEmulation" of key ("HKEY_USERS\" & (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7" OR name of operating system = "WinVista") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry)) of registry)]]></Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-26</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 26 Oct 2012 21:42:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "currentUser"="{(name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7" OR name of operating system = "WinVista") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry)}"
+regset "[HKEY_USERS\{parameter "currentUser"}\Software\Microsoft\Internet Explorer\BrowserEmulation]" "AllSitesCompatibilityMode"=dword:00000001
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action884">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to source of information.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sevenforums.com/tutorials/1220-internet-explorer-compatilbility-view-all-websites.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

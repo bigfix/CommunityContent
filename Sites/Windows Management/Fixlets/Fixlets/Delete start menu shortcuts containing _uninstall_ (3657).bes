@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Delete start menu shortcuts containing "uninstall"
+  ID       : 3657
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-27T09:44:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Delete start menu shortcuts containing &quot;uninstall&quot;</Title>
+    <Description><![CDATA[<P>This task will delete any start menu shortcuts containing "uninstall"</P>
+<P>Users without Admin rights cannot delete these shortcuts, and they cannot actually uninstall most programs either. Programs can be uninstalled through the "Add/Remove Programs" UI instead of using these shortcuts.</P>
+<P>To see what this task will delete, see the property "All Users Start Menu "Uninstall" shortcuts" in the analysis "All Users - Files &amp; Shortcuts - Desktop &amp; Start Menu - Windows"</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists descendants whose(name of it as lowercase ends with &quot;.lnk&quot; AND name of it as lowercase contains &quot;uninstall&quot;) of folder ((it as string) of value &quot;Common Start Menu&quot; of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of native registry)</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 27 Nov 2013 16:38:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+dos del {("%22" & it & "%22") of concatenation "%22;%22" of pathnames of descendants whose(name of it as lowercase ends with ".lnk" AND name of it as lowercase contains "uninstall") of folder ((it as string) of value "Common Start Menu" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of native registry)}]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

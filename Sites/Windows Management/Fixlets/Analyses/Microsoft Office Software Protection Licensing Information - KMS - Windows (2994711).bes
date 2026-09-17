@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Microsoft Office Software Protection Licensing Information - KMS - Windows
+  ID       : 2994711
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T11:50:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Microsoft Office Software Protection Licensing Information - KMS - Windows</Title>
+    <Description><![CDATA[<P>Retrieves information about Microsoft Office Software Protection Services.&nbsp; For use with Office versions 2010 and newer.&nbsp; (version 14+) </P>
+<P>This analysis may not be accurate in all cases and may need some refinement for Win8 and the newest version of office.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <Relevance><![CDATA[(exists keys whose (value "DisplayName" of it as string starts with "Microsoft Office" AND value "DisplayVersion" of it as string as version >= "14.0" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (registry;native registry)) OR (exists keys "OfficeSoftwareProtectionPlatform" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft" of (native registry;registry))]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 29 Aug 2014 12:58:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Names of licensed products" EvaluationPeriod="PT12H">concatenation &quot;; &quot; of string values of selects &quot;Name from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi</Property>
+    <Property ID="2" Name="License State" EvaluationPeriod="PT12H">concatenation &quot;; &quot; of unique values of (if it = 0 then &quot;Unlicensed&quot; else if it = 1 then &quot;Licensed&quot; else if it = 2 then &quot;OOB Grace&quot; else if it = 3 then &quot;OOT Grace&quot; else if it = 4 then &quot;NonGenuineGrace&quot; else if it = 5 then &quot;Notification&quot; else &quot;&lt;unkown&gt;&quot;) of (integer values of selects &quot;LicenseStatus from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi)</Property>
+    <Property ID="3" Name="Grace Period Expiration" EvaluationPeriod="PT12H">concatenation &quot;; &quot; of unique values of (it as string) of (if exists integer value of it and integer value of it &gt;0 then now + (minute * (integer value of it)) else nothing) of ((selects &quot;GracePeriodRemaining from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi))</Property>
+    <Property ID="5" Name="Office KMS Server Enabled" EvaluationPeriod="PT12H">(if exists integer value of it and integer value of it = 1 then &quot;Yes&quot; else &quot;No&quot;) of selects &quot;IsKeyManagementServiceMachine from OfficeSoftwareProtectionService&quot; of wmi</Property>
+    <Property ID="6" Name="Activation Method" EvaluationPeriod="P2D">concatenation &quot;; &quot; of unique values of (if exists string value of it then preceding text of first &quot; &quot; of following text of last &quot;, &quot; of string value of it as string else nothing) of selects &quot;Description from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi</Property>
+    <Property ID="7" Name="Partial Product Key" EvaluationPeriod="P1D">concatenation &quot;; &quot; of (if exists string value of it then string value of it as string else nothing) of selects &quot;PartialProductKey from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi</Property>
+    <Property ID="8" Name="KMS Server (WMI)" EvaluationPeriod="PT12H">concatenation &quot;; &quot; of unique values of (if exists string value of it then string value of it as string else nothing) of selects &quot;DiscoveredKeyManagementServiceMachineName from OfficeSoftwareProtectionProduct WHERE PartialProductKey is not null&quot; of wmi</Property>
+    <Property ID="9" Name="KMS Server (Registry)" EvaluationPeriod="P2D">concatenation &quot;; &quot; of unique values of (it as string) of ( values &quot;KeyManagementServiceName&quot; of it; values &quot;KeyManagementServiceName&quot; of keys of keys of it ) of keys &quot;OfficeSoftwareProtectionPlatform&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft&quot; of (native registry;registry)</Property>
+  </Analysis>
+</BES>

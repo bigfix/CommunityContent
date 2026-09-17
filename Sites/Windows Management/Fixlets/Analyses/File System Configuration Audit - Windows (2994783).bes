@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : File System Configuration Audit - Windows
+  ID       : 2994783
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T09:03:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>File System Configuration Audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Sep 2014 18:20:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="DisableDeleteNotification (0=TRIM_Enabled)" EvaluationPeriod="P2D">value &quot;DisableDeleteNotification&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of registry | ERROR &quot;does not exist&quot; /* a result of 0 means TRIM is enabled as far as the Windows/NTFS side is concerned. This does not mean that these TRIM notifications are actually being used by the actual storage system, which may or may not support TRIM. */ </Property>
+    <Property ID="2" Name="NtfsDisableLastAccessUpdate" EvaluationPeriod="PT12H">value &quot;NtfsDisableLastAccessUpdate&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of registry | ERROR &quot;does not exist&quot;</Property>
+    <Property ID="3" Name="NtfsMemoryUsage" EvaluationPeriod="PT12H">value &quot;NtfsMemoryUsage&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of registry | ERROR &quot;does not exist&quot;</Property>
+  </Analysis>
+</BES>

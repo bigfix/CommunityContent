@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : WARNING: Possible Memory Leak in ITM OS Client
+  ID       : 4014
+  Author   : zanesand
+  Domain   : BESC
+  Imported : 2015-03-31T20:29:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>WARNING: Possible Memory Leak in ITM OS Client</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>The listed computers have ITM OS Agents with high memory usage. This may indicate a possible memory leak. This fixlet message is triggered when the ITM OS Windows&nbsp;agent (kntcma.exe)&nbsp;is using more than 150 MB of memory. The recommended action is to restart the ITM OS Agent in order to free memory.</TD></TR></TBODY></TABLE>
+<P><U><FONT size=2>Revision History</FONT></U></P>
+<UL>
+<LI>31/03/2015 -&nbsp;zanesand&nbsp;- Initial Creation </LI></UL>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance><![CDATA[exists process whose (name of it is "kntcma.exe" AND (((page file usage of it) / (1024*1024)) > 200 OR (ia64 of operating system AND ((page file usage of it) / (1024*1024)) > 300) OR ((page file usage of it) > size of ram / 2)))]]></Relevance>
+    <Category>Support</Category>
+    <Source>SMI</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2015-04-01</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 Apr 2015 03:27:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to restart the ITM OS Agent</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete __appendfile
+appendfile net stop KNTCMA_Primary
+appendfile net start KNTCMA_Primary
+delete agentRestart.bat
+copy __appendfile agentRestart.bat
+runhidden agentRestart.bat</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Audit Policy - Windows
+  ID       : 2998298
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:02:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Audit Policy - Windows</Title>
+    <Description><![CDATA[<P>This Analysis provides information on the current Windows Audit Policy on the system.</P>
+<P>Policies queried include:</P>
+<OL>
+<LI>Account Lockout</LI>
+<LI>Account Password</LI>
+<LI>Audit Logging for Accounts</LI>
+<LI>Audit Logging for Object Access</LI>
+<LI>Audit Logging for Policy Changes</LI>
+<LI>Audit Logging for Privilege Use</LI>
+<LI>Audit Logging for System Policies</LI></OL>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Audit - Password History Length - Windows" EvaluationPeriod="P1D">password history length of security database</Property>
+    <Property ID="2" Name="Audit - Minimum Password Length - Windows" EvaluationPeriod="P1D">minimum password length of security database</Property>
+    <Property ID="3" Name="Audit - Minimum Password Age - Windows" EvaluationPeriod="P1D">minimum password age of security database</Property>
+    <Property ID="4" Name="Audit - Maximum Password Age - Windows" EvaluationPeriod="P1D">maximum password age of security database | error &quot;none&quot;</Property>
+    <Property ID="5" Name="Audit - Force Logoff Interval - Windows" EvaluationPeriod="P1D">force logoff interval of security database | &quot;none&quot;</Property>
+    <Property ID="6" Name="Audit - Account Lockout Threshold - Windows" EvaluationPeriod="P1D">account lockout threshold of security database</Property>
+    <Property ID="7" Name="Audit - Account Lockout Observation Windows - Windows" EvaluationPeriod="P1D">account lockout observation window of security database</Property>
+    <Property ID="8" Name="Audit - Account Lockout Duration - Windows" EvaluationPeriod="P1D">account lockout duration of security database</Property>
+    <Property ID="9" Name="Audit - Account Logon - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of account logon category of audit policy</Property>
+    <Property ID="10" Name="Audit - Account Management - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of account management category of audit policy</Property>
+    <Property ID="11" Name="Audit - Detailed Tracking - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of detailed tracking category of audit policy</Property>
+    <Property ID="12" Name="Audit - Domain Access - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of ds access category of audit policy</Property>
+    <Property ID="13" Name="Audit - Logon Logoff - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of logon logoff category of audit policy</Property>
+    <Property ID="14" Name="Audit - Object Access - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of object access category of audit policy</Property>
+    <Property ID="15" Name="Audit - Policy Change - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of policy change category of audit policy</Property>
+    <Property ID="16" Name="Audit - Privilege Use - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of privilege use category of audit policy</Property>
+    <Property ID="17" Name="Audit - System - Windows" EvaluationPeriod="P1D">(name of it, (if (audit failure of it and audit success of it) then (&quot;Success, Failure&quot;) else (if (audit failure of it) then (&quot;Failure&quot;) else (if (audit success of it) then (&quot;Success&quot;) else (&quot;No Auditing&quot;)))) of system policy of it) of subcategories of system category of audit policy</Property>
+  </Analysis>
+</BES>

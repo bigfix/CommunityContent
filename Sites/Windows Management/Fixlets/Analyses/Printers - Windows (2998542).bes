@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Printers - Windows
+  ID       : 2998542
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-14T07:43:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Printers - Windows</Title>
+    <Description><![CDATA[<P>Analysis of local and AD installed printers for Windows systems only</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Printers - Local - Windows" EvaluationPeriod="P1D">(value &quot;name&quot; of it, value &quot;printer driver&quot; of it, value &quot;port&quot; of it) of keys whose (value &quot;Port&quot; of it as string contains &quot;LPT&quot; OR value &quot;Port&quot; of it as string contains &quot;DOT4&quot; OR value &quot;Port&quot; of it as string contains &quot;USB&quot; OR value &quot;Port&quot; of it as string contains &quot;.&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Printers&quot; of registry</Property>
+    <Property ID="2" Name="Printers - Active Directory - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (values &quot;printShareName&quot; of keys &quot;DsSpooler&quot; of it, values &quot;description&quot; of keys &quot;DsSpooler&quot; of it, values &quot;location&quot; of keys &quot;DsSpooler&quot; of it, values &quot;Printer Driver&quot; of it, values &quot;portName&quot; of keys &quot;DsSpooler&quot; of it, values &quot;ShortServerName&quot; of keys &quot;DsSpooler&quot; of it) of keys of keys whose (name of it = &quot;Printers&quot; ) of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Print\Providers\Client Side Rendering Print Provider\Servers&quot; of registry</Property>
+    <Property ID="3" Name="Printers - Drivers - Windows" EvaluationPeriod="P7D">unique values of (it as string) of (name of it, value &quot;DriverVersion&quot; of it) of keys of keys of keys &quot;Drivers&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Print\Environments&quot; of native registry</Property>
+  </Analysis>
+</BES>

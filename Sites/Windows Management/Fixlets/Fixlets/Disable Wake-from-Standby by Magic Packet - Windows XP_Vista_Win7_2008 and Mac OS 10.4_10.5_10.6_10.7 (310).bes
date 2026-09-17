@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Disable Wake-from-Standby by Magic Packet - Windows XP/Vista/Win7/2008 and Mac OS 10.4/10.5/10.6/10.7
+  ID       : 310
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Disable Wake-from-Standby by Magic Packet - Windows XP/Vista/Win7/2008 and Mac OS 10.4/10.5/10.6/10.7</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>Network adapters can be configured to wake a computer from standby if they receive a Wake-on-LAN Magic Packet.</P> <P>This Fixlet will disable the ability&nbsp;for network adapters to wake the computer from standby. </P> <P><STRONG>Note:</STRONG> This does not affect a computers ability to Wake-on-LAN from the powered off or Hibernate power state.</P> <P><STRONG>Note: </STRONG>This&nbsp;Task is not&nbsp;applicable on computers designated as&nbsp;Last Man Standing.<BR></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(it = &quot;WinXP&quot; OR it = &quot;WinXP-2003&quot; OR it = &quot;WinVista&quot; OR it = &quot;Win7&quot; OR it = &quot;Win2008&quot; OR it = &quot;Win2008R2&quot; OR it = &quot;Mac OS X&quot;) of name of operating system</Relevance>
+    <Relevance>if ((it = &quot;WinXP&quot; OR it = &quot;WinXP-2003&quot; OR it = &quot;WinVista&quot; OR it = &quot;Win7&quot; OR it = &quot;Win2008&quot; OR it = &quot;Win2008R2&quot;) of name of operating system) then ((exists values whose(name of it = &quot;PnPCapabilities&quot; AND it as integer = 48 ) of keys whose(value &quot;Characteristics&quot; of it as integer = 132) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}&quot; of registry)) else (if (name of operating system =&quot;Mac OS X&quot;) then (if exists file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; then ((if it = 1 then true else false) of integer &quot;Wake On LAN&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;) else false) else false)</Relevance>
+    <Relevance>not exists settings whose(name of it contains &quot;PowerManagement_LastManStanding&quot; AND value of it = &quot;1&quot;) of client</Relevance>
+    <Category>Wake-on-LAN</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2010-08-13</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 Aug 2012 01:09:07 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 17 Nov 2011 19:28:18 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>Manage_WFSBMP</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action506">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Wake-from-Standby on all network adapters. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if{name of operating system = "Mac OS X"}
+	wait pmset -a womp 0
+else if{(it = "WinXP" OR it = "WinXP-2003" OR it = "WinVista" OR it = "Win7" OR it = "Win2008" OR it = "Win2008R2") of name of operating system}
+	delete __appendfile
+	delete disableWakeFromStandby.reg
+appendfile {"Windows Registry Editor Version 5.00%0d%0a%0d%0a" & concatenation "%0d%0a"  of ( "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}}\" & name of it &"]%0d%0a%22PnPCapabilities%22=dword:00000030%0d%0a")of keys whose (value "Characteristics" of it as integer  = 132 AND (not exists value "PnPCapabilities"  of it OR value "PnPCapabilities"  of it as integer != 48 )) of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}}" of registry}
+copy __appendfile disableWakeFromStandby.reg
+waithidden cmd /c regedit -s disableWakeFromStandby.reg
+action requires restart
+endif]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

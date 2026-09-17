@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Symantec File System Auto-Protect is Disabled - Windows
+  ID       : 21745
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-27T23:54:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Symantec File System Auto-Protect is Disabled - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet is relevant if the Symantec Client has File System Auto-Protect Disabled.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists regapp &quot;smc.exe&quot;</Relevance>
+    <Relevance>exists values &quot;OnOff&quot; whose (it=0)of key &quot;AV\Storages\InternetMail\RealTimeScan&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\Symantec\Symantec Endpoint Protection&quot; of (x32 registries; x64 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-27</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

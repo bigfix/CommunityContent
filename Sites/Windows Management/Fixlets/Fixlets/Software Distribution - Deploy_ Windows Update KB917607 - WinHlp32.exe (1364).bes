@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Software Distribution - Deploy: Windows Update KB917607 - WinHlp32.exe
+  ID       : 1364
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-01-07T09:45:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Software Distribution - Deploy: Windows Update KB917607 - WinHlp32.exe</Title>
+    <Description><![CDATA[This task will deploy: Windows Update KB917607 - WinHlp32.exe<BR><BR>This task is applicable on: Windows 7 x64. ]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>&quot;Win7&quot; = name of operating system</Relevance>
+    <Relevance>exists running service &quot;wuauserv&quot; OR NOT exists service &quot;wuauserv&quot; whose (start type of it = &quot;disabled&quot;)</Relevance>
+    <Relevance>not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\UpdateDetect\KB917607&quot; of native registry</Relevance>
+    <Relevance><![CDATA[not exists file (parent folder of system folder as string & "\servicing\Packages\Microsoft-Windows-Winhelp-Update-Client~31bf3856ad364e35~amd64~~6.1.0.1.mum")]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2011-07-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 07 Jan 2013 15:47:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[download http://download.microsoft.com/download/9/A/8/9A8FCFAA-78A0-49F5-8C8E-4EAE185F515C/Windows6.1-KB917607-x64.msu
+continue if {(size of it = 718172 AND sha1 of it = "69e765037fc3b620941d1c512068606694a4c307") of file "Windows6.1-KB917607-x64.msu" of folder "__Download"}
+// Is Windows Update service running?
+continue if {exists running service "wuauserv" OR NOT exists service "wuauserv" whose (start type of it = "disabled")}
+wait {system folder as string & "\"}wusa.exe __Download\Windows6.1-KB917607-x64.msu /quiet /norestart]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

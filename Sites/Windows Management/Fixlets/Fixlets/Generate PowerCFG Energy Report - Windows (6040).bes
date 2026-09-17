@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Generate PowerCFG Energy Report - Windows
+  ID       : 6040
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T11:58:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Generate PowerCFG Energy Report - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* Only run if not done in past 30 days */ not exists file "__BESData\__Global\Logs\energy-report.xml" whose(30*day > (now - modification time of it)) of parent folder of client]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Apr 2014 18:39:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// http://www.hanselman.com/blog/PowerCfgTheHiddenEnergyAndBatteryToolForWindowsYoureNotUsing.aspx
+
+// Delete previous log, if it exists
+delete "{pathname of parent folder of client}\__BESData\__Global\Logs\energy-report_PowerCFG_CMD.log"
+
+// Disable WoW64 redirection
+action uses wow64 redirection false
+
+
+// File output default location:
+//  C:\Windows\System32\energy-report.html
+//  C:\Windows\System32\energy-report.xml
+
+// Command Format:
+//  POWERCFG /ENERGY [/OUTPUT <FILENAME>] [/XML] [/DURATION <SECONDS>]
+//  POWERCFG /ENERGY /TRACE [/D <FILEPATH>] [/XML] [/DURATION <SECONDS>]
+
+// Parameter List:
+//  /OUTPUT <FILENAME>     Specify the path and filename to store the energy report HTML or XML file.
+//  /XML                   Format the report file as XML.
+//  /DURATION <SECONDS>    Specify the number of seconds to observe system behavior. Default is 60 seconds.
+//  /TRACE                 Record system behavior and do not perform analysis. Trace files will be generated in the current path unless the /D parameter is specified.
+//  /D <FILEPATH>          Specify the directory to store trace data. May only be used with the /TRACE parameter.
+
+// Examples:
+//  POWERCFG /ENERGY
+//  POWERCFG /ENERGY /OUTPUT "longtrace.html" /DURATION 120
+
+waithidden {system folder}\powercfg.exe /energy /xml /DURATION 15 /output "{pathname of parent folder of client}\__BESData\__Global\Logs\energy-report.xml" >> "{pathname of parent folder of client}\__BESData\__Global\Logs\energy-report_PowerCFG_CMD.log"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Remove and deactivate Windows license
+  ID       : 25208
+  Author   : ReynardMuldrake
+  Domain   : BESC
+  Imported : 2018-02-28T08:36:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Remove and deactivate Windows license</Title>
+    <Description><![CDATA[<P>This task will deathorize a Windows license.</P>
+<P>The task will only be relevant to activated Windows workstations.&nbsp; It will evaluate as successful after it becomes no longer relevant.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(select &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name like &apos;Windows(R)%25&apos;)&quot; of wmi) as string contains &quot;1&quot;</Relevance>
+    <Relevance>(select (&quot;ProductType from Win32_OperatingSystem&quot;) of WMI) as string contains &quot;1&quot;</Relevance>
+    <Category>Software removal</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-02-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 28 Feb 2018 16:15:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">dos cscript C:\Windows\System32\slmgr.vbs /upk /ato
+dos cscript C:\Windows\System32\slmgr.vbs /cpky /ato
+dos cscript C:\Windows\System32\slmgr.vbs /rearm /ato
+action requires restart</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

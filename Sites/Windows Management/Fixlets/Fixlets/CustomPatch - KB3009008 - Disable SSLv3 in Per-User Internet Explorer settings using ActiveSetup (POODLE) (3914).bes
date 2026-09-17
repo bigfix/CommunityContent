@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : CustomPatch - KB3009008 - Disable SSLv3 in Per-User Internet Explorer settings using ActiveSetup (POODLE)
+  ID       : 3914
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2014-11-03T12:12:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>CustomPatch - KB3009008 - Disable SSLv3 in Per-User Internet Explorer settings using ActiveSetup (POODLE)</Title>
+    <Description><![CDATA[<P>See <A href="https://support.microsoft.com/kb/3009008">https://support.microsoft.com/kb/3009008</A></P>
+<P>This Fixlet configures ActiveSetup to disable SSLv3 in Internet Explorer, to mitigate the "POODLE" vulnerability.&nbsp; As an ActiveSetup component, this runs one time for each user at their next logon time.&nbsp; </P>
+<P>The ActiveSetup script&nbsp;edits&nbsp;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\SecureProtocols.</P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(language of version block of file &quot;kernel32.dll&quot; of system folder contains &quot;English&quot;) OR (exists key &quot;HKLM\System\CurrentControlSet\Control\Nls\MUILanguages&quot; whose (exists value of it) of registry)</Relevance>
+    <Relevance>not ia64 of operating system</Relevance>
+    <Relevance>(name of it = &quot;Win2003&quot; OR name of it = &quot;WinVista&quot; OR name of it = &quot;Win2008&quot; OR name of it = &quot;Win7&quot; OR name of it = &quot;Win2008R2&quot; OR name of it = &quot;Win8&quot; OR name of it = &quot;Win2012&quot; OR name of it = &quot;Win8.1&quot; OR name of it = &quot;Win2012R2&quot;) of operating system</Relevance>
+    <Relevance><![CDATA[/* Check that the Registry is configured to execute this ActiveSetup component */ (not exists key "KB3009008_POODLE" whose (exists value "IsInstalled" whose (it=1) of it) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Active Setup\Installed Components" of native registry) OR /* Check that the files required for this ActiveSetup component are present; item 0 below is a semicolon-delimited set of file pathnames */ ( exists (("\admtools\ActiveSetup\KB3009008_POODLE\ActiveSetup.cmd"),root folder of drive of system folder) whose (not exists file (pathname of item 1 of it as string & item 0 of it)))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-11-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Nov 2014 19:10:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+
+// Setup the files for ActiveSetup script operation
+dos mkdir "{root folder of drive of system folder}\admtools\ActiveSetup\KB3009008_POODLE"
+delete __appendfile
+appendfile @reg.exe add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v SecureProtocols /t REG_DWORD /d 0x80 /F
+delete "{root folder of drive of system folder}\admtools\ActiveSetup\KB3009008_POODLE\ActiveSetup.cmd"
+copy __appendfile "{root folder of drive of system folder}\admtools\ActiveSetup\KB3009008_POODLE\ActiveSetup.cmd"
+
+
+// Setup the Registry to run this ActiveSetup batch file on next logon (for each user)
+delete __createfile
+createfile until <EOF>
+REM Update this block as needed
+set KEYNAME=KB3009008_POODLE
+set TITLE=Installing KB3009008_POODLE
+set VERSION=1,0,0,0
+set VALUE=%COMSPEC% /c "{root folder of drive of system folder}\admtools\ActiveSetup\KB3009008_POODLE\ActiveSetup.cmd"
+REM end of per-package settings
+
+
+set ACTIVESETUP=HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components
+
+REG ADD "%ACTIVESETUP%\%KEYNAME%" /f
+REG ADD "%ACTIVESETUP%\%KEYNAME%" /ve /t REG_SZ /d "%TITLE%" /f
+REG ADD "%ACTIVESETUP%\%KEYNAME%" /v IsInstalled /t REG_DWORD /d 1 /f
+REG ADD "%ACTIVESETUP%\%KEYNAME%" /v Version /t REG_SZ /d "%VERSION%" /f
+REG ADD "%ACTIVESETUP%\%KEYNAME%" /v StubPath /t REG_EXPAND_SZ /d "%VALUE%" /f
+<EOF>
+
+delete "ActiveSetup-Registry.cmd"
+move __createfile "ActiveSetup-Registry.cmd"
+waithidden cmd /c ActiveSetup-Registry.cmd
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

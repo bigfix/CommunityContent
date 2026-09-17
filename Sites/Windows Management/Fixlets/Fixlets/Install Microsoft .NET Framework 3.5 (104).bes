@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Microsoft .NET Framework 3.5
+  ID       : 104
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Microsoft .NET Framework 3.5</Title>
+    <Description><![CDATA[NET Framework 3.5 builds incrementally on the new features added in .NET Framework 3.0. For example, feature sets in Windows Workflow Foundation (WF), Windows Communication Foundation (WCF), Windows Presentation Foundation (WPF) and Windows CardSpace. In addition, .NET Framework 3.5 contains a number of new features in several technology areas which have been added as new assemblies to avoid breaking changes. They include the following: <BR>
+<UL>
+<LI>Deep integration of Language Integrated Query (LINQ) and data awareness. This new feature will let you write code written in LINQ-enabled languages to filter, enumerate, and create projections of several types of SQL data, collections, XML, and DataSets by using the same syntax.
+<LI>ASP.NET AJAX lets you create more efficient, more interactive, and highly-personalized Web experiences that work across all the most popular browsers.
+<LI>New Web protocol support for building WCF services including AJAX, JSON, REST, POX, RSS, ATOM, and several new WS-* standards.
+<LI>Full tooling support in Visual Studio 2008 for WF, WCF, and WPF, including the new workflow-enabled services technology.
+<LI>New classes in .NET Framework 3.5 base class library (BCL) that address many common customer requests.</LI></UL>]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND NOT x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it) OR name of it = &quot;Win2008R2&quot;) of operating system</Relevance>
+    <Relevance>not exists key &quot;HKLM\SOFTWARE\Microsoft\.NETFramework\v3.0&quot; of native registry</Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-02</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 16:04:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch dotNetFx35setup.exe sha1:b0ca05c12ebb9a3610206bad7f219e02b7873cbd size:2869264 http://download.microsoft.com/download/7/0/3/703455ee-a747-4cc8-bd3e-98a615c3aedb/dotNetFx35setup.exe
+wait __Download\dotNetFx35setup.exe /norestart /quiet
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action259">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.microsoft.com/en-us/download/details.aspx?id=21</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

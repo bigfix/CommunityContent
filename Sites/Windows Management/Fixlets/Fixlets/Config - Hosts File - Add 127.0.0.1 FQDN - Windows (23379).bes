@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Hosts File - Add 127.0.0.1 FQDN - Windows
+  ID       : 23379
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-01T19:23:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Hosts File - Add 127.0.0.1 FQDN - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet adds the BigFix Managed&nbsp;"127.0.0.1 this.machines.hostname" to the hosts file on the machine.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists (it contains &quot;127.0.0.1&quot; and it contains dns name as lowercase) of lines containing &quot;#BigFixManagedEntry&quot; of file &quot;hosts&quot; of folder &quot;drivers\etc&quot; of system x64 folder</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-01-31</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+parameter &quot;Hosts&quot;=&quot;{pathname of folder &quot;drivers\etc&quot; of system x64 folder}\hosts&quot;
+parameter &quot;HostsBackup&quot;=&quot;{pathname of folder &quot;drivers\etc&quot; of system x64 folder}\hosts.old&quot;
+
+delete __createfile
+
+createfile until _end_
+{(lines whose (it does not contain &quot;#BigFixManagedEntry&quot;) of files (parameter &quot;Hosts&quot;))}
+127.0.0.1  {dns name as lowercase}  &quot;  #BigFixManagedEntry&quot;
+_end_
+
+if {exists file (parameter &quot;Hosts&quot;)}
+	delete &quot;{parameter &quot;HostsBackup&quot;}&quot;
+	move &quot;{parameter &quot;Hosts&quot;}&quot; &quot;{parameter &quot;HostsBackup&quot;}&quot;
+endif
+
+copy __createfile &quot;{parameter &quot;Hosts&quot;}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

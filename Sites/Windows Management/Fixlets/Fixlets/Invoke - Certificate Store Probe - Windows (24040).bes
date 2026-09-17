@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Certificate Store Probe - Windows
+  ID       : 24040
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-14T07:44:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Certificate Store Probe - Windows</Title>
+    <Description><![CDATA[<P>This fixlet probes the Windows Certificate Store and outputs a report for consumption by BigFix.</P>
+<P>This fixlet will always be relevant on a Windows system.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Inventory/wiki/Certificate-Store">https://github.com/strawgate/C3-Inventory/wiki/Certificate-Store</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Category>Certificate Store</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-08-12</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+//Script will not capture bitlocker recovery password with wow64 redirection enabled
+action uses wow64 redirection {not x64 of operating system}
+
+parameter &quot;PowerShellExe&quot;=&quot;{ pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) }&quot;
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+#Requires -Version 3.0
+$RegStorage = &quot;HKLM:\Software\C3 Inventory\Certificate Store&quot;
+
+function Write-CertToRegistry{{
+    param (
+        [System.Security.Cryptography.X509Certificates.X509Certificate2] $Certificate,
+        [string] $Path,
+        [string] $Childpath
+    )
+
+#    $Storage = &quot;$($Global:RegStorage)\$($Certificate.PSParentPath.Replace(&quot;Microsoft.PowerShell.Security\Certificate::&quot;,&apos;&apos;))\$($Certificate.ThumbPrint)&quot;
+    $Storage = &quot;$Path\$ChildPath\$($Certificate.ThumbPrint)&quot;
+
+    New-Item $Storage -force -ErrorAction SilentlyContinue | out-null
+
+    new-ItemProperty -Path $Storage -Name &quot;Subject&quot; -Value $Certificate.Subject | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Friendly Name&quot; -Value $Certificate.FriendlyName | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Issuer&quot; -Value $Certificate.Issuer | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Serial Number&quot; -Value $Certificate.SerialNumber | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not Before&quot; -Value $Certificate.NotBefore | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not Before Date&quot; -Value $Certificate.NotBefore.ToString(&quot;ddd, dd MMM yyyy&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not Before Time&quot; -Value $Certificate.NotBefore.ToString(&quot;HH:mm:ss&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not After&quot; -Value $Certificate.NotAfter | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not After Date&quot; -Value $Certificate.NotAfter.ToString(&quot;ddd, dd MMM yyyy&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Not After Time&quot; -Value $Certificate.NotAfter.ToString(&quot;HH:mm:ss&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Format&quot; -Value $Certificate.GetFormat() | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Archived&quot; -Value $Certificate.Archived | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Private Key&quot; -Value $Certificate.HasPrivateKey | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Algorithm&quot; -Value ($Certificate.SignatureAlgorithm.FriendlyName -join &quot;,&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;Usage&quot; -Value ($Certificate.EnhancedKeyUsageList.FriendlyName -join &quot;,&quot;) | out-null
+    new-ItemProperty -Path $Storage -Name &quot;DNS&quot; -Value ($Certificate.DnsNameList.Punycode -join &quot;,&quot;)  | out-null
+}
+
+#Clean-up previous cert export
+Remove-Item &quot;HKLM:\Software\Certificates&quot; -Recurse -ErrorAction SilentlyContinue
+
+#Pull all the certificate stores
+$Certificates = Get-ChildItem -Path Cert:\LocalMachine -Recurse
+
+#Iterate over each store
+foreach ($Store in Get-ChildItem -Path Cert:\LocalMachine) {{
+
+    #Iterate over each certificate in each store
+    foreach ($Certificate in Get-ChildItem -Path &quot;Cert:\LocalMachine\$($Store.Name)&quot;) {{
+        Write-CertToRegistry -Certificate $Certificate -Path &quot;$RegStorage\LocalMachine&quot; -childpath $Store.Name
+    }
+}
+
+#Print probe run timestamp
+$Timestamp = get-date
+New-ItemProperty -Path $Global:RegStorage -Name &quot;Last Updated&quot; -Value $Timestamp -Force | out-null
+New-ItemProperty -Path $Global:RegStorage -Name &quot;Last Updated Date&quot; -Value $Timestamp.ToString(&quot;ddd, dd MMM yyyy&quot;) -Force | out-null
+New-ItemProperty -Path $Global:RegStorage -Name &quot;Last Updated Time&quot; -Value $Timestamp.ToString(&quot;HH:mm:ss&quot;) -Force | out-null
+_end_
+
+move __createfile powershell.ps1
+
+waithidden &quot;{parameter &quot;PowershellExe&quot;}&quot; -ExecutionPolicy Bypass -File powershell.ps1
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

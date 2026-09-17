@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Microsoft Office 2011 Update 14.3.5
+  ID       : 2531
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-08T08:56:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Microsoft Office 2011 Update 14.3.5</Title>
+    <Description><![CDATA[This task will deploy Microsoft Office 2011 Update 14.3.5 <BR><BR>- Requires Microsoft Office 2011 Service Pack 1 <BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance>exists folder &quot;Microsoft Office 2011&quot; of applications folder</Relevance>
+    <Relevance><![CDATA[exists application "Microsoft Word.app" whose (version of it < "14.3.5" AND version of it >= "14.1.0") OR exists application "Microsoft Excel.app" whose (version of it < "14.3.5" AND version of it >= "14.1.0") OR exists application "Microsoft PowerPoint.app" whose (version of it < "14.3.5" AND version of it >= "14.1.0") OR exists application "Microsoft Outlook.app" whose (version of it < "14.3.5" AND version of it >= "14.1.0")]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Jul 2013 13:31:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Office2011-1435UpdateEN.dmg sha1:da4767931619e8ec3725c81672a067371c7b92ba size:118529423 http://download.microsoft.com/download/E/1/A/E1A3BFED-FED3-498E-8D02-EF4796F1F8E7/Office2011-1435UpdateEN.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/OFFICE20111435&quot; &quot;{posix path of file &quot;Office2011-1435UpdateEN.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /tmp/OFFICE20111435/Office\ 2011\ 14.3.5\ Update.pkg -target /&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/OFFICE20111435&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

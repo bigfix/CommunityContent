@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Shares - Windows
+  ID       : 2998467
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-24T20:43:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Shares - Windows</Title>
+    <Description><![CDATA[<P>Provides information regarding the configured network shares on the system.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Shares - File - Windows" EvaluationPeriod="P1D">(name of it, path of it) of network shares whose (name of it != &quot;print$&quot; and type of it != 2147483648 and type of it != 1 and type of it != 2147483651)</Property>
+    <Property ID="2" Name="Shares - Read Permissions - Windows" EvaluationPeriod="P1D">(name of it, (account name of it | component string of it) of trustees of entries whose (read permission of it) of dacls of security descriptors of it) of network shares whose (name of it != &quot;print$&quot; and type of it != 2147483648 and type of it != 1 and type of it != 2147483651)</Property>
+    <Property ID="3" Name="Shares - Change Permissions - Windows" EvaluationPeriod="P1D">(name of it, (account name of it | component string of it) of trustees of entries whose (write permission of it) of dacls of security descriptors of it) of network shares whose (name of it != &quot;print$&quot; and type of it != 2147483648 and type of it != 1 and type of it != 2147483651)</Property>
+    <Property ID="4" Name="Shares - Full Control Permissions - Windows" EvaluationPeriod="P1D">(name of it, (account name of it | component string of it) of trustees of entries whose (write owner permission of it) of dacls of security descriptors of it) of network shares whose (name of it != &quot;print$&quot; and type of it != 2147483648 and type of it != 1 and type of it != 2147483651)</Property>
+    <Property ID="5" Name="Shares - Active Connections - Windows" EvaluationPeriod="P1D">(name of it, use count of it) of network shares</Property>
+    <Property ID="6" Name="Shares - Maximum Connections - Windows" EvaluationPeriod="P1D">(name of it, use limit of it as string | &quot;N\A&quot;) of network shares</Property>
+    <Property ID="7" Name="Shares - Comments - Windows" EvaluationPeriod="P1D">(name of it, comment of it) of network shares</Property>
+    <Property ID="8" Name="Shares - Printer - Windows" EvaluationPeriod="P1D">(name of it) of network shares whose (type of it = 1 /*Printer*/)</Property>
+    <Property ID="9" Name="Shares - Administrative - Windows" EvaluationPeriod="P1D">(name of it) of network shares whose (type of it = 2147483648 /*Admin*/ or name of it = &quot;print$&quot;)</Property>
+    <Property ID="11" Name="Shares - Interprocess Communication - Windows" EvaluationPeriod="P1D">(name of it) of network shares whose (type of it = 2147483651 /*IPC*/)</Property>
+  </Analysis>
+</BES>

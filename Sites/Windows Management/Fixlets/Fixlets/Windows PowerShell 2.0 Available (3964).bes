@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Windows PowerShell 2.0 Available
+  ID       : 3964
+  Author   : rafansm
+  Domain   : BESC
+  Imported : 2015-01-30T09:45:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Windows PowerShell 2.0 Available</Title>
+    <Description><![CDATA[<P>Install Windows PowerShell version 2.0 </P>
+<P>After the installation of PowerShell in Windows 2008 servers it will be required reboot the server.</P>]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND NOT x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND x64 of it) OR name of it = &quot;WinXPe&quot;) of operating system AND TRUE</Relevance>
+    <Relevance><![CDATA[NOT ( exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1" whose (value "Install" of it as integer = 1) of registry ) OR ( (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1" whose (value "Install" of it as integer = 1) of registry) AND (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" whose (value "PowerShellVersion" of it as string as version < "2.0") of registry) )]]></Relevance>
+    <Category>Update</Category>
+    <Source>rafansm@br.ibm.com</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2015-01-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>IEM GTS Support Team</Name>
+      <Value>PowerShell</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 23 Jan 2015 13:46:56 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 23 Jan 2015 17:41:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {((name of it = "WinXP") OR (name of it = "WinXPe")) of operating system AND TRUE}
+	download http://download.microsoft.com/download/E/C/E/ECE99583-2003-455D-B681-68DB610B44A4/WindowsXP-KB968930-x86-ENG.exe
+	continue if {(size of it = 6156064 AND sha1 of it = "540d661066953d76a6907b6ee0d1cd4531c1e1c6") of file "WindowsXP-KB968930-x86-ENG.exe" of folder "__Download"}
+	wait __Download\WindowsXP-KB968930-x86-ENG.exe /quiet /norestart
+
+elseif {(name of it = "WinVista" AND product type of it = nt workstation product type AND x64 of it) of operating system AND TRUE}
+	download http://download.microsoft.com/download/3/C/8/3C8CF51E-1D9D-4DAA-AAEA-5C48D1CD055C/Windows6.0-KB968930-x64.msu
+	continue if {(size of it = 35922892 AND sha1 of it = "4de013d593181a2a04217ce3b0e7536ab56995aa") of file "Windows6.0-KB968930-x64.msu" of folder "__Download"}
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.0-KB968930-x64.msu"}" /quiet /norestart
+
+elseif {((name of it = "WinVista" AND product type of it = nt workstation product type AND NOT x64 of it)) of operating system AND TRUE}
+	download http://download.microsoft.com/download/A/7/5/A75BC017-63CE-47D6-8FA4-AFB5C21BAC54/Windows6.0-KB968930-x86.msu
+	continue if {(size of it = 34059625 AND sha1 of it = "16fd2e93be2e7265821191119ddfc0cdaa6f4243") of file "Windows6.0-KB968930-x86.msu" of folder "__Download"}
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.0-KB968930-x86.msu"}" /quiet /norestart
+
+elseif {((name of it = "Win2003" AND x64 of it)) of operating system AND TRUE}
+	download http://download.microsoft.com/download/B/D/9/BD9BB1FF-6609-4B10-9334-6D0C58066AA7/WindowsServer2003-KB968930-x64-ENG.exe
+	continue if {(size of it = 10334496 AND sha1 of it = "8ba702aa016e4c5aed581814647f4d55635eff5c") of file "WindowsServer2003-KB968930-x64-ENG.exe" of folder "__Download"}
+	waithidden __Download\WindowsServer2003-KB968930-x64-ENG.exe /quiet /norestart
+
+elseif {((name of it = "Win2003" AND NOT x64 of it)) of operating system AND TRUE}
+	download http://download.microsoft.com/download/1/1/7/117FB25C-BB2D-41E1-B01E-0FEB0BC72C30/WindowsServer2003-KB968930-x86-ENG.exe
+	continue if {(size of it = 6300960 AND sha1 of it = "843dca5f32b47a3bc36cb4d7f3a92dfd2fcdddb3") of file "WindowsServer2003-KB968930-x86-ENG.exe" of folder "__Download"}
+	waithidden __Download\WindowsServer2003-KB968930-x86-ENG.exe /quiet /norestart
+
+elseif {(((name of it = "Win2008" or (name of it = "WinVista" and product type of it != nt workstation product type)) AND x64 of it)) of operating system AND TRUE}
+	download http://download.microsoft.com/download/2/8/6/28686477-3242-4E96-9009-30B16BED89AF/Windows6.0-KB968930-x64.msu
+	continue if {(size of it = 35922892 AND sha1 of it = "4de013d593181a2a04217ce3b0e7536ab56995aa") of file "Windows6.0-KB968930-x64.msu" of folder "__Download"}
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.0-KB968930-x64.msu"}" /quiet /norestart
+
+elseif {(((name of it = "Win2008" or (name of it = "WinVista" and product type of it != nt workstation product type)) AND NOT x64 of it)) of operating system AND TRUE}
+	download http://download.microsoft.com/download/F/9/E/F9EF6ACB-2BA8-4845-9C10-85FC4A69B207/Windows6.0-KB968930-x86.msu
+	continue if {(size of it = 34059625 AND sha1 of it = "16fd2e93be2e7265821191119ddfc0cdaa6f4243") of file "Windows6.0-KB968930-x86.msu" of folder "__Download"}
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.0-KB968930-x86.msu "}" /quiet /norestart
+
+endif
+
+parameter "curExecutionPolicy"="{if exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of (if exists x64 registry then x64 registry else registry) then if exists value "ExecutionPolicy" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of (if exists x64 registry then x64 registry else registry) then (value "ExecutionPolicy" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of (if exists x64 registry then x64 registry else registry) as string) else "" else ""}"
+if {(parameter "curExecutionPolicy" = "") OR (parameter "curExecutionPolicy" = "Restricted")}
+	if {x64 of operating system}
+		regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]" "ExecutionPolicy"="RemoteSigned"
+	else
+		regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]" "ExecutionPolicy"="RemoteSigned"
+	endif
+endif]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4406">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about PowerShell v2.0.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.microsoft.com/kb/968929</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

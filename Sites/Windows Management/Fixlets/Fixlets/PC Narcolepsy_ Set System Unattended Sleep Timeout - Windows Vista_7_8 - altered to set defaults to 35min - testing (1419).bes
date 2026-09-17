@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : PC Narcolepsy: Set System Unattended Sleep Timeout - Windows Vista/7/8 - altered to set defaults to 35min - testing
+  ID       : 1419
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-03-21T10:30:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>PC Narcolepsy: Set System Unattended Sleep Timeout - Windows Vista/7/8 - altered to set defaults to 35min - testing</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>By default, systems on standby that are&nbsp;woken by&nbsp;a Wake-on-LAN or Wake-from-Standby event will go back to sleep in two minutes if the system does not receive any user input. This may cause a condition called "PC Narcolepsy" where the computer will fall back asleep before tasks can be run on that system.</P>
+<P>Use this Fixlet to configure the amount of time&nbsp;the system will stay&nbsp;awake after recieving a&nbsp;Wake-on-LAN or Wake-from-Standby event on Windows Vista, 7 and 8 systems. This setting is called the "System Unattended Sleep Timeout".</P>
+<P><STRONG>Note:</STRONG> This task only changes the System Unattended Sleep Timeout setting on the current power profile. If the power profile is changed, this task may need to be reapplied.</P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else true) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>(it = &quot;WinVista&quot; OR it = &quot;Win7&quot; OR it = &quot;Win8&quot;) of name of operating system</Relevance>
+    <Relevance>exists keys whose(exists values &quot;AcSettingIndex&quot; of it AND (35*60) != value &quot;AcSettingIndex&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues&quot; of native registry</Relevance>
+    <Category>Standby Behavior</Category>
+    <Source>jgs194</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2010-08-13</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 29 Mar 2011 23:24:21 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>Manage_Standby_Behavior</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 21 Mar 2013 15:32:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action1664">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to change the System Unattended Sleep Timeout setting on the current power profile. You will be prompted for the number of minutes.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// 35*60 represents waiting 35min because the setting is in number of seconds.
+// This must be the same as in the relevance.
+parameter "secToWaitAfterWakeUpUnattended" = "{(35*60) as string}"
+parameter "numOfValuesToChange" = "{number of values "AcSettingIndex" of keys whose(exists values "AcSettingIndex" of it AND (parameter "secToWaitAfterWakeUpUnattended" of action as integer) != value "AcSettingIndex" of it) of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues" of native registry}"
+// sanity check, must be between 2 and 1440 min. The setting is often 0 for servers since they never sleep.
+continue if {parameter "secToWaitAfterWakeUpUnattended" of action as integer >= (2*60) AND parameter "secToWaitAfterWakeUpUnattended" of action as integer <= (1440*60)}
+//set for balanced
+//regset64 "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues\381b4222-f694-41f0-9685-ff5bb260df2e]" "AcSettingIndex"=dword:{parameter "secToWaitAfterWakeUpUnattended" of action as integer as hexadecimal}
+//set for high performance
+//regset64 "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues\8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c]" "AcSettingIndex"=dword:{parameter "secToWaitAfterWakeUpUnattended" of action as integer as hexadecimal}
+//set for power saver
+//regset64 "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues\a1841308-3541-4fab-bc81-f71556f20b4a]" "AcSettingIndex"=dword:{parameter "secToWaitAfterWakeUpUnattended" of action as integer as hexadecimal}
+//set for any power profile that needs altered, only if it needs altered.
+continue if{exists keys whose(exists values "AcSettingIndex" of it AND (parameter "secToWaitAfterWakeUpUnattended" of action as integer) != value "AcSettingIndex" of it) of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues" of native registry}
+regset64 "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues\{(preceding text of first "," of (it & ",") of concatenation "," of names of keys whose(exists values "AcSettingIndex" of it AND (parameter "secToWaitAfterWakeUpUnattended" of action as integer) != value "AcSettingIndex" of it) of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues" of native registry)}]" "AcSettingIndex"=dword:{parameter "secToWaitAfterWakeUpUnattended" of action as integer as hexadecimal}
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(parameter &quot;numOfValuesToChange&quot; of action as integer) = (number of values &quot;AcSettingIndex&quot; of keys whose(exists values &quot;AcSettingIndex&quot; of it AND (parameter &quot;secToWaitAfterWakeUpUnattended&quot; of action as integer) != value &quot;AcSettingIndex&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\238C9FA8-0AAD-41ED-83F4-97BE242C8F20\7bc4a2f9-d8fc-4469-b07b-33eb785aaca0\DefaultPowerSchemeValues&quot; of native registry)</SuccessCriteria>
+    </Action>
+  </Task>
+</BES>

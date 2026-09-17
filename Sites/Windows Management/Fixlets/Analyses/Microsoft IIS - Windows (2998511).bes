@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Microsoft IIS - Windows
+  ID       : 2998511
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-01-11T18:34:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Microsoft IIS - Windows</Title>
+    <Description><![CDATA[<P>Provides information on the currently installed Microsoft IIS environment.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;W3SVC&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="IIS - Sites - Windows" EvaluationPeriod="PT12H">if (exists wmis &quot;ROOT\WebAdministration&quot;) then (string values of Selects &quot;Name FROM Site&quot; of wmis &quot;ROOT\WebAdministration&quot;) else (string values of properties &quot;ServerComment&quot; of Select objects &quot;ServerComment FROM IIsWebServerSetting&quot; of wmis &quot;ROOT\MicrosoftIISv2&quot;)</Property>
+    <Property ID="2" Name="IIS - Virtual Directories - Windows" EvaluationPeriod="PT12H">if (exists wmis &quot;ROOT\WebAdministration&quot;) then (string values of selects &quot;PhysicalPath FROM VirtualDirectory&quot; of wmis &quot;ROOT\WebAdministration&quot;) else (string values of selects &quot;Path FROM IIsWebVirtualDirSetting&quot; of wmis &quot;ROOT\MicrosoftIISv2&quot;)</Property>
+    <Property ID="3" Name="IIS - Application Pools - Windows" EvaluationPeriod="PT12H">if (exists wmis &quot;ROOT\WebAdministration&quot;) then ((string value of property &quot;Name&quot; of it) of Select objects &quot;Name FROM ApplicationPool&quot; of wmis &quot;ROOT\WebAdministration&quot;) else ((following text of first &quot;W3SVC/APPPOOLS/&quot; of string value of property &quot;Name&quot; of it) of Select objects &quot;Name FROM IIsApplicationPool&quot; of wmis &quot;ROOT\MicrosoftIISv2&quot;)</Property>
+    <Property ID="4" Name="IIS - Version - Windows" EvaluationPeriod="PT12H">unique values of (value &quot;MajorVersion&quot; of it as string &amp; &quot;.&quot; &amp; value &quot;MinorVersion&quot; of it as string) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\InetStp&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="5" Name="IIS - Components - Windows" EvaluationPeriod="PT12H">unique values of names of values whose (it = 1) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\InetStp\Components&quot; of x32 registry</Property>
+    <Property ID="7" Name="IIS - Virtual Directories mapped with Credentials - Windows" EvaluationPeriod="PT12H">if (exists wmis &quot;ROOT\WebAdministration&quot;) then ((string values of property &quot;UserName&quot; of it, string values of property &quot;PhysicalPath&quot; of it) of select objects &quot;UserName,PhysicalPath FROM VirtualDirectory where UserName != &apos;&apos;&quot; of wmis &quot;ROOT\WebAdministration&quot;) else ((string values of property &quot;UNCUserName&quot; of it, string values of property &quot;Path&quot; of it) of select objects &quot;UNCUserName,Path FROM IIsWebVirtualDirSetting where UNCUserName != &apos;&apos;&quot; of wmis &quot;ROOT\MicrosoftIISv2&quot;)</Property>
+  </Analysis>
+</BES>

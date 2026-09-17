@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : .NET Framework
+  ID       : 2994589
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-10-22T13:05:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>.NET Framework</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 25 Mar 2013 20:07:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="v2.0 Installed">exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; whose (exists keys whose (name of it starts with &quot;v2.0&quot;) of it AND exists value &quot;Install&quot; whose (it as string = &quot;1&quot;) of key whose (name of it starts with &quot;v2.0&quot;) of it) of native registry</Property>
+    <Property ID="2" Name="v2.0 SP">value &quot;SP&quot; of key whose (name of it starts with &quot;v2.0&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Property>
+    <Property ID="3" Name="v3.0 Installed">exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; whose (exists keys whose (name of it starts with &quot;v3.0&quot;) of it AND exists value &quot;Install&quot; whose (it as string = &quot;1&quot;) of key whose (name of it starts with &quot;v3.0&quot;) of it) of native registry</Property>
+    <Property ID="4" Name="v3.0 SP">value &quot;SP&quot; of key whose (name of it starts with &quot;v3.0&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Property>
+    <Property ID="5" Name="v3.5 Installed">exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; whose (exists keys whose (name of it starts with &quot;v3.5&quot;) of it AND exists value &quot;Install&quot; whose (it as string = &quot;1&quot;) of key whose (name of it starts with &quot;v3.5&quot;) of it) of native registry</Property>
+    <Property ID="6" Name="v3.5 SP">value &quot;SP&quot; of key whose (name of it starts with &quot;v3.5&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; of native registry</Property>
+    <Property ID="7" Name="v4 Client Installed">exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; whose (exists keys whose (name of it starts with &quot;v4&quot;) of key &quot;Client&quot; of it AND exists value &quot;Install&quot; whose (it as string = &quot;1&quot;) of key whose (name of it starts with &quot;v4&quot;) of key &quot;Client&quot; of it) of native registry</Property>
+    <Property ID="8" Name="v4 Full Installed">exists key &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; whose (exists keys whose (name of it starts with &quot;v4&quot;) of key &quot;Full&quot; of it AND exists value &quot;Install&quot; whose (it as string = &quot;1&quot;) of key whose (name of it starts with &quot;v4&quot;) of key &quot;Full&quot; of it) of native registry</Property>
+  </Analysis>
+</BES>

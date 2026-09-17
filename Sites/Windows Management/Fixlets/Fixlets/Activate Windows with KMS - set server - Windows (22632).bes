@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Activate Windows with KMS - set server - Windows
+  ID       : 22632
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-11-17T14:43:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Activate Windows with KMS - set server - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>not exists values &quot;KeyManagementServiceName&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform&quot; of (x32 registries; x64 registries)</Relevance>
+    <Relevance>not exists integer values whose(1=it) of selects &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) AND (Name like &apos;Windows%25&apos;)&quot; of wmis</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-08-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 17 Nov 2016 21:39:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+action parameter query "ServerKMS" with description "Enter your MS KMS server FQDN like: kms.domain.com"
+
+// set clock if the time is off (must be less than 4 hours difference)
+if { 2*hour < absolute value of (now - apparent registration server time) }
+    set clock
+endif
+
+if{x64 of operating system}
+	action uses wow64 redirection false
+endif
+
+waithidden "{(pathname of system folder)}\cscript.exe" "{(pathname of system folder)}\slmgr.vbs" /skms { parameter "ServerKMS" }
+waithidden "{(pathname of system folder)}\cscript.exe" "{(pathname of system folder)}\slmgr.vbs" /ato
+
+// References:
+//		https://bigfix.me/relevance/details/3008577#comments
+//		http://technet.microsoft.com/en-us/library/ff793406.aspx
+//		http://support.microsoft.com/kb/929826
+//		http://technet.microsoft.com/en-us/library/bb491016.aspx
+//      https://bigfix.me/relevance/details/3017259
+//      https://blogs.technet.microsoft.com/craigf/2011/03/03/getting-error-0xc004f074-when-activating-against-kms-server/
+
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

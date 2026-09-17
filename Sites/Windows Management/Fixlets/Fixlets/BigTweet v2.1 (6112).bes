@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BigTweet v2.1
+  ID       : 6112
+  Author   : menglish
+  Domain   : BES
+  Imported : 2015-06-26T08:56:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BigTweet v2.1</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=4>BigTweet</FONT></STRONG></P><SPAN lang=EN><FONT size=3 face=Calibri><FONT size=3 face=Calibri>
+<P dir=ltr align=left>This requires two tasks. 1)BigTweet Scheduled Task Setup v2.1 & 2)BigTweet v2.1</P>
+<P dir=ltr align=left>BigTweet allows you to interface with Twitter and their free highly scalable SMS system for notifications.</P>
+<P dir=ltr align=left>This example will use a BigFix Rest API Query within a scheduled task&nbsp;to report on the number of fixlets that are relevant in a specific site. If relevant fixlets are found, it will send a tweet (using twt) which will notify you via text messaging.</P><B>
+<P dir=ltr align=left>Setup:</P>
+<UL></B>
+<P dir=ltr align=left>
+<LI>Twitter SMS Relay Account
+<UL>
+<LI>Create a Twitter Account used for relaying SMS (example @BigTweet111)
+<LI>Under Account Settings, set ‘Tweet privacy’ to ‘Protect my Tweets’
+<P></P></LI></UL>
+<P dir=ltr align=left></P>
+<LI>BigFix Server
+<UL>
+<LI>Create the directory ‘c:\BigTweet’
+<LI>Download and install .net 4 </FONT></FONT></SPAN><A href="http://www.microsoft.com/en-us/download/details.aspx?id=17851"><FONT size=3 face=Calibri><FONT size=3 face=Calibri><SPAN lang=EN><FONT color=#000080>http://www.microsoft.com/en-us/download/details.aspx?id=17851</FONT></FONT></FONT></SPAN></A>
+<P><FONT color=#000080></FONT></P></LI></UL><FONT size=3 face=Calibri><FONT size=3 face=Calibri><SPAN lang=EN>
+<P dir=ltr align=left><FONT color=#000080></FONT></P>
+<LI>TWT
+<UL>
+<LI>Download twt </FONT></FONT></SPAN><A href="https://code.google.com/p/twt/"><FONT size=3 face=Calibri><FONT size=3 face=Calibri><SPAN lang=EN><FONT color=#800080>https://code.google.com/p/twt/</FONT></FONT></FONT></SPAN></A>
+<LI><FONT size=3 face=Calibri><FONT size=3 face=Calibri><SPAN lang=EN>Extract binary and xml configuration file to ‘c:\BigTweet’</SPAN></FONT></FONT>
+<LI><FONT size=3 face=Calibri><FONT size=3 face=Calibri><SPAN lang=EN>Configure OAUTH against your Twitter SMS Relay Account using command twt –config
+<P></P></LI></UL>
+<P dir=ltr align=left></P>
+<LI>Twitter Follow Accounts
+<UL>
+<LI>In order to receive these Twitter SMS Notifications, users must follow the Twitter SMS Relay Account and turn on Mobile Notifications for this user.</SPAN></LI></UL></LI></UL>
+<P><STRONG><FONT color=#ff0000>Note:</FONT></STRONG> By Default, the is scheduled to run once every hour.&nbsp;</P></FONT></FONT>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>(name of operating system starts with &quot;Win&quot;)</Relevance>
+    <Relevance>exist file &quot;c:\BigTweet\alert.xml&quot;</Relevance>
+    <Category>IEM Maintenance</Category>
+    <Source>mike.english@us.ibm.com</Source>
+    <SourceReleaseDate>2015-06-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 24 Jun 2015 17:03:52 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "sitename" with description "Please enter the site name to check relevant fixlets against:" with default value "Enterprise Security"
+
+if {exist file "c:\BigTweet\alert.xml"}
+//Tweet Results
+//No Relevant Endpoints
+	if {(((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") = "0"}
+		wait cmd.exe /C "c:\BigTweet\twt.exe" -q {now} No applicable endpoints to fixlets in site {parameter "sitename" of action}
+
+	//answer is greater than previous
+	elseif {(((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") > ((value of setting "BIGTWEET_Enterprise Security" of client) | "0")}
+		wait cmd.exe /C "c:\BigTweet\twt.exe" -q {now} {((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string)} applicable endpoints to fixlets in site {parameter "sitename" of action}. An increase of {(((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") as integer - ((value of setting "BIGTWEET_Enterprise Security" of client) | "0") as integer}
+
+	//answer is less than than previous
+	elseif {(((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") < ((value of setting "BIGTWEET_Enterprise Security" of client) | "0")}
+		wait cmd.exe /C "c:\BigTweet\twt.exe" -q {now} {((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string)} applicable endpoints to fixlets in site {parameter "sitename" of action}. A decrease of {((value of setting "BIGTWEET_Enterprise Security" of client) | "0") as integer - (((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") as integer}
+
+	//answer is = to previous
+	elseif {(((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0") = ((value of setting "BIGTWEET_Enterprise Security" of client) | "0")}
+		wait cmd.exe /C "c:\BigTweet\twt.exe" -q {now} {((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string)} applicable endpoints to fixlets in site {parameter "sitename" of action}. No change from last check.
+
+	endif
+
+setting "BIGTWEET_{parameter "sitename" of action}"="{((following text of first "integer%22>" of (preceding texts of firsts "</Answer>" of lines of file "c:\bigtweet\alert.xml")) as string) | "0"}" on "{now}" for client
+
+delete "c:\BigTweet\alert.xml"
+
+endif]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

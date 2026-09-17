@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Create Desktop Shortcut (PowerShell)
+  ID       : 25589
+  Author   : CharlieJax
+  Domain   : BESC
+  Imported : 2018-11-30T11:56:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Create Desktop Shortcut (PowerShell)</Title>
+    <Description><![CDATA[<P>Deploys a shortcut to the currently logged in user's desktop.</P>
+<P>Prompts for:</P>
+<UL>
+<LI>All Users or Current User
+<LI>The name of the shorcut
+<LI>The URL (or file path)
+<LI>The icon path and code
+<UL>
+<LI>Many apps and dll files have multiple icons attached to them&nbsp; For example, the Shell32 Icon (<A href="http://help4windows.com/windows_8_shell32_dll.shtml">http://help4windows.com/windows_8_shell32_dll.shtml</A>)&nbsp;has a couple dozen&nbsp;(17 or 13 are excellent choices)
+<LI>Internet Explorer's default icon is set as the default option.&nbsp; Change it to any program.&nbsp; You can go to a desktop shortcut and click the "change icon" button to view other icon options and help you pick the one that works for you.</LI></UL></LI></UL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 30 Nov 2018 19:58:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Actions to ask the user for the input
+action parameter query "SCTarget" with description "Enter 'Current' for Current User or 'All' for All Users." with default value "Current"
+action parameter query "SCName" with description "Enter the name for the icon." with default value "Google"
+action parameter query "SCurl" with description "Enter the URL or path to file" with default value "http://www.google.com"
+action parameter query "SCIcon" with description "Enter the path, code for the icon" with default value "c:\Program Files (x86)\Internet Explorer\iexplore.exe, 1"
+
+//Select Current User or All Users
+if {parameter "SCTarget" of action = "All"}
+    parameter "Desktop" = "c:\users\Public\Desktop"
+else
+    parameter "Desktop" = "c:\users\{name of current user}\Desktop"
+endif
+
+//Create the file
+delete __appendfile
+delete makeshortcut.ps1
+appendfile $Shell = New-Object -ComObject ("WScript.Shell")
+appendfile $ShortCut = $Shell.CreateShortcut("{parameter "Desktop"}\{parameter "SCName"}.lnk")
+appendfile $ShortCut.TargetPath="{parameter "SCurl"}"
+appendfile $ShortCut.Arguments=""
+appendfile $ShortCut.WorkingDirectory = "c:\temp";
+appendfile $ShortCut.WindowStyle = 1;
+appendfile $ShortCut.Hotkey = "";
+appendfile $ShortCut.IconLocation = "{parameter "SCIcon"}";
+appendfile $ShortCut.Description = "";
+appendfile $ShortCut.Save()
+
+//Execute the file
+move __appendfile makeshortcut.ps1
+waithidden "{pathname of system folder & "\WindowsPowerShell\v1.0\powershell.exe"}" ./makeshortcut.ps1]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

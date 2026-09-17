@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Configuration: Enable NTFS Last Access Update - Windows
+  ID       : 6041
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T12:10:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Configuration: Enable NTFS Last Access Update - Windows</Title>
+    <Description><![CDATA[<P>Enable NTFS Last Access Update by setting NtfsDisableLastAccessUpdate to 0.<VALUE> </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists value &quot;NtfsDisableLastAccessUpdate&quot; whose (0 != it as integer) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of native registry</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6.0"]]></Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2011-08-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 19:09:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here&amp;nbsp;</Link>
+        <PostLink>to edit the registry to enable NTFS Last Access Update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset64 &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem]&quot; &quot;NtfsDisableLastAccessUpdate&quot;=dword:00000000</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Enable NetFx3 - .NET 2 & 3 - Windows Features
+  ID       : 22635
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-11-18T15:52:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Enable NetFx3 - .NET 2 &amp; 3 - Windows Features</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows 8 or later */ version of operating system >= "6.2"]]></Relevance>
+    <Relevance>not exists (it as version) whose(&quot;3.5&quot;=it) of following texts of firsts &quot;v&quot; of names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of (x64 registries;x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 18 Nov 2016 20:11:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// disable wow64 redirection if x64 bit OS
+action uses wow64 redirection {not x64 of operating system}
+
+
+waithidden &quot;{pathname of system folder}\dism.exe&quot; /NoRestart /Quiet /online /enable-feature /featurename:NetFx3 { if ( (it contains &quot;Win2008R2&quot;) of name of operating system ) then &quot;&quot; else &quot;/all&quot; }
+
+// Restart Required
+action requires restart
+
+//  Raw Registry Location:
+// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages\Microsoft-Windows-Lxss-Optional-Package~31bf3856ad364e35~amd64~~10.0.14342.1000\Updates
+
+//  Related:
+// https://bigfix.me/fixlet/details/823
+// https://www.raymond.cc/blog/add-or-remove-windows-features-through-the-command-prompt/
+// http://www.infralib.com/2013/02/running-64bit-cmd-via-32bit-sccm-client/
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

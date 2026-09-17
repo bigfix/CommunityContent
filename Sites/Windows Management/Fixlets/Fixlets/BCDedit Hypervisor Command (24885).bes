@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BCDedit Hypervisor Command
+  ID       : 24885
+  Author   : FrozenWaltDisney
+  Domain   : BESC
+  Imported : 2018-01-15T11:27:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BCDedit Hypervisor Command</Title>
+    <Description><![CDATA[<P>RUNS command</P>
+<P>bcdedit /set hypervisorlaunchtype auto</P>
+<P>&nbsp;</P>
+<P>For user on 64bit systems</P>
+<P> EDIT: Please note that powershell is not required. instead you can use "waithidden" with the command to make this function. You however do still need to have the wow redirection for 64bit.</p>]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-01-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 15 Jan 2018 19:24:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+delete __createfile
+createfile until END_OF_FILE
+
+cmd /c &quot;bcdedit /set hypervisorlaunchtype auto&quot;
+
+
+END_OF_FILE
+
+delete tmvmstart.ps1
+move __createfile tmvmstart.ps1
+
+override run
+runas=agent
+run { pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) } -ExecutionPolicy Bypass -windowstyle hidden -File tmvmstart.ps1
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

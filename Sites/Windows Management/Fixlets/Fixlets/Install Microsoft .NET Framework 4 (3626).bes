@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Microsoft .NET Framework 4
+  ID       : 3626
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-10-22T13:03:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Microsoft .NET Framework 4</Title>
+    <Description><![CDATA[<P>The .NET Framework is Microsoft's comprehensive and consistent programming model for building applications that have visually stunning user experiences, seamless and secure communication, and the ability to model a range of business processes.<BR><BR>The .NET Framework 4 works side by side with older Framework versions. Applications that are based on earlier versions of the Framework will continue to run on the version targeted by default.<BR><BR>The Microsoft .NET Framework 4 provides the following new features and improvements:<BR><BR>
+<UL>
+<LI>Improvements in Common Language Runtime (CLR) and Base Class Library (BCL)
+<UL>
+<LI>Performance improvement including better multicore support, background garbage collection, and profiler attach on server.
+<LI>New memory mapped file and numeric types.
+<LI>Easier debugging including dump debugging, Watson minidumps, mixed mode debugging for 64 bit and code contracts.
+<LI>For a comprehensive list of enhancements to CLR and BCL go <A href="http://msdn.microsoft.com/en-us/library/ms171868(v=VS.100).aspx"><FONT color=#000080>here</FONT></A>.</LI></UL>
+<LI>Innovations in the Visual Basic and C# languages, for example statement lambdas, implicit line continuations, dynamic dispatch, and named/optional parameters.
+<LI>Improvements in Data Access and Modeling
+<UL>
+<LI>The Entity Framework enables developers to program against relational databases using .NET objects and Language Integrated Query (LINQ). It has many new features, including persistence ignorance and POCO support, foreign key associations, lazy loading, test-driven development support, functions in the model, and new LINQ operators. Additional features include better n-tier support with self-tracking entities, customizable code generation using T4 templates, model first development, an improved designer experience, better performance, and pluralization of entity sets. For more information go <A href="http://msdn.microsoft.com/en-us/library/ex6y04yf(VS.100).aspx"><FONT color=#000080>here</FONT></A>.
+<LI>WCF Data Services is a component of the .NET Framework that enables you to create REST-based services and applications that use the Open Data Protocol (OData) to expose and consume data over the Web. WCF Data Services has many new features, including enhanced BLOB support, data binding, row count, feed customization, projections, and request pipeline improvements. Built-in integration with Microsoft Office 2010 now makes it possible to expose Microsoft Office SharePoint Server data as an OData feed and access that data feed by using the WCF Data Services client library. For more information go <A href="http://msdn.microsoft.com/en-us/library/ee373845(VS.100).aspx"><FONT color=#000080>here</FONT></A>.</LI></UL>
+<LI>Enhancements to ASP.NET
+<UL>
+<LI>More control over HTML, element IDs and custom CSS that make it much easier to create standards-compliant and SEO-friendly web forms.
+<LI>New dynamic data features including new query filters, entity templates, richer support for Entity Framework 4, and validation and templating features that can be easily applied to existing web forms.
+<LI>Web forms support for new AJAX library improvements including built-in support for content delivery networks (CDNs).
+<LI>For a comprehensive list of enhancements to ASP.NET go <A href="http://www.asp.net/learn/whitepapers/aspnet4/"><FONT color=#000080>here</FONT></A>.</LI></UL>
+<LI>Improvements in Windows Presentation Foundation (WPF)
+<UL>
+<LI>Added support for Windows 7 multi-touch, ribbon controls, and taskbar extensibility features.
+<LI>Added support for Surface 2.0 SDK.
+<LI>New line-of-business controls including charting control, smart edit, data grid, and others that improve the experience for developers who build data centric applications.
+<LI>Improvements in performance and scalability.
+<LI>Visual improvements in text clarity, layout pixel snapping, localization, and interoperability.
+<LI>For a comprehensive list of enhancements to WPF go <A href="http://msdn.microsoft.com/en-us/library/bb613588(VS.100).aspx"><FONT color=#000080>here</FONT></A>.</LI></UL>
+<LI>Improvements to Windows Workflow (WF) that enable developers to better host and interact with workflows. These include an improved activity programming model, an improved designer experience, a new flowchart modeling style, an expanded activity palette, workflow-rules integration, and new message correlation features. The .NET Framework 4 also offers significant performance gains for WF-based workflows. For a comprehensive list of enhancements to WF go <A href="http://msdn.microsoft.com/en-us/library/dd489410(VS.100).aspx"><FONT color=#000080>here</FONT></A>.
+<LI>Improvements to Windows Communication Foundation (WCF) such as support for WCF Workflow Services enabling workflow programs with messaging activities, correlation support. Additionally, .NET Framework 4 provides new WCF features such as service discovery, routing service, REST support, diagnostics, and performance. For a comprehensive list of enhancements to WCF go <A href="http://msdn.microsoft.com/en-us/library/dd456789(VS.100).aspx"><FONT color=#000080>here</FONT></A>.
+<LI>Innovative new parallel-programming features such as parallel loop support, Task Parallel Library (TPL), Parallel LINQ (PLINQ), and coordination data structures which let developers harness the power of multi-core processors.</LI></UL>]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND NOT x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it) OR name of it = &quot;Win2008R2&quot; OR name of it = &quot;WinXPe&quot;) of operating system</Relevance>
+    <Relevance>not exists key &quot;HKLM\SOFTWARE\Microsoft\.NETFramework\v4.0.30319&quot; of native registry</Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 16:07:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch dotNetFx40_Full_x86_x64.exe sha1:58da3d74db353aad03588cbb5cea8234166d8b99 size:50449456 http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe
+
+wait __Download\dotNetFx40_Full_x86_x64.exe /quiet /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action3891">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.microsoft.com/en-us/download/details.aspx?id=17718</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

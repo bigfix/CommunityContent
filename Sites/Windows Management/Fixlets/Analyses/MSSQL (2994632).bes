@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : MSSQL
+  ID       : 2994632
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-30T08:30:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>MSSQL</Title>
+    <Description><![CDATA[<P>Some info about MS SQL</P>
+<P>&nbsp;</P>
+<P>The latest version of&nbsp;this analysis&nbsp;can be found here:&nbsp; <A href="http://bigfix.me/analysis/details/2994623">http://bigfix.me/analysis/details/2994623</A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows 2003 or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* MSSQL */ (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) OR (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer&quot; of native registry) OR ((exists local mssql databases) AND (exists runnings whose(it = TRUE) of local mssql databases))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 28 Jan 2014 22:40:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SQLPath" EvaluationPeriod="P2D">value &quot;SQLPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\Setup&quot; of native registry</Property>
+    <Property ID="2" Name="CurrentVersion" EvaluationPeriod="P2D">value &quot;CurrentVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer\CurrentVersion&quot; of native registry</Property>
+    <Property ID="3" Name="Instance Names" EvaluationPeriod="P2D">values &quot;MSSQLSERVER&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry</Property>
+    <Property ID="4" Name="DefaultData Location" EvaluationPeriod="P2D">values &quot;DefaultData&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry</Property>
+    <Property ID="5" Name="DefaultLog Location" EvaluationPeriod="P2D">values &quot;DefaultLog&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry</Property>
+    <Property ID="6" Name="SQLDataRoot" EvaluationPeriod="P2D">values &quot;SQLDataRoot&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry</Property>
+    <Property ID="7" Name="Patch Level" EvaluationPeriod="P1D">values &quot;PatchLevel&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry</Property>
+    <Property ID="8" Name="Edition" EvaluationPeriod="P7D">unique values of (((it as string) of values &quot;Edition&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry);((it as string) of values &quot;EditionType&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry))</Property>
+    <Property ID="9" Name="DBs" EvaluationPeriod="P1D">names of files whose(name of it as lowercase ends with &quot;.mdf&quot;) of ((folders &quot;DATA&quot; of folders ((it as string) of values &quot;SQLDataRoot&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry)) ; folders ((it as string) of values &quot;DefaultData&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry))</Property>
+    <Property ID="10" Name="DB_Transaction_Logs" EvaluationPeriod="P1D">names of files whose(name of it as lowercase ends with &quot;.ldf&quot;) of ((folders &quot;DATA&quot; of folders ((it as string) of values &quot;SQLDataRoot&quot; of keys &quot;Setup&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry)) ; folders ((it as string) of values &quot;DefaultLog&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of value &quot;MSSQLSERVER&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry))</Property>
+    <Property ID="11" Name="BackupDirectory" EvaluationPeriod="P1D">values &quot;BackupDirectory&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of values &quot;MSSQLSERVER&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry</Property>
+    <Property ID="12" Name="Backups" EvaluationPeriod="P1D">names of files of folders ((it as string) of values &quot;BackupDirectory&quot; of keys &quot;MSSQLServer&quot; of keys ((it as string) of values &quot;MSSQLSERVER&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server&quot; of native registry)</Property>
+    <Property ID="13" Name="instance names" EvaluationPeriod="PT12H">instance names of local mssql databases</Property>
+    <Property ID="14" Name="Running?" EvaluationPeriod="PT12H">runnings of local mssql databases</Property>
+    <Property ID="15" Name="InstanceRegKey?" EvaluationPeriod="PT12H">(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of native registry)</Property>
+    <Property ID="16" Name="MSSQLServer RegKey?" EvaluationPeriod="PT12H">(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSSQLServer\MSSQLServer&quot; of native registry)</Property>
+    <Property ID="17" Name="Running? Rel" EvaluationPeriod="PT12H">exists runnings whose(it = TRUE) of local mssql databases</Property>
+  </Analysis>
+</BES>

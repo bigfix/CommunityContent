@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows 11 Upgrade Eligibility Information
+  ID       : 2998656
+  Author   : marjan
+  Domain   : BESC
+  Imported : 2021-12-07T13:18:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows 11 Upgrade Eligibility Information</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD><FONT size=2>
+<P><BR>This analysis contains information about system requirements for upgrading computers from Windows 10 to Windows 11.</P>
+<P>This analysis applies to <STRONG>Windows 10 systems only.</STRONG></P>
+<P>System requirements:</P>
+<UL>
+<LI>1 gigahertz (GHz) or faster with 2 or more cores on a compatible 64-bit processor or System on a Chip (SoC).
+<LI>4 gigabytes (GB) of RAM
+<LI>64 GB or larger storage device
+<LI>UEFI, Secure Boot capable
+<LI>Trusted Platform Module (TPM) version 2.0
+<LI>Graphics Card compatible with DirectX 12 or later with WDDM 2.0 driver *
+<LI>High definition (720p) display that is greater than 9'' diagonally, 8 bits per color channel
+<LI>Internet Connectivity and Microsoft Account </LI></UL></FONT>
+<P><STRONG>Important Note:</STRONG> Graphics Card Check requires a <?relevance link of fixlets whose (task flag of it AND mime field "x-fixlet-win11-eligibility" of it = "probeTask" ) of current bes site ?> to evaluate. Please run this task on all of your Windows 10 devices.</P>
+<P>* We have observed in our testing that Windows 10 can be upgraded to 11 in virtual environments with WDDM 1.1 and 1.4 without any&nbsp;issues. </P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win10&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 28 Sep 2021 23:04:56 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-win11-eligibility</Name>
+      <Value>analysis</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 01 Oct 2021 17:58:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="OS Architecture" EvaluationPeriod="P1D">(if (it = &quot;x86_64&quot;) then &quot;PASS&quot; else &quot;FAIL - OS Architecture: &quot; &amp; it) of (architecture of operating system)</Property>
+    <Property ID="2" Name="Processor Speed Check" EvaluationPeriod="P1D">(if (it &gt; 1000) then &quot;PASS&quot; else concatenation of &quot;FAIL - Current processor speed in GHZ: &quot; &amp; (it as string)) of (significant digits 2 of (speed of main processor / mhz))</Property>
+    <Property ID="3" Name="Processor Core Count Check" EvaluationPeriod="P1D">(if (it &gt;= 2) then &quot;PASS&quot; else concatenation of &quot;FAIL - Current core count: &quot; &amp; (it as string)) of (core of it * count of it) of cpupackage</Property>
+    <Property ID="4" Name="Memory Check" EvaluationPeriod="P1D">(if (it &gt;= 4096) then &quot;PASS&quot; else &quot;FAIL - Current memory in MB: &quot; &amp; (it as string)) of  (if (it &gt; 128) then ( ((it / 32) * 32) + (if (it mod 32 &gt; 16) then 32 else 0) ) else it) of (size of ram /1048576)</Property>
+    <Property ID="5" Name="Storage Check" EvaluationPeriod="P1D">(if (it) then &quot;PASS&quot; else &quot;FAIL - no 64GB fixed drive&quot;) of ( exists drive whose (type of it = &quot;DRIVE_FIXED&quot; and (total space of it/(1024*1024*1024)) &gt;=64 ))</Property>
+    <Property ID="6" Name="Video Card Memory Check" EvaluationPeriod="PT5M">(if (number of elements of it = 0) then &quot;PASS&quot; else &quot;FAIL - Issues: &quot; &amp; concatenation &quot;,&quot; of elements of it ) of set of (  following texts whose (it does not contain &quot;12&quot; AND (it as integer &lt; 12 ) of first 2 of (it as trimmed string) of following text of first &quot;DirectX&quot; of it) of first &quot;: &quot; of (it as string) of lines whose (it as trimmed string starts with &quot;DirectX Version: &quot;) of it; following texts whose ( (it as trimmed string as version &lt; &quot;2.0&quot;) of following text of first &quot;WDDM&quot; of it) of firsts &quot;: &quot; of (it as string) of lines whose (it as trimmed string starts with &quot;Driver Model:&quot; and it contains &quot;WDDM&quot;) of it)of file &quot;win11-eligibility\dxdiag.txt&quot; of parent folder of client |&quot;probe not run&quot;</Property>
+    <Property ID="7" Name="TPM 2.0 Check" EvaluationPeriod="PT15M">(if number of elements of it = 0 then &quot;FAIL - TPM not visible in wmi&quot; else (if (number of elements of it = 0) then &quot;PASS&quot; else &quot;FAIL - TPM issues: &quot; &amp; concatenation &quot;|&quot; of elements of it) of set of elements whose ((it contains &quot;_InitialValue&quot; AND not (it as boolean) of following text of first &quot;=&quot; of it) OR ((it as version &lt; &quot;2.0&quot;) of tuple string item 0 of following text of first &quot;SpecVersion=&quot; of it)) of it) of set of ((it as string) of selects &quot;IsActivated_InitialValue, IsEnabled_InitialValue, IsOwned_InitialValue, SpecVersion from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;)</Property>
+    <Property ID="8" Name="UEFI State Check" EvaluationPeriod="PT15M">if (exists selects &quot;* from Win32_DiskPartition Where Type = &apos;GPT: System&apos;&quot; of wmi) then &quot;PASS&quot; else &quot;FAIL - BIOS boot mode&quot;</Property>
+    <Property ID="9" Name="Secure Boot State Check" EvaluationPeriod="PT15M">if exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecureBoot\State&quot; whose (value &quot;UEFISecureBootEnabled&quot; of it = 1) of native registry then &quot;PASS&quot; else &quot;FAIL - Secure Boot Disabled&quot;</Property>
+    <Property ID="10" Name="OS Version Check" EvaluationPeriod="PT15M">(if (it &gt;=2004) then &quot;PASS&quot; else &quot;FAIL - Current Version: &quot; &amp; (it as string)) of (it as integer) of value &quot;ReleaseID&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : KB2731771: New APIs for conversion between local time and UTC - Windows 7 (x86 and x64) and Windows Server 2008r2
+  ID       : 2592
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-09-09T09:27:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>KB2731771: New APIs for conversion between local time and UTC - Windows 7 (x86 and x64) and Windows Server 2008r2</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>When you run an application that requires date interpretation and that uses the new APIs on a computer that is running Windows 7 or Windows Server 2008 R2, the following issues may occur:<BR>
+<UL>
+<LI>Applications or web pages crash.
+<LI>You cannot log on to web-based applications.
+<LI>When you schedule a meeting by using a calendar application, and the recipient of the calendar item is located in a different time zone, the calendar item does not display the correct meeting time.
+<LI>JavaScript-based stock ticker applications or JavaScript-based chart applications do not work as expected.</LI></UL>
+<P><B>Note:</B> Affected computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.<BR><BR><B>Note:</B> This security update is also referenced under KB2731771.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>4.67 MB or 6.27 MB</DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>NOT(exists names whose (it as string contains &quot;6.1.1.1&quot;) of values of keys whose (name of it contains &quot;Package_for_KB2731771&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackageIndex&quot; of native registry)</Relevance>
+    <Relevance>not pending restart &quot;86675d2fd327b328793dc179727ce0ce5107a72e&quot; AND not pending restart &quot;98dba6673cedbc2860c76b9686e895664d463347&quot;</Relevance>
+    <Relevance>((name of it = &quot;Win7&quot; OR name of it = &quot;Win2008R2&quot;) AND (service pack major version of it = 1 OR service pack major version of it = 0)) of operating system</Relevance>
+    <Category>Security Patch</Category>
+    <Source>Microsoft</Source>
+    <SourceID>KB2731771</SourceID>
+    <SourceReleaseDate>2013-09-09</SourceReleaseDate>
+    <SourceSeverity>Optional</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-superseded_date</Name>
+      <Value>2012-11-14</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 14 Aug 2012 23:40:59 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-superseded</Name>
+      <Value>MS12-075</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 09 Sep 2013 16:24:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {x64 of operating system}
+
+	download http://download.microsoft.com/download/5/D/D/5DD3B258-BF31-4656-8D61-A4F564E7ADE6/Windows6.1-KB2731771-x64.msu
+	continue if {(size of it = 6580602 AND sha1 of it = "98dba6673cedbc2860c76b9686e895664d463347") of file "Windows6.1-KB2731771-x64.msu" of folder "__Download"}
+
+	// Is Windows Update service running?
+	continue if {exists running service "wuauserv" OR NOT exists service "wuauserv" whose (start type of it = "disabled")}
+
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.1-KB2731771-x64.msu"}" /quiet /norestart
+
+	action requires restart "98dba6673cedbc2860c76b9686e895664d463347"
+
+else
+
+	download http://download.microsoft.com/download/5/D/D/5DD3B258-BF31-4656-8D61-A4F564E7ADE6/Windows6.1-KB2731771-x86.msu
+	continue if {(size of it = 4904874 AND sha1 of it = "86675d2fd327b328793dc179727ce0ce5107a72e") of file "Windows6.1-KB2731771-x86.msu" of folder "__Download"}
+
+	// Is Windows Update service running?
+	continue if {exists running service "wuauserv" OR NOT exists service "wuauserv" whose (start type of it = "disabled")}
+
+	waithidden "{pathname of system folder & "\wusa.exe"}" "{pathname of client folder of current site & "\__Download\Windows6.1-KB2731771-x86.msu"}" /quiet /norestart
+
+	action requires restart "86675d2fd327b328793dc179727ce0ce5107a72e"
+
+endif
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action2841">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view this Security Bulletin from Microsoft.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.microsoft.com/kb/2731771</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

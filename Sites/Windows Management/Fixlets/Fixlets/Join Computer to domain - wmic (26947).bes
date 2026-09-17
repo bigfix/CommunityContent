@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Join Computer to domain - wmic
+  ID       : 26947
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-09-12T07:24:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Join Computer to domain - wmic</Title>
+    <Description><![CDATA[<P><LABEL for=secret><STRONG><FONT size=3>About this Task</FONT></STRONG></LABEL></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>
+<TABLE>
+<TBODY>
+<TR>
+<TD><LABEL for=secret>Domain Name (fully-qualified, ie "exampledomain.com"):</LABEL> </TD>
+<TD><INPUT id=domainname name=domainname></TD></TR>
+<TR>
+<TR>
+<TD><LABEL for=secret>OU to join (optional), ex: OU=Workstations;DC=ExampleDomain;DC=com:</LABEL> </TD>
+<TD><INPUT id=ou name=ou></TD></TR>
+<TR>
+<TD><LABEL for=secret>Domain Account (ex: DOMAIN\administrator):</LABEL> </TD>
+<TD><INPUT id=userd name=userd></TD></TR>
+<TR>
+<TD><LABEL for=secret>Domain Account Password:</LABEL> </TD>
+<TD><INPUT id=passwordd type=password name=passwordd> </TD></TR></TBODY></TABLE><script>
+document.body.ontakeaction = function() {
+ var params = [ document.getElementById( "domainname" ).value,
+	document.getElementById( "userd" ).value,
+	document.getElementById( "passwordd" ).value
+	];
+var valid=true;
+for (i=0, len = params.length; i < len; i++) {
+	if (params[i] == null || params[i]=="")
+	{
+	 valid=false;
+	}
+	;
+}
+
+if (valid==false)
+	{alert("Hey, you forgot to enter a secure parameter! Please fill out the Description tab before taking the action.");}
+     else
+	{TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", {}, {
+		domainname: document.getElementById( "domainname" ).value, ou: document.getElementById( "ou" ).value, userd: document.getElementById( "userd" ).value, passwordd: document.getElementById( "passwordd" ).value } );
+	}
+  return false;
+}
+</script> </P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT color=#ff0000 size=3>Important Notes</FONT></STRONG></P>
+<UL dir=ltr>
+<LI>
+<DIV>You must enter a password in order to take an action</DIV>
+<LI>
+<DIV>Because of the way secure parameters work, you cannot use this task in&nbsp;a baseline, target an action dynamically by property (e.g., automatic groups), use add additional actions.</DIV></LI></UL>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>not exists netbios domainnames of local computers of active directories</Relevance>
+    <Category>Accounts</Category>
+    <Source>HCL Lab Services</Source>
+    <SourceReleaseDate>2019-05-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 04 Oct 2019 17:39:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Join</Link>
+        <PostLink>&amp;nbsp;the computer to a domain</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+waithidden wmic.exe computersystem where name!=null call joindomainorworkgroup {if parameter "ou" of action as trimmed string != "" then "AccountOU=%22" & parameter "ou" of action & "%22" else ""} fjoinoptions=3 name="{parameter "domainname" of action}" username="{parameter "userd" of action}" Password="{parameter "passwordd" of action}"
+continue if {exit code of action = 0}
+action requires restart "Join_Domain"
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

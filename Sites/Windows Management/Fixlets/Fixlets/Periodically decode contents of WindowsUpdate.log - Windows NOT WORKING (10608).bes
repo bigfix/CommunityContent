@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Periodically decode contents of WindowsUpdate.log - Windows NOT WORKING
+  ID       : 10608
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-29T13:52:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Periodically decode contents of WindowsUpdate.log - Windows NOT WORKING</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry)</Relevance>
+    <Relevance>exists lines containing &quot;Get-WindowsUpdateLog PowerShell&quot; of files &quot;WindowsUpdate.log&quot; of windows folders</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-03-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 29 Mar 2016 20:34:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+parameter &quot;LogLocation&quot; = &quot;{ pathname of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of clients }&quot;
+
+parameter &quot;SymLocation&quot; = &quot;{ pathname of items 1 of it whose(item 0 of it = maximum of modification times of files &quot;wuapi.mof&quot; of item 1 of it) of (it, folders &quot;WindowsUpdateLog\SymCache&quot; of ( folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;C:\Users&quot; ) ) of maximum of modification times of files &quot;wuapi.mof&quot; of folders &quot;WindowsUpdateLog\SymCache&quot; of ( folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;C:\Users&quot; ) }&quot;
+
+// https://technet.microsoft.com/en-us/library/mt238376.aspx
+// http://powershell-guru.com/dont-19-use-double-quotes-escape-characters/
+// https://msdn.microsoft.com/en-us/library/windows/desktop/ee416588(v=vs.85).aspx#symbol_servers
+waithidden powershell -ExecutionPolicy Bypass -command &quot;Get-WindowsUpdateLog -SymbolServer &apos;{ parameter &quot;SymLocation&quot; }&apos; -LogPath &apos;{ parameter &quot;LogLocation&quot; }\WindowsUpdate.log&apos;&quot;
+
+// http://answers.microsoft.com/en-us/windows/forum/windows_10-update/windowsupdatelog-unreadable/2e6b05ed-ac91-4186-a362-c6b5a7e42911?auth=1
+// It seems like you can specify a folder for -SymbolServer :
+// Get-WindowsUpdateLog -SymbolServer C:\Users\user\Documents\MySymbols
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : UPDATE: Microsoft .NET Framework 4.8 Available - Windows 7 SP1 / Windows 8.1 / Windows 10 / Windows Server 2008 R2 SP1 / Windows Server 2012 / Windows Server 2012 R2 / Windows Server 2016 / Windows Server 2019
+  ID       : 26631
+  Author   : cjwolford
+  Domain   : BESC
+  Imported : 2019-06-14T11:37:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>UPDATE: Microsoft .NET Framework 4.8 Available - Windows 7 SP1 / Windows 8.1 / Windows 10 / Windows Server 2008 R2 SP1 / Windows Server 2012 / Windows Server 2012 R2 / Windows Server 2016 / Windows Server 2019</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>The Microsoft .NET Framework 4.8 is a highly compatible, in-place update to the Microsoft .NET Framework 4, Microsoft .NET Framework 4.5, Microsoft .NET Framework 4.5.1, Microsoft .NET Framework 4.5.2, Microsoft .NET Framework 4.6, Microsoft .NET Framework 4.6.1, Microsoft .NET Framework 4.6.2, Microsoft .NET Framework 4.7, Microsoft .NET Framework 4.7.1, and Microsoft .NET Framework 4.7.2. The offline package can be used in situations where the web installer cannot be used due to lack of internet connectivity.<BR><BR>After downloading and installing this update, affected computers will no longer be susceptible to this vulnerability.<BR><BR><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> There are known issues associated with the installation of this update. See the Known Issues section of the Knowledge Base Article for more information.</P>
+<P><B>Note:</B> Affected computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>69.3 MB </DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>not ia64 of operating system</Relevance>
+    <Relevance>(((name of it = &quot;Win7&quot; OR name of it = &quot;Win2008R2&quot;) AND service pack major version of it = 1) OR (((name of it = &quot;Win8.1&quot; OR name of it = &quot;Win8&quot; AND value &quot;CurrentVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry as string is &quot;6.3&quot;) OR name of it = &quot;Win2012&quot; OR name of it = &quot;Win2012R2&quot;) AND service pack major version of it = 0) OR (name of it = &quot;Win10&quot; OR (it starts with &quot;Win&quot; AND it does not start with &quot;Win20&quot;) of name of it AND (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) OR ((((it starts with &quot;Win20&quot; or it = &quot;Win2016&quot; or it = &quot;Win2019&quot;) of name of it AND (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) AND service pack major version of it = 0))) of operating system</Relevance>
+    <Relevance><![CDATA[not exists key "HKLM\Software\Microsoft\NET Framework Setup\NDP\v4" of native registry OR exists key "HKLM\Software\Microsoft\NET Framework Setup\NDP\v4" whose (not exists key "Full" of it OR exists key "Full" whose (not exists value "Release" of it OR value "Release" of it < 528049) of it) of native registry]]></Relevance>
+    <Relevance>if (name of it = &quot;Win8.1&quot; OR name of it = &quot;Win8&quot; AND value &quot;CurrentVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry as string is &quot;6.3&quot;) of operating system then exists key (&quot;Package_for_KB2919355~31bf3856ad364e35~amd64~~6.3.1.14&quot;; &quot;Package_for_KB2919355~31bf3856ad364e35~x86~~6.3.1.14&quot;) whose (112 = value &quot;CurrentState&quot; of it as integer) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages&quot; of native registry else true</Relevance>
+    <Relevance>if ((exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10 of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) then ((it as integer = 1607 OR it as integer = 1703 OR it as integer = 1709 OR it as integer = 1803 OR it as integer = 1809) of value &quot;ReleaseId&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) else true</Relevance>
+    <Category>Update</Category>
+    <Source>Microsoft</Source>
+    <SourceReleaseDate>2018-04-18</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>Unspecified</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 14 Jun 2018 06:43:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-operating-system</Name>
+      <Value>Windows 7 SP1 |~| Windows 8 Gold |~| Windows 8.1 Gold |~| Windows Server 2008 R2 SP1 |~| Windows Server 2008 SP2 |~| Windows Server 2012 Gold |~| Windows Server 2012 R2 Gold |~| Windows Vista SP2 (x64)</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>no-relevance-health-check</Name>
+      <Value>false</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product-family</Name>
+      <Value>Windows</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-component</Name>
+      <Value>.NET Framework</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product</Name>
+      <Value>Win8.1|Win2012|Win2012R2|Win2008R2|Win8|Win7|WinVista|Win2008</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Jun 2019 18:04:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ndp48-x86-x64-allos-enu.exe sha1:0d425249d42a01e7ab3ac243152fa7773c43f0bf size:72721568 https://download.visualstudio.microsoft.com/download/pr/7afca223-55d2-470a-8edc-6a1739ae3252/abd170b4b0ec15ad0222a809b761a036/ndp48-x86-x64-allos-enu.exe sha256:95889D6DE3F2070C07790AD6CF2000D33D9A1BDFC6A381725AB82AB1C314FD53
+
+waithidden __Download\ndp48-x86-x64-allos-enu.exe /quiet /norestart
+
+action may require restart &quot;0d425249d42a01e7ab3ac243152fa7773c43f0bf&quot;
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action27905">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to see the Knowledge Base Article for this update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://devblogs.microsoft.com/dotnet/announcing-the-net-framework-4-8</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

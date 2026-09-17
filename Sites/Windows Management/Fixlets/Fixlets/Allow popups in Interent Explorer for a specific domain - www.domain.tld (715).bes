@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Allow popups in Interent Explorer for a specific domain - www.domain.tld
+  ID       : 715
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-05T10:41:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Allow popups in Interent Explorer for a specific domain - www.domain.tld</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists current user AND (1 = number of logged on users)</Relevance>
+    <Relevance><![CDATA[not exists key "Software" whose(exists key "Microsoft\Internet Explorer\New Windows\Allow" of it AND exists value "www.domain.tld" of key "Microsoft\Internet Explorer\New Windows\Allow" of it) of (key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry)]]></Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2012-08-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Dec 2012 16:43:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[regset64 "[{("HKEY_USERS\" & (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry) & "\Software\Microsoft\Internet Explorer\New Windows\Allow")}]" "www.domain.tld"=hex:00,00]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

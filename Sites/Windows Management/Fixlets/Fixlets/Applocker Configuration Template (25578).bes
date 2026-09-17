@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Applocker Configuration Template
+  ID       : 25578
+  Author   : N0m4d1c
+  Domain   : BESC
+  Imported : 2018-11-09T15:10:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Applocker Configuration Template</Title>
+    <Description><![CDATA[<P>This is a template for implementing AppLocker&nbsp;using Bigfix.</P>
+<P>The script was written for imaging, therefore the relevance is <STRONG>True</STRONG>. We are only working with Appx files in Windows 10, however, the rule collection types should be very similar. In this example, I only want the Administrator account to have access to Settings and block access for all other users. Since Applocker rules go based on User or Group SID, I am using powershell to pull the SID of the Administrator user that is then applied to the windows.immersivecontrolpanel.appx rule. All of the other rulles apply to everyone.</P>
+<P><STRONG>The XML part of the script gets messed up &nbsp;when being displayed on&nbsp;Bigfix.me, therefore I have provided it below. If you download the .bes file it will be correct.</STRONG></P>
+<P>&lt;AppLockerPolicy Version="1"&gt;<BR>&nbsp; &lt;RuleCollection Type="Exe" EnforcementMode="NotConfigured" /&gt;<BR>&nbsp; &lt;RuleCollection Type="Msi" EnforcementMode="NotConfigured" /&gt;<BR>&nbsp; &lt;RuleCollection Type="Script" EnforcementMode="NotConfigured" /&gt;<BR>&nbsp; &lt;RuleCollection Type="Dll" EnforcementMode="NotConfigured" /&gt;<BR>&nbsp; &lt;RuleCollection Type="Appx" EnforcementMode="Enabled"&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;FilePublisherRule Id="f9e7ee63-13da-4646-8f44-f8bed6c4e75e" Name="windows.immersivecontrolpanel, from Microsoft Corporation" Description="" UserOrGroupSid="{{0}" Action="Allow"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Conditions&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="windows.immersivecontrolpanel" BinaryName="*"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;BinaryVersionRange LowSection="*" HighSection="*" /&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/FilePublisherCondition&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Conditions&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;/FilePublisherRule&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;FilePublisherRule Id="6e977e00-e0e1-4b26-a163-9ba2c251e5c5" Name="Microsoft.BioEnrollment, from Microsoft Corporation" Description="" UserOrGroupSid="S-1-1-0" Action="Deny"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;Conditions&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.BioEnrollment" BinaryName="*"&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;BinaryVersionRange LowSection="*" HighSection="*" /&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/FilePublisherCondition&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/Conditions&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;/FilePublisherRule&gt;<BR>&nbsp; &lt;/RuleCollection&gt;<BR>&lt;/AppLockerPolicy&gt;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Bigfix.me</Category>
+    <Source>Internal</Source>
+    <SourceID>n0m4d1c</SourceID>
+    <SourceReleaseDate>2018-10-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Nov 2018 23:08:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Creates a directory for our created files to go
+if {exists file "C:\Apps\Locker\Applocker.ps1"}
+	delete "C:\Apps\Locker\Applocker.ps1"
+endif
+if {exists file "C:\Apps\Locker\Applocker.xml"}
+	delete "C:\Apps\Locker\Applocker.xml"
+endif
+
+//Creates a ps1 file that gets the Administrator SID and uses that to create an XML configuration file.
+delete __createfile
+
+createfile until _end_
+
+$User = Get-WmiObject win32_UserAccount -Filter 'Name = "Administrator"'
+
+$xml = @'
+<AppLockerPolicy Version="1">
+  <RuleCollection Type="Exe" EnforcementMode="NotConfigured" />
+  <RuleCollection Type="Msi" EnforcementMode="NotConfigured" />
+  <RuleCollection Type="Script" EnforcementMode="NotConfigured" />
+  <RuleCollection Type="Dll" EnforcementMode="NotConfigured" />
+  <RuleCollection Type="Appx" EnforcementMode="Enabled">
+    <FilePublisherRule Id="f9e7ee63-13da-4646-8f44-f8bed6c4e75e" Name="windows.immersivecontrolpanel, from Microsoft Corporation" Description="" UserOrGroupSid="{{0}" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="windows.immersivecontrolpanel" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="6e977e00-e0e1-4b26-a163-9ba2c251e5c5" Name="Microsoft.BioEnrollment, from Microsoft Corporation" Description="" UserOrGroupSid="S-1-1-0" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.BioEnrollment" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+  </RuleCollection>
+</AppLockerPolicy>
+'@ -f $User.SID
+
+$xml | out-file C:\Apps\Locker\Applocker.xml -Encoding utf8
+
+_end_
+
+copy __createfile C:\Apps\Locker\Applocker.ps1
+
+action uses wow64 redirection {not x64 of operating system}
+
+//Runs the ps1 files that creates our configuration file.
+waithidden powershell -ExecutionPolicy Bypass -command "C:\Apps\Locker\Applocker.ps1"
+
+//Runs the command to implement the configuration file.
+waithidden powershell -ExecutionPolicy Bypass -command "Set-AppLockerPolicy –XMLPolicy C:\Apps\Locker\Applocker.xml"
+
+//Sets the Applocker service to start automatically
+waithidden sc.exe config appidsvc start=auto
+
+// Pauses BigFix for 15 sec
+parameter "start" = "{now}"
+pause while {now < ( ((  parameter "start" of action  ) as time ) + 15* second)}
+
+//Clean up
+if {exists file "C:\Apps\Scripts\n0m4d1c.ps1"}
+	delete "C:\Apps\Locker\Applocker.ps1"
+endif
+if {exists file "C:\Apps\Scripts\POS_Applocker_Test.xml"}
+	delete "C:\Apps\Locker\Applocker.xml"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

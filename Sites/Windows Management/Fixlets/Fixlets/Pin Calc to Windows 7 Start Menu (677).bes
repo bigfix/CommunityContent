@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Pin Calc to Windows 7 Start Menu
+  ID       : 677
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-30T10:58:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Pin Calc to Windows 7 Start Menu</Title>
+    <Description>Pin the calculator to a Windows 7 Start Menu</Description>
+    <Relevance>name of operating system contains &quot;Win7&quot;</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 30 Nov 2012 16:55:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+delete pin.vbs
+delete __createfile
+createfile until end
+Const CSIDL_COMMON_PROGRAMS = &H17
+Const CSIDL_PROGRAMS = &H2
+Set objShell = CreateObject("Shell.Application")
+Set objAllUsersProgramsFolder = objShell.NameSpace(CSIDL_COMMON_PROGRAMS)
+strAllUsersProgramsPath = objAllUsersProgramsFolder.Self.Path
+Set objFolder = objShell.Namespace(strAllUsersProgramsPath & "\Accessories")
+Set objFolderItem = objFolder.ParseName("Calculator.lnk")
+Set colVerbs = objFolderItem.Verbs
+For Each objVerb in colVerbs
+    If Replace(objVerb.name, "&", "") = "Pin to Start Menu" Then objVerb.DoIt
+Next
+end
+move __createfile pin.vbs
+//waithidden cmd.exe /c cscript.exe pin.vbs
+waithidden __Download\RunAsCurrentUser-2.0.3.1.exe --w --q cmd.exe /c cscript.exe pin.vbs]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action934">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to read source forum thread.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[http://www.ibm.com/developerworks/forums/thread.jspa?threadID=438512&tstart=30]]></ActionScript>
+    </Action>
+    <Action ID="Action935">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read more about silent pinning.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://blogs.technet.com/b/deploymentguys/archive/2009/04/08/pin-items-to-the-start-menu-or-windows-7-taskbar-via-script.aspx</ActionScript>
+    </Action>
+    <Action ID="Action936">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read more about RunAsCurrentUser utility.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21506033</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Log Unique SMBv1 Connection Server Names - Windows
+  ID       : 23554
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-02-24T11:23:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Log Unique SMBv1 Connection Server Names - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists items 0 of (it, (set of unique values whose(it != "") of (it as trimmed string) of lines of files "results_SMBv1_ServerNames.log" of folders "Logs" of folders "__Global" of data folders of clients) | (set of "") ) whose(item 0 of it is not contained by item 1 of it) of (unique values of (it as trimmed string as lowercase) of string values of properties "ServerName" of select objects "Dialect,ServerName from MSFT_SmbConnection" whose ((string value of property "dialect" of it) as version < "2.0") of wmis "Root\Microsoft\Windows\SMB")]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2017-02-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 21 Feb 2017 19:43:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// TODO: test added timeout: https://forum.bigfix.com/t/running-a-command-with-a-timeout/15467/26
+// - Get Results:  unique values whose(it != "") of (it as trimmed string) of lines of files "results_SMBv1_ServerNames.log" of folders "Logs" of folders "__Global" of data folders of clients
+
+// log SMBv1 connections to a file
+runhidden CMD /C (for %i in ({ concatenations " " of items 0 of (it, (set of unique values whose(it != "") of (it as trimmed string) of lines of files "results_SMBv1_ServerNames.log" of folders "Logs" of folders "__Global" of data folders of clients) | (set of "") ) whose(item 0 of it is not contained by item 1 of it) of (unique values of (it as trimmed string as lowercase) of string values of properties "ServerName" of select objects "Dialect,ServerName from MSFT_SmbConnection" whose ((string value of property "dialect" of it) as version < "2.0") of wmis "Root\Microsoft\Windows\SMB") }) do @echo %~i >> "{ pathnames of folders "Logs" of folders "__Global" of data folders of clients }\results_SMBv1_ServerNames.log")
+
+// The following is to provide timeout functionality in case CMD hangs
+pause while { now < (active start time of active action + 5 * minute) AND exists items 3 of (pid of it, (active start time of active action | ( if (exists properties whose(it as string starts with "creation time of <process>")) then creation time of it else start time of it ) of it), set of ("BESClientUI.exe";"BESClientUI"), processes ) whose( creation time of item 3 of it > item 1 of it AND name of item 3 of it is not contained by item 2 of it AND item 0 of it = ppid of item 3 of it) of (processes "BESClient.exe" ; processes "BESClient") }
+
+if {exists items 3 of (pid of it, (active start time of active action | ( if (exists properties whose(it as string starts with "creation time of <process>")) then creation time of it else start time of it ) of it), set of ("BESClientUI.exe";"BESClientUI"), processes ) whose( creation time of item 3 of it > item 1 of it AND name of item 3 of it is not contained by item 2 of it AND item 0 of it = ppid of item 3 of it) of (processes "BESClient.exe" ; processes "BESClient") }
+	parameter "KillingItDueToTimeout"="True"
+	waithidden Taskkill /T /F { ("/PID " & it) of concatenations " /PID " of (it as string) of pids of items 3 of (pid of it, (active start time of active action | ( if (exists properties whose(it as string starts with "creation time of <process>")) then creation time of it else start time of it ) of it), set of ("BESClientUI.exe";"BESClientUI"), processes ) whose( creation time of item 3 of it > item 1 of it AND name of item 3 of it is not contained by item 2 of it AND item 0 of it = ppid of item 3 of it) of (processes "BESClient.exe" ; processes "BESClient") }
+else
+	parameter "KillingItDueToTimeout"="False"
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

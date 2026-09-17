@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Service tzautoupdate to demand - Windows
+  ID       : 24611
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-08-09T21:18:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Service tzautoupdate to demand - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists services &quot;tzautoupdate&quot;</Relevance>
+    <Relevance>not exists start types whose(it = &quot;demand&quot;) of services &quot;tzautoupdate&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-08-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Aug 2017 04:15:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+waithidden cmd /C sc config tzautoupdate start= demand
+
+// References:
+//  - https://technet.microsoft.com/en-us/library/cc990290
+//  - https://developer.bigfix.com/relevance/reference/service.html
+//  - https://bigfix.me/relevance/details/3020300
+//  - https://bigfix.me/relevance/details/3020298
+//  - https://bigfix.me/relevance/details/3020297
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

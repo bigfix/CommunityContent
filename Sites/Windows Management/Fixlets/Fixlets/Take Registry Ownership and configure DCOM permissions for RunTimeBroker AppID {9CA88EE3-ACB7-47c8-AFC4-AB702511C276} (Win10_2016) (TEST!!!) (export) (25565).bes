@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Take Registry Ownership and configure DCOM permissions for RunTimeBroker AppID {9CA88EE3-ACB7-47c8-AFC4-AB702511C276} (Win10/2016) (TEST!!!) (export)
+  ID       : 25565
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2018-11-08T14:52:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Take Registry Ownership and configure DCOM permissions for RunTimeBroker AppID {9CA88EE3-ACB7-47c8-AFC4-AB702511C276} (Win10/2016) (TEST!!!) (export)</Title>
+    <Description><![CDATA[<P>Example message:</P>
+<P>The application-specific permission settings do not grant Local Activation permission for the COM Server application with CLSID <BR>{D63B10C5-BB46-4990-A94F-E40B9D520160}<BR>&nbsp;and APPID <BR>{9CA88EE3-ACB7-47C8-AFC4-AB702511C276}<BR>&nbsp;to the user NT AUTHORITY\LOCAL SERVICE SID (S-1-5-19) from address LocalHost (Using LRPC) running in the application container Unavailable SID (Unavailable). This security permission can be modified using the Component Services administrative tool.</P>
+<P>Microsoft article indicates this should be ignored:&nbsp; <A href="https://support.microsoft.com/en-us/help/4022522/dcom-event-id-10016-is-logged-in-windows-10-windows-server">https://support.microsoft.com/en-us/help/4022522/dcom-event-id-10016-is-logged-in-windows-10-windows-server</A></P>
+<P>Many community forums indicate it may be an actual problem; and the presence of so many error messages from the Event Log hampers troubleshooting in all scenarios.</P>
+<P><A href="https://answers.microsoft.com/en-us/windows/forum/windows_10-other_settings/windows-10-error-10016-from-run-time-broker-cannot/3f21a980-7f1e-48e5-85ea-6aa8843ecf40">https://answers.microsoft.com/en-us/windows/forum/windows_10-other_settings/windows-10-error-10016-from-run-time-broker-cannot/3f21a980-7f1e-48e5-85ea-6aa8843ecf40</A> </P>
+<P><A href="https://social.technet.microsoft.com/Forums/en-US/fd339448-8430-4a60-9377-71fd8aae228d/comdtc-setup-with-powershell?forum=winserverpowershell">https://social.technet.microsoft.com/Forums/en-US/fd339448-8430-4a60-9377-71fd8aae228d/comdtc-setup-with-powershell?forum=winserverpowershell</A> </P>
+<P>The DCOM permissions are controlled by REG_BINARY values in a could of locations. <BR>HKLM\Software\Classes\AppID\{guid} <BR>AccessPermission:REG_BINARY <BR>LaunchPermission:REG_BINARY <BR>Each of these are binary-encoded values representing launch permissions. I've come across some PowerShell snippets that might be used to read and write these values. Changing these values first requires taking ownership of the registry key, as these are owned by TrustedInstaller.&nbsp; Given the complexity of the PowerShell scripts to apply permissions, it appears that it may be simpler to create the appropriate permissions on one host, capture those settings, and simply use reg.exe to distribute that configuration to other hosts.</P>
+<P>&nbsp;Task Notes:</P>
+<UL>
+<LI>To identify the correct permissions to set, examine the Event Log to determine which security principal is being denied Access or Launch permissions
+<LI>Take Ownership of the affected AppID by using a modified version of this Task, or the Template (which only takes ownership without changing the DCOM launch/activation permissions themselves).&nbsp; Then, use DCOMCNFG.EXE to update the permissions of the AppID, and craft a relevance using the updated registry values.
+<LI>Pro tip:&nbsp; The Relevance Statement for a given AppID can be auto-generated via the following in the Fixlet Debugger:
+<UL>
+<LI><FONT color=#ff0000 size=2><FONT color=#ff0000 size=2>
+<P>q:</FONT></FONT><FONT size=2> (</FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"exists keys %22"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> pathname </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>it</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"%22 whose (not exists values %22AccessPermission%22 whose (it as string = %22"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> value </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"AccessPermission"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>it</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>as</FONT></FONT><FONT size=2> string </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"%22) of it OR not exists values %22LaunchPermission%22 whose (it as string = %22"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> value </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"LaunchPermission"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>it</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>as</FONT></FONT><FONT size=2> string </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&amp;</FONT></FONT><FONT size=2> </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"%22 ) of it) of native registry"</FONT></FONT><FONT size=2>) </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> keys </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AppID\{9CA88EE3-ACB7-47c8-AFC4-AB702511C276}"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> native registry</P></FONT><FONT color=#ff0000 size=2><FONT color=#ff0000 size=2>
+<P>A:</FONT></FONT><FONT size=2> exists keys "HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AppID\{9CA88EE3-ACB7-47c8-AFC4-AB702511C276}" whose (not exists values "AccessPermission" whose (it as string = "01001480bc000000c80000001400000034000000020020000100000011001400040000000101000000000010001000000000000002008800060000000000180003000000010200000000000520000000200200000000180003000000010200000000000f0200000001000000000014000300000001010000000000050a000000000014000300000001010000000000051200000000001400030000000101000000000005130000000000140003000000010100000000000514000000010100000000000512000000010100000000000512000000") of it OR not exists values "LaunchPermission" whose (it as string = "01001480a8000000b4000000140000003400000002002000010000001100140004000000010100000000001000100000000000000200740005000000000018000b00000001020000000000052000000020020000000018000b000000010200000000000f0200000001000000000014000b000000010100000000000504000000000014000b00000001010000000000050a000000000014000b000000010100000000000512000000010100000000000512000000010100000000000512000000" ) of it) of native registry</FONT></P></LI></UL></LI></UL>
+<P><FONT size=2><STRONG>Notes on testing.</STRONG>&nbsp; This&nbsp;task makes changes to some&nbsp;<EM>very</EM> deep system-level functions so treat it with care!&nbsp; </P></FONT>]]></Description>
+    <Relevance>windows of operating system AND (if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Relevance><![CDATA[version of operating system >= version "10"]]></Relevance>
+    <Relevance>exists keys &quot;{9CA88EE3-ACB7-47c8-AFC4-AB702511C276}&quot; whose (not exists values &quot;AccessPermission&quot; whose (it as string = &quot;01001480bc000000c80000001400000034000000020020000100000011001400040000000101000000000010001000000000000002008800060000000000180003000000010200000000000520000000200200000000180003000000010200000000000f0200000001000000000014000300000001010000000000050a000000000014000300000001010000000000051200000000001400030000000101000000000005130000000000140003000000010100000000000514000000010100000000000512000000010100000000000512000000&quot;) of it OR not exists values &quot;LaunchPermission&quot; whose (it as string = &quot;01001480a8000000b4000000140000003400000002002000010000001100140004000000010100000000001000100000000000000200740005000000000018000b00000001020000000000052000000020020000000018000b000000010200000000000f0200000001000000000014000b000000010100000000000504000000000014000b00000001010000000000050a000000000014000b000000010100000000000512000000010100000000000512000000010100000000000512000000&quot; ) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AppID&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-11-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 08 Nov 2018 22:51:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+
+// Special thanks to the following from which portions of this are taken
+// https://social.technet.microsoft.com/Forums/windowsserver/en-US/e718a560-2908-4b91-ad42-d392e7f8f1ad/take-ownership-of-a-registry-key-and-change-permissions?forum=winserverpowershell
+// http://powershellpainrelief.blogspot.com/2014/07/powershell-working-with-registry-part-2.html
+// http://msdn.microsoft.com/en-us/library/bb530716(VS.85).aspx
+
+action uses wow64 redirection false
+
+parameter "RootKey"="LocalMachine"
+parameter "RegKey"="SOFTWARE\Classes\AppID\{{9CA88EE3-ACB7-47c8-AFC4-AB702511C276}"
+parameter "FullKeyPath"="HKEY_LOCAL_MACHINE\SOFTWARE\Classes\AppID\{{9CA88EE3-ACB7-47c8-AFC4-AB702511C276}"
+parameter "NewOwner"="NT AUTHORITY\System"
+parameter "AddACL"="{"%22NT AUTHORITY\System%22,%22FullControl%22,@(%22ObjectInherit%22,%22ContainerInherit%22),%22None%22,%22Allow%22"}"
+
+parameter "AccessPermission"="01001480bc000000c80000001400000034000000020020000100000011001400040000000101000000000010001000000000000002008800060000000000180003000000010200000000000520000000200200000000180003000000010200000000000f0200000001000000000014000300000001010000000000050a000000000014000300000001010000000000051200000000001400030000000101000000000005130000000000140003000000010100000000000514000000010100000000000512000000010100000000000512000000"
+parameter "LaunchPermission"="01001480a8000000b4000000140000003400000002002000010000001100140004000000010100000000001000100000000000000200740005000000000018000b00000001020000000000052000000020020000000018000b000000010200000000000f0200000001000000000014000b000000010100000000000504000000000014000b00000001010000000000050a000000000014000b000000010100000000000512000000010100000000000512000000010100000000000512000000"
+
+//Example RootKey values
+// LocalMachine; ClassesRoot; CurrentConfig; CurrentUser; Users
+
+// Example RegistryAccessFules
+// "NT AUTHORITY\System","FullControl","Allow"  ==> Applies to this key only
+// "NT AUTHORITY\System","FullControl",@("ObjectInherit","ContainerInherit"),"None","Allow"  ==> applies to this key, subkeys, and values
+
+delete __createfile
+createfile until EOF_EOF_EOF
+
+##Taken with thanks from https://social.technet.microsoft.com/Forums/windowsserver/en-US/e718a560-2908-4b91-ad42-d392e7f8f1ad/take-ownership-of-a-registry-key-and-change-permissions?forum=winserverpowershell
+
+function enable-privilege {
+ param(
+  ## The privilege to adjust. This set is taken from
+  ## http://msdn.microsoft.com/en-us/library/bb530716(VS.85).aspx
+  [ValidateSet(
+   "SeAssignPrimaryTokenPrivilege", "SeAuditPrivilege", "SeBackupPrivilege",
+   "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeCreatePagefilePrivilege",
+   "SeCreatePermanentPrivilege", "SeCreateSymbolicLinkPrivilege", "SeCreateTokenPrivilege",
+   "SeDebugPrivilege", "SeEnableDelegationPrivilege", "SeImpersonatePrivilege", "SeIncreaseBasePriorityPrivilege",
+   "SeIncreaseQuotaPrivilege", "SeIncreaseWorkingSetPrivilege", "SeLoadDriverPrivilege",
+   "SeLockMemoryPrivilege", "SeMachineAccountPrivilege", "SeManageVolumePrivilege",
+   "SeProfileSingleProcessPrivilege", "SeRelabelPrivilege", "SeRemoteShutdownPrivilege",
+   "SeRestorePrivilege", "SeSecurityPrivilege", "SeShutdownPrivilege", "SeSyncAgentPrivilege",
+   "SeSystemEnvironmentPrivilege", "SeSystemProfilePrivilege", "SeSystemtimePrivilege",
+   "SeTakeOwnershipPrivilege", "SeTcbPrivilege", "SeTimeZonePrivilege", "SeTrustedCredManAccessPrivilege",
+   "SeUndockPrivilege", "SeUnsolicitedInputPrivilege")]
+  $Privilege,
+  ## The process on which to adjust the privilege. Defaults to the current process.
+  $ProcessId = $pid,
+  ## Switch to disable the privilege, rather than enable it.
+  [Switch] $Disable
+ )
+
+ ## Taken from P/Invoke.NET with minor adjustments.
+ $definition = @'
+ using System;
+ using System.Runtime.InteropServices;
+
+ public class AdjPriv
+ {
+  [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+  internal static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall,
+   ref TokPriv1Luid newst, int len, IntPtr prev, IntPtr relen);
+
+  [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+  internal static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
+  [DllImport("advapi32.dll", SetLastError = true)]
+  internal static extern bool LookupPrivilegeValue(string host, string name, ref long pluid);
+  [StructLayout(LayoutKind.Sequential, Pack = 1)]
+  internal struct TokPriv1Luid
+  {
+   public int Count;
+   public long Luid;
+   public int Attr;
+  }
+
+  internal const int SE_PRIVILEGE_ENABLED = 0x00000002;
+  internal const int SE_PRIVILEGE_DISABLED = 0x00000000;
+  internal const int TOKEN_QUERY = 0x00000008;
+  internal const int TOKEN_ADJUST_PRIVILEGES = 0x00000020;
+  public static bool EnablePrivilege(long processHandle, string privilege, bool disable)
+  {
+   bool retVal;
+   TokPriv1Luid tp;
+   IntPtr hproc = new IntPtr(processHandle);
+   IntPtr htok = IntPtr.Zero;
+   retVal = OpenProcessToken(hproc, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, ref htok);
+   tp.Count = 1;
+   tp.Luid = 0;
+   if(disable)
+   {
+    tp.Attr = SE_PRIVILEGE_DISABLED;
+   }
+   else
+   {
+    tp.Attr = SE_PRIVILEGE_ENABLED;
+   }
+   retVal = LookupPrivilegeValue(null, privilege, ref tp.Luid);
+   retVal = AdjustTokenPrivileges(htok, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero);
+   return retVal;
+  }
+ }
+'@
+
+ $processHandle = (Get-Process -id $ProcessId).Handle
+ $type = Add-Type $definition -PassThru
+ $type[0]::EnablePrivilege($processHandle, $Privilege, $Disable)
+}
+
+enable-privilege SeTakeOwnershipPrivilege
+enable-privilege seRestorePrivilege
+
+$key = [Microsoft.Win32.Registry]::{parameter "RootKey" of action}.OpenSubKey("{parameter "RegKey" of action}",[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::takeownership)
+
+## *** Note from Jason Walker - I find the following to not be true if the system account has at least "Read Permissions" to the key.
+## Rather than starting from an empty ACL list, I instead try to start from the existing ACL list on the registry key and then modify it as needed
+# You must get a blank acl for the key b/c you do not currently have access
+#$acl = $key.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
+
+$acl = $key.GetAccessControl()
+$me = [System.Security.Principal.NTAccount]"{parameter "NewOwner" of action}"
+$acl.SetOwner($me)
+$key.SetAccessControl($acl)
+
+# After you have set owner you need to get the acl with the perms so you can modify it.
+$acl = $key.GetAccessControl()
+$rule = New-Object System.Security.AccessControl.RegistryAccessRule ({parameter "AddACL" of action})
+$acl.AddAccessRule($rule)
+$key.SetAccessControl($acl)
+
+$key.Close()
+
+EOF_EOF_EOF
+
+
+delete TakeOwnerReg.ps1
+move __createfile TakeOwnerReg.ps1
+
+waithidden powershell.exe -ExecutionPolicy Bypass -File TakeOwnerReg.ps1
+
+continue if {exit code of action = 0}
+
+waithidden reg.exe add "{parameter "FullKeyPath" of action}" /v AccessPermission /t REG_BINARY /d {parameter "AccessPermission" of action}  /f
+waithidden reg.exe add "{parameter "FullKeyPath" of action}" /v LaunchPermission /t REG_BINARY /d {parameter "LaunchPermission" of action} /f
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

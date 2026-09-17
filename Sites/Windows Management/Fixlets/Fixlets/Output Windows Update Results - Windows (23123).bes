@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Output Windows Update Results - Windows
+  ID       : 23123
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-12-23T15:39:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Output Windows Update Results - Windows</Title>
+    <Description><![CDATA[<P>read results with this analysis: <A href="https://github.com/jgstew/bigfix-content/blob/master/analyses/Windows%20Update%20check%20results%20-%20Windows.bes">https://github.com/jgstew/bigfix-content/blob/master/analyses/Windows%20Update%20check%20results%20-%20Windows.bes</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists files "results_WindowsUpdates.ini" whose(now - modification time of it < 7*day AND exists lines containing "Hidden=" of it) of folders "Logs" of folders "__Global" of data folders of client]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-12-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 23 Dec 2016 23:36:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// https://github.com/jgstew/tools/blob/master/VBS/WUA_Search.vbs
+delete __createfile
+createfile until _END_OF_FILE_
+
+' This script determines what updates are applicable on a Windows machine using the WUA api.
+' Usage: cscript WUA_Search.vbs //Nologo > WindowsUpdates.ini
+' Source: https://msdn.microsoft.com/en-us/library/windows/desktop/aa387102(v=vs.85).aspx
+' Modifications by @jgstew in 2016 - Public Domain
+
+' It is possible to do this "offline": https://msdn.microsoft.com/en-us/library/windows/desktop/aa387290(v=vs.85).aspx
+
+Set updateSession = CreateObject("Microsoft.Update.Session")
+updateSession.ClientApplicationID = "Check for Windows Updates"
+
+Set updateSearcher = updateSession.CreateUpdateSearcher()
+
+' Method: https://msdn.microsoft.com/en-us/library/windows/desktop/aa386526(v=vs.85).aspx
+Set searchResult = updateSearcher.Search("IsInstalled=0")
+' also works as a single line: Set searchResult = CreateObject("Microsoft.Update.Session").CreateUpdateSearcher().Search("IsInstalled=0")
+
+WScript.Echo "[Windows Updates]" & vbCRLF & "Number= " & searchResult.Updates.Count
+
+numHidden   = 0
+numSoftware = 0
+numDriver   = 0
+
+For I = 0 To searchResult.Updates.Count-1
+' IUpdate interface: https://msdn.microsoft.com/en-us/library/windows/desktop/aa386099(v=vs.85).aspx
+    Set update = searchResult.Updates.Item(I)
+
+    ' Update Type Enum: https://msdn.microsoft.com/en-us/library/windows/desktop/aa387284(v=vs.85).aspx
+    updateTypeStr = "Unknown"
+    If 1=update.Type Then
+        updateTypeStr = "Software"
+        numSoftware   = numSoftware + 1
+    ElseIf 2=update.Type Then
+        updateTypeStr = "Driver"
+        numDriver     = numDriver + 1
+    End If
+
+    WScript.Echo updateTypeStr & I + 1 & "= " & update.Title
+
+    If update.IsHidden Then
+        numHidden = numHidden + 1
+    End If
+Next
+
+WScript.Echo "Hidden= " & numHidden
+WScript.Echo "Software= " & numSoftware
+WScript.Echo "Driver= " & numDriver
+
+' Related:
+'     - https://thwack.solarwinds.com/community/application-and-server_tht/patchzone/blog/2012/10/05/how-the-windows-update-agent-determines-the-status-of-an-update
+'     - https://bigfix.me/fixlet/details/23096
+'     - https://github.com/jgstew/bigfix-content/blob/master/fixlet/Output%20Windows%20Update%20Results%20-%20Windows.bes
+
+_END_OF_FILE_
+
+delete "{ download path "WUA_Search.vbs" }"
+move __createfile "{ download path "WUA_Search.vbs" }"
+
+waithidden cmd /c cscript __Download\WUA_Search.vbs //Nologo > __Download\results_WindowsUpdates.ini
+
+delete "{pathnames of folders "__Global\Logs" of data folders of client}\results_WindowsUpdates.ini"
+move __Download\results_WindowsUpdates.ini "{pathnames of folders "__Global\Logs" of data folders of client}\results_WindowsUpdates.ini"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

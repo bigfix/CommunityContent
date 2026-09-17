@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Analyze Application Usage - Windows
+  ID       : 21122
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-08T12:33:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Analyze Application Usage - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet does an extraction of Applocker Logs from the system and stores the results in an XML document in the __Global\C3AppUsage folder. This XML document can then be read to track application usage.</P>
+<P>For general information or to report issues with C3 Application Usage content please visit GitHub here: <A href="https://github.com/strawgate/C3-Application-Usage">https://github.com/strawgate/C3-Application-Usage</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys of key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-07-16</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\C3AppUsage"
+
+folder create "{parameter "Storage"}"
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+param (
+    $UsageFile = "$PSScriptRoot\AppUsage.xml"
+)
+
+function load-usage {{
+    param (
+        [string] $File
+    )
+    try {{
+        [XML] $XML = New-Object System.XML.XMLDocument
+        $XML.Load($UsageFile)
+
+        return $XML
+    } catch {{
+        return [xml] '<Usage><FirstUpdate><Date></Date><Time></Time><DateTime></DateTime></FirstUpdate><LastUpdate><Date>Monday, January 1, 0001</Date><Time>12:00:00 AM</Time><DateTime>0001-01-01T06:00:00.0000000Z</DateTime></LastUpdate><Applications></Applications></Usage>'
+    }
+}
+
+function get-ApplockerLogs {{
+    param (
+        $EventsAfter
+    )
+    $Logs = get-winevent -logname "Microsoft-Windows-AppLocker/EXE and DLL" -FilterXPath "*[System[TimeCreated[@SystemTime > '$EventsAfter']]]"
+
+    return $Logs | sort-object -property TimeCreated
+}
+
+function set-datetime {{
+    param (
+        $XMLNode,
+        [DateTime]$DateTime
+    )
+	$XMLNode.Date = $DateTime.ToString("ddd, dd MMM yyyy")
+    $XMLNode.Time = $DateTime.ToString("HH:mm:ss")
+    $XMLNode.DateTime = "$($DateTime.GetDateTimeFormats("o"))"
+}
+
+# Load Application Usage Store
+$Usage = load-usage -File $UsageFile
+
+$Applications = $Usage.SelectSingleNode("/Usage/Applications")
+
+$FirstUpdate = $Usage.SelectSingleNode("/Usage/FirstUpdate")
+$LastUpdate = $Usage.SelectSingleNode("/Usage/LastUpdate")
+
+#Get Events
+$Applocker = get-applockerlogs -EventsAfter ($LastUpdate.DateTime)
+
+if (!($Applocker)) {{ write-verbose "No new logs. Exiting."; exit}
+
+#Process Events into Application Usage Store
+foreach ($Event in $Applocker){{
+
+    if (!($Event.Message -match '(.*?\\([^\\]*?)) was allowed to run.')) {{ continue; }
+
+    $Hash = ([System.BitConverter]::ToString($Event.Properties[12].Value)).replace("-","")
+
+    if (!($Applications.SelectSingleNode("/Usage/Applications/App[@Hash = '$Hash']"))){{
+        #Pull Out Regex Matches
+        $Exe = $Matches[2]; $Path = $Matches[1]; $Version = "N/A"
+
+        # Get Version if it's available
+        if ($Event.Properties[14].Value -match "(\d+\.*)+$") {{ $Version = $Matches[0]}
+        # If we've never set FirstUpdate, set it now
+		if (!($FirstUpdate.DateTime)) {{ set-datetime -XMLNode $FirstUpdate -DateTime $Event.TimeCreated }
+
+        # Create XML Node
+        [xml]$XML = @"
+<App Hash="$Hash">
+    <Path>$Path</Path>
+    <Exe>$Exe</Exe>
+    <Date></Date>
+    <Time></Time>
+    <DateTime></DateTime>
+    <Version>$Version</Version>
+    <Count>1</Count>
+</App>
+"@
+        set-datetime -XMLNode $XML.App -DateTime $Event.TimeCreated
+
+        $Applications.AppendChild($Usage.ImportNode($XML.app, $true)) | out-null
+    } else {{
+        $Node = $Applications.SelectSingleNode("/Usage/Applications/App[@Hash = '$Hash']")
+
+        set-datetime -XMLNode $Node -DateTime $Event.TimeCreated
+
+        $Node.Count = "$([int]$Node.Count + 1)"
+    }
+}
+
+#Save TimeStamp
+Set-datetime -XMLNode $LastUpdate -DateTime $Event.TimeCreated
+
+#Output updated Application Usage Store
+#$Usage.OuterXml > $Usage
+$Usage.Save($UsageFile)
+
+_end_
+
+move __createfile powershell.ps1
+
+override wait
+hidden=true
+completion=job
+wait "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -NoProfile -File powershell.ps1 -UsageFile "{parameter "Storage"}\AppUsage.xml"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

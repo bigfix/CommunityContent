@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Group Policy Service debug logging may be enabled - Windows
+  ID       : 21638
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-14T21:23:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Group Policy Service debug logging may be enabled - Windows</Title>
+    <Description><![CDATA[<P>This fixlet evaluates to true if Group Policy debug logging is enabled on the target system. </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists value &quot;GPSvcDebugLevel&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Relevance>
+    <Category>Group Policy</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-23</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

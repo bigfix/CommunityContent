@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: Set Asset Tag using Dell Platform Tags Utility 4.006 - Windows
+  ID       : 3928
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-11-25T14:48:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Set Asset Tag using Dell Platform Tags Utility 4.006 - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>not exists files whose(name of it starts with &quot;results_Dell_Platform_Tags_&quot; AND name of it as lowercase ends with &quot;.log&quot; AND exists lines whose(it contains &quot;ERROR: Could not locate the BIOS interface to access the tags&quot;) of it) of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Relevance>
+    <Relevance><![CDATA[not exists ( ( (it as trimmed string) whose(it != "" AND it != "<not set>") of following texts of firsts "Asset Tag ...... " of lines whose(it contains "Asset Tag ...... ") of files "results_Dell_Platform_Tags_RPT.log" of folders "__BESData\__Global\Logs" of parent folder of client );( (it as trimmed string) of string values whose(it as trimmed string != "") of selects "ElementName from DCIM_Chassis" of wmi "root\dcim\sysman" ) )]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-11-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 25 Nov 2014 21:47:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+action parameter query "Asset_Tag" with description "Enter the Asset Tag to set, maximum of 11 characters" and with default value "abcdef12345"
+
+// -- START:DOWNLOADS -------------------------
+
+//  - This is the commandline 7zip console which is use to unpack installers
+//  - https://www.virustotal.com/en/file/2a3afe19c180f8373fa02ff00254d5394fec0349f5804e0ad2f6067854ff28ac/analysis
+prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+// Utility to set Dell Ownership & Asset tags
+//    http://www.dell.com/support/home/us/en/04/Drivers/DriversDetails?driverId=7738M
+prefetch PlatformTags.Download sha1:616890ce8e793a670f696eff33a9358f37d1bf05 size:313056 http://downloads.dell.com/FOLDER01410519M/4/PlatformTags%204.006_ZPE.exe
+
+// -- END:DOWNLOADS ---------------------------
+
+
+// ADD TO UTILITY CACHE: unzip,7zip
+utility __Download\unzip.exe
+utility __Download\7za.zip
+utility __Download\PlatformTags.Download
+
+
+// EXTRACT using unzip: the 7zip command line utility
+waithidden __Download\unzip.exe -o "{pathname of file "7za.zip" of folder "__Download" of client folder of current site}" 7za.exe -d "{pathname of folder "__Download" of client folder of current site}"
+
+// EXTRACT using 7zip: Dell Platform Tags Utility
+waithidden "{ (pathname of file "7za.exe" of folder "__Download" of client folder of current site) }" e -i!*\PlatformTags{if (x64 of operating system) then "64" else "32"}.exe -y -o"{pathname of folder "__Download" of client folder of current site}" "{pathname of file "PlatformTags.Download" of folder "__Download" of client folder of current site}"
+
+
+// SET Asset Tag
+continue if{ exists (parameter "Asset_Tag) whose( length of it <= 11 AND it != "" ) }
+waithidden __Download\PlatformTags{if (x64 of operating system) then "64" else "32"}.exe File:"{ pathname of folder "__BESData\__Global\Logs" of parent folder of client }\results_Dell_Platform_Tags_SAT.log" SAT:{ (parameter "Asset_Tag") }
+
+parameter "ExitCode" = "{ (exit code of action) as string }"
+
+// GET PlatformTag report
+waithidden __Download\PlatformTags{if (x64 of operating system) then "64" else "32"}.exe File:"{ pathname of folder "__BESData\__Global\Logs" of parent folder of client }\results_Dell_Platform_Tags_RPT.log" RPT
+
+// Only continue if Set Asset Tag was successful
+continue if{ (parameter "ExitCode") as integer = 0 }
+
+// restart "DSM SA Data Manager" service (to update WMI/OMCI with new tag)
+// http://superuser.com/questions/301765/restart-a-windows-service-from-the-command-line
+waithidden net stop "DSM SA Data Manager" && net start "DSM SA Data Manager"
+// REQUIRE Restart - seems that WMI does not update until the DSM SA Data Manager service is restarted (or perhaps until it is refreshed)
+// action requires restart
+
+// PlatformTags.exe -- Version 4.006
+// (C) Copyright 1993-2012 Dell Inc.
+//
+// PlatformTags.exe [File:<Name>] [Command]
+//
+//    View/modify Platform Tags
+//
+// Usage:
+//    [File:<Name>]   Specify a path\filename to echo screen text
+//    [Command]       Specify a command to execute
+//
+// Commands:
+//    RPT (or ReadPlatformTags)  Display All Tag information
+//    SAT (or SetAssetTag)       Set the Asset tag
+//    DAT (or DeleteAssetTag)    Delete the Asset Tag
+//    SOT (or SetOwnerTag)       Set the Owner Tag
+//    DOT (or DeleteOwnerTag)    Delete the Owner Tag
+//
+// Note:  SAT and SOT must be followed by ':' and the string to be used in the tag field
+//              If spaces are required in the owner tag, use quotes to surround the data
+//
+// Return Codes:
+//        0xFF = Error Condition - Screen will show error
+//        0 = Success
+
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

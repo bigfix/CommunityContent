@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Hyper-V Platform - Enable - Windows
+  ID       : 20655
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-17T15:28:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Hyper-V Platform - Enable - Windows</Title>
+    <Description>This Fixlet enables Hyper-V Platform in Windows to support the deployment of Credential Guard </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>set of (string values of properties &quot;Caption&quot; of select objects &quot;* from win32_optionalfeature where installstate= 1&quot; of wmi) does not contain &quot;Hyper-V Platform&quot;</Relevance>
+    <Relevance>set of (string values of properties &quot;Caption&quot; of select objects &quot;* from win32_optionalfeature&quot; of wmi) contains &quot;Hyper-V Platform&quot;</Relevance>
+    <Category>Virtualization Based Security</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-13</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+// Enter your action script here
+
+wait dism.exe /NoRestart /Online /Enable-Feature:Microsoft-Hyper-V-Hypervisor /all</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

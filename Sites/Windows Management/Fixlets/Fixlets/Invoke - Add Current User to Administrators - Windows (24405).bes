@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Add Current User to Administrators - Windows
+  ID       : 24405
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-06-06T09:51:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Add Current User to Administrators - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet adds the currently logged on user to the Administrators group.</P>
+<P><STRONG>Applicability Note: </STRONG>This Fixlet will only be relevant if the currently logged on user is not a part of the Administrators group. This Fixlet will not be relevant if the currently logged on user is a&nbsp;part of a group that is part of the Administrators Group. This Fixlet will not be relevant if there are no logged on users or if there is more than one logged on user.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists logged on user</Relevance>
+    <Relevance>/* exclude Built-In Administrator */ component string of sid of logged on user does not start with &quot;S-1-5-21-&quot; or component string of sid of logged on user does not end with &quot;-500&quot;</Relevance>
+    <Relevance>not exists elements of intersection of ( /*IS THE LOGGED IN USER AN ADMINISTRATOR? */   set of ( /* User&apos;s SID and Group Memberships */   ((sids of groups of logged on user of active directory) as string); /*User Group Memberships */   (sid of logged on user) as string /*Users SID*/  );(  set of (/*Users and Groups in Administrators */   sids of members of local group &quot;administrators&quot; as string)  )  )</Relevance>
+    <Category>Administrative Rights</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait net localgroup &quot;administrators&quot; &quot;{sid of current user}&quot; /add</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

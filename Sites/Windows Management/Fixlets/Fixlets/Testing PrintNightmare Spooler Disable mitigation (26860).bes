@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Testing PrintNightmare Spooler Disable mitigation
+  ID       : 26860
+  Author   : brolly33
+  Domain   : BESC
+  Imported : 2021-07-01T12:34:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Testing PrintNightmare Spooler Disable mitigation</Title>
+    <Description><![CDATA[BETA CODE - <FONT color=#ff0000>TEST WELL</FONT> <BR><BR><A href="https://us-cert.cisa.gov/ncas/current-activity/2021/06/30/printnightmare-critical-windows-print-spooler-vulnerability"><FONT color=#0066cc>PrintNightmare, Critical Windows Print Spooler Vulnerability | CISA</FONT></A> ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>product type of operating system != nt workstation product type /*optionally avoids desktops*/</Relevance>
+    <Relevance>exists services &quot;spooler&quot; whose (state of it = &quot;Running&quot; OR start type of it != &quot;disabled&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-07-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 01 Jul 2021 19:24:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait sc.exe stop spooler
+wait sc.exe config spooler start= disabled</ActionScript>
+    </DefaultAction>
+    <Action ID="Action28144">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to see more information.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://us-cert.cisa.gov/ncas/current-activity/2021/06/30/printnightmare-critical-windows-print-spooler-vulnerability</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

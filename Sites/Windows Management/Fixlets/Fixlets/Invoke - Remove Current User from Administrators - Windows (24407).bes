@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Remove Current User from Administrators - Windows
+  ID       : 24407
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-06-06T09:51:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Remove Current User from Administrators - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet removes the currently logged on user from the Administrators group.</P>
+<P><STRONG>Applicability Note: </STRONG>This Fixlet will be relevant only if the currently logged on user is explicitly a member of the Administrators group. This Fixlet will not be relevant if there are no logged on users or if there is more than one logged on user.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists members whose (sid of it = sid of logged on user) of local group &quot;administrators&quot;</Relevance>
+    <Relevance>/* exclude Built-In Administrator */ component string of sid of logged on user does not start with &quot;S-1-5-21-&quot; or component string of sid of logged on user does not end with &quot;-500&quot;</Relevance>
+    <Category>Administrative Rights</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait net localgroup &quot;administrators&quot; &quot;{sid of current user}&quot; /delete</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

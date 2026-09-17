@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Powershell Computer Rename (Prompt)
+  ID       : 26604
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2019-02-12T09:51:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Powershell Computer Rename (Prompt)</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Source>Brad Sexton</Source>
+    <SourceReleaseDate>2018-12-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Feb 2019 17:45:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Disable wow64 redirection on x64 OSes
+action parameter query &quot;PC-Name&quot; with description &quot;Please enter the new PC name&quot;
+
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+
+$computerName = Get-WmiObject Win32_ComputerSystem
+$computername.Rename(&quot;{parameter &quot;PC-Name&quot; of action}&quot;)
+
+
+get-help | Out-File &quot;{(pathname of folder &quot;__BESData\__Global\Logs&quot; of parent folder of client)}\config_powershell.log&quot;
+
+
+END_OF_FILE
+
+delete powershell.ps1
+move __createfile powershell.ps1
+
+waithidden { pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) } -ExecutionPolicy unrestricted -File powershell.ps1</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

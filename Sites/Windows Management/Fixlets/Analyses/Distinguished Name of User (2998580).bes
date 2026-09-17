@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Distinguished Name of User
+  ID       : 2998580
+  Author   : khurlbert
+  Domain   : BESC
+  Imported : 2018-01-11T14:08:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Distinguished Name of User</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>Product type of operating system = NT Workstation product type</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 11 Jan 2018 21:02:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="UserName">if(exists logged on users of active directory) then preceding text of first &quot;OU=&quot; of distinguished name of (logged on users whose (name of it = name of current user) of active directory) else if exists current users then &quot;local user&quot; else &quot;none&quot; </Property>
+  </Analysis>
+</BES>

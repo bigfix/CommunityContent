@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Internet Explorer - Windows
+  ID       : 2998393
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-13T16:48:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Internet Explorer - Windows</Title>
+    <Description><![CDATA[Provides the trusted sites being pushed to a client via Group Policy.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="IE - Trusted Sites - Windows" EvaluationPeriod="P1D">(name of it, it) of values of keys &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMapKey&quot; of native registry</Property>
+  </Analysis>
+</BES>

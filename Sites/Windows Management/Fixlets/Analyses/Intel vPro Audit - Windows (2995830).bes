@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Intel vPro Audit - Windows
+  ID       : 2995830
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-01-04T16:52:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Intel vPro Audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 04 Jan 2016 21:36:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="vPro State" EvaluationPeriod="PT6H">node values of xpaths &quot;/PlatformDiscovery/Solution[@name=&apos;Intel(R) AMT&apos;]/@state&quot; of xml documents of files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="2" Name="Last Check" EvaluationPeriod="PT1H">modification times of files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+  </Analysis>
+</BES>

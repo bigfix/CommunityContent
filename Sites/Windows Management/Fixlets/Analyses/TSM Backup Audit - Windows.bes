@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : TSM Backup Audit - Windows
+  ID       : 94
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2013-04-26T16:28:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>TSM Backup Audit - Windows</Title>
+    <Description><![CDATA[See <A HREF="http://bigfix.me/analysis/details/2994716">http://bigfix.me/analysis/details/2994716</A> for a later, more dynamic, but much more complex version of this analysis. In the newer version I dynamically locate TSM services, DSM.OPT files, and dsmsched.log files, and get more result details out of the logs. I also check for a dsmsched.log.bak file if the dsmsched.log is locked and unreadable.
+
+<P>Report on Windows TSM Statuses.</P>
+<P>Taken with thanks from JGStew at bigfix.me</P>
+<P>Learn more about this analysis online: <A href="http://bigfix.me/cdb/analysis/62">http://bigfix.me/cdb/analysis/62</A><BR></P>
+<P>Customized slightly by Jason Walker, 2013-04-22; added TSM Client Acceptor to services list for relevance; fixed some issues with tabs and comments ("*") and trimming the results.<BR></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists key whose(&quot;IBM Tivoli Storage Manager Client&quot; = value &quot;DisplayName&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) OR (exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;) OR (exists file &quot;C:\Program Files\Tivoli\TSM\baclient\tsmstats.ini&quot;) OR (exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) OR (exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcrash.log&quot;) OR (exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.exe&quot;) OR (exists service &quot;TSM Scheduler Service&quot;) OR (exists service &quot;TSM Client Acceptor&quot;)</Relevance>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Mon, 10 Dec 2012 07:35:02 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Mon, 10 Dec 2012 07:35:02 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>TSM, Backup Audit, Tivoli Storage Manager</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 26 Apr 2013 21:30:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Exists TSM sched log?" EvaluationPeriod="PT12H">exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;</Property>
+    <Property ID="3" Name="Last Sched Success - ERROR" EvaluationPeriod="P7D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;) then &quot;&lt;dsmsched log missing&gt;&quot; else if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot; whose(exists lines of it)) then &quot;&lt;file locked by TSM&gt;&quot; else ((lines whose(it contains &quot;&apos; completed successfully.&quot; AND it contains &quot; Scheduled event &apos;&quot; AND line number of it = (maximum of line numbers of lines whose(it contains &quot;&apos; completed successfully.&quot; AND it contains &quot; Scheduled event &apos;&quot;) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;)) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;) as string)</Property>
+    <Property ID="4" Name="TSM version installed" EvaluationPeriod="P1D">if(not exists key whose(&quot;IBM Tivoli Storage Manager Client&quot; = value &quot;DisplayName&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) then &quot;&lt;TSM not installed&gt;&quot; else if(not exists key whose(&quot;IBM Tivoli Storage Manager Client&quot; = value &quot;DisplayName&quot; of it AND exists value &quot;DisplayVersion&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) then &quot;&lt;TSM dv reg entry missing&gt;&quot; else (value &quot;DisplayVersion&quot; of key whose(&quot;IBM Tivoli Storage Manager Client&quot; = value &quot;DisplayName&quot; of it AND exists value &quot;DisplayVersion&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry as string)</Property>
+    <Property ID="5" Name="Last Successful Backup" EvaluationPeriod="PT6H">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\tsmstats.ini&quot;) then &quot;&lt;tsmstats file missing&gt;&quot; else (modification time of file &quot;C:\Program Files\Tivoli\TSM\baclient\tsmstats.ini&quot; as string)</Property>
+    <Property ID="8" Name="Num of crashes" EvaluationPeriod="P1D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcrash.log&quot;) then &quot;&lt;no dsmcrash log&gt;&quot; else (number of lines whose (it contains &quot;IBM Tivoli Storage Manager&quot;) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcrash.log&quot; as string)</Property>
+    <Property ID="9" Name="Client exe Version" EvaluationPeriod="P1D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.exe&quot;) then &quot;&lt;dsm.exe missing&gt;&quot; else if(not exists version of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.exe&quot;) then &quot;&lt;dsm.exe version missing&gt;&quot; else (version of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.exe&quot; as string)</Property>
+    <Property ID="10" Name="Last crash?" EvaluationPeriod="P1D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcrash.log&quot;) then &quot;&lt;dsmcrash log missing&gt;&quot; else (modification time of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcrash.log&quot; as string)</Property>
+    <Property ID="11" Name="VC++2010x86?" EvaluationPeriod="P1D">exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft Visual C++ 2010&quot; AND (it &gt;= &quot;10.0.40219&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry</Property>
+    <Property ID="12" Name="VC++2010x64?" EvaluationPeriod="P1D">if (x64 of operating system AND exists x64 registry) then (exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft Visual C++ 2010&quot; AND (it &gt;= &quot;10.0.40219&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x64 registry) as string else &quot;&lt;n/a - 32bit Machine&gt;&quot;</Property>
+    <Property ID="13" Name="TSM Sched Service Running?" EvaluationPeriod="PT6H">exists running service &quot;TSM Scheduler Service&quot;</Property>
+    <Property ID="2" Name="Last Activity in TSM" EvaluationPeriod="PT6H">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot;) then &quot;&lt;dsmsched log missing&gt;&quot; else (modification time of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmsched.log&quot; as string)</Property>
+    <Property ID="6" Name="TSM Server" EvaluationPeriod="P1D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) then &quot;&lt;no dsm opt&gt;&quot; else if(not exists line whose(it as uppercase contains &quot;TCPSERVERADDRESS&quot;) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) then &quot;&lt;no tcpserveraddress&gt;&quot; else (  following text of first &quot;TCPSERVERADDRESS&quot; of  (it as uppercase) of  line whose(   (   if it does not contain &quot;*&quot; then it else preceding text of first &quot;*&quot; of it) as uppercase contains  &quot;TCPSERVERADDRESS&quot;  )   of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot; as trimmed string)</Property>
+    <Property ID="7" Name="TSM Node Name" EvaluationPeriod="P2D">if(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) then &quot;&lt;no dsm opt&gt;&quot; else if(not exists line whose( (if it does not contain &quot;*&quot; then it else preceding text of first &quot;*&quot; of it) as uppercase contains &quot;NODENAME&quot;) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) then &quot;&lt;no nodename&gt;&quot; else ( following text of first &quot;NODENAME&quot; of (it as uppercase) of line whose( ( if it does not contain &quot;*&quot; then it else preceding text of first &quot;*&quot; of it) as uppercase contains &quot;NODENAME&quot; ) of file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot; as trimmed string)</Property>
+    <Property ID="14" Name="TSM Client Acceptor Service Running?" EvaluationPeriod="PT6H">exists running service &quot;TSM Client Acceptor&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : System File Checker results
+  ID       : 2994541
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-06-26T15:48:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>System File Checker results</Title>
+    <Description><![CDATA[<P>Results from running sfc /scannow</P>
+<P>Can run sfc using this task: <A href="http://bigfix.me/cdb/fixlet/1369"><FONT color=#000080>http://bigfix.me/cdb/fixlet/1369</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[exists file ((pathname of windows folder) & "\logs\cbs\cbs.log")]]></Relevance>
+    <Relevance><![CDATA[exists lines whose (it contains "[SR] ") of file ((pathname of windows folder) & "\logs\cbs\cbs.log")]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 26 Jun 2013 22:46:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="# of unrepairable files" EvaluationPeriod="P7D">number of lines whose (it contains &quot;[SR] Cannot repair member file&quot;) of file ((pathname of windows folder) &amp; &quot;\logs\cbs\cbs.log&quot;)</Property>
+    <Property ID="3" Name="# of [SR] Lines" EvaluationPeriod="P7D">number of lines whose (it contains &quot;[SR] &quot;) of file ((pathname of windows folder) &amp; &quot;\logs\cbs\cbs.log&quot;)</Property>
+    <Property ID="4" Name="[SR] Lines" EvaluationPeriod="P7D">(if exists ( position 1000 of it ) then ( preceding text of position 1000 of it ) else it) of concatenation &quot;; &quot; of lines whose (it contains &quot;[SR] &quot;) of file ((pathname of windows folder) &amp; &quot;\logs\cbs\cbs.log&quot;)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Disable Skype Auto-update - Improved
+  ID       : 3662
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-12-04T13:45:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Disable Skype Auto-update - Improved</Title>
+    <Description>The listed computers have Skype installed and configured to check for updates automatically. Deploying the action below will disable Skype auto-update. </Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "7"]]></Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance><![CDATA[/* Windows 2000 or later */ version of operating system >= "5.0" /* http://msdn.microsoft.com/en-us/library/windows/desktop/ms724832(v=vs.85).aspx */]]></Relevance>
+    <Relevance>/* Only relevant if skype is installed */ exists key &quot;HKLM\Software\Skype&quot; whose(exists key &quot;Phone&quot; of it AND exists value &quot;SkypePath&quot; of key &quot;Phone&quot; of it) of registry</Relevance>
+    <Relevance>/* Only relevant if skype is installed */ exists file ((value &quot;SkypePath&quot; of key &quot;Phone&quot; of it as string) of key &quot;HKLM\Software\Skype&quot; of registry)</Relevance>
+    <Relevance><![CDATA[( /* Check if updates are disabled for Skype < version 6.5 */ ((version of file (value "SkypePath" of key "Phone" of it as string) < "6.5") AND (not exist key "Phone" whose (value "DisableVersionCheck" of it = 1) of it)) OR /* Check if updates are disabled for Skype >= version 6.5 */ ((version of file (value "SkypePath" of key "Phone" of it as string) >= "6.5") AND (not exist key "Installer" whose (value "InstallUpdates" of it = 0) of it))) of key "HKLM\Software\Skype" of registry]]></Relevance>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2013-12-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 16 Feb 2012 05:41:45 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 04 Dec 2013 20:26:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action3939">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Skype Auto-update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// http://www.updatefreezer.org/index.php?id=4
+// http://download.skype.com/share/business/guides/skype-it-administrators-guide.pdf
+// http://www.tersetechtips.com/disable-skype-forced-updates/
+
+if{((version of file (value "SkypePath" of key "Phone" of it as string)) of key "HKLM\Software\Skype" of registry) < "6.5"}
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Skype\Phone]" "DisableVersionCheck"=dword:00000001
+else
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Skype\Installer]" "InstallUpdates"=dword:00000000
+endif]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows System Volume Size & Usage
+  ID       : 2994588
+  Author   : JasonWalker
+  Domain   : SYST
+  Imported : 2013-10-21T14:03:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows System Volume Size &amp; Usage</Title>
+    <Description><![CDATA[This Analysis was created to determine the existance, size, and free space of the Windows System Volume.&nbsp; Normally this is a dedicated partition with no drive letter assigned. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 21 Oct 2013 20:59:36 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Property ID="1" Name="Volume Label" EvaluationPeriod="P1D">((if exists string value of properties &quot;Label&quot; of it then string value of properties (&quot;Label&quot;) of it else &quot;&lt;none&gt;&quot;)) of (select objects (&quot;Label,DriveLetter, Capacity,FreeSpace from Win32_Volume WHERE SystemVolume=&apos;True&apos;&quot;) of WMI)</Property>
+    <Property ID="2" Name="Drive Letter" EvaluationPeriod="P1D">((if exists string value of properties &quot;DriveLetter&quot; of it then string value of properties (&quot;DriveLetter&quot;) of it else &quot;&lt;none&gt;&quot;)) of (select objects (&quot;Label,DriveLetter, Capacity,FreeSpace from Win32_Volume WHERE SystemVolume=&apos;True&apos;&quot;) of WMI)</Property>
+    <Property ID="3" Name="Capacity" EvaluationPeriod="P1D">((string value of property &quot;Capacity&quot; of it as integer / 1024 / 1024) as string &amp; &quot; MB&quot;) of (select objects (&quot;Label,DriveLetter, Capacity,FreeSpace from Win32_Volume WHERE SystemVolume=&apos;True&apos;&quot;) of WMI)</Property>
+    <Property ID="4" Name="Free Space" EvaluationPeriod="P1D">((string value of property &quot;FreeSpace&quot; of it as integer / 1024 / 1024) as string &amp; &quot; MB&quot;) of (select objects (&quot;Label,DriveLetter, Capacity,FreeSpace from Win32_Volume WHERE SystemVolume=&apos;True&apos;&quot;) of WMI)</Property>
+    <Property ID="5" Name="Free %" EvaluationPeriod="PT12H">((string value of property &quot;FreeSpace&quot; of it as floating point / string value of property &quot;Capacity&quot; of it as floating point * 100) as integer as string &amp; &quot; percent free&quot;) of (select objects (&quot;Label,DriveLetter, Capacity,FreeSpace from Win32_Volume WHERE SystemVolume=&apos;True&apos;&quot;) of WMI)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SNMP - Windows
+  ID       : 2998459
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-21T12:53:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SNMP - Windows</Title>
+    <Description><![CDATA[<P>Provides information on the current SNMP configuration in Windows.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;SNMP&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SNMP - State - Windows" EvaluationPeriod="PT1H">state of service &quot;SNMP&quot; | error &quot;Not Installed&quot;</Property>
+    <Property ID="2" Name="SNMP - Read-Only Communities - Windows" EvaluationPeriod="PT12H">names of values whose (it = 4) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities&quot; of native registry</Property>
+    <Property ID="3" Name="SNMP - Permitted Managers - Windows" EvaluationPeriod="PT12H">values of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers&quot; of native registry</Property>
+    <Property ID="4" Name="SNMP - Read-Write Communities - Windows" EvaluationPeriod="PT12H">names of values whose (it = 8) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities&quot; of native registry</Property>
+  </Analysis>
+</BES>

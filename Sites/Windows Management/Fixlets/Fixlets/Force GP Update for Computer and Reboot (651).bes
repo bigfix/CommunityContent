@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Force GP Update for Computer and Reboot
+  ID       : 651
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-31T09:50:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Force GP Update for Computer and Reboot</Title>
+    <Description>Run a GPUpdate and rebot target computer</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-31</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 31 Oct 2012 14:50:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden cmd.exe /C gpupdate /force /boot /target:computer</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

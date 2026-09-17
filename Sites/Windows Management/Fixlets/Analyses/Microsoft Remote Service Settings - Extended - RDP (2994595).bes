@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Microsoft Remote Service Settings - Extended - RDP
+  ID       : 2994595
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-01T12:06:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Microsoft Remote Service Settings - Extended - RDP</Title>
+    <Description><![CDATA[<P>RDP / Terminal Services settings</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://etutorials.org/Microsoft+Products/microsoft+windows+server+2003+terminal+services/Chapter+6+Registry/Registry+Keys+for+Terminal+Services/"><FONT color=#000080>http://etutorials.org/Microsoft+Products/microsoft+windows+server+2003+terminal+services/Chapter+6+Registry/Registry+Keys+for+Terminal+Services/</FONT></A></P>
+<P><A href="http://support.microsoft.com/kb/243215"><FONT color=#000080>http://support.microsoft.com/kb/243215</FONT></A></P>
+<P><A href="http://www.sepago.de/e/helge/2007/09/12/programmatically-determining-terminal-server-mode-on-windows-server-2008"><FONT color=#000080>http://www.sepago.de/e/helge/2007/09/12/programmatically-determining-terminal-server-mode-on-windows-server-2008</FONT></A></P>
+<P><A href="http://www.whitemiceconsulting.com/2011/10/changing-terminal-services-license-mode.html"><FONT color=#000080>http://www.whitemiceconsulting.com/2011/10/changing-terminal-services-license-mode.html</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3  AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) else false</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 27 Aug 2007 22:53:50 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 01 Nov 2013 19:06:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="MinEncryptionLevel" EvaluationPeriod="P1D">value &quot;MinEncryptionLevel&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; of native registry</Property>
+    <Property ID="2" Name="Version" EvaluationPeriod="P1D">value &quot;ProductVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server&quot; of native registry</Property>
+    <Property ID="3" Name="NLA Enabled?" EvaluationPeriod="P1D">(exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; whose(value &quot;UserAuthentication&quot; of it = 1) of native registry)</Property>
+    <Property ID="4" Name="ColorDepth" EvaluationPeriod="P1D">value &quot;ColorDepth&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; of native registry</Property>
+    <Property ID="5" Name="PortNumber" EvaluationPeriod="P1D">value &quot;PortNumber&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; of native registry</Property>
+    <Property ID="6" Name="WdName" EvaluationPeriod="P1D">value &quot;WdName&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; of native registry</Property>
+    <Property ID="7" Name="LicensingMode" EvaluationPeriod="P1D">if (version of operating system &lt;= &quot;6.0&quot;) then ERROR &quot;N/A&quot; else (value &quot;LicensingMode&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\RCM\Licensing Core&quot; of native registry)</Property>
+    <Property ID="8" Name="RDP Version" EvaluationPeriod="P1D">(it as string as version) of value &quot;WdName&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; of native registry</Property>
+  </Analysis>
+</BES>

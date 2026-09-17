@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Microsoft SQL - Windows
+  ID       : 2998470
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-25T15:52:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Microsoft SQL - Windows</Title>
+    <Description><![CDATA[<P>Provides information about the SQL Server and Databases on the system. </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmis (&quot;ROOT\Microsoft\SqlServer\ComputerManagement&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement10&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement11&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement12&quot;)</Relevance>
+    <Relevance>exists keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of (x32 registries;x64 registries)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SQL - Instances - Windows" EvaluationPeriod="P1D">unique values of (it as string) of values of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Microsoft SQL Server\Instance Names\SQL&quot; of (x32 registries;x64 registries)</Property>
+    <Property ID="4" Name="SQL - Clustered Instances - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (string values of properties &quot;ServiceName&quot; of it) of SELECT OBJECTS &quot;* FROM SqlServiceAdvancedProperty WHERE PropertyIndex=3 AND PropertyName=&apos;CLUSTERED&apos; AND ServiceName=&apos;MSSQLSERVER&apos; AND SqlServiceType=1 and PropertyNumValue=1&quot; of (wmis (&quot;ROOT\Microsoft\SqlServer\ComputerManagement12&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement11&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement10&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement&quot;)) whose (exists select objects &quot;* FROM SqlServiceAdvancedProperty WHERE PropertyIndex=3 AND PropertyName=&apos;CLUSTERED&apos; AND ServiceName=&apos;MSSQLSERVER&apos; AND SqlServiceType=1&quot; of it | false) </Property>
+    <Property ID="6" Name="SQL - Databases - Windows" EvaluationPeriod="P2D">unique values of (string value of property &quot;name&quot; of it) of select objects ((&quot;* from &quot; &amp; it &amp; &quot; where NAME != &apos;_Total&apos; and NAME != &apos;mssqlsystemresource&apos;&quot;) of (string values of properties &quot;__class&quot; of SELECT objects &quot;* from meta_class where __CLASS like &apos;%25Win32_PerfFormattedData_%25SQLServerDatabases&apos;&quot; of wmi)) of wmi</Property>
+    <Property ID="7" Name="SQL - Mirrored Databases - Windows" EvaluationPeriod="P2D">unique values of (string value of property &quot;name&quot; of it) of select objects ((&quot;* from &quot; &amp; it &amp; &quot; where NAME != &apos;_Total&apos; and NAME != &apos;mssqlsystemresource&apos;&quot;) of (string values of properties &quot;__class&quot; of SELECT objects &quot;* from meta_class where __CLASS like &apos;%25Win32_PerfFormattedData_%25SQLServerDatabaseMirroring&apos;&quot; of wmi)) of wmi</Property>
+    <Property ID="8" Name="SQL - Replicated Databases - Windows" EvaluationPeriod="P2D">unique values of (string value of property &quot;name&quot; of it) of select objects ((&quot;* from &quot; &amp; it &amp; &quot; where NAME != &apos;_Total&apos; and NAME != &apos;mssqlsystemresource&apos;&quot;) of (string values of properties &quot;__class&quot; of SELECT objects &quot;* from meta_class where __CLASS like &apos;%25Win32_PerfFormattedData_%25SQLServerDatabaseReplica&apos;&quot; of wmi)) of wmi</Property>
+    <Property ID="9" Name="SQL - Database Disk Usage - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (string value of property &quot;name&quot; of it, (integer value of property &quot;DataFilesSizeKB&quot; of it / 1024) as string &amp; &quot; MB&quot; ) of select objects ((&quot;* from &quot; &amp; it &amp; &quot; where NAME != &apos;_Total&apos; and NAME != &apos;mssqlsystemresource&apos;&quot;) of (string values of properties &quot;__class&quot; of SELECT objects &quot;* from meta_class where __CLASS like &apos;%25Win32_PerfFormattedData_%25SQLServerDatabases&apos;&quot; of wmi)) of wmi</Property>
+    <Property ID="10" Name="SQL - Default Port - Windows" EvaluationPeriod="P1D">unique values of integer values of properties &quot;PropertyNumVal&quot; of select objects &quot;* from ClientNetworkProtocolProperty where PropertyName=&apos;Default Port&apos;&quot; of (wmis (&quot;ROOT\Microsoft\SqlServer\ComputerManagement12&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement11&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement10&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement&quot;)) whose (exists select objects &quot;* from ClientNetworkProtocolProperty where PropertyName=&apos;Default Port&apos;&quot; of it | false)</Property>
+    <Property ID="11" Name="SQL - Default Named Pipe - Windows" EvaluationPeriod="P1D">unique values of string values of properties &quot;PropertyStrVal&quot; of select objects &quot;* from ClientNetworkProtocolProperty where PropertyName=&apos;Default Pipe&apos;&quot; of (wmis (&quot;ROOT\Microsoft\SqlServer\ComputerManagement12&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement11&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement10&quot;;&quot;ROOT\Microsoft\SqlServer\ComputerManagement&quot;)) whose (exists select objects &quot;* from ClientNetworkProtocolProperty where PropertyName=&apos;Default Pipe&apos;&quot; of it | false)</Property>
+  </Analysis>
+</BES>

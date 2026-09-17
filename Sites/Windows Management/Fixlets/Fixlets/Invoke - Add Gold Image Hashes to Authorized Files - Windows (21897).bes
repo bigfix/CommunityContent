@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Add Gold Image Hashes to Authorized Files - Windows
+  ID       : 21897
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-10-03T16:49:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Add Gold Image Hashes to Authorized Files - Windows</Title>
+    <Description><![CDATA[This fixlet will be relevant when there are gold image baseline results in the baseline share.&nbsp; When executed these applications and their associated hash values will be added to the whitelist.&nbsp; If the application is already in existence, the new hash will be added. ]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance><![CDATA[exists descendants whose (name of it starts with "authfiles" and name of it ends with ".txt") of folder ((value "EnterpriseServerFolder" of it as string & "UploadManagerData\BufferDir\sha1") of key "HKEY_LOCAL_MACHINE\Software\BigFix\Enterprise Server" of x32 registry)]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-10-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-10-03
+delete __createfile
+delete run.ps1
+
+createfile until _end_
+param (
+    $InputDir = ".",
+    $InputFilter = "authfiles*.txt",
+    $PwrTech = "${{env:ProgramFiles(x86)}\RES Software\Workspace Manager\PwrTech.exe"
+)
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+    $LogFile = "$PSScriptRoot\Import.log"
+
+    $FormattedMessage = "$((get-date).tostring()) - $((Get-PSCallStack).FunctionName[1]) - $Message"
+
+    write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+}
+
+#Get List of Files older than the TimeStamp in the Repository (Initialize Empty Array for PS <= 2.0)
+$Files = @(Get-ChildItem -force -Recurse (resolve-path $InputDir).path -Filter $InputFilter -ErrorAction SilentlyContinue)
+
+foreach ($File in $Files) {{
+    write-log "Processing $($File.FullName)"
+
+	write-log "Running: & ""$PwrTech"" /importhashes=""$($File.FullName)"" /createifnotexists"
+
+    $Output = & "$PwrTech" /importhashes="$($File.FullName)" /createifnotexists | Out-String
+
+    write-log $Output
+
+	if (($Output -join "`r`n") -like "*Finished importing file hashes*") {{
+		write-log "Success. Deleting $($File.FullName)"
+		remove-item $File.FullName -erroraction silentlycontinue
+	} else {{
+		write-log "Failure. Leaving $($File.FullName)"
+	}
+
+    write-log "Done Processing $($File.FullName)"
+}
+_end_
+
+move __createfile run.ps1
+
+waithidden powershell.exe -executionpolicy bypass -file "run.ps1" -InputDir "{(value "EnterpriseServerFolder" of it as string & "UploadManagerData\BufferDir\sha1") of key "HKEY_LOCAL_MACHINE\Software\BigFix\Enterprise Server" of x32 registry}"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BigSpeak Audio Health Dashboard Scheduled Task Setup v1.0
+  ID       : 6217
+  Author   : menglish
+  Domain   : BES
+  Imported : 2015-09-29T04:19:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BigSpeak Audio Health Dashboard Scheduled Task Setup v1.0</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=3>Action&nbsp;Parameters:</FONT></STRONG></P>
+<P>&nbsp;<INPUT onfocus="if (this.value == 'OP Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'OP Name';}" id=RemoteOP title="Enter the Exporting IEM Server Operator Name" value="OP Name" name=RemoteOP>&nbsp;<FONT color=#0080ff><STRONG>&lt;&lt;&nbsp;</STRONG></FONT> Enter the&nbsp;IEM Server Operator Name<BR>&nbsp;<INPUT id=RemoteOPPass title="Enter the Exporting IEM Server Operator Password" type=password name=RemoteOPPass>&nbsp;&nbsp; <FONT color=#0080ff><STRONG>&lt;&lt;</STRONG></FONT>&nbsp; Enter the&nbsp;IEM Server Operator Password&nbsp;<BR>&nbsp;<INPUT onfocus="if (this.value == 'bigfix\administrator') {this.value = '';}" onblur="if (this.value == '') {this.value = 'bigfix\administrator';}" id=TaskAdmin title="Enter the account to run the scheduled task" value=bigfix\administrator name=TaskAdmin>&nbsp;<FONT color=#0080ff><STRONG>&lt;&lt;&nbsp;</STRONG></FONT> Enter the account name to run the scheduled task<BR>&nbsp;<INPUT id=TaskPass title="Enter the account password to run the scheduled task" type=password name=TaskPass>&nbsp;&nbsp; <FONT color=#0080ff><STRONG>&lt;&lt;</STRONG></FONT>&nbsp; Enter the account password to run the scheduled task<BR><script>
+			document.body.ontakeaction = function() {
+				var theRemoteOP = document.getElementById( "RemoteOP" ).value;
+				var theRemoteOPPass = document.getElementById( "RemoteOPPass" ).value;
+				var theTaskAdmin = document.getElementById( "TaskAdmin" ).value;
+				var theTaskPass = document.getElementById( "TaskPass" ).value;
+				TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", {}, { RemoteOP: theRemoteOP , RemoteOPPass: theRemoteOPPass , TaskAdmin: theTaskAdmin , TaskPass: theTaskPass } );
+				return false;
+			}
+			</script><BR><STRONG>_____________________________________________________________________________________________________</STRONG> </P>
+<P><STRONG><FONT size=4>BigSpeak Audio Health Dashboard </FONT></STRONG></P><SPAN lang=EN>
+<P dir=ltr align=left>The BigSpeak Audio Health Dashboard enables Text To Speech (TTS) to notify operators of the current health status of their Bigfix environment.<BR>This example only provides part of the ‘BES Relay Health’ section of the ‘Deployment Health Checks’ dashboard, However you could build out the rest of the dashboard, or utilize this example in a whole different way.</P>
+<P dir=ltr align=left>The Checks that this example will report on are:</P>
+<UL>
+<P dir=ltr align=left>
+<LI>Number of Clients Per BES Relay
+<LI>BES Relay Version
+<LI>BES Relay Service Stopped
+<LI>Download Folders
+<LI>BES Relay Free Disk Space
+<P></P></LI></UL>
+<P dir=ltr align=left>Every hour (by default), the native windows TTS engine will inform you as follows:</P>
+<P dir=ltr align=left>"This is a Bigfix Audio Alert"</P>
+<UL>
+<P dir=ltr align=left>
+<LI>If all 5 health checks pass, you will hear, "The current Bigfix status is ALL CLEAR"
+<P></P>
+<P dir=ltr align=left></P>
+<LI>If one or more of the 5 checks FAIL, you will hear a combination of the following:
+<P></P></LI></UL>
+<DIR>
+<DIR>
+<P dir=ltr align=left>"The current Bigfix status for Number of Clients Per Relay is FAIL"<BR>"The current Bigfix status for Relay Version is WARNING"<BR>"The current Bigfix status for Relay Version is FAIL"<BR>"The current Bigfix status for Relay Service Stopped is FAIL"<BR>"The current Bigfix status for Download Folders is FAIL"<BR>"The current Bigfix status for Relay Disk Space is FAIL"<BR></P></DIR></DIR>
+<P style="MARGIN-RIGHT: 0px" dir=ltr align=left><STRONG>There are two tasks which are needed:</STRONG></P>
+<OL>
+<P dir=ltr align=left>
+<LI>BigSpeak Audio Health Dashboard Scheduled Task Setup v1.0 (This TASK)
+<LI>BigSpeak Audio Health Dashboard </LI></OL><B>
+<P dir=ltr align=left>Initial Setup:</P></B>
+<P dir=ltr align=left>Note: This has only been tested on Windows 7.</P>
+<OL>
+<P dir=ltr align=left>
+<LI>Copy the ‘IEM CLI’ folder from your Bigfix server to a location on your windows 7 machine. The default location is: <I>C:\Program Files (x86)\BigFix Enterprise\BES Server\IEM CLI
+<P></P></I>
+<P dir=ltr align=left></P>
+<LI>Since this is the first time utilizing the IEM CLI, you will have to manually authenticate from the Windows 7 endpoint in order to trust the security certificate.
+<P></P>
+<OL type=a>
+<P dir=ltr align=left>
+<LI>From the windows command line browse to the iem.exe and type, "iem login"
+<LI>You will have to provide your operator credentials, then it will ask you to trust the certificate.</LI></OL></LI></OL>
+<P><B>Deploy: BigSpeak Audio Health Dashboard Scheduled Task Setup v1.0</P>
+<OL></B>
+<P dir=ltr align=left>
+<LI>On the ‘Description’ Tab, this task will ask for the following:
+<OL>
+<LI>The IEM Server Operator Name
+<LI>The IEM Server Operator Password
+<LI>The windows account name that will be used to execute the scheduled task
+<LI>The windows account password that will be used to execute the scheduled task<BR></LI></OL>
+<P></P>
+<P dir=ltr align=left></P>
+<LI>Two action parameters will also ask for input:
+<OL>
+<LI>The path to the IEM Command Line
+<LI>The IP Address or hostname of the Bigfix Reporting Server</SPAN><SPAN lang=EN><BR></LI></OL>
+<P></P>
+<P dir=ltr align=left></P>
+<LI>Target the Windows 7 endpoint(s) that will be using TTS to notify the operator<BR>
+<P></P>
+<P dir=ltr align=left></P>
+<LI>Upon completion, the scheduled task "BFAudio_HealthCheck" will have been created that will run every hour by default.</LI></OL>
+<P><B>Deploy: BigSpeak Audio Health Dashboard</P>
+<OL></B>
+<P dir=ltr align=left>
+<LI>Target the Windows 7 endpoint(s) that will be using TTS to notify the operator
+<OL>
+<LI>Note: Speakers must be turned on for this to work.</LI></OL></LI></OL></SPAN>]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>(name of operating system starts with &quot;Win&quot;)</Relevance>
+    <Category>IEM Maintenance</Category>
+    <Source>mike.english@us.ibm.com</Source>
+    <SourceReleaseDate>2015-09-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 29 Sep 2015 11:16:36 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Location of IEM CLI Folder Here:
+action parameter query "IEMCLI" with description "Please enter the full path to the IEM CLI:" with default value "%22c:\IEM CLI\iem.exe%22"
+
+//IP or Hostname of Bigfix Server:
+action parameter query "BFServer" with description "Please enter the IP address or Hostname of the Bigfix Reporting Server (must be resolvable):" with default value "10.10.10.11"
+
+//Check for C:\BFAudio
+if {not exist folder "C:\BFAudio"}
+	dos mkdir "C:\BFAudio"
+endif
+
+//Create BFAudio Batfile
+delete __appendfile
+appendfile del "c:\BFAudio\*.txt"
+
+//login to API
+appendfile {parameter "IEMCLI" of action} login -q --server={parameter "BFServer" of action} --user={parameter "RemoteOP" of action} --password={parameter "RemoteOPPass" of action}
+
+//Create Results
+//Number of Clients Per BES Relay
+appendfile {parameter "IEMCLI" of action} get query --relevance "if (not ((number of ((it & "" - "" & multiplicity of it as string) of unique values whose (multiplicity of it > 1000) of (values of results of bes property ""relay""))) >= 1)) then (""Number of Clients Per BES Relay:PASS"") else (""Number of Clients Per BES Relay:FAIL"")" >> "c:\BFAudio\NumberOfClients.txt"
+//BES Relay Version
+appendfile {parameter "IEMCLI" of action} get query --relevance "(if (it contains ""'+ txFailed +'"") then ""BES Relay Version:FAIL"" else if (it contains ""'+ txWarning +'"") then ""BES Relay Version:WARN"" else ""BES Relay Version:PASS"") of concatenation of ( if ((preceding text of last ""."" of preceding text of last ""."" of item 0 of it) = (preceding text of last ""."" of preceding text of last ""."" of value of item 1 of it)) then (""' + txPassed + '"") else (""'+ txWarning +'"") ) of ((preceding text of first "","" of ((concatenation "","" of (values whose (it != ""Not Installed"") of results of BES Property ""BES Server Version"")) & "","")) , results whose (value of it != ""Not Installed"") of BES Property ""BES Relay Version"")" >> "c:\BFAudio\RelayVersion.txt"
+//BES Relay Service Stopped
+appendfile {parameter "IEMCLI" of action} get query --relevance "(if (not exists results whose (value of it as lowercase contains ""yes - stopped"") of bes property ""BES Relay Service Installed"") then (""BES Relay Service Stopped:PASS"") else (""BES Relay Service Stopped:FAIL""))" >> "c:\BFAudio\ServiceStopped.txt"
+//Download Folders
+appendfile {parameter "IEMCLI" of action} get query --relevance "if (not (applicable computer count of BES Fixlets whose (name of site of it = ""BES Support"" and id of it = 535 ) > 0)) then (""Download Folders:PASS"") else (""Download Folders:FAIL"")" >> "c:\BFAudio\DownloadFolders.txt"
+//BES Relay Free Disk Space
+appendfile {parameter "IEMCLI" of action} get query --relevance "if (exist preceding texts whose (it as integer < 500) of firsts "" "" of values of results whose (exists value of it) of bes properties whose (name of it = ""BES Health Checks::BES Relay Free Disk Space"")) then ""BES Relay Free Disk Space:FAIL"" else if (exist preceding texts whose (it as integer < 1000) of firsts "" "" of values of results of bes properties whose (name of it = ""BES Health Checks::BES Relay Free Disk Space"")) then ""BES Relay Free Disk Space:WARN"" else ""BES Relay Free Disk Space:PASS""" >> "c:\BFAudio\RelayDiskSpace.txt"
+
+//breadcrumb
+appendfile copy nul > "c:\BFAudio\bread.crumb"
+
+delete "c:\BFAudio\bfaudio.bat"
+copy __appendfile "c:\BFAudio\bfaudio.bat"
+
+//Create Scheduled Task
+dos schtasks /create /sc hourly /mo 1 /tn "BFAudio_HealthCheck" /tr "c:\BFAudio\bfaudio.bat" /ru {parameter "TaskAdmin" of action} /rp {parameter "TaskPass" of action}]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

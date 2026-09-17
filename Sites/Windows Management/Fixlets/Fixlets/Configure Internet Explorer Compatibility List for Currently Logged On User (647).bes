@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Configure Internet Explorer Compatibility List for Currently Logged On User
+  ID       : 647
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-26T19:46:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Configure Internet Explorer Compatibility List for Currently Logged On User</Title>
+    <Description><![CDATA[<P>This task is an example of how to configure the Internet Explorer's Compatibility List as a policy to all of your endpoints.</P>
+<P>OOB this task configures both "ibm.com" and "red.com" as my list.&nbsp; If you want to configure your own list, do the following:</P>
+<P>1. Using a test box, configure your compatibility list exactly the way you want it to be on your endpoints.<BR>2. Export the following registry key:&nbsp; HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\BrowserEmulation\ClearableListData<BR>3. Copy/Past that reg file into the actionscript of this task.<BR>4. Modify the overall relevance #2 with your list.&nbsp; It's easy to do if you've gotten this far.</P>
+<P>Save and launch against your target endpoints.</P>
+<P>Remember this configures the currently logged in user.&nbsp; So if you have endpoints with multiple users, this task may run more than once as each user logs in.</P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[(it contains "ibm.com" AND it contains "red.com") of (concatenation of substrings separated by "%00" whose (exists match (regex "^[ a-zA-Z0-9.\x%0c\-]$") of it) of hexadecimal string (values "UserFilter" of key ("HKU\" & (component string of sid of security account (name of current user)) & "\Software\Microsoft\Internet Explorer\BrowserEmulation\ClearableListData") of registry as string))]]></Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-26</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 27 Oct 2012 00:46:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//create .reg file
+createfile until END
+Windows Registry Editor Version 5.00
+[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\BrowserEmulation\ClearableListData]
+&quot;UserFilter&quot;=hex:41,1f,00,00,53,08,ad,ba,02,00,00,00,4c,00,00,00,01,00,00,00,\
+  02,00,00,00,0c,00,00,00,a8,23,f2,69,79,b0,cd,01,01,00,00,00,07,00,69,00,62,\
+  00,6d,00,2e,00,63,00,6f,00,6d,00,0c,00,00,00,51,92,b3,23,db,b3,cd,01,01,00,\
+  00,00,07,00,72,00,65,00,64,00,2e,00,63,00,6f,00,6d,00
+END
+delete temp.reg
+move __createfile temp.reg
+// run .reg file
+wait regedit -s temp.reg
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : KB2953095 - Disable RTF processing in MS Word
+  ID       : 3741
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-27T12:18:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>KB2953095 - Disable RTF processing in MS Word</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>This fixlet uses Local Group Policy to set per-user registry entries. These entries disable RTF processing in MS Word. See the MS KB2953095.</P>
+<P><STRONG>NOTE:</STRONG> This may report back as "<STRONG>failed</STRONG>" but actually <STRONG>succeed</STRONG> due to difficulties with writing relevance to detect the local GPO change.</P>
+<P>The changes are made the binary file located here:&nbsp; C:\Windows\System32\GroupPolicy\User\Registry.pol</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* Word 2003 through 2013 installed */ exists regapp "winword.exe" whose(version of it >= "11.0" AND version of it < "16")]]></Relevance>
+    <Relevance><![CDATA[/* This relevance might not work to detect the need to run correctly. What is the best way to determine the current local GPO state? */ not exists keys whose(exists key "Software\Policies\Microsoft\office" of it AND 4 = number of keys whose(name of it starts with "file" AND name of it ends with "block" AND exists value "RtfFiles" whose(it > 0) of it) of keys "word\security" of keys of key "Software\Policies\Microsoft\office" of it) of key "HKEY_USERS" of registry]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 27 Mar 2014 19:17:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// Download Utilities for automating Local Group Policy management
+//   http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx
+prefetch LGPO_Utilities.zip sha1:e849599553425754e2e070014fa7967d75671bdf size:311761 http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip
+
+// Download UnZip utility
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+
+// Download RunAsCurrentUser utility
+prefetch RunAsCurrentUser.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
+
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\LGPO_Utilities.zip" -d "{pathname of client folder of current site}\__Download"
+
+// Create LGPO file to be applied to the system
+delete __createfile
+delete __Download\KB2953095_LGPO
+createfile until END_OF_FILE
+; -------------------------------------------------------------------------
+; These Local Group Policy settings disable RTF file processing in MS WORD
+;  These effect Office 2003, 2007, 2010, 2013
+;  This file is meant to be applied to a system using the Apply_LGPO_Delta utility
+;  http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx
+;  https://www.ibm.com/developerworks/community/forums/html/topic?id=b59717e2-ac44-4361-b3fd-8b349ef4a785
+; -------------------------------------------------------------------------
+
+User
+software\policies\microsoft\office\15.0\word\security\fileblock
+RtfFiles
+DWORD:3
+
+User
+software\policies\microsoft\office\14.0\word\security\fileblock
+RtfFiles
+DWORD:3
+
+User
+software\policies\microsoft\office\12.0\word\security\fileopenblock
+RtfFiles
+DWORD:1
+
+User
+software\policies\microsoft\office\11.0\word\security\fileopenblock
+RtfFiles
+DWORD:1
+
+END_OF_FILE
+
+move __createfile "{pathname of client folder of current site}\__Download\KB2953095_LGPO"
+
+// Apply the above LGPO
+waithidden "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.exe" "{pathname of client folder of current site}\__Download\KB2953095_LGPO" /log "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.log" /error "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta_ERROR.log"
+
+// Update GPO - This does not appear to work
+waithidden gpupdate /Force /Target:User /Wait:600 >> "{pathname of client folder of current site}\__Download\gpupdate.log"
+// Updating GPO as current user might not be needed.
+//waithidden __Download\RunAsCurrentUser.exe --w gpupdate /Force /Target:User /Wait:600 >> "{pathname of client folder of current site}\__Download\gpupdate.log"
+
+// If the above gpupdate commands work correctly, then a restart should not be needed.
+action requires restart]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

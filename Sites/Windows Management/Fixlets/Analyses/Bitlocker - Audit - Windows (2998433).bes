@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Bitlocker - Audit - Windows
+  ID       : 2998433
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-29T07:29:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Bitlocker - Audit - Windows</Title>
+    <Description><![CDATA[<P>This Analysis provides information on the current Bitlocker status on the system.</P>
+<P>This analysis does not provide the drive letter alongside each property which means that the first row for each property (where applicable) should correspond to the same volume.</P>
+<P>This analysis is only applicable on computers that are Bitlocker capable.</P>
+<P>This analysis uses information provided by the Bitlocker Configuration Probe: <STRONG>Invoke - Bitlocker Configuration Probe - Windows</STRONG></P>
+<P>Credit, kudos, and compliments to jgstew for providing the basis for this: <A href="https://www.bigfix.me/analysis/details/2994754">https://www.bigfix.me/analysis/details/2994754</A></P>
+<P>Credit, kudos, and compliments to geeksikh for providing the encryption started and finished properties: <A href="https://bigfix.me/analysis/details/96">https://bigfix.me/analysis/details/96</A></P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="Bitlocker - Encryptable Volume # - Windows" EvaluationPeriod="P1D">number of select objects (&quot;* from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+    <Property ID="4" Name="Bitlocker - Encryptable Volumes - Windows" EvaluationPeriod="P1D">string values of selects (&quot;DriveLetter from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+    <Property ID="5" Name="Bitlocker - Protection Status - Windows" EvaluationPeriod="P1D">tuple string items (integer values of selects (&quot;ProtectionStatus from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;Protection Off, Protection On, Protection Unknown&quot;</Property>
+    <Property ID="6" Name="Bitlocker - Encryption Method - WIndows" EvaluationPeriod="P1D">tuple string items (integer values of selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;EncryptionMethod&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;N/A, AES 128 With Diffuser, AES 256 With Diffuser, AES 128, AES 256&quot;</Property>
+    <Property ID="7" Name="Bitlocker - Status - Windows" EvaluationPeriod="P1D">tuple string items (integer values of selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;ConversionStatus&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;Fully Decrypted, Fully Encrypted, Encryption In Progress, Decryption In Progress, Encryption Paused, Decryption Paused&quot;</Property>
+    <Property ID="8" Name="Bitlocker - Volume Type - Windows" EvaluationPeriod="P1D">(selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;VolumeType&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;)</Property>
+    <Property ID="10" Name="Bitlocker - Encryption Status - Windows">(preceding text of first &quot;-&quot; of name of it, (it as trimmed string) of following text of first &quot;:&quot; of (concatenations &quot;&quot; of substrings separated by &quot;%00&quot; of it as trimmed string) whose (it contains &quot;Conversion Status&quot;) of lines of it) of files whose (Name of it contains &quot;Status&quot;) of folder &quot;BitLocker&quot; of folder &quot;__Global&quot; of data folder of client</Property>
+    <Property ID="11" Name="Bitlocker - Encryption Progress - Windows">(preceding text of first &quot;-&quot; of name of it, (it as trimmed string) of following text of first &quot;:&quot; of (concatenations &quot;&quot; of substrings separated by &quot;%00&quot; of it as trimmed string) whose (it contains &quot;Percentage Encrypted&quot;) of lines of it) of files whose (Name of it contains &quot;Status&quot;) of folder &quot;BitLocker&quot; of folder &quot;__Global&quot; of data folder of client</Property>
+  </Analysis>
+</BES>

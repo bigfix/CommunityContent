@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Bitlocker Configuration Probe - Windows
+  ID       : 20701
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-27T10:08:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Bitlocker Configuration Probe - Windows</Title>
+    <Description><![CDATA[<P>This probe grabs the current bitlocker configuration of the system in it's raw format and outputs it to disk to be gathered by analyses.</P>
+<P>Creates a Volume-Status.txt file in __BESData.</P>
+<P>Example</P>
+<UL>
+<LI>C-Status.txt
+<LI>D-Status.txt</LI></UL>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[if(exists WMI "root\CIMv2\Security\MicrosoftVolumeEncryption") then (number of select objects ("* from win32_EncryptableVolume")of WMI "root\CIMv2\Security\MicrosoftVolumeEncryption" >= 1) else (false)]]></Relevance>
+    <Relevance><![CDATA[(windows of operating system) AND (version of operating system >= "6.0") AND (( exists product info string whose(it ends with "Enterprise" OR it starts with "Enterprise" OR it ends with "Ultimate" OR it ends with "Server Datacenter") of operating system ) OR ( (version of operating system >= "6.2") AND (exists product info string whose(it ends with "Business") of operating system) ))]]></Relevance>
+    <Category>Disk Encryption</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-30</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Script will not capture bitlocker recovery password with wow64 redirection enabled
+action uses wow64 redirection {not x64 of operating system}
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "Storage"="{pathname of folder "__Global" of data folder of client}\Bitlocker"
+
+folder create "{parameter "Storage"}"
+
+delete __createfile
+delete powershell.ps1
+
+createfile until _end_
+param (
+    $OutFolder = "."
+)
+#Regex for extracting the volume letters from the BitLocker Status
+[regex] $VolumeRegex = "Volume ([a-zA-Z]:)"
+
+#Get Bitlocker Status: Windows 7+
+$BitlockerStatus = (manage-bde -status)
+
+#Extract Volume Letters from Bitlocker Status
+$Volumes = $VolumeRegex.Matches($BitlockerStatus) | foreach-object {{$_.groups[1].value}
+
+#Get Status
+foreach ($Volume in $Volumes) {{
+    $VolumeStatus = (manage-bde -status $Volume)
+
+    $VolumeStatus > "$OutFolder\$($Volume[0])-Status.txt"
+}
+_end_
+
+move __createfile powershell.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File powershell.ps1 -OutFolder "{parameter "Storage"}"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

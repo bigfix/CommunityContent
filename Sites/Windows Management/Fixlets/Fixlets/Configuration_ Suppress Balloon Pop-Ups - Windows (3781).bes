@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: Suppress Balloon Pop-Ups - Windows
+  ID       : 3781
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-02T10:16:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Suppress Balloon Pop-Ups - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;Does this work in HKLM?&nbsp; How do I test if balloon pop ups are actually suppressed?</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://msdn.microsoft.com/en-us/library/ms940877(v=winembedded.5).aspx">http://msdn.microsoft.com/en-us/library/ms940877(v=winembedded.5).aspx</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; whose(value &quot;EnableBaloonTips&quot; of it = 0) of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-05-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 02 May 2014 17:11:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//  http://msdn.microsoft.com/en-us/library/ms940877(v=winembedded.5).aspx
+
+regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced]&quot; &quot;EnableBaloonTips&quot;=dword:00000000</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

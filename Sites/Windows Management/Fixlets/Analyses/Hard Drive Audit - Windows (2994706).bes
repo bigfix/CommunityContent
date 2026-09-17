@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hard Drive Audit - Windows
+  ID       : 2994706
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-08-15T12:30:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hard Drive Audit - Windows</Title>
+    <Description><![CDATA[<P>This analysis will report on various windows specific aspects of the hard drives in a system.&nbsp;Found here:&nbsp;<A href="http://bigfix.me/cdb/analysis/2994527"><FONT color=#000080>http://bigfix.me/cdb/analysis/2994527</FONT></A></P>
+<P>This is meant to supliment the analysis "Hard Drive Audit - Universal" :&nbsp; <A href="http://bigfix.me/cdb/analysis/2994530">http://bigfix.me/cdb/analysis/2994530</A></P>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Many, but not all of these properties use WMI */ exists wmi</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Aug 2014 19:30:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="4" Name="Serial Numbers" EvaluationPeriod="P1D">if (exists wmi) then (concatenation &quot;, &quot; of (((substrings after &quot;=&quot; whose(it as trimmed string != &quot;&quot;) of (property &quot;SerialNumber&quot; of it as string)) of select objects &quot;* from win32_PhysicalMedia where SerialNumber != &apos;&apos;&quot; of wmi) as trimmed string)) else &quot;n/a&quot;</Property>
+    <Property ID="5" Name="PredictFailure?" EvaluationPeriod="PT6H">if(not exists (select objects &quot;* from MSStorageDriver_FailurePredictStatus&quot; of wmi &quot;root\WMI&quot;) whose(string value of property &quot;PredictFailure&quot; of it as boolean = TRUE)) then &quot;&lt;no failures predicted&gt;&quot; else concatenation &quot;,&quot; of (string value of property &quot;PredictFailure&quot; of it &amp; &quot; - &quot; &amp; string value of property &quot;InstanceName&quot; of it) of (select objects &quot;* from MSStorageDriver_FailurePredictStatus&quot; of wmi &quot;root\WMI&quot;) whose(string value of property &quot;PredictFailure&quot; of it as boolean = TRUE)</Property>
+    <Property ID="6" Name="Partitions 4k aligned?" EvaluationPeriod="P1D">not disjunction of ((following text of first &quot;=&quot; of (property &quot;StartingOffset&quot; of it as string) as integer mod 4096) != 0) of select objects &quot;* from Win32_DiskPartition&quot; of wmi</Property>
+    <Property ID="7" Name="Partition Block Size" EvaluationPeriod="P1D">concatenation &quot;,&quot; of unique values of (following text of first &quot;=&quot; of (property &quot;BlockSize&quot; of it as string)) of select objects &quot;* from Win32_DiskPartition&quot; of wmi</Property>
+    <Property ID="8" Name="Size of PageFile?" EvaluationPeriod="PT6H">(if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (size of file &quot;c:\pagefile.sys&quot;)</Property>
+    <Property ID="9" Name="Size of HiberFil?" EvaluationPeriod="P1D">if(not exists file &quot;c:\hiberfil.sys&quot;) then nothing else ((if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (size of file &quot;c:\hiberfil.sys&quot;))</Property>
+    <Property ID="10" Name="Size of Dell folder?" EvaluationPeriod="P1D">if not exists (folder &quot;dell&quot; of drive of system folder) then nothing else ((if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (sum of sizes of descendants of folder &quot;dell&quot; of drive of system folder))</Property>
+    <Property ID="14" Name="Drive Firmware" EvaluationPeriod="P1D">if (exists wmi) then (concatenation &quot;; &quot; of ((string value of property &quot;Model&quot; of it, string value of property &quot;FirmwareRevision&quot; of it) of select objects &quot;Model, FirmwareRevision from Win32_DiskDrive&quot; of wmi as string)) else &quot;n/a&quot;</Property>
+    <Property ID="16" Name="Size of TEM dl cache" EvaluationPeriod="P1D">if exists (folder &quot;__BESData\__Global\__Cache\Downloads&quot; of parent folder of regapp &quot;Besclient.exe&quot;) then ((if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (sum of sizes of descendants of folder &quot;__BESData\__Global\__Cache\Downloads&quot; of parent folder of regapp &quot;Besclient.exe&quot;)) else ERROR &quot;none&quot;</Property>
+    <Property ID="18" Name="Size of Temp folder?" EvaluationPeriod="P1D">if exists (folder &quot;temp&quot; of drive of system folder) then ((if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (sum of sizes of descendants of folder &quot;temp&quot; of drive of system folder)) else ERROR &quot;no Temp Dir&quot;</Property>
+    <Property ID="19" Name="TRIM disabled?" EvaluationPeriod="PT6H">value &quot;DisableDeleteNotification&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of native registry</Property>
+    <Property ID="20" Name="IDF Temp Size?" EvaluationPeriod="PT6H">if ((exists folder &quot;users&quot; of drive of system folder) AND (exists folders whose (exists folder &quot;AppData\Local\Temp\Identity Finder&quot; of it) of folder &quot;users&quot; of drive of system folder)) then (sum of sizes of descendants of folders &quot;AppData\Local\Temp\Identity Finder&quot; of folders whose (exists folder &quot;AppData\Local\Temp\Identity Finder&quot; of it) of folder &quot;users&quot; of drive of system folder) else ERROR &quot;No IDF temp&quot;</Property>
+    <Property ID="21" Name="Desc &amp; Loc" EvaluationPeriod="P2D">(friendly name of it &amp;&quot; - &quot;&amp; location information of it) of active devices whose(class of it = &quot;DiskDrive&quot;)</Property>
+    <Property ID="22" Name="Largest Desktop Folder" EvaluationPeriod="P2D">(pathname of it, sum of sizes of descendants of it) of folders &quot;Desktop&quot; whose(sum of sizes of descendants of it = maximum of (sum of sizes of descendants of it) of folders &quot;Desktop&quot; of folders of (folder &quot;c:\documents and settings&quot; of it | folder &quot;users&quot; of it) of drive of system folder) of folders of (folder &quot;c:\documents and settings&quot; of it | folder &quot;users&quot; of it) of drive of system folder</Property>
+    <Property ID="23" Name="Raw Size of Disks" EvaluationPeriod="P2D">((it as integer) of string values of selects &quot;Size from Win32_DiskDrive WHERE size!=&apos;&apos; &quot; of wmi)</Property>
+    <Property ID="24" Name="Raw Size of SystemDrive" EvaluationPeriod="P2D">((it as integer) of string values of selects &quot;Size from Win32_DiskDrive WHERE Index=0 AND size!=&apos;&apos; &quot; of wmi)</Property>
+    <Property ID="25" Name="Names of failing drives" EvaluationPeriod="P2D">(string values of selects &quot;Caption from Win32_DiskDrive WHERE Status!=&apos;OK&apos;&quot; of wmi)</Property>
+  </Analysis>
+</BES>

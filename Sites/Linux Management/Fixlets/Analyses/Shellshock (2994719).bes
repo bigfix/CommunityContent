@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Shellshock
+  ID       : 2994719
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2014-09-28T17:46:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Shellshock</Title>
+    <Description>This will look for the vulnerable version of bash in RHEL 5/6/7 x64 systems. This is fairly simple to modify if you are testing for a different distro or architecture. </Description>
+    <Relevance>exists file &quot;/etc/redhat-release&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 Sep 2014 00:41:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Bash version">rpm version record of package &quot;bash&quot; of rpm</Property>
+    <Property ID="2" Name="Vulnerable">((exists package &quot;bash&quot; whose (rpm version record of it &lt; rpm package version record &quot;4.1.2-15.el6_5.2&quot; AND rpm version record of it &gt; rpm package version record &quot;4.1.0-0.el1_0.0&quot; AND architecture of it = &quot;x86_64&quot;) of it AND (not exists package &quot;bash&quot; whose (rpm version record of it &gt;= rpm package version record &quot;4.1.2-15.el6_5.2&quot; AND architecture of it = &quot;x86_64&quot;) of it)) OR (exists package &quot;bash&quot; whose (rpm version record of it &lt; rpm package version record &quot;3.2-33.el5_11.4&quot; AND rpm version record of it &gt; rpm package version record &quot;3.2-0.el1_0.0&quot; AND architecture of it = &quot;x86_64&quot;) of it AND (not exists package &quot;bash&quot; whose (rpm version record of it &gt;= rpm package version record &quot;3.2-33.el5_11.4&quot; AND architecture of it = &quot;x86_64&quot;) of it)) OR (exists package &quot;bash&quot; whose (rpm version record of it &lt; rpm package version record &quot;4.2.45-5.el7_0.4&quot; AND rpm version record of it &gt; rpm package version record &quot;4.2.0-0.el1_0.1&quot; AND architecture of it = &quot;x86_64&quot;) of it AND (not exists package &quot;bash&quot; whose (rpm version record of it &gt;= rpm package version record &quot;4.2.45-5.el7_0.4&quot; AND architecture of it = &quot;x86_64&quot;) of it))) of rpm</Property>
+  </Analysis>
+</BES>

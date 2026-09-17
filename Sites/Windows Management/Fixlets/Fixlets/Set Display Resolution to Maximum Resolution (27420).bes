@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set Display Resolution to Maximum Resolution
+  ID       : 27420
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2026-07-28T10:34:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set Display Resolution to Maximum Resolution</Title>
+    <Description><![CDATA[<P class=MsoNormal style="MARGIN: 0in 0in 8pt"><FONT face=Arial><FONT size=2>Sets the resolution of a computer to its recommended max resolution. Works best with laptops, may have issues with computers&nbsp;connected to multiple&nbsp;displays of different&nbsp;resolutions.</FONT></FONT></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 8pt"><FONT face=Arial><FONT size=2>Works utilizing one of two methods:<?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></FONT></FONT></P>
+<OL style="MARGIN-TOP: 0in" type=1>
+<LI class=MsoNormal style="MARGIN: 0in 0in 8pt; mso-list: l0 level1 lfo1; tab-stops: list .5in"><FONT face=Arial><FONT size=2><B>If user logged on and not on lock screen:</B> Utilizes <B>DisplaySettings</B> PowerShell module (embedded in actionscript) which uses the <B>ChangeDisplaySettings</B> function to change the display settings.</FONT></FONT></LI>
+<LI class=MsoNormal style="MARGIN: 0in 0in 8pt; mso-list: l0 level1 lfo1; tab-stops: list .5in"><FONT face=Arial><FONT size=2><B>If no user logged on or on lock screen:</B> Utilizes direct registry edits and then restarts the display driver.<o:p></o:p></FONT></FONT></LI>
+<UL style="MARGIN-TOP: 0in" type=disc>
+<LI class=MsoNormal style="MARGIN: 0in 0in 8pt; mso-list: l0 level2 lfo1"><FONT face=Arial><FONT size=2><B>WARNING: </B>Restarting the display driver will cause the screen to temporarily go black.<o:p></o:p></FONT></FONT></LI>
+<LI class=MsoNormal style="MARGIN: 0in 0in 8pt; mso-list: l0 level2 lfo1"><FONT size=2><FONT face=Arial><B>WARNING:</B> This will modify ALL display configurations for the device and may have unintended consequences.</FONT><o:p></o:p></FONT></LI></UL></OL>]]></Description>
+    <Relevance>(name of it starts with &quot;Win&quot;) of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2026-07-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 28 Jul 2026 17:33:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to use ChangeDisplaySettings &lt;STRONG&gt;or&lt;/STRONG&gt; registry edit method depending if a user is logged on.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Create PowerShell script
+parameter "ScriptPath" = "__Download\display-resolution.ps1"
+delete "{(parameter "ScriptPath")}"
+
+if {(exists process "logonui.exe") or (not exists logged on users whose (active of it = True))}
+    createfile until ENDOFSCRIPT
+
+    $resolution = Get-WmiObject -Class CIM_VideoControllerResolution | Sort-Object -Property @{{Expression={{$_.HorizontalResolution * $_.VerticalResolution}} -Descending | Select-Object -First 1 -Property HorizontalResolution, VerticalResolution
+
+    $displayConfigs = Get-Item HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Configuration\*\00
+    $displayConfigs | ForEach-Object {{
+        Set-ItemProperty -Path $_.PsPath -Name PrimSurfSize.cx -Value $resolution.HorizontalResolution -Force
+        Set-ItemProperty -Path $_.PsPath -Name PrimSurfSize.cy -Value $resolution.VerticalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name ActiveSize.cx -Value $resolution.HorizontalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name ActiveSize.cy -Value $resolution.VerticalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name DwmClipBox.bottom -Value $resolution.VerticalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name DwmClipBox.left -Value 0 -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name DwmClipBox.right -Value $resolution.HorizontalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name DwmClipBox.top -Value 0 -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name PrimSurfSize.cx -Value $resolution.HorizontalResolution -Force
+        Set-ItemProperty -Path "$($_.PsPath)\00" -Name PrimSurfSize.cy -Value $resolution.VerticalResolution -Force
+    }
+
+    $displayDriver = Get-PnpDevice | Where-Object {{ $_.Class -like "Display*" }
+    $displayDriver | Disable-PnpDevice -Confirm:$false
+    $displayDriver | Enable-PnpDevice -Confirm:$false
+
+    ENDOFSCRIPT
+else
+    createfile until ENDOFSCRIPT
+
+    $cds = @"
+    namespace cds
+    {{
+        using System;
+        using System.Runtime.InteropServices;
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct DEVMODE
+        {{
+            [FieldOffset(102)]
+            public short dmLogPixels;
+            [FieldOffset(104)]
+            public int dmBitsPerPel;
+            [FieldOffset(108)]
+            public int dmPelsWidth;
+            [FieldOffset(112)]
+            public int dmPelsHeight;
+            [FieldOffset(116)]
+            public int dmDisplayFlags;
+            [FieldOffset(120)]
+            public int dmDisplayFrequency;
+        }
+
+
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changedisplaysettingsa
+        public class Helper
+        {{
+            public static DEVMODE GetDisplaySettings()
+            {{
+                // #define ENUM_CURRENT_SETTINGS       ((DWORD)-1)
+                // #define ENUM_REGISTRY_SETTINGS      ((DWORD)-2)
+                var devMode = new DEVMODE();
+
+                // A NULL value specifies the current display device on the computer on which the calling thread is running.
+                var retCode = EnumDisplaySettings(null, -1, ref devMode);
+                if (retCode == 0)
+                {{
+                    throw new Exception("can't get resolution from win api");
+                }
+
+                return devMode;
+            }
+
+            public static string ChangeDisplaySettings(int width, int height, int flags)
+            {{
+                // /* Return values for ChangeDisplaySettings */
+                // #define DISP_CHANGE_SUCCESSFUL       0
+                // #define DISP_CHANGE_RESTART          1
+                // #define DISP_CHANGE_FAILED          -1
+                // #define DISP_CHANGE_BADMODE         -2
+                // #define DISP_CHANGE_NOTUPDATED      -3
+                // #define DISP_CHANGE_BADFLAGS        -4
+                // #define DISP_CHANGE_BADPARAM        -5
+                // #if(_WIN32_WINNT >= 0x0501)
+                // #define DISP_CHANGE_BADDUALVIEW     -6
+                // #endif /* _WIN32_WINNT >= 0x0501 */
+
+                var devMode = GetDisplaySettings();
+
+                devMode.dmPelsWidth = width;
+                devMode.dmPelsHeight = height;
+
+                var res = ChangeDisplaySettings(ref devMode, flags);
+                switch (res)
+                {{
+                    case 0:
+                        return "The settings change was successful.";
+                    case 1:
+                        return "The computer must be restarted for the graphics mode to work.";
+                    case -1:
+                        return "The display driver failed the specified graphics mode.";
+                    case -2:
+                        return "The graphics mode is not supported.";
+                    case -3:
+                        return "Unable to write settings to the registry.";
+                    case -4:
+                        return "An invalid set of flags was passed in.";
+                    case -5:
+                        return "An invalid parameter was passed in. This can include an invalid flag or combination of flags.";
+                    case -6:
+                        return "The settings change was unsuccessful because the system is DualView capable.";
+                    default:
+                        return "unknow return code: " + res;
+                }
+            }
+
+            [DllImport("user32.dll")]
+            static extern int EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
+
+            [DllImport("user32.dll")]
+            public static extern int ChangeDisplaySettings(ref DEVMODE devMode, int flags);
+
+            public class Flags
+            {{
+                // #define CDS_UPDATEREGISTRY           0x00000001
+                // #define CDS_TEST                     0x00000002
+                // #define CDS_FULLSCREEN               0x00000004
+                // #define CDS_GLOBAL                   0x00000008
+                // #define CDS_SET_PRIMARY              0x00000010
+                // #define CDS_RESET                    0x40000000
+                // #define CDS_NORESET                  0x10000000
+
+                public const int CDS_UPDATEREGISTRY = 0x01;
+                public const int CDS_TEST = 0x02;
+                public const int CDS_FULLSCREEN = 0x04;
+                public const int CDS_GLOBAL = 0x08;
+                public const int CDS_SET_PRIMARY = 0x10;
+                public const int CDS_RESET = 0x40000000;
+                public const int CDS_NORESET = 0x10000000;
+            }
+        }
+    }
+    "@
+
+    [Flags()] enum CDSFlags {{
+        Dynamically = 0
+        UpdateRegistry = 0x01
+        Test = 0x02
+        FullScreen = 0x04
+        Global = 0x08
+        SetPrimary = 0x10
+        Reset = 0x40000000
+        NoReset = 0x10000000
+    }
+
+    Add-Type -TypeDefinition $cds
+
+    function Set-DisplayResolution {{
+        param (
+            [Parameter(Mandatory = $true, Position = 0)]
+            [int]$Width,
+
+            [Parameter(Mandatory = $true, Position = 1)]
+            [int]$Height,
+
+            [CDSFlags]
+            $Flag = [CDSFlags]::Dynamically
+        )
+
+        [cds.Helper]::ChangeDisplaySettings($Width, $Height, $Flag)
+    }
+
+    function Get-DisplayResolution {{
+        [cds.Helper]::GetDisplaySettings()
+    }
+
+    $resolution = Get-WmiObject -Class CIM_VideoControllerResolution | Sort-Object -Property @{{Expression={{$_.HorizontalResolution * $_.VerticalResolution}} -Descending | Select-Object -First 1 -Property HorizontalResolution, VerticalResolution
+
+    Set-DisplayResolution -Width $resolution.HorizontalResolution -Height $resolution.VerticalResolution -Flag "Global, UpdateRegistry"
+
+    ENDOFSCRIPT
+endif
+
+// Run script
+copy __createfile "{(parameter "ScriptPath")}"
+
+if {(exists process "logonui.exe") or (not exists logged on users whose (active of it = True))}
+    waithidden powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "{(parameter "ScriptPath")}"
+else
+    override wait // SYSTEM user is unable to change display settings w/ ChangeDisplaySettings function, must run as current user
+        completion=job
+        hidden=true
+        runas=currentuser
+    wait powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "{(parameter "ScriptPath")}"
+endif
+
+//delete "{(parameter "ScriptPath")}"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28500">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to only use ChangeDisplaySettings method. &lt;STRONG&gt;Requires user to be logged on.&lt;/STRONG&gt;&amp;nbsp;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {(not exists process "logonui.exe") and (exists logged on users whose (active of it = True))}
+
+// Create PowerShell script
+parameter "ScriptPath" = "__Download\display-resolution.ps1"
+delete "{(parameter "ScriptPath")}"
+
+createfile until ENDOFSCRIPT
+
+$cds = @"
+namespace cds
+{{
+    using System;
+    using System.Runtime.InteropServices;
+
+    [StructLayout(LayoutKind.Explicit)]
+    public struct DEVMODE
+    {{
+        [FieldOffset(102)]
+        public short dmLogPixels;
+        [FieldOffset(104)]
+        public int dmBitsPerPel;
+        [FieldOffset(108)]
+        public int dmPelsWidth;
+        [FieldOffset(112)]
+        public int dmPelsHeight;
+        [FieldOffset(116)]
+        public int dmDisplayFlags;
+        [FieldOffset(120)]
+        public int dmDisplayFrequency;
+    }
+
+
+    // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changedisplaysettingsa
+    public class Helper
+    {{
+        public static DEVMODE GetDisplaySettings()
+        {{
+            // #define ENUM_CURRENT_SETTINGS       ((DWORD)-1)
+            // #define ENUM_REGISTRY_SETTINGS      ((DWORD)-2)
+            var devMode = new DEVMODE();
+
+            // A NULL value specifies the current display device on the computer on which the calling thread is running.
+            var retCode = EnumDisplaySettings(null, -1, ref devMode);
+            if (retCode == 0)
+            {{
+                throw new Exception("can't get resolution from win api");
+            }
+
+            return devMode;
+        }
+
+        public static string ChangeDisplaySettings(int width, int height, int flags)
+        {{
+            // /* Return values for ChangeDisplaySettings */
+            // #define DISP_CHANGE_SUCCESSFUL       0
+            // #define DISP_CHANGE_RESTART          1
+            // #define DISP_CHANGE_FAILED          -1
+            // #define DISP_CHANGE_BADMODE         -2
+            // #define DISP_CHANGE_NOTUPDATED      -3
+            // #define DISP_CHANGE_BADFLAGS        -4
+            // #define DISP_CHANGE_BADPARAM        -5
+            // #if(_WIN32_WINNT >= 0x0501)
+            // #define DISP_CHANGE_BADDUALVIEW     -6
+            // #endif /* _WIN32_WINNT >= 0x0501 */
+
+            var devMode = GetDisplaySettings();
+
+            devMode.dmPelsWidth = width;
+            devMode.dmPelsHeight = height;
+
+            var res = ChangeDisplaySettings(ref devMode, flags);
+            switch (res)
+            {{
+                case 0:
+                    return "The settings change was successful.";
+                case 1:
+                    return "The computer must be restarted for the graphics mode to work.";
+                case -1:
+                    return "The display driver failed the specified graphics mode.";
+                case -2:
+                    return "The graphics mode is not supported.";
+                case -3:
+                    return "Unable to write settings to the registry.";
+                case -4:
+                    return "An invalid set of flags was passed in.";
+                case -5:
+                    return "An invalid parameter was passed in. This can include an invalid flag or combination of flags.";
+                case -6:
+                    return "The settings change was unsuccessful because the system is DualView capable.";
+                default:
+                    return "unknow return code: " + res;
+            }
+        }
+
+        [DllImport("user32.dll")]
+        static extern int EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
+
+        [DllImport("user32.dll")]
+        public static extern int ChangeDisplaySettings(ref DEVMODE devMode, int flags);
+
+        public class Flags
+        {{
+            // #define CDS_UPDATEREGISTRY           0x00000001
+            // #define CDS_TEST                     0x00000002
+            // #define CDS_FULLSCREEN               0x00000004
+            // #define CDS_GLOBAL                   0x00000008
+            // #define CDS_SET_PRIMARY              0x00000010
+            // #define CDS_RESET                    0x40000000
+            // #define CDS_NORESET                  0x10000000
+
+            public const int CDS_UPDATEREGISTRY = 0x01;
+            public const int CDS_TEST = 0x02;
+            public const int CDS_FULLSCREEN = 0x04;
+            public const int CDS_GLOBAL = 0x08;
+            public const int CDS_SET_PRIMARY = 0x10;
+            public const int CDS_RESET = 0x40000000;
+            public const int CDS_NORESET = 0x10000000;
+        }
+    }
+}
+"@
+
+[Flags()] enum CDSFlags {{
+    Dynamically = 0
+    UpdateRegistry = 0x01
+    Test = 0x02
+    FullScreen = 0x04
+    Global = 0x08
+    SetPrimary = 0x10
+    Reset = 0x40000000
+    NoReset = 0x10000000
+}
+
+Add-Type -TypeDefinition $cds
+
+function Set-DisplayResolution {{
+    param (
+        [Parameter(Mandatory = $true, Position = 0)]
+        [int]$Width,
+
+        [Parameter(Mandatory = $true, Position = 1)]
+        [int]$Height,
+
+        [CDSFlags]
+        $Flag = [CDSFlags]::Dynamically
+    )
+
+    [cds.Helper]::ChangeDisplaySettings($Width, $Height, $Flag)
+}
+
+function Get-DisplayResolution {{
+    [cds.Helper]::GetDisplaySettings()
+}
+
+$resolution = Get-WmiObject -Class CIM_VideoControllerResolution | Sort-Object -Property @{{Expression={{$_.HorizontalResolution * $_.VerticalResolution}} -Descending | Select-Object -First 1 -Property HorizontalResolution, VerticalResolution
+
+Set-DisplayResolution -Width $resolution.HorizontalResolution -Height $resolution.VerticalResolution -Flag "Global, UpdateRegistry"
+
+ENDOFSCRIPT
+
+// Run script
+copy __createfile "{(parameter "ScriptPath")}"
+
+override wait // SYSTEM user is unable to change display settings w/ ChangeDisplaySettings function, must run as current user
+    completion=job
+    hidden=true
+    runas=currentuser
+wait powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "{(parameter "ScriptPath")}"
+
+//delete "{(parameter "ScriptPath")}"]]></ActionScript>
+    </Action>
+    <Action ID="Action28501">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to only use registry edit method.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Create PowerShell script
+parameter &quot;ScriptPath&quot; = &quot;__Download\display-resolution.ps1&quot;
+delete &quot;{(parameter &quot;ScriptPath&quot;)}&quot;
+
+createfile until ENDOFSCRIPT
+
+$resolution = Get-WmiObject -Class CIM_VideoControllerResolution | Sort-Object -Property @{{Expression={{$_.HorizontalResolution * $_.VerticalResolution}} -Descending | Select-Object -First 1 -Property HorizontalResolution, VerticalResolution
+
+$displayConfigs = Get-Item HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Configuration\*\00
+$displayConfigs | ForEach-Object {{
+    Set-ItemProperty -Path $_.PsPath -Name PrimSurfSize.cx -Value $resolution.HorizontalResolution -Force
+    Set-ItemProperty -Path $_.PsPath -Name PrimSurfSize.cy -Value $resolution.VerticalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name ActiveSize.cx -Value $resolution.HorizontalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name ActiveSize.cy -Value $resolution.VerticalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name DwmClipBox.bottom -Value $resolution.VerticalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name DwmClipBox.left -Value 0 -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name DwmClipBox.right -Value $resolution.HorizontalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name DwmClipBox.top -Value 0 -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name PrimSurfSize.cx -Value $resolution.HorizontalResolution -Force
+    Set-ItemProperty -Path &quot;$($_.PsPath)\00&quot; -Name PrimSurfSize.cy -Value $resolution.VerticalResolution -Force
+}
+
+$displayDriver = Get-PnpDevice | Where-Object {{ $_.Class -like &quot;Display*&quot; }
+$displayDriver | Disable-PnpDevice -Confirm:$false
+$displayDriver | Enable-PnpDevice -Confirm:$false
+
+ENDOFSCRIPT
+
+// Run script
+copy __createfile &quot;{(parameter &quot;ScriptPath&quot;)}&quot;
+
+waithidden powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File &quot;{(parameter &quot;ScriptPath&quot;)}&quot;
+
+//delete &quot;{(parameter &quot;ScriptPath&quot;)}&quot;</ActionScript>
+    </Action>
+    <Action ID="Action28502">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view DisplaySettings PowerShell module from PowerShell Gallery.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.powershellgallery.com/packages/DisplaySettings/0.0.2</ActionScript>
+    </Action>
+    <Action ID="Action28503">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view ChangeDisplaySettings function documentation from Microsoft.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-changedisplaysettingsa</ActionScript>
+    </Action>
+  </Task>
+</BES>

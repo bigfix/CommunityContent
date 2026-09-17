@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Repair WMI
+  ID       : 676
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-30T10:20:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Repair WMI</Title>
+    <Description>fixlet to repair WMI</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <Relevance>not exists string values of selects &quot;Domain from Win32_ComputerSystem&quot; of wmi</Relevance>
+    <Category>Maintenance</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 30 Nov 2012 16:16:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete wmifix.bat
+delete __createfile
+createfile until end
+@ECHO OFF
+if not exist &quot;c:\temp&quot; md &quot;c:\temp&quot;
+cd /d c:\temp
+if not exist c:\windows\system32\wbem goto TryInstall
+cd /d c:\windows\system32\wbem
+net stop winmgmt /y
+winmgmt /kill
+if exist Rep_bak rd Rep_bak /s /q
+rename Repository Rep_bak
+for %%i in (*.dll) do RegSvr32 -s %%i
+for %%i in (*.exe) do call :FixSrv %%i
+for %%i in (*.mof,*.mfl) do Mofcomp %%i
+net start winmgmt
+goto End
+:FixSrv
+if /I (%1) == (wbemcntl.exe) goto SkipSrv
+if /I (%1) == (wbemtest.exe) goto SkipSrv
+if /I (%1) == (mofcomp.exe) goto SkipSrv
+%1 /RegServer
+:SkipSrv
+goto End
+:TryInstall
+if not exist wmicore.exe goto End
+wmicore /s
+net start winmgmt
+:End
+end
+move __createfile wmifix.bat
+waithidden wmifix.bat</ActionScript>
+    </DefaultAction>
+    <Action ID="Action933">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to read source forum thread.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[http://www.ibm.com/developerworks/forums/thread.jspa?threadID=459806&tstart=0]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

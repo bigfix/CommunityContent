@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run: produkey - recover Microsoft product keys - Windows
+  ID       : 3941
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-09T13:45:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run: produkey - recover Microsoft product keys - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists files "config_prodkey.xml" whose(now - modification time of it < 30 * day) of folders "Logs" of folders "__Global" of folders "__BESData" of parent folder of client]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-01-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Jan 2015 20:43:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch produkey.zip sha1:55344cc446a2fb45ddd05bb3e307fc6cc80c572c size:57206 http://www.nirsoft.net/utils/produkey.zip
+
+
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+utility __Download\unzip.exe
+
+waithidden __Download\unzip.exe -o &quot;{pathname of file &quot;produkey.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; ProduKey.exe -d &quot;{pathname of folder &quot;__Download&quot; of client folder of current site}&quot;
+
+waithidden __Download\produkey.exe /sxml &quot;{folder &quot;Logs&quot; of folder &quot;__Global&quot; of folder &quot;__BESData&quot; of parent folder of client}\config_prodkey.xml&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

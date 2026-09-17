@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : LGPOv3.0 Example - Set Security Event Log Max Size to 80 MB via Local Group Policy
+  ID       : 26933
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-05-23T10:54:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>LGPOv3.0 Example - Set Security Event Log Max Size to 80 MB via Local Group Policy</Title>
+    <Description><![CDATA[<P>LGPO v3.0 is described at <A href="https://www.microsoft.com/en-us/download/details.aspx?id=55319">https://www.microsoft.com/en-us/download/details.aspx?id=55319</A>.&nbsp; The utility allows for scripted configuration of Local Group Policy (Computer, User, and MLGPO contexts).&nbsp;&nbsp;</P>
+<P>LGPO can configure Registry policies, apply Secedit templates, and configure Advanced Audit Policies.&nbsp; Existing policy settings can be exported or imported from text.</P>
+<P>This example fixlet demonstrates the use of LGPO by configuring the Security Event Log maximum size to 80 MB.&nbsp; </P>
+<P>The LGPO zip file includes a PDF explaining its use.&nbsp; </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance><![CDATA[/* Apply to Windows 7 or higher only */ version of operating system >= version "6.1"]]></Relevance>
+    <Relevance>/* Sample check to set Security Event Log maximum size to 80 MB */  not exists keys &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Eventlog\Security&quot; whose (value &quot;MaxSize&quot; of it as integer = 81920) of native registry</Relevance>
+    <Category>LGPO Template Policy</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-08-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Thu, 17 Aug 2017 14:27:09 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Thu, 17 Aug 2017 14:27:09 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Local Group Policy, LGPO, Security, MLGPO, Secedit</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>24619</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 23 May 2022 17:48:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// To use this template, update or remove the following blocks and replace the Relevance
+
+// Enter your action script here
+
+begin prefetch block
+
+  add prefetch item name=LGPO.zip sha1=4578a97946102a20505d1e8f09abedd1fd7a8d89 size=531635 url=https://download.microsoft.com/download/8/5/C/85C25433-A1B0-4FFA-9429-7E023E7DA8D8/LGPO.zip sha256=cb7159d134a0a1e7b1ed2ada9a3ce8ce8f4de391d14403d55438af824247cc55
+
+  // Download UnZip utility
+  add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+
+collect prefetch items
+end prefetch block
+
+// Add LGPO.zip to the client utility cache
+utility __Download\LGPO.zip
+
+// Add unzip.exe to the client utility cache
+utility __Download\unzip.exe
+
+waithidden __Download\unzip.exe -o &quot;{pathname of client folder of current site}\__Download\LGPO.zip&quot; -d &quot;{pathname of client folder of current site}\__Download&quot;
+
+
+action uses wow64 redirection false
+
+delete __createfile
+createfile until EOF_EOF_EOF
+; ----------------------------------------------------------------------
+; PARSING COMPUTER POLICY
+; Source file:  \temp\Registry.pol
+
+Computer
+Software\Policies\Microsoft\Windows\Eventlog\Security
+MaxSize
+DWORD:81920
+
+; PARSING COMPLETED.
+; ----------------------------------------------------------------------
+
+EOF_EOF_EOF
+
+delete regpol.txt
+move __createfile regpol.txt
+
+waithidden __Download\LGPO_30\LGPO.exe  /t regpol.txt
+continue if {exit code of action = 0}</ActionScript>
+    </DefaultAction>
+    <Action ID="Action28248">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/24619</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

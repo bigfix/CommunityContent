@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : dump DNS Cache - Windows
+  ID       : 9281
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-12T14:30:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>dump DNS Cache - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists files "results_dns_cache.txt" whose(now - modification time of it < 1 * hour) of folders "__Global\Logs" of data folders of client]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-03-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 Mar 2016 21:28:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "LogFolder" = "{ pathname of folders "__Global\Logs" of data folders of client }"
+
+waithidden cmd /c ipconfig /displaydns > "{parameter "LogFolder"}\results_dns_cache.txt"
+
+delete __createfile
+
+createfile until END_OF_FILE
+{ concatenations "%0d%0a" of unique values of ( (following text of last ": " of it & " ;; " & following text of last ": " of unique value of previous lines of previous lines of previous lines of previous lines of previous lines of it) | it) of lines whose(it contains "A (Host) Record" OR it contains " ;; ") of (files "results_dns_cache.txt" of it; files "results_dns_cache_history.txt" of it) of folders "__Global\Logs" of data folders of client }
+END_OF_FILE
+
+delete "{parameter "LogFolder"}\results_dns_cache_history.txt"
+
+copy __createfile "{parameter "LogFolder"}\results_dns_cache_history.txt"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Applocker Log - MSI/Script Max Size - 20mb - Windows
+  ID       : 20594
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-11T11:03:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Applocker Log - MSI/Script Max Size - 20mb - Windows</Title>
+    <Description><![CDATA[Sets the maximum log size for the applocker MSI and Script log to 20mb&nbsp;&nbsp;
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A>&nbsp;</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(product info string of operating system = &quot;Enterprise&quot; or product info string of operating system = &quot;Server&quot;)</Relevance>
+    <Relevance>(if (not exists value &quot;MaxSize&quot; of it) then (true) else (value &quot;MaxSize&quot; of it as integer != 20971520)) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Applocker/MSI and Script&quot; of native registry</Relevance>
+    <Category>Application Whitelisting</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-13</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait wevtutil.exe sl &quot;Microsoft-Windows-AppLocker/MSI and Script&quot; /ms:20971520</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Registered Organization and Owner
+  ID       : 86
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Registered Organization and Owner</Title>
+    <Description><![CDATA[<P>This task will configure the RegisteredOrganization and RegisteredOwner string values within the registry.&nbsp; </P>
+<P>For Windows:&nbsp; These keys are located in HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion</P>
+<P>For Non-Windows:&nbsp; These will be stored within Client Settings.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-05-24</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Sep 2012 14:21:38 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to configure values.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;Organization&quot; with description &quot;Please enter the name of your Organization (Ex: Moran IT):&quot; and with default value &quot;&quot;
+action parameter query &quot;Owner&quot; with description &quot;Please enter the Owner&apos;s name (Ex: Daniel):&quot; and with default value &quot;&quot;
+if {name of operating system starts with &quot;Win&quot;}
+  if {x64 of operating system}
+  	 if {parameter &quot;Organization&quot; != &quot;&quot;}
+		regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]&quot; &quot;RegisteredOrganization&quot;=&quot;{parameter &quot;Organization&quot;}&quot;
+	 endif
+	 if {parameter &quot;Owner&quot; != &quot;&quot;}
+		regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]&quot; &quot;RegisteredOwner&quot;=&quot;{parameter &quot;Owner&quot;}&quot;
+	 endif
+  endif
+  if {parameter &quot;Organization&quot; != &quot;&quot;}
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]&quot; &quot;RegisteredOrganization&quot;=&quot;{parameter &quot;Organization&quot;}&quot;
+  endif
+  if {parameter &quot;Owner&quot; != &quot;&quot;}
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion]&quot; &quot;RegisteredOwner&quot;=&quot;{parameter &quot;Owner&quot;}&quot;
+  endif
+  if {parameter &quot;Organization&quot; != &quot;&quot;}
+	continue if {(value &quot;RegisteredOrganization&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) = (parameter &quot;Organization&quot;)}
+  endif
+  if {parameter &quot;Owner&quot; != &quot;&quot;}
+	continue if {(value &quot;RegisteredOwner&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) = (parameter &quot;Owner&quot;)}
+  endif
+else
+  if {parameter &quot;Organization&quot; != &quot;&quot;}
+	setting &quot;Registered Organization&quot;=&quot;{parameter &quot;Organization&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+  else
+    setting delete &quot;Registered Organization&quot; on &quot;{now}&quot; for client
+  endif
+  if {parameter &quot;Owner&quot; != &quot;&quot;}
+	setting &quot;Registered Owner&quot;=&quot;{parameter &quot;Owner&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+  else
+    setting delete &quot;Registered Owner&quot; on &quot;{now}&quot; for client
+  endif
+endif</ActionScript>
+    </DefaultAction>
+    <Action ID="Action231">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://danielheth.com/2012/05/30/how-to-tattoo-your-bigfix-endpoints/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

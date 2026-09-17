@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Activate Windows with KMS over VPN - Windows
+  ID       : 22633
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-11-17T14:48:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Activate Windows with KMS over VPN - Windows</Title>
+    <Description><![CDATA[<P>This is designed to automatically fix systems that are primarily off network and only connect over VPN occationally, not often enough for the KMS Client to handle it automatically. </P>
+<P>This currently handles 2 different versions of the Cisco VPN client. Others could be added.</P>
+<P>This could also detect when there is an issue much earlier to trigger the KMS checkin. </P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists values &quot;KeyManagementServiceName&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform&quot; of (x32 registries; x64 registries)</Relevance>
+    <Relevance>not exists integer values whose(1=it) of selects &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) AND (Name like &apos;Windows%25&apos;)&quot; of wmis</Relevance>
+    <Relevance>exists adapters whose(up of it AND exists addresses whose(it as string != &quot;0.0.0.0&quot;) of it AND exists description whose(it contains &quot;Cisco Systems VPN Adapter&quot; OR it contains &quot;Cisco AnyConnect Secure Mobility Client&quot;) of it) of networks</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-08-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 17 Nov 2016 22:46:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "NumUnlicensedProductsBefore" = "{ number of integer values whose(it != 1) of selects "LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) AND (Name like 'Windows%25')" of wmis }"
+
+// set clock if the time is off (must be less than 4 hours difference)
+if { 2*hour < absolute value of (now - apparent registration server time) }
+    set clock
+endif
+
+if{x64 of operating system}
+	action uses wow64 redirection false
+endif
+
+waithidden "{(pathname of system folder)}\cscript.exe" "{(pathname of system folder)}\slmgr.vbs" /ato
+
+parameter "NumUnlicensedProductsAfter" = "{ number of integer values whose(it != 1) of selects "LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) AND (Name like 'Windows%25')" of wmis }"
+
+// References:
+//   - https://bigfix.me/relevance/details/3018819
+//   - https://bigfix.me/relevance/details/3008577#comments
+//   - https://bigfix.me/relevance/details/1429
+//   - https://bigfix.me/fixlet/details/743
+//   - https://bigfix.me/fixlet/details/761
+//   - http://technet.microsoft.com/en-us/library/ff793406.aspx
+//   - http://support.microsoft.com/kb/929826
+//   - http://technet.microsoft.com/en-us/library/bb491016.aspx
+//   - https://bigfix.me/relevance/details/3017259
+//   - https://blogs.technet.microsoft.com/craigf/2011/03/03/getting-error-0xc004f074-when-activating-against-kms-server/
+//   - https://technet.microsoft.com/en-us/library/dn502540%28v=ws.11%29.aspx]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

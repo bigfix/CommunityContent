@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Windows Firewall may be blocking Remote Assistance
+  ID       : 23561
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-24T14:02:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Windows Firewall may be blocking Remote Assistance</Title>
+    <Description><![CDATA[<P><ENTER here action corrective the and problem of description a>If this fixlet is relevant than not all of the firewall rules required for Remote Assistance to be working may not be enabled.</P>
+<P><FONT color=#ff0000><STRONG>NOTE</STRONG></FONT>: This fixlet may appear relevant even if you have the right rules in place. This can commonly happen if you have created custom rules (not using the ones Group Policy generates) or if you are using a third-party Firewall. In this case you can ignore this fixlet once you've confirmed Remote Assistance is working in your environment.</P>
+<P>For general information or to report issues with C3 Remote Control content please visit GitHub here: <A href="https://github.com/strawgate/C3-Remote-Control">https://github.com/strawgate/C3-Remote-Control</A></P>]]></Description>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "6.1"]]></Relevance>
+    <Relevance>not (exists (names of (rules of firewall) whose (enabled of it = true and application name of it is &quot;C:\Windows\system32\msra.exe&quot;)) and exists (names of (rules of firewall) whose (enabled of it = true and application name of it is &quot;C:\Windows\system32\raserver.exe&quot;)) and exists (names of (rules of firewall) whose (enabled of it = true and application name of it is &quot;C:\Windows\system32\svchost.exe&quot;)))</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-14</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to add the rules to the Windows Firewall.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait netsh advfirewall firewall set rule group=&quot;remote assistance&quot; new enable=Yes</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

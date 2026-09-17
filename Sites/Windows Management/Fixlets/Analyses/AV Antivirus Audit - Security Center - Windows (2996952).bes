@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AV Antivirus Audit - Security Center - Windows
+  ID       : 2996952
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-04-19T22:21:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AV Antivirus Audit - Security Center - Windows</Title>
+    <Description><![CDATA[<P>This analysis should identify all AV products registered with the Windows Security Center APIs.</P>
+<P>The `ProductState` should be a bit set of some sort that contains info about the state of the AV products detected. </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Apr 2016 05:20:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="AV DisplayName" EvaluationPeriod="PT1H">unique values of string values of selects &quot;displayname from AntiVirusProduct&quot; of (if exists (wmis &quot;root\SecurityCenter2&quot;) then (wmis &quot;root\SecurityCenter2&quot;) else (wmis &quot;root\SecurityCenter&quot;))</Property>
+    <Property ID="2" Name="AV ProductState" EvaluationPeriod="PT1H">unique values of (string value of property &quot;displayName&quot; of it &amp; &quot;: state=&quot; &amp; string value of property &quot;productState&quot; of it) of select objects &quot;displayName,productState from AntiVirusProduct&quot; of wmis &quot;root\SecurityCenter2&quot;</Property>
+    <Property ID="3" Name="AV RawData" EvaluationPeriod="PT12H">( concatenations &quot;, &quot; of following texts of firsts &quot;True, &quot; of (it as string) of (true, (it) ) of  properties whose(it as string does not start with &quot;__&quot;) of it) of select objects &quot;* from AntiVirusProduct&quot; of (wmis &quot;root\SecurityCenter&quot;;wmis &quot;root\SecurityCenter2&quot;)</Property>
+  </Analysis>
+</BES>

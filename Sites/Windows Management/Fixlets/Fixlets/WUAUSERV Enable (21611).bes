@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : WUAUSERV Enable
+  ID       : 21611
+  Author   : tjessee
+  Domain   : BESC
+  Imported : 2016-09-14T09:15:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>WUAUSERV Enable</Title>
+    <Description>This will change the wuauserv service to a manual/demand state</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>value &quot;Start&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wuauserv&quot; of native registry as string = &quot;4&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 13 Sep 2016 21:33:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\wuauserv]&quot; &quot;Start&quot;=dword:00000003</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
