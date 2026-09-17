@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Mac Network Services (DHCP) Checks
+  ID       : 2998169
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2016-06-17T06:33:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Mac Network Services (DHCP) Checks</Title>
+    <Description>This analysis is designed to check systems for DHCP services. Requires running the task &quot;Mac DHCP Checks&quot; first.</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/Library/Preferences/com.example.dhcptest.plist&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 16 Jun 2016 18:23:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="dhcp ip address" EvaluationPeriod="P1D">string &quot;ipaddress&quot; of dictionary of file &quot;/Library/Preferences/com.example.dhcptest.plist&quot; | &quot;unkown error&quot;</Property>
+    <Property ID="2" Name="dhcp server ip address" EvaluationPeriod="P1D">string &quot;dhcpserverip&quot; of dictionary of file &quot;/Library/Preferences/com.example.dhcptest.plist&quot; | &quot;unkown error&quot;</Property>
+  </Analysis>
+</BES>

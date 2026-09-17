@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run softwareupdate (Mac)
+  ID       : 27345
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-06-03T13:36:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run softwareupdate (Mac)</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This action runs softwareupdate on target macOS machine. Supplied username and password _must_ be for a user with a secure token.</P>
+<P>If supplied account does not have a secure token, fixlet will exit with exit code 30.</P></DIV><script>
+loaded = false;
+var CODE_SITE_NAME = 'BES Support' ;
+function loadScript (siteName, callback) {
+loaded = false;
+var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+var code = EvaluateRelevance(relevanceQuery);
+var head = document.getElementsByTagName("head")[0];
+var script   = document.createElement("script");
+script.type  = "text/javascript";
+script.text = code;
+head.appendChild(script);
+callback();
+}
+function scriptLoaded(){
+if (!loaded){
+if ( typeof FixletUtils !== 'undefined') {
+loaded = true;
+/*
+* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+*/
+var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+var messages = EvaluateRelevance(relQuery);
+var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+var matches = regex.exec(messages);
+matches[1]=matches[1].replace(/<br>/gi,"");
+eval(matches[1]);
+FixletUtils.initFixletRender();
+} } }
+loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>
+<DIV class=FixletProperty></DIV></DIV>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2024-05-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{    &quot;username&quot;: {     &quot;Name&quot;: &quot;adminUser&quot;,     &quot;Title&quot;: &quot;User:&quot;,     &quot;Description&quot;: &quot;Enter a username that has a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;    },     &quot;oPassword&quot;: {     &quot;Name&quot;: &quot;adminUserPassword&quot;,     &quot;Title&quot;: &quot;Password:&quot;,     &quot;Description&quot;: &quot;Enter the password of a user with a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;    },    &quot;flags&quot;: {     &quot;Name&quot;: &quot;commands&quot;,     &quot;Title&quot;: &quot;Arguments: &quot;,     &quot;Description&quot;: &quot;Specify arguments for softwareupdate&quot;,     &quot;UIType&quot;: &quot;Select&quot;,     &quot;ValueType&quot;: &quot;specified&quot;,     &quot;Required&quot;:&quot;1&quot;,     &quot;Values&quot;: [&quot;--download&quot;, &quot;--install&quot;]    },    &quot;subFlags&quot;: {     &quot;Name&quot;: &quot;subcommands&quot;,     &quot;Title&quot;: &quot;Additional arguments: &quot;,     &quot;Description&quot;: &quot;Modify the behavior of the selected action&quot;,     &quot;UIType&quot;: &quot;select&quot;,     &quot;ValueType&quot;: &quot;specified&quot;,     &quot;Parent&quot;: &quot;commands&quot;,     &quot;Values&quot;:[      {&quot;key&quot;:&quot;--all&quot;, &quot;value&quot;:&quot;--all&quot;, &quot;parentValue&quot;:&quot;--install&quot;},      {&quot;key&quot;:&quot;--recommended&quot;, &quot;value&quot;:&quot;--recommended&quot;, &quot;parentValue&quot;:&quot;--install&quot;},      {&quot;key&quot;:&quot;--os-only&quot;, &quot;value&quot;:&quot;--os-only&quot;, &quot;parentValue&quot;:&quot;--install&quot;},           {&quot;key&quot;:&quot;--safari-only&quot;, &quot;value&quot;:&quot;--safari-only&quot;, &quot;parentValue&quot;:&quot;--install&quot;},      {&quot;key&quot;:&quot;--all&quot;, &quot;value&quot;:&quot;--all&quot;, &quot;parentValue&quot;:&quot;--download&quot;},      {&quot;key&quot;:&quot;--recommended&quot;, &quot;value&quot;:&quot;--recommended&quot;, &quot;parentValue&quot;:&quot;--download&quot;},      {&quot;key&quot;:&quot;--os-only&quot;, &quot;value&quot;:&quot;--os-only&quot;, &quot;parentValue&quot;:&quot;--download&quot;},           {&quot;key&quot;:&quot;--safari-only&quot;, &quot;value&quot;:&quot;--safari-only&quot;, &quot;parentValue&quot;:&quot;--download&quot;}           ]    },   &quot;scan&quot;: {     &quot;Name&quot;: &quot;scan&quot;,     &quot;Title&quot;: &quot;Scan: &quot;,     &quot;Description&quot;: &quot;Specify if softwareupdate should scan for updates before running&quot;,     &quot;UIType&quot;: &quot;Select&quot;,     &quot;ValueType&quot;: &quot;specified&quot;,     &quot;Values&quot;:[      {&quot;key&quot;:&quot;Yes&quot;, &quot;value&quot;:&quot;&quot;},      {&quot;key&quot;:&quot;No&quot;, &quot;value&quot;:&quot;--no-scan&quot;}          ]    },    &quot;reboot&quot;: {     &quot;Name&quot;: &quot;restart&quot;,     &quot;Title&quot;: &quot;Restart automatically: &quot;,     &quot;Description&quot;: &quot;Select whether or not to automatically restart once action is complete&quot;,     &quot;UIType&quot;: &quot;select&quot;,     &quot;ValueType&quot;: &quot;specified&quot;,     &quot;Parent&quot;: &quot;commands&quot;,     &quot;Values&quot;:[      {&quot;key&quot;:&quot;Yes&quot;, &quot;value&quot;:&quot;--restart&quot;, &quot;parentValue&quot;:&quot;--install&quot;},      {&quot;key&quot;:&quot;No&quot;, &quot;value&quot;:&quot;&quot;, &quot;parentValue&quot;:&quot;--install&quot;},      {&quot;key&quot;:&quot;&lt;No reboot options for --download&gt;&quot;, &quot;value&quot;:&quot;&quot;, &quot;parentValue&quot;:&quot;--download&quot;}          ]    }    }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Jun 2024 19:04:30 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+
+parameter "scriptName" = "LostChapter.sh"
+
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+parameter "updateCommand" = "softwareupdate {parameter "commands"} {parameter "subcommands"} {parameter "restart"} {parameter "scan"} --user {parameter "adminUser"} --stdinpass --agree-to-license --force"
+
+delete __createfile
+delete "__Download/{parameter "scriptName"}"
+createfile until _end_
+#!/bin/zsh
+echo "Running: {parameter "updateCommand"}" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+adminUser="{parameter "adminUser" of action}"
+precheck=$(sysadminctl -secureTokenStatus $adminUser 2>&1)
+if [[ "$precheck" == *"ENABLED"* ]]; then
+        echo "Provided user $adminUser has a secure token. Continuing..." >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+		exit 0
+elif [[ "$precheck" == *"DISABLED"* ]]; then
+        echo "Provided user $adminUser does not have a secure token" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+        exit 30
+else
+        echo "Error checking $adminUser secure token status" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+        exit 31
+fi
+_end_
+copy "__createfile" "__Download/{parameter "scriptName"}"
+wait chmod +x "__Download/{parameter "scriptName"}"
+wait /bin/zsh "__Download/{parameter "scriptName"}"
+parameter "error" = "{exit code of action}"
+delete __createfile
+delete "__Download/{parameter "scriptName"}"
+
+if {parameter "error" is "0"}
+run bash -c "echo '{parameter "adminUserPassword"}' | {parameter "updateCommand"} 2>&1 | awk '!/Downloading:/{{print}' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+parameter "error2" = "{exit code of action}"
+wait sh -c "echo Return Code: {parameter "error2"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+endif
+
+if {parameter "error" != "0"}
+wait sh -c "echo Return Code: {parameter "error"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+exit {parameter "error"}
+endif
+
+exit {parameter "error2"}
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

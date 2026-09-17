@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : macOS Intel-Only Applications
+  ID       : 2998705
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2026-04-10T12:36:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>macOS Intel-Only Applications</Title>
+    <Description>These files and applications require Rosetta 2, which will no longer be supported after macOS 27. </Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 10 Apr 2026 19:35:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="5" Name="macOS Intel-Only Applications" EvaluationPeriod="P1D">(name of folder it, it) of unique values of (item 1 of it as string) of (concatenation of lasts 2 of (&quot;0&quot; &amp; it) of (bytes (integers in (0,9)) of it as hexadecimal), pathname of parent folder of parent folder of parent folder of it as string) whose (item 0 of it starts with &quot;cffaedfe07&quot; or item 0 of it starts with &quot;cafebabe07&quot;) of files of folders &quot;Contents/MacOS&quot; of folders (pathnames of regapps)</Property>
+    <Property ID="6" Name="macOS Intel-Only Files" EvaluationPeriod="P1D">(item 1 of it, item 2 of it) of (concatenation of lasts 2 of (&quot;0&quot; &amp; it) of (bytes (integers in (0,15)) of it as hexadecimal), name of parent folder of parent folder of parent folder of it, pathname of it) whose (item 0 of it starts with &quot;cffaedfe07&quot; or item 0 of it starts with &quot;cafebabe07&quot;) of files of folders &quot;Contents/MacOS&quot; of folders (pathnames of regapps)</Property>
+    <Property ID="7" Name="macOS Intel-Only Processes" EvaluationPeriod="P1D">(item 1 of it, item 2 of it) of (concatenation of lasts 2 of (&quot;0&quot; &amp; it) of (bytes (integers in (0,15)) of it as hexadecimal), name of it, pathname of it) whose (item 0 of it starts with &quot;cffaedfe07&quot; or item 0 of it starts with &quot;cafebabe07&quot;) of files (pathnames of image files of processes)</Property>
+  </Analysis>
+</BES>

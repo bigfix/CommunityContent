@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Pulse Secure Info - MacOS
+  ID       : 2998612
+  Author   : nathan
+  Domain   : BESC
+  Imported : 2020-10-20T12:08:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Pulse Secure Info - MacOS</Title>
+    <Description>Returns VPN connections configured on MacOS clients with Pulse Secure.
+Returns installed version of Pulse Secure.</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists application &quot;Pulse Secure.app&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 20 Oct 2020 16:53:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Pulse Secure Connections (MacOS)" EvaluationPeriod="P1D">substrings before &quot;%22&quot; of (substrings after &quot;uri: %22&quot; of (lines whose (it contains &quot;uri:&quot;) of file &quot;/Library/Application Support/Pulse Secure/Pulse/connstore.dat&quot;))</Property>
+    <Property ID="2" Name="Pulse Secure Version (MacOS)" EvaluationPeriod="P1D">unique values of (substrings after &quot;=&quot; of (lines whose (it starts with &quot;DisplayVersion&quot;) of file &quot;/Applications/Pulse Secure.app/Contents/Resources/PulseSecureVersion.ini&quot;))</Property>
+  </Analysis>
+</BES>

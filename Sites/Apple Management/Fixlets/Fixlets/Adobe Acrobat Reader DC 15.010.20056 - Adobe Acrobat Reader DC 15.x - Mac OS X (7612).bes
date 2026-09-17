@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Adobe Acrobat Reader DC 15.010.20056 - Adobe Acrobat Reader DC 15.x - Mac OS X
+  ID       : 7612
+  Author   : alexk
+  Domain   : BESC
+  Imported : 2016-01-18T12:48:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Adobe Acrobat Reader DC 15.010.20056 - Adobe Acrobat Reader DC 15.x - Mac OS X</Title>
+    <Description><![CDATA[<P>Use this action to update Adobe Acrobat Reader DC to version 15.010.20056. This action is relevant on Macs running Mavericks or newer with a previous version of Adobe Acrobat Pro DC installed.</P>
+<P>Adobe Acrobat Reader DC Update 15.010.20056 Planned Update (Continuous Track), October 29, 2015</P>
+<P><A href="https://helpx.adobe.com/acrobat/release-note/release-notes-acrobat-reader.html">https://helpx.adobe.com/acrobat/release-note/release-notes-acrobat-reader.html</A></P>
+<P>Action 1: Use this when Acrobat Reader DC is not running otherwise the update will fail. Acrobat Reader DC needs to be closed in order for the update to succesfully install. If you would like to forcibly close Acrobat Reader DC, then use Action 2.</P>
+<P>Action 2: Use this to forcibly close Acrobat Reader DC by killing the process, and then proceed with installing the update.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.9.0"]]></Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Adobe Acrobat Reader DC.app" and version of it < "15.010.20056" AND version of it >= "15.0")]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-01-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 18 Jan 2016 02:09:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcroRdrDCUpd1501020056_MUI.pkg sha1:ee6717bd7d1abcabcc87a685453e6cb2bf8acce0 size:86105619 http://ardownload.adobe.com/pub/adobe/reader/mac/AcrobatDC/1501020056/AcroRdrDCUpd1501020056_MUI.pkg sha256:5d801caeaeaee283845eb186379d72b43083cce83c761b119fa3495d232527dc
+
+// Delete the Acrobat Reader DC Update PKG in case it already exists
+wait /bin/sh -c &quot;rm &apos;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&apos; &quot;
+
+// Kill all Acrobat Reader processes to forcibly close Acrobat Reader DC
+// Uncomment the next line to forcibly close Acrobat Reader DC by killing the process
+// wait /bin/sh -c &quot;/usr/bin/killall &apos;AdobeReader&apos; &quot;
+
+// Move the downloaded Acrobat Reader DC Update PKG to the temp directory
+move &quot;{posix path of file &quot;AcroRdrDCUpd1501020056_MUI.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&quot;
+
+// Install the Acrobat Reader DC update
+wait installer -pkg &quot;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&quot; -target /
+
+// Delete the Acrobat Reader DC Update PKG in the temp directory
+wait /bin/sh -c &quot;rm &apos;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&apos; &quot;
+
+// Uncomment the next line to require a restart after installing the update
+// action requires restart</ActionScript>
+    </DefaultAction>
+    <Action ID="Action8238">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to upgrade to Adobe Acrobat Reader DC&amp;nbsp;regardless of whether Acrobat Reader DC is running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcroRdrDCUpd1501020056_MUI.pkg sha1:ee6717bd7d1abcabcc87a685453e6cb2bf8acce0 size:86105619 http://ardownload.adobe.com/pub/adobe/reader/mac/AcrobatDC/1501020056/AcroRdrDCUpd1501020056_MUI.pkg sha256:5d801caeaeaee283845eb186379d72b43083cce83c761b119fa3495d232527dc
+
+// Delete the Acrobat Reader DC Update PKG in case it already exists
+wait /bin/sh -c &quot;rm &apos;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&apos; &quot;
+
+// Kill all Acrobat Reader processes to forcibly close Acrobat Reader DC
+// Uncomment the next line to forcibly close Acrobat Reader DC by killing the process
+wait /bin/sh -c &quot;/usr/bin/killall &apos;AdobeReader&apos; &quot;
+
+// Move the downloaded Acrobat Reader DC Update PKG to the temp directory
+move &quot;{posix path of file &quot;AcroRdrDCUpd1501020056_MUI.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&quot;
+
+// Install the Acrobat Reader DC update
+wait installer -pkg &quot;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&quot; -target /
+
+// Delete the Acrobat Reader DC Update PKG in the temp directory
+wait /bin/sh -c &quot;rm &apos;/private/tmp/AcroRdrDCUpd1501020056_MUI.pkg&apos; &quot;
+
+// Uncomment the next line to require a restart after installing the update
+// action requires restart</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

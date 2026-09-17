@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AppleEFINVRAM
+  ID       : 2994552
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-26T13:17:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AppleEFINVRAM</Title>
+    <Description>Analyze NVRAM Variables with iokit
+
+https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/ioreg.8.html
+
+https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/nvram.8.html
+</Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 26 Jul 2013 20:12:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="NVRAM All Keys">concatenation &quot;; &quot; of (keys of entries of dictionary of node &quot;AppleEFINVRAM&quot; of node &quot;AppleEFIRuntime&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry as string)</Property>
+    <Property ID="2" Name="NVRAM Boot-Args">if (exists key whose ( it = &quot;boot-args&quot;) of entries of dictionary of node &quot;AppleEFINVRAM&quot; of node &quot;AppleEFIRuntime&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) then string of value of it whose ( key of it = &quot;boot-args&quot;) of entries of dictionary of node &quot;AppleEFINVRAM&quot; of node &quot;AppleEFIRuntime&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry else &quot;&lt;No boot-args&gt;&quot;</Property>
+  </Analysis>
+</BES>

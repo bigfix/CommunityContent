@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : System Stability Report - Mac OS X
+  ID       : 2994700
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-08-06T07:44:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>System Stability Report - Mac OS X</Title>
+    <Description>This analysis analizes the Mac logs for general and specfic errors </Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 Aug 2014 14:40:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="system.log - Total Errors" EvaluationPeriod="PT12H">number of lines whose ( it as lowercase contains &quot;error&quot;) of file &quot;/var/log/system.log&quot;</Property>
+    <Property ID="4" Name="system.log - Open Directory " EvaluationPeriod="PT6H">number of lines whose ( it as lowercase contains &quot;com.apple.opendirectoryd&quot;) of file &quot;/var/log/system.log&quot; </Property>
+    <Property ID="7" Name="Number of I/O Errors" EvaluationPeriod="PT1H">number of lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot;</Property>
+    <Property ID="8" Name="I/O Error Log Lines" EvaluationPeriod="PT1H">if (exists lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="9" Name="I/O Error Disks" EvaluationPeriod="PT1H">if (exists lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot;) then concatenation &quot;, &quot; of unique values of preceding texts of firsts &quot;: I/O error.&quot; of following texts of firsts &quot;kernel[0]: &quot; of lines whose (it contains &quot;kernel[0]:&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="10" Name="system.log - Lines with BESAgent " EvaluationPeriod="PT1H">if (exists lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="11" Name="system.log - Number of lines with BESAgent">if (exists lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot;) then number of lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="12" Name="system.log - Lines with BESAgent and spindump" EvaluationPeriod="PT1H">if (exists lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="13" Name="system.log - Number of lines with BESAgent and spindump" EvaluationPeriod="PT1H">if (exists lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot;) then number of lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+  </Analysis>
+</BES>

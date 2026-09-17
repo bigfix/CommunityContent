@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Apple Remote Desktop Client - 3.5.4 - Mac
+  ID       : 3638
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T06:41:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Apple Remote Desktop Client - 3.5.4 - Mac</Title>
+    <Description>This will update the Apple Remote Desktop Client to version 3.5.4 on applicable machines. </Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance><![CDATA[system version < "10.7"]]></Relevance>
+    <Relevance>exists string &quot;CFBundleShortVersionString&quot; of dictionary of file &quot;/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Info.plist&quot;</Relevance>
+    <Relevance><![CDATA[string "CFBundleShortVersionString" of dictionary of file "/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Info.plist" < "3.5.4" as version]]></Relevance>
+    <Relevance><![CDATA[free space of filesystem of folder (pathname of client) > 7983776]]></Relevance>
+    <Category>Update</Category>
+    <Source>Apple</Source>
+    <SourceReleaseDate>2013-10-22</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 13:40:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+  add prefetch item name=ARDClient3_5_4 sha1=5c22ffdabe875da62644331e63e64d6b27ad9afc size=3991888 url=http://support.apple.com/downloads/DL1693/en_US/ARDClient3.5.4.dmg
+end prefetch block
+
+// Create variables to house the name of the .dmg file, mount name and current install location. Makes updating the script easier.
+// NOTE: Install_Mount MUST match the name used in the prefetch block!
+parameter "Install_DMG" = "\ARDClient3.5.4.dmg"
+parameter "Install_Mount" = "ARDClient3_5_4"
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter "baseFolder" =  "__Download/"
+
+// Move files into subfolders and unescape file names
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"
+move "__Download/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+// Mount the Disk Image
+wait hdiutil attach -quiet -private -mountpoint "/tmp/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+if {not active of action OR (exists file whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "ARDClient3_5_4")}
+	wait installer -pkg "{(if (exists file whose (name of it ends with ".mpkg") of it) then (pathname of file whose (name of it ends with ".mpkg") of it) else (pathname of file whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "ARDClient3_5_4") }" -target /
+elseif {not active of action OR (exists folder whose (name of it ends with ".mpkg" OR  name of it ends with ".pkg") of it) of folder ("/tmp/" & "ARDClient3_5_4")}
+	wait installer -pkg "{(if (exists folder whose (name of it ends with ".mpkg") of it) then (pathname of folder whose (name of it ends with ".mpkg") of it) else (pathname of folder whose (name of it ends with ".pkg") of it)) of folder ("/tmp/" & "ARDClient3_5_4") }" -target /
+endif
+
+// wait installer -pkg "/tmp/RemoteDesktopClient3_7/RemoteDesktopClient.pkg"
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/{parameter "Install_Mount"} | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

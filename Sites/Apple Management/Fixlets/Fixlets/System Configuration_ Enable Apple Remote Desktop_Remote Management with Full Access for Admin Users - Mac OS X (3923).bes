@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable Apple Remote Desktop/Remote Management with Full Access for Admin Users - Mac OS X
+  ID       : 3923
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-11-14T07:45:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable Apple Remote Desktop/Remote Management with Full Access for Admin Users - Mac OS X</Title>
+    <Description><![CDATA[<P>This fixlet will ensure that the&nbsp;Remote Management (Apple Remote Desktop) service is enabled and that all local admin accounts on the system have full privileges.</P>
+<P>System Preferences &gt; Sharing &gt; Remote Management</P>
+<P>This fixlet is applicable on Mac OS X 10.7 or later.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.7"]]></Relevance>
+    <Relevance>(not exists file &quot;/private/etc/RemoteManagement.launchd&quot;) OR (exists items 0 whose (not exists strings whose (it = &quot;-1073741569&quot;) of values of arrays &quot;naprivs&quot; of dictionary of it) of (it, strings of values of array &quot;users&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/admin.plist&quot;, name of it) whose (preceding text of firsts &quot;.&quot; of item 2 of it = item 1 of it) of files whose (name of it does not start with &quot;_&quot; AND name of it is not &quot;root.plist&quot;) of folder &quot;/var/db/dslocal/nodes/Default/users&quot;) OR (not exists file &quot;/Library/Preferences/com.apple.RemoteManagement.plist&quot; whose (exists boolean &quot;ARD_AllLocalUsers&quot; whose (it = False) of dictionary of it))</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-11-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Nov 2014 14:44:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -specifiedUsers
+wait /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -access -on -users {concatenation &quot;,&quot; of strings whose (it is not &quot;root&quot;) of values of array &quot;users&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/admin.plist&quot;} -privs -all -restart -agent -menu</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

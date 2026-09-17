@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Add Everyone to the Xcode Developer Group - Mac OS X
+  ID       : 3771
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-04-14T16:11:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Add Everyone to the Xcode Developer Group - Mac OS X</Title>
+    <Description><![CDATA[<P>This fixlet adds the _everyone group, of which all users are a member of, as a nested group of the _developer group. </P>
+<P>This grants access for all users of the system to fully utilize the Xcode Developer Tools without the need to be an admin on the system.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/usr/sbin/dseditgroup&quot;</Relevance>
+    <Relevance>not exists file &quot;/var/db/dslocal/nodes/Default/groups/_developer.plist&quot; whose ((concatenation &quot;, &quot; of strings of values of array &quot;nestedgroups&quot; of dictionary of it) contains (string of value of array &quot;generateduid&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/everyone.plist&quot;))</Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-04-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Apr 2014 22:38:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group developer
+
+wait /usr/sbin/DevToolsSecurity -enable</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -375,7 +375,7 @@ createfile until _END_
 <?xml version="1.0" encoding="utf-8"?>
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SkipUI="true">
     <SingleAction>
-    <Title>BigFix Platform Health Check -- Disable FillDB Performance Logging (WILL RESTART FILLDB SERVICE)  on {((( month of it as two digits & "/" & day_of_month of it as two digits & "/" & year of it as string) of date(local time zone) of it) & " at " &  ((two digit hour of it as string & ":" & two digit minute of it as string) of time (local time zone) of it )) of (now + (parameter "fillDBPerfLogsDuration" as integer * hour))}</Title>
+    <Title>BigFix Platform Health Check -- Disable FillDB Performance Logging (WILL RESTART FILLDB SERVICE) on {((( month of it as two digits & "/" & day_of_month of it as two digits & "/" & year of it as string) of date(local time zone) of it) & " at " & ((two digit hour of it as string & ":" & two digit minute of it as string) of time (local time zone) of it )) of (now + (parameter "fillDBPerfLogsDuration" as integer * hour))}</Title>
     <Relevance>/* IS A WINDOWS ROOT SERVER */ (exists main gather service and not exists relay service AND windows of operating system) AND /* FILLDB PERF LOGGING IS ENABLED */ ( exists value "EnablePerformanceLogging" whose (it as string = "1") of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB" of x32 registry) AND (exists setting "__FillDB_Perf_Logs_Expiration" whose (now > value of it as time) of client)</Relevance>
     <ActionScript>
 //* ====================================================================================================>

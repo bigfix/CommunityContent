@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: ALF Disable Application Level Firewall - Mac OS X
+  ID       : 3881
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-10-13T10:52:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: ALF Disable Application Level Firewall - Mac OS X</Title>
+    <Description><![CDATA[<P>This task turns off the Application Level Firewall included with Mac OS X. </P>
+<P>The default firewall state is off for Mac OS X.</P>
+<P>This fixlet is applicable on Mac OS X 10.6 or later.</P>
+<P>If you have questions or concerns please visit <A href="http://clc.its.psu.edu/help">http://clc.its.psu.edu/help</A> to submit a SysMan Help Request.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.6" as version]]></Relevance>
+    <Relevance>exists file &quot;/usr/libexec/ApplicationFirewall/socketfilterfw&quot;</Relevance>
+    <Relevance>not exists file &quot;/Library/Preferences/com.apple.alf.plist&quot; whose (integer &quot;globalstate&quot; of dictionary of it = 0)</Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2014-10-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Oct 2014 15:27:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

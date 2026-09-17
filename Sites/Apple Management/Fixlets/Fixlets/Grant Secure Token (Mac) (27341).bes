@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Grant Secure Token (Mac)
+  ID       : 27341
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-05-06T09:34:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Grant Secure Token (Mac)</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This fixlet uses an&nbsp;existing account with a secure token to grant a secure token to another account. Additionally, "secure parameters" are used to encrypt the passwords and securely transfer them to the endpoint.</P>
+<P>If the granting user is not an administrator, they will be temporarily elevated for the duration of the&nbsp;script, and then returned to a standard user account.</P>
+<P>Logs are written to /Library/Application Support/BigFix/BES Agent/__BESData/__Global/SWDDeployData/SWD_DeploymentResults.log<BR></P></DIV><script>
+loaded = false;
+var CODE_SITE_NAME = 'BES Support' ;
+function loadScript (siteName, callback) {
+loaded = false;
+var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+var code = EvaluateRelevance(relevanceQuery);
+var head = document.getElementsByTagName("head")[0];
+var script   = document.createElement("script");
+script.type  = "text/javascript";
+script.text = code;
+head.appendChild(script);
+callback();
+}
+function scriptLoaded(){
+if (!loaded){
+if ( typeof FixletUtils !== 'undefined') {
+loaded = true;
+/*
+* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+*/
+var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+var messages = EvaluateRelevance(relQuery);
+var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+var matches = regex.exec(messages);
+matches[1]=matches[1].replace(/<br>/gi,"");
+eval(matches[1]);
+FixletUtils.initFixletRender();
+} } }
+loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>
+<DIV class=FixletProperty></DIV></DIV>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2024-01-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{    &quot;aUser&quot;: {     &quot;Name&quot;: &quot;adminUser&quot;,     &quot;Title&quot;: &quot;Granting user name:&quot;,     &quot;Description&quot;: &quot;Enter the username of a user with a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;    },    &quot;aPass&quot;: {     &quot;Name&quot;: &quot;adminPass&quot;,     &quot;Title&quot;: &quot;Granting user password:&quot;,     &quot;Description&quot;: &quot;Enter the password of a user with a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;    },      &quot;rUser&quot;: {     &quot;Name&quot;: &quot;receiverUser&quot;,     &quot;Title&quot;: &quot;Receiving user name:&quot;,     &quot;Description&quot;: &quot;Enter the username of a user without a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;    },     &quot;rPass&quot;: {     &quot;Name&quot;: &quot;receiverPass&quot;,     &quot;Title&quot;: &quot;Receiving user password:&quot;,     &quot;Description&quot;: &quot;Enter the password of a user without a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;    }        }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Apr 2024 16:33:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+parameter "logFolder" = "{parameter "mainSWDLogFolder"}"
+
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+delete __createfile
+delete "__Download/broker.sh"
+createfile until _end_
+#/!bin/zsh
+
+adminUser="{parameter "adminUser" of action}"
+adminPass="{parameter "adminPass" of action}"
+receiverUser="{parameter "receiverUser" of action}"
+receiverPass="{parameter "receiverPass" of action}"
+
+precheck=$(sysadminctl -secureTokenStatus $adminUser 2>&1)
+if [[ "$precheck" == *"ENABLED"* ]]; then
+        echo "Granting user $adminUser has a secure token. Continuing..." >> "{parameter "logFolder"}/{parameter "logFile"}"
+elif [[ "$precheck" == *"DISABLED"* ]]; then
+        echo "Granting user $adminUser does not have a secure token" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        exit 1
+else
+        echo "Error checking $adminUser secure token status" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        exit 2
+fi
+
+if [ -z "$adminPass" ]; then
+        adminPass="-"
+fi
+
+if [ -z "$receiverPass" ]; then
+        receiverPass="-"
+fi
+
+resetUser=false
+if id -Gn $adminUser | grep -q -w admin;
+then
+        echo "Granting user $adminUser is an administrator. Continuing..." >> "{parameter "logFolder"}/{parameter "logFile"}"
+else
+        echo "Granting user $adminUser is NOT an administrator. Temporarily elevating..." >> "{parameter "logFolder"}/{parameter "logFile"}"
+        dscl . -merge /Groups/admin GroupMembership $adminUser >> "{parameter "logFolder"}/{parameter "logFile"}" 2>&1
+        resetUser=true
+fi
+
+yes "" | sysadminctl -secureTokenOn $receiverUser -password $receiverPass -adminUser $adminUser -adminPassword $adminPass >> "{parameter "logFolder"}/{parameter "logFile"}" 2>&1
+
+if [ "$resetUser" = true ]; then
+        echo "Returning $adminUser to standard user" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        dseditgroup -o edit -d $adminUser -t user admin >> "{parameter "logFolder"}/{parameter "logFile"}" 2>&1
+fi
+
+check=$(sysadminctl -secureTokenStatus $receiverUser 2>&1)
+if [[ "$check" == *"ENABLED"* ]]; then
+        echo "Target user $receiverUser has a secure token" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        exit 0
+elif [[ "$check" == *"DISABLED"* ]]; then
+        echo "Target user $receiverUser does not have a secure token" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        exit 1
+else
+        echo "Error checking $receiverUser secure token status" >> "{parameter "logFolder"}/{parameter "logFile"}"
+        exit 2
+fi
+_end_
+copy "__createfile" "__Download/broker.sh"
+wait chmod +x "__Download/broker.sh"
+wait /bin/zsh "__Download/broker.sh"
+parameter "error" = "{exit code of action}"
+delete __createfile
+delete "__Download/broker.sh"
+
+if {parameter "error" != "0"}
+exit {parameter "error"}
+endif
+
+exit {parameter "error"}]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

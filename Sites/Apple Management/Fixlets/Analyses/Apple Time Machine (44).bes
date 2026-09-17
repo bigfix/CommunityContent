@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Apple Time Machine
+  ID       : 44
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-11-29T10:17:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Apple Time Machine</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance><![CDATA[version of operating system >= "10.5"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 26 Nov 2012 21:36:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="6" Name="TM Last Backup" EvaluationPeriod="P1D">if(not exists file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No .TM.R file&quot; else if(not exists dictionary of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No dictionary&quot; else if((not exists entries whose(exists keys of it AND exists values of it AND &quot;BACKUP_COMPLETED_DATE&quot; = key of it) of dictionary of it) of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No backup date entry&quot; else (((dates of values of entries whose(exists keys of it AND exists values of it AND &quot;BACKUP_COMPLETED_DATE&quot; = key of it) of dictionary of it) of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) as string)</Property>
+    <Property ID="7" Name="TM time since LB" EvaluationPeriod="P1D">if(not exists file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No .TM.R file&quot; else if(not exists dictionary of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No dictionary&quot; else if((not exists entries whose(exists keys of it AND exists values of it AND &quot;BACKUP_COMPLETED_DATE&quot; = key of it) of dictionary of it) of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No backup date entry&quot; else ((now - (maximum of dates of values of entries whose(exists keys of it AND exists values of it AND &quot;BACKUP_COMPLETED_DATE&quot; = key of it) of dictionary of it) of file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) as string)</Property>
+    <Property ID="9" Name="TM mod time of log" EvaluationPeriod="P1D">if(not exists file &quot;/private/var/db/.TimeMachine.Results.plist&quot;) then &quot;No .TM.R file&quot; else  (modification time of file &quot;/private/var/db/.TimeMachine.Results.plist&quot; as string)</Property>
+  </Analysis>
+</BES>

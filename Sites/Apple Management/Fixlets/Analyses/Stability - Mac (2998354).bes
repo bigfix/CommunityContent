@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Stability - Mac
+  ID       : 2998354
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-17T15:30:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Stability - Mac</Title>
+    <Description><![CDATA[This analysis provides stability information for Mac OS devices.
+<P>Kudos, compliments, and credit for the majority of this analysis to: rustymyers</P>
+<P>The original analysis this is based off of is available here: <A href="https://bigfix.me/analysis/details/2994700">https://bigfix.me/analysis/details/2994700</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Stability - system.log error count - Mac" EvaluationPeriod="P7D">number of lines whose ( it as lowercase contains &quot;error&quot;) of file &quot;/var/log/system.log&quot;</Property>
+    <Property ID="2" Name="Stability - I/O error lines - Mac" EvaluationPeriod="P7D">if (exists lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;kernel[0]&quot; and it contains &quot;I/O error&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="3" Name="Stability - system.log besagent lines - Mac" EvaluationPeriod="P7D">if (exists lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;BESAgent&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+    <Property ID="4" Name="Stability - system.log besagent spindump lines - Mac" EvaluationPeriod="P7D">if (exists lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot;) then lines whose (it contains &quot;BESAgent&quot; and it contains &quot;spindump&quot;) of file &quot;/var/log/system.log&quot; else ERROR &quot;none&quot;</Property>
+  </Analysis>
+</BES>

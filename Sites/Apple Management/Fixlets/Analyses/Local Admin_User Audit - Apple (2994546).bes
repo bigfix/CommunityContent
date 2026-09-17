@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Local Admin/User Audit - Apple
+  ID       : 2994546
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-07-10T10:54:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Local Admin/User Audit - Apple</Title>
+    <Description><![CDATA[<P>This analysis will audit the number of local admins on the system. </P>
+<P>From here: <A href="http://bigfix.me/cdb/analysis/70"><FONT color=#000080>http://bigfix.me/cdb/analysis/70</FONT></A></P>]]></Description>
+    <Relevance>(exists file &quot;/var/db/dslocal/nodes/Default/groups/admin.plist&quot;)</Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Jul 2013 17:53:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Number of Local Admins" EvaluationPeriod="P2D">(number of values of array of value of entry whose(key of it = &quot;users&quot;) of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/admin.plist&quot;)</Property>
+    <Property ID="2" Name="Local Admins" EvaluationPeriod="P2D">(concatenation &quot;; &quot; of strings of values of array of value of entry whose(key of it = &quot;users&quot;) of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/admin.plist&quot;)</Property>
+  </Analysis>
+</BES>

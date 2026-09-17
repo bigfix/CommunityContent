@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : CLM Mac Enable Add everyone to lpadmin group (printers)
+  ID       : 2614
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2013-10-10T13:07:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>CLM Mac Enable Add everyone to lpadmin group (printers)</Title>
+    <Description>This fixlet allows local users to manage printers by adding the everyone group to the lpadmin group. All users are a part of everyone, therefore everyone can manage printers. WARNING: Users will also be able to delete and add printers!</Description>
+    <Relevance>not ((concatenation &quot;, &quot; of strings of values of array &quot;nestedgroups&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/_lpadmin.plist&quot;) contains (string of value of array &quot;generateduid&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/everyone.plist&quot;))</Relevance>
+    <Category>CLM Mac System Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102; mah60</SourceID>
+    <SourceReleaseDate>2013-10-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Oct 2013 20:04:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait dseditgroup -o edit -n /Local/Default -a everyone -t group lpadmin</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

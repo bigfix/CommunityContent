@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Add additional FileVault user to encrypted computer (APFS only)
+  ID       : 24878
+  Author   : alinder_
+  Domain   : BESC
+  Imported : 2018-01-04T07:30:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Add additional FileVault user to encrypted computer (APFS only)</Title>
+    <Description><![CDATA[<P><LABEL for=secret><STRONG><FONT size=3>About this Task</FONT></STRONG></LABEL></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><LABEL for=secret>This task allows you to add a FileVault enabled user. </LABEL><LABEL for=secret>Type the password of a a FileVault 2 enabled user in the first field below, then type the password&nbsp;of the account you want to add to the list of FileVault users in the second. You'll be&nbsp;prompted for the names of both users when taking the action. The last step of the action outputs the new list of FV users to "/.filevault/users.txt" so the analysis will report on it. </LABEL></P>
+<P><LABEL for=secret><STRONG><FONT color=#008000 size=3>Customization Options</FONT></STRONG></LABEL></P></BLOCKQUOTE>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><LABEL for=secret>Password of currently FileVault enabled user:</LABEL> <INPUT id=secret type=password name=secret><BR><LABEL for=secret2>Password of user you'd like to add to FileVault enabled users:</LABEL> <INPUT id=secret2 type=password name=secret2> <script>
+                                                   document.body.ontakeaction = function() {
+                                                                    var theSecret = document.getElementById( "secret" ).value;
+																	var theSecret2 = document.getElementById( "secret2" ).value;
+																	if (theSecret==null || theSecret=="")
+																		{alert("Hey, you forgot to enter a secure parameter! Please enter one on the Description tab before taking the action.");}
+                                                                    else
+																		{TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", {}, { secret: theSecret, secret2: theSecret2 } );}
+                                                                    return false;
+                                                   }
+                                                   </script> </P>
+<P></P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT color=#ff0000 size=3>Important Notes</FONT></STRONG></P>
+<UL dir=ltr>
+<LI>
+<DIV>You must enter a password in order to take an action</DIV>
+<LI>
+<DIV>Because of the way secure parameters work, you cannot use this task in&nbsp;a baseline, target an action dynamically by property (e.g., automatic groups), use add additional actions.</DIV></LI></UL>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "10.13.0"]]></Relevance>
+    <Relevance>((it as string as lowercase contains &quot;true&quot;)) of booleans of values of entries whose ((&quot;CoreStorage Encrypted&quot; = key of it) OR (&quot;Encrypted&quot; = key of it)) of dictionaries whose (exists substring &quot;False&quot; of (booleans of values of entries whose (&quot;Removable&quot; = key of it) of it as string)) of (it; nodes of it; nodes of nodes of it; nodes of nodes of nodes of it; nodes of nodes of nodes of nodes of it; nodes of nodes of nodes of nodes of nodes of it) of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of nodes of service plane of iokit registry</Relevance>
+    <Relevance>exists substring &quot;Solid&quot; of (strings of values of entries whose (key of it = &quot;Medium Type&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes of nodes of it; strings of values of entries whose (key of it = &quot;Medium Type&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Relevance>
+    <SourceReleaseDate>2018-01-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>user, net.exe, secure parameter, password</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 04 Jan 2018 14:54:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Add</Link>
+        <PostLink>&amp;nbsp;FileVault 2 user</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "username" with description "Please specify the name of an existing FileVault2 account"
+action parameter query "username2" with description "Please specify the name of the user you'd like to add to the list of FileVault users"
+
+folder create "/.filevault"
+
+delete __createfile
+delete /tmp/fdesetup.plist
+
+createfile until EOF
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Username</key>
+    <string>{parameter "username"}</string>
+    <key>Password</key>
+    <string>{parameter "secret" of action}</string>
+<key>AdditionalUsers</key>
+<array>
+    <dict>
+        <key>Username</key>
+        <string>{parameter "username2"}</string>
+        <key>Password</key>
+        <string>{parameter "secret2" of action}</string>
+    </dict>
+</array>
+</dict>
+</plist>
+EOF
+
+move __createfile /tmp/fdesetup.plist
+
+wait /bin/sh -c "fdesetup add -inputplist < /tmp/fdesetup.plist"
+
+wait /bin/sh -c "fdesetup list > "/.filevault/users.txt""
+
+delete /tmp/fdesetup.plist]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

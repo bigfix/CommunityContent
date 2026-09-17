@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Escrow Bootstrap Token (macOS)
+  ID       : 27380
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2025-08-27T11:03:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Escrow Bootstrap Token (macOS)</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This fixlet creates or updates the Bootstrap Token APFS record and escrows the information to the device's MDM server.</P>
+<P>Provided credentials MUST be for an account with a secure token. If account does not have a secure token, fixlet will exit with exit code 30.</P></DIV><script>
+			loaded = false;
+			var CODE_SITE_NAME = 'BES Support' ;
+			function loadScript (siteName, callback) {
+			loaded = false;
+			var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+			var code = EvaluateRelevance(relevanceQuery);
+			var head = document.getElementsByTagName("head")[0];
+			var script   = document.createElement("script");
+			script.type  = "text/javascript";
+			script.text = code;
+			head.appendChild(script);
+			callback();
+			}
+			function scriptLoaded(){
+			if (!loaded){
+			if ( typeof FixletUtils !== 'undefined') {
+			loaded = true;
+			/*
+			* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+			*/
+			var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+			var messages = EvaluateRelevance(relQuery);
+			var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+			var matches = regex.exec(messages);
+			matches[1]=matches[1].replace(/<br>/gi,"");
+			eval(matches[1]);
+			FixletUtils.initFixletRender();
+			} } }
+			loadScript(CODE_SITE_NAME, scriptLoaded);
+			</script> </DIV>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-04-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{    &quot;username&quot;: {     &quot;Name&quot;: &quot;username&quot;,     &quot;Title&quot;: &quot;Username:&quot;,     &quot;Description&quot;: &quot;Username of an account with a secure token&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;    },     &quot;password&quot;: {     &quot;Name&quot;: &quot;password&quot;,     &quot;Title&quot;: &quot;Password:&quot;,     &quot;Description&quot;: &quot;User&apos;s password&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;    },    &quot;password2&quot;: {     &quot;Name&quot;: &quot;password2&quot;,     &quot;Title&quot;: &quot;Verify password:&quot;,     &quot;Description&quot;: &quot;Retype password&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;,     &quot;CustomValidator&quot;: &quot;validatePassword&quot;    }    }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>ParameterValidatorTag</Name>
+      <Value>             {                 validatePassword : function (validationObj, metadataObj) {                     var currentValue = validationObj[&quot;currentValue&quot;];                     var parentValue = FixletUtils.getElementText(&apos;password&apos;, metadataObj);                     if ( currentValue !== parentValue )                         return &quot;The passwords entered do not match!&quot;;                 }             }          </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 18 Apr 2025 05:54:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+
+parameter "scriptName" = "tenHut.sh"
+
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+delete __createfile
+delete "__Download/{parameter "scriptName"}"
+createfile until _end_
+#!/bin/zsh
+adminUser="{parameter "username" of action}"
+precheck=$(sysadminctl -secureTokenStatus $adminUser 2>&1)
+if [[ "$precheck" == *"ENABLED"* ]]; then
+        echo "Provided user $adminUser has a secure token. Continuing..." >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+		exit 0
+elif [[ "$precheck" == *"DISABLED"* ]]; then
+        echo "Provided user $adminUser does not have a secure token" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+        exit 30
+else
+        echo "Error checking $adminUser secure token status" >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'
+        exit 31
+fi
+_end_
+copy "__createfile" "__Download/{parameter "scriptName"}"
+wait chmod +x "__Download/{parameter "scriptName"}"
+wait /bin/zsh "__Download/{parameter "scriptName"}"
+parameter "error" = "{exit code of action}"
+delete __createfile
+delete "__Download/{parameter "scriptName"}"
+
+if {parameter "error" is "0"}
+wait bash -c "profiles install -type bootstraptoken -user '{parameter "username" of action}' -password '{parameter "password" of action}' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+parameter "error2" = "{exit code of action}"
+wait sh -c "echo Return Code: {parameter "error2"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+endif
+
+if {parameter "error" != "0"}
+wait sh -c "echo Return Code: {parameter "error"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+exit {parameter "error"}
+endif
+
+exit {parameter "error2"}
+
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Allow Managed Users to Add or Delete Printers - Mac OS X
+  ID       : 20448
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2016-05-04T10:24:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Allow Managed Users to Add or Delete Printers - Mac OS X</Title>
+    <Description><![CDATA[<P>In Mac OS X 10.5.7 or later, access to add or delete network printers on a client computer is controlled by membership in the lpadmin group. You can control the ability of managed user accounts to add and delete printers by controlling the membership of this group.</P>
+<P>This fixlet adds the "everyone" group, of which all users are a member of, as a nested group of the "_lpadmin" group. This grants access for all users of the system to add, edit, and delete printers as well as manage other aspects of the&nbsp;CUPS&nbsp;printing system.</P>
+<P>Mac OS X v10.5.7 or later: Allowing managed users to add or delete printers - <A href="http://support.apple.com/kb/HT3511">http://support.apple.com/kb/HT3511</A></P>
+<P>This task is applicable on Mac OS X 10.5.7 or later.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/usr/sbin/dseditgroup&quot;</Relevance>
+    <Relevance>not exists file &quot;/var/db/dslocal/nodes/Default/groups/_lpadmin.plist&quot; whose ((concatenation &quot;, &quot; of strings of values of array &quot;nestedgroups&quot; of dictionary of it) contains (string of value of array &quot;generateduid&quot; of dictionary of file &quot;/var/db/dslocal/nodes/Default/groups/everyone.plist&quot;))</Relevance>
+    <Relevance><![CDATA[system version >= "10.5.7"]]></Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>rzm102; mah60</SourceID>
+    <SourceReleaseDate>2014-04-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 16 Apr 2014 19:30:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/sbin/dseditgroup -o edit -n /Local/Default -a everyone -t group _lpadmin</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

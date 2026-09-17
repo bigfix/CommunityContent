@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable Remote Login (SSH) for Admins - Mac OS X
+  ID       : 3980
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2015-02-16T06:58:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable Remote Login (SSH) for Admins - Mac OS X</Title>
+    <Description><![CDATA[<P>This task will enable remote login (SSH) and grant access&nbsp;for all members of the "admin"&nbsp;group on the local system. </P>
+<P>This task is applicable on Mac OS X 10.5 or later.</P>
+<P>If you have questions or concerns please visit <A href="http://clc.its.psu.edu/help">http://clc.its.psu.edu/help</A> to submit a SysMan Help Request.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.5"]]></Relevance>
+    <Relevance>exists file &quot;/usr/sbin/dseditgroup&quot;</Relevance>
+    <Relevance>exists file &quot;/usr/sbin/systemsetup&quot;</Relevance>
+    <Relevance><![CDATA[not (if (system version < "10.10") then (exists file "/var/db/launchd.db/com.apple.launchd/overrides.plist" whose (exists dictionary "com.openssh.sshd" whose (exists boolean "Disabled" whose (it = False) of it) of dictionary of it)) else (exists file "/var/db/com.apple.xpc.launchd/disabled.plist" whose (exists boolean "com.openssh.sshd" whose (it = False) of dictionary of it)) AND (not exists file "/var/db/dslocal/nodes/Default/groups/com.apple.access_ssh-disabled.plist") AND (exists file "/var/db/dslocal/nodes/Default/groups/com.apple.access_ssh.plist" whose (exists array "nestedgroups" whose (concatenation ", " of strings of values of it contains (string of values of array "generateduid" of dictionary of file "/var/db/dslocal/nodes/Default/groups/admin.plist")) of dictionary of it)))]]></Relevance>
+    <Category>System Configuration</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-04-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Dec 2014 13:36:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Modify SSH Access Group
+wait /usr/sbin/dseditgroup -o create -r &quot;Remote Login ACL&quot; com.apple.access_ssh
+wait /usr/sbin/dseditgroup -o edit -t group -a admin com.apple.access_ssh
+
+// Start SSH Service
+wait /usr/sbin/systemsetup -setremotelogin on</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable AirDrop over Ethernet
+  ID       : 3821
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-07-31T07:27:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable AirDrop over Ethernet</Title>
+    <Description><![CDATA[<DIV class=subsection>This fixlet configures OS X to use AirDrop over Ethernet.
+<P>The default behavior is to only allow AirDrop over Wi-Fi. This allows machines to also use Etherenet.</P>
+<P>This fixlet is applicable on Mac OS X 10.8 or later.</P>
+<P>If you have questions or concerns please visit <A href="http://clc.its.psu.edu/help">http://clc.its.psu.edu/help</A> to submit a SysMan Help Request.</P></DIV>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.8"]]></Relevance>
+    <Relevance>not exists file &quot;/Library/Preferences/com.apple.NetworkBrowser.plist&quot; whose (boolean &quot;BrowseAllInterfaces&quot; of dictionary of it = True)</Relevance>
+    <Category>System Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>rzm102</SourceID>
+    <SourceReleaseDate>2014-07-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 31 Jul 2014 14:26:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait defaults write &quot;/Library/Preferences/com.apple.NetworkBrowser&quot; BrowseAllInterfaces -bool true</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

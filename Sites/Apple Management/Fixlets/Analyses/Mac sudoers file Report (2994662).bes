@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Mac sudoers file Report
+  ID       : 2994662
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-06-17T08:42:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Mac sudoers file Report</Title>
+    <Description>This analysis reports data from the /etc/sudoers file, which is used to allow users to run commands as root without admin rights. </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/etc/sudoers&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 17 Jun 2014 15:06:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Lines of /etc/sudoers" EvaluationPeriod="P7D">lines of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="2" Name="Lines of /etc/sudoers  (without comments and blank lines)" EvaluationPeriod="P7D">lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;) of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="3" Name="Lines of /etc/sudoers for ALL rules (without comments and blank lines)" EvaluationPeriod="P1D">lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot; AND it contains &quot;ALL=&quot;) of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="4" Name="Number of Lines of /etc/sudoers  (without comments and blank lines)" EvaluationPeriod="P1D">number of lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot;) of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="5" Name="Number of Lines of /etc/sudoers for ALL rules (without comments and blank lines)" EvaluationPeriod="P1D">number of lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot; AND it contains &quot;ALL=&quot;) of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="6" Name="Lines of /etc/sudoers of usernames for ALL rules" EvaluationPeriod="P1D">(it as trimmed string) of preceding texts of lasts &quot;ALL=(ALL)&quot; of lines whose (it does not start with &quot;#&quot; AND it as trimmed string != &quot;&quot; AND it contains &quot;ALL=(ALL) ALL&quot;) of file &quot;/etc/sudoers&quot;</Property>
+    <Property ID="7" Name="Lines of /etc/sudoers of Defaullts env variables" EvaluationPeriod="P1D">(it as trimmed string) of following texts of lasts &quot;Defaults&quot; of lines whose (it as trimmed string starts with &quot;Defaults&quot;) of file &quot;/etc/sudoers&quot; </Property>
+    <Property ID="8" Name="Number of Lines of /etc/sudoers of Default env variables" EvaluationPeriod="P1D">number of lines whose (it as trimmed string starts with &quot;Defaults&quot;) of file &quot;/etc/sudoers&quot;</Property>
+  </Analysis>
+</BES>

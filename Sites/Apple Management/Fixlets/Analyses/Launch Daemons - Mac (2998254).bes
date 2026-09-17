@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Launch Daemons - Mac
+  ID       : 2998254
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2016-07-19T17:52:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Launch Daemons - Mac</Title>
+    <Description><![CDATA[Information on the registered Launch Daemons on Mac OS
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Launch Daemons - System - Mac" EvaluationPeriod="P1D">(name of it, (if (not boolean &quot;Disabled&quot; of dictionary of it | true) then &quot;Enabled&quot; else &quot;Disabled&quot;), concatenation &quot; &quot; of strings of values of array &quot;ProgramArguments&quot; of dictionaries of it | string &quot;Program&quot; of dictionaries of it | &quot;None&quot;) of descendants of (folder &quot;/System/Library/LaunchDaemons&quot;)</Property>
+    <Property ID="3" Name="Launch Daemons - Third-Party - Mac" EvaluationPeriod="P1D">(name of it, (if (not boolean &quot;Disabled&quot; of dictionary of it | true) then &quot;Enabled&quot; else &quot;Disabled&quot;), concatenation &quot; &quot; of strings of values of array &quot;ProgramArguments&quot; of dictionaries of it | string &quot;Program&quot; of dictionaries of it | &quot;None&quot;) of descendants of (folder &quot;/Library/LaunchDaemons&quot;)</Property>
+    <Property ID="6" Name="Launch Agents - System - Mac" EvaluationPeriod="P1D">(name of it, (if (not boolean &quot;Disabled&quot; of dictionary of it | true) then &quot;Enabled&quot; else &quot;Disabled&quot;), concatenation &quot; &quot; of strings of values of array &quot;ProgramArguments&quot; of dictionaries of it | string &quot;Program&quot; of dictionaries of it | &quot;None&quot;) of descendants of (folder &quot;/System/Library/LaunchAgents&quot;)</Property>
+    <Property ID="7" Name="Launch Agents - Third-Party - Mac" EvaluationPeriod="P1D">(name of it, (if (not boolean &quot;Disabled&quot; of dictionary of it | true) then &quot;Enabled&quot; else &quot;Disabled&quot;), concatenation &quot; &quot; of strings of values of array &quot;ProgramArguments&quot; of dictionaries of it | string &quot;Program&quot; of dictionaries of it | &quot;None&quot;) of descendants of (folder &quot;/Library/LaunchAgents&quot;)</Property>
+    <Property ID="8" Name="Launch Agents - User - Mac" EvaluationPeriod="P1D">(preceding text of first &quot;/Library&quot; of following text of first &quot;Users/&quot; of pathname of it, name of it, (if (not boolean &quot;Disabled&quot; of dictionary of it | true) then &quot;Enabled&quot; else &quot;Disabled&quot;), concatenation &quot; &quot; of strings of values of array &quot;ProgramArguments&quot; of dictionaries of it | string &quot;Program&quot; of dictionaries of it | &quot;None&quot;) of descendants of (folders whose (name of it is &quot;LaunchAgents&quot;) of folders whose (name of it is &quot;Library&quot;) of folders of folder &quot;/Users&quot;) </Property>
+  </Analysis>
+</BES>

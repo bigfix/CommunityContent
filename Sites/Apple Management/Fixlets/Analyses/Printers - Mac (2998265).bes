@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Printers - Mac
+  ID       : 2998265
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2016-07-19T17:54:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Printers - Mac</Title>
+    <Description><![CDATA[<P>Analysis of locally installed printers for Mac OS systems.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="2" Name="Printers - Local TCP/IP - Mac" EvaluationPeriod="P1D">(following text of first &quot;MakeModel &quot; of match (regex &quot;MakeModel [^;]*&quot;) of it, following text of first &quot;DeviceURI &quot; of match (regex &quot;DeviceURI [^;]*&quot;) of it, (if (it = &quot;Yes&quot;) then (&quot;Shared&quot;) else (&quot;Not Shared&quot;)) of (following text of first &quot;Shared &quot; of match (regex &quot;Shared [^;]*&quot;) of it)) of (parenthesized parts of matches (regex &quot;&lt;Printer[^&gt;]+&gt;([^&lt;]*)&lt;/Printer&gt;&quot;) whose (it contains &quot;ipp://&quot;) of (concatenations &quot;;&quot; of lines of file &quot;/etc/cups/printers.conf&quot;))</Property>
+    <Property ID="3" Name="Printers - Bonjour - Mac" EvaluationPeriod="P1D">(following text of first &quot;MakeModel &quot; of match (regex &quot;MakeModel [^;]*&quot;) of it, following text of first &quot;DeviceURI &quot; of match (regex &quot;DeviceURI [^;]*&quot;) of it, (if (it = &quot;Yes&quot;) then (&quot;Shared&quot;) else (&quot;Not Shared&quot;)) of (following text of first &quot;Shared &quot; of match (regex &quot;Shared [^;]*&quot;) of it)) of (parenthesized parts of matches (regex &quot;&lt;Printer[^&gt;]+&gt;([^&lt;]*)&lt;/Printer&gt;&quot;) whose (it contains &quot;dnssd://&quot;) of (concatenations &quot;;&quot; of lines of file &quot;/etc/cups/printers.conf&quot;))</Property>
+    <Property ID="5" Name="Printers - Samba - Mac" EvaluationPeriod="P1D">(following text of first &quot;MakeModel &quot; of match (regex &quot;MakeModel [^;]*&quot;) of it, following text of first &quot;DeviceURI &quot; of match (regex &quot;DeviceURI [^;]*&quot;) of it, (if (it = &quot;Yes&quot;) then (&quot;Shared&quot;) else (&quot;Not Shared&quot;)) of (following text of first &quot;Shared &quot; of match (regex &quot;Shared [^;]*&quot;) of it), following text of first &quot;AuthInfoRequired &quot; of match (regex &quot;AuthInfoRequired [^;]*&quot;) of it &amp; &quot; authentication&quot;) of (parenthesized parts of matches (regex &quot;&lt;Printer[^&gt;]+&gt;([^&lt;]*)&lt;/Printer&gt;&quot;) whose (it contains &quot;smb://&quot;) of (concatenations &quot;;&quot; of lines of file &quot;/etc/cups/printers.conf&quot;))</Property>
+    <Property ID="6" Name="Printers - All - Mac" EvaluationPeriod="P1D">(following text of first &quot;MakeModel &quot; of match (regex &quot;MakeModel [^;]*&quot;) of it, following text of first &quot;DeviceURI &quot; of match (regex &quot;DeviceURI [^;]*&quot;) of it, (if (it = &quot;Yes&quot;) then (&quot;Shared&quot;) else (&quot;Not Shared&quot;)) of (following text of first &quot;Shared &quot; of match (regex &quot;Shared [^;]*&quot;) of it)) of (parenthesized parts of matches (regex &quot;&lt;Printer[^&gt;]+&gt;([^&lt;]*)&lt;/Printer&gt;&quot;) of (concatenations &quot;;&quot; of lines of file &quot;/etc/cups/printers.conf&quot;))</Property>
+    <Property ID="7" Name="Printers - Drivers - Mac" EvaluationPeriod="P7D">(name of it, modification time of it) of files of folder &quot;/Library/Printers/PPDs/Contents/Resources&quot;</Property>
+  </Analysis>
+</BES>

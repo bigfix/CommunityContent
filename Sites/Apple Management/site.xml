@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ site.xml can define relevance clauses that are applied
+ to all fixlet contents (fixlets/tasks/analyses/computergroups) in the site
+ This aids efficiency because, if false, none of the individual fixlets will be evaluated
+-->
+<Site>
+  <Relevance>
+    <![CDATA[
+      (name of operating system = "Mac OS X") OR ((name of operating system = "macOS") AND (version of client >= "10.0.2" or (version of client >= "9.5.17" and version of client < "10.0.0")) AND ((architecture of operating system = "arm64") OR (architecture of operating system = "x86_64"))) AND (if exists property "in proxy agent context" then (not in proxy agent context) else true) AND (if exists property "android" of type "operating system" then (not android of operating system) else true)
+    ]]>
+  </Relevance>
+</Site>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Mac Global Preferences Report
+  ID       : 2994696
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2014-07-30T12:55:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Mac Global Preferences Report</Title>
+    <Description>Report of Global Preferences for OS X Clients </Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 30 Jul 2014 19:54:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="GlobalPreference: Apple Show Scroll Bars" EvaluationPeriod="P2D">string &quot;AppleShowScrollBars&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="2" Name="GlobalPreference: Expand Save Dialog (Carbon)" EvaluationPeriod="P2D">boolean &quot;NSNavPanelExpandedStateForSaveMode&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="3" Name="GlobalPreference: Expand Save Dialog (Cocoa)" EvaluationPeriod="P2D">boolean &quot;NSNavPanelExpandedStateForSaveMode2&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="4" Name="GlobalPreference: Expand Print Dialog (Carbon)" EvaluationPeriod="P2D">boolean &quot;PMPrintingExpandedStateForPrint&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="5" Name="GlobalPreference: Expand Print Dialog (Cocoa)" EvaluationPeriod="P2D"> boolean &quot;PMPrintingExpandedStateForPrint2&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="6" Name="GlobalPreference: Save New Documents to Cloud" EvaluationPeriod="P2D">boolean &quot;NSDocumentSaveNewDocumentsToCloud&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="7" Name="PrintingPrefs: Quit Printer When Finished" EvaluationPeriod="P2D"> boolean &quot;Quit When Finished&quot; of dictionary of file &quot;/Library/Preferences/com.apple.print.PrintingPrefs.plist&quot; | error &quot;No Pref&quot;</Property>
+    <Property ID="8" Name="GlobalPreference: Show All File Extensions" EvaluationPeriod="P2D">boolean &quot;AppleShowAllExtensions&quot; of dictionary of file &quot;/Library/Preferences/.GlobalPreferences.plist&quot; | error &quot;No Pref&quot;</Property>
+  </Analysis>
+</BES>

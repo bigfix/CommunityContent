@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : System Configuration: Enable Apple Remote Desktop/Remote Management with Full Access for All Local Users - Mac OS X
+  ID       : 3921
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-11-14T06:56:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>System Configuration: Enable Apple Remote Desktop/Remote Management with Full Access for All Local Users - Mac OS X</Title>
+    <Description><![CDATA[<P>This fixlet will ensure that the&nbsp;Remote Management (Apple Remote Desktop) service is enabled and that all local accounts on the system&nbsp;have full access and&nbsp;privileges.</P>
+<P>System Preferences &gt; Sharing &gt; Remote Management</P>
+<P>This fixlet is applicable on Mac OS X 10.7 or later.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.7"]]></Relevance>
+    <Relevance>(not exists file &quot;/private/etc/RemoteManagement.launchd&quot;) OR (not exists file &quot;/Library/Preferences/com.apple.RemoteManagement.plist&quot; whose (exists dictionary whose (exists boolean &quot;ARD_AllLocalUsers&quot; whose (it = True) of it AND exists integer &quot;ARD_AllLocalUsersPrivs&quot; whose (it = -1073741569) of it) of it))</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-11-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Nov 2014 13:50:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -allUsers -privs -all</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Configuration Profile Audit
+  ID       : 2998505
+  Author   : Tutankh
+  Domain   : BESC
+  Imported : 2016-12-22T12:55:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Configuration Profile Audit</Title>
+    <Description><![CDATA[Must be used with a recurring task to output profile information to an xml file at <FONT size=2><FONT size=2 face=Arial>"/Library/Application Support/BigFix/BES Agent/__BESData/__Global/__ConfigProfiles"</FONT></FONT> ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/__ConfigProfiles&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 22 Dec 2016 20:35:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="All Config Profiles" EvaluationPeriod="PT12H">(&quot;Profile Name: &quot; &amp; (string &quot;_name&quot; of it) &amp; &quot; | Description: &quot; &amp; (string &quot;spconfigprofile_description&quot; of it) &amp; &quot; | Organization: &quot; &amp; (if (exists string &quot;spconfigprofile_organization&quot; whose (it != &quot;&quot;) of it) then (string &quot;spconfigprofile_organization&quot; of it) ELSE &quot;N/A&quot;) &amp; &quot; | Identifier: &quot; &amp; (string &quot;spconfigprofile_profile_identifier&quot; of it) &amp; &quot; | Install Date: &quot; &amp; (string &quot;spconfigprofile_install_date&quot; of it) &amp; &quot; | Removal Prohibited?: &quot; &amp; (string &quot;spconfigprofile_RemovalDisallowed&quot; of it)) of (dictionaries of values of arrays of values of entries of dictionaries of values of arrays of values of entries of dictionaries of values of arrays of files &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/__ConfigProfiles&quot;)</Property>
+    <Property ID="2" Name="Device Config Profiles" EvaluationPeriod="PT12H">(&quot;Profile Name: &quot; &amp; (string &quot;_name&quot; of it) &amp; &quot; | Description: &quot; &amp; (string &quot;spconfigprofile_description&quot; of it) &amp; &quot; | Organization: &quot; &amp; (if (exists string &quot;spconfigprofile_organization&quot; whose (it != &quot;&quot;) of it) then (string &quot;spconfigprofile_organization&quot; of it) ELSE &quot;N/A&quot;) &amp; &quot; | Identifier: &quot; &amp; (string &quot;spconfigprofile_profile_identifier&quot; of it) &amp; &quot; | Install Date: &quot; &amp; (string &quot;spconfigprofile_install_date&quot; of it) &amp; &quot; | Removal Prohibited?: &quot; &amp; (string &quot;spconfigprofile_RemovalDisallowed&quot; of it)) of (dictionaries of values of arrays of values of entries of dictionaries whose (string &quot;_name&quot; of it = &quot;spconfigprofile_section_deviceconfigprofiles&quot;) of values of arrays of values of entries of dictionaries of values of arrays of files &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/__ConfigProfiles&quot;)</Property>
+    <Property ID="3" Name="User Config Profiles" EvaluationPeriod="P30D">(&quot;Profile Name: &quot; &amp; (string &quot;_name&quot; of it) &amp; &quot; | Description: &quot; &amp; (string &quot;spconfigprofile_description&quot; of it) &amp; &quot; | Organization: &quot; &amp; (if (exists string &quot;spconfigprofile_organization&quot; whose (it != &quot;&quot;) of it) then (string &quot;spconfigprofile_organization&quot; of it) ELSE &quot;N/A&quot;) &amp; &quot; | Identifier: &quot; &amp; (string &quot;spconfigprofile_profile_identifier&quot; of it) &amp; &quot; | Install Date: &quot; &amp; (string &quot;spconfigprofile_install_date&quot; of it) &amp; &quot; | Removal Prohibited?: &quot; &amp; (string &quot;spconfigprofile_RemovalDisallowed&quot; of it)) of (dictionaries of values of arrays of values of entries of dictionaries whose (string &quot;_name&quot; of it = &quot;spconfigprofile_section_userconfigprofiles&quot;) of values of arrays of values of entries of dictionaries of values of arrays of files &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/__ConfigProfiles&quot;)</Property>
+  </Analysis>
+</BES>
