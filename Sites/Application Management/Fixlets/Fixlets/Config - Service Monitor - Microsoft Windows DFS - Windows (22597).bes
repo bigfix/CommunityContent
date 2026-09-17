@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Service Monitor - Microsoft Windows DFS - Windows
+  ID       : 22597
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-10T15:35:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Service Monitor - Microsoft Windows DFS - Windows</Title>
+    <Description><![CDATA[<P>Configures the BES Service Monitor (<STRONG>Fixlet: </STRONG>Invoke - Service Monitor - Windows) to monitor services.</P>
+<P>Specifically, this fixlet configures it to monitor the following Windows Services:</P>
+<OL>
+<LI>DFS Namespace (Dfs)
+<LI>DFS Replication (DFSR)</LI></OL>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists services (substrings separated by &quot;;&quot; of &quot;Dfs;DFSR&quot;)</Relevance>
+    <Relevance>not exists values whose (it = &quot;Dfs;DFSR&quot;) of settings &quot;besservicemonitor-microsoft-windows-dfs&quot; of client</Relevance>
+    <Category>Service Monitor</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;besservicemonitor-microsoft-windows-dfs&quot;=&quot;Dfs;DFSR&quot; on &quot;{now}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

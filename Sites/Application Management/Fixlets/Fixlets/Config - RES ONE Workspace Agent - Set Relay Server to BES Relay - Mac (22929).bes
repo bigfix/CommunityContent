@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - RES ONE Workspace Agent - Set Relay Server to BES Relay - Mac
+  ID       : 22929
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - RES ONE Workspace Agent - Set Relay Server to BES Relay - Mac</Title>
+    <Description><![CDATA[<P>Sets the RES Relay to be the same as the currently used BigFix Relay.</P>
+<P>As the client has no knowledge as to whether or not it's current BigFix relay is running as a RES Relay you should be careful using this method for relay selection!</P>
+]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists file &quot;/etc/res/reswmad.conf&quot;</Relevance>
+    <Relevance>not exists line whose (it contains &quot;RSLIST&quot; and (it contains preceding text of first &quot;:&quot; of name of registration server)) of file &quot;/etc/res/reswmad.conf&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 24 May 2016 02:39:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23925">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+action parameter query "RESRELPORT" with description "Please enter the port used by RES ONE Workspace"
+
+// This Relay List will provide 127.0.0.1 if the current device is a relay
+parameter "RelayList"="{(preceding text of first ":" of name of registration server) & ":" & parameter "RESRELPORT" of action}"
+
+// This Relay List will provide the relay's parent if the current device is a relay
+//parameter "RelayList"="{concatenations ";" of (((if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (preceding text of first ":" of name of registration server) else (preceding text of first ":" of following text of first "://" of value of setting "_BESRelay_PostResults_ParentRelayURL" of client)) & ":" & parameter "RESRELPORT" of action);(if (exists value of setting "_RelayServer1" of client | false) then (";" & value of setting "_RelayServer1" of client & ":" & parameter "RESRELPORT" of action) else (nothing));(if (exists value of setting "_RelayServer2" of client | false) then (";" & value of setting "_RelayServer2" of client & ":" & parameter "RESRELPORT" of action) else (nothing)))}"
+
+delete run.sh
+delete __appendfile
+
+appendfile sed -i 's/RSLIST=.*/RSLIST={parameter "RelayList"}/' "/etc/res/reswmad.conf"
+
+move __appendfile run.sh
+
+wait sh run.sh]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

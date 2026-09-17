@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Refresh RES ONE Workspace Shortcut - Enable - Windows
+  ID       : 22917
+  Author   : RES
+  Domain   : RESS
+  Imported : 2016-12-07T01:59:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Refresh RES ONE Workspace Shortcut - Enable - Windows</Title>
+    <Description><![CDATA[Deploys a shortcut to the public desktop that allows the user to invoke a refresh of&nbsp;the RES ONE Workspace.]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;res&quot; /* RES is Installed */</Relevance>
+    <Relevance>not exists file &quot;Refresh Application Security Database.lnk&quot; of folder &quot;Users\Public\Desktop&quot; of drive of system folder</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>RESS</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+delete __appendfile
+delete makeshortcut.vbs
+appendfile   Set oWS = WScript.CreateObject("WScript.Shell")
+appendfile   sLinkFile = "{pathname of folder "Users\Public\Desktop" of drive of system folder}\Refresh Application Security Database.lnk"
+appendfile   Set oLink = oWS.CreateShortcut(sLinkFile)
+appendfile   oLink.TargetPath = "{pathname of file "pwrgate.exe" of folder "Workspace Manager" of folder "RES Software" of program files x32 folder}"
+appendfile   oLink.Arguments = "-2"
+appendfile   olink.IconLocation = "{pathname of file "pwrtech.ico" of folder "Workspace Manager" of folder "RES Software" of program files x32 folder}"
+appendfile   '    oLink.Description = "RES Workspace Refresh"
+appendfile   '    oLink.HotKey = ""
+appendfile   '    oLink.WindowStyle = "1"
+appendfile   '    oLink.WorkingDirectory = ""
+appendfile   oLink.Save
+move __appendfile makeshortcut.vbs
+waithidden "{pathname of system folder & "\cscript.exe"}" makeshortcut.vbs]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

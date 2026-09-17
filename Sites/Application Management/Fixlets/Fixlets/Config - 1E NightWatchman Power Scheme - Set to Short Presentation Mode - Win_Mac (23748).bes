@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - 1E NightWatchman Power Scheme - Set to Short Presentation Mode - Win\Mac
+  ID       : 23748
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-10T08:42:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - 1E NightWatchman Power Scheme - Set to Short Presentation Mode - Win\Mac</Title>
+    <Description><![CDATA[<P>This Fixlet configures 1E to enforce a Presentation power scheme. Computer will turn off monitor after 2 hours.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance>if (Windows of Operating System) then (exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)) else (exists file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;)</Relevance>
+    <Relevance>if (Windows of Operating System) then ( exists (values &quot;DiskAC&quot; whose (it != 15) of it; values &quot;DiskDC&quot; whose (it != 5) of it; values &quot;hibernateac&quot; whose (it != 180) of it; values &quot;hibernatedc&quot; whose (it != 180) of it; values &quot;monitorac&quot; whose (it != 180) of it; values &quot;monitordc&quot; whose (it != 180) of it; values &quot;standbyac&quot; whose (it != 200) of it; values &quot;standbydc&quot; whose (it != 200) of it) of key &quot;PowerSettings&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry ) else (exists (integers &quot;DiskAC&quot; whose (it != 15) of it; integers &quot;DiskDC&quot; whose (it != 5) of it; integers &quot;HibernateAC&quot; whose (it != 180) of it; integers &quot;HibernateDC&quot; whose (it != 180) of it; integers &quot;MonitorAC&quot; whose (it != 180) of it; integers &quot;MonitorDC&quot; whose (it != 180) of it; integers &quot;StandbyAC&quot; whose (it != 200) of it; integers &quot;StandbyDC&quot; whose (it != 200) of it) of dictionary &quot;PowerSettings&quot; of dictionary of file &quot;/Library/Preferences/com.1E.NightWatchman.plist&quot; )</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;1ECLI&quot;=&quot;{if (windows of operating system) then (pathname of file &quot;NightWatchman.exe&quot; of folder (value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry as string)) else (pathname of file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;) }&quot;
+
+if {Windows of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -diskac=15 -diskdc=5 -hibernateac=180 -hibernatedc=180 -monitorac=180 -monitordc=180 -standbyac=200 -standbydc=200
+elseif {Mac of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -s diskac 15 diskdc 5 hibernateac 180 hibernatedc 180 monitorac 180 monitordc 180 standbyac 200 standbydc 200
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

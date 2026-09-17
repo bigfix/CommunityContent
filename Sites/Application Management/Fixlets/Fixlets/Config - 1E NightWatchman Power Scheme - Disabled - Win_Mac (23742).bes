@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - 1E NightWatchman Power Scheme - Disabled - Win\Mac
+  ID       : 23742
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-10T08:41:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - 1E NightWatchman Power Scheme - Disabled - Win\Mac</Title>
+    <Description><![CDATA[<P>This Fixlet configures 1E to enforce a power scheme.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance>if (Windows of Operating System) then (exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)) else (exists file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;)</Relevance>
+    <Relevance>if (Windows of Operating System) then (value &quot;PowerScheme&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry as string as uppercase = &quot;ON&quot;) else (boolean &quot;PowerScheme&quot; of dictionary of file &quot;/Library/Preferences/com.1E.NightWatchman.plist&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;Setting&quot;=&quot;powerscheme&quot;
+parameter &quot;Value&quot;=&quot;OFF&quot;
+
+parameter &quot;1ECLI&quot;=&quot;{if (windows of operating system) then (pathname of file &quot;NightWatchman.exe&quot; of folder (value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry as string)) else (pathname of file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;) }&quot;
+
+if {Windows of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -{parameter &quot;Setting&quot;}={parameter &quot;Value&quot;}
+elseif {Mac of Operating System}
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -s {parameter &quot;Setting&quot;} {parameter &quot;Value&quot;}
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

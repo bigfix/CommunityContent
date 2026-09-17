@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Config - RES ONE Workspace Database - Set Agent Whitelisting to Enforced - Windows
+  ID       : 22934
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Config - RES ONE Workspace Database - Set Agent Whitelisting to Enforced - Windows</Title>
+    <Description><![CDATA[
+
+<P>Configure the RES ONE Workspace Environment to enforce Application Whitelisting!</P>
+<p>
+	This Fixlet deploys a RES <i>Building Block</i> that enables Application Whitelisting to your RES ONE Workspace Environment.
+</p>
+<P>
+	This fixlet will <b>only be applicable against the BigFix Root Server </b>. The Building Block deployment will take place using the Root Server as a launching point. From the Root Server, this fixlet will launch the RES ONE Workspace Console over the command line to import the building block. If this task does not work it's likely there is a configuration issue with the console or a permissions issue with SQL.
+</P>
+<h5><FONT color=#ff0000><STRONG>NOTE:</FONT></STRONG> Settings below are configured via the this building block!</h5>
+<p>
+	<ul>
+		<li>
+			Application Whitelisting will be set to Enforced mode.
+		</li>
+		<li>
+			The RES ONE Workspace Agent will be configured to log denies.
+		</li>
+	</ul>
+</p>
+
+	<p>This task will enable Application Whitelisting with a mode of Enforced as the default.</p><br>
+	<p>This is performed by writing out a RES ONE Workspace Building Block and importing it unattended using the console installed on the BigFix Root Server. If this task does not work it's likely there is a configuration issue with the console or a permissions issue with SQL.]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\enablewhitelist.xml"}"
+createfile until __done
+
+<?xml version="1.0"?>
+<!-- RES ONE Workspace Building Block -->
+<!-- Created by BigFix on 11-8-2015 15:30:14 -->
+<respowerfuse>
+	<version>9.10.0.0</version>
+	<buildingblock>
+		<appguardsettings>
+			<mode>enabled</mode>
+			<logevents>yes</logevents>
+			<showmessage>yes</showmessage>
+			<checkrunningappsonrefresh>terminateapp</checkrunningappsonrefresh>
+			<message encrypted="yes"></message>
+			<allowmessagedisabling>yes</allowmessagedisabling>
+			<checkhashes>yes</checkhashes>
+			<discoverhashes/>
+			<discoverhashesonce/>
+			<exceptions/>
+		</appguardsettings>
+    <appguardfiletypes complete="yes">
+			<mode>enabled</mode>
+			<logevents>yes</logevents>
+			<showmessage>yes</showmessage>
+			<message encrypted="yes"></message>
+			<allowmessagedisabling>yes</allowmessagedisabling>
+			<exceptions/>
+		</appguardfiletypes>
+	</buildingblock>
+</respowerfuse>
+
+__done
+copy __createfile "{(value of variable "temp" of environment) & "\enablewhitelist.xml"}"
+wait "{(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}" /add "{(value of variable "temp" of environment) & "\enablewhitelist.xml"}"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

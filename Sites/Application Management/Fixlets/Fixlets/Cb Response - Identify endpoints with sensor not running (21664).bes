@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cb Response - Identify endpoints with sensor not running
+  ID       : 21664
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cb Response - Identify endpoints with sensor not running</Title>
+    <Description><![CDATA[This Fixlet will become relevant on endpoints where the Cb Response Sensor is installed, but not currently running.&nbsp; Use it within a policy action to ensure the&nbsp;Sensor stays running. ]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>if (windows of operating system) then (exists keys whose (value &quot;DisplayName&quot; of it = &quot;Carbon Black Sensor&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) else (exists package &quot;cbsensor&quot; of rpm)</Relevance>
+    <Relevance>if (windows of operating system) then (state of service whose (display name of it = &quot;Carbon Black Sensor&quot;) = &quot;Stopped&quot;) else (not exists process &quot;cbdaemon&quot;)</Relevance>
+    <Relevance>(windows of operating system) OR (exists match (regex &quot;Linux CentOS (6|7)&quot;) of name of operating system) OR ((name of operating system starts with &quot;Linux Red Hat&quot;) AND (exists file &quot;/etc/redhat-release&quot; whose (exists line whose (exists match (regex &quot;Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7&quot;) of it) of it) AND NOT exists file &quot;/etc/vmware-release&quot; whose (exists line whose (it contains &quot;VMware ESX&quot;) of it) AND NOT exists file &quot;/etc/enterprise-release&quot; whose (exists line whose (it contains &quot;Enterprise Linux Enterprise Linux&quot;) of it)))</Relevance>
+    <Category>Application Maintenance</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:38:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {windows of operating system}
+	parameter "ServiceName" = "carbonblack"
+
+	delete __appendfile
+	delete netquiet.bat
+
+	appendfile @ECHO OFF
+	appendfile start "" /min /b net %1 %2 /y > NUL 2> NUL
+	move __appendfile netquiet.bat
+
+	waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat start "{parameter "ServiceName" of action}"
+
+	delete netquiet.bat
+elseif {(exists match (regex "Linux CentOS (6|7)") of name of operating system) OR ((name of operating system starts with "Linux Red Hat") AND (exists file "/etc/redhat-release" whose (exists line whose (exists match (regex "Red Hat Enterprise Linux (Client|Server|Workstation) release 6|7") of it) of it) AND NOT exists file "/etc/vmware-release" whose (exists line whose (it contains "VMware ESX") of it) AND NOT exists file "/etc/enterprise-release" whose (exists line whose (it contains "Enterprise Linux Enterprise Linux") of it)))}
+	wait sh /etc/init.d/cbdaemon start
+else
+endif]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

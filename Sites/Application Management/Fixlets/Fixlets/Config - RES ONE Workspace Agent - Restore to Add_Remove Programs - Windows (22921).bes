@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Config - RES ONE Workspace Agent - Restore to Add/Remove Programs - Windows
+  ID       : 22921
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Config - RES ONE Workspace Agent - Restore to Add/Remove Programs - Windows</Title>
+    <Description></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys whose ((it starts with &quot;RES ONE Workspace&quot; and it ends with &quot;Agent&quot;) of (value &quot;RemovedProductName&quot; of it as string)) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to hide the RES Agent from the &quot;Add/Remove Programs&quot; list.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+parameter &quot;InstallKeyName&quot;=&quot;{key whose ((it starts with &quot;RES ONE Workspace&quot; and it ends with &quot;Agent&quot;) of (value &quot;RemovedProductName&quot; of it as string)) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry}&quot;
+
+continue if {exists key (parameter &quot;InstallKeyName&quot;) of native registry}
+
+regset64 &quot;[{parameter &quot;InstallKeyName&quot;}]&quot; &quot;ProductName&quot;=&quot;{value &quot;RemovedProductName&quot; of key (parameter &quot;InstallKeyName&quot;) of native registry}&quot;
+
+waithidden cmd.exe /c &quot;timeout /t 1&quot;
+
+continue if {exists value &quot;ProductName&quot; of key (parameter &quot;InstallKeyName&quot;) of native registry}
+
+regdelete64 &quot;[{parameter &quot;InstallKeyName&quot;}]&quot; &quot;RemovedProductName&quot;</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BFRC Tiny Core Broker - Helper and init.d Script Configuration
+  ID       : 26989
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:10:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BFRC Tiny Core Broker - Helper and init.d Script Configuration</Title>
+    <Description><![CDATA[<P>This task is relevant to Tinycore Appliances running the BFRC broker.</P> <P>This will do the following:</P> <P>- Create a functioning start/stop script: /etc/init.d/trcbroker<BR>&nbsp;&nbsp;&nbsp;&nbsp; - manages a tmp lock file so that the monitoring/helper script will not interfere with maintenance<BR>- Creates a monitoring/helper script: /home/tc/broker/broker_helper.sh<BR>&nbsp;&nbsp;&nbsp; &nbsp;- reboots the broker if the trc_icb process stops unexpectedly<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- sends messages to all active terminals with a reboot notice<BR>&nbsp;&nbsp;&nbsp; &nbsp;- sends email alerts of the trc_icb process failure<BR>- Configures a cronjob for the monitoring script<BR>- Configures bootlocal, filetool, onboot, and extensions</P> <P>&nbsp;</P>]]></Description>
+    <Relevance>name of operating system contains &quot;TinyCore&quot;</Relevance>
+    <Relevance>exists (names of processes whose (name of it = &quot;trc_icb&quot;))</Relevance>
+    <Relevance>not exists file &quot;/home/tc/broker/broker_helper.sh&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-10-04</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "EmailAddresses" with description "Enter the email addresses that will receive alert notifications.  If multiple addresses are entered, separate each address by a single space." with default value "No"
+
+//prefetch block for sendEmail config files
+
+//create helper log file and add write permissions
+
+if {not exists file "/var/log/trc_icb_helper.log"}
+
+wait touch /var/log/trc_icb_helper.log
+wait chmod 660 /var/log/trc_icb_helper.log
+
+endif
+
+//Create the init.d script
+createfile until endofscript1
+#!/bin/sh
+
+######################################################
+
+
+# trc_icb:    Starts/stops/restarts the BigFix Remote Control Broker
+# Modified from the HCL TCL script for the besclient - Makes use of the bigFixMenuLibrary for text colors
+# chkconfig: 2345 99 99
+# description: Starts and stops the BigFix Remote Control Broker daemon
+# processname: trc_icb
+#jules.miller@va.gov
+
+. /usr/bin/bigFixMenuLibrary
+
+prog=trc_icb
+LOCK=/tmp/trc_icb.lock
+
+test -x /opt/bigfix/trc/broker/$prog || exit 0
+
+start() {{
+	export XAUTHORITY=/root/.Xauthority
+	export DISPLAY=:0
+
+	config=/home/tc/broker/trc_broker.properties
+	if [ ! -f $config ]; then
+		/bin/echo "$RED Missing config file $config."
+		/bin/echo
+		return 1
+	fi
+	pid=`pidof $prog`
+	if [ -z "$pid" ]; then
+		sudo start-stop-daemon --start --exec /opt/bigfix/trc/broker/$prog --startas /opt/bigfix/trc/broker/$prog -- -s /home/tc/broker /home/tc/broker/trc_broker.properties $HOSTNAME /opt/bigfix/trc/broker >/dev/null 2>&1
+		ret=$?
+		if [ $ret -eq 0 ]; then
+			pid=`pidof $prog`
+			/bin/echo -n "Successfully started the BFRC$YELLOW $prog$WHITE"
+#Remove lock file on start
+			sudo rm -f $LOCK
+			if [ ! -f $LOCK ]; then
+				/bin/echo -e "\nLock file removed$GREEN.  Helper script will resume functionality."
+			fi
+		else
+			/bin/echo -n "$RED Failed to start the BFRC$YELLOW $prog$WHITE"
+			exit $ret
+		fi
+	else
+		/bin/echo -n "The BFRC$YELLOW $prog$WHITE is already running (pid $pid)"
+	fi
+	/bin/echo
+	return $ret
+}
+
+stop() {{
+	pid=`pidof $prog`
+	if [ -z "$pid" ]; then
+		/bin/echo -n "The BFRC$YELLOW $prog$WHITE is not running"
+	else
+		sudo start-stop-daemon --stop --exec /opt/bigfix/trc/broker/$prog >/dev/null 2>&1
+		ret=$?
+		if [ $ret -eq 0 ]; then
+			isRunning=true
+			while [ "$isRunning" == "true" ]; do
+				sleep 1
+				pid=`pidof $prog`
+				if [ -z "$pid" ]; then
+					isRunning=false
+				fi
+			done
+#Create a lock file for broker maintenance.  Helper script will not reboot the broker while the lockfile exists
+#using /etc/init.d/trcbroker start or rebooting the broker will remove the lock file
+		sudo touch $LOCK
+		/bin/echo -n "Successfully stopped the BFRC$YELLOW $prog$WHITE"
+		if [ -f $LOCK ]; then
+			/bin/echo -e "\nLock file created$GREEN.  Helper script will not interfere with maintenance."
+		fi
+		else
+			/bin/echo -n "$RED Failed to stop the BFRC$YELLOW $prog$WHITE"
+			exit $ret
+		fi
+	fi
+	/bin/echo
+	return $ret
+}
+
+restart() {{
+	stop
+	start
+}
+
+status() {{
+	pid=`pidof $prog`
+	if [ -z "$pid" ]; then
+		/bin/echo "The BFRC$YELLOW $prog$WHITE is not running"
+	else
+		/bin/echo "The BFRC$YELLOW $prog$WHITE is running: (pid $pid)"
+	fi
+}
+
+echo $WHITE
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		restart
+		;;
+	status)
+		status
+		;;
+	*)
+		/bin/echo "Usage:$gYELLOW trcbroker$WHITE {{start|stop|status|restart}"
+		;;
+esac
+return=$?
+echo $NORMAL
+exit $return
+
+endofscript1
+
+delete /etc/init.d/trcbroker
+move __createfile /etc/init.d/trcbroker
+wait chmod 750 /etc/init.d/trcbroker
+
+//Create the monitoring script
+createfile until endofscript2
+#!/bin/sh
+
+# BigFix Remote Control - Internet Connection Broker helper script
+# Run as a cronjob to automatically restart the broker if it is not running
+#jules.miller@va.gov
+
+if [ -z "$1" ]; then
+	echo "This script should not be run manually.  Ensure it is running as a job to automatically restart the broker when it has stopped unexpectedly."
+	exit 1
+fi
+
+LOGFILE=/var/log/trc_icb_helper.log
+
+prog=trc_icb
+LOCK=/tmp/trc_icb.lock
+
+#Only run if lock file is not present (lock file will only be created if the broker was stopped with the init.d script)
+
+if [ ! -f $LOCK ]; then
+
+	pid=`pidof $prog`
+	if [ -z "$pid" ]; then
+		touch $LOGFILE
+
+#Send message to any logged in user before the reboot
+
+		TTY=$(w | awk '{{print $2 }' | grep -v up | grep -v TTY)
+		for T in $TTY
+		do
+			echo "$(date) - BigFix Remote Control - Broker appears to have stopped unexpectedly, rebooting in 60 seconds..." > /dev/${{T}
+		done
+
+		if [ ! -z "$TTY" ]; then
+			sleep 60
+		fi
+
+#Send email alerts
+
+		sendEmail -f $HOSTNAME@BigFixAlerts.INSERT_DOMAIN_HERE -t {(parameter "EmailAddresses" of action as string as lowercase)} -u "Alert: BFRC Broker Rebooted - $HOSTNAME" -m "INSERT_MESSAGE_HERE" -s smtp.INSERT_DOMAIN_HERE:25
+
+#Reboot the box
+		echo "$(date) - BigFix Remote Control - Broker appears to have stopped unexpectedly, rebooting now." >> $LOGFILE
+		sudo reboot >> $LOGFILE 2>&1
+		exit 0
+	fi
+
+fi
+
+endofscript2
+
+delete /home/tc/broker/broker_helper.sh
+move __createfile /home/tc/broker/broker_helper.sh
+wait chmod 750 /home/tc/broker/broker_helper.sh
+
+//create file to use for crontab
+
+if {not exists file "/var/spool/cron/crontabs/root"}
+
+delete __appendfile
+appendfile */5 * * * * /bin/sh /home/tc/broker/broker_helper.sh 1
+
+if {exists file "/home/tc/newcrontab"}
+delete "/home/tc/newcrontab"
+endif
+
+continue if {not exists file "/home/tc/newcrontab"}
+
+move __appendfile /home/tc/newcrontab
+
+continue if {exists file "/home/tc/newcrontab"}
+
+endif
+
+//create script to add cronjob to crontab, add /var/spool/cron/crontabs directory to filetool.lst, add starting the cron service to bootlocal, and backup
+
+delete __appendfile
+appendfile #!/bin/sh
+
+if {exists file "/var/spool/cron/crontabs/root"}
+appendfile echo "*/5 * * * * /bin/sh /home/tc/broker/broker_helper.sh 1" >> "/var/spool/cron/crontabs/root"
+else
+appendfile sudo crontab /home/tc/newcrontab
+endif
+
+if {not exists lines whose (it contains "var/spool/cron/crontabs/") of file "/opt/.filetool.lst"}
+appendfile echo "var/spool/cron/crontabs/" >> /opt/.filetool.lst
+endif
+
+if {not exists lines whose (it contains "/sbin/syslogd") of file "/opt/bootlocal.sh"}
+appendfile echo "/sbin/syslogd" >> /opt/bootlocal.sh
+endif
+
+if {not exists lines whose (it contains "etc/init.d/trcbroker") of file "/opt/.filetool.lst"}
+appendfile echo "etc/init.d/trcbroker" >> /opt/.filetool.lst
+endif
+
+if {not exists lines whose (it contains "/etc/init.d/services/crond start") of file "/opt/bootlocal.sh"}
+appendfile echo "/etc/init.d/services/crond start" >> /opt/bootlocal.sh
+endif
+
+//This requires the sendEmail files to be cached
+if {not exists file "/mnt/sda1/tce/optional/sendEmail.tcz"}
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/sendEmail.tcz*")} /mnt/sda1/tce/optional/
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/perl5.tcz*")} /mnt/sda1/tce/optional/
+appendfile echo "ln -s /usr/local/bin/perl /usr/bin" >> /opt/bootlocal.sh
+appendfile echo "sendEmail.tcz" >> /mnt/sda1/tce/onboot.lst
+endif
+
+appendfile sudo filetool.sh -b
+appendfile sudo reboot
+
+delete /var/opt/BESClient/broker_script_config.sh
+move __appendfile /var/opt/BESClient/broker_script_config.sh
+wait chmod 555 /var/opt/BESClient/broker_script_config.sh
+run /bin/sh /var/opt/BESClient/broker_script_config.sh]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

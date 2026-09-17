@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Baseline Gold Images for Windows Approved Applications and System Files
+  ID       : 10553
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-03-24T05:00:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Baseline Gold Images for Windows Approved Applications and System Files</Title>
+    <Description><![CDATA[Deploy this task to trusted and secured endpoints or gold images.&nbsp; This task will enumerate and record all EXE and their associated hashes to be imported in to the applications whitelist. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 13:20:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160321-102103
+
+
+action uses wow64 redirection false
+action parameter query "bigfixserver" with description "Please enter your BigFix server name (bigfix.contoso.com)"
+action parameter query "algo" with description "Please enter the encription algorithm"
+action parameter query "cont" with description "Please enter the baseline container"
+
+
+delete __createfile
+delete "{(value of variable "temp" of environment) & "\whitebaseline.ps1"}"
+delete {(value of variable "temp" of environment)}\{(computer name)}.txt
+createfile until __done
+Function  hashSHA {"%7b"}
+Param(
+[parameter(Mandatory=$True)]$file,
+[parameter(Mandatory=$false)][ValidateSet("SHA1","SHA256")]$encr = "SHA256"
+)
+	$command = '$encr_alg = [Security.Cryptography.HashAlgorithm]::Create("$encr")'
+	Invoke-Expression $command
+     try{"%7b"}
+     $Hashstring = ([System.BitConverter]::ToString( $encr_alg.ComputeHash([System.IO.File]::ReadAllBytes($file)))) -replace ("-","")
+
+    $info = @{"%7b"}{"%7d"}
+    $info.Hash=$Hashstring
+    $info.Path=$file
+    $result = New-Object –TypeName PSObject –Prop $info
+
+    return $result
+     {"%7d"}
+     catch{"%7b"}{"%7d"}
+{"%7d"}
+
+cd c:\
+$f = "${"%7b"}env:Temp{"%7d"}" + "\whitebaseliner.csv"
+
+try{"%7b"}
+Get-ChildItem -force -recurse "C:\" *.exe -erroraction silentlycontinue |%{"%7b"}hashSHA -encr {parameter "algo" of action} -file $_.FullName{"%7d"}|select-object @{"%7b"}Name="Path"; Expression={"%7b"}$_.Path{"%7d"}{"%7d"},@{"%7b"}Name="Hash"; Expression={"%7b"}$_.Hash{"%7d"}{"%7d"}, @{"%7b"}Name="Process"; Expression={"%7b"}"*"{"%7d"}{"%7d"},@{"%7b"}Name="Status"; Expression={"%7b"}"allow"{"%7d"}{"%7d"},@{"%7b"}Name="Container"; Expression={"%7b"}{"%22"}{parameter "cont" of action}{"%22"}{"%7d"}{"%7d"}|export-csv -delimiter "`t" -path $f -NoTypeInformation
+{"%7d"}
+catch{"%7b"}{"%7d"}
+$csv = Get-Content $f
+
+$csv = $csv[1..($csv.count - 1)]
+
+$csv > $f
+
+(Get-Content $f) | % {"%7b"}$_ -replace "`"", ""{"%7d"} | out-file -FilePath $f -Force -Encoding ascii
+
+__done
+delete "{(value of variable "temp" of environment) & "\whitebaseliner.csv"}"
+delete "{(value of variable "temp" of environment) & "\whitebaselinerlog.txt"}"
+copy __createfile "{(value of variable "temp" of environment) & "\whitebaseline.ps1"}"
+waithidden powershell.exe -executionpolicy unrestricted -file "{(value of variable "temp" of environment) & "\whitebaseline.ps1"}"
+move {(value of variable "temp" of environment)}\whitebaseliner.csv {(value of variable "temp" of environment)}\{(computer name)}.txt
+
+setting "_BESClient_ArchiveManager_FileSet-authfiles"="{(value of variable "temp" of environment)}\{(computer name)}.txt" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_SendAll"="1" on "{parameter "action issue date" of action}" for client
+archive now
+delete {(value of variable "temp" of environment)}\{(computer name)}.txt
+delete "{(value of variable "temp" of environment) & "\whitebaseline.ps1"}"
+delete "{(value of variable "temp" of environment) & "\whitebaseliner.csv"}"
+delete "{(value of variable "temp" of environment) & "\whitebaselinerlog.txt"}"
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - 1E NightWatchman Scheduled Actions - Shutdown at 8pm on Weekdays - Win\Mac
+  ID       : 23755
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-10T08:43:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - 1E NightWatchman Scheduled Actions - Shutdown at 8pm on Weekdays - Win\Mac</Title>
+    <Description><![CDATA[<P>This Fixlet configures 1E to shutdown the machine at 8pm each weekday night.</P>
+<P>This will overwrite any previously configured scheduled actions.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance>if (Windows of Operating System) then (exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)) else (exists file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;)</Relevance>
+    <Relevance>if (windows of operating system) then ( /* Days */ (set of (preceding text of first &quot;Logoff&quot; of it) of  names of values whose (name of it ends with &quot;LogoffAction&quot;) of key &quot;ScheduledActions&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) != set of (&quot;Monday&quot;;&quot;Tuesday&quot;;&quot;Wednesday&quot;;&quot;Thursday&quot;;&quot;Friday&quot;) or /* Hours */ exists (values whose (name of it ends with &quot;Hour&quot;) of key &quot;ScheduledActions&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) whose (it != 20) or /* Minutes */ exists (values whose (name of it ends with &quot;Minutes&quot;) of key &quot;ScheduledActions&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) whose (it != 0) or /* Logoff Actions */ exists (values whose (name of it ends with &quot;LogoffAction&quot;) of key &quot;ScheduledActions&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) whose (it as string as uppercase != &quot;ACTIVE&quot;) or exists (values whose (name of it ends with &quot;PowerdownAction&quot;) of key &quot;ScheduledActions&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry) whose (it as string as uppercase != &quot;POWEROFF&quot;) ) else (true)</Relevance>
+    <Relevance>if (Mac of Operating System) then ( exists ( strings &quot;Action&quot; whose (it != &quot;PowerOff&quot;) of it; strings &quot;LogOff&quot; whose (it != &quot;Active&quot;) of it; strings &quot;Time&quot; whose (it != &quot;20:00&quot;) of it; elements of (set of (strings &quot;Day&quot; of it) - (set of (&quot;Monday&quot;;&quot;Tuesday&quot;;&quot;Wednesday&quot;;&quot;Thursday&quot;;&quot;Friday&quot;))))  of (dictionaries of values of array &quot;ScheduledActions&quot; of dictionary of file &quot;/Library/Preferences/com.1E.NightWatchman.plist&quot;) ) else (true)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;Setting&quot;=&quot;scheduledactions&quot;
+
+parameter &quot;1ECLI&quot;=&quot;{if (windows of operating system) then (pathname of file &quot;NightWatchman.exe&quot; of folder (value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry as string)) else (pathname of file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;) }&quot;
+
+if {Windows of Operating System}
+
+	parameter &quot;Value&quot;=&quot;\&quot;WEEKDAYS(20:00,POWEROFF,ACTIVE)\&quot;&quot;
+
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -{parameter &quot;Setting&quot;}={parameter &quot;Value&quot;}
+
+elseif {Mac of Operating System}
+
+	parameter &quot;Value&quot;=&quot;WEEKDAYS=20:00,POWEROFF,ACTIVE&quot;
+
+	wait &quot;{parameter &quot;1ECLI&quot;}&quot; -{parameter &quot;Setting&quot;} {parameter &quot;Value&quot;}
+
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

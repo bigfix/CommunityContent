@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BigBrother v1.7
+  ID       : 27352
+  Author   : Mike_English
+  Domain   : BESC
+  Imported : 2024-07-23T14:15:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BigBrother v1.7</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=4>Lost or Stolen laptop but still reporting into the console?</FONT></STRONG></P>
+<P><FONT size=2>Deploy BigBrother to force enablement of location services, allow application access and get an approximate location using the BigBrother analysis.</FONT></P>
+<P><FONT size=2><STRONG>Note:</STRONG> Location services will use a combination of global positioning service (GPS), nearby wireless access points, cell towers, and&nbsp;the IP address to determine&nbsp;the device’s location. Depending on the capabilities of&nbsp;the device, the location can be determined with varying degrees of accuracy (accuracy results are reported in the BigBrother analysis).</FONT></P>
+<P><FONT size=1><EM>Tested on Windows 10 and Windows 11</EM></FONT></P>
+<P><EM><FONT size=1><STRONG>DISCLAIMER:</STRONG> This task is intended to be used responsibly and solely&nbsp;for the recovery of assets</FONT></EM></P>]]></Description>
+    <Relevance>((windows of it and name of it as lowercase does not start with &quot;win20&quot;) of operating system)</Relevance>
+    <Category>Asset Management / Forensics</Category>
+    <Source>michael.english@hcl-software.com</Source>
+    <SourceReleaseDate>2024-07-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 13 Jul 2024 18:36:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy BigBrother</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//BigBrother
+//Force Location services ON and allow application access
+delete "c:\windows\temp\bb1.ps1"
+delete __createfile
+createfile until _THEEND_
+$RegName = "LetAppsAccessLocation"
+$RegValue = 1
+$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
+If ((Test-Path $RegPath) -eq $false){{
+New-Item -Path $RegPath -ItemType Directory
+}
+If (-!(Get-ItemProperty -Path $RegPath -Name $RegName -ErrorAction SilentlyContinue)){{
+New-ItemProperty -Path $RegPath -Name $RegName -Value $RegValue
+}
+else{{
+Set-ItemProperty -Path $RegPath -Name $RegName -Value $RegValue
+}
+_THEEND_
+move __createfile "c:\windows\temp\bb1.ps1"
+waithidden powershell -ExecutionPolicy Bypass -command "c:\windows\temp\bb1.ps1"
+
+//------------------------------------------------------------------------------
+
+//Get Location
+delete "c:\windows\temp\bb"
+delete "c:\windows\temp\bb2.ps1"
+delete __createfile
+createfile until _THEEND_
+Add-Type -AssemblyName System.Device
+$BigBrother = New-Object System.Device.Location.GeoCoordinateWatcher(1)
+$BigBrother.Start()
+while (($BigBrother.Status -ne 'Ready') -and ($BigBrother.Permission -ne 'Denied')) {{
+    Start-Sleep -Seconds 3
+}
+if ($BigBrother.Permission -eq 'Denied'){{
+    Write-Error 'Access Denied (most likely location services is not turned on)'
+} else {{
+    $BigBrother.Position.Location | Select *
+}
+_THEEND_
+move __createfile "c:\windows\temp\bb2.ps1"
+waithidden powershell -ExecutionPolicy Bypass -command "c:\windows\temp\bb2.ps1 2>&1 > C:\windows\temp\bb"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28440">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to turn off location services</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// BigBrother
+//Turn off Location services
+delete &quot;c:\windows\temp\bb&quot;
+delete &quot;c:\windows\temp\bb1.ps1&quot;
+delete __createfile
+createfile until _THEEND_
+$Name = &quot;LetAppsAccessLocation&quot;
+$Value = 2
+$Path = &quot;HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy&quot;
+If ((Test-Path $Path) -eq $false){{
+New-Item -Path $Path -ItemType Directory
+}
+If (-!(Get-ItemProperty -Path $Path -Name $name -ErrorAction SilentlyContinue)){{
+New-ItemProperty -Path $Path -Name $Name -Value $Value
+}
+else{{
+Set-ItemProperty -Path $Path -Name $Name -Value $Value
+}
+_THEEND_
+move __createfile &quot;c:\windows\temp\bb1.ps1&quot;
+waithidden powershell -ExecutionPolicy Bypass -command &quot;c:\windows\temp\bb1.ps1&quot;</ActionScript>
+    </Action>
+  </Task>
+</BES>

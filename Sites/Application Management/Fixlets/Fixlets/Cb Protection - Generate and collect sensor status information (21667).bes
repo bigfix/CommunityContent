@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Cb Protection - Generate and collect sensor status information
+  ID       : 21667
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Cb Protection - Generate and collect sensor status information</Title>
+    <Description><![CDATA[This Task can be used to generate&nbsp;Carbon Black Protection Agent DasCLI status on a scheduled basis to collect details for the&nbsp;"Carbon Black Protection&nbsp;Agent Details" analysis, or on an ad-hoc basis on a given endpoint and upload it to the BigFix Server for troubleshooting purposes. ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>(exists keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) OR (((value &quot;DisplayVersion&quot; of keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) as string as version | (&quot;0.0&quot; as version)) = (&quot;7.2.2&quot; as version))</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>Carbon Black</Source>
+    <SourceReleaseDate>2016-01-21</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:37:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to schedule DasCLI status generation for &quot;Carbon Black Protection&amp;nbsp;Agent Details&quot; analysis.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// generate DasCLI.exe status output
+waithidden cmd.exe /s /c ""{value "ParityAgentInstallPath" of key "HKLM\Software\Bit9\Parity Agent" of registry as string & "dascli.exe"}" status > "{storage folder of client as string & "\bit9_dasclistatus.txt"}""]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action22591">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to generate Carbon Black Protection&amp;nbsp;Agent&amp;nbsp;DasCLI status and upload it to the BigFix Server for troubleshooting purposes.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// generate DasCLI.exe status output
+waithidden cmd.exe /s /c ""{value "ParityAgentInstallPath" of key "HKLM\Software\Bit9\Parity Agent" of registry as string & "dascli.exe"}" status > "{storage folder of client as string & "\bit9_dasclistatus.txt"}""
+
+// set max size to 15 MB to prevent too much data. If the zip file is to bigger than 15 MB the upload won't occur
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="15728640" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-client"="{storage folder of client as string & "\bit9_dasclistatus.txt"}" on "{parameter "action issue date" of action}" for client
+
+// upload results
+archive now]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

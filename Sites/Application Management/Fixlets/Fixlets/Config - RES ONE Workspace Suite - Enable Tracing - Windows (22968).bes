@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - RES ONE Workspace Suite - Enable Tracing - Windows
+  ID       : 22968
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - RES ONE Workspace Suite - Enable Tracing - Windows</Title>
+    <Description><![CDATA[&lt;Enables RES ONE Workspace Suite tracing to a RES Tracing folder in the root of the system drive.&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists value &quot;Trace&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+
+folder create &quot;{name of drive of system folder}\RES Tracing&quot;
+
+waithidden icacls &quot;{name of drive of system folder}\RES Tracing&quot; /grant &quot;Authenticated Users&quot;:(OI)(CI)M
+
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]&quot; &quot;Trace&quot;=&quot;Yes&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]&quot; &quot;TraceDetailed&quot;=&quot;Yes&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]&quot; &quot;TraceFile&quot;=&quot;{name of drive of system folder}\\RES Tracing\\RESONE.log&quot;
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

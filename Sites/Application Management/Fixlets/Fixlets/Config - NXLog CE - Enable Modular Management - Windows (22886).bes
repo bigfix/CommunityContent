@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - NXLog CE - Enable Modular Management - Windows
+  ID       : 22886
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-02T11:31:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - NXLog CE - Enable Modular Management - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet sets up the NXLog configuration to use a folder structure for its various configuration components. This allows an operator to drop a single extension, input, etc into a folder and have the client start forwarding logs for that application.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries</Relevance>
+    <Relevance>not exists files &quot;nxlog.conf&quot; whose (size of it = 430 or size of it = 424) of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)</Relevance>
+    <Category>NXLog CE</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-11-07</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;nxlog&quot;=&quot;{pathnames of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+parameter &quot;nxlog_conf&quot;=&quot;{pathnames of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+
+folder create &quot;{parameter &quot;nxlog_conf&quot;}&quot;
+
+createfile until _end_
+define ROOT {values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string}
+
+Moduledir %ROOT%\modules
+CacheDir %ROOT%\data
+Pidfile %ROOT%\data\nxlog.pid
+SpoolDir %ROOT%\data
+LogFile %ROOT%\data\nxlog.log
+
+#Definition Processing
+include %ROOT%\\conf\\Definition\\*.conf
+
+#Extension Processing
+include %ROOT%\\conf\\Extension\\*.conf
+
+#Input Processing
+include %ROOT%\\conf\\Input\\*.conf
+
+#Output Processing
+include %ROOT%\\conf\\Output\\*.conf
+_end_
+
+delete &quot;{parameter &quot;nxlog_conf&quot;}\nxlog.conf&quot;
+
+copy __createfile &quot;{parameter &quot;nxlog_conf&quot;}\nxlog.conf&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

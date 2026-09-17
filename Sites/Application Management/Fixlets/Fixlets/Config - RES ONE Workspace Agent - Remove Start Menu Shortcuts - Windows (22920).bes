@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Config - RES ONE Workspace Agent - Remove Start Menu Shortcuts - Windows
+  ID       : 22920
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Config - RES ONE Workspace Agent - Remove Start Menu Shortcuts - Windows</Title>
+    <Description></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files (&quot;Access Wizard.lnk&quot;;&quot;RES ONE Workspace Help.lnk&quot;;&quot;Usage Tracking Viewer.lnk&quot;) of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;)</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:56:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to remove RES ONE Workspace Agent start menu shortcuts.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+
+delete &quot;{pathname of file &quot;Access Wizard.lnk&quot; of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;)}&quot;
+delete &quot;{pathname of file &quot;RES ONE Workspace Help.lnk&quot; of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;)}&quot;
+delete &quot;{pathname of file &quot;Usage Tracking Viewer.lnk&quot; of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;)}&quot;
+
+if {not exists files of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;) }
+	folder delete &quot;{pathname of folder &quot;Microsoft\Windows\Start Menu\Programs\RES ONE Workspace&quot; of folder (expand environment string of &quot;%25ProgramData%25&quot;)}&quot;
+endif
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
