@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Hyper-V Guest Relay
+  ID       : 3627
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2013-10-22T13:08:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Hyper-V Guest Relay</Title>
+    <Description><![CDATA[All of my virtual Hyper-V hosts are also relays within my environment.&nbsp; Therefore this task will detect guests and configure their relays to be its parent host/relay. ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;Guest&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine&quot; of native registry</Relevance>
+    <Relevance>exists value &quot;PhysicalHostNameFullyQualified&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters&quot; of native registry</Relevance>
+    <Relevance>NOT exists service &quot;BESRootServer&quot;</Relevance>
+    <Relevance>(value &quot;RegisteredOrganization&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) = &quot;Moran IT&quot;</Relevance>
+    <Relevance>if exists setting &quot;__RelayServer1&quot; of client then     NOT(          (value of setting &quot;__RelayServer1&quot; of client as string)          contains          (value &quot;PhysicalHostNameFullyQualified&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters&quot; of native registry as string)      ) else true</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-07-20</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Aug 2012 21:11:28 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//1. configure manual relay selection
+setting &quot;__RelaySelect_Automatic&quot;=&quot;0&quot; on &quot;{now}&quot; for client
+
+//now configure host server
+setting &quot;__RelayServer1&quot;=&quot;http%3a%2f%2f{value &quot;PhysicalHostNameFullyQualified&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Virtual Machine\Guest\Parameters&quot; of native registry}%3a52311%2fbfmirror%2fdownloads%2f&quot; on &quot;{now}&quot; for client
+
+//keep client settings clean, delete unneeded settings
+setting delete &quot;__RelayServer2&quot; on &quot;{now}&quot; for client
+setting delete &quot;_BESClient_RelaySelect_TertiaryRelayList&quot; on &quot;{now}&quot; for client
+setting delete &quot;_BESClient_RelaySelect_FailoverRelay&quot; on &quot;{now}&quot; for client
+
+//also clear the HostSelector value since it is the &quot;cache&quot; for the relay to talk to
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\GlobalOptions]&quot; &quot;HostSelector&quot;=&quot;&quot;
+
+
+relay select</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

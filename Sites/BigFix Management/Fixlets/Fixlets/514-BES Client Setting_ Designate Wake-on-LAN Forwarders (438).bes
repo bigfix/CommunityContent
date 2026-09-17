@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Designate Wake-on-LAN Forwarders
+  ID       : 438
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Designate Wake-on-LAN Forwarders</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P><LINK rel=stylesheet type=text/css href="descriptionTable.css">This Task will configure selected clients to forward the "Wake-on-LAN" packet to computers within their respective subnets.</P> <P>If a subnet does not have an active Wake-on-LAN packet forwarder, BigFix will not be able to awaken machines in that subnet using Wake-on-LAN.&nbsp; </P> <P>In addition to the existing TEM Wake-on-LAN technology, the new BESWolMedic.exe (version 1.5.30 or above) uses a directed broadcast wake-up technology that does not require any Wake-on-LAN forwarder and Last Man Standing computers. Your TEM Server firewall may prompt a network security warning on the first time the utility is running.</P><P>If the permission to access the network is not approved at your TEM Server, no directed broadcast will be issued. Nevertheless, the existing TEM Wake-on-LAN technology will continue to work.</P><DIV style="DISPLAY: none" id=activateMessage></DIV> <DIV style="WIDTH: 600px; DISPLAY: none" id=results></DIV> <SCRIPT type=text/javascript src="sorttable.js"></SCRIPT> <SCRIPT type=text/javascript src="EnableClientWakeOnLAN.js"></SCRIPT> <P></P> <P>Without automatic relay selection, the forwarder will not be effective until the BES Client registers again, which can take up to one day.</P> <P><STRONG>Note:</STRONG> Do <STRONG>not</STRONG> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly perform auto relay selection. </P> <P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG>&nbsp;Depending on the details of your network,&nbsp;causing all the BES Clients to simultaneously do relay autoselection might cause a heavy load on the routers while they handle the ICMP traffic from the BES Clients. If you are worried about this, use the "temporal distribution" option&nbsp;in the Execution tab of the Take Action dialog when sending this action.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>not exists setting &quot;_BESClient_Comm_WakeOnLanForwardingEnable&quot; whose(value of it = &quot;1&quot;) of client</Relevance>
+    <Category>Wake-on-LAN</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2010-08-13</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 Aug 2012 01:09:07 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 05 Aug 2008 16:16:51 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>Manage_WOL_Forwarders</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to designate Wake-on-LAN packet forwarders without automatic relay selection.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Comm_WakeOnLanForwardingEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+    <Action ID="Action662">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to designate Wake-on-LAN packet forwarders with automatic relay selection.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Comm_WakeOnLanForwardingEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+relay select</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

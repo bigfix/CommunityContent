@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run Scanner
+  ID       : 72
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run Scanner</Title>
+    <Description><![CDATA[This task will run an Nmap scan from the selected computers to detect unmanaged computers and network devices. Use the links below to either scan the entire local subnet or to specify a particular IP range.<BR><BR>Once complete, the scan data will be uploaded to the BES Server and automatically imported into the BES Server database by the Asset Discovery Import Service. You will then be able to view the results through the Unmanaged Assets report interface.<BR><BR>To schedule repeated scans or to specify advanced configuration options such as additional ports, timing/agressiveness options, specific hosts to exclude, and other Nmap command line switches, use the BigFix Asset Discovery Nmap Configuration Wizard to generate a custom Nmap Scan Fixlet message.<BR><BR><B>Note:</B> Nmap is an open-source utility for network scanning.&nbsp; For more information on Nmap, as well as advanced configuration options, visit the link below.<BR><BR><B>Note:</B> Client machines may briefly display dos and command prompt windows as a result of running the action below. ]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[number of (unique values of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)) > 0]]></Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")]]></Relevance>
+    <Relevance><![CDATA[(number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it ) of ( unique values of (subnet masks of ip interfaces whose (loopback of it = false) of network as string ) as string) ) >= 22]]></Relevance>
+    <Relevance><![CDATA[if name of operating system as string as lowercase contains "win" then     (exists file "Proj/FC/nmap/nmap.exe" whose (version of it >= "5.21") of parent folder of client) else     if name of operating system as string as lowercase contains "mac os x" then         (exists regapp whose (name of it as string as lowercase contains "zenmap" AND version of it >= "5.21"))     else         if name of operating system as string as lowercase contains "linux" then             (exists file "/usr/bin/nmap" whose (size of it = 2235920 AND sha1 of it = "fc5d5c6b19f9822536063b9b34f687684e973604"))         else             false]]></Relevance>
+    <Relevance><![CDATA[if name of operating system as string as lowercase contains "win" then     if exists file "wpcap.dll" of system folder then (version of file "wpcap.dll" of system folder >= "4.1") else false else     true]]></Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-02-04</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-adcategory</Name>
+      <Value>scan</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Sun, 20 Feb 2005 01:25:55 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 04 Oct 2012 22:34:22 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run a simple ping scan on the local subnet(s).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "path"="{pathname of parent folder of client}/Proj/FC"
+folder create "{pathname of parent folder of client}/Proj"
+folder create "{parameter "path"}"
+parameter "Relay"="{(if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server:52311")}"
+parameter "BFPort"="{if (parameter "Relay" as string contains ":") then (following text of first ":" of parameter "Relay") else "52311"}"
+parameter "start_time"="{now}"
+parameter "fcXMLFilePath"="{parameter "path"}/PingScan-{computer name}-{computer id}.xml"
+//this is to copy over the new scan file to the old one for asset discovery compatibility
+parameter "current_time"="{(now - "01 Jan 1970 00:00:00" as local time)/second}"
+if {name of operating system as string as lowercase contains "win"}
+	parameter "nmapXMLFilePath"="{pathname of windows folder}\temp\nmap\nmap-{computer name}-{parameter "current_time"}.xml"
+	if {not exists folder (pathname of windows folder & "\temp")}
+		folder create "{pathname of windows folder & "\temp"}"
+	endif
+	if {not exists folder (pathname of windows folder & "\temp\nmap")}
+		folder create "{pathname of windows folder & "\temp\nmap"}"
+	endif
+else
+	parameter "nmapXMLFilePath"="{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP/nmap-" & (computer name as string) & "-" & (parameter "current_time" as string) & ".xml"}"
+	if {not exists folder (parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP")}
+		folder create "{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP"}"
+	endif
+	if {not exists folder (parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP")}
+		folder create "{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP"}"
+	endif
+endif
+parameter "SubNets"="{concatenation " " of (subnet address of it as string & "/" & (it as string) of number of bits (0;1;2;3;4;5;6;7) whose (it) of (it as integer) of (if it contains "." then preceding text of first "." of it else it) of (it; following texts of substrings "." of it) of (subnet masks of it as string)) of ip interfaces whose (loopback of it = false and subnet address of it as string != "0.0.0.0" and not (subnet address of it as string starts with "169.")) of network}"
+continue if {parameter "SubNets" as trimmed string != ""}
+// create a batch file so that the NMAP scan will be silent
+delete __appendfile
+if {name of operating system as string as lowercase contains "win"}
+	parameter "nmapPath"="{parameter "path"}/nmap/nmap.exe"
+	parameter "nmapScr"="fcquiet.bat"
+	appendfile @ECHO OFF
+elseif {name of operating system as string as lowercase contains "mac os x"}
+	parameter "nmapPath"="/usr/local/bin/nmap"
+	parameter "nmapScr"="fcquiet.sh"
+	appendfile #!/bin/sh
+else
+	parameter "nmapPath"="/usr/bin/nmap"
+	parameter "nmapScr"="fcquiet.sh"
+	appendfile #!/bin/sh
+endif
+delete {parameter "nmapScr"}
+parameter "exclude"="{concatenation "," of (addresses whose (it as string != "0.0.0.0" and not (it as string starts with "169.")) of ip interfaces whose (loopback of it = false) of network as string)}"
+//ADJUST SPEED BASED ON NUMBER OF ADDRESSES TO BE SCANNED
+if {(following text of last "/" of parameter "SubNets" as integer) <= 24}
+	parameter "speed"="T4"
+elseif {(following text of last "/" of parameter "SubNets" as integer) <= 21}
+	parameter "speed"="T3"
+elseif {(following text of last "/" of parameter "SubNets" as integer) <= 19}
+	parameter "speed"="T2"
+else
+	parameter "speed"="T1"
+endif
+//simple ping sweep
+appendfile "{parameter "nmapPath"}" -sP -PR -{parameter "speed"} --exclude "{parameter "exclude"}" --randomize-hosts {parameter "SubNets"} -oX "{parameter "fcXMLFilePath"}"
+//port scan...
+//appendfile "{parameter "nmapPath"}" -{parameter "speed"} --exclude "{parameter "exclude"}" -pT:{parameter "BFPort"},53,3389,80,25,22,443,445,21,113,23,554,1723,389,636,256,1433,U:{parameter "BFPort"},31,123,137,445,338 -O --randomize-hosts {parameter "SubNets"} -oX "{parameter "fcXMLFilePath"}"
+move __appendfile {parameter "nmapScr"}
+//run nmap scan
+if {name of operating system as string as lowercase contains "win"}
+	waithidden {parameter "nmapScr"}
+elseif {name of operating system as string as lowercase contains "mac os x"}
+	wait chmod 555 "{(client folder of current site as string) & "/" & parameter "nmapScr"}"
+	wait {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/" & parameter "nmapScr" & "'%22"}
+else
+	wait chmod 555 {parameter "nmapScr"}
+	wait ./{parameter "nmapScr"}
+endif
+//now make a copy of the file for asset discovery
+delete "{parameter "nmapXMLFilePath"}"
+if {exists file (parameter "fcXMLFilePath")}
+	copy "{parameter "fcXMLFilePath"}" "{parameter "nmapXMLFilePath"}"
+endif
+//update stats file
+delete __appendfile
+appendfile [Scan History]
+appendfile InstallTime={if exists ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}
+appendfile LastScanStartTime={parameter "start_time"}
+appendfile LastScanFinishTime={now}
+appendfile LastFileCreated=
+appendfile LastScanType=Ping
+appendfile NumberOfScansRun={(if exists ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as integer) else 0) + 1}
+appendfile LastSubnetScanned={parameter "SubNets"}
+appendfile NmapVersion={if exists ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}
+delete "{parameter "path"}/NMAP.ini"
+move __appendfile "{parameter "path"}/NMAP.ini"
+//backward compatibility with asset discovery
+if {name of operating system as string as lowercase contains "win"}
+	delete __appendfile
+	delete scanPoint.reg
+	appendfile REGEDIT4
+	appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]
+	appendfile "InstallTime"="{if exists ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "LastScanStartTime"="{if exists ((key "LastScanStartTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastScanStartTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "LastScanFinishTime"="{if exists ((key "LastScanFinishTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastScanFinishTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "LastFileCreated"="{if exists ((key "LastFileCreated" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastFileCreated" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "NumberOfScansRun"="{if exists ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "LastSubnetScanned"="{if exists ((key "LastSubnetScanned" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastSubnetScanned" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	appendfile "NmapVersion"="{if exists ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+	// set initial registry key values
+	move __appendfile scanPoint.reg
+	wait regedit -s scanPoint.reg
+	continue if {exists value "NumberOfScansRun" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" of x32 registry}
+else
+	delete "{(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}"
+	copy "{parameter "path"}/NMAP.ini" "{(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}"
+endif
+//backward compatibility with asset discovery
+setting "_BESClient_ArchiveManager_FileSet-nmap{parameter "current_time"}"="{parameter "nmapXMLFilePath"}" on "{parameter "action issue date" of action}" for client
+//what to send
+setting "_BESClient_ArchiveManager_FileSet-FullCoverage"="{parameter "path"}/*.xml" on "{parameter "action issue date" of action}" for client
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">NOT((exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/NMAP.ini&quot;)) AND (exists file whose (name of it contains &quot;PingScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;)) AND (exists lines whose (it as string as lowercase contains &quot;nmap done at&quot; OR it as string as lowercase contains &quot;nmap run completed at&quot;) of file whose (name of it contains &quot;PingScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;)) AND (size of file whose (name of it contains &quot;PingScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;) &lt;= ((value of setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client) as integer)))</SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action214">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about our Scanner.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.insecure.org/nmap/</ActionScript>
+    </Action>
+    <Action ID="Action215">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about BES Asset Discovery.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/sites/assetdiscovery.html</ActionScript>
+    </Action>
+    <Action ID="Action217">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run a full port scan on the local subnet(s).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "path"="{pathname of parent folder of client}/Proj/FC"
+folder create "{pathname of parent folder of client}/Proj"
+folder create "{parameter "path"}"
+parameter "Relay"="{(if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server:52311")}"
+parameter "BFPort"="{if (parameter "Relay" as string contains ":") then (following text of first ":" of parameter "Relay") else "52311"}"
+parameter "start_time"="{now}"
+parameter "fcXMLFilePath"="{parameter "path"}/PortScan-{computer name}-{computer id}.xml"
+//this is to copy over the new scan file to the old one for asset discovery compatibility
+parameter "current_time"="{(now - "01 Jan 1970 00:00:00" as local time)/second}"
+if {name of operating system as string as lowercase contains "win"}
+	parameter "nmapXMLFilePath"="{pathname of windows folder}\temp\nmap\nmap-{computer name}-{parameter "current_time"}.xml"
+	if {not exists folder (pathname of windows folder & "\temp")}
+		folder create "{pathname of windows folder & "\temp"}"
+	endif
+	if {not exists folder (pathname of windows folder & "\temp\nmap")}
+		folder create "{pathname of windows folder & "\temp\nmap"}"
+	endif
+else
+	parameter "nmapXMLFilePath"="{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP/nmap-" & (computer name as string) & "-" & (parameter "current_time" as string) & ".xml"}"
+	if {not exists folder (parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP")}
+		folder create "{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP"}"
+	endif
+	if {not exists folder (parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP")}
+		folder create "{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP"}"
+	endif
+endif
+parameter "SubNets"="{concatenation " " of (subnet address of it as string & "/" & (it as string) of number of bits (0;1;2;3;4;5;6;7) whose (it) of (it as integer) of (if it contains "." then preceding text of first "." of it else it) of (it; following texts of substrings "." of it) of (subnet masks of it as string)) of ip interfaces whose (loopback of it = false and subnet address of it as string != "0.0.0.0" and not (subnet address of it as string starts with "169.")) of network}"
+continue if {parameter "SubNets" as trimmed string != ""}
+// create a batch file so that the NMAP scan will be silent
+delete __appendfile
+if {name of operating system as string as lowercase contains "win"}
+	parameter "nmapPath"="{parameter "path"}/nmap/nmap.exe"
+	parameter "nmapScr"="fcquiet.bat"
+	appendfile @ECHO OFF
+elseif {name of operating system as string as lowercase contains "mac os x"}
+	parameter "nmapPath"="/usr/local/bin/nmap"
+	parameter "nmapScr"="fcquiet.sh"
+	appendfile #!/bin/sh
+else
+	parameter "nmapPath"="/usr/bin/nmap"
+	parameter "nmapScr"="fcquiet.sh"
+	appendfile #!/bin/sh
+endif
+delete {parameter "nmapScr"}
+parameter "exclude"="{concatenation "," of (addresses whose (it as string != "0.0.0.0" and not (it as string starts with "169.")) of ip interfaces whose (loopback of it = false) of network as string)}"
+//ADJUST SPEED BASED ON NUMBER OF ADDRESSES TO BE SCANNED
+if {(following text of last "/" of parameter "SubNets" as integer) <= 24}
+	parameter "speed"="T4"
+elseif {(following text of last "/" of parameter "SubNets" as integer) <= 21}
+	parameter "speed"="T3"
+elseif {(following text of last "/" of parameter "SubNets" as integer) <= 19}
+	parameter "speed"="T2"
+else
+	parameter "speed"="T1"
+endif
+//simple ping sweep
+//appendfile "{parameter "nmapPath"}" -sP -PR -{parameter "speed"} --exclude "{parameter "exclude"}" --randomize-hosts {parameter "SubNets"} -oX "{parameter "fcXMLFilePath"}"
+//port scan...
+appendfile "{parameter "nmapPath"}" -{parameter "speed"} --exclude "{parameter "exclude"}" -pT:{parameter "BFPort"},53,3389,80,25,22,443,445,21,113,23,554,1723,389,636,256,1433,U:{parameter "BFPort"},31,123,137,445,338 -O --randomize-hosts {parameter "SubNets"} -oX "{parameter "fcXMLFilePath"}"
+move __appendfile {parameter "nmapScr"}
+//run nmap scan
+if {name of operating system as string as lowercase contains "win"}
+	waithidden {parameter "nmapScr"}
+elseif {name of operating system as string as lowercase contains "mac os x"}
+	wait chmod 555 "{(client folder of current site as string) & "/" & parameter "nmapScr"}"
+	wait {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/" & parameter "nmapScr" & "'%22"}
+else
+	wait chmod 555 {parameter "nmapScr"}
+	wait ./{parameter "nmapScr"}
+endif
+//now make a copy of the file for asset discovery
+delete "{parameter "nmapXMLFilePath"}"
+if {exists file (parameter "fcXMLFilePath")}
+	copy "{parameter "fcXMLFilePath"}" "{parameter "nmapXMLFilePath"}"
+endif
+//update stats file
+delete __appendfile
+appendfile [Scan History]
+appendfile InstallTime={if exists ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}
+appendfile LastScanStartTime={parameter "start_time"}
+appendfile LastScanFinishTime={now}
+appendfile LastFileCreated=
+appendfile LastScanType=Port
+appendfile NumberOfScansRun={(if exists ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as integer) else 0) + 1}
+appendfile LastSubnetScanned={parameter "SubNets"}
+appendfile NmapVersion={if exists ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}
+delete "{parameter "path"}/NMAP.ini"
+move __appendfile "{parameter "path"}/NMAP.ini"
+////backward compatibility with asset discovery
+//if {name of operating system as string as lowercase contains "win"}
+//	delete __appendfile
+//	delete scanPoint.reg
+//
+//	appendfile REGEDIT4
+//	appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]
+//	appendfile "InstallTime"="{if exists ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "InstallTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "LastScanStartTime"="{if exists ((key "LastScanStartTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastScanStartTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "LastScanFinishTime"="{if exists ((key "LastScanFinishTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastScanFinishTime" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "LastFileCreated"="{if exists ((key "LastFileCreated" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastFileCreated" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "NumberOfScansRun"="{if exists ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NumberOfScansRun" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "LastSubnetScanned"="{if exists ((key "LastSubnetScanned" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "LastSubnetScanned" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//	appendfile "NmapVersion"="{if exists ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini"))) then ((key "NmapVersion" of section "Scan History" of file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")) as string) else ""}"
+//
+//	// set initial registry key values
+//	move __appendfile scanPoint.reg
+//	wait regedit -s scanPoint.reg
+//
+//	continue if {exists value "NumberOfScansRun" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" of x32 registry}
+//else
+//	delete "{(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}"
+//	copy "{parameter "path"}/NMAP.ini" "{(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}"
+//endif
+//
+//
+////backward compatibility with asset discovery
+//setting "_BESClient_ArchiveManager_FileSet-nmap{parameter "current_time"}"="{parameter "nmapXMLFilePath"}" on "{parameter "action issue date" of action}" for client
+//what to send
+setting "_BESClient_ArchiveManager_FileSet-FullCoverage"="{parameter "path"}/*.xml" on "{parameter "action issue date" of action}" for client
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">NOT((exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/NMAP.ini&quot;)) AND (exists file whose (name of it contains &quot;PortScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;)) AND (exists lines whose (it as string as lowercase contains &quot;nmap done at&quot; OR it as string as lowercase contains &quot;nmap run completed at&quot;) of file whose (name of it contains &quot;PortScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;)) AND (size of file whose (name of it contains &quot;PortScan&quot; and name of it contains computer id as string) of folder (pathname of parent folder of client as string &amp; &quot;/Proj/FC/&quot;) &lt;= ((value of setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client) as integer)))</SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

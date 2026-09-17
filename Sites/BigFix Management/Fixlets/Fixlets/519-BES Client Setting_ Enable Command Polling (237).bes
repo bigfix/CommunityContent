@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Enable Command Polling
+  ID       : 237
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Enable Command Polling</Title>
+    <Description><![CDATA[
+BES Clients listen for UDP commands that have been sent to them by their parent Relay or Server.&nbsp; Sometimes UDP commands may not make it to a Client, as when UDP has been blocked by a firewall or there is a significant amount of network traffic.<BR><BR>This task configures Clients to poll their parent Relay or Server once an hour for UDP commands they may have missed (BigFix 6.0+).<BR><BR><b>Note</b>: The minimum value for the polling interval is 1 minute and the maximum is 2 days.<BR><BR><b>Note:</b>&nbsp; Setting the polling interval to less than 20 minutes may cause performances issues and is not recommended.
+]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 19 Aug 2009 22:45:57 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 16 Aug 2012 21:33:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;b&gt;disable&lt;/b&gt; command polling in Clients (default).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting delete &quot;_BESClient_Comm_CommandPollEnable&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+    <Action ID="Action423">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;b&gt;enable&lt;/b&gt; command polling in Clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;3600&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+    <Action ID="Action424">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;b&gt;enable&lt;/b&gt; command polling in Clients for intervals of a specified number of seconds. You will be prompted for the number of seconds between polls.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "CommandPollIntervalSeconds" with description "Enter the number of seconds between polls for UDP commands:" with default "3600"
+// Ensure interval greater than or equal to a minute and
+// less than or equal to a month
+continue if {(it >= 60 and it <= 172800) of (parameter "CommandPollIntervalSeconds" of action as integer)}
+setting "_BESClient_Comm_CommandPollEnable"="1" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_Comm_CommandPollIntervalSeconds"="{parameter "CommandPollIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action425">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information on setting the gather interval for a TEM Client to enable command polling.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21505846</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

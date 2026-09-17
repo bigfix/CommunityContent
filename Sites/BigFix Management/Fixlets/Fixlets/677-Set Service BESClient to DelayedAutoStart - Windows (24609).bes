@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Service BESClient to DelayedAutoStart - Windows
+  ID       : 24609
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-08-09T21:18:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Service BESClient to DelayedAutoStart - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists services &quot;besclient&quot;</Relevance>
+    <Relevance>not exists keys whose(name of it as lowercase = &quot;besclient&quot; as lowercase AND exists values &quot;DelayedAutoStart&quot; whose(it as integer = 1) of it AND exists values &quot;Start&quot; whose(it as integer = 2) of it) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services&quot; of registries</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-08-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Aug 2017 04:16:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+waithidden cmd /C sc config besclient start= delayed-auto
+
+// References:
+//  - http://windowsitpro.com/systems-management/q-how-can-i-set-service-automatic-delayed-start-command-line
+//  - https://bigfix.me/relevance/details/3020300
+//  - https://bigfix.me/relevance/details/3020298
+//  - https://bigfix.me/relevance/details/3020297
+//  - https://technet.microsoft.com/en-us/library/cc990290
+//  - https://developer.bigfix.com/relevance/reference/service.html
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

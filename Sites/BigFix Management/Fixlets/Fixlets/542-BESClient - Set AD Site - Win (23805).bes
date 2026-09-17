@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BESClient - Set AD Site - Win
+  ID       : 23805
+  Author   : masonje
+  Domain   : BESC
+  Imported : 2017-03-13T12:04:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BESClient - Set AD Site - Win</Title>
+    <Description><![CDATA[Set's the&nbsp;Active Directory (AD) site client setting for Windows endpoints across the enterprise. ]]></Description>
+    <Relevance>/* Applicable to Windows endpoint ONLY */ exists (operating system) whose (it as string as lowercase contains &quot;win&quot;)</Relevance>
+    <Relevance>/* AD site of WIN client */  not exists setting &quot;AD Site&quot; whose (value of it = (value &quot;Site-Name&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\State\Machine&quot; of registry)) of client</Relevance>
+    <Category>ALL, Active Directory Site, Client, Setting</Category>
+    <SourceReleaseDate>2015-06-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Mar 2017 18:47:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// ***************************************************************************
+// Set or update the AD Site client property
+// ***************************************************************************
+setting &quot;AD Site&quot;=&quot;{value &quot;Site-Name&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\State\Machine&quot; of registry}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set "_BESGather_Download_CacheLimitMB" to "307200" - Universal
+  ID       : 6324
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-12-21T22:44:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set &quot;_BESGather_Download_CacheLimitMB&quot; to &quot;307200&quot; - Universal</Title>
+    <Description><![CDATA[<P>This task will set a client setting</P>
+<P>This task was automatically generated using the task: "RESTAPI: Generate tasks to set client settings on target computer - Windows"</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance><![CDATA[not exists settings "_BESGather_Download_CacheLimitMB" whose(307200 <= (it as integer) of value of it) of client]]></Relevance>
+    <Category>Configuration: Client Settings</Category>
+    <Source>RESTAPI: Generate tasks to set client settings on target computer - Windows</Source>
+    <SourceID>https://forum.bigfix.com/users/jgstew</SourceID>
+    <SourceReleaseDate>2015-10-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 22 Dec 2015 05:43:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the Client Setting</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESGather_Download_CacheLimitMB&quot;=&quot;307200&quot; on &quot;{ parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

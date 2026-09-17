@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Enable FillDB Perf Monitor
+  ID       : 3628
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2013-10-22T13:10:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Enable FillDB Perf Monitor</Title>
+    <Description>This will enable the built in performance monitor features of the FillDB service. </Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>exists service &quot;FillDB&quot;</Relevance>
+    <Relevance>NOT (exists value &quot;PerformanceDataPath&quot; whose (it as string != &quot;&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry)</Relevance>
+    <Category>BES Server/Relay Setting</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-04-28</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:30:49 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Enable FillDB Perfmon.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+parameter &quot;path&quot;=&quot;{value &quot;DataDirectoryPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry}&quot;
+
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB]&quot; &quot;PerformanceDataPath&quot;=&quot;{parameter &quot;path&quot;}\filldbperf.log&quot;
+
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

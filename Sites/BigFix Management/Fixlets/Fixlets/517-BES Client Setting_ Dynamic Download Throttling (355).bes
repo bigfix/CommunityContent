@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Dynamic Download Throttling
+  ID       : 355
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Dynamic Download Throttling</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>The BES Client can dynamically throttle download traffic to use a percentage of the available bandwidth when existing network traffic is detected. When dynamic throttling is enabled, BES will monitor and analyze existing data throughput to establish a throttled rate for network communication. The maximum and minimum rates provide a hard cap on how low or high dynamic throttling will go. The throttle percentage represents the fraction of the maximum bandwidth to use when conflicting network traffic is detected. The throttle percentage will not go below the minimum or above the maximum throttle values. <BR><BR>For example, suppose the throttle percentage is set to 10% on a home computer connecting over a slow VPN. While the user is idle, the BES Client is able to use all of the available bandwidth. If the user starts a download, however, the BES Client will throttle itself to 10% of the VPN so the user is not affected by the BES Client downloads. Once the user download has completed, the BES Client will stop throttling as long as the user is idle.<BR><BR><B>Note:</B> Windows 9x/ME operating systems will require the computer to be restarted to complete the task. On newer Windows operating systems, the BES Client service will be restarted. Please schedule this task to occur at a time when a service interruption is acceptable.<BR><BR><B>Note:</B> Do not set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.</P> <P><FONT color=red><B>Important Note:</B></FONT> Dynamic throttling will only work properly if it is enabled on all BES Relays. Please use the <SPAN id=taskLink></SPAN><SCRIPT type=text/javascript>var isEvansOrLater = '<?relevance if (exists property "datastore inspectors") then (True) else (False)?>' == 'True'?true:false; document.body.onload = SetTaskLink; function SetTaskLink() { try { taskLink.innerHTML = EvaluateRelevance('link of fixlet whose (id of it = 605) of bes site whose (name of it = "BES Support")'); } catch (e) {if (isEvansOrLater) { taskLink.innerHTML ='<?jxlat BES Client Setting: Enable/Disable Dynamic Throttling (ID: 605)?>';} else { taskLink.innerHTML = 'BES Client Setting: Enable/Disable Dynamic Throttling (ID: 605)';} } } </SCRIPT>&nbsp;task to globally enable the dynamic throttling setting. </P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.0"]]></Relevance>
+    <Relevance>exists setting &quot;_BESClient_Download_DynamicThrottleEnabled&quot; whose (value of it = &quot;1&quot;) of client</Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 18 Jun 2007 19:01:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action433">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about BES bandwidth throttling.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/misc/besthrottling.html</ActionScript>
+    </Action>
+    <Action ID="Action563">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set a dynamic limit on download traffic (bytes/sec) on the listed BES Clients. You will be prompted for the minimum total outgoing traffic, maximum total outgoing traffic, and the percentage of the maximum that will be used when throttling. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "MinBPS" with description "Please enter the minimum total download traffic (valid limits range from 0 to 4,294,967,295 bytes/sec):"
+action parameter query "MaxBPS" with description "Please enter the maximum total download traffic (valid limits range from 1 to 4,294,967,295 bytes/sec, or 0 for max):"
+action parameter query "Percentage" with description "Please enter the percentage of the maximum total download traffic (1-100):"
+continue if {parameter "MaxBPS" of action as integer >= 0 AND parameter "MaxBPS" of action as integer < 4294967296 AND parameter "Percentage" of action as integer > 0 AND parameter "Percentage" of action as integer <= 100 AND parameter "MinBPS" of action as integer >= 0 AND parameter "MinBPS" of action as integer < 4294967296 AND (parameter "MinBPS" of action as integer <= parameter "MaxBPS" of action as integer or parameter "MaxBPS" of action as integer = 0) }
+setting "_BESClient_Download_DynamicThrottleMaxBytesPerSecond"="{parameter "MaxBPS" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_Download_DynamicThrottleMinBytesPerSecond"="{parameter "MinBPS" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_Download_DynamicThrottlePercentage"="{parameter "Percentage" of action}" on "{parameter "action issue date" of action}" for client
+// Restart the Client
+delete "{(client folder of current site as string) & "/__appendfile"}"
+if {name of operating system starts with "Win"}
+        if {(it does not start with "Win9" AND it != "WinME") of name of operating system}
+                appendfile @ECHO OFF
+                appendfile net stop BESClient
+                appendfile net start BESClient
+                delete restartServices.bat
+                move __appendfile restartServices.bat
+                run restartServices.bat
+        else
+                action requires restart
+        endif
+elseif {name of operating system starts with "AIX"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        appendfile /etc/rc.d/rc2.d/KBESClientd stop
+        appendfile sleep 3
+        appendfile /etc/rc.d/rc2.d/SBESClientd start
+        wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system starts with "HP-UX"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        if {version of client < "8"}
+                appendfile /sbin/init.d/BESClient-{version of client} stop
+                appendfile sleep 3
+                appendfile /sbin/init.d/BESClient-{version of client} start
+        else
+                appendfile /sbin/init.d/besclient restart
+        endif
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system starts with "Mac OS X"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        appendfile /bin/launchctl unload /Library/LaunchDaemons/BESAgentDaemon.plist
+        appendfile sleep 3
+        appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+elseif {(it starts with "VMWare" OR it starts with "SunOS" OR it starts with "Linux") of name of operating system}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        if {version of client < "8"}
+                appendfile /etc/init.d/BESClient-{version of client} stop
+                appendfile sleep 3
+                appendfile /etc/init.d/BESClient-{version of client} start
+        else
+                appendfile /etc/init.d/besclient restart
+        endif
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action564">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable dynamic download throttling on the listed BES Clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_Download_DynamicThrottleEnabled"="0" on "{parameter "action issue date" of action}" for client
+// Restart the Client
+delete "{(client folder of current site as string) & "/__appendfile"}"
+if {name of operating system starts with "Win"}
+        if {(it does not start with "Win9" AND it != "WinME") of name of operating system}
+                appendfile @ECHO OFF
+                appendfile net stop BESClient
+                appendfile net start BESClient
+                delete restartServices.bat
+                move __appendfile restartServices.bat
+                run restartServices.bat
+        else
+                action requires restart
+        endif
+elseif {name of operating system starts with "AIX"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        appendfile /etc/rc.d/rc2.d/KBESClientd stop
+        appendfile sleep 3
+        appendfile /etc/rc.d/rc2.d/SBESClientd start
+        wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system starts with "HP-UX"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        if {version of client < "8"}
+                appendfile /sbin/init.d/BESClient-{version of client} stop
+                appendfile sleep 3
+                appendfile /sbin/init.d/BESClient-{version of client} start
+        else
+                appendfile /sbin/init.d/besclient restart
+        endif
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+elseif {name of operating system starts with "Mac OS X"}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        appendfile /bin/launchctl unload /Library/LaunchDaemons/BESAgentDaemon.plist
+        appendfile sleep 3
+        appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+elseif {(it starts with "VMWare" OR it starts with "SunOS" OR it starts with "Linux") of name of operating system}
+        appendfile #!/bin/sh
+        appendfile sleep 3
+        if {version of client < "8"}
+                appendfile /etc/init.d/BESClient-{version of client} stop
+                appendfile sleep 3
+                appendfile /etc/init.d/BESClient-{version of client} start
+        else
+                appendfile /etc/init.d/besclient restart
+        endif
+        wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+        run "{(client folder of current site as string) & "/__appendfile"}"
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action565">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about BES dynamic download throttling.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/misc/besthrottling.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

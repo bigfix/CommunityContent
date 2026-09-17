@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure WebReports Logging
+  ID       : 89
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure WebReports Logging</Title>
+    <Description><![CDATA[<P>This will enable webreports logging...</P>
+<P>Options for what to log:&nbsp; none, all, databases, debug, critical, performance, or memory.</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>exists service &quot;BESWebReportsServer&quot;</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-04-28</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:30:49 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Enable Logging.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;log&quot; with description &quot;WebReports Logging... (none, all, databases, debug, critical, performance, memory):&quot;
+// The port number should not be given
+continue if {(parameter &quot;log&quot; of action = &quot;none&quot;) OR (parameter &quot;log&quot; of action = &quot;all&quot;) OR (parameter &quot;log&quot; of action = &quot;databases&quot;) OR (parameter &quot;log&quot; of action = &quot;debug&quot;) OR (parameter &quot;log&quot; of action = &quot;critical&quot;) OR (parameter &quot;log&quot; of action = &quot;performance&quot;) OR (parameter &quot;log&quot; of action = &quot;memory&quot;)}
+if {parameter &quot;log&quot; of action as string as lowercase != &quot;none&quot;}
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports]&quot; &quot;EnableLogs&quot;=&quot;{parameter &quot;log&quot; of action as string as lowercase}&quot;
+	parameter &quot;path&quot;=&quot;{value &quot;EnterpriseServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry}&quot;
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB]&quot; &quot;PerformanceDataPath&quot;=&quot;{parameter &quot;path&quot;}\WebReports.log&quot;
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports]&quot; &quot;LogOn&quot;=dword:1
+else
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports]&quot; &quot;LogOn&quot;=dword:0
+endif</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action235">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about WebReports Logging.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/cgi-bin/kbdirect.pl?id=324</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

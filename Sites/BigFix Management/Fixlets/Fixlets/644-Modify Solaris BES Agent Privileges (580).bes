@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Modify Solaris BES Agent Privileges
+  ID       : 580
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Modify Solaris BES Agent Privileges</Title>
+    <Description>
+The Solaris BES Agent installer inadvertently turned on the setuid and setgid bits for the &quot;Inspectors&quot; folder. This is not necessary for the proper operation of the BES Agent. To remove these privileges, use the action below.
+</Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[(if (version of client >= "8.0") then (unix of it) else ((it does not start with "Win" AND it does not start with "Mac OS X") of name of it)) of operating system]]></Relevance>
+    <Relevance><![CDATA[versiong of client < "8.2"]]></Relevance>
+    <Relevance>name of operating system contains &quot;SunOS&quot;</Relevance>
+    <Relevance>exists folder &quot;/opt/BESClient/BESLib/Inspectors&quot; AND (setuid of mode of folder &quot;/opt/BESClient/BESLib/Inspectors&quot; OR setgid of mode of folder &quot;/opt/BESClient/BESLib/Inspectors&quot; OR sticky of mode of folder &quot;/opt/BESClient/BESLib/Inspectors&quot;)</Relevance>
+    <Category>Configuration</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2006-06-20</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 05 Apr 2006 19:49:23 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Potential</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action835">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the proper bits on the BES Agent Inspector folder (/opt/BESClient/BESLib/Inspectors).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">run chmod g-s,u-s,u-t /opt/BESClient/BESLib/Inspectors</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

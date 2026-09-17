@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : IE 7/8 May Cause Script Errors in the BES Console
+  ID       : 613
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>IE 7/8 May Cause Script Errors in the BES Console</Title>
+    <Description><![CDATA[
+The listed computers have both the BES Console and IE 7 or 8 installed.&nbsp; The script blocking feature in IE 7/8 causes the BES Console to display script errors when opening various documents.<BR><BR>To resolve this issue, use the action below to set a registry value that adds the BES Console to a list of applications that "opt out" of the script blocking feature.<BR><BR><b>Note:</b> The BES Console must be restarted for this fix to take effect.
+]]></Description>
+    <Relevance>exists regapp &quot;BESConsole.exe&quot;</Relevance>
+    <Relevance>(it = &quot;7&quot; OR it = &quot;8&quot;) of version of regapp &quot;iexplore.exe&quot;</Relevance>
+    <Relevance>not exists key &quot;FEATURE_BLOCK_LMZ_SCRIPT&quot; whose (value &quot;BESConsole.exe&quot; of it=0) of keys &quot;HKLM\Software\Microsoft\Internet Explorer\Main\FeatureControl\&quot; of registry</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 19 Oct 2006 19:58:29 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Potential</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to resolve this issue.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset &quot;[HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BLOCK_LMZ_SCRIPT]&quot; &quot;BESConsole.exe&quot;=dword:00000000</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

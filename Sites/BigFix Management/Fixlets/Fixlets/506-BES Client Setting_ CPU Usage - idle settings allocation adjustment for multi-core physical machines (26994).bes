@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: CPU Usage - idle settings allocation adjustment for multi-core physical machines
+  ID       : 26994
+  Author   : obas
+  Domain   : BESC
+  Imported : 2023-02-03T11:43:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: CPU Usage - idle settings allocation adjustment for multi-core physical machines</Title>
+    <Description><![CDATA[<P>The BES Client is designed to use only a small fraction of the computer's CPU (&lt; 1-2%) on average, but the calculation used to achieve this performance ideal is based on a system with a single physical CPU core.<BR><BR><B>Note:</B>&nbsp;The BigFix client will do work (evaluate relevance) for a designated amount of time then go to sleep for a designated amount of time. The WorkIdle setting controls how many milliseconds to work before going to sleep in each cycle and the SleepIdle setting controls how many milliseconds to sleep after performing work in cycle. The above settings referenced are not adjusted for systems with multiple CPU cores. The Bigfix settings affect the clients use of one CPU Core. Machines with many CPU cores can actually minimize the clients actual operating CPU well below 2%.<BR></P>
+<P>Consider the following equations to determine actual Max CPU usage:<BR>On a single core CPU:<BR>Max agent %CPU = workidle / (workidle + sleepidle) <BR>Example (default settings): 10 / (10 + 480) = 2% of CPU<BR></P>
+<P>On a multi-core CPU (CPU with 4 cores)<BR>Max agent %CPU = workidle / ((workidle + sleepidle) * (# of cores))<BR>Example (default settings): 10 / ((10 + 480) * (4)) = 0.5% of CPU<BR></P>
+<P>This Fixlet will adjust the workidle and sleepidle settings on multi-core machines to about 2% of CPU accross all available cores. This fixlet action will set the sleepidle value to its default value (480) and set the workidle value to 10 * (number of cores). If the system has greater than 10 cores, the work idle setting will be limited to 100 (this is to prevent over allocation of 1 core). The client work/sleep settings target a single core, this fixlet adjusts the workidle settings to compensate for this.</P>]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[((name of it starts with "Win") AND (platform id of it != 3) AND (version of it >= "6.1")) of operating system]]></Relevance>
+    <Relevance>if exists true whose (if true then( (((item 0 of it contains &quot;VMware&quot;) or ((item 0 of it contains &quot;Microsoft&quot;) and not (item 1 of it as lowercase contains &quot;surface&quot;)) or (item 0 of it contains &quot;Xen&quot;)) of ((value &quot;manufacturer&quot; of it as string, value &quot;product_name&quot; of it as string) of structure &quot;system_information&quot; of smbios))) else false) then False else True</Relevance>
+    <Relevance><![CDATA[(sum of cores of cpupackage as floating point) > 1]]></Relevance>
+    <Relevance><![CDATA[(NOT (exists setting "_BESClient_Resource_WorkIdle" whose (exist value whose (it as string = (if ((sum of cores of cpupackage as floating point) > 10) then "100" else  (((sum of cores of cpupackage as floating point) * 10) as integer as string)) ) of it)of client)) OR (NOT(((if (not exists setting "_BESClient_Resource_SleepIdle" of client OR not exists value of setting "_BESClient_Resource_SleepIdle" of client) then 480 else (value of setting "_BESClient_Resource_SleepIdle" of client as integer)) as floating point as integer) = 480))]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <SourceReleaseDate>2023-01-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 02 Feb 2023 03:02:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to set the BES Client to use 2% CPU usage on Multi-Core Systems.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// If the number of cores are greater than 10, then set the value to 100, else  calculate the value as ((# of cores) * 10)
+parameter "worksetting" = "{if ((sum of cores of cpupackage as floating point) > 10) then "100" else  (((sum of cores of cpupackage as floating point) * 10) as integer as string)}"
+setting "_BESClient_Resource_WorkIdle"="{parameter "worksetting"}" on "{parameter "action issue date" of action}" for client
+
+// Enter your action script here
+setting "_BESClient_Resource_SleepIdle"="480" on "{parameter "action issue date" of action}" for client
+
+// Drop breadcrumb for when the action was last run
+setting "_BESClient_Resource_WorkIdle_MultiCore_Adjustment"="{now}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28316">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri"><![CDATA[https://support.hcltechsw.com/csm?id=kb_article&sysparm_article=KB0023212]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

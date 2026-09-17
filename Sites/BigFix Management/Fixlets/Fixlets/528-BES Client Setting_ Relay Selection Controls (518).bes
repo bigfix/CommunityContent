@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Relay Selection Controls
+  ID       : 518
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Relay Selection Controls</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P> <TABLE> <TBODY> <TR> <TD> <P>This task can be used to&nbsp;set and modify&nbsp;different parameters&nbsp;that control the&nbsp;relay selection behavior of your BES Clients.</P> <P>After failing to find a BES Relay, the BES Client will continue to try after first waiting for the <STRONG>minimum retry interval</STRONG>. Each time it fails, the BES Client will double the time it spends waiting until the <STRONG>maximum retry interval</STRONG> is exceeded.<!--StartFragment --> Then the BES Client will try with the maximum retry interval until it successfully selects a BES Relay.</P> <P>After a BES Client has successfully found a BES Relay, it will wait for the duration of the <STRONG>relay selection&nbsp;interval</STRONG> before running the relay&nbsp;selection algorithm&nbsp;again to find a closer BES Relay.</P> <P><!--StartFragment -->Once a BES Relay has been selected and the BES Client has successfully registered, the client will ignore errors when it attempts to post its results to the BES Relay or BES Server for the duration of the <STRONG>reporting</STRONG> <STRONG>failure interval</STRONG> before deciding to choose another BES Relay. On the first post report error, it sets a timer. After performing another round of relevance evaluation, if the BES Client is still unable to report, it checks to see if the reporting failure interval has elapsed, and if so will cause the BES Client to reselect its BES Relay.</P> <P>When running the relay selection algorithm, the BES Client will generate ICMP traffic with a Time To Live (TTL) up to the <STRONG>maximum TTL</STRONG>.&nbsp; If no BES Relays are found within the maximum TTL the relay selection attempt will be considered a failure.</P></TD></TR></TBODY></TABLE></P> <P><STRONG>Note: </STRONG>Do <B>not</B> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.<!--StartFragment --></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 22 Jun 2004 18:47:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action743">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the &lt;b&gt;minimum retry interval&lt;/b&gt; for the listed BES Clients. You will be prompted for the minimum retry interval in seconds.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_MinRetryIntervalSeconds" with description "Please enter the minimum retry interval (sec):" with default value "60"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action as integer <= 4294967296}
+setting "_BESClient_RelaySelect_MinRetryIntervalSeconds"="{parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action744">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the &lt;b&gt;maximum retry interval&lt;/b&gt; for the listed BES Clients. You will be prompted for the maximum retry interval in seconds.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_MaxRetryIntervalSeconds" with description "Please enter the maximum retry interval (sec):" with default value "7200"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action as integer <= 4294967296}
+setting "_BESClient_RelaySelect_MaxRetryIntervalSeconds"="{parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action745">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the &lt;b&gt;relay selection interval&lt;/b&gt; for the listed BES Clients. You will be prompted for the selection interval in seconds.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_IntervalSeconds" with description "Please enter the relay selection interval (sec):" with default value "21600"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_IntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_IntervalSeconds" of action as integer <= 4294967296}
+setting "_BESClient_RelaySelect_IntervalSeconds"="{parameter "_BESClient_RelaySelect_IntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action746">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the &lt;b&gt;reporting failure interval&lt;/b&gt; for the listed BES Clients.&amp;nbsp; You will be prompted for the failure interval in seconds.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_ResistFailureIntervalSeconds" with description "Please enter the reporting failure interval (sec):" with default value "600"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action as integer <= 4294967296}
+setting "_BESClient_RelaySelect_ResistFailureIntervalSeconds"="{parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action747">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set the &lt;b&gt;maximum TTL &lt;/b&gt;for the listed BES Clients. You will be prompted for the maximum TTL in hops.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_MaximumTTLToPing" with description "Please enter the maximum TTL:" with default value "255"
+// Fail if value is not between 1 and 255
+continue if {parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action as integer <= 255}
+setting "_BESClient_RelaySelect_MaximumTTLToPing"="{parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action748">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set all the relay selection settings above for the listed BES Clients. You will be prompted for all the above settings.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_RelaySelect_MinRetryIntervalSeconds" with description "Please enter the minimum retry interval (sec):" with default value "60"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action as integer <= 4294967296}
+action parameter query "_BESClient_RelaySelect_MaxRetryIntervalSeconds" with description "Please enter the maximum retry interval (sec):" with default value "7200"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action as integer <= 4294967296}
+action parameter query "_BESClient_RelaySelect_IntervalSeconds" with description "Please enter the relay selection interval (sec):" with default value "21600"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_IntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_IntervalSeconds" of action as integer <= 4294967296}
+action parameter query "_BESClient_RelaySelect_ResistFailureIntervalSeconds" with description "Please enter the reporting failure interval (sec):" with default value "600"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action as integer <= 4294967296}
+action parameter query "_BESClient_RelaySelect_MaximumTTLToPing" with description "Please enter the maximum TTL:" with default value "255"
+// Fail if value is not between 1 and 255
+continue if {parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action as integer >= 1 AND parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action as integer <= 255}
+setting "_BESClient_RelaySelect_MinRetryIntervalSeconds"="{parameter "_BESClient_RelaySelect_MinRetryIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_RelaySelect_MaxRetryIntervalSeconds"="{parameter "_BESClient_RelaySelect_MaxRetryIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_RelaySelect_IntervalSeconds"="{parameter "_BESClient_RelaySelect_IntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_RelaySelect_ResistFailureIntervalSeconds"="{parameter "_BESClient_RelaySelect_ResistFailureIntervalSeconds" of action}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_RelaySelect_MaximumTTLToPing"="{parameter "_BESClient_RelaySelect_MaximumTTLToPing" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

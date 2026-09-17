@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Enable logging for BES Client Helper Service
+  ID       : 2567
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-16T15:31:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Enable logging for BES Client Helper Service</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>exists service &quot;BESClientHelper&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; of registry</Relevance>
+    <Relevance>not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper&quot; whose(exists value &quot;ServiceInstallationParameters&quot; of it AND (value &quot;ServiceInstallationParameters&quot; of it as string contains &quot;-l&quot;)) of registry</Relevance>
+    <Category>Support</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2013-03-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 16 Aug 2013 22:30:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\BESClientHelper]" "ServiceInstallationParameters"="-l"
+
+// The following is to restart the BESClientHelper Service
+parameter "ServiceName" = "BESClientHelper"
+
+continue if {exists service whose (service name of it as lowercase = (parameter "ServiceName" of action as lowercase) OR display name of it as lowercase = (parameter "ServiceName" of action as lowercase))}
+
+continue if {exists parameter "ServiceName" whose (it as lowercase != "besclient" AND it as lowercase != "bes client") of action}
+
+delete __appendfile
+delete netquiet.bat
+
+appendfile @ECHO OFF
+appendfile start "" /min /b net %1 %2 /y > NUL 2> NUL
+move __appendfile netquiet.bat
+
+waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat stop "{parameter "ServiceName" of action}"
+waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat start "{parameter "ServiceName" of action}"
+
+delete netquiet.bat
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Hide BES Clients from the Add/Remove Programs List - BES Client >= 8.0
+  ID       : 248
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Hide BES Clients from the Add/Remove Programs List - BES Client &gt;= 8.0</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD>The standard BES Client installation package will list the BES Client in the Windows "Add/Remove Programs" Tool. Any user logged in with sufficient privileges can see and remove the BES Client using "Add/Remove Programs". Use the action below to remove the BES Client entry from the "Add/Remove Programs" list.<BR><BR><B>Note:</B> After applying this action, Task #714 will become relevant and will allow you to restore the BES Client entry to the "Add/Remove Programs" list.<BR><BR><B>Note:</B> On BES Client upgrades, the BES Client entry will be automatically restored to the "Add/Remove Programs" list. To prevent this from happening, you can apply this action as a "policy" action. </TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance><![CDATA[((if (version of client >= "8.0") then (windows of it) else (name of it starts with "Win")) AND platform id of it != 3) of operating system]]></Relevance>
+    <Relevance>exists key whose (value &quot;ProductName&quot; of it = &quot;BigFix Enterprise Client&quot; OR value &quot;ProductName&quot; of it = &quot;Tivoli Endpoint Manager Client&quot; OR value &quot;ProductName&quot; of it = &quot;Trend Micro Endpoint Security Platform&quot;) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 29 Jul 2010 17:34:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to hide the BES Client from the &quot;Add/Remove Programs&quot; list.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset64 &quot;[HKEY_CLASSES_ROOT\Installer\Products\{name of key whose (value &quot;ProductName&quot; of it = &quot;BigFix Enterprise Client&quot; OR value &quot;ProductName&quot; of it = &quot;Tivoli Endpoint Manager Client&quot; OR value &quot;ProductName&quot; of it = &quot;Trend Micro Endpoint Security Platform&quot;) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry}]&quot; &quot;RemovedProductName&quot;=&quot;{value &quot;ProductName&quot; of key whose (value &quot;ProductName&quot; of it = &quot;BigFix Enterprise Client&quot; OR value &quot;ProductName&quot; of it = &quot;Tivoli Endpoint Manager Client&quot; OR value &quot;ProductName&quot; of it = &quot;Trend Micro Endpoint Security Platform&quot;) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry}&quot;
+continue if {exists key whose (value &quot;RemovedProductName&quot; of it = &quot;BigFix Enterprise Client&quot; OR value &quot;ProductName&quot; of it = &quot;Tivoli Endpoint Manager Client&quot; OR value &quot;ProductName&quot; of it = &quot;Trend Micro Endpoint Security Platform&quot;) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry}
+regdelete64 &quot;[HKEY_CLASSES_ROOT\Installer\Products\{name of key whose (value &quot;ProductName&quot; of it = &quot;BigFix Enterprise Client&quot; OR value &quot;ProductName&quot; of it = &quot;Tivoli Endpoint Manager Client&quot; OR value &quot;ProductName&quot; of it = &quot;Trend Micro Endpoint Security Platform&quot;) of keys &quot;HKEY_CLASSES_ROOT\Installer\Products&quot; of native registry}]&quot; &quot;ProductName&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action415">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for information on how to make this action a &quot;policy&quot; action that will automatically open the BES port on any computer that has this Fixlet message relevant. </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/cgi-bin/kbdirect.pl?id=113</ActionScript>
+    </Action>
+    <Action ID="Action441">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for information on how to make this action a &quot;policy&quot; action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/cgi-bin/kbdirect.pl?id=113</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>
