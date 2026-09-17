@@ -67,7 +67,7 @@ description: >
 
 inputs:
   virustotal-api-key:
-    description: VirusTotal API key (pass `${{ secrets.VIRUSTOTAL_API_KEY }}` from the calling workflow)
+    description: VirusTotal API key (pass `secrets.VIRUSTOTAL_API_KEY` from the calling workflow)
     required: true
   max-urls-per-run:
     description: >
