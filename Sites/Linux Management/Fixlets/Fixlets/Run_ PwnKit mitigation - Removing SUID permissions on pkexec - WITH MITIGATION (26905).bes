@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run: PwnKit mitigation - Removing SUID permissions on pkexec - WITH MITIGATION
+  ID       : 26905
+  Author   : brolly33
+  Domain   : BESC
+  Imported : 2022-02-01T06:38:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run: PwnKit mitigation - Removing SUID permissions on pkexec - WITH MITIGATION</Title>
+    <Description><![CDATA[<DIV><BR>
+<P>This task will remove the SUID-bit from pkexec file.<BR>It is a generic command that can be deployed on all Linux-based endpoints <BR>chmod 0755 /usr/bin/pkexec<BR></P>
+<P>You should favor patching the OS with the security update released by the vendor for any supported system, and only when this is not a viable solution, to use the mitigation approach. <BR></P>
+<P><B>Removing the SUID-bit form the pkexec file may have a negative impact on any applications.<BR>Use this task to perform mitigation with care and test thoroughly in your environment.</B><BR></P></DIV>]]></Description>
+    <Relevance>exists file &quot;/usr/bin/pkexec&quot; and mode of file &quot;/usr/bin/pkexec&quot; as string != &quot;rwxr-xr-x&quot;</Relevance>
+    <Category>Workaround</Category>
+    <Source>Community Content</Source>
+    <SourceReleaseDate>2022-01-28</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <CVENames>CVE-2021-4034</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Feb 2022 14:35:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+wait &quot;/bin/bash&quot; -c &quot;chmod 0755 /usr/bin/pkexec&quot;</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

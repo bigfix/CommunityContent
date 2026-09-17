@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Timezone - Red Hat
+  ID       : 2612
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-10-08T13:24:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Timezone - Red Hat</Title>
+    <Description><![CDATA[<P>This fixlet will set the timezone on the endpoint. A few popular timezones have been preset but if you need a custom timezone, use the&nbsp;timezones available in /usr/share/zoneinfo.&nbsp;</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Red Hat Enterprise Server 5&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-10-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Oct 2013 20:09:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Eastern Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">appendfile ZONE=&quot;America/New_York&quot;
+appendfile UTC=true
+appendfile ARC=false
+
+delete /etc/sysconfig/clock
+copy ./__appendfile /etc/sysconfig/clock
+
+wait ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action2863">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to custom timezone.</Link>
+        <PostLink>&amp;nbsp;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+action parameter query &quot;Timezone&quot; with description &quot;Please type the timezone that you&apos;d like to set. You need to use the relative path from /usr/share/zoneinfo ex. America/New_York&quot;
+
+appendfile ZONE=&quot;{parameter &quot;Timezone&quot; of action}&quot;
+appendfile UTC=true
+appendfile ARC=false
+
+delete /etc/sysconfig/clock
+copy ./__appendfile /etc/sysconfig/clock
+
+wait ln -sf /usr/share/zoneinfo/{parameter &quot;Timezone&quot; of action} /etc/localtime
+</ActionScript>
+    </Action>
+    <Action ID="Action2864">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Central Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">appendfile ZONE=&quot;America/Chicago&quot;
+appendfile UTC=true
+appendfile ARC=false
+
+delete /etc/sysconfig/clock
+copy ./__appendfile /etc/sysconfig/clock
+
+wait ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime</ActionScript>
+    </Action>
+    <Action ID="Action2865">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Mountain Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">appendfile ZONE=&quot;America/Denver&quot;
+appendfile UTC=true
+appendfile ARC=false
+
+delete /etc/sysconfig/clock
+copy ./__appendfile /etc/sysconfig/clock
+
+wait ln -sf /usr/share/zoneinfo/America/Denver /etc/localtime</ActionScript>
+    </Action>
+    <Action ID="Action2866">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Pacific Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">appendfile ZONE=&quot;America/Los_Angeles&quot;
+appendfile UTC=true
+appendfile ARC=false
+
+delete /etc/sysconfig/clock
+copy ./__appendfile /etc/sysconfig/clock
+
+wait ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

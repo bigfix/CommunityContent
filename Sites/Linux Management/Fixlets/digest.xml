@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Digest>
   <Relevance>
-    <![CDATA[version of client >= "7.2"]]>
+    <![CDATA[version of client >= "7.2" and name of operating system as lowercase starts with "linux"]]>
   </Relevance>
   <DigestRelevanceEvaluationPeriod>PT5M</DigestRelevanceEvaluationPeriod>
   <ChildEvaluationPeriod>PT5M</ChildEvaluationPeriod>

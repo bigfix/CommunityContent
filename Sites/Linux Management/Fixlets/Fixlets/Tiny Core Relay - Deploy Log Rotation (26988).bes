@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Tiny Core Relay - Deploy Log Rotation
+  ID       : 26988
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:08:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Tiny Core Relay - Deploy Log Rotation</Title>
+    <Description><![CDATA[<P>Deploys a script that will rotate specified logs once they reach a certain size.&nbsp; This will run once per day.</P> <P>Log Size Threshold: 200KB</P> <P>Logs Rotated (configured in external file):</P> <P>&nbsp;</P><BR><BR><BR><BR><BR><BR>  <P>&nbsp;</P> <P></P> <P>Note: LogRotate.tcz will be available in TCL v13.&nbsp; </P>]]></Description>
+    <Relevance>(exists relay service)</Relevance>
+    <Relevance>((if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true ))</Relevance>
+    <Relevance>name of operating system contains &quot;Linux TinyCore&quot;</Relevance>
+    <Relevance>not exists file &quot;/home/tc/scripts/log_rotation.sh&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-12-07</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:06:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//create /home/tc/scripts/ folder if it doesn't exist
+
+if {not exists folder "/home/tc/scripts/"}
+wait mkdir /home/tc/scripts
+endif
+
+//Create the log rotation script
+delete __createfile
+createfile until endofscript1
+#!/bin/sh
+
+#Create log list variable - conf file that lists absolute log file paths to be rotated (one per line)
+LOG_LIST=/home/tc/scripts/loglist.conf
+
+#Exit if conf file does not exist
+if [ ! -r "$LOG_LIST" ]; then
+    logger "$(date) - ERROR - Log Rotation Failed.  "$LOG_LIST" missing!"
+    exit
+fi
+
+#Filter out blank lines and comments from LOG_LIST
+LOGS=$(grep -v '^[[:space:]]*$' ${{LOG_LIST} | grep -v '#')
+
+#TMP file that the validated log list will be written to
+TMPLIST=/tmp/loglist.conf
+> "$TMPLIST"
+#validate logs in loglist.conf
+for F in $LOGS
+do
+	if [ -r "$F" ]; then
+		echo "$F" >> $TMPLIST
+	else
+		logger "$(date) - ERROR - Log Rotation Failed for "$F". File Not Found"
+	fi
+done
+
+#Store validated logs line by line
+VALIDATED_LOGS=$(cat "$TMPLIST")
+
+#rotate_logfile function (max= max rotations.  The actual number of rotations will be one higher than specified)
+rotate_logfile()
+{
+    max=4
+    #seq command - count backwards from max by an increment of 1 until it reaches 1
+    seq="$(seq "${{max}" -1 1)"
+    for s in $seq
+    do
+        #add one to the current seq value
+        d=$(($s +1))
+	    OLDFILE="$LOG_BASE".$s.log
+	    NEWFILE="$LOG_BASE".$d.log
+        #rotate existing 'rotated' logs - .1.log will become .2.log etc...
+        quiet mv -f $OLDFILE $NEWFILE
+    done
+    #rotate the active log
+    mv -f $FILE ${{LOG_BASE}.1.log
+}
+
+#output suppression function
+quiet()
+{
+"$@" > /dev/null 2>&1
+}
+
+#Rotate Logs
+
+for FILE in $VALIDATED_LOGS
+do
+    #LOG_BASE removes .log from file
+    LOG_BASE=$(expr ${{FILE} | awk -F '.' '{{ print $1 }')
+    #SIZE pulls file size in bytes
+    SIZE=$(ls -l ${{FILE} | awk '{{ print $5}')
+    #file exists and is greater than or equal to 200KB
+    if [ -f "$FILE" ] && [ $SIZE -ge 200000 ]; then
+        rotate_logfile
+        > "$FILE"
+    fi
+done
+
+endofscript1
+
+delete /home/tc/scripts/log_rotation.sh
+move __createfile /home/tc/scripts/log_rotation.sh
+wait chmod 750 /home/tc/scripts/log_rotation.sh
+
+//Create log list conf file
+delete __createfile
+createfile until endofscript2
+# DO NOT DELETE FILE!
+# Conf file that defines what logs are to be rotated.  This file is used by /home/tc/scripts/log_rotation.sh.
+# This file can be updated on all relays using the fixlet: PM - Tiny Core Relay - Update Log Rotation Settings
+# Insert one log file per line using the absolute path.  The file must end in .log
+
+//INSERT LOGS TO BE ROTATED HERE
+endofscript2
+
+delete /home/tc/scripts/loglist.conf
+move __createfile /home/tc/scripts/loglist.conf
+wait chmod 660 /home/tc/scripts/loglist.conf
+
+//create file to use for crontab
+
+if {not exists file "/var/spool/cron/crontabs/root"}
+
+delete __appendfile
+appendfile 12 0 * * * /bin/sh /home/tc/scripts/log_rotation.sh
+
+if {exists file "/home/tc/newcrontab"}
+delete "/home/tc/newcrontab"
+endif
+
+continue if {not exists file "/home/tc/newcrontab"}
+
+move __appendfile /home/tc/newcrontab
+
+continue if {exists file "/home/tc/newcrontab"}
+
+endif
+
+//create script to add cronjob to crontab, add /var/spool/cron/crontabs directory to filetool.lst, add starting the cron service to bootlocal, and backup
+
+delete __appendfile
+appendfile #!/bin/sh
+
+if {exists file "/var/spool/cron/crontabs/root"}
+appendfile echo "12 0 * * * /bin/sh /home/tc/scripts/log_rotation.sh" >> "/var/spool/cron/crontabs/root"
+else
+appendfile sudo crontab /home/tc/newcrontab
+endif
+
+if {not exists lines whose (it contains "var/spool/cron/crontabs/") of file "/opt/.filetool.lst"}
+appendfile echo "var/spool/cron/crontabs/" >> /opt/.filetool.lst
+endif
+
+if {not exists lines whose (it contains "/sbin/syslogd") of file "/opt/bootlocal.sh"}
+appendfile echo "/sbin/syslogd" >> /opt/bootlocal.sh
+endif
+
+if {not exists lines whose (it contains "/etc/init.d/services/crond start") of file "/opt/bootlocal.sh"}
+appendfile echo "/etc/init.d/services/crond start" >> /opt/bootlocal.sh
+endif
+
+appendfile sudo filetool.sh -b
+appendfile sudo reboot
+
+delete /var/opt/BESClient/logrotate_config.sh
+move __appendfile /var/opt/BESClient/logrotate_config.sh
+wait chmod 750 /var/opt/BESClient/logrotate_config.sh
+run /bin/sh /var/opt/BESClient/logrotate_config.sh
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

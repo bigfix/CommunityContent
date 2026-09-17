@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Tiny Core Relay - Modify Cron Logging
+  ID       : 26985
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:03:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Tiny Core Relay - Modify Cron Logging</Title>
+    <Description><![CDATA[<P>On VRAs where frequent cronjobs are run, the sys log will fill up with cron entries making the sys log more difficult to parse.&nbsp; </P> <P>By default Cron logs all messages to /var/log/messages.&nbsp;This fixlet will change the cron message&nbsp;location to a separate file.</P> <P><STRONG>Implementation:</STRONG></P> <P>- This is only relevant on VRAs that already have crond set to start on boot.<BR>- Creates a new file: /var/log/cron.log<BR>- Edits the crond init script to set the new log location<BR>- Adds the crond init script to the filetool<BR>- Runs a filetool backup</P>]]></Description>
+    <Relevance>(exists relay service)</Relevance>
+    <Relevance>((if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true ))</Relevance>
+    <Relevance>name of operating system contains &quot;Linux TinyCore&quot;</Relevance>
+    <Relevance>exists lines whose (it contains &quot;/etc/init.d/services/crond&quot;) of file &quot;/opt/bootlocal.sh&quot;</Relevance>
+    <Relevance>not exists lines whose (it contains &quot;crond -L /var/log/cron.log&quot;) of file &quot;/etc/init.d/services/crond&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-12-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:06:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Create cron log and add write permissions
+
+if {not exists file "/var/log/cron.log"}
+
+wait touch /var/log/cron.log
+wait chmod 660 /var/log/cron.log
+
+endif
+
+//Create crond configuration script
+delete __createfile
+createfile until endofscript1
+#!/bin/sh
+
+#Set Variables
+
+LOGFILE=/var/log/cron.log
+CRONDSTAT=$(pidof crond)
+
+#Set output suppression function
+
+quiet()
+{{
+"$@" > /dev/null 2>&1
+}
+
+#Create Log File
+
+touch $LOGFILE
+
+#Edit Crond Init Script - Add options to crond start command
+
+quiet sed -i 's/^\s*crond/\t\tcrond -L \/var\/log\/cron.log/' /etc/init.d/services/crond
+
+#Add Crond Init Script to Filetool.lst
+
+echo "etc/init.d/services/crond" >> /opt/.filetool.lst
+
+#Run Filetool backup
+
+quiet sudo filetool.sh -b
+
+#Restart crond
+
+if [ -n "$CRONDSTAT" ]; then
+	quiet /etc/init.d/services/crond stop
+	quiet /etc/init.d/services/crond start
+else
+	quiet /etc/init.d/services/crond start
+fi
+endofscript1
+
+delete /var/opt/BESClient/cronlogconfig.sh
+move __createfile /var/opt/BESClient/cronlogconfig.sh
+wait chmod 550 /var/opt/BESClient/cronlogconfig.sh
+wait /bin/sh /var/opt/BESClient/cronlogconfig.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

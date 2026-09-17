@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Tiny Core Linux Relay - Upgrade to version 14.0 (6.1.2-tinycore)
+  ID       : 27010
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2023-10-26T06:18:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Tiny Core Linux Relay - Upgrade to version 14.0 (6.1.2-tinycore)</Title>
+    <Description><![CDATA[<DIV class=subsection> <P><STRONG>This fixlet will upgrade relays running&nbsp;TinyCore 12.0 to TinyCore 14.0.&nbsp; The OS, kernel, and extensions will be upgraded.&nbsp; </STRONG></P> <P><FONT color=#ff0000>This fixlet used files manually cached on the root server.  You can do the upgrade without caching the files useing the tce-update and associated 'tce-' commands, however that will require a rework of the action and shell script.  The cached files in this fixlet are up-to-date as of 10/23/2023.</FONT></P> <P><FONT color=#000000>If version rollback is needed, all files are backed up to "/home/tc/v12_backup/".</FONT></P> <P>Upgrade Log: /var/log/v14_upgrade.log</P> <P><STRONG>The following extensions will be&nbsp;updated:</STRONG></P> <UL> <LI>libdnet  <LI>ncursesw  <LI>nspr  <LI>nss  <LI>openssl-1.1.1  <LI>open-vm-tools  <LI>perl5  <LI>tzdata</LI></UL> <P>Exit Codes:</P> <DIV style="FONT-SIZE: 14px; FONT-FAMILY: Consolas, 'Courier New', monospace; WHITE-SPACE: pre; FONT-WEIGHT: normal; COLOR: #cccccc; LINE-HEIGHT: 19px; BACKGROUND-COLOR: #1f1f1f"> <DIV><SPAN style="COLOR: #6a9955"> <DIV style="FONT-SIZE: 14px; FONT-FAMILY: Consolas, 'Courier New', monospace; WHITE-SPACE: pre; FONT-WEIGHT: normal; COLOR: #cccccc; LINE-HEIGHT: 19px; BACKGROUND-COLOR: #1f1f1f"> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 90 = The upgrade backup folder does not exist and failed to create</SPAN></DIV> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 91 = A v12 extension failed to copy to the backup folder</SPAN></DIV> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 92 = A v12 boot file failed to copy to the backup folder</SPAN></DIV> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 93 = A v14 file is missing from /home/tc/v14_files</SPAN></DIV> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 94 = A v14 boot file failed to copy to /mnt/sda1/tce/boot/</SPAN></DIV> <DIV><SPAN style="COLOR: #6a9955"># Exit Code 95 = A boot file mismatch found. &nbsp;core.gz and vmlinuz are not either both v14 or both v12. &nbsp;Restoring to v12. </SPAN></DIV></DIV></SPAN></DIV></DIV></DIV>]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system contains &quot;TinyCore&quot;</Relevance>
+    <Relevance>version of operating system = &quot;12.0&quot;</Relevance>
+    <Relevance><![CDATA[exists relay service whose (version of it >= "11.0.0")]]></Relevance>
+    <Relevance>not (it as string = &quot;Linux TinyCore 14.0 (6.1.2-tinycore)&quot;) of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2023-10-25</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:06:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Insert prefetch block containing cached files here
+
+// Create the folder to hold the Tiny Core 14 files
+if {not exists folder "/home/tc/v14_files"}
+	wait mkdir /home/tc/v14_files
+endif
+
+wait /bin/sh -c "mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/*")} /home/tc/v14_files/"
+
+// Confirm all extensions and boot files exist before proceeding - If the action fails here, one or more of the files listed in the clause below are missing from /home/tc/v14_files.  This could be due to a failed mv or the uploaded TCv14_upgrade_files package not having the correct files
+continue if {exists folder "/home/tc/v14_files" whose (set of (names of files of it as lowercase) contains set of ("core.gz";"vmlinuz";"libdnet.tcz";"ncursesw.tcz";"nspr.tcz";"nss.tcz";"openssl-1.1.1.tcz";"open-vm-tools.tcz";"perl5.tcz";"tzdata.tcz"))}
+
+delete __createfile
+createfile until endofscript
+#!/bin/sh
+
+# Tiny Core 14 In-Place Upgrade
+# Exit Code (EC) 90 = The upgrade backup folder does not exist and failed to create
+# Exit Code (EC) 91 = A v12 extension failed to copy to the backup folder
+# Exit Code (EC) 92 = A v12 boot file failed to copy to the backup folder
+# Exit Code (EC) 93 = A v14 file is missing from /home/tc/v14_files
+# Exit Code (EC) 94 = A v14 boot file failed to copy to /mnt/sda1/tce/boot/
+# Exit Code (EC) 95 = A boot file mismatch found.  core.gz and vmlinuz are not either both v14 or both v12.  Restoring to v12.
+
+LOGFILE=/var/log/v14_upgrade.log
+v12_BKP=/home/tc/v12_backup
+TCZ_DIR=/mnt/sda1/tce/optional
+BOOT_DIR=/mnt/sda1/tce/boot
+v14_FILES=/home/tc/v14_files
+v14_coregz_MD5="beb86ff0f3c43a2bbfe58ef887eb2bbb"
+v14_vmlinuz_MD5="4ee4b09397b2b38b26933f7b92a77c19"
+
+# PIDS of crond and automated scripts you want to stop prior to upgrading
+CROND_PID=$(pidof -s crond)
+
+# Redirect all stdout and stderr
+exec >> $LOGFILE
+exec 2>&1
+
+# Logging Function
+log_write()
+{
+    echo "$(date) - $1"
+}
+
+# Kill processes
+kill_proc()
+{
+    # If no PID is passed, exit function
+    if [ -z "$1" ]; then
+        return 1
+    fi
+    kill $1 && log_write "Stopping $2"
+}
+
+# Kill crond and automated scripts to avoid interference
+log_write "************************************************************"
+log_write "Checking for running processes..."
+kill_proc "$CROND_PID" "crond"
+
+
+# Cleanup Function
+cleanup()
+{
+    log_write "Executing Cleanup..."
+    # Capture the MD5 of the current core.gz and vmlinuz
+    boot_coregz_MD5=$(md5sum ${{BOOT_DIR}/core.gz | cut -d " " -f1)
+    boot_vmlinuz_MD5=$(md5sum ${{BOOT_DIR}/vmlinuz | cut -d " " -f1)
+    # If one of the boot files is v14 and the other is v12, restore both v12 files. A mismatch will cause the system not to boot properly.
+    if [ "$boot_coregz_MD5" == "$v14_coregz_MD5" ] && [ "$boot_vmlinuz_MD5" != "$v14_vmlinuz_MD5" ]; then
+        cp -f ${{v12_BKP}/core.gz "${{BOOT_DIR}/"
+        cp -f ${{v12_BKP}/vmlinuz "${{BOOT_DIR}/"
+        log_write "Boot file mismatch found.  core.gz is v14 while vmlinuz is v12.  Restoring to v12."
+    fi
+    if [ "$boot_coregz_MD5" != "$v14_coregz_MD5" ] && [ "$boot_vmlinuz_MD5" == "$v14_vmlinuz_MD5" ]; then
+        cp -f ${{v12_BKP}/core.gz "${{BOOT_DIR}/"
+        cp -f ${{v12_BKP}/vmlinuz "${{BOOT_DIR}/"
+        log_write "Boot file mismatch found.  core.gz is v12 while vmlinuz is v14.  Restoring to v12."
+    fi
+    log_write "Cleaning up the v14 file downloads..."
+    rm -rf $v14_FILES
+}
+
+# Final Cleanup Function
+final_cleanup()
+{
+    log_write "Executing Cleanup..."
+    log_write "Cleaning up the v14 file downloads..."
+    rm -rf $v14_FILES
+    # Capture the MD5 of the current core.gz and vmlinuz
+    boot_coregz_MD5=$(md5sum ${{BOOT_DIR}/core.gz | cut -d " " -f1)
+    boot_vmlinuz_MD5=$(md5sum ${{BOOT_DIR}/vmlinuz | cut -d " " -f1)
+    # If one of the boot files is v14 and the other is v12, restore both v12 files. A mismatch will cause the system not to boot properly.
+    if [ "$boot_coregz_MD5" == "$v14_coregz_MD5" ] && [ "$boot_vmlinuz_MD5" != "$v14_vmlinuz_MD5" ]; then
+        cp -f ${{v12_BKP}/core.gz "${{BOOT_DIR}/"
+        cp -f ${{v12_BKP}/vmlinuz "${{BOOT_DIR}/"
+        log_write "Boot file mismatch found.  core.gz is v14 while vmlinuz is v12.  Restoring to v12. Exiting script now - EC 95"
+        exit 95
+    fi
+    if [ "$boot_coregz_MD5" != "$v14_coregz_MD5" ] && [ "$boot_vmlinuz_MD5" == "$v14_vmlinuz_MD5" ]; then
+        cp -f ${{v12_BKP}/core.gz "${{BOOT_DIR}/"
+        cp -f ${{v12_BKP}/vmlinuz "${{BOOT_DIR}/"
+        log_write "Boot file mismatch found.  core.gz is v12 while vmlinuz is v14.  Restoring to v12. Exiting script now - EC 95"
+        exit 95
+    fi
+}
+
+# Signal Trap
+trap 'sig_rec; exit' 1 2 3 6 15
+sig_rec()
+{
+    log_write "One of the following signals has been caught: 1 2 3 6 15"
+    cleanup
+    log_write "Exiting now."
+}
+
+# Exit if missing the specific v14 download
+exit_missing_file()
+{
+    cleanup
+    echo "$(date) - ERROR - The following file is missing from ${{v14_FILES}: '$1' Exiting now! - EC 93"
+    exit 93
+}
+
+# Extension backup and verification - exit script if extension fails to copy
+tcz_bkp()
+{
+    # Validate that there is only one argument
+    if [ $# -ne 1 ]; then
+        log_write "ERROR - tcz_bkp was called either without any arguments OR with 2 or more arguments.  A single argument is required with the name of the extension that needs to be backed up."
+        return 1
+    fi
+    # Validate that the argument is not empty
+    if [ -z "$1" ]; then
+        log_write "ERROR - tcz_bkp was called with an empty argument.  A single argument is required with the name of the extension that needs to be backed up."
+        return 1
+    fi
+
+    # copy the specified extension and ancillary files to the backup folder (the extension, md5 file, dep file, (md5 and dep may not exist))
+    cp -f ${{TCZ_DIR}/${{1}.tcz* "${{v12_BKP}/"
+
+    # Check that the extension was copied successfully and exit the script if it wasn't
+    # Every extensions needs to be successfully backed up before proceeding with the upgrade
+    if [ -f "${{v12_BKP}/${{1}.tcz" ]; then
+        log_write "'$1' has been successfully copied to ${{v12_BKP}."
+    else
+        cleanup
+        log_write "ERROR - '$1' backup failed.  Exiting script now! - EC 91"
+        exit 91
+    fi
+}
+
+# Upgraded extension copy and verification
+tcz_upgrade()
+{
+    # Validate that there is only one argument
+    if [ $# -ne 1 ]; then
+        log_write "ERROR - tcz_upgrade was called either without any arguments OR with 2 or more arguments.  A single argument is required with the name of the extension that needs to be upgraded."
+        return 1
+    fi
+    # Validate that the argument is not empty
+    if [ -z "$1" ]; then
+        log_write "ERROR - tcz_upgrade was called with an empty argument.  A single argument is required with the name of the extension that needs to be upgraded."
+        return 1
+    fi
+
+    # Store md5sum of v14 file to use later
+    TCZ_MD5_PRE=$(md5sum ${{v14_FILES}/${{1}.tcz | cut -d " " -f1)
+
+    # copy the specified extension and ancillary files to the persistent extension folder TCZ_DIR (the extension, md5 file, dep file, (md5 and dep may not exist))
+    cp -f ${{v14_FILES}/${{1}.tcz* "${{TCZ_DIR}/"
+
+    # Check that the extension was copied successfully
+    TCZ_MD5_POST=$(md5sum ${{TCZ_DIR}/${{1}.tcz | cut -d " " -f1)
+    if [ "$TCZ_MD5_PRE" == "$TCZ_MD5_POST" ]; then
+        log_write "'$1' has been successfully copied to ${{TCZ_DIR}."
+    else
+        log_write "ERROR - '$1' upgrade failed."
+    fi
+}
+
+# OS and Kernel backup and verification - exit script if files fail to copy
+boot_bkp()
+{
+    # Validate that there is only one argument
+    if [ $# -ne 1 ]; then
+        log_write "ERROR - boot_bkp was called either without any arguments OR with 2 or more arguments.  A single argument is required with the name of the file that needs to be backed up."
+        return 1
+    fi
+    # Validate that the argument is not empty
+    if [ -z "$1" ]; then
+        log_write "ERROR - boot_bkp was called with an empty argument.  A single argument is required with the name of the file that needs to be backed up."
+        return 1
+    fi
+
+    # copy the specified file to the backup folder
+    cp -f ${{BOOT_DIR}/${{1} "${{v12_BKP}/"
+
+    # Check that the file was copied successfully and exit the script if it wasn't
+    # Every boot file needs to be successfully backed up before proceeding with the upgrade
+    if [ -f "${{v12_BKP}/${{1}" ]; then
+        log_write "'$1' has been successfully copied to ${{v12_BKP}."
+    else
+        cleanup
+        log_write "ERROR - '$1' backup failed.  Exiting script now! - EC 92"
+        exit 92
+    fi
+}
+
+# Upgraded boot file copy and verification
+boot_upgrade()
+{
+    # Validate that there is only one argument
+    if [ $# -ne 1 ]; then
+        log_write "ERROR - boot_upgrade was called either without any arguments OR with 2 or more arguments.  A single argument is required with the name of the file that needs to be upgraded."
+        return 1
+    fi
+    # Validate that the argument is not empty
+    if [ -z "$1" ]; then
+        log_write "ERROR - boot_upgrade was called with an empty argument.  A single argument is required with the name of the file that needs to be upgraded."
+        return 1
+    fi
+
+    # Validate that the boot file exists and exit if not
+    [ ! -f "${{v14_FILES}/${{1}" ] && exit_missing_file "$1"
+
+    # Store md5sum of v14 file to use later
+    BOOT_MD5_PRE=$(md5sum ${{v14_FILES}/${{1} | cut -d " " -f1)
+
+    # copy the specified file to the BOOT_DIR
+    cp -f ${{v14_FILES}/${{1} "${{BOOT_DIR}/"
+
+    # Check that the extension was copied successfully
+    BOOT_MD5_POST=$(md5sum ${{BOOT_DIR}/${{1} | cut -d " " -f1)
+    if [ "$BOOT_MD5_PRE" == "$BOOT_MD5_POST" ]; then
+        log_write "'$1' has been successfully copied to ${{BOOT_DIR}."
+    else
+        cleanup
+        log_write "ERROR - '$1' upgrade failed. Exiting script now! - EC 94"
+        exit 94
+    fi
+}
+
+log_write "Starting Tiny Core v14 upgrade..."
+
+# Check that the v14 OS and kernel were successfully downloaded and moved to $v14_FILES - Exit script if either file is missing
+[ ! -f "${{v14_FILES}/core.gz" ] && exit_missing_file "core.gz"
+[ ! -f "${{v14_FILES}/vmlinuz" ] && exit_missing_file "vmlinuz"
+
+# Create the backup folder if it does not exist
+log_write "Starting upgrade backup folder check."
+[ ! -d "$v12_BKP" ] && log_write "The upgrade backup folder does not exist.  Creating '$v12_BKP' now." && mkdir "$v12_BKP"
+
+# Ensure the backup folder exists and exit the script if it doesn't
+if [ -d "$v12_BKP" ]; then
+    log_write "The upgrade backup folder exists - '$v12_BKP'"
+else
+    cleanup
+    log_write "ERROR - The upgrade backup folder failed to create.  Exiting script now - EC 90"
+    exit 90
+fi
+
+# Backup the v12 OS and 5.10.3 Kernel
+log_write "Starting backup of v12 OS and 5.10.3 kernel..."
+boot_bkp "core.gz"
+boot_bkp "vmlinuz"
+log_write "Backup of v12 OS and 5.10.3 kernel complete!"
+
+# Backup the v12 extensions and ancillary files
+log_write "Starting backup of extensions and ancillary files..."
+[ -f "${{TCZ_DIR}/libdnet.tcz" ] && tcz_bkp "libdnet" || log_write "The extension 'libdnet' does not exist. Skipping backup of 'libdnet'."
+[ -f "${{TCZ_DIR}/ncursesw.tcz" ] && tcz_bkp "ncursesw" || log_write "The extension 'ncursesw' does not exist. Skipping backup of 'ncursesw'."
+[ -f "${{TCZ_DIR}/nspr.tcz" ] && tcz_bkp "nspr" || log_write "The extension 'nspr' does not exist. Skipping backup of 'nspr'."
+[ -f "${{TCZ_DIR}/nss.tcz" ] && tcz_bkp "nss" || log_write "The extension 'nss' does not exist. Skipping backup of 'nss'."
+[ -f "${{TCZ_DIR}/openssl-1.1.1.tcz" ] && tcz_bkp "openssl-1.1.1" || log_write "The extension 'openssl-1.1.1' does not exist. Skipping backup of 'openssl-1.1.1'."
+[ -f "${{TCZ_DIR}/open-vm-tools.tcz" ] && tcz_bkp "open-vm-tools" || log_write "The extension 'open-vm-tools' does not exist. Skipping backup of 'open-vm-tools'."
+[ -f "${{TCZ_DIR}/perl5.tcz" ] && tcz_bkp "perl5" || log_write "The extension 'perl5' does not exist. Skipping backup of 'perl5'."
+[ -f "${{TCZ_DIR}/tzdata.tcz" ] && tcz_bkp "tzdata" || log_write "The extension 'tzdata' does not exist. Skipping backup of 'tzdata'."
+log_write "Backup of extensions and ancillary files complete!"
+
+# Copy in the v14 OS and 6.1.2 kernel
+log_write "Starting upgrade of the v14 OS and 6.1.2 kernel"
+boot_upgrade "core.gz"
+boot_upgrade "vmlinuz"
+log_write "Upgrade of the v14 OS and 6.1.2 kernel complete!"
+
+# Copy in the updated v14 extensions
+log_write "Starting upgrade of the v14 extensions"
+[ -f "${{TCZ_DIR}/libdnet.tcz" ] && tcz_upgrade "libdnet" || log_write "The extension 'libdnet' does not exist. Skipping upgrade of 'libdnet'."
+[ -f "${{TCZ_DIR}/ncursesw.tcz" ] && tcz_upgrade "ncursesw" || log_write "The extension 'ncursesw' does not exist. Skipping upgrade of 'ncursesw'."
+[ -f "${{TCZ_DIR}/nspr.tcz" ] && tcz_upgrade "nspr" || log_write "The extension 'nspr' does not exist. Skipping upgrade of 'nspr'."
+[ -f "${{TCZ_DIR}/nss.tcz" ] && tcz_upgrade "nss" || log_write "The extension 'nss' does not exist. Skipping upgrade of 'nss'."
+[ -f "${{TCZ_DIR}/openssl-1.1.1.tcz" ] && tcz_upgrade "openssl-1.1.1" || log_write "The extension 'openssl-1.1.1' does not exist. Skipping upgrade of 'openssl-1.1.1'."
+[ -f "${{TCZ_DIR}/open-vm-tools.tcz" ] && tcz_upgrade "open-vm-tools" || log_write "The extension 'open-vm-tools' does not exist. Skipping upgrade of 'open-vm-tools'."
+[ -f "${{TCZ_DIR}/perl5.tcz" ] && tcz_upgrade "perl5" || log_write "The extension 'perl5' does not exist. Skipping upgrade of 'perl5'."
+[ -f "${{TCZ_DIR}/tzdata.tcz" ] && tcz_upgrade "tzdata" || log_write "The extension 'tzdata' does not exist. Skipping upgrade of 'tzdata'."
+log_write "Upgrade of the v14 extensions is complete!"
+
+# Disable Multi-Gen LRU (MGLRU) on boot - Leaving this enabled will cause memory page reclamation issues
+log_write "Disabling MGLRU on boot via bootlocal.sh..."
+echo "echo 0 > /sys/kernel/mm/lru_gen/enabled" >> /opt/bootlocal.sh
+
+final_cleanup
+log_write "Tiny Core v14 upgrade is complete!"
+
+endofscript
+
+delete /var/opt/BESClient/v14_upgrade.sh
+move __createfile /var/opt/BESClient/v14_upgrade.sh
+wait chmod 555 /var/opt/BESClient/v14_upgrade.sh
+wait /bin/sh /var/opt/BESClient/v14_upgrade.sh
+
+continue if {exit code of action = 0}
+
+run sudo reboot]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

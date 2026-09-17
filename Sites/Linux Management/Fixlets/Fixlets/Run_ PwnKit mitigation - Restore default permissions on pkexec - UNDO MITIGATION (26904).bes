@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run: PwnKit mitigation - Restore default permissions on pkexec - UNDO MITIGATION
+  ID       : 26904
+  Author   : brolly33
+  Domain   : BESC
+  Imported : 2022-02-01T06:38:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run: PwnKit mitigation - Restore default permissions on pkexec - UNDO MITIGATION</Title>
+    <Description><![CDATA[<DIV><BR>
+<P>This task restore the default permission on the pkexec file, that is. <B>-rwsr-xr-x</B><BR>It is a generic command that can be deployed on all Linux-based endpoints<BR>chmod u+s /usr/bin/pkexec<BR></P>
+<P>This task can be used in case the PwnKit mitigation task damaged an application running on the target endpoint. It will restore the default permissions on the pkexec file that were modified by the mitigation task.<BR>Use this task with care and test thoroughly in your environment<BR></P>
+<P><B>NOTE:</B> The task restores the default (-rwsr-xr-x) to the pkexec file. <BR></P></DIV>]]></Description>
+    <Relevance>exists file &quot;/usr/bin/pkexec&quot; and mode of file &quot;/usr/bin/pkexec&quot; as string != &quot;rwsr-xr-x&quot;</Relevance>
+    <Category>Workaround</Category>
+    <Source>Community Content</Source>
+    <SourceReleaseDate>2022-01-28</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <CVENames>CVE-2021-4034</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Feb 2022 14:35:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+wait &quot;/bin/bash&quot; -c &quot;chmod u+s /usr/bin/pkexec&quot;</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>
