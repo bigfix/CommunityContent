@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Example Chrome Policy - Block plug-ins except for internally-hosted - Local Group Policy (GPO)
+  ID       : 4015
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2015-04-03T13:53:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Example Chrome Policy - Block plug-ins except for internally-hosted - Local Group Policy (GPO)</Title>
+    <Description><![CDATA[<P>Configures Local Group Policy for Google Chrome. See <A href="http://www.chromium.org/Home">http://www.chromium.org/Home</A>&nbsp;and <A href="http://www.chromium.org/administrators/policy-list-3">http://www.chromium.org/administrators/policy-list-3</A></P>
+<P>This policy</P>
+<OL>
+<LI>Disables Plugins on all sites by default.&nbsp; This affects Flash, Shockwave, Java, etc.
+<LI>Applies a list of sites where Plugins run automatically</LI></OL>
+<P><STRONG>Verification:</STRONG></P>
+<P>In the current policy, the URL <A href="https://www.adobe.com/software/flash/about/">https://www.adobe.com/software/flash/about/</A>&nbsp;should display Flash content in Chrome, while the url <A href="https://helpx.adobe.com/flash-player.html">https://helpx.adobe.com/flash-player.html</A>&nbsp;should fail to display the Flash content.</P>
+<P>HOWTO:</P>
+<P>See <A href="http://blogs.technet.com/b/fdcc/default.aspx">http://blogs.technet.com/b/fdcc/default.aspx</A>, <A href="http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx">http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx</A>, and download utilities at <A href="http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip">http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip</A></P>
+<OL>
+<LI>Configured Chrome policies by downloading the Chromium Group Policy templates, copying them to \windows\PolicyDefinitions, and creating a Policy using gpedit.msc
+<LI>Used the GPO tools to export the policy to a text file via importregpol.exe -m c:\windows\system32\grouppolicy\machine\registry.pol /parseOnly /log c:\policy.txt
+<LI>Retrieved the pieces from policy.txt that are applicable to this policy.
+<LI>Import those pieces into Local Group Policy via Apply_LGPO_Delta.exe&nbsp; regpol.txt /error apply_lgpo_delta.err</LI></OL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>not exists (key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome&quot; of native registry) whose (exists value &quot;DefaultPluginsSetting&quot; whose (it as integer = 2) of it AND exists key &quot;PluginsAllowedForUrls&quot; whose (set of (values of it as string) = set of (&quot;[*.]mycompany.com&quot;;&quot;https://www.adobe.com/software/flash/about/&quot;)) of it)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-12-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 03 Apr 2015 20:50:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">begin prefetch block
+    add prefetch item name=LGPO-Utilities.zip sha1=e849599553425754e2e070014fa7967d75671bdf size=311761 url=http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip
+    add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+    collect prefetch items
+end prefetch block
+
+// Cache unzip to Utility - probably want to unzip in several fixlets
+utility __Download\unzip.exe
+
+// Cache LGPO-Utilities.zip to Utility - probably want to apply multiple Policies
+utility __Download\LGPO-Utilities.zip
+
+waithidden __Download\unzip.exe -o &quot;{pathname of client folder of current site}\__Download\LGPO-Utilities.zip&quot; -d &quot;{pathname of client folder of current site}\__Download&quot;
+
+action uses wow64 redirection false
+
+delete __createfile
+createfile until EOF_EOF_EOF
+; ----------------------------------------------------------------------
+; PARSING COMPUTER POLICY
+; Source file:  \windows\system32\GroupPolicy\Machine\Registry.pol
+
+;DefaultPluginsSetting
+; 1 = automatically run, 2 = block all plugins, 3 = click to play
+
+; PluginsAllowedForUrlsPolicyVersion is an arbitrary setting created by LMCO to track the policy version installed.
+; This is used in determining Relevance of this fixlet
+
+Computer
+Software\Policies\Google\Chrome
+PolicyVersion-PluginsAllowedForUrls
+SZ:2015.02.09.004
+
+Computer
+Software\Policies\Google\Chrome
+DefaultPluginsSetting
+DWORD:2
+
+; Plugins are automatically run for the following Urls (overrides DefaultPluginsSetting)
+; NOTE - that *looks* like a regex but it isn&apos;t (entirely).  Don&apos;t escape the forward slashes or dots.
+
+Computer
+Software\Policies\Google\Chrome\PluginsAllowedForUrls
+*
+DELETEALLVALUES
+
+Computer
+Software\Policies\Google\Chrome\PluginsAllowedForUrls
+1
+SZ:[*.]mycompany.com
+
+; Adobe&apos;s example site for checking Flash works
+Computer
+Software\Policies\Google\Chrome\PluginsAllowedForUrls
+3
+SZ:https://www.adobe.com/software/flash/about/
+
+
+; Another Adobe URL that should not work because we do not whitelist it
+; https://helpx.adobe.com/flash-player.html
+; PARSING COMPLETED.
+; ----------------------------------------------------------------------
+EOF_EOF_EOF
+
+
+delete regpol.txt
+move __createfile regpol.txt
+
+waithidden __Download\Apply_LGPO_Delta.exe  regpol.txt /error apply_lgpo_delta.err
+runhidden gpupdate.exe /target:computer /wait:0
+
+// MAY require restart, still checking
+if {not exists (key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome&quot; of native registry) whose (exists value &quot;DefaultPluginsSetting&quot; whose (it as integer = 2) of it AND exists key &quot;PluginsAllowedForUrls&quot; whose (set of values of it as string = set of (&quot;[*.]mycompany.com&quot;;&quot;https://www.adobe.com/software/flash/about/&quot;)) of it)}
+	action requires restart &quot;Chrome_Policy_Update&quot;
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>
