@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Zoom for IT check
+  ID       : 2998692
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-05-13T15:23:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Zoom for IT check</Title>
+    <Description>Checks if the installed version of Zoom is the &quot;Zoom for IT&quot; package.</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>exists application (&quot;zoom.us.app&quot; of folder &quot;/Applications&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 May 2024 22:22:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Zoom for IT check" EvaluationPeriod="P1D">next line of line whose (it as string contains &quot;ZITPackage&quot;) of file &quot;/Applications/zoom.us.app/Contents/Info.plist&quot; contains &quot;true&quot;</Property>
+  </Analysis>
+</BES>

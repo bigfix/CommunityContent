@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SecureW2 Info - Windows
+  ID       : 2994631
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-29T13:32:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SecureW2 Info - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;Info about the SecureW2 client.</P>
+<P><A href="http://www.securew2.com/">http://www.securew2.com/</A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* Windows 7 or lower */ version of operating system < "6.2"]]></Relevance>
+    <Relevance>/* Only relevant if SecureW2 is installed, or if SecureW2 folders or registry keys exist */ (exists keys whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;registry)) OR (exists folder &quot;SecureW2&quot; of folder (value of variable &quot;ProgramFiles&quot; of environment)) OR (exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\SecureW2&quot; of (registry))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 29 Jan 2014 20:29:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SecureW2 UninstallKey?" EvaluationPeriod="P2D">exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry</Property>
+    <Property ID="2" Name="Version" EvaluationPeriod="P2D">(it as version) of following texts of firsts &quot;SecureW2 Enterprise Client &quot; of (it as string) of value &quot;DisplayName&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry</Property>
+    <Property ID="3" Name="UninstallString" EvaluationPeriod="P2D">((it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="4" Name="InstalledLocation" EvaluationPeriod="P2D">(preceding texts of lasts &quot;\&quot; of (it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="5" Name="InstallTime" EvaluationPeriod="P2D">creation time of file &quot;Uninstall.exe&quot; of folder (preceding texts of lasts &quot;\&quot; of (it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="6" Name="Files" EvaluationPeriod="P2D">files of folder (preceding texts of lasts &quot;\&quot; of (it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="7" Name="SecureW2 creation time" EvaluationPeriod="P2D">maximum of creation times of files whose(name of it as lowercase starts with &quot;sw2_&quot; AND name of it as lowercase ends with &quot;.exe&quot;) of folders (preceding texts of lasts &quot;\&quot; of (it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="8" Name="sw2 exe version" EvaluationPeriod="P2D">maximum of versions of files whose(name of it as lowercase starts with &quot;sw2_&quot; AND name of it as lowercase ends with &quot;.exe&quot;) of folders (preceding texts of lasts &quot;\&quot; of (it as string) of value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string contains &quot;SecureW2 Enterprise Client&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Property>
+    <Property ID="9" Name="sw2 Profiles" EvaluationPeriod="P2D">names of keys of (key &quot;Methods\Default\Profiles&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\SecureW2&quot; of registry)</Property>
+    <Property ID="11" Name="SecureW2 folder?" EvaluationPeriod="P2D">(exists folder &quot;SecureW2&quot; of folder (value of variable &quot;ProgramFiles&quot; of environment))</Property>
+    <Property ID="13" Name="wireless?" EvaluationPeriod="P2D">exists connections whose (name of it as lowercase contains &quot;wireless network connection&quot;) of network</Property>
+  </Analysis>
+</BES>

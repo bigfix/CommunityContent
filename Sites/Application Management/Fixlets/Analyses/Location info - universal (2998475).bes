@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Location info - universal
+  ID       : 2998475
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-10-28T12:05:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Location info - universal</Title>
+    <Description><![CDATA[<P>uses approximate location info derrived from the public IP address: <A href="https://bigfix.me/fixlet/details/22465">https://bigfix.me/fixlet/details/22465</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>(exists files whose(name of it as lowercase starts with &quot;public_ip_http_curl_location_approximation.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client) OR ( exists files whose(name of it as lowercase starts with &quot;public_ip_http_curl_timezone.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 28 Oct 2016 19:04:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Approximate Location from Public IP" EvaluationPeriod="PT6H">(modification time of it, JSON of it) of files whose(name of it as lowercase starts with &quot;public_ip_http_curl_location_approximation.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="2" Name="Approximate TimeZone from Public IP" EvaluationPeriod="PT6H">(modification time of it, JSON of it) of files whose(name of it as lowercase starts with &quot;public_ip_http_curl_timezone.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="3" Name="Approximate Elevation from Public IP - RAW_DATA" EvaluationPeriod="PT6H">(modification time of it, JSON of it) of files whose(name of it as lowercase starts with &quot;public_ip_http_curl_elevation.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="4" Name="Approximate Elevation from Public IP - Meters" EvaluationPeriod="PT6H">unique values of (it as string as trimmed string) of values of keys &quot;elevation&quot; of elements of values of keys &quot;results&quot; of jsons of files whose(name of it as lowercase starts with &quot;public_ip_http_curl_elevation.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+    <Property ID="5" Name="Approximate Boiling Point of Water - Degrees Fahrenheit" EvaluationPeriod="PT6H">( 212 - (it * &quot;0.00184&quot; as floating point) ) of ( /* Meters to feet */ it * &quot;3.28084&quot; as floating point) of (it as floating point) of unique values of (it as string as trimmed string) of values of keys &quot;elevation&quot; of elements of values of keys &quot;results&quot; of jsons of files whose(name of it as lowercase starts with &quot;public_ip_http_curl_elevation.json&quot; AND name of it as lowercase ends with &quot;.json&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Property>
+  </Analysis>
+</BES>

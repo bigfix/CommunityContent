@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Vulnerabilities - Intel SA 00075 - Windows
+  ID       : 2998555
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-05-12T13:52:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Vulnerabilities - Intel SA 00075 - Windows</Title>
+    <Description><![CDATA[<P>This Analysis provides the results for the the Intel SA 00075 Probe on a system to determine if it is vulnerable. </P>
+<P>Please use the Fixlet: <STRONG>Invoke - Intel SA 00075 Probe - Windows </STRONG>to populate results for a system. Please use Fixlet: <STRONG>Invoke - Intel SA 00075 Unprovision Active Management Technology - Windows </STRONG>and Fixlet: <STRONG>Invoke - Intel SA 00075 Remove Local Management Service - Windows </STRONG>to resolve the Vulnerability.</P>
+<P>A value of Vulnerable means your firmware version is vulnerable to the exploit. A value of Exposed means that you are vulnerable and the required processes for exploitation are currently exposed.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(brand string of main processor as lowercase) contains &quot;intel&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Intel SA 00075 - Vulnerable - Windows" EvaluationPeriod="PT30M">(if (it = 1) then (&quot;Vulnerable&quot;) else (&quot;Not Vulnerable&quot;)) of (values &quot;Vulnerable&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry)</Property>
+    <Property ID="2" Name="Intel SA 00075 - Exposed - Windows" EvaluationPeriod="PT30M">(if (it = 1) then (&quot;Exposed&quot;) else (&quot;Not Exposed&quot;)) of (values &quot;Exposed&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry)</Property>
+    <Property ID="3" Name="Intel SA 00075 - Last Scan - Windows" EvaluationPeriod="PT30M">values &quot;Scan Date&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool&quot; of x32 registry</Property>
+    <Property ID="4" Name="Intel SA 00075 - Provisioning State - Windows" EvaluationPeriod="PT1H">values &quot;ME Provisioning State&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry</Property>
+    <Property ID="5" Name="Intel SA 00075 - LMS State - Windows" EvaluationPeriod="P1D">states of services &quot;LMS&quot; whose (display name of it contains &quot;Local Management Service&quot;)</Property>
+  </Analysis>
+</BES>

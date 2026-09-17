@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : NXLog - Windows
+  ID       : 2998476
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-08T11:43:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>NXLog - Windows</Title>
+    <Description><![CDATA[Provides information on the&nbsp;installed NXLog service on the System
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;nxlog&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="NXLog - Version - Windows" EvaluationPeriod="P1D">value &quot;DisplayVersion&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;NXLog-CE&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x32 registries; x64 registries)</Property>
+    <Property ID="2" Name="NXLog - State - Windows" EvaluationPeriod="P1D">state of service &quot;nxlog&quot;</Property>
+    <Property ID="3" Name="NXLog - Installation Directory - Windows" EvaluationPeriod="P1D">values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries</Property>
+    <Property ID="4" Name="NXLog - Configuration Includes - Windows" EvaluationPeriod="P1D">lines starting with &quot;include&quot; of files &quot;nxlog.conf&quot; of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)</Property>
+    <Property ID="5" Name="NXLog - Installed Configurations - Windows" EvaluationPeriod="P1D">(name of parent folder of it, it) of descendants of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)</Property>
+  </Analysis>
+</BES>
