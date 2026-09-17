@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Encryption Analysis for Clients
+  ID       : 31
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Encryption Analysis for Clients</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD>This analysis returns the public keys on&nbsp;clients enabled for deploying encrypted passwords. These keys can be used to securely deploy settings down to the endpoint.</TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\EncryptionControl&quot; whose (exists value &quot;CertificatePath&quot; whose (exists file (it as string)) of it) of x32 registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 28 Jun 2012 20:58:46 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 12 Sep 2012 23:49:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Public Key">lines of file (value &quot;CertificatePath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\EncryptionControl&quot; of x32 registry as string)</Property>
+  </Analysis>
+</BES>

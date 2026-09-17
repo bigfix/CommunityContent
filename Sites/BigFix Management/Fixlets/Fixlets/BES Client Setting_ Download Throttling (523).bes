@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Download Throttling
+  ID       : 523
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Download Throttling</Title>
+    <Description><![CDATA[
+The BES Client can "throttle" the download speed by limiting the amount of bytes it downloads per second. This setting is effective if network bandwidth between the BES Client and the BES Relay is a concern (such as with a dial-up connection). <BR><BR><b>Note:</b> The throttle value cannot be greater than 4294967296 Bytes/sec.<BR><BR><b>Note:</b> Do <b>not</b> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly reset this setting.
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 22 Jun 2004 22:59:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action433">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about BES bandwidth throttling.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/misc/besthrottling.html</ActionScript>
+    </Action>
+    <Action ID="Action758">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to enable download throttling on the listed BES Clients. You will be prompted for the download traffic limit in bytes/sec.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "_BESClient_Download_LimitBytesPerSecond" with description "Please enter the limit on download traffic (valid limits range from 1 to 4294967296 bytes/sec):"
+// Fail if value is not between 1 and 4,294,967,296
+continue if {parameter "_BESClient_Download_LimitBytesPerSecond" of action as integer >= 1 AND parameter "_BESClient_Download_LimitBytesPerSecond" of action as integer <= 4294967296}
+setting "_BESClient_Download_LimitBytesPerSecond"="{parameter "_BESClient_Download_LimitBytesPerSecond" of action}" on "{parameter "action issue date" of action}" for client]]></ActionScript>
+    </Action>
+    <Action ID="Action759">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable download throttling on the listed BES Clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Download_LimitBytesPerSecond&quot;=&quot;0&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

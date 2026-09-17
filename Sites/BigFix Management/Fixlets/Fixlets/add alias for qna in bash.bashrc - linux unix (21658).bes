@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : add alias for qna in bash.bashrc - linux unix
+  ID       : 21658
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-09-15T16:20:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>add alias for qna in bash.bashrc - linux unix</Title>
+    <Description>This has been successfully tested in the context of SSH sessions on both Ubuntu and CentOS. It should work on any platform it is relevant on, but it is hard to be sure without testing. You may need to `exec bash` or otherwise reload bash for the alias to take effect for existing bash sessions.</Description>
+    <Relevance>exists files &quot;/opt/BESClient/bin/qna&quot;</Relevance>
+    <Relevance>exists (files &quot;/etc/bashrc&quot;;files &quot;/etc/bash.bashrc&quot;)</Relevance>
+    <Relevance>not exists lines containing &quot;/opt/BESClient/bin/qna&quot; whose(it starts with &quot;alias&quot;) of (files &quot;/etc/bashrc&quot;;files &quot;/etc/bash.bashrc&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Sep 2016 23:20:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "bashrc" = "{ unique value of pathnames of (files "/etc/bashrc";files "/etc/bash.bashrc") }"
+
+// the following parameters are not always used, but can be in some cases to help make a script more cross platform
+parameter "PathSeparator" = "{ if (windows of operating system) then "\" else "/" }"
+parameter "OSshell" = "{ if (windows of operating system) then "cmd /C " else "bash -c " }"
+
+wait {parameter "OSshell"} "echo alias qna=\'/opt/BESClient/bin/qna -t -showtypes\' >> { parameter "bashrc" }"
+
+// http://askubuntu.com/questions/438150/scripts-in-etc-profile-d-being-ignored
+// http://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias
+// http://www.linfo.org/alias.html
+// http://superuser.com/questions/634866/create-alias-or-add-path
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

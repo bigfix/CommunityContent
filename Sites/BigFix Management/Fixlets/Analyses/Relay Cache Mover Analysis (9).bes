@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Relay Cache Mover Analysis
+  ID       : 9
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Relay Cache Mover Analysis</Title>
+    <Description><![CDATA[<P>This analysis will help us predict what the mover task will do once it runs on an endpoint.</P>
+<P>The overall analysis of the task is if C drive is full, but within actionscript it evaluates D drive on nts700 boxes, and F drive on SAPS boxes.&nbsp; If there isn't enough space on that drive it just creates a ticket.&nbsp; Thus we don't know if the action will create a ticket or move the cache... it'd be nice to predict since we have 2500 relevant initially in production.&nbsp; We don't want to spit out 2500 tickets all at once.</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>exists (values &quot;value&quot; of keys &quot;HKLM\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath&quot; of registry as folder)</Relevance>
+    <Relevance>(value &quot;value&quot; of key &quot;HKLM\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath&quot; of registry as folder) as string as lowercase  starts with  (preceding text of first &quot;:&quot; of (system folder as string)) as string as lowercase</Relevance>
+    <Relevance><![CDATA[(((total space of drive of system folder /1024/1024)/10)+2048) > (free space of drive of system folder /1024/1024)]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:31:03 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Checking Drive" EvaluationPeriod="PT1H">if ( exists (computer name) whose (it as string as lowercase contains &quot;nts700&quot;) ) AND ( exists drive &quot;D:&quot; ) then    &quot;D:&quot; else   if ( (exists (computer name) whose (it as string as lowercase contains &quot;saps01&quot; OR it as string as lowercase contains &quot;saps02&quot;)) ) AND ( exists drive &quot;F:&quot; ) then     &quot;F:&quot;   else     &quot;No Drive Available&quot;</Property>
+    <Property ID="2" Name="Total Space" EvaluationPeriod="PT1H">if ( exists (computer name) whose (it as string as lowercase contains &quot;nts700&quot;) ) AND ( exists drive &quot;D:&quot; ) then    total space of drive &quot;D:&quot; as string else   if ( (exists (computer name) whose (it as string as lowercase contains &quot;saps01&quot; OR it as string as lowercase contains &quot;saps02&quot;)) ) AND ( exists drive &quot;F:&quot; ) then     total space of drive &quot;F:&quot; as string   else     &quot;N/A&quot;</Property>
+    <Property ID="3" Name="Free Space" EvaluationPeriod="PT1H">if ( exists (computer name) whose (it as string as lowercase contains &quot;nts700&quot;) ) AND ( exists drive &quot;D:&quot; ) then    free space of drive &quot;D:&quot; as string else   if ( (exists (computer name) whose (it as string as lowercase contains &quot;saps01&quot; OR it as string as lowercase contains &quot;saps02&quot;)) ) AND ( exists drive &quot;F:&quot; ) then     free space of drive &quot;F:&quot; as string   else     &quot;N/A&quot;</Property>
+    <Property ID="4" Name="Action Result" EvaluationPeriod="PT1H">if ( exists (computer name) whose (it as string as lowercase contains &quot;nts700&quot;) ) AND ( exists drive &quot;D:&quot; ) then    if ( ((((total space of drive &quot;D:&quot;) /(1024 * 1024))/10)+2048) &lt; (free space of drive &quot;D:&quot; /1024/1024) ) then     &quot;Move&quot;   else     &quot;Ticket&quot; else   if ( (exists (computer name) whose (it as string as lowercase contains &quot;saps01&quot; OR it as string as lowercase contains &quot;saps02&quot;)) ) AND ( exists drive &quot;F:&quot; ) then     if ( ((((total space of drive &quot;F:&quot;) /(1024 * 1024))/10)+2048) &lt; (free space of drive &quot;F:&quot; /1024/1024) ) then       &quot;Move&quot;     else       &quot;Ticket&quot;   else     &quot;Ticket&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Relay Cache Information
+  ID       : 25
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Relay Cache Information</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P><FONT size=2>This analysis contains information about the&nbsp;cache size&nbsp;of the BES&nbsp;Relay deployment. This information will be useful in&nbsp;assessing&nbsp;where the BES Relays have enough free space for the downloaded files.</FONT></P> <P><FONT size=2>You can set the cache size for the BES Relays using the&nbsp;appropriate BES Server/Relay Setting Task.</FONT></P><FONT size=2> <P>Since this information&nbsp;does not change much and its evaluation can be resource intensive,&nbsp;these properties are only evaluated <STRONG>once per day </STRONG>to avoid excess CPU or other computer resource usage.</P> </FONT><P><FONT size=2>After activating this analysis, you will see the following properties:</FONT></P> <UL> <LI><FONT size=2>BES Relay Cache Size </FONT> <LI><FONT size=2>BES Relay Drive Info </FONT> <LI><FONT size=2>BES Relay Used Action Cache (cache for the open actions)</FONT> <LI><FONT size=2>BES Relay Used Download Cache&nbsp;(cache for the downloaded files)</FONT></LI></UL> <P><FONT size=2><STRONG>Note:</STRONG> This analysis will apply to the BES Root Server as well as BES Relays.</FONT></P> <P><FONT size=2><STRONG><FONT color=red>Important Note:</FONT></STRONG> The "BES Relay Cache Size"&nbsp;applies to both the&nbsp;<STRONG>action cache&nbsp;</STRONG>for open actions and the&nbsp;<STRONG>download cache </STRONG>so the maximum disk&nbsp;space used for the BES Relay&nbsp;caches will be <STRONG>2x&nbsp;</STRONG>the cache size&nbsp;that is&nbsp;set.&nbsp;(One exception to this rule is that the action cache on the BES Server is not bound by caching limits and the action cache will only be cleared when actions are stopped. Click <A href="http://support.bigfix.com/cgi-bin/kbdirect.pl?id=243">here</A> for more information on clearing the action cache on the BES Server.)</FONT></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Jul 2011 22:23:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 01 Nov 2004 20:57:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BES Relay Cache Size" EvaluationPeriod="P1D">if (exists setting &quot;_BESGather_Download_CacheLimitMB&quot; whose (exists value of it AND value of it as string != &quot;&quot;) of client) then (value of setting &quot;_BESGather_Download_CacheLimitMB&quot; of client &amp; &quot; MB&quot;) else &quot;1024 MB&quot;</Property>
+    <Property ID="2" Name="BES Relay Drive Info" EvaluationPeriod="P1D">(name of it &amp; &quot; - &quot; &amp; (free space of it / 1024 / 1024) as string &amp; &quot; MB free&quot;) of drive of (folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client)) as string</Property>
+    <Property ID="3" Name="BES Relay Used Action Cache" EvaluationPeriod="P1D">((sum of sizes of files of folders whose (name of it as lowercase does not contain &quot;sha1&quot;) of folder &quot;bfmirror/downloads&quot; of (folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))) /1024/1024) as string &amp; &quot; MB&quot;</Property>
+    <Property ID="4" Name="BES Relay Used Download Cache" EvaluationPeriod="P1D">if ( exists folder &quot;bfmirror/downloads/sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client)) then ((sum of sizes of files of folder &quot;bfmirror/downloads/sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client)) /1024/1024) as string &amp; &quot; MB&quot; else &quot;Never Used&quot;</Property>
+  </Analysis>
+</BES>

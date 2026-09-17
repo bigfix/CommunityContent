@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Relay Info
+  ID       : 2994717
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-24T16:55:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Relay Info</Title>
+    <Description><![CDATA[<P>This analysis reports various information about the configuation and status of BES Relays.</P>
+<P>&nbsp;</P>
+<P>The latest version of this Analysis can be found here:&nbsp; <A href="http://bigfix.me/analysis/details/2994575"><FONT color=#000080>http://bigfix.me/analysis/details/2994575</FONT></A></P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://technet.microsoft.com/en-us/library/cc938217.aspx">http://technet.microsoft.com/en-us/library/cc938217.aspx</A></P>
+<P><A href="http://www-01.ibm.com/support/docview.wss?uid=swg21606578">http://www-01.ibm.com/support/docview.wss?uid=swg21606578</A></P>
+<P><A href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Configuration%20Settings">https://www.ibm.com/developerworks/community/wikis/home?lang=en#/wiki/Tivoli%20Endpoint%20Manager/page/Configuration%20Settings</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 24 Sep 2014 23:53:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="PostResults_ResultCountLimit" EvaluationPeriod="P2D">value of settings &quot;_BESRelay_PostResults_ResultCountLimit&quot; of client | ERROR &quot;Default:500&quot;</Property>
+    <Property ID="2" Name="PostResults_ResultTimeLimit - seconds" EvaluationPeriod="P2D">value of settings &quot;_BESRelay_PostResults_ResultTimeLimit&quot; of client | ERROR &quot;Default:3&quot;</Property>
+    <Property ID="3" Name="ClientRegister_MaxChildCount" EvaluationPeriod="P2D">value of settings &quot;_Enterprise Server_ClientRegister_MaxChildCount&quot; of client | ERROR &quot;Default:no_limit&quot;</Property>
+    <Property ID="4" Name="UpstreamCheckPeriodMinutes" EvaluationPeriod="P2D">value of settings &quot;_BESRelay_GatherMirror_UpstreamCheckPeriodMinutes&quot; of client | ERROR &quot;Default:360&quot;</Property>
+    <Property ID="5" Name="LimitBytesPerSecond" EvaluationPeriod="P2D">value of settings &quot;_BESGather_Download_LimitBytesPerSecond&quot; of client | ERROR &quot;Default:Disabled&quot;</Property>
+    <Property ID="6" Name="MaxChildRelayCount" EvaluationPeriod="P2D">value of settings &quot;_Enterprise Server_ClientRegister_MaxChildRelayCount&quot; of client | ERROR &quot;Default:no_limit&quot;</Property>
+    <Property ID="7" Name="MemUsage BESRelay.exe or BESRootServer.exe WMI" EvaluationPeriod="PT1H">if (exists wmi) then if(exists main gather service) then ((((string value of selects &quot;WorkingSetSize from win32_process where Name = &apos;besrootserver.exe&apos;&quot; of wmi) as integer) / (1024*1024)) as string &amp; &quot; MB&quot;) else ((((string value of selects &quot;WorkingSetSize from win32_process where Name = &apos;besrelay.exe&apos;&quot; of wmi) as integer) / (1024*1024)) as string &amp; &quot; MB&quot;) else ERROR &quot;WMI not available&quot;</Property>
+    <Property ID="8" Name="MemUsage BESRelay.exe or BESRootServer.exe inspector" EvaluationPeriod="PT1H">working set size of process whose (name of it as lowercase is &quot;besrelay.exe&quot; OR name of it as lowercase is &quot;besrootserver.exe&quot;) / (1024*1024)</Property>
+    <Property ID="9" Name="HTTPServer_ServerRootPath" EvaluationPeriod="P1D">value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string</Property>
+    <Property ID="10" Name="Time between now and oldest modification time of cached files" EvaluationPeriod="P1D">now - (minimum of modification times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="11" Name="Download_RetryMinutes" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_RetryMinutes&quot; of client | ERROR &quot;Default:10&quot;</Property>
+    <Property ID="12" Name="Download_ChannelThreshold (thin) - MB" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_ChannelThreshold&quot; of client | ERROR &quot;Default:500000&quot;</Property>
+    <Property ID="13" Name="Download_InactivityTimeout - seconds" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_InactivityTimeout&quot; of client | ERROR &quot;Default:300&quot;</Property>
+    <Property ID="14" Name="Relay HTTPServer_MaxConnections" EvaluationPeriod="P1D">value of settings &quot;_BESRelay_HTTPServer_MaxConnections&quot; of client | ERROR &quot;Default:2048&quot;</Property>
+    <Property ID="15" Name="Max PostResults_ResultCountLimit" EvaluationPeriod="P1D">value of settings &quot;_BESRelay_PostResults_ResultCountLimit&quot; of client | ERROR &quot;Default:500&quot;</Property>
+    <Property ID="16" Name="Relay Path " EvaluationPeriod="P1D">value &quot;EnterpriseServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry as string</Property>
+    <Property ID="17" Name="Time between now and oldest creation time of cached files" EvaluationPeriod="P1D">now - (minimum of creation times of files of folder &quot;bfmirror\downloads\sha1&quot; of folder (value of setting &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client as string))</Property>
+    <Property ID="18" Name="Uptime" EvaluationPeriod="PT1H">uptime of operating system</Property>
+    <Property ID="19" Name="TcpTimedWaitDelay" EvaluationPeriod="PT6H">values &quot;TcpTimedWaitDelay&quot; of keys &quot;HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters&quot; of native registry</Property>
+    <Property ID="22" Name="BufferDirectoryMaxSize" EvaluationPeriod="P1D">unique value of (it as string) of values &quot;BufferDirectoryMaxSize&quot; of keys &quot;HKLM\Software\BigFix\Enterprise Server\PostResults&quot; of (native registry;registry)</Property>
+    <Property ID="23" Name="Log_Verbose?" EvaluationPeriod="P1D">value of settings &quot;_BESRelay_Log_Verbose&quot; of client | ERROR &quot;Default:0&quot;</Property>
+    <Property ID="24" Name="HTTPServer_LogFileSizeLimit" EvaluationPeriod="P1D">value of settings &quot;_BESRelay_HTTPServer_LogFileSizeLimit&quot; of client | ERROR &quot;Default:52428800&quot;</Property>
+    <Property ID="25" Name="Download_CacheLimitMB" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_CacheLimitMB&quot; of client | ERROR &quot;Default:1024&quot;</Property>
+    <Property ID="26" Name="Download_RetryMinutes" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_RetryMinutes&quot; of client | ERROR &quot;Default:10&quot;</Property>
+    <Property ID="27" Name="Download_RetryLimit" EvaluationPeriod="P1D">value of settings &quot;_BESGather_Download_RetryLimit&quot; of client | ERROR &quot;Default:432&quot;</Property>
+    <Property ID="28" Name="Uploadmanager_BufferDirectoryMaxCount" EvaluationPeriod="P1D">value of settings &quot;_BESRelay_Uploadmanager_BufferDirectoryMaxCount&quot; of client | ERROR &quot;Default:10000&quot;</Property>
+    <Property ID="29" Name="UploadManager_BufferDirectoryMaxSize" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_BufferDirectoryMaxSize&quot; of client | ERROR &quot;Default:1GB&quot;</Property>
+    <Property ID="30" Name="UploadManager_BufferDirectory" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client | ERROR &quot;not set&quot;</Property>
+    <Property ID="31" Name="UploadManager_CompressedFileMaxSize" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_CompressedFileMaxSize&quot; of client | ERROR &quot;not set&quot;</Property>
+    <Property ID="32" Name="UploadManager_ChunkSize" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_ChunkSize&quot; of client | ERROR &quot;128K&quot;</Property>
+    <Property ID="33" Name="UploadManager_ThrottleKBPS" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_ThrottleKBPS&quot; of client | ERROR &quot;0 - Throttling Disabled&quot;</Property>
+    <Property ID="34" Name="UploadManager_ParentURL" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_ParentURL&quot; of client | ERROR &quot;/cgi-bin/bfenterprise/PostFile.exe&quot;</Property>
+    <Property ID="35" Name="UploadManager_CleanupHours" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_UploadManager_CleanupHours&quot; of client | ERROR &quot;72&quot;</Property>
+    <Property ID="36" Name="_PostFile_ChunkSize" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_PostFile_ChunkSize&quot; of client | ERROR &quot;128K&quot;</Property>
+    <Property ID="37" Name="_PostFile_ThrottleKBPS" EvaluationPeriod="PT12H">value of settings &quot;_BESRelay_PostFile_ThrottleKBPS&quot; of client | ERROR &quot;0 - Throttling Disabled&quot;</Property>
+    <Property ID="38" Name="UploadManager_BufferDirectory folder path" EvaluationPeriod="PT12H">( pathname of folder (value of settings &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client) )</Property>
+    <Property ID="39" Name="Size of UploadManager_BufferDirectory  (bytes)" EvaluationPeriod="P2D">sum of sizes of descendants of folder &quot;sha1&quot; of folder (value of settings &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client)</Property>
+    <Property ID="40" Name="UploadManager_BufferDirectory main folder path" EvaluationPeriod="PT12H">pathname of folder &quot;sha1&quot; of folder (value of settings &quot;_BESRelay_UploadManager_BufferDirectory&quot; of client)</Property>
+  </Analysis>
+</BES>

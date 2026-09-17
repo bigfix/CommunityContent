@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : WebReports Server Info
+  ID       : 2994792
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T11:35:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>WebReports Server Info</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports&quot; of registry</Relevance>
+    <Relevance>/* This will exclude the root server if it does not have WebReports installed */ exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\BESReports\Preferences&quot; of registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Oct 2014 13:58:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Version" EvaluationPeriod="P2D">version of file &quot;BESWebReportsServer.exe&quot; of folder (value &quot;WRServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry as string)</Property>
+    <Property ID="2" Name="HostName" EvaluationPeriod="P2D">value &quot;hostname&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Installer&quot; of registry</Property>
+    <Property ID="3" Name="Server Folder" EvaluationPeriod="P2D">value &quot;WRServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry</Property>
+    <Property ID="4" Name="libBEScrypto Version">maximum of versions of files whose(name of it starts with &quot;libBEScrypto&quot; AND name of it ends with &quot;.dll&quot;) of folder (value &quot;WRServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry as string)</Property>
+    <Property ID="5" Name="# log files - Size" EvaluationPeriod="PT12H">sum of sizes of files whose(name of it as lowercase ends with &quot;.log&quot;) of folder ((it as string) of value &quot;WRServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry)</Property>
+    <Property ID="6" Name="WR EXE Version" EvaluationPeriod="PT12H">versions of files &quot;BESWebReportsServer.exe&quot; of folders ((it as string) of value &quot;WRServerFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server&quot; of registry)</Property>
+    <Property ID="7" Name="WR DB RefreshSeconds" EvaluationPeriod="PT12H">values &quot;RefreshSeconds&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillAggregateDB&quot; of registry</Property>
+    <Property ID="8" Name="WR RemoteDBs" EvaluationPeriod="PT12H">names of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillAggregateDB\RemoteDatabases&quot; of registry</Property>
+    <Property ID="9" Name="WR RemoteDB Connection Configs" EvaluationPeriod="PT12H">(name of it &amp; &quot;: &quot; &amp; (concatenation &quot;, &quot; of (name of it &amp; &quot;=&quot; &amp; it as string) of values whose(&quot;Password&quot; != name of it) of it)) of keys of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillAggregateDB\RemoteDatabases&quot; of registry</Property>
+  </Analysis>
+</BES>

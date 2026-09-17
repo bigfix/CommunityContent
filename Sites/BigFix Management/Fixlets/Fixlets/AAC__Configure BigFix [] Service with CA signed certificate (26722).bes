@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AAC::Configure BigFix [] Service with CA signed certificate
+  ID       : 26722
+  Author   : kapax
+  Domain   : BES
+  Imported : 2020-11-16T02:14:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AAC::Configure BigFix [] Service with CA signed certificate</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This Fixlet prompts for the certificate and certificate key to be used enabling Bigfix Services with CA signed certificates.
+<P>Certificate file will be created with extension .pem, its key with extension _key.pem
+<P><BR>&nbsp;</P></DIV><script>
+    loaded = false;
+    var CODE_SITE_NAME = 'BES Support' ;
+    function loadScript (siteName, callback) {
+      loaded = false;
+      var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+      var code = EvaluateRelevance(relevanceQuery);
+      var head = document.getElementsByTagName("head")[0];
+      var script   = document.createElement("script");
+      script.type  = "text/javascript";
+      script.text = code;
+      head.appendChild(script);
+      callback();
+    }
+    function scriptLoaded(){
+      if (!loaded)
+{
+
+        if ( typeof FixletUtils !== 'undefined') {
+           loaded = true;
+           var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+           var messages = EvaluateRelevance(relQuery);
+           var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+           var matches = regex.exec(messages);
+           matches[1]=matches[1].replace(/<br>/gi,"");
+           eval(matches[1]);
+           FixletUtils.initFixletRender();
+        }
+    }
+}
+    loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>
+<DIV class=FixletProperty></DIV><BR>
+<P>Written by <A href="mailto:Andrea.Capasso@hcl.com">Andrea.Capasso@hcl.com</A> using documentation for</P>
+<P>&nbsp;<A href="https://bigfix-wiki.hcltechsw.com/wikis/home?lang=en-us#!/wiki/BigFix%20Wiki/page/Creating%20parameterized%20fixlets">parametrized fixlets</A>&nbsp;</P>
+<P>&nbsp;<A href="http://https://help.hcltechsw.com/bigfix/10.0/platform/c_SSL_overview.html?hl=ssl">HTTPS across BigFix applications</A></P></DIV>]]></Description>
+    <Relevance>exists service &quot;BESWebReportsServer&quot; OR exists main gather service or exist webui service</Relevance>
+    <Category>Utility</Category>
+    <Source>andrea.capasso@hcl.com</Source>
+    <SourceReleaseDate>2020-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>     { &quot;CertName&quot;:      {     &quot;Name&quot;: &quot;CertName&quot;,&quot;Title&quot;: &quot;Certificate filename:&quot;,&quot;Description&quot;: &quot;Define Certificate filename:&quot;,&quot;UIType&quot;: &quot;Textbox&quot;, &quot;Default&quot;: &quot;BFCert&quot;       }, &quot;CertificateLocation&quot;:      {     &quot;Name&quot;: &quot;CertificateLocation&quot;,&quot;Title&quot;: &quot;location to install certificate:&quot;,&quot;Description&quot;: &quot;Path to store the certificate&quot;,&quot;UIType&quot;: &quot;Textbox&quot;,&quot;Default&quot;: &quot;C:\\HCL&quot;      },     &quot;Certificate&quot;:      {     &quot;Name&quot;: &quot;Certificate&quot;,&quot;Title&quot;: &quot;Certificate text (.pem):&quot;,&quot;Description&quot;: &quot;Enter PEM certificate&quot;,&quot;UIType&quot;: &quot;textArea&quot;, &quot;Encrypt&quot; : &quot;true&quot;, &quot;Default&quot;: &quot; &quot;      }, &quot;CertificateKey&quot;:      {     &quot;Name&quot;: &quot;CertificateKey&quot;,&quot;Title&quot;: &quot;CertificateKey text (_key.pem):&quot;,&quot;Description&quot;: &quot;Enter Key text PEM &quot;,&quot;UIType&quot;: &quot;textArea&quot;, &quot;Encrypt&quot; : &quot;true&quot;, &quot;Default&quot;: &quot; &quot;      }, &quot;BigFixComponent&quot;:      {     &quot;Name&quot;: &quot;BigFixComponent&quot;,&quot;Title&quot;: &quot;Select BigFix Component&quot;,&quot;Description&quot;: &quot;Select BigFix Component&quot;,&quot;UIType&quot;: &quot;select&quot;,      &quot;ValueType&quot;: &quot;specified&quot;,      &quot;Values&quot; : [   &quot;Server&quot;,   &quot;WebReports&quot;,   &quot;WebUI&quot;,   &quot;RestAPI&quot;,   &quot;Other&quot;  ] } }                </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Nov 2020 09:11:56 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action log commands
+if {name of operating system starts with "Win"}
+		parameter "PathSeparator"="\"
+else
+		parameter "PathSeparator"="/"
+endif
+parameter "FullCertName"="{(parameter "CertificateLocation") & (parameter "PathSeparator") & (parameter "CertName")}"
+
+appendfile {parameter "Certificate"}
+folder create "{parameter "CertificateLocation"}"
+delete "{parameter "FullCertName" & ".pem"}"
+move __appendfile "{parameter "FullCertName" & ".pem"}"
+
+appendfile {parameter "CertificateKey"}
+delete "{parameter "FullCertName" & "_key.pem"}"
+move __appendfile "{parameter "FullCertName" & "_key.pem"}"
+
+action log all
+
+if {parameter "BigFixComponent" is "WebReports"}
+	continue if {exists service "BESWebReportsServer"}
+	setting "_WebReports_HTTPServer_SSLCertificateFilePath"="{parameter "FullCertName" & ".pem"}" on "{now}" for client
+	setting "_WebReports_HTTPServer_SSLPrivateKeyFilePath"="{parameter "FullCertName" & "_key.pem"}" on "{now}" for client
+	setting "_WebReports_HTTPServer_UseSSLFlag"="1" on "{now}" for client
+	setting "_WebReports_HTTPServer_RequireTLS12"="1" on "{now}" for client
+
+	if {name of operating system starts with "Win"}
+		delete __appendfile
+		appendfile net stop beswebreportsserver
+		appendfile net start beswebreportsserver
+		delete restartWR.bat
+		move __appendfile restartWR.bat
+		waithidden restartWR.bat
+		delete restartWR.bat
+	else
+		wait /etc/init.d/beswebreportsserver stop
+		wait /etc/init.d/beswebreportsserver start
+	endif
+// if for some reason the service hasn't started yet, fail here
+	continue if {exists running service "BESWebReportsServer"}
+
+elseif  {parameter "BigFixComponent" is "WebUI"}
+	continue if {exists webui service}
+	// setting "_WebUIAppEnv_WEB_CERT_FILE"="{parameter "FullCertName" & ".pem"}" on "{now}" for client
+	// setting "_WebUIAppEnv_WEB_KEY_FILE"="{parameter "FullCertName" & "_key.pem"}" on "{now}" for client
+
+	parameter "TargetDir"="{value of setting "_WebUIAppEnv_WebUI_DIR" of client & "WebUI" }"
+	if { exist file "ssl.crt" of (folder (parameter "TargetDir" as string))}
+	   parameter "WebUIcertname"="{pathname of file "ssl.crt" of folder (parameter "TargetDir")}"
+	   move "{parameter "WebUIcertname"}" "{parameter "WebUIcertname" & "_" & id of current action}"
+	else
+	   parameter "WebUIcertname"="{(parameter "TargetDir") & (parameter "PathSeparator") & "ssl.crt"}"
+	endif
+	copy "{parameter "FullCertName" & ".pem"}" "{parameter "WebUIcertname"}"
+
+	if { exist file "ssl.pvk" of (folder (parameter "TargetDir" as string))}
+	   parameter "WebUIcertKeyname"="{pathname of file "ssl.pvk" of folder (parameter "TargetDir")}"
+	   move "{parameter "WebUIcertKeyname"}" "{parameter "WebUIcertKeyname" & "_" & id of current action}"
+	else
+	   parameter "WebUIcertKeyname"="{(parameter "TargetDir") & (parameter "PathSeparator") & "ssl.pvk"}"
+	endif
+	copy "{parameter "FullCertName" & "_key.pem"}" "{parameter "WebUIcertKeyname"}"
+
+elseif  {parameter "BigFixComponent" is "RestAPI" or parameter "BigFixComponent" is "Server"}
+	continue if {exists main gather service}
+	setting "_BESRelay_HTTPServer_SSLCertificateFilePath"="{parameter "FullCertName" & ".pem"}" on "{now}" for client
+	setting "_BESRelay_HTTPServer_SSLPrivateKeyFilePath"="{parameter "FullCertName" & "_key.pem"}" on "{now}" for client
+	setting "_BESRelay_HTTPServer_UseSSLFlag"="1" on "{now}" for client
+	setting "_BESRelay_HTTPServer_RequireTLS12"="1" on "{now}" for client
+else
+appendfile {parameter "BigFixComponent"}
+delete "{parameter "FullCertName" & ".txt"}"
+move __appendfile "{parameter "FullCertName" & ".txt"}"
+endif
+
+
+// action log all
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

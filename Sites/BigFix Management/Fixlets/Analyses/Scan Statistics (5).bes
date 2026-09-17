@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Scan Statistics
+  ID       : 5
+  Author   : danielheth
+  Domain   : SCVM
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Scan Statistics</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><FONT size=2>&nbsp;This analysis contains information regarding your&nbsp;designated Nmap Scan&nbsp;Points - Windows.&nbsp;</FONT></P>
+<P><FONT size=2>After activating this analysis, you will see the following properties for Nmap:</P>
+<UL>
+<LI>
+<P>Installation Time </P>
+<LI>
+<P>Start Time of Last Scan (Elapsed Time) </P>
+<LI>
+<P>Last IP Range/Subnet Scanned </P>
+<LI>
+<P>Total Number of Scans Run</P>
+<LI>
+<P>Version of Nmap Installed</P>
+<LI>
+<P>Subnet/Cidr of Scan Point</FONT></P></LI></UL></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of client & "/Proj/FC/NMAP.ini")]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 08 Mar 2005 19:36:39 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 09 Sep 2012 15:57:35 +0000</Value>
+    </MIMEField>
+    <Domain>SCVM</Domain>
+    <Property ID="1" Name="Installation Time">if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then  if (exists key &quot;InstallTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then  if (key &quot;InstallTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;InstallTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)  else &quot;&quot;  else &quot;&quot;  else &quot;&quot;</Property>
+    <Property ID="2" Name="Start Time of Last Scan (Elapsed Time)">if ( 	((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) != &quot;&quot;)  	AND  	((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) != &quot;&quot;) ) then   (((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) as string)  &amp; &quot; (&quot;  &amp; ( 	if ( 		((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) as time)  		&gt;  		((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) as time) 	) then  		(( 			((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanFinishTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) as time)  			-  			((if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastScanStartTime&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;) as time) 		) as string)   	else (&quot;Scan In Progress or Scan Did Not Complete&quot;)) &amp; &quot;)&quot; )   else &quot;Scan Not Run&quot;</Property>
+    <Property ID="3" Name="Last Subnet Scanned">if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;LastSubnetScanned&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;LastSubnetScanned&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;LastSubnetScanned&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;</Property>
+    <Property ID="4" Name="Total Number of Scans Run">if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;NumberOfScansRun&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;NumberOfScansRun&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;NumberOfScansRun&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;</Property>
+    <Property ID="5" Name="Version">if (exists file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (exists key &quot;NmapVersion&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) then if (key &quot;NmapVersion&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;)) != &quot;&quot; then key &quot;NmapVersion&quot; of section &quot;Scan History&quot; of file (pathname of parent folder of client &amp; &quot;/Proj/FC/nmap.ini&quot;) else &quot;&quot; else &quot;&quot; else &quot;&quot;</Property>
+    <Property ID="6" Name="Subnet/Cidr">if (version of client &lt; &quot;7.1&quot;) then (subnet addresses whose (it as string does not contain &quot;0.0.0.0&quot;) of ip interfaces whose (loopback of it = false) of network as string) else (cidr strings whose (it as string does not contain &quot;0.0.0.0&quot;) of ip interfaces whose (loopback of it = false) of network as string)</Property>
+  </Analysis>
+</BES>

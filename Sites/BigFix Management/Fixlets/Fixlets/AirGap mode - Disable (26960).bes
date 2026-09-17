@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AirGap mode - Disable
+  ID       : 26960
+  Author   : andrea.proietto
+  Domain   : BES
+  Imported : 2022-10-28T09:10:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AirGap mode - Disable</Title>
+    <Description><![CDATA[<P>Deploy this Task to disable AirGap mode on the Root Server.</P>
+<P>Schedule deployment of this task along with the companion task "AirGap mode - Enable" in order to define external site gather windows on the Root Server.</P>
+<P><B>CAUTION</B>: This will restart the Root Server service; it is recommended to deploy contingency measures in the event that the service does not restart successfully</P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>if (exists setting &quot;_BESServer_AirgapMode_Enabled&quot; of client) then if (exists value of setting &quot;_BESServer_AirgapMode_Enabled&quot; of client) then (value of setting &quot;_BESServer_AirgapMode_Enabled&quot; of client is &quot;1&quot;) else false else false</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-10-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Thu, 27 Oct 2022 07:51:37 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>AirGap, Site gather, Root Server</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Thu, 27 Oct 2022 07:50:40 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>26957</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 28 Oct 2022 15:01:17 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESServer_AirgapMode_Enabled&quot;=&quot;0&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+
+if {windows of operating system}
+waithidden sc stop besrootserver
+pause while {state of service &quot;besrootserver&quot; is not &quot;Stopped&quot;}
+waithidden sc start besrootserver
+else
+wait service besserver restart
+endif
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action28282">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/26957</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Client Health Checks (Windows)
+  ID       : 88
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-04-02T15:51:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Client Health Checks (Windows)</Title>
+    <Description><![CDATA[<P>Collect some data about the BES Client settings &amp; performance. This is a work in progress and will likely be expanded.</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://pic.dhe.ibm.com/infocenter/tivihelp/v26r1/index.jsp?topic=%2Fcom.ibm.tem.doc_8.2%2FPlatform%2FAction%2Fc_utility.html">http://pic.dhe.ibm.com/infocenter/tivihelp/v26r1/index.jsp?topic=%2Fcom.ibm.tem.doc_8.2%2FPlatform%2FAction%2Fc_utility.html</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(it = &quot;Win8&quot; OR it = &quot;Win7&quot; OR it = &quot;WinVista&quot; OR it = &quot;WinXP&quot;) of name of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Apr 2013 20:52:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Download Cache Size (MB)" EvaluationPeriod="PT12H">(sum of sizes of descendants of folder &quot;__BESData\__Global\__Cache\Downloads&quot; of parent folder of regapp &quot;Besclient.exe&quot;) / (1024*1024)</Property>
+    <Property ID="2" Name="Utility Cache Size (MB)" EvaluationPeriod="PT12H">(sum of sizes of descendants of folder &quot;__BESData\__Global\__Cache\Utilities&quot; of parent folder of regapp &quot;Besclient.exe&quot;) / (1024*1024)</Property>
+    <Property ID="5" Name="Start type of BESClient" EvaluationPeriod="P1D">start type of service &quot;BESClient&quot;</Property>
+    <Property ID="6" Name="DelayedAutoStart" EvaluationPeriod="P1D">(value &quot;DelayedAutoStart&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\BESClient&quot; of registry) as string</Property>
+    <Property ID="7" Name="Evaluation Loop Average" EvaluationPeriod="PT6H">less significance 3 of (average of evaluationcycle of client as floating point / 1000 / 60)</Property>
+    <Property ID="8" Name="Evaluation Cycle Maximum" EvaluationPeriod="PT6H">((maximum of it /1000* second)/minute) of evaluationcycle of client</Property>
+    <Property ID="9" Name="Log&amp;History Size (MB)" EvaluationPeriod="PT6H">(((sum of sizes of files whose(name of it ends with &quot;.log&quot;) of it) + (sum of sizes of files whose(name of it ends with &quot;.log&quot;) of folder &quot;__BESData\__Global\Logs&quot; of it) + (sum of sizes of files whose(name of it ends with &quot;History.db&quot;) of folder &quot;__BESData\__Global&quot; of it)) of parent folder of regapp &quot;BESClient.exe&quot;) / (1024 * 1024)</Property>
+    <Property ID="3" Name="Download Cache Limit (MB)" EvaluationPeriod="PT12H">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client&quot; whose(exists key &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of it AND exists value &quot;value&quot; of key &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of it) of registry) then ERROR &quot;not set - 20&quot; else (value &quot;value&quot; of key &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client&quot; whose(exists key &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of it AND exists value &quot;value&quot; of key &quot;_BESClient_Download_DownloadsCacheLimitMB&quot; of it) of registry) as string</Property>
+    <Property ID="4" Name="Utility Cache Limit (MB)" EvaluationPeriod="PT12H">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client&quot; whose(exists key &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of it AND exists value &quot;value&quot; of key &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of it) of registry) then ERROR &quot;not set - 10&quot; else (value &quot;value&quot; of key &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client&quot; whose(exists key &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of it AND exists value &quot;value&quot; of key &quot;_BESClient_Download_UtilitiesCacheLimitMB&quot; of it) of registry) as string</Property>
+    <Property ID="10" Name="CommandPollInterval" EvaluationPeriod="PT12H">if(not exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose(value of it = &quot;1&quot;) of client) then ERROR &quot;disabled&quot; else (if(not exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client) then ERROR &quot;not set&quot; else (value of setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client))</Property>
+  </Analysis>
+</BES>

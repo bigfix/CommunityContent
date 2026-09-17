@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Pending Restart Detection
+  ID       : 2998574
+  Author   : baiyf
+  Domain   : BESC
+  Imported : 2017-06-20T22:28:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Pending Restart Detection</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Use this Analysis to detect the registry keys that's causing a pending restart status. The following keys / values are examined:</P>
+<UL>
+<LI>HKLM\System\CurrentControlSet\Control\Session Manager&nbsp; value: PendingFileRenameOperations
+<LI>HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired
+<LI>HKLM\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending
+<LI>HKLM\Software\Microsoft\Updates&nbsp; value: UpdateExeVolatile</LI></UL>
+<P>Reference: <A href="https://forum.bigfix.com/t/9-5-2-problem-with-detecting-restart/17643/10">https://forum.bigfix.com/t/9-5-2-problem-with-detecting-restart/17643/10</A></P></TD></TR></TBODY></TABLE>
+<P>THIS CONTENT IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</P>]]></Description>
+    <Relevance>pending restart</Relevance>
+    <Relevance>(name of it starts with &quot;Win&quot;) of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 21 Jun 2017 03:23:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="PendingFileRenameOperations">if(exists value &quot;PendingFileRenameOperations&quot; of keys &quot;HKLM\System\CurrentControlSet\Control\Session Manager&quot; of native registry) then ((substrings separated by &quot;%00%00&quot; of (it as string)) of value &quot;PendingFileRenameOperations&quot; of key &quot;HKLM\System\CurrentControlSet\Control\Session Manager&quot; of native registry) else (&quot;N/A&quot;)</Property>
+    <Property ID="2" Name="WindowsUpdate RebootRequired" EvaluationPeriod="PT0S">if (exists key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot; of native registry) then (names of values of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot; of native registry) else (&quot;N/A&quot;)</Property>
+    <Property ID="3" Name="CBS RebootPending">if (exists key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending&quot; of native registry) then (&quot;RebootPending&quot;) else (&quot;N/A&quot;)</Property>
+    <Property ID="4" Name="UpdateExeVolatile">if (exists value &quot;UpdateExeVolatile&quot; of keys &quot;HKLM\Software\Microsoft\Updates&quot; of native registry) then (&quot;UpdateExeVolatile&quot;) else (&quot;N/A&quot;)</Property>
+  </Analysis>
+</BES>

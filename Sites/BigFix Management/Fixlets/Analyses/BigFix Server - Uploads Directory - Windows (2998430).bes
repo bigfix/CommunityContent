@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BigFix Server - Uploads Directory - Windows
+  ID       : 2998430
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-29T07:29:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BigFix Server - Uploads Directory - Windows</Title>
+    <Description><![CDATA[<P>This analysis provides information on the contents of the Uploads directory on the root BigFix server.</P>
+<P>It can be used in conjunction with some session relevance to cleanup the Uploads directory on the BigFix Server itself. Information on doing that is available here: <A href="https://github.com/strawgate/C3-Platform-Kickstart/wiki/Cleanup-BigFix-Uploads-Directory">https://github.com/strawgate/C3-Platform-Kickstart/wiki/Cleanup-BigFix-Uploads-Directory</A></P>
+<P>For general information or to report issues with C3 Platform Kickstart content please visit GitHub here: <A href="https://github.com/strawgate/C3-Platform-Kickstart">https://github.com/strawgate/C3-Platform-Kickstart</A></P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BES Server - Uploads with File Names - Windows">(name of it, concatenations &quot;, &quot; of names of files of it) of folders of folders &quot;Uploads&quot; of folders (values of settings &quot;_BESRelay_HTTPServer_ServerRootPath&quot; of client)</Property>
+  </Analysis>
+</BES>

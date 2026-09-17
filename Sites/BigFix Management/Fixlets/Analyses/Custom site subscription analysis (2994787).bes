@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Custom site subscription analysis
+  ID       : 2994787
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T09:41:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Custom site subscription analysis</Title>
+    <Description><![CDATA[<P>Trying to quantify the time between BESClient install and the computer showing up in the console for operators. </P>
+<P>This is mostly a relevance test. Not all of the results are useful or meaningful. </P>]]></Description>
+    <Relevance>not exists relay service AND not exists main gather service</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 14:22:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="min sub time of custom sites" EvaluationPeriod="P2D">minimum of subscribe times of sites whose(type of it = &quot;Custom Site&quot;)</Property>
+    <Property ID="4" Name="sub time of actionsite" EvaluationPeriod="P2D">(subscribe time of site whose(type of it = &quot;Master Action Site&quot;))</Property>
+    <Property ID="5" Name="min sub time of opsites" EvaluationPeriod="P2D">minimum of subscribe times of sites whose(type of it = &quot;Operator Site&quot;)</Property>
+    <Property ID="6" Name="max of sub time of custom sites" EvaluationPeriod="P2D">(maximum of subscribe times of sites whose(type of it = &quot;Custom Site&quot;))</Property>
+    <Property ID="7" Name="diff sub time actionsite to custom sites" EvaluationPeriod="P2D">(maximum of subscribe times of sites whose(type of it = &quot;Custom Site&quot;)) - (subscribe time of site whose(type of it = &quot;Master Action Site&quot;))</Property>
+    <Property ID="8" Name="BESClient install date?" EvaluationPeriod="P2D">(creation time of parent folder of parent folder of client folder of current site)</Property>
+    <Property ID="9" Name="time since client install" EvaluationPeriod="P2D">now - (creation time of parent folder of parent folder of client folder of current site)</Property>
+    <Property ID="10" Name="time since sub time of actionsite" EvaluationPeriod="P2D">now - (subscribe time of site whose(type of it = &quot;Master Action Site&quot;))</Property>
+    <Property ID="11" Name="time between client install and sub time of actionsite" EvaluationPeriod="P2D">(creation time of parent folder of parent folder of client folder of current site) - (subscribe time of site whose(type of it = &quot;Master Action Site&quot;))</Property>
+  </Analysis>
+</BES>

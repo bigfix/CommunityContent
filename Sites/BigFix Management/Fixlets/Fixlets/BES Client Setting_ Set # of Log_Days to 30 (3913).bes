@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Client Setting: Set # of Log_Days to 30
+  ID       : 3913
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-30T13:58:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Client Setting: Set # of Log_Days to 30</Title>
+    <Description>This will cause the client to store 30 days worth of client logs. </Description>
+    <Relevance><![CDATA[not exists settings "_BESClient_Log_Days" whose( (exists effective date of it) AND (value of it as string as integer >= 30) ) of client]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-10-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 28 Oct 2014 19:08:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+setting &quot;_BESClient_Log_Days&quot;=&quot;30&quot; on &quot;{now as string}&quot; for client
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

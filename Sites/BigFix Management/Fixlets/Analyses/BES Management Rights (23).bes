@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Management Rights
+  ID       : 23
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Management Rights</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD><FONT size=2> <P>This analysis contains information about the BES Console operators who have privileges on the BES Client computers. This information is useful to administer a BES deployment with many BES Console operators.</P> <P>After activating this analysis, you will see the following properties:</P> <UL> <LI>Operators with Privileges on BES Client <LI>Number of&nbsp;Operators with Privileges on BES Client</LI></UL> <P><STRONG>Note:</STRONG> BES Console users with Administrative rights in BES (BES Administrators) are not shown in this list and automatically have access to all BES Clients.</P> <P>&nbsp;</P></FONT></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Jul 2011 22:23:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Sat, 16 Oct 2004 01:34:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Operators with Privileges on BES Client ">names of administrators of client</Property>
+    <Property ID="2" Name="Number of Operators with Privileges on BES Client">number of administrators of client</Property>
+  </Analysis>
+</BES>

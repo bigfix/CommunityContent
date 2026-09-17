@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Client Info - Mac
+  ID       : 2994752
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-10T11:23:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Client Info - Mac</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance><![CDATA[version of operating system >= "10.5"]]></Relevance>
+    <Relevance>exists folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/Logs&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Dec 2014 18:59:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="# of 13FileItemError com.bigfix.BESAgent.plist" EvaluationPeriod="PT12H">(number of lines whose (it contains &quot;13FileItemError&quot; AND it contains &quot;com.bigfix.BESAgent.plist&quot;) of files whose( exists (name of it as lowercase) whose(it ends with &quot;.log&quot; OR it ends with &quot;.bkg&quot;) ) of folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/Logs&quot;)</Property>
+    <Property ID="2" Name="# of 13FileItemError" EvaluationPeriod="PT12H">(number of lines whose (it contains &quot;13FileItemError&quot; AND it contains &quot;com.bigfix.BESAgent.plist&quot;) of files whose( exists (name of it as lowercase) whose(it ends with &quot;.log&quot; OR it ends with &quot;.bkg&quot;) ) of folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData/__Global/Logs&quot;)</Property>
+  </Analysis>
+</BES>

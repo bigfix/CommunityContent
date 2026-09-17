@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware - Universal
+  ID       : 2998540
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2017-04-14T07:43:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware - Universal</Title>
+    <Description><![CDATA[Provides hardware information in a universal way across all platforms.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Hardware - CPU Brand Name - Universal" EvaluationPeriod="P1D">unique values of brand strings of processors</Property>
+    <Property ID="2" Name="Hardware - CPU Socket Count - Universal" EvaluationPeriod="P1D">count of cpupackage</Property>
+    <Property ID="3" Name="Hardware - CPU Core Count - Universal" EvaluationPeriod="P1D">number of processors</Property>
+    <Property ID="4" Name="Hardware - CPU Hyperthreading - Universal" EvaluationPeriod="P1D">smt enabled of cpupackage</Property>
+    <Property ID="5" Name="Hardware - Network Adapters - Universal" EvaluationPeriod="P1D">(if(exists property &quot;description&quot; of type &quot;network adapter&quot;) then (descriptions of it) else (names of it)) of adapters of network</Property>
+    <Property ID="7" Name="Hardware - CPU Speed - Universal" EvaluationPeriod="P1D">(speed of main processor / mhz) as string &amp; &quot; MHz &quot;</Property>
+    <Property ID="8" Name="Hardware - CPU Family Name - Windows" EvaluationPeriod="P1D">unique values of family names of processors</Property>
+    <Property ID="10" Name="Hardware - Model - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (string values of selects &quot;Model from Win32_ComputerSystem&quot; of wmi) else (if (Mac of Operating System) then (machine name) else (&quot;N\A&quot;))</Property>
+    <Property ID="11" Name="Hardware - RAM ECC - Win\Mac" EvaluationPeriod="P1D">if (Windows of Operating System) then ( conjunction of ((item 0 of it as integer &lt; item 1 of it as integer) of (integer value of property &quot;DataWidth&quot; of it, string value of property &quot;TotalWidth&quot; of it) of select objects &quot;DataWidth,TotalWidth from Win32_PhysicalMemory&quot; of wmi) ) else ( if (Mac of Operating System) then (boolean &quot;ecc-enabled&quot; of dictionary of node &quot;memory&quot; of devicetree plane of iokit registry) else (ERROR &quot;Unkown&quot;))</Property>
+    <Property ID="12" Name="Hardware - RAM Speed - Win\Mac" EvaluationPeriod="P1D">if (Windows of Operating System) then ((it &amp; &quot; MHz&quot;) of unique values of string values of selects &quot;ConfiguredClockSpeed from Win32_PhysicalMemory&quot; of wmi) else (if (Mac of Operating System) then (unique values of substrings separated by &quot;%00&quot; whose (it != &quot;&quot;) of (it as trimmed string) of data &quot;dimm-speeds&quot; of dictionary of node &quot;memory&quot; of devicetree plane of iokit registry) else (ERROR &quot;Unknown&quot;))</Property>
+    <Property ID="13" Name="Hardware - RAM Total Slots - Win\Mac" EvaluationPeriod="P1D"> if (Windows of Operating System) then ((sum of (string values of selects &quot;MemoryDevices from Win32_PhysicalMemoryArray where Use=&apos;3&apos;&quot; of wmi as integer)) as string) else (if (Mac of Operating System) then (number of substrings separated by &quot;%00&quot; whose (it != &quot;&quot;) of (it as trimmed string) of data &quot;slot-names&quot; of dictionary of node &quot;memory&quot; of devicetree plane of iokit registry) else (ERROR &quot;Unknown&quot;))</Property>
+    <Property ID="14" Name="Hardware - RAM Used Slots - Win\Mac" EvaluationPeriod="P1D"> if (Windows of Operating System) then (number of (selects &quot;DeviceLocator from Win32_PhysicalMemory where MemoryType!=&apos;11&apos;&quot; of wmi) as string) else (if (Mac of Operating System) then (number of substrings separated by &quot;%00&quot; whose (it != &quot;&quot;) of data &quot;dimm-types&quot; of dictionary of node &quot;memory&quot; of devicetree plane of iokit registry) else (ERROR &quot;Unknown&quot;))</Property>
+    <Property ID="16" Name="Hardware - RAM Size (MB) - Universal" EvaluationPeriod="P1D">(left shift 5  of right shift 5 /* Round to nearest 32mb, 2^5 = 32 */ of right shift 20  /*Convert to Megabytes: 2^10 = 1024 */ of (size of ram as bit set)) as integer</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Current User Info
+  ID       : 2994586
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-10-10T16:19:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Current User Info</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists current user</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 10 Oct 2013 23:10:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Active User Time" EvaluationPeriod="PT1H">sum of lengths of ranges of user intervals whose(state of it as string = &quot;active&quot;) of activity histories of current users</Property>
+    <Property ID="2" Name="Active &gt; 6 hours" EvaluationPeriod="PT1H">exists user intervals whose(state of it as string = &quot;active&quot; AND sum of lengths of ranges of it &gt; 6*hour) of activity histories of current users</Property>
+    <Property ID="3" Name="User State Time" EvaluationPeriod="PT1H">(states of it, ranges of it) of user intervals of activity histories of current users</Property>
+    <Property ID="4" Name="Idle User Time" EvaluationPeriod="PT1H">sum of lengths of ranges of user intervals whose(state of it as string = &quot;idle&quot;) of activity histories of current users</Property>
+  </Analysis>
+</BES>

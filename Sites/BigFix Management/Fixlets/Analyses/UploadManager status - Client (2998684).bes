@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : UploadManager status - Client
+  ID       : 2998684
+  Author   : andrea.proietto
+  Domain   : BESC
+  Imported : 2023-05-03T08:52:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>UploadManager status - Client</Title>
+    <Description><![CDATA[<P>Use this Analysis with its companion "UploadManager status -&nbsp;Relay" and "BES Support" Analysis "BES Relay Status" to troubleshoot Client upload issues</P>
+<P>v1.0</P>]]></Description>
+    <Relevance>in agent context</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 May 2023 15:48:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="File sets">names whose (it starts with &quot;_BESClient_ArchiveManager_FileSet&quot;) of settings of client</Property>
+    <Property ID="2" Name="Upload size limit (Bytes)">value of setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot; of client as string | &quot;1000000 (default)&quot;</Property>
+    <Property ID="3" Name="Last upload size (est. Bytes)">(substring after &quot;Archive-Size: &quot; of line starting with &quot;Archive-Size: &quot; of it &amp; (if (exists line starting with &quot;MaxArchiveSize: Exceeded&quot; of it) then &quot; (Exceeded)&quot; else &quot;&quot;)) of files (data folder of client as string &amp; &quot;/__Global/Archive/Last/Index.txt&quot;)</Property>
+    <Property ID="4" Name="Status message">upload progress of client</Property>
+  </Analysis>
+</BES>

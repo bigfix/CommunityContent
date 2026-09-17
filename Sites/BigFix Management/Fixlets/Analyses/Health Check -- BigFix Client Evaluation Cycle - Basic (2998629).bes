@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : [Health Check]  BigFix Client Evaluation Cycle - Basic
+  ID       : 2998629
+  Author   : dmccalla
+  Domain   : BESC
+  Imported : 2020-12-19T08:51:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>[Health Check] -- BigFix Client Evaluation Cycle - Basic</Title>
+    <Description><![CDATA[<P>This analysis returns the following basic client evalation loop statistics. </P>
+<UL>
+<LI>Client Version
+<LI>Maximum Cycle Seconds
+<LI>Average Cycle Seconds
+<LI>Top 10 Longest Evaluating Fixlets</LI></UL>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 19 Dec 2020 16:34:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Client Version" EvaluationPeriod="PT6H">version of client</Property>
+    <Property ID="2" Name="Maximum Cycle Minutes" EvaluationPeriod="PT6H">((maximum of it /1000* second)/minute) of evaluationcycle of client</Property>
+    <Property ID="3" Name="Average Cycle Minutes" EvaluationPeriod="PT6H">((average of it /1000* second)/minute) of evaluationcycle of client</Property>
+    <Property ID="4" Name="Top 10 Longest Evaluating Fixlets" EvaluationPeriod="PT6H">track fixlets of evaluationcycle of client</Property>
+  </Analysis>
+</BES>

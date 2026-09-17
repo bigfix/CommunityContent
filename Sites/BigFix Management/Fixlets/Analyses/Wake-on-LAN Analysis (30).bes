@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Wake-on-LAN Analysis
+  ID       : 30
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Wake-on-LAN Analysis</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This analysis&nbsp;returns Wake-on-LAN configuration&nbsp;information,&nbsp; including which computers are Wake-on-LAN Forwarders.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.2" AND ((if (name of it= "Mac OS X") then (release of it >= "10.4" as version AND release of it <= "10.7" as version) else true) of operating system)]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 17 Nov 2011 19:28:18 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 10 Jul 2012 22:03:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BigFix Wake-on-LAN Forwarding">if exists settings whose(name of it = &quot;_BESClient_Comm_WakeOnLanForwardingEnable&quot; and value of it = &quot;1&quot; ) of client then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+    <Property ID="2" Name="Last Man Standing">if exists settings whose(name of it contains &quot;PowerManagement_LastManStanding&quot; AND value of it = &quot;1&quot;) of client then &quot;Enabled&quot; else &quot;Disabled&quot; </Property>
+    <Property ID="3" Name="BigFix Wake-on-LAN Subnet">wake on lan subnet cidr string</Property>
+    <Property ID="4" Name="Wake Up Time Zone">local time zone </Property>
+    <Property ID="5" Name="IP and MAC addresses">if (exists (broadcast address of item 1 of it, mac address of item 0 of it) of (adapters of it, ip interfaces of it) whose (address of item 0 of it = address of item 1 of it) of network as string) then ((broadcast address of item 1 of it, mac address of item 0 of it) of (adapters of it, ip interfaces of it) whose (address of item 0 of it = address of item 1 of it) of network as string) else nothings</Property>
+    <Property ID="6" Name="Computer Type" EvaluationPeriod="P7D">if (exists setting &quot;_BESClient_ComputerType&quot; whose (exists value of it) of client) then (value of setting &quot;_BESClient_ComputerType&quot; of client) else (if (name of operating system starts with &quot;Win&quot;) then (if ((exists active devices whose (class of it = &quot;Battery&quot;) and NOT (exists active devices whose (service key value name of it as lowercase = &quot;hidbatt&quot;)))) then &quot;Laptop&quot; else (if nt workstation product type = product type of operating system then &quot;Workstation&quot; else &quot;Server&quot;)) else (if name of operating system starts with &quot;Mac OS X&quot; then (if ((exists key whose (it as string as lowercase contains &quot;battery&quot;) of entries of dictionaries of nodes of it) or (exists node &quot;AppleACPIPlatformExpert/SMB0/AppleECSMBusController/AppleSmartBatteryManager&quot; of service plane of iokit registry) of it) of service plane of iokit registry then &quot;Laptop&quot; else (if (name of operating system contains &quot;Server&quot;) then &quot;Server&quot; else &quot;Workstation&quot;)) else (if (name of operating system contains &quot;Server&quot;) then &quot;Server&quot; else &quot;Workstation&quot;)))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BES Component Versions
+  ID       : 21
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BES Component Versions</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD><FONT size=2> <P>This analysis contains information about the different BES component versions. This information is particularly useful after performing BES upgrades.</P> <P>After activating this analysis, you will see the following properties:</P> <UL> <LI>BES Client Version <LI>BES Relay Version <LI>BES Console Version <LI>BES Server Version <LI>BES API Version <LI><FONT size=2> <P>BES Web Reports Version</P></FONT></LI></UL></FONT></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>true</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 13 Oct 2004 01:15:18 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 09 May 2012 00:58:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BES Client Version" EvaluationPeriod="PT0S">version of client</Property>
+    <Property ID="2" Name="BES Relay Version" EvaluationPeriod="PT0S">if (exists true whose(if true then(exists relay service)else false)) then (if (version of client &gt;= &quot;8.0&quot;) then (version of relay service as string) else (version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of relay service) as string)) else &quot;Not Installed&quot;</Property>
+    <Property ID="3" Name="BES Console Version" EvaluationPeriod="PT0S">if (exists true whose(if true then(name of operating system starts with &quot;Win&quot; AND exists regapp &quot;BESConsole.exe&quot;)else false)) then version of regapp &quot;BESConsole.exe&quot; as string else &quot;Not Installed&quot;</Property>
+    <Property ID="4" Name="BES Server Version">if (exists true whose(if true then(exists main gather service)else false)) then (if (version of client &gt;= &quot;8.0&quot;) then (version of main gather service as string) else (version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of main gather service) as string)) else &quot;Not Installed&quot;</Property>
+    <Property ID="5" Name="BES API Version">if (exists true whose(if true then(exists key &quot;HKLM\SOFTWARE\BigFix\BESAPI\Paths&quot; of registry)else false)) then version of file (value &quot;base&quot; of key &quot;HKLM\SOFTWARE\BigFix\BESAPI\Paths&quot; of registry as string &amp; &quot;BESAPI.dll&quot;) as string else &quot;Not Installed&quot;</Property>
+    <Property ID="6" Name="BES Web Reports Version">if (exists true whose(if true then(exists service &quot;BESWebReportsServer&quot;)else false)) then (if (version of client &gt;= &quot;8.0&quot;) then (version of service &quot;BESWebReportsServer&quot; as string) else (version of file ((if (character 0 of it = &quot;%22&quot;) then (substring between &quot;%22&quot; of it) else it) of image path of service &quot;BESWebReportsServer&quot;) as string)) else &quot;Not Installed&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BES Client Setting: Enable Command Polling @ 15min for POLICY USE
+  ID       : 2479
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-06-06T08:39:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BES Client Setting: Enable Command Polling @ 15min for POLICY USE</Title>
+    <Description><![CDATA[BES Clients listen for UDP commands that have been sent to them by their parent Relay or Server.&nbsp; Sometimes UDP commands may not make it to a Client, as when UDP has been blocked by a firewall or there is a significant amount of network traffic.<BR><BR>This task configures Clients to poll their parent Relay or Server once an hour for UDP commands they may have missed (BigFix 6.0+).<BR><BR><B>Note</B>: The minimum value for the polling interval is 1 minute and the maximum is 2 days.<BR><BR><B>Note:</B>&nbsp; Setting the polling interval to less than 20 minutes may cause performances issues and is not recommended. ]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>(if NOT exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; of client then true else (value of setting &quot;_BESClient_Comm_CommandPollEnable&quot; of client as string != &quot;1&quot;)) OR (if NOT exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client then true else (value of setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; of client as string != &quot;900&quot;))</Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-06-06</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 19 Aug 2009 22:45:57 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 06 Jun 2013 15:36:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;b&gt;disable&lt;/b&gt; command polling in Clients (default).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting delete &quot;_BESClient_Comm_CommandPollEnable&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+    <Action ID="Action425">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information on setting the gather interval for a TEM Client to enable command polling.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21505846</ActionScript>
+    </Action>
+    <Action ID="Action2727">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;B&gt;enable&lt;/B&gt; 15min command polling in Clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;900&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BFClients with potential Mailbox site problem - Universal
+  ID       : 2998337
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-08-11T13:46:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BFClients with potential Mailbox site problem - Universal</Title>
+    <Description><![CDATA[<P>This was created to help diagnose a specific issue that occurred as a result of a BigFix database roll back. This relevance definitely gives many false positives, but the information is useful.</P>
+<P>The `mailbox site version from the SiteData file (not exact)` property in particlar will often report the wrong version if there is a digit following the apparent version of the mailbox site</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[( exists last gather times whose(it < "Wed, 10 Aug 2016 13:29:58 -0700" as time) of sites whose("mailboxsite" = name of it) ) OR ( not exists unique values whose(it = unique value of (it as string as integer) of maxima of site version lists of sites whose("mailboxsite" = name of it)) of (it as integer) of first matches (regex "(^\d+)") of following texts of firsts "]" of (preceding text of first "[" of it | it) of following texts of firsts "Q%01[" of following texts of firsts "/mailboxsite" of concatenations of characters whose("%00" != it) of lines containing "EnterpriseClient Site Data File" of files "SiteData" of folders "__Local" of folders "mailboxsite" of data folders of clients ) OR ( exists lines containing "   FAILED to Synchronize - Server returning old data, try again later. - " whose(it contains "/mailboxsite") of files whose(12 = length of name of it AND exists lines of it) of folders "Logs" of folders "__Global" of data folders of clients )]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 11 Aug 2016 20:44:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="maximum mailboxsite version" EvaluationPeriod="PT1H">maximum of unique values of (it as integer) of preceding texts of firsts &quot;)&quot; of following texts of firsts &quot;   Successful Synchronization with site &apos;mailboxsite&apos; (version &quot; of lines containing &quot;   Successful Synchronization with site &apos;mailboxsite&apos; (version &quot; whose(it contains &quot;/mailboxsite&quot;) of files whose(12 = length of name of it AND exists lines of it) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of clients</Property>
+    <Property ID="2" Name="version of mailbox site (inspector)" EvaluationPeriod="PT1H">versions of sites whose(&quot;mailboxsite&quot; = name of it)</Property>
+    <Property ID="3" Name="max of site version list of mailboxsite" EvaluationPeriod="PT1H">maxima of site version lists of sites whose(&quot;mailboxsite&quot; = name of it)</Property>
+    <Property ID="4" Name="last gather times of mailboxsite" EvaluationPeriod="PT1H">last gather times of sites whose(&quot;mailboxsite&quot; = name of it)</Property>
+    <Property ID="5" Name="mailbox problem? time" EvaluationPeriod="PT30M">exists last gather times whose(it &lt; &quot;Wed, 10 Aug 2016 13:29:58 -0700&quot; as time) of sites whose(&quot;mailboxsite&quot; = name of it)</Property>
+    <Property ID="6" Name="Raw Mailbox SiteData - Nulls Removed" EvaluationPeriod="PT1H">concatenations of characters whose(it &gt; &quot;%1F&quot; AND it &lt; &quot;%80&quot;) of lines containing &quot;EnterpriseClient Site Data File&quot; of files &quot;SiteData&quot; of folders &quot;__Local&quot; of folders &quot;mailboxsite&quot; of data folders of clients</Property>
+    <Property ID="7" Name="mailbox site version from the SiteData file (not exact)" EvaluationPeriod="PT1H">first matches (regex &quot;(^\d+)&quot;) of following texts of firsts &quot;]&quot; of (preceding text of first &quot;[&quot; of it | it) of following texts of firsts &quot;Q%01[&quot; of following texts of firsts &quot;/mailboxsite&quot; of concatenations of characters whose(&quot;%00&quot; != it) of lines containing &quot;EnterpriseClient Site Data File&quot; of files &quot;SiteData&quot; of folders &quot;__Local&quot; of folders &quot;mailboxsite&quot; of data folders of clients</Property>
+    <Property ID="8" Name="mailbox problem? version" EvaluationPeriod="PT30M">not exists unique values whose(it as string starts with (unique value of (it as string as integer as string) of maxima of site version lists of sites whose(&quot;mailboxsite&quot; = name of it))) of (it as string as integer) of first matches (regex &quot;(^\d+)&quot;) of following texts of firsts &quot;]&quot; of (preceding text of first &quot;[&quot; of it | it) of following texts of firsts &quot;Q%01[&quot; of following texts of firsts &quot;/mailboxsite&quot; of concatenations of characters whose(&quot;%00&quot; != it) of lines containing &quot;EnterpriseClient Site Data File&quot; of files &quot;SiteData&quot; of folders &quot;__Local&quot; of folders &quot;mailboxsite&quot; of data folders of clients</Property>
+  </Analysis>
+</BES>

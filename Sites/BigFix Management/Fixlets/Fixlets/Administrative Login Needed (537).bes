@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Administrative Login Needed
+  ID       : 537
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Administrative Login Needed</Title>
+    <Description><![CDATA[
+The listed computers have a pending operation scheduled in the registry under the <b>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</b> key. This pending operation is scheduled to be run the next time an administrative user logs into the operating system. <BR><BR>Usually, the pending operations are required to complete an installation that requires a restart. A user should log on to these computers as soon as possible in order to ensure that all patches and applications install completely.<BR><BR><b>Note:</b> Installations and patches that require a user to login usually require that the user have administrative privileges to complete the installation. If a user does not have administrative privileges, they may receive a warning when they log in that they have insufficient privileges to finish the installation.&nbsp;
+]]></Description>
+    <Relevance>pending login</Relevance>
+    <Category>Computer Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Jul 2011 22:23:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 03 Mar 2004 23:08:11 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Warn Important</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>
