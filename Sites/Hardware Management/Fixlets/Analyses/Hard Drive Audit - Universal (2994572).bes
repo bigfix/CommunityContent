@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hard Drive Audit - Universal
+  ID       : 2994572
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-09-16T07:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hard Drive Audit - Universal</Title>
+    <Description><![CDATA[This Analysis ( <A href="http://bigfix.me/cdb/analysis/2994530">http://bigfix.me/cdb/analysis/2994530</A> ) provides information about the hard drive. This Analysis is supplemented by OS Specific additions like "Hard Drive Audit - Windows" <A href="http://bigfix.me/cdb/Analysis/2994531">http://bigfix.me/cdb/Analysis/2994531</A> and "Hard Drive Audit - Apple" <A href="http://bigfix.me/cdb/Analysis/2994532">http://bigfix.me/cdb/Analysis/2994532</A> ]]></Description>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 16 Sep 2013 14:30:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Spaces of Drives" EvaluationPeriod="PT6H">(name of it &amp; &quot; - Size: &quot; &amp; ((total space of it /(1024*1024*1024)) as string &amp; &quot; GB&quot;) &amp; &quot;, Used:(&quot; &amp; (((total space of it - free space of it)*100/(total space of it)) as string) &amp; &quot;%25) &quot; &amp; (((total space of it - free space of it) /(1024*1024*1024)) as string &amp; &quot; GB&quot;) &amp; &quot;, Free:(&quot; &amp; (((free space of it)*100/(total space of it)) as string) &amp; &quot;%25) &quot;&amp; ((free space of it /(1024*1024*1024)) as string &amp; &quot; GB&quot;)) of drives whose(exists name of it AND exists free space of it AND exists type of it AND exists total space of it AND type of it = &quot;DRIVE_FIXED&quot; AND total space of it != 0 AND total space of it &gt; 1024*1024*1024)</Property>
+    <Property ID="2" Name="% free space of system drive" EvaluationPeriod="PT6H">((free space of drive of system folder) * 100) / (total space of drive of system folder)</Property>
+    <Property ID="3" Name="Used Space of System Drive" EvaluationPeriod="PT6H">(if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of ((total space of drive of system folder) - (free space of drive of system folder))</Property>
+    <Property ID="4" Name="Free Space of System Drive" EvaluationPeriod="PT6H">(if (0&lt;(it / (1024*1024*1024*1024))) then (it / (1024*1024*1024*1024)) as string &amp; &quot; TB&quot; else if (0&lt;(it / (1024*1024*1024))) then (it / (1024*1024*1024)) as string &amp; &quot; GB&quot; else if (0&lt;(it / (1024*1024))) then (it / (1024*1024)) as string &amp; &quot; MB&quot; else if (0&lt;(it / (1024))) then (it / (1024)) as string &amp; &quot; KB&quot; else (it as string &amp; &quot; B&quot;)) of (free space of drive of system folder)</Property>
+    <Property ID="5" Name="% used space of system drive" EvaluationPeriod="PT6H">(((total space of drive of system folder) - (free space of drive of system folder)) * 100) / (total space of drive of system folder)</Property>
+  </Analysis>
+</BES>

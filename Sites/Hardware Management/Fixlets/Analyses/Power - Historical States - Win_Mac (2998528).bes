@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Power - Historical States - Win\Mac
+  ID       : 2998528
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-27T16:17:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Power - Historical States - Win\Mac</Title>
+    <Description><![CDATA[<DIV class=subsection>This Analysis provides Power State information for supported platforms.</DIV>
+<P class=subsection>You must enable the Power History inspectors via the <STRONG>Fixlet</STRONG>: "Config - BigFix Power Tracking - Enable Inspectors - Windows" for this analysis to be relevant and report data. Data will only exist starting from the time the Power History inspectors have been enabled.</P>
+<P class=subsection>This Analysis provides total historical power state information. This contrasts with the Power -&nbsp;States - Win\Mac Analysis which just provides information from yesterday and today. This may return a lot of data.</P>
+<P class=subsection>The total power history goes back two weeks by default. There may be fewer than two weeks of history if you have only recently enabled the BigFix Power Management inspectors.</P>
+<P class=subsection>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>exists values whose (it = &quot;1&quot;) of settings &quot;_BESClient_PowerHistory_EnablePowerHistory&quot; of client</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Power - All Power States - Win\Mac" EvaluationPeriod="P1D">(range of it, state of it) of system intervals whose (length of range of it &gt; (1 * second)) of power history</Property>
+    <Property ID="2" Name="Power - All Monitor States - Win\Mac" EvaluationPeriod="P1D">(range of it, state of it) of monitor intervals whose (length of range of it &gt; (1 * second)) of power history</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Intel SA 00075 Remove Local Management Service - Windows
+  ID       : 24275
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-05-12T13:52:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Intel SA 00075 Remove Local Management Service - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet removes the LMS service from&nbsp;unprovisioned computers with Intel® Active Management Technology (AMT), Intel® Standard Manageability (ISM), and Intel® Small Business Technology (SBT).</P>
+<P>You must run the, Fixlet: "Invoke - Intel SA 00075 Probe - Windows"&nbsp;on a machine and it must report "Not Provisioned" for the ME Provisioning State to be relevant for this Fixlet. For this reason, this Fixlet is not relevant if the computer is provisioned for AMT.</P>
+<P>If the computer is privisioned for AMT please use the Fixlet: "Invoke - Intel SA 00075 Unprovision Active Management Technology - Windows"&nbsp;to unprovision AMT prior to removing the LMS. You will have to reboot the computer prior to running the Probe again after unprovisioning AMT.</P>
+<P>More information on this vulnerability is available here: <A href="https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00075&amp;languageid=en-fr">https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00075&amp;languageid=en-fr</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(brand string of main processor as lowercase) contains &quot;intel&quot;</Relevance>
+    <Relevance>exists values &quot;ME Provisioning State&quot; whose (it = &quot;Not Provisioned&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry</Relevance>
+    <Relevance>exists display names whose (it contains &quot;Local Management Service&quot;) of service &quot;LMS&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-05-09</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 00:14:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden net stop LMS /y
+waithidden sc config LMS start=disabled
+waithidden sc delete LMS</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

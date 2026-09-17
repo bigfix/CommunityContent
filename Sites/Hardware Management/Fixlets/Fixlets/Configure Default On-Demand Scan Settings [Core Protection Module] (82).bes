@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Default On-Demand Scan Settings [Core Protection Module]
+  ID       : 82
+  Author   : danielheth
+  Domain   : EPP
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Default On-Demand Scan Settings [Core Protection Module]</Title>
+    <Description>This task will configure the default Core Protection Module (CPM) On-Demand Scan Settings according to a previously set policy. These settings can in turn be invoked in an On-Demand Scan by the &quot;Core Protection Module - Start Scan Now&quot; fixlet. Relevant computers have CPM settings not configured according to this policy. </Description>
+    <Relevance>if (name of operating system contains &quot;Win&quot;) then (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM&quot; of registry) else if (name of operating system contains &quot;Mac&quot;) then (exists folder (string &quot;ApplicationPath&quot; of dictionary of file &quot;/Library/Preferences/com.trendmicro.mpm.plist&quot; as string)) else false</Relevance>
+    <Relevance>if (name of operating system contains &quot;Win&quot;) then (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM&quot; of registry AND exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\PC-cillinNTCorp&quot; of registry AND exists key &quot;HKLM\SYSTEM\CurrentControlSet\Services\Eventlog\Application\Trend Micro Core Protection Module&quot; of registry AND exists folder (values &quot;Application Path&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM&quot; of registry as string) AND exists folder (values &quot;Application Path&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion&quot; of registry as string) AND exists folder (values &quot;Application Path&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM&quot; of registry as string) AND (exists service &quot;TMAdptrSvr&quot;) AND (exists service &quot;tmlisten&quot;) AND (exists service &quot;ntrtscan&quot;) AND ((value &quot;Server&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion&quot; of registry as string) = &quot;127.0.0.1&quot;) AND ((value &quot;ServerPort&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion&quot; of registry as string) = &quot;12668&quot;)) else if (name of operating system contains &quot;Mac&quot;) then (exists file &quot;TMMPMCLI&quot; of folder (string &quot;ApplicationPath&quot; of dictionary of file &quot;/Library/Preferences/com.trendmicro.mpm.plist&quot; as string)) else false</Relevance>
+    <Relevance><![CDATA[if(name of operating system as lowercase contains "win") then (if(exists key "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" whose (exists value "Version" whose  (it as string as version >= "10.5") of it) of registry) then ((exist running service whose (service name of it as lowercase equals "tmlisten"))  and (exist running service whose (service name of it as lowercase equals "ntrtscan")) and  (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc."  whose (exist (value "TmListenInitDone" of it as string = "1") and exist (value  "NTRtScanInitDone" of it as string = "1")) of registry)) else true) else true]]></Relevance>
+    <Relevance><![CDATA[if (name of operating system contains "Win") then ((not exists file "ondemand.ini" of folders (value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string)) OR ((not exists key "Enable" whose (it = "1") of section "Scan Now Configuration" of it) OR ((not exists item 0 whose (it = "1") of it OR not exists item 1 whose (it = "1") of it) of (key "IntelliScan" of section "Scan Now Configuration" of it, key "ScanAllFiles" of section "Scan Now Configuration" of it)) OR (not exists key "ScanNetwork" whose (it = "0") of section "Scan Now Configuration" of it) OR (not exists key "ScanCompressed" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "CompressedLayer" whose (it = "2") of section "Scan Now Configuration" of it) OR (not exists key "ScanBoot" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "IntelliTrap" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "ScanSpeed" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "EnableExclusion" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "ExcludeTrendProduct" whose (it = "1") of section "Scan Now Configuration Ex" of it) OR (not exists variable whose (it starts with "[Scan Now Configuration Ex].ExcludedFolder" AND following text of first "=" of it = ((rope "c:\program files (x86)\BigFix Enterprise|" & "c:\program files\BigFix Enterprise")) as string) of it) OR (not exists variable whose (it starts with "[Scan Now Configuration Ex].ExcludedFile" AND following text of first "=" of it = (rope "") as string) of it) OR (not exists variable whose (it starts with "[Scan Now Configuration Ex].ExcludedExt" AND following text of first "=" of it = (rope "") as string) of it) OR ((not exists item 0 whose (it = "1") of it OR not exists item 1 whose (it = "0") of it) of (key "ActiveAction" of it, key "EnableUniAct" of it) of section "Scan Now Configuration" of it) OR (if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.5") of it) of registry) then ((not exists (key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Scan Now Configuration" of registry) whose (value "EnablePossibleVirusCustActInActiveAct" of it = 0))) else (false)) OR (not exists key "BkUpIfClean" whose (it = "1") of section "Scan Now Configuration" of it) OR (not exists key "Enable" whose (it = "1") of section "Spyware Scan Now Configuration" of it) OR (not exists key "ActionType" whose (it = "1") of section "Spyware Scan Now Configuration" of it) OR (not exists key "PopVirusFoundAlert" whose (it = "0") of section "Scan Now Configuration" of it) OR (not exists key "PopSpywareFoundAlert" whose (it = "0") of section "Spyware Scan Now Configuration" of it)) of file "ondemand.ini" of folders (value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string) OR (if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.6") of it) of registry) then ((not exists (key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Scan Now Configuration" of registry) whose (value "EnableAggressiveClean" of it = 0))) else (false)) OR (if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.6") of it) of registry) then ((not exists (key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Scan Now Configuration" of registry) whose (value "SystemCleanForPossibleVirus" of it = 0))) else (false)) OR (if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.6") of it) of registry) then ((not exists (key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." of registry) whose (value "GCLCacheEnable" of it = 1))) else (false)) OR (if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.6") of it) of registry) then ((not exists (key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." of registry) whose (value "OdscEnable" of it = 0))) else (false))) else if (name of operating system contains "Mac") then ((NOT exists integer "option" whose (it = 1) of dictionary "action" of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") OR (NOT exists integer "cpuUsage" whose (it = 2) of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") OR (NOT exists boolean "enableCompressedFile" whose (it is true) of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") OR (NOT exists boolean "enableScan" whose (it is true) of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") OR (NOT exists integer "filesToScanOption" whose (it = 1) of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") OR (NOT ((number of values of array "targetFiles" of dictionary "ScanNowConfig" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.verify.plist") = 0))) else false]]></Relevance>
+    <Relevance><![CDATA[(if (name of operating system contains "Win") then (((name of it as lowercase = "win2000" AND (service pack major version of it >= 3)) of (operating system)) OR (((name of it as lowercase = "winxp" OR name of it as lowercase = "winxp-2003") AND (service pack major version of it >= 1)) of (operating system)) OR ((name of it as lowercase = "win2003" AND (service pack major version of it >= 1)) of (operating system)) OR ((name of it as lowercase = "winvista") of (operating system)) OR ((name of it as lowercase = "win2008") of (operating system)) OR ((((name of it as lowercase = "win2008r2") of (operating system)) AND (version of client >= "7.2.5"))) OR ((((name of it as lowercase = "win7") of (operating system)) AND (version of client >= "7.2.5"))) OR ((((name of it as lowercase = "winxpe") of (operating system)) AND (version of client >= "7.2.5")))) else (if (name of operating system contains "Mac") then (((exists string "ProductVersion" whose (it as version >= "10.4.11" AND it as version < "10.5.0") of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist" OR (exists string "ProductVersion" whose (it as version >= "10.5.5" AND it as version < "10.6.0") of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist" OR (exists string "ProductVersion" whose (it as version >= "10.6.0" AND it as version < "10.7.0") of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist" OR (exists string "ProductVersion" whose (it as version >= "10.7.0" AND it as version < "10.8.0") of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist" OR (exists string "ProductVersion" whose (it as version >= "10.8.0" AND it as version < "10.9.0") of dictionary of it) of file "/System/Library/CoreServices/SystemVersion.plist")) else (false)))]]></Relevance>
+    <Category>Core Protection Module</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-07-31</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Aug 2012 21:11:28 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-cpm-wizard-source</Name>
+      <Value>CPMOnDemandSettingsWizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-cpm-content-tag</Name>
+      <Value>ConfigurationTask</Value>
+    </MIMEField>
+    <Domain>EPP </Domain>
+    <Action ID="Action227">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to configure these policy settings.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {(name of operating system contains "Win")}
+delete ondemand.ini
+delete "{(value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string)}\ondemand.ini"
+createfile until __DONE
+[Scan Now Configuration]
+Enable = 1
+ScanAllFiles = 1
+IntelliScan = 1
+ExtList =
+ScanNetwork = 0
+ScanCompressed = 1
+CompressedLayer = 2
+ScanBoot = 1
+IntelliTrap = 1
+ScanSpeed = 1
+EnableExclusion = 1
+ActiveAction = 1
+{if (exists key "HKLM\SOFTWARE\TrendMicro\PC-cillinNTCorp\CurrentVersion\Misc." whose (exists value "ProgramVer" whose (it as string as version >= "10.5") of it) of registry) then ("EnablePossibleVirusCustActInActiveAct = 0") else (nothings)}
+EnableUniAct = 0
+BkUpIfClean = 1
+MoveDir = {value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string}\Quarantine
+CleanFailedMoveDir = {value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string}\Quarantine
+PopVirusFoundAlert = 0
+EnableAggressiveClean = 0
+SystemCleanForPossibleVirus = 0
+[Scan Now Configuration Ex]
+ExcludeTrendProduct = 1
+ExcludedFolder = c:\program files (x86)\BigFix Enterprise|c:\program files\BigFix Enterprise
+ExcludedFile =
+ExcludedExt =
+[Spyware Scan Now Configuration]
+Enable = 1
+ActionType = 1
+PopSpywareFoundAlert = 0
+[INI_CLIENT_SECTION]
+GCLCacheEnable=1
+GCLCacheRebuildDays=28
+OdscEnable=0
+OdscCriteriaDays=60
+OdscMaxExpiredDays=30
+[INI_CRITICAL_SECTION]
+GCLCacheEnable=1
+GCLCacheRebuildDays=28
+OdscEnable=0
+OdscCriteriaDays=60
+OdscMaxExpiredDays=30
+__DONE
+copy __createfile "{(value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string)}\ondemand.ini"
+waithidden "{(value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string)}\TMCPMCLI.exe" CONFIG -i "{(value "Application Path" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM" of registry as string)}\ondemand.ini"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\TrendMicro\CPM]" "SetDefaultScanSettingsActionID"="{id of active action}"
+endif
+if {(name of operating system contains "Mac")}
+createfile until __DONE
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>ScanNowConfig</key>
+<dict>
+<key>action</key>
+<dict>
+<key>option</key>
+<integer>1</integer>
+</dict>
+<key>enableCompressedFile</key>
+<true/>
+<key>enableScan</key>
+<true/>
+<key>filesToScanOption</key>
+<integer>1</integer>
+<key>targetFiles</key>
+<array/>
+</dict>
+</dict>
+</plist>
+__DONE
+delete ondemand.xml
+delete "{(string "ApplicationPath" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.plist" as string)}/ondemand.xml"
+copy __createfile "{(string "ApplicationPath" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.plist" as string)}/ondemand.xml"
+wait "{(string "ApplicationPath" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.plist" as string)}/TMMPMCLI" CONFIG -i "{(string "ApplicationPath" of dictionary of file "/Library/Preferences/com.trendmicro.mpm.plist" as string)}/ondemand.xml"
+endif]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

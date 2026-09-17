@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Physical / Virtual Computer Type Analysis - Improved
+  ID       : 2994596
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-05T09:18:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Physical / Virtual Computer Type Analysis - Improved</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This Analsyis will determine for a given computer whether it is physical or virtual.</P>
+<P>Since this information does not change much, these properties are only evaluated <STRONG>once per day.</STRONG></P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance>(if (name of operating system starts with &quot;Win&quot;) then platform id of operating system != 3 else true) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 16 Aug 2010 20:50:08 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>SLM Virtual Inventory</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 05 Nov 2013 16:12:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Computer Type" EvaluationPeriod="P1D">if (mac of operating system) then /* the Mac BES client does not currently support the smbios inspector. This needs refinement, but for now just assuming apple devices are physical since virtualiztion of OS X is relatively rare */ &quot;Physical&quot; else (if ((it contains &quot;VMware&quot; or (it contains &quot;Microsoft&quot; AND /* This check is needed to exclude Microsoft Surface devices */ ((value &quot;product_name&quot; of structure &quot;system_information&quot; of smbios) as string contains &quot;Virtual Machine&quot;)) or it contains &quot;Xen&quot; or /* This check is needed to properly identify Parallels VMs as virtual instead of physical */ it contains &quot;Parallels Software&quot;) of (value &quot;manufacturer&quot; of structure &quot;system_information&quot; of smbios as string)) then &quot;Virtual&quot; else &quot;Physical&quot;)</Property>
+    <Property ID="2" Name="manufacturer" EvaluationPeriod="P1D">(value &quot;manufacturer&quot; of structure &quot;system_information&quot; of smbios as string)</Property>
+    <Property ID="3" Name="product_name" EvaluationPeriod="P1D">(value &quot;product_name&quot; of structure &quot;system_information&quot; of smbios)</Property>
+  </Analysis>
+</BES>

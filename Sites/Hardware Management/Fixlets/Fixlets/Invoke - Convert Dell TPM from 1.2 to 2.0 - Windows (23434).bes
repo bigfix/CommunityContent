@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Convert Dell TPM from 1.2 to 2.0 - Windows
+  ID       : 23434
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-10T09:35:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Convert Dell TPM from 1.2 to 2.0 - Windows</Title>
+    <Description><![CDATA[<P>Downgrade the TPM from version 2.0 to version 1.2 on Supported Dell Hardware.</P>
+<P>TPM Version 2.0 is incompatible with BIOS systems and must be downgraded to version 1.2 if you would like to use the TPM on a non-UEFI system. This fixlet downgrades the TPM to version 1.2 on non-UEFI systems.</P>
+<P>The fixlet will fail if ownership of the TPM has been taken on the system. For more information about this utility see: <A href="http://en.community.dell.com/techcenter/enterprise-client/w/wiki/11850.how-to-change-tpm-modes-1-2-2-0">http://en.community.dell.com/techcenter/enterprise-client/w/wiki/11850.how-to-change-tpm-modes-1-2-2-0</A></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists values &quot;vendor&quot;                whose               (                   it as string as uppercase contains &quot;DELL&quot;               )               of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>exists Selects &quot;* from Win32_DiskPartition Where Type = &apos;GPT: System&apos;&quot; of wmi /* Machine is UEFI */</Relevance>
+    <Relevance>tuple string item 0 of string value of selects &quot;SpecVersion from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot; = &quot;1.2&quot;</Relevance>
+    <Category>Disk Encryption</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-07-29</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 00:14:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+prefetch DellTPM2.0.exe sha1:8D789530CE4BCB13C71A30D3A607FA7E7C64126D size:630184 http://downloads.dell.com/FOLDER03380194M/1/DellTpm2.0_Fw1.3.0.1.exe sha256:8910B0DCE8C13EA2CED3F8BD5DAA68C71ABF379990C4AD6ACB206930DE2AF0E4
+
+wait __Download\DellTPM2.0.exe /s /l=&quot;{pathname of windows folder}\temp\tpmupgradelog.txt&quot;
+
+//If the action fails here then you have to clear the TPM in the BIOS before continuing.
+continue if {exit code of action = 2}
+
+action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

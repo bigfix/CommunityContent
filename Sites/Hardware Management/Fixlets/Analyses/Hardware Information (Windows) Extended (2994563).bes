@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware Information (Windows) Extended
+  ID       : 2994563
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-09T07:49:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware Information (Windows) Extended</Title>
+    <Description><![CDATA[<P>CPU and Hardware Info from WMI</P>
+<P>The latest version of this Analysis can be found here: <A href="http://bigfix.me/cdb/analysis/2994556"><FONT color=#000080>http://bigfix.me/cdb/analysis/2994556</FONT></A></P>
+<P>&nbsp;</P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014756736#77777777-0000-0000-0000-000014756736"><FONT color=#000080>https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014756736#77777777-0000-0000-0000-000014756736</FONT></A></P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014746168"><FONT color=#000080>https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014746168</FONT></A></P>
+<P><A href="http://support.bigfix.com/cgi-bin/inspectorsearch/single_inspector.cgi?cpx=c&amp;keyphrase=select+%26lt%3Bstring%26gt%3B+of+%26lt%3Bwmi%26gt%3B&amp;type=wmi+select"><FONT color=#000080>http://support.bigfix.com/cgi-bin/inspectorsearch/single_inspector.cgi?cpx=c&amp;keyphrase=select+%26lt%3Bstring%26gt%3B+of+%26lt%3Bwmi%26gt%3B&amp;type=wmi+select</FONT></A></P>
+<P><A href="http://blogs.msdn.com/b/perfworld/archive/2009/02/27/how-can-i-use-wmi-and-powershell-to-determine-if-a-computer-running-a-32-bit-operating-system-can-support-a-64-bit-operating-system.aspx"><FONT color=#000080>http://blogs.msdn.com/b/perfworld/archive/2009/02/27/how-can-i-use-wmi-and-powershell-to-determine-if-a-computer-running-a-32-bit-operating-system-can-support-a-64-bit-operating-system.aspx</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Aug 2013 14:49:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="DataWidth of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;DataWidth from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="2" Name="AddressWidth of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;AddressWidth from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="3" Name="L2CacheSize of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;L2CacheSize from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="4" Name="Description of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;Description from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="5" Name="SocketDesignation of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;SocketDesignation from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="7" Name="L3CacheSize of CPU" EvaluationPeriod="P2D">unique values of (string values of selects &quot;L3CacheSize from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="9" Name="Storage Controller" EvaluationPeriod="P2D">unique values of (string values of selects &quot;Name from win32_IDEController&quot; of wmi)</Property>
+    <Property ID="11" Name="Architecture of CPU" EvaluationPeriod="P2D">(if it = &quot;0&quot; then &quot;x86&quot; else if it = &quot;1&quot; then &quot;MIPS&quot; else if it = &quot;2&quot; then &quot;Alpha&quot; else if it = &quot;3&quot; then &quot;PowerPC&quot; else if it = &quot;6&quot; then &quot;Itanium&quot; else if it = &quot;9&quot; then &quot;x64&quot; else if it as integer &gt; 9 then ERROR &quot;newer than x64&quot; else ERROR &quot;unknown&quot;) of (unique value of (string values of selects &quot;Architecture from win32_Processor&quot; of wmi) as string)</Property>
+    <Property ID="6" Name="% CPU" EvaluationPeriod="PT30M">unique values of (string values of selects &quot;LoadPercentage from Win32_Processor&quot; of wmi)</Property>
+    <Property ID="8" Name="Keyboard Desc." EvaluationPeriod="P2D">unique values of (string values of selects &quot;Description from win32_keyboard&quot; of wmi)</Property>
+    <Property ID="12" Name="% CPU of Processes" EvaluationPeriod="PT30M">(string value of property &quot;PercentProcessorTime&quot; of it &amp; &quot; &quot; &amp; string value of property &quot;Name&quot; of it) of (select objects &quot;Name,PercentProcessorTime from Win32_PerfFormattedData_PerfProc_Process&quot; of wmi) whose (&quot;0&quot; != string value of property &quot;PercentProcessorTime&quot; of it AND &quot;_Total&quot; != string value of property &quot;Name&quot; of it AND &quot;Idle&quot; != string value of property &quot;Name&quot; of it)</Property>
+  </Analysis>
+</BES>

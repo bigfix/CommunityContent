@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Intel AMT System Status
+  ID       : 2998552
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2017-05-10T18:07:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Intel AMT System Status</Title>
+    <Description><![CDATA[<P><FONT size=3><STRONG>This analysis&nbsp;reads the System Exposure and System Risk values from an xml file created by the task:</STRONG></FONT></P>
+<P><FONT color=#ff0000 size=3><STRONG>Scan for Intel AMT Vulnerability_v1.0.1.6</STRONG></FONT></P>
+<P><FONT size=3><STRONG>The task&nbsp;runs an Intel utility designed to determine if the system is at risk from the AMT vulnerability.</STRONG></FONT>&nbsp;</P>
+<P>&nbsp;</P>
+<P><STRONG><FONT size=3 face=Arial>The values and meaning of these values are listed below as per Intel Documentation:</FONT></STRONG></P><FONT size=3 face=Arial>
+<P>
+<TABLE style="WIDTH: 643pt; BORDER-COLLAPSE: collapse" cellSpacing=0 cellPadding=0 width=857 border=0>
+<COLGROUP>
+<COL style="WIDTH: 120pt; mso-width-source: userset; mso-width-alt: 5851" width=160>
+<COL style="WIDTH: 523pt; mso-width-source: userset; mso-width-alt: 25490" width=697>
+<TBODY>
+<TR style="HEIGHT: 15pt" height=20>
+<TD class=xl69 style="BORDER-TOP: windowtext 1pt solid; HEIGHT: 15pt; BORDER-RIGHT: windowtext 0.5pt solid; WIDTH: 120pt; BORDER-BOTTOM: windowtext 0.5pt solid; BORDER-LEFT: windowtext 1pt solid; BACKGROUND-COLOR: #d9d9d9" height=20 width=160><STRONG><FONT size=3 face=Calibri>Value</FONT></STRONG></TD>
+<TD class=xl70 style="BORDER-TOP: windowtext 1pt solid; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 523pt; BORDER-BOTTOM: #f0f0f0; BORDER-LEFT: #f0f0f0; BACKGROUND-COLOR: #d9d9d9" width=697><STRONG><FONT size=3 face=Calibri>Description</FONT></STRONG></TD></TR>
+<TR style="HEIGHT: 249pt; mso-height-source: userset" height=332>
+<TD class=xl65 style="BORDER-TOP: windowtext; HEIGHT: 249pt; BORDER-RIGHT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid; BORDER-LEFT: windowtext 1pt solid; BACKGROUND-COLOR: transparent" height=332><STRONG><FONT size=3 face=Calibri>System Risk</FONT></STRONG></TD>
+<TD class=xl66 style="BORDER-TOP: windowtext 0.5pt solid; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 523pt; BORDER-BOTTOM: windowtext 0.5pt solid; BORDER-LEFT: windowtext; BACKGROUND-COLOR: transparent" width=697>
+<UL>
+<LI><FONT face=Calibri><STRONG><FONT size=4>&nbsp;Vulnerable<BR></FONT></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=348 border=1>
+<TBODY>
+<TR>
+<TD height=31 vAlign=top>
+<P align=left><FONT size=4></FONT></P>
+<P><FONT size=4>The system has a vulnerable manageability firmware version, firmware needs to be updated </FONT></P></TD></TR></TBODY></TABLE><BR></FONT>
+<LI><FONT size=3 face=Calibri><STRONG><FONT size=4>Not Vulnerable<BR></FONT></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=360 border=1>
+<TBODY>
+<TR>
+<TD height=46 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>The system meets the "Not Vulnerable" criteria described in the Identifying impacted systems using the INTEL-SA-00075 Discovery Tool section of the document. </FONT></P></TD></TR></TBODY></TABLE><BR></FONT></LI></UL>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG><FONT size=4>Not Vulnerable (Verify configuration)<BR></FONT></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=392 border=1>
+<TBODY>
+<TR>
+<TD height=108 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>The system has the firmware with the fix for INTEL-SA-00075, but if the system was provisioned prior to the firmware update, an attacker using the known vulnerability may have changed the manageability configuration. There is a limited amount of verification that can be done through reviewing the Intel manageability SKU audit log. A full unprovision, reprovision of the manageability SKU will remove unauthorized configuration settings. </FONT></P></TD></TR></TBODY></TABLE></FONT><FONT size=3 face=Calibri></FONT></LI></UL>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG><FONT size=4>Check With OEM<BR></FONT></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=391 border=1>
+<TBODY>
+<TR>
+<TD height=77 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>The information in the SMBIOS from the OEM shows a manageability SKU, but the Discovery Tool did not receive a response when requesting detailed data from your computer. This may be caused by a missing Management Engine interface driver. Consult your OEM to find out if your computer model is affected. </FONT></P></TD></TR></TBODY></TABLE></FONT></LI></UL>
+<UL>
+<LI><FONT size=3><STRONG>Unknown:<BR></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=383 border=1>
+<TBODY>
+<TR>
+<TD height=46 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>Discovery Tool did not receive a valid response when requesting hardware inventory data from your computer. Consult your OEM to find out if your computer model is affected </FONT></P></TD></TR></TBODY></TABLE></FONT><FONT size=3 face=Calibri></FONT></LI></UL></TD></TR>
+<TR style="HEIGHT: 249pt; mso-height-source: userset" height=332>
+<TD class=xl67 style="BORDER-TOP: windowtext; HEIGHT: 249pt; BORDER-RIGHT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext 1pt solid; BACKGROUND-COLOR: transparent" height=332><STRONG><FONT size=3 face=Calibri>System Exposure</FONT></STRONG></TD>
+<TD class=xl68 style="BORDER-TOP: windowtext; BORDER-RIGHT: windowtext 1pt solid; WIDTH: 523pt; BORDER-BOTTOM: windowtext 1pt solid; BORDER-LEFT: windowtext; BACKGROUND-COLOR: transparent" width=697>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG>Exposed<BR></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=270 border=1>
+<TBODY>
+<TR>
+<TD height=15 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>The system is provisioned and the LMS is running. </FONT></P></TD></TR></TBODY></TABLE></FONT></LI></UL>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG>Not Exposed<BR></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=386 border=1>
+<TBODY>
+<TR>
+<TD height=31 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>System is determined to be unprovisioned and the LMS is not running </FONT></P></TD></TR></TBODY></TABLE></FONT></LI></UL>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG>Potential Exposure<BR></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=381 border=1>
+<TBODY>
+<TR>
+<TD height=31 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>System is determined to be unprovisioned and the LMS status could not be determined </FONT></P></TD></TR></TBODY></TABLE></FONT></LI></UL>
+<UL>
+<LI><FONT size=3 face=Calibri><STRONG>Unknown<BR></STRONG>
+<TABLE dir=ltr cellSpacing=0 cellPadding=7 width=387 border=1>
+<TBODY>
+<TR>
+<TD height=46 vAlign=top>
+<P align=left></P><FONT size=1>
+<P></FONT><FONT size=4>Discovery Tool did not receive a valid response when requesting hardware inventory data from your computer. The Discovery Tool cannot determine if a mitigation has been applied to this system. </FONT></P></TD></TR></TBODY></TABLE></FONT></LI></UL>
+<P><FONT size=3 face=Calibri></FONT>&nbsp;</P></TD></TR></TBODY></TABLE></P></FONT>
+<P><STRONG><FONT size=4 face=Arial></FONT></STRONG>&nbsp;</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[/* Version of Windows must be at least Win7 */ version of operating system >= "6.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 May 2017 16:16:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="7" Name="System Risk">if exists folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then if exists file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then preceding text of first &quot;&lt;&quot; of (following text of first &quot;&gt;&quot; of (lines of file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;)) whose (it as string contains &quot;System_Risk&quot;)) else &quot;No Scan Results xml File&quot; else &quot;Scan Not Run&quot;</Property>
+    <Property ID="8" Name="System Exposure">if exists folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then if exists file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then preceding text of first &quot;&lt;&quot; of (following text of first &quot;&gt;&quot; of (lines of file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;)) whose (it as string contains &quot;System_Exposure&quot;)) else &quot;No Scan Results xml File&quot; else &quot;Scan Not Run&quot;</Property>
+    <Property ID="9" Name="Last Scan Date">if exists folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then if exists file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;) then preceding text of first &quot;&lt;&quot; of (following text of first &quot;&gt;&quot; of (lines of file (((hostname) as string) &amp; &quot;_System_Summary.xml&quot;) of folder (((parent folder of client) as string) &amp; &quot;\Intel_AMT_Scanner&quot;)) whose (it as string contains &quot;Scan_Date&quot;)) else &quot;No Scan Results xml File&quot; else &quot;Scan Not Run&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Serial Number based on BFI HW Scan
+  ID       : 2998606
+  Author   : ArturZ
+  Domain   : BESC
+  Imported : 2020-03-19T06:05:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Serial Number based on BFI HW Scan</Title>
+    <Description><![CDATA[<P>This is sample analysis pulling out raw data from BigFix Inventory Hardware Scan.</P>
+
+<P> Sample covers two entries: Serial Number and UUID from ComponentID section</P>
+
+<P>Purpose is to have that data visible on BigFix Server side / imported as-is to the BigFix Inventory</P>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 19 Mar 2020 19:28:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Serial Number based on BFI HW Scan" EvaluationPeriod="P7D">if (name of operating system as lowercase starts with &quot;win&quot;) then    (if (exists folder ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client)  else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp; &quot;\LMT\CIT\tlm_hw_scans&quot;))  then (unique values of (it as text) of (xpaths &quot;Hardware/ComponentID/SerialNumber&quot; of xml documents of   files whose (name of it as lowercase contains &quot;tlm_hw_&quot;) of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of  data folder of client) else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp;  &quot;\LMT\CIT\tlm_hw_scans\&quot;))) else &quot;Missing Hardware Scan&quot;)   else   (if  (exists folder (((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client)  else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;))) &amp;  &quot;/LMT/CIT/tlm_hw_scans&quot;)) then (if exists property &quot;xml document&quot; then (unique values of (it as text)  of (xpaths &quot;Hardware/ComponentID/SerialNumber&quot; of xml documents of files whose (name of it as lowercase contains &quot;tlm_hw_&quot;) of folders (((if (version of client &gt;= &quot;9&quot; as version) then  (pathname of parent folder of data folder of client) else (pathname of parent folder of parent  folder of client folder of site &quot;actionsite&quot;))) &amp; &quot;/LMT/CIT/tlm_hw_scans/&quot;)))  else  &quot;Missing Hardware Scan&quot; ) else &quot;No information&quot;)</Property>
+    <Property ID="2" Name="UUID based on BFI HW Scan" EvaluationPeriod="P7D">concatenation of (if (name of operating system as lowercase starts with &quot;win&quot;) then    (if (exists folder ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client)  else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp; &quot;\LMT\CIT\tlm_hw_scans&quot;))  then (  unique values of (it as text) of xpaths &quot;/Hardware/ComponentID/UUID&quot; of xml documents of  files whose (name of it as lowercase contains &quot;tlm_hw_&quot; and exists xpath &quot;/Hardware/ComponentID/UUID&quot; of xml document of it) of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of  data folder of client) else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp;  &quot;\LMT\CIT\tlm_hw_scans\&quot;)) else &quot;Missing Hardware Scan&quot;)   else   (if  (exists folder (((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client)  else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;))) &amp;  &quot;/LMT/CIT/tlm_hw_scans&quot;)) then (if exists property &quot;xml document&quot; then ( unique values of (it as text) of (xpaths &quot;/Hardware/ComponentID/UUID&quot; of xml documents of files whose (name of it as lowercase contains &quot;tlm_hw_&quot; and exists xpath &quot;/Hardware/ComponentID/UUID&quot; of xml document of it) of folders (((if (version of client &gt;= &quot;9&quot; as version) then  (pathname of parent folder of data folder of client) else (pathname of parent folder of parent  folder of client folder of site &quot;actionsite&quot;))) &amp; &quot;/LMT/CIT/tlm_hw_scans/&quot;)))  else  &quot;Missing Hardware Scan&quot; ) else &quot;No information&quot;) as string)</Property>
+    <Property ID="3" Name="BFI HW Scan Results" EvaluationPeriod="P7D">pathnames of files whose (name of it as lowercase contains &quot;tlm_hw_&quot;) of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of  data folder of client) else (pathname of parent folder of regapp &quot;besclient.exe&quot;)) &amp;  &quot;\LMT\CIT\tlm_hw_scans\&quot;)</Property>
+  </Analysis>
+</BES>

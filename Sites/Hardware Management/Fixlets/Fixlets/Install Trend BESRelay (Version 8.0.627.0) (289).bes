@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Trend BESRelay (Version 8.0.627.0)
+  ID       : 289
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Trend BESRelay (Version 8.0.627.0)</Title>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD><P><FONT size=2><B>Installs the BES Relay 8.0.627.0 on the selected Windows computers. <BR><BR></B></FONT><FONT size=2>For more information on BES Relays, please visit the following support web pages:</P> <UL> <LI><A href="http://support.bigfix.com/bes/misc/besrelays.html">BES Relay FAQ</A> - Information on using BES Relays to reduce bandwidth on slow WAN links, increase scalability, and increase performance. <LI><A href="http://support.bigfix.com/bes/misc/besrelayhealth.html">BES Relay Health</A> - Information on best practices for setting up and maintaining BES Relays.</FONT></LI></UL></TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>
+5.98 MB
+ </DIV>
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance>if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; whose (exists value &quot;value&quot; of it) of registry) then (value &quot;value&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; of registry as string = &quot;Trend&quot;) else (&quot;Trend&quot;=&quot;BigFix&quot;)</Relevance>
+    <Relevance>(it = &quot;Win7&quot; OR it = &quot;Win2008R2&quot; OR it = &quot;Win2008&quot; OR it = &quot;WinVista&quot; OR it = &quot;Win2003&quot; OR it = &quot;WinXP&quot; OR it = &quot;WinXP-2003&quot; OR it = &quot;Win2000&quot;) of name of operating system</Relevance>
+    <Relevance>not exists regapp &quot;besrelay.exe&quot;</Relevance>
+    <Relevance>not (exists key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry AND exists value &quot;BESInstalled&quot; of key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry AND value &quot;BESInstalled&quot; of key &quot;HKLM\Software\BigFix\Enterprise Server&quot; of registry = 1)</Relevance>
+    <Relevance><![CDATA[version of registration server >= "8.0"]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2010-10-12</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Jul 2011 22:23:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 17 Aug 2010 21:40:25 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Deploy Relay</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the BES Relay to the default location.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+delete __Local\Get\BESRelay.exe
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;
+wait __Local\Get\BESRelay.exe /s /v&quot;RESTARTBESCLIENT=0 REBOOT=ReallySuppress /qn&quot;
+delete __Local\Get\BESRelay.exe
+// if for some reason the BES Relay hasn&apos;t started yet, fail here
+continue if {exists running service &quot;BESRelay&quot;}
+// Now force a relay selection to our newly installed relay
+relay select
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action486">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to be prompted for a path where the BES Relay will be installed.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+action parameter query &quot;Relay Install Location&quot; with description &quot;Please enter the path where you would like the BES Relay installed:&quot; with default value &quot;C:\Program Files\BigFix Enterprise\BES Relay&quot;
+continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+delete __Local\Get\BESRelay.exe
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;
+wait __Local\Get\BESRelay.exe /s /v&quot;INSTALLDIR=\&quot;{parameter &quot;Relay Install Location&quot; of action}\&quot; RESTARTBESCLIENT=0 REBOOT=ReallySuppress /qn&quot;
+delete __Local\Get\BESRelay.exe
+// if for some reason the BES Relay hasn&apos;t started yet, fail here
+continue if {exists running service &quot;BESRelay&quot;}
+// Now force a relay selection to our newly installed relay
+relay select
+</ActionScript>
+    </Action>
+    <Action ID="Action487">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the BES Relay on the drive with the most free space.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+delete __Local\Get\BESRelay.exe
+move __Download\BESRelay.exe __Local\Get\BESRelay.exe
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;
+wait __Local\Get\BESRelay.exe /s /v&quot;INSTALLDIR=\&quot;{name of drive whose (type of it = &quot;DRIVE_FIXED&quot; AND free space of it = maximum of (free spaces of drives whose (type of it = &quot;DRIVE_FIXED&quot;)))}\Program Files\BigFix Enterprise\BES Relay\&quot; RESTARTBESCLIENT=0 REBOOT=ReallySuppress /qn&quot;
+delete __Local\Get\BESRelay.exe
+// if for some reason the BES Relay hasn&apos;t started yet, fail here
+continue if {exists running service &quot;BESRelay&quot;}
+// Now force a relay selection to our newly installed relay
+relay select
+</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

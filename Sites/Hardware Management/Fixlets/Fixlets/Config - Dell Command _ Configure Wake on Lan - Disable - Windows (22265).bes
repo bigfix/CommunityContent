@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Dell Command | Configure Wake on Lan - Disable - Windows
+  ID       : 22265
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-17T14:17:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Dell Command | Configure Wake on Lan - Disable - Windows</Title>
+    <Description><![CDATA[<P>This disables Wake on Lan in the bios of dell machines using Dell Command | Configure.</P>
+<P><FONT color=#ff0000>NOTE: </FONT><FONT color=#000000>If you use Action 2&nbsp;and provide a BIOS Password, the password will be visible in plain text on endpoints and relays.</FONT></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists ((keys of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value &quot;DisplayName&quot; of it as string contains &quot;Dell Command | Configure&quot;)))</Relevance>
+    <Relevance>(key &quot;wakeonlan&quot; of section &quot;cctk&quot; of file &quot;report.ini&quot; of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string) = &quot;enable&quot;)</Relevance>
+    <Category>BIOS Settings</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-29</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 00:14:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Wake On LAN on machines without a BIOS Password.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+
+cd &quot;{pathname of folder (if (x64 of operating system) then (&quot;X86_64&quot;) else (&quot;X86&quot;)) of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}&quot;
+
+cctk.exe --wakeonlan=disable
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+// Create a new report
+delete &quot;{pathname of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}\report.ini&quot;
+
+wait &quot;{pathname of file &quot;CCTK.exe&quot; of folder (if (x64 of operating system) then (&quot;X86_64&quot;) else (&quot;X86&quot;)) of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}&quot; -o &quot;{pathname of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}\report.ini&quot;
+
+action requires restart</ActionScript>
+    </DefaultAction>
+    <Action ID="Action23195">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Wake on LAN on machines with a BIOS Password.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+action parameter query &quot;BIOSPwd&quot; with description &quot;Please enter the BIOS Password for the targeted machines&quot;
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+
+cd &quot;{pathname of folder (if (x64 of operating system) then (&quot;X86_64&quot;) else (&quot;X86&quot;)) of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}&quot;
+
+cctk.exe --wakeonlan=disable --valsetuppwd={parameter &quot;BIOSPwd&quot; of action}
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+// Create a new report
+delete &quot;{pathname of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}\report.ini&quot;
+
+wait &quot;{pathname of file &quot;CCTK.exe&quot; of folder (if (x64 of operating system) then (&quot;X86_64&quot;) else (&quot;X86&quot;)) of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}&quot; -o &quot;{pathname of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}\report.ini&quot;
+
+action requires restart</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

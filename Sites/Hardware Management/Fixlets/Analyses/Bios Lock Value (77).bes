@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Bios Lock Value
+  ID       : 77
+  Author   : 55FDC13E-285A-4207-97E8-32E29239932A
+  Domain   : BESC
+  Imported : 2013-02-20T10:44:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Bios Lock Value</Title>
+    <Description>This will aggregate the BIOS lock state ID of various motherboards to attempt to find the specific ID of a locked out bios to use against a group of Workstations to determine if a BIOS is indeed locked.</Description>
+    <Relevance>name OF operating system AS lowercase starts with &quot;win&quot; AS lowercase</Relevance>
+    <Relevance>NOT(name OF operating system AS lowercase starts with &quot;win200&quot; AS lowercase)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 30 Jul 2012 17:59:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Lock BIOS ID">(string value of select &quot;ChassisBootupState from Win32_Computersystem&quot; of wmi)</Property>
+  </Analysis>
+</BES>

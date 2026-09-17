@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update: Dell BIOS - Model:'OptiPlex 9010' Version:'A19' - Windows
+  ID       : 3912
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-29T14:33:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update: Dell BIOS - Model:&apos;OptiPlex 9010&apos; Version:&apos;A19&apos; - Windows</Title>
+    <Description><![CDATA[<P>This task will upgrade a Dell OptiPlex 9010 BIOS to version: A19</P>
+<P>Please test this task carefully and do not target a large set of machines at once in case there is a problem. While unlikely, BIOS updates could cause permanent hardware failure that would require mothboard replacement. <STRONG>Use at your own risk</STRONG>.</P>
+<P><STRONG>NOTE:</STRONG> This task will often report "Failed", but will then report "Completed" after the next reboot. This is normal and does not indicate a problem.</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>(&quot;OptiPlex 9010&quot; as uppercase) = ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as trimmed string as uppercase)</Relevance>
+    <Relevance><![CDATA[/* Verify a newer BIOS update is available */ "A19" as trimmed string as version > ( (it as string as trimmed string as version) of value "bios_version" of structures "bios_information" of smbios )]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>RESTAPI: Generate Dell BIOS Update Task from Dell Command Update Results - Windows</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-10-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 27 Oct 2014 21:35:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update BIOS.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "BIOS_Password" with description "Enter BIOS Password, or leave blank if none." and with default value " "
+
+// -- START:DOWNLOADS -------------------------
+
+prefetch BIOS_Update.exe sha1:505ef5a4b06706b0ed7aa228f3c020af2273a284 size:8532512 https://downloads.dell.com/FOLDER02375461M/1/O9010A19.exe
+
+// -- END:DOWNLOADS ---------------------------
+
+
+// DELETE: current log file if it exists
+delete "{ pathname of folder "__BESData\__Global\Logs" of parent folder of client }\install_Dell_BIOS_Update.log"
+
+// INSTALL: BIOS Update
+if{ ( 4 <= length of (it as trimmed string) of (parameter "BIOS_Password") ) }
+	waithidden __Download\BIOS_Update.exe /s /p={ (parameter "BIOS_Password") as trimmed string } /l="{ pathname of folder "__BESData\__Global\Logs" of parent folder of client }\install_Dell_BIOS_Update.log"
+else
+	waithidden __Download\BIOS_Update.exe /s /l="{ pathname of folder "__BESData\__Global\Logs" of parent folder of client }\install_Dell_BIOS_Update.log"
+endif
+
+// Exit Codes:
+//		0 = SUCCESSFUL
+//		1 = UNSUCCESSFUL  (FAILURE)
+//		2 = REBOOT_REQUIRED  (SUCCESSFUL)
+//		3 = DEP_SOFT_ERROR
+//		4 = DEP_HARD_ERROR
+//		5 = QUAL_HARD_ERROR
+//		6 = REBOOTING_SYSTEM  (SUCCESSFUL)
+//		7 = ? (wrong password)
+//		8 = ?
+//		9 = RPM_VERIFY_FAILED
+
+// http://en.community.dell.com/techcenter/enterprise-client/w/wiki/3462.dup-bios-updates
+// Report failure if bad return code, continue if good return code
+continue if{ exists (exit codes of action) whose(it = 2 OR it = 0 OR it = 6) }
+
+notify client ForceRefresh
+
+action requires restart "DellUpdatesInstalled"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

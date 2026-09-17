@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Intel AMT affected Firewall Ports Status
+  ID       : 2998553
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2017-05-10T18:16:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Intel AMT affected Firewall Ports Status</Title>
+    <Description><![CDATA[<P><FONT size=3><STRONG>This analysis checks whether there are active Firewall Rules that&nbsp;currently block the ports affected by the AMT vulnerability</STRONG></FONT></P>
+<P><STRONG><FONT size=3>Per Intel, the affected ports are:</FONT></STRONG></P>
+<UL>
+<LI><STRONG><FONT size=3>623</FONT></STRONG></LI>
+<LI><STRONG><FONT size=3>664</FONT></STRONG></LI>
+<LI><STRONG><FONT size=3>16992</FONT></STRONG></LI>
+<LI><STRONG><FONT size=3>16993</FONT></STRONG></LI>
+<LI><STRONG><FONT size=3>16994</FONT></STRONG></LI>
+<LI><STRONG><FONT size=3>16995</FONT></STRONG></LI></UL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[/* Version of Windows must be at least Win7 */ version of operating system >= "6.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 May 2017 16:11:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Port 623">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=623&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+    <Property ID="2" Name="Port 664">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=664&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+    <Property ID="3" Name="Port 16992">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=16992&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+    <Property ID="4" Name="Port 16993">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=16993&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+    <Property ID="5" Name="Port 16994">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=16994&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+    <Property ID="6" Name="Port 16995">if exists (values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules&quot; of registry) whose (it as string contains &quot;RPort=16995&quot; and it as string contains &quot;Action=Block&quot; and it as string contains &quot;Active=TRUE&quot;) then &quot;Blocked&quot; else &quot;*** WARNING-PORT IS OPEN***&quot;</Property>
+  </Analysis>
+</BES>

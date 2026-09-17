@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Dell Command | Configure - Activate Trusted Platform Module - Windows
+  ID       : 22652
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-22T09:18:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Dell Command | Configure - Activate Trusted Platform Module - Windows</Title>
+    <Description><![CDATA[<P>This enables the TPM in the bios of dell machines using Dell Command | Configure.</P>
+<P>This action will temporarily set and then clear a bios password. This action will fail if a bios password has already been set on the device.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(not exists selects &quot;* from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;) | true</Relevance>
+    <Relevance>exists keys whose (value &quot;DisplayName&quot; of it as string contains &quot;Dell Command | Configure&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
+    <Category>Disk Encryption</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-29</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 00:14:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+
+cd &quot;{pathname of folder (if (x64 of operating system) then (&quot;X86_64&quot;) else (&quot;X86&quot;)) of folder (value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Dell\CommandConfigure&quot; of x32 registry as string)}&quot;
+
+cctk.exe --setuppwd=BIOSPWD
+cctk.exe --tpm=on --valsetuppwd=BIOSPWD
+cctk.exe --tpmactivation=activate --valsetuppwd=BIOSPWD
+cctk.exe --setuppwd= --valsetuppwd=BIOSPWD
+
+_end_
+
+move __createfile run.bat
+
+wait run.bat
+
+action requires restart</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

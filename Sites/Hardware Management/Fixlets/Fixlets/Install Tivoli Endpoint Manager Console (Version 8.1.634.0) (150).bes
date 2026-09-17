@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Tivoli Endpoint Manager Console (Version 8.1.634.0)
+  ID       : 150
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:13:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Tivoli Endpoint Manager Console (Version 8.1.634.0)</Title>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD><P><FONT size=2><B>Installs the Tivoli Endpoint Manager Console 8.1.634.0 on the selected Windows computers.<BR>The version of the server must be 8.1.634.0 to ensure database version compatability.<BR><BR></B></FONT><FONT size=2>For more information on the Tivoli Endpoint Manager Console, please visit the following support web pages:</P> <UL> <LI><A href="http://support.bigfix.com/bes/install/consolereq.html">Tivoli Endpoint Manager Console System Requirements</A></FONT></LI></UL></TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>
+59.2 MB
+ </DIV>
+]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>NOT exists service &quot;BESRootServer&quot;</Relevance>
+    <Relevance>version of registration server = &quot;8.1.634.0&quot;</Relevance>
+    <Relevance><![CDATA[((it = "Win7" OR it = "Win2008R2" OR it = "Win2008" OR it = "WinVista") of name of it OR ((name of it = "Win2003" AND service pack major version of it >= 1) OR ((it = "WinXP" OR it = "WinXP-2003") of name of it AND service pack major version of it >= 2))) of operating system]]></Relevance>
+    <Relevance>not exists regapp &quot;BESConsole.exe&quot;</Relevance>
+    <Relevance><![CDATA[version of regapp "iexplore.exe" >= "5"]]></Relevance>
+    <Relevance>if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; whose (exists value &quot;value&quot; of it) of registry) then (value &quot;value&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Brand&quot; of registry as string = &quot;BigFix&quot;) else (&quot;BigFix&quot;=&quot;BigFix&quot;)</Relevance>
+    <Category>Upgrade</Category>
+    <Source>IBM</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-01-09</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 31 Jan 2012 21:19:33 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain-attributes</Name>
+      <Value>BES Deploy Console</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 30 Jul 2012 22:05:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the Tivoli Endpoint Manager Console to the default location.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch BESConsole.exe sha1:6c7d1a0b0a9c960019f637a55b5d29a5430cc978 size:62025576 http://software.bigfix.com/download/bes/81/BigFix-BES-Console-8.1.634.0.exe
+delete __Local\Get\BESConsole.exe
+// If the next line fails, there is not enough free space to complete this action
+continue if {62025576  < free space of drive of client folder of current site}
+move __Download\BESConsole.exe __Local\Get\BESConsole.exe
+delete __Local\Get\ActionSite.afxm
+copy "{parent folder of client as string & "\ActionSite.afxm"}" __Local\Get\ActionSite.afxm
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]" "Logging"="voicewarmupx"
+wait __Local\Get\BESConsole.exe /s /v"REBOOT=ReallySuppress MSIRESTARTMANAGERCONTROL=Disable /qn"
+delete __Local\Get\BESConsole.exe
+delete __Local\Get\ActionSite.afxm
+action may require restart]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

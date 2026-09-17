@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run: Driver Restore - Dell Command Update - Windows
+  ID       : 6216
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-09-28T16:53:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run: Driver Restore - Dell Command Update - Windows</Title>
+    <Description><![CDATA[<P>This task will install Dell Updates using Dell Command Update.</P>
+<P>&nbsp;</P>
+<P><STRONG>See Installer Task:</STRONG>&nbsp; Install/Update: Dell Command Update - Windows&nbsp; (Only once for each client) </P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>/* check for supported model: OptiPlex, Latitude, Precision, Venue Tablets, XPS */ exists ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as uppercase) whose(it starts with &quot;OPTIPLEX&quot; OR it starts with &quot;LATITUDE&quot; OR it starts with &quot;PRECISION&quot; OR it starts with &quot;XPS&quot; OR it starts with &quot;VENUE&quot;)</Relevance>
+    <Relevance><![CDATA[/* the CLI is available */ exists files "dcu-cli.exe" whose(version of it >= "2.1.0.218") of folders ( unique value of pathnames of folders ( unique values of (it as string) of ( ( values "InstallLocation" of keys whose(value "DisplayName" of it as string as trimmed string starts with "Dell Command | Update" AND value "DisplayVersion" of it as string as version >= "2.0.0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (registry;native registry) ) ; ( values "InstallPath" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate" of (registry;native registry) ) ) ) )]]></Relevance>
+    <Relevance>not exists node values whose(it contains &quot;CLI: Installation Complete&quot;) of xpaths &quot;/LogEntries/LogEntry/message/text()[contains(.,&apos;CLI: Installation Complete&apos;)]&quot; of xml documents of files &quot;ActivityLog.xml&quot; of folders &quot;Logs_DellDriverRestore&quot; of folders &quot;__BESData\__Global\Logs&quot; of parent folder of client</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-10-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Wed, 29 Oct 2014 13:06:32 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Wed, 29 Oct 2014 13:06:32 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 28 Sep 2015 23:51:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+parameter "BEFORE_NumDevMissingDrivers" = "{number of select objects "* FROM Win32_PnPEntity WHERE Status <> 'OK' OR ConfigManagerErrorCode != 0" of wmis}"
+
+// http://support.bigfix.com/fixlet/documents/WinActions_20081110.pdf
+action launch preference low-priority
+
+// INSTALL: Drivers
+waithidden "{ pathname of file "dcu-cli.exe" whose(version of it >= "2.0.0.565") of folder ( unique value of pathnames of folders ( unique values of (it as string) of ( ( values "InstallLocation" of keys whose(value "DisplayName" of it as string as trimmed string starts with "Dell Command | Update" AND value "DisplayVersion" of it as string as version >= "2.0.0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (registry;native registry) ) ; ( values "InstallPath" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate" of (registry;native registry) ) ) ) ) }" /silent /log "{ (pathname of folder "__BESData\__Global\Logs" of parent folder of client) }\Logs_DellDriverRestore" /driverRestore
+
+// Return Codes:
+//		0 = OK/Success
+//		1 = Reboot Required
+//		2 = Fatal Error
+//		3 = Error
+//		4 = Invalid System
+
+parameter "AFTER_NumDevMissingDrivers" = "{number of select objects "* FROM Win32_PnPEntity WHERE Status <> 'OK' OR ConfigManagerErrorCode != 0" of wmis}"
+parameter "AFTER_RunTime" = "{ (active start time of active action) - now }"
+
+//   http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-E3858402-1574-40EB-9ADB-3E9C4C9DB431
+// Report failure if bad return code, continue if good return code
+continue if{ exists (exit codes of active action) whose(it = 1 OR it = 0) }
+
+//  http://support.bigfix.com/inspectors/World%20Objects_Any.html
+// pending restart "DellUpdatesInstalled"
+// Require reboot if return code = 1
+if{ exists (exit codes of active action) whose(it = 1) }
+	action requires restart "DellUpdatesInstalled"
+endif
+
+
+// Check for Updates
+// http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-5A058BEF-5A75-4037-A9C2-65628F818EB7
+waithidden { pathname of file "dcu-cli.exe" whose(version of it >= "2.0.0.565") of folder ( unique value of pathnames of folders ( unique values of (it as string) of ( ( values "InstallLocation" of keys whose(value "DisplayName" of it as string as trimmed string starts with "Dell Command | Update" AND value "DisplayVersion" of it as string as version >= "2.0.0") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (registry;native registry) ) ; ( values "InstallPath" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate" of (registry;native registry) ) ) ) ) } /silent /report "{ (pathname of folder "__BESData\__Global\Logs" of parent folder of client) }\results_DellUpdate.xml" /log "{ (pathname of folder "__BESData\__Global\Logs" of parent folder of client) }\Logs_DellUpdate"
+
+// Return Codes:
+//		0 = OK/Success
+//		1 = Reboot Required
+//		2 = Fatal Error
+//		3 = Error
+//		4 = Invalid System
+
+//   http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-E3858402-1574-40EB-9ADB-3E9C4C9DB431
+// Report failure if bad return code, continue if good return code
+continue if{ exists (exit codes of active action) whose(it = 1 OR it = 0) }
+
+//  http://support.bigfix.com/inspectors/World%20Objects_Any.html
+// pending restart "DellUpdatesInstalled"
+// Require reboot if return code = 1
+if{ exists (exit codes of active action) whose(it = 1) }
+	action requires restart "DellUpdatesInstalled"
+endif
+
+// Running this task will affect analysis properties, so this will force them to be updated right away
+notify client ForceRefresh
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

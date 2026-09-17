@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Power - Efficiency - Windows
+  ID       : 2998536
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-14T09:33:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Power - Efficiency - Windows</Title>
+    <Description><![CDATA[<P>This anaysis reads from the power effiency probe and reports the results.</P>
+<P>"Power - Efficiency Report Results - Windows" reports Windows-identified power management warnings.</P>
+<P>"Power - Wake Requests - Windows" reports components preventing Windows from sleeping.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;energy-report.html&quot; of folder &quot;temp&quot; of windows folder</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Power - Wake Requests - Windows" EvaluationPeriod="P1D">(it, next line of it) of lines containing &quot;[&quot; of file &quot;energy-requests.txt&quot; of folder &quot;temp&quot; of windows folder</Property>
+    <Property ID="3" Name="Power - Efficiency Errors - Windows" EvaluationPeriod="P1D">((concatenation &quot;, &quot; of (it &amp; &quot;: &quot;) of (selects &quot;Details/Detail/Value&quot; of it as text)) &amp; select &quot;Description&quot; of it as text) of selects &quot;/EnergyReport/Troubleshooter/AnalysisLog/LogEntry[Severity=&apos;Error&apos;]&quot; of xml document of file &quot;energy-report.xml&quot; of folder &quot;temp&quot; of windows folder</Property>
+    <Property ID="4" Name="Power - Efficiency Warnings - Windows" EvaluationPeriod="P1D">unique values of ((concatenation &quot;, &quot; of (it &amp; &quot;: &quot;) of (selects &quot;Details/Detail/Value&quot; of it as text)) &amp; select &quot;Description&quot; of it as text) of selects &quot;/EnergyReport/Troubleshooter/AnalysisLog/LogEntry[Severity=&apos;Warning&apos;]&quot; of xml document of file &quot;energy-report.xml&quot; of folder &quot;temp&quot; of windows folder</Property>
+    <Property ID="6" Name="Power - Last Efficiency Check - Windows" EvaluationPeriod="P1D">modification time of file &quot;energy-report.xml&quot; of folder &quot;temp&quot; of windows folder</Property>
+  </Analysis>
+</BES>

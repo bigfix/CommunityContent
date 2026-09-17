@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update Synaptics Touchpad Driver - HP - Windows  TODO:Testing
+  ID       : 24870
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-12-20T16:30:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update Synaptics Touchpad Driver - HP - Windows TODO:Testing</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<UL>
+<LI><A href="https://forum.bigfix.com/t/anyone-affected-by-hp-synaptics-keylogger-vulnerability/23951/6">https://forum.bigfix.com/t/anyone-affected-by-hp-synaptics-keylogger-vulnerability/23951/6</A></LI></UL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (it as string as trimmed string) whose(it = &quot;HP&quot; OR it contains &quot;Hewlett-Packard&quot;) of (values &quot;vendor&quot; of structures &quot;bios_information&quot; of it; values &quot;manufacturer&quot; of structures &quot;base_board_information&quot; of it; values &quot;manufacturer&quot; of structures &quot;system_information&quot; of it) of smbioses</Relevance>
+    <Relevance><![CDATA[exists (it as string as version) whose(it < "19.3.31.31") of values "DriverVersion" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Synaptics\SynTP\Install" of (x64 registries; x32 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-12-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 21 Dec 2017 00:25:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Version 19.3.31.31
+prefetch sp81891.exe sha1:252937c3190a6d53c3d0e0781fdb0b57b7ed4e76 size:190249424 http://ftp.hp.com/pub/softpaq/sp81501-82000/sp81891.exe sha256:71db1a5e73256d0e63e2af5de450a71077acf2cb92736d022c63b95988855021
+
+wait __Download\sp81891.exe -s -SMS
+
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

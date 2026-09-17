@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Power - Configuration - Mac
+  ID       : 2998287
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:59:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Power - Configuration - Mac</Title>
+    <Description><![CDATA[<P>Provides information on the current power configuration</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Power - Wake On LAN on AC - Mac" EvaluationPeriod="P1D">if (integer &quot;Wake On LAN&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; = 1) then (&quot;Enabled&quot;) else (&quot;Disabled&quot;)</Property>
+    <Property ID="2" Name="Power - Wake On LAN on DC - Mac" EvaluationPeriod="P1D">if (integer &quot;Wake On LAN&quot; of dictionary &quot;DC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; = 1) then (&quot;Enabled&quot;) else (&quot;Disabled&quot;)</Property>
+    <Property ID="3" Name="Power - Disk Sleep Timer on AC - Mac" EvaluationPeriod="P1D">integer &quot;Disk Sleep Timer&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;</Property>
+    <Property ID="4" Name="Power - Disk Sleep Timer on DC - Mac" EvaluationPeriod="P1D">integer &quot;Disk Sleep Timer&quot; of dictionary &quot;DC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;</Property>
+    <Property ID="5" Name="Power - Standby Timer on AC - Mac" EvaluationPeriod="P1D">integer &quot;Standby Delay&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;</Property>
+    <Property ID="6" Name="Power - Standby Timer on DC - Mac" EvaluationPeriod="P1D">integer &quot;Standby Delay&quot; of dictionary &quot;DC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;</Property>
+    <Property ID="7" Name="Power - Standby on AC - Mac" EvaluationPeriod="P1D">if (integer &quot;Standby Enabled&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; = 1) then (&quot;Enabled&quot;) else (&quot;Disabled&quot;)</Property>
+    <Property ID="8" Name="Power - Standby on DC - Mac" EvaluationPeriod="P1D">if (integer &quot;Standby Enabled&quot; of dictionary &quot;DC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot; = 1) then (&quot;Enabled&quot;) else (&quot;Disabled&quot;)</Property>
+    <Property ID="9" Name="Power - Default GPU on AC - Mac" EvaluationPeriod="P1D">(if (it = 0) then (&quot;Integrated&quot;) else (if (it = 1) then (&quot;Discrete&quot;) else &quot;Auto&quot;) )of (integer &quot;GPUSwitch&quot; of dictionary &quot;AC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;)</Property>
+    <Property ID="10" Name="Power - Default GPU on DC - Mac" EvaluationPeriod="P1D">(if (it = 0) then (&quot;Integrated&quot;) else (if (it = 1) then (&quot;Discrete&quot;) else &quot;Auto&quot;) )of (integer &quot;GPUSwitch&quot; of dictionary &quot;DC Power&quot; of dictionary &quot;Custom Profile&quot; of dictionary of file &quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist&quot;)</Property>
+  </Analysis>
+</BES>

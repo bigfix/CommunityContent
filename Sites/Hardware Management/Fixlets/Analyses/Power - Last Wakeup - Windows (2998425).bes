@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Power - Last Wakeup - Windows
+  ID       : 2998425
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-27T23:53:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Power - Last Wakeup - Windows</Title>
+    <Description><![CDATA[Provides information on the last system wakeup for Windows.
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Power - Last Wakeup Reason - Windows" EvaluationPeriod="PT1H">tuple string item (string value of selects &quot;WakeUpType from Win32_ComputerSystem&quot; of wmi as integer) of (&quot;Reserved, Other, Unknown, APM Timer, Modem Ring, LAN Remote, Power Switch, PCI PME#, AC Power Restored&quot;)</Property>
+  </Analysis>
+</BES>

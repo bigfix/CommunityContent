@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware - Mac
+  ID       : 2998247
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:51:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware - Mac</Title>
+    <Description><![CDATA[Provides hardware information of Macs
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>(if (name of operating system starts with &quot;Win&quot;) then platform id of operating system != 3 else true) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance><![CDATA[version of client >= "5.0"]]></Relevance>
+    <Relevance>(it contains &quot;mac os x&quot;) of (name of operating system as lowercase)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="10" Name="Hardware - Serial Number - Mac" EvaluationPeriod="P1D">string &quot;IOPlatformSerialNumber&quot; of dictionary of service plane of iokit registry</Property>
+  </Analysis>
+</BES>

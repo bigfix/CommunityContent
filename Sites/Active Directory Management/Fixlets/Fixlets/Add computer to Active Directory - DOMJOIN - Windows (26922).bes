@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Add computer to Active Directory - DOMJOIN - Windows
+  ID       : 26922
+  Author   : mickyt71
+  Domain   : BES
+  Imported : 2022-04-11T18:03:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Add computer to Active Directory - DOMJOIN - Windows</Title>
+    <Description><![CDATA[<P dir=ltr><LABEL for=secret><STRONG><U>Add computer to Active Directory - DOMJOIN - Windows</U></STRONG></LABEL></P>
+<P dir=ltr><LABEL for=secret></LABEL><LABEL for=secret>This task will add the computer to the windows domain.&nbsp;&nbsp; The user will be prompted for the following information upon taking an action:</LABEL></P>
+<UL dir=ltr>
+<LI>
+<DIV><LABEL for=secret>Domain - Domain to join in fully qualified domain name format (eg. mycompany.com.au)</LABEL></DIV>
+<LI>
+<DIV><LABEL for=secret>AD User - User with sufficient rights to perform the domain join operation</LABEL></DIV>
+<LI>
+<DIV><LABEL for=secret>OU - Leave blank for no OU, provide the OU structure for the placement of the computer object (eg. OU=PLEB Computers,DC=mycompany,DC=com,DC=au)</LABEL></DIV></LI></UL>
+<P dir=ltr><LABEL for=secret>You need to include your password in the box below before taking an action.&nbsp; This is a&nbsp;secured parameter and not visable to others.&nbsp; </LABEL></P>
+<P dir=ltr><LABEL for=secret>Password:</LABEL> <INPUT id=secret type=password name=secret> <script>
+                                                   document.body.ontakeaction = function() {
+                                                                    var theSecret = document.getElementById( "secret" ).value;
+																	if (theSecret==null || theSecret=="")
+																		{alert("Hey, you forgot to enter a secure parameter! Please enter one on the Description tab before taking the action.");}
+                                                                    else
+																		{TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", {}, { secret: theSecret } );}
+                                                                    return false;
+                                                   }
+                                                   </script> </P>
+<P dir=ltr><STRONG><FONT color=#ff0000 size=3>Important Notes</FONT></STRONG></P>
+<UL dir=ltr>
+<LI>
+<DIV>You must enter a password in order to take an action</DIV>
+<LI>
+<DIV>Because of the way secure parameters work, you cannot use this task in&nbsp;a baseline, target an action dynamically by property (e.g., automatic groups), use add additional actions.</DIV>
+<LI>
+<DIV>It is also only applicable to windows systems with a BigFix agent version 9.0+</DIV></LI></UL>
+<P><STRONG><U>Revision History</U></STRONG></P>
+<UL>
+<LI>2020/11/26 - Michael Thompson - Initial Creation
+<LI>2022/04/12 - Michael Thompson - Updated with OU capabilities</LI></UL>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>string value of select &quot;Domain from Win32_ComputerSystem&quot; of wmi as lowercase = &quot;workgroup&quot;</Relevance>
+    <Category>Accounts</Category>
+    <Source>Internal</Source>
+    <SourceID>mickyt71</SourceID>
+    <SourceReleaseDate>2020-11-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>user, net.exe, secure parameter, password</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>3670</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-versions-ids</Name>
+      <Value>3666,3669</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 Apr 2022 00:58:35 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Add</Link>
+        <PostLink>&amp;nbsp;specified computer(s) to Active Directory</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "ADDomain" with description "Please specify the FQDN of the domain to join (eg. mycompany.com.au)"
+action parameter query "ADUser" with description "Please specify the name of the user with sufficient rights to perform the domain join operation"
+action parameter query "ADOU" with description "Please give the OU to place the computer object of enter for none (eg. OU=PLEB Computers,DC=mycompany,DC=com,DC=au)"
+
+parameter "ADFQUser" = "{(parameter "ADUser") & "@" & (parameter "ADDomain")}"
+parameter "OU" = "{(concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
+
+delete __appendfile
+delete powershell.ps1
+
+appendfile param (
+appendfile     $Username,
+appendfile     $Password
+appendfile )
+appendfile $domain = "{parameter "ADDomain" of action}"
+appendfile $Secpassword = $Password | ConvertTo-SecureString -asPlainText -Force
+appendfile $credential = New-Object System.Management.Automation.PSCredential($Username,$Secpassword)
+if {parameter "OU" != ""}
+	appendfile $OU = "{(concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
+	appendfile #Try Domain Join with OU -- will fail if object already exists
+	appendfile Add-Computer -DomainName $domain -Credential $credential -OUPath $OU -ErrorAction silentlycontinue
+else
+	appendfile #Try Domain Join without OU
+	appendfile Add-Computer -DomainName $domain -Credential $credential
+endif
+
+move __appendfile powershell.ps1
+
+waithidden powershell.exe -ExecutionPolicy Bypass -File powershell.ps1 -Username "{parameter "ADFQUser"}" -Password {parameter "secret" of action}
+action requires restart
+waithidden cmd.exe /c shutdown /r
+notify client forcerefresh
+pause while {pending restart}
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

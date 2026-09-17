@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AD OUs - Active Directory Info - Windows & Mac
+  ID       : 2998380
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-08-31T12:38:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AD OUs - Active Directory Info - Windows &amp; Mac</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists active directories</Relevance>
+    <Relevance>exists dns domainnames of local computers of active directories</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 11 Feb 2016 01:04:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Computer OU" EvaluationPeriod="PT1H">unique values of (concatenations &quot;:&quot; of substrings separated by &quot;,OU=&quot; of following text of first &quot;,OU=&quot; of preceding text of first &quot;,DC=&quot; of it) of (distinguished names of local computers of it) of active directory</Property>
+    <Property ID="2" Name="User OUs" EvaluationPeriod="PT1H">unique values of (concatenations &quot;:&quot; of substrings separated by &quot;,OU=&quot; of following text of first &quot;,OU=&quot; of preceding text of first &quot;,DC=&quot; of it) of (distinguished names of local users of it) of active directory</Property>
+    <Property ID="3" Name="AD domain" EvaluationPeriod="PT12H">unique values of dns domainnames of local computers of active directories</Property>
+    <Property ID="4" Name="Computer DN" EvaluationPeriod="PT12H">distinguished names of local computers of active directory</Property>
+  </Analysis>
+</BES>

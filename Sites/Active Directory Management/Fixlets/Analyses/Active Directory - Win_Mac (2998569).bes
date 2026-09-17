@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Active Directory - Win\Mac
+  ID       : 2998569
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-06-06T09:51:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Active Directory - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides information related to the Active Directory domain the system is bound to.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Relevance>exists local computer of active directory</Relevance>
+    <Relevance>exists sample time of local computer of active directory</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Active Directory - Groups - Win\mac" EvaluationPeriod="PT1H">names of groups of local computer of active directory</Property>
+    <Property ID="2" Name="Active Directory - Last Check - Win\Mac" EvaluationPeriod="PT1H">sample time of local computer of active directory</Property>
+    <Property ID="3" Name="Active Directory - NetBIOS - Win\Mac" EvaluationPeriod="P1D">netbios domainname of local computer of active directory</Property>
+    <Property ID="4" Name="Active Directory - Organizational Unit - Win\Mac" EvaluationPeriod="PT1H">following text of first &quot;,&quot; of distinguished name of local computer of active directory </Property>
+    <Property ID="6" Name="Active Directory - Errors - Win\Mac" EvaluationPeriod="PT1H">distinguished name error messages of local computer of active directory; groups error messages of local computer of active directory</Property>
+  </Analysis>
+</BES>
