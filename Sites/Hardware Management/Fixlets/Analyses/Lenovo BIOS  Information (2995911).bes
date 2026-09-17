@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Lenovo BIOS  Information
+  ID       : 2995911
+  Author   : jgo
+  Domain   : BESC
+  Imported : 2016-03-25T14:20:29
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Lenovo BIOS Information</Title>
+    <Description><![CDATA[<P>This is an analysis to gather information from a machine about any Lenovo and the BIOS settings that are exposed through WMI. This does not include the relevance of "date of bios", "v<FONT size=2>ersion strings </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> bios", and "version of bios" which could/should&nbsp;be a seperate property as they exist across multiple vendros. This analysis currently depends on WMI so it is windows specific, but appears that dmi results from LINUX will yield similar results. </FONT></P>
+<P><FONT size=2>NOTE: The relevance for most of these properties will reference all values and names of the Lenovo_ class it is referencing. Please reference the property of <STRONG><EM>"Lenovo_PasswordState"</EM> </STRONG>in this analysis if you would like to bring back a Boolean value and reference property of <EM><STRONG>"Lenovo_GetBiosSelections_InstanceName"</STRONG></EM> in this analysis if you would like to bring back a string. Similarly you could also use "<EM>time value of &lt;wmi object&gt;"</EM> or "<EM>integer value of &lt;wmi object&gt;"</EM></FONT></P>
+<P><FONT size=2>Here are some links that may be helpful in decoding what the Lenovo bios propeties mean and for help in modification of Lenovo BIOS Settings: </FONT></P>
+<UL dir=ltr>
+<LI>
+<DIV style="WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(41,41,41); OUTLINE-WIDTH: medium; FONT: 14px Arial; OUTLINE-STYLE: none; WIDOWS: 1; LETTER-SPACING: normal; OUTLINE-COLOR: invert; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">A<SPAN class=Apple-converted-space>&nbsp;</SPAN><A style="COLOR: rgb(65,120,190); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR: invert" href="https://adameyob.com/2014/11/deploy-lenovo-bios-settings/" target=_blank>description&nbsp;of&nbsp;the&nbsp;theory</A><SPAN class=Apple-converted-space>&nbsp;</SPAN>behind changing the password using lenovo. </DIV>
+<LI>
+<DIV style="WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(41,41,41); OUTLINE-WIDTH: medium; FONT: 14px Arial; OUTLINE-STYLE: none; WIDOWS: 1; LETTER-SPACING: normal; OUTLINE-COLOR: invert; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">An example script to<A style="COLOR: rgb(65,120,190); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR: invert" href="https://adameyob.com/works/get-lenovo-bios-settings/" target=_blank>&nbsp;get&nbsp;the&nbsp;password</A><SPAN class=Apple-converted-space>&nbsp;</SPAN>settings on a Lenovo.&nbsp;&nbsp;</DIV>
+<LI>
+<DIV style="WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(41,41,41); OUTLINE-WIDTH: medium; FONT: 14px Arial; OUTLINE-STYLE: none; WIDOWS: 1; LETTER-SPACING: normal; OUTLINE-COLOR: invert; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">An example script to<A style="COLOR: rgb(65,120,190); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR: invert" href="https://adameyob.com/works/set-lenovo-bios-settings/" target=_blank>&nbsp;set&nbsp;the&nbsp;password</A><SPAN class=Apple-converted-space>&nbsp;</SPAN>settings on a Lenovo.</DIV>
+<LI>
+<DIV style="WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(41,41,41); OUTLINE-WIDTH: medium; FONT: 14px Arial; OUTLINE-STYLE: none; WIDOWS: 1; LETTER-SPACING: normal; OUTLINE-COLOR: invert; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">A link to Lenovo that has a third script.<SPAN class=Apple-converted-space>&nbsp;</SPAN><A style="COLOR: rgb(65,120,190); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR: invert" href="https://support.lenovo.com/us/en/documents/ht100612" target=_blank>here&nbsp;</A>and a<A style="COLOR: rgb(65,120,190); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR: invert" href="http://download.lenovo.com/ibmdl/pub/pc/pccbbs/mobiles_pdf/sb_deploy.pdf" target=_blank>&nbsp;pdf&nbsp;here</A>.</DIV></LI></UL>
+<P>If you would like to investigate a machines WMI more I would like to suggest: <A href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwi0o-idztzLAhUI6yYKHWLBCiIQFggdMAA&amp;url=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fldaptool%2F&amp;usg=AFQjCNFrVjYhbbDmacGlMtk0YOjabHd8Iw">LDAP explorer 2.0</A></P>
+<P><FONT size=2>Also if you need more information on WMI objects in relevance please check out <A href="https://developer.bigfix.com/relevance/reference/wmi.html">http://developer.bigfix.com</A></FONT></P>
+<P><FONT size=2></FONT><STRONG>&nbsp;**Many thanks to LawCHLUth for some WMI Guidance. </STRONG></P>]]></Description>
+    <Relevance>name of operating system contains &quot;Win&quot;</Relevance>
+    <Relevance>if (exists wmi) then (string value of select &quot;Manufacturer from Win32_ComputerSystem&quot; of wmi as string as lowercase)=&quot;lenovo&quot; else (False)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 25 Mar 2016 20:07:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Lenovo_PasswordState" EvaluationPeriod="P1D">boolean values of selects &quot;PasswordState FROM Lenovo_BiosPasswordSettings&quot; of wmis &quot;ROOT\WMI:Lenovo_BiosPasswordSettings&quot;</Property>
+    <Property ID="3" Name="Lenovo_AssetIdByteRead" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_AssetIdByteRead&quot; of wmis &quot;ROOT\WMI:Lenovo_AssetIdByteRead&quot;</Property>
+    <Property ID="4" Name="Lenovo_AssetIDElement" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_AssetIDElement&quot; of wmis &quot;ROOT\WMI:Lenovo_AssetIDElement&quot; </Property>
+    <Property ID="5" Name="Lenovo_GetBiosSelections" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_GetBiosSelections&quot; of wmis &quot;ROOT\WMI:Lenovo_GetBiosSelections&quot; </Property>
+    <Property ID="6" Name="Lenovo_BiosElement" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_BiosElement&quot; of wmis &quot;ROOT\WMI:Lenovo_BiosElement&quot; </Property>
+    <Property ID="7" Name="Lenovo_BiosPasswordSettings" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_BiosPasswordSettings&quot; of wmis &quot;ROOT\WMI:Lenovo_BiosPasswordSettings&quot; </Property>
+    <Property ID="8" Name="Lenovo_PreloadLanguage" EvaluationPeriod="P1D">(name of it &amp; &quot; = &quot; &amp; string value of it) of selects &quot;* FROM Lenovo_PreloadLanguage&quot; of wmis &quot;ROOT\WMI:Lenovo_PreloadLanguage&quot; </Property>
+    <Property ID="9" Name="Lenovo_GetBiosSelections_InstanceName" EvaluationPeriod="P1D">string values of selects &quot;InstanceName FROM Lenovo_GetBiosSelections&quot; of wmis &quot;ROOT\WMI:Lenovo_GetBiosSelections&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Printer: CLAS - Install - Add Network Printer Queue (x64)
+  ID       : 3806
+  Author   : scrull
+  Domain   : BESC
+  Imported : 2014-07-23T06:40:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Printer: CLAS - Install - Add Network Printer Queue (x64)</Title>
+    <Description><![CDATA[<P><FONT color=#ff0000>*** If a user is <U><STRONG>not</STRONG></U> logged in during installation, it will delete/install printers for them the moment they log back into the machine. ***</FONT></P>
+<P>This task will add a new <STRONG>network printer connection</STRONG> of your choosing. </P>
+<P>For a full listing of available CLAS network printers, see <A href="file://\\PrintServerDNSHostname">\\PrintServerDNSHostname</A>.</P>
+<P><STRONG><EM>Example:</EM></STRONG></P>
+<UL>
+<LI><EM>You want to add the the new network&nbsp;<STRONG>HP CP3525</STRONG> network printer&nbsp;in <STRONG>Building A</STRONG>:</EM>
+<UL>
+<LI><EM>When prompted for the network printer's hostname, enter <STRONG>EnterNetworkDNSHostnameHere</STRONG></EM>
+<LI><EM>Select the computer(s) to install the print queue on</EM>
+<LI><EM>Select OK</EM></LI></UL></LI></UL>]]></Description>
+    <Relevance>((name of it = &quot;Win7&quot; AND x64 of it) OR (name of it = &quot;Win8&quot; AND x64 of it) OR (name of it = &quot;Win8.1&quot; AND x64 of it)) of operating system</Relevance>
+    <Relevance>(concatenation of (string values of selects &quot;Domain from Win32_ComputerSystem&quot; of wmi) as lowercase contains &quot;EnterFQDNHere&quot; as lowercase )</Relevance>
+    <Category>Windows Printers</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-03-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Jul 2014 15:09:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&lt;P&gt;to &lt;STRONG&gt;Deploy a Network&amp;nbsp;Printer to Workstation(s)&lt;/STRONG&gt;&lt;/P&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// PROMPT FOR PRINT QUEUE NAME
+action parameter query "PrinterToBeCreated" with description "Please enter the printer Hostname:" with default "(i.e. XBARN230B-PR-HP4200)"
+
+// NO USER LOGGED IN
+if {not exists current user}
+	// CREATE NEW PRINT QUEUE AT NEXT LOGIN
+	createfile until end
+		start \\PrintServerDNSHostname\{parameter "PrinterToBeCreated" of action}
+		DEL "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AddPrinter.bat"
+end
+	delete AddPrinter.bat
+	copy __createfile AddPrinter.bat
+	waithidden cmd.exe /c xcopy AddPrinter.bat "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" /Y /Q /I
+endif
+
+// USER LOGGED IN
+if {exists current user}
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+
+	// DISABLE 'DO YOU WISH TO TRUST THIS PRINTER' DIALOG WINDOW
+	createfile until end
+		REGEDIT4
+		[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint]
+		"Restricted"=dword:00000001
+		"TrustedServers"=dword:00000000
+		"ServerList"=""
+		"InForest"=dword:00000000
+		"NoWarningNoElevationOnInstall"=dword:00000001
+		"UpdatePromptSettings"=dword:00000002
+end
+	delete DisablePromptWindow.reg
+	copy __createfile DisablePromptWindow.reg
+	wait regedit /S DisablePromptWindow.reg
+
+	// CREATE NEW PRINT QUEUE
+	createfile until end
+		start \\PrintServerDNSHostname\{parameter "PrinterToBeCreated" of action}
+end
+	delete AddPrinter.bat
+	copy __createfile AddPrinter.bat
+	waithidden "__Download\RunAsCurrentUser-2.0.3.1.exe" --w --q cmd.exe /C AddPrinter.bat
+
+	// WINXP - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "rundll32.exe")}
+		runhidden taskkill /f /im rundll32.exe
+	endif
+
+	// WIN& - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "splwow64.exe")}
+		runhidden taskkill /f /im splwow64.exe
+	endif
+endif
+
+// UPDATE STATUS
+notify client ForceRefresh]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action4176">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;STRONG&gt;Deploy a Network Printer to Workstation(s) for&lt;/STRONG&gt; &lt;STRONG&gt;All Users&lt;/STRONG&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// PROMPT FOR PRINT QUEUE NAME
+action parameter query "PrinterToBeCreated" with description "Please enter the printer Hostname:" with default "(i.e. XBARN230B-PR-HP4200)"
+
+// CREATE NEW PRINT QUEUE AT NEXT LOGIN
+createfile until end
+	start \\PrintServerDNSHostname\{parameter "PrinterToBeCreated" of action}
+end
+delete AddPrinter.bat
+copy __createfile AddPrinter.bat
+waithidden cmd.exe /c xcopy AddPrinter.bat "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" /Y /Q /I
+
+// RUN IMMEDIATELY - IF A USER IS LOGGED IN
+if {exists current user}
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+	waithidden "__Download\RunAsCurrentUser-2.0.3.1.exe" --w --q cmd.exe /C AddPrinter.bat
+
+	// WINXP - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "rundll32.exe")}
+		runhidden taskkill /f /im rundll32.exe
+	endif
+
+	// WIN& - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "splwow64.exe")}
+		runhidden taskkill /f /im splwow64.exe
+	endif
+
+	// UPDATE STATUS
+	notify client ForceRefresh
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action4177">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;STRONG&gt;Deploy an Equitrac Printer to Workstation(s).&lt;/STRONG&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// PROMPT FOR PRINT QUEUE NAME
+action parameter query "PrinterToBeCreated" with description "Please enter the printer Hostname:" with default "(i.e. XBARN230B-PR-HP4200)"
+
+// NO USER LOGGED IN
+if {not exists current user}
+	// CREATE NEW PRINT QUEUE AT NEXT LOGIN
+	createfile until end
+		start \\EquitracPrintServerDNSHostname\{parameter "PrinterToBeCreated" of action}
+		DEL "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\AddPrinter.bat"
+end
+	delete AddPrinter.bat
+	copy __createfile AddPrinter.bat
+	waithidden cmd.exe /c xcopy AddPrinter.bat "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" /Y /Q /I
+endif
+
+// USER LOGGED IN
+if {exists current user}
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+
+	// DISABLE 'DO YOU WISH TO TRUST THIS PRINTER' DIALOG WINDOW
+	createfile until end
+		REGEDIT4
+		[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Printers\PointAndPrint]
+		"Restricted"=dword:00000001
+		"TrustedServers"=dword:00000000
+		"ServerList"=""
+		"InForest"=dword:00000000
+		"NoWarningNoElevationOnInstall"=dword:00000001
+		"UpdatePromptSettings"=dword:00000002
+end
+	delete DisablePromptWindow.reg
+	copy __createfile DisablePromptWindow.reg
+	wait regedit /S DisablePromptWindow.reg
+
+	// CREATE NEW PRINT QUEUE
+	createfile until end
+		start \\EquitracPrintServerDNSHostname\{parameter "PrinterToBeCreated" of action}
+end
+	delete AddPrinter.bat
+	copy __createfile AddPrinter.bat
+	waithidden "__Download\RunAsCurrentUser-2.0.3.1.exe" --w --q cmd.exe /C AddPrinter.bat
+
+	// WINXP - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "rundll32.exe")}
+		runhidden taskkill /f /im rundll32.exe
+	endif
+
+	// WIN& - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
+	if {exists running application whose (name of it as lowercase is "splwow64.exe")}
+		runhidden taskkill /f /im splwow64.exe
+	endif
+endif
+
+// UPDATE STATUS
+notify client ForceRefresh]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

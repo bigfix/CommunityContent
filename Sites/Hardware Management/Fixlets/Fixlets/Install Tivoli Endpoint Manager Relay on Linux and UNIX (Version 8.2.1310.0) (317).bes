@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Tivoli Endpoint Manager Relay on Linux and UNIX (Version 8.2.1310.0)
+  ID       : 317
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Tivoli Endpoint Manager Relay on Linux and UNIX (Version 8.2.1310.0)</Title>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD><P><FONT size=2><B>Installs the Tivoli Endpoint Manager Relay 8.2.1310.0 on the selected Linux or UNIX computers. <BR><BR></B>The target must have a Tivoli Endpoint Manager Client of at least 8.0 to install.<BR><BR></FONT><FONT size=2>For more information on Tivoli Endpoint Manager Relays, please visit the following support web pages:</P> <UL> <LI><A href="http://support.bigfix.com/bes/misc/besrelays.html">Tivoli Endpoint Manager Relay FAQ</A> - Information on using Tivoli Endpoint Manager Relays to reduce bandwidth on slow WAN links, increase scalability, and increase performance. <LI><A href="http://support.bigfix.com/bes/misc/besrelayhealth.html">Tivoli Endpoint Manager Relay Health</A> - Information on best practices for setting up and maintaining Tivoli Endpoint Manager Relays.</FONT></LI></UL></TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>
+13.5 MB
+ </DIV>
+]]></Description>
+    <Relevance>NOT exists relay service</Relevance>
+    <Relevance>evaluation of client license = false</Relevance>
+    <Relevance>if (name of operating system contains &quot;Red Hat&quot;) then ((exists match (regex &quot;^i[0-9]86$&quot;) of it OR it = &quot;x86_64&quot;) of architecture of operating system) else true</Relevance>
+    <Relevance>if (name of operating system = &quot;SunOS 5.10&quot;) then (exists processor whose ((type of it contains &quot;sparc&quot;) OR (type of it contains &quot;i386&quot;))) else true</Relevance>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance><![CDATA[version of registration server >= "8.2"]]></Relevance>
+    <Relevance>(exists match (regex &quot;Linux Red Hat Enterprise (AS|ES|WS) 4&quot;) of it OR exists match (regex &quot;Linux Red Hat Enterprise (Server|Client|Workstation) (5|6)&quot;) of it OR (it = &quot;SunOS 5.10&quot;) OR exists match (regex &quot;AIX (5.3|6.1|7.1)&quot;) of it OR exists match (regex &quot;Linux SuSE Enterprise (Desktop|Server) 11&quot;) of it ) of name of operating system</Relevance>
+    <Relevance><![CDATA[if (name of operating system = "AIX 5.3") then (exists true whose (if true then (current technology level of operating system >= "5300-08") else false)) else true]]></Relevance>
+    <Relevance><![CDATA[if (((exists match (regex "AIX (6.1|7.1)") of name of operating system)) AND (architecture of operating system = "ppc64")) then (exists true whose (if true then (current technology level of operating system >= "6100-04") else false)) else true]]></Relevance>
+    <Relevance>if (name of operating system contains &quot;Linux SuSE&quot;) then ( (exists match (regex &quot;^i[0-9]86$&quot;) of it OR  it = &quot;x86_64&quot;) of architecture of operating system) else true</Relevance>
+    <Category>Upgrade</Category>
+    <Source>IBM</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-07-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 31 Jul 2012 22:09:03 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 21 Nov 2011 22:07:36 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Deploy Relay</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install the Tivoli Endpoint Manager Relay 8.2.1310.0.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// For each supported platform, download and install
+if { name of operating system = "SunOS 5.10" }
+	if  { exists processor whose (type of it contains "sparc") }
+		prefetch BESRelay.pkg sha1:db8bb6358e8e70ffbffcf92d5da77e99945b856b size:14203392 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.sparc_sol10.pkg
+	else
+		prefetch BESRelay.pkg sha1:5b8f06dc5237aa2048c59dd37ffc11d305b03c1e size:13868032 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.x86_sol10.pkg
+	endif
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile mail=
+	appendfile instance=overwrite
+	appendfile partial=nocheck
+	appendfile runlevel=nocheck
+	appendfile idepend=nocheck
+	appendfile space=ask
+	appendfile setuid=nocheck
+	appendfile conflict=nocheck
+	appendfile action=nocheck
+	appendfile basedir=default
+	delete "{(client folder of current site as string) & "/solaris_admin_file"}"
+	move "{(client folder of current site as string) & "/__appendfile"}" "{(client folder of current site as string) & "/solaris_admin_file"}
+	delete "/var/tmp/BESRelay.pkg"
+	// If the next line fails, there is not enough free space to complete this action
+	continue if {14203392 < free space of drive of folder "/var/tmp"}
+	move "__Download/BESRelay.pkg" "/var/tmp/BESRelay.pkg"
+	delete "{(client folder of current site as string) & "/__appendfile"}"
+	appendfile #!/bin/sh
+	appendfile if [ -f /etc/zones/index ]; then
+	appendfile     # system supports Solaris zones
+	appendfile     ZONE_ARG="-G"
+	appendfile else
+	appendfile     # system does not support Solaris zones
+	appendfile     ZONE_ARG=
+	appendfile fi
+	appendfile # Note: If you pass $ZONE_ARG as a command-line argument to the
+	appendfile # 'pkgadd' command below and the system supports Solaris zones, then
+	appendfile # the package will not be installed in any nonglobal zones in the
+	appendfile # case where the installation is being done from the global zone.
+	appendfile # In the case where the installation is being done from a nonglobal
+	appendfile # zone, the package is always installed in only that zone regardless
+	appendfile # of whether $ZONE_ARG is specified.
+	appendfile /usr/sbin/pkgadd $ZONE_ARG -a "{(client folder of current site as string) & "/solaris_admin_file"}" -n -d "/var/tmp/BESRelay.pkg" BESRelay
+	wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+	wait "{(client folder of current site as string) & "/__appendfile"}"
+	wait /etc/init.d/besrelay start_skipclientrestart
+	delete /var/tmp/BESRelay.pkg
+elseif {((exists match (regex "AIX (6.1|7.1)") of name of operating system)) AND (architecture of operating system = "ppc64") }
+	prefetch BESRelay.pkg sha1:088745796ca3f50d0bda5147774ff65468415ac6 size:13660160 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc64_aix61.pkg
+	delete "/var/tmp/BESRelay.pkg"
+	// If the next line fails, there is not enough free space to complete this action
+	continue if {14203392 < free space of drive of folder "/var/tmp"}
+	move __Download/BESRelay.pkg "/var/tmp/BESRelay.pkg"
+	wait installp -agqYXd "/var/tmp/BESRelay.pkg" BESRelay
+	wait /etc/rc.d/rc2.d/SBESRelayd start_skipclientrestart
+	delete "/var/tmp/BESRelay.pkg"
+elseif { name of operating system = "AIX 5.3" }
+	prefetch BESRelay.pkg sha1:9937387cce228ff489fbc8c283094667dd5334a0 size:12645376 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc_aix53.pkg
+	delete "/var/tmp/BESRelay.pkg"
+	// If the next line fails, there is not enough free space to complete this action
+	continue if {14203392 < free space of drive of folder "/var/tmp"}
+	move __Download/BESRelay.pkg "/var/tmp/BESRelay.pkg"
+	wait installp -agqYXd "/var/tmp/BESRelay.pkg" BESRelay
+	wait /etc/rc.d/rc2.d/SBESRelayd start_skipclientrestart
+	delete "/var/tmp/BESRelay.pkg"
+elseif  { exists match (regex "Linux SuSE Enterprise (Desktop|Server) 11") of name of operating system   }
+	if { architecture of operating system = "x86_64" }
+			prefetch BESRelay.rpm sha1:fb7cc5dcb7c398f01ad5bd5a8dec8ac88a0d2624 size:2604425 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.x86_64.rpm
+	else
+			prefetch BESRelay.rpm sha1:5c9cb9d295a93fb8ef3d4dde7cd60d63d26a4b55 size:2477716 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.i586.rpm
+	endif
+	delete "/var/tmp/BESRelay.rpm"
+	move __Download/BESRelay.rpm "/var/tmp/BESRelay.rpm"
+	wait /bin/rpm -i "/var/tmp/BESRelay.rpm"
+	wait /etc/init.d/besrelay start_skipclientrestart
+	delete "/var/tmp/BESRelay.rpm"
+else
+	if { exists match (regex "Linux Red Hat Enterprise (AS|ES|WS) 4") of name of operating system }
+		if { architecture of operating system = "x86_64" }
+			prefetch BESRelay.rpm sha1:1e5af888b793e0f71cdd05d5a347a8770352f6bd size:3226935 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.x86_64.rpm
+		else
+			prefetch BESRelay.rpm sha1:83ef2e447203e49f1d2e460c6844de4163ea5c40 size:3057352 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.i386.rpm
+		endif
+	elseif { exists match (regex "Linux Red Hat Enterprise (Server|Client|Workstation) (5|6)") of name of operating system }
+		if { architecture of operating system = "x86_64" }
+			prefetch BESRelay.rpm sha1:794a715ca7f5d81b824cd0011766244fc0074490 size:3164283 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.x86_64.rpm
+		else
+			prefetch BESRelay.rpm sha1:78b7418f2cff2fd4685a4a7a8612ccd6f73f4b50 size:3050177 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.i386.rpm
+		endif
+	else
+		// Didn't match any known target - error
+		continue if false
+	endif
+	delete "/var/tmp/BESRelay.rpm"
+	// If the next line fails, there is not enough free space to complete this action
+	continue if {14203392 < free space of drive of folder "/var/tmp"}
+	move __Download/BESRelay.rpm "/var/tmp/BESRelay.rpm"
+	wait /bin/rpm -i "/var/tmp/BESRelay.rpm"
+	wait /etc/init.d/besrelay start_skipclientrestart
+	delete "/var/tmp/BESRelay.rpm"
+endif
+// Now force a relay selection to our newly installed relay
+relay select]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(not exists running service &quot;BESRelay&quot;) AND (version of relay service &lt; &quot;8.2.1310.0&quot;)</SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

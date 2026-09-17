@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Intel SA 00075 Unprovision Active Management Technology - Windows
+  ID       : 24276
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-05-12T13:52:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Intel SA 00075 Unprovision Active Management Technology - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet invokes the Intel SA 00075 Unprovision Tool to unprovision computers with Intel® Active Management Technology (AMT), Intel® Standard Manageability (ISM), and Intel® Small Business Technology (SBT) that are vulnerable to the issue identified in INTEL-SA-00075. </P>
+<P>More information on this vulnerability is available here: <A href="https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00075&amp;languageid=en-fr">https://security-center.intel.com/advisory.aspx?intelid=INTEL-SA-00075&amp;languageid=en-fr</A></P>
+<P>For this Fixlet to be relevant you must first run the Fixlet: <STRONG>Invoke - Intel SA 00075 Probe - Windows </STRONG>running the Detection Tool through any other method will not work. </P>
+<P>In addition, for this Fixlet to be relevant your system must meet the following requirements:</P>
+<UL>
+<LI>LMS is Installed and Running</LI>
+<LI>Intel Management Engine is Available</LI>
+<LI>The machine has rebooted since last running Unprovisioning</LI></UL>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(brand string of main processor as lowercase) contains &quot;intel&quot;</Relevance>
+    <Relevance>/* AMT is Provisioned */ exists values &quot;ME Provisioning State&quot; whose (it != &quot;Not Provisioned&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry</Relevance>
+    <Relevance>/* Machine reports as vulnerable */ exists values &quot;Vulnerable&quot; whose (it != 0) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool\ME Firmware Information&quot; of x32 registry</Relevance>
+    <Relevance>/* Management Engine is Available */ exists (it as string as version) of values &quot;MEIVersion&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Intel\ME&quot; of x32 registry</Relevance>
+    <Relevance>/* LMS is Available and Running */ exists services &quot;LMS&quot; whose (display name of it contains &quot;Local Management Service&quot; and state of it = &quot;Running&quot;)</Relevance>
+    <Relevance>/* We have rebooted since last unprovisioning */ not pending restart &quot;IntelSA00075&quot;</Relevance>
+    <Relevance><![CDATA[/* Unprovisioning has never occurred or a scan has occurred since unprovisioning */ (not exists value "C3Unprovision" of it or value "C3Unprovision" of it as time < value "C3Scan" of it as time) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool" of x32 registries]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-05-09</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 00:14:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch INTEL-SA-00075_UnprovisioningTool_1.0.0.0025.zip sha1:DAC876DDBF4521D73277F696360AF5016047329F size:23707636 https://downloadmirror.intel.com/26781/eng/INTEL-SA-00075_UnprovisioningTool_1.0.0.0025.zip sha256:33344435BEA995999501F416872815E4E73688F27C351CA04D09C067F9DB280E
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+utility __Download\unzip.exe
+
+waithidden __Download\unzip.exe -o &quot;__Download\INTEL-SA-00075_UnprovisioningTool_1.0.0.0025.zip&quot; -d &quot;__Download&quot;
+
+override wait
+hidden=true
+completion=job
+wait msiexec /i &quot;__Download\unprovisionToolInstaller.msi&quot; /qn
+
+waithidden cmd.exe /c &quot;timeout /t 60&quot;
+
+action requires restart &quot;IntelSA00075&quot;
+
+override wait
+hidden=true
+completion=job
+wait msiexec /x &quot;__Download\unprovisionToolInstaller.msi&quot; /qn
+
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Intel\Setup and Configuration Software\INTEL-SA-00075 Discovery Tool]&quot; &quot;C3Unprovision&quot;=&quot;{now as string}&quot;</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

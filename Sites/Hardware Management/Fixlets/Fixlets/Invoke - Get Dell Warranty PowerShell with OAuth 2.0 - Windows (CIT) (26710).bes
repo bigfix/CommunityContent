@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Get Dell Warranty PowerShell with OAuth 2.0 - Windows (CIT)
+  ID       : 26710
+  Author   : roniley
+  Domain   : BESC
+  Imported : 2020-10-23T11:50:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Get Dell Warranty PowerShell with OAuth 2.0 - Windows (CIT)</Title>
+    <Description><![CDATA[<SPAN itemprop="description">
+<P>This fixlet queries Dell's Service Website for current warranty information&nbsp;and writes the results to the Dell Folder of the ProgramData directory of the System Drive. A valid API Key and Secret must be used. <B><FONT color=#162a4d size=3 face=Arial-BoldMT><FONT color=#162a4d size=3 face=Arial-BoldMT><FONT color=#162a4d size=3 face=Arial-BoldMT></P>
+<P align=left>User has retrieved “client_id” and client_secret” from TechDirect API</P>
+<P>Team - </FONT></FONT></FONT><FONT color=#0000ff size=3 face=Arial-BoldMT><FONT color=#0000ff size=3 face=Arial-BoldMT><FONT color=#0000ff size=3 face=Arial-BoldMT>https://techdirect.dell.com/portal.30/Login.aspx</P></B></FONT></FONT></FONT>
+<P><FONT color=#ff0000><STRONG>NOTE: </STRONG><FONT color=#000000>This fixlet has no relevance to aid&nbsp;in re-application. It&nbsp;will reapply as often as you tell it to. You should&nbsp;add this to a baseline or action it alone and specify a reapplication frequency of anywhere from days to weeks.&nbsp;</FONT></FONT></P>
+<P><FONT color=#ff0000><STRONG>NOTE: </STRONG><FONT color=#000000>This fixlet has no default action because it requires every endpoint to make an external web request. This request does not traverse the BigFix infrastructure and does require internet access.</FONT></FONT></P></SPAN>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists string value whose (it as lowercase contains &quot;dell&quot;) of selects &quot;Manufacturer, Model from Win32_ComputerSystem&quot; of wmi</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2020-10-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 21 Oct 2020 17:34:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+parameter "ServiceTags"="{(string values of selects "SerialNumber from Win32_BIOS" of wmi)}"
+parameter "dellFolder"="{name of drive of system folder & "\ProgramData\Dell"}"
+
+action parameter query "ApiKey" with description "Please enter the Dell API Key"
+action parameter query "KeySecret" with description "Please enter Dell API Secret"
+
+delete __createfile
+delete run.ps1
+
+createfile until _end_
+Param(
+        [Parameter(Mandatory = $true)]
+        $ServiceTags,
+        [Parameter(Mandatory = $true)]
+        $ApiKey,
+        [Parameter(Mandatory = $true)]
+        $KeySecret
+    )
+
+    [String]$servicetags = $ServiceTags -join ", "
+
+    $AuthURI = "https://apigtwb2c.us.dell.com/auth/oauth/v2/token"
+    $OAuth = "$ApiKey`:$KeySecret"
+    $Bytes = [System.Text.Encoding]::ASCII.GetBytes($OAuth)
+    $EncodedOAuth = [Convert]::ToBase64String($Bytes)
+    $Headers = @{{ }
+    $Headers.Add("authorization", "Basic $EncodedOAuth")
+    $Authbody = 'grant_type=client_credentials'
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Try {{
+        $AuthResult = Invoke-RESTMethod -Method Post -Uri $AuthURI -Body $AuthBody -Headers $Headers
+        $Global:token = $AuthResult.access_token
+    }
+    Catch {{
+        $ErrorMessage = $Error[0]
+        Write-Error $ErrorMessage
+        BREAK
+    }
+    Write-Host "Access Token is: $token`n"
+
+    $headers = @{{"Accept" = "application/xml" }
+    $headers.Add("Authorization", "Bearer $token")
+
+    $params = @{{ }
+    $params = @{{servicetags = $servicetags; Method = "GET" }
+
+    $Global:response = Invoke-RestMethod -Uri "https://apigtwb2c.us.dell.com/PROD/sbil/eapi/v5/asset-entitlements" -Headers $headers -Body $params -Method Get -ContentType "application/xml" -OutFile "{name of drive of system folder}\ProgramData\Dell\BigFixDellWarranty.xml"
+_end_
+
+move __createfile run.ps1
+
+if {not exist folder (parameter "dellFolder")}
+folder create "{parameter "dellFolder"}"
+endif
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File run.ps1 -ServiceTags "{parameter "ServiceTags"}" -ApiKey "{parameter "ApiKey"}" -KeySecret "{parameter "KeySecret"}"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

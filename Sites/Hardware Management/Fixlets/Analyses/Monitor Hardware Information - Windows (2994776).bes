@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Monitor Hardware Information - Windows
+  ID       : 2994776
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-04-21T12:41:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Monitor Hardware Information - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P><STRONG>Reference:</STRONG></P>
+<P><A href="https://forum.bigfix.com/t/dual-monitor-relevance/13069">https://forum.bigfix.com/t/dual-monitor-relevance/13069</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmis</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 21 Apr 2015 19:39:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="(Model, SN, ManufactureDate) of EDID" EvaluationPeriod="PT6H">unique values of ((it as trimmed string) of ( (hexadecimal string (first 24 of following texts of first &quot;000000fc00&quot; of it )) | &quot;n/a&quot;) &amp; &quot;, &quot; &amp; ( (it as trimmed string) of (hexadecimal string (first 24 of following texts of first &quot;000000ff00&quot; of it ) ) | &quot;n/a&quot;) &amp; &quot;, &quot; &amp; (it as string) of (hexadecimal integer (first 2 of following text of position 32 of it )/4) &amp; &quot;/&quot; &amp; (it as string) of (1990+(hexadecimal integer (first 2 of following text of position 34 of it ))) ) of unique values of (it as string) of values &quot;EDID&quot; of keys &quot;Device Parameters&quot; of keys of keys of keys &quot;Enum\DISPLAY&quot; of (keys &quot;CurrentControlSet&quot; of it;keys whose(name of it starts with &quot;ControlSet&quot;) of it) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of (x64 registries;x32 registries)</Property>
+    <Property ID="2" Name="SerialNumberID FROM WMIMonitorID" EvaluationPeriod="PT6H">(concatenations of (character it) whose(it != &quot;%00&quot;) of integer values of it) of selects &quot;SerialNumberID FROM WMIMonitorID&quot; of wmis &quot;root\wmi&quot;</Property>
+    <Property ID="3" Name="ProductCodeID FROM WMIMonitorID" EvaluationPeriod="PT6H">unique values of (concatenations of (character it) whose(it != &quot;%00&quot;) of integer values of it) of selects &quot;ProductCodeID FROM WMIMonitorID&quot; of wmis &quot;root\wmi&quot;</Property>
+    <Property ID="4" Name="(Model) FROM Win32_DesktopMonitor" EvaluationPeriod="PT6H">unique values of string values of selects &quot;Caption,Description,MonitorType,Name from Win32_DesktopMonitor&quot; of wmis</Property>
+    <Property ID="5" Name="UserFriendlyName FROM WMIMonitorID" EvaluationPeriod="PT6H">unique values of (concatenations of (character it) whose(it != &quot;%00&quot;) of integer values of it) of selects &quot;UserFriendlyName FROM WMIMonitorID&quot; of wmis &quot;root\wmi&quot;</Property>
+    <Property ID="6" Name="PNPDeviceIDs" EvaluationPeriod="PT6H">unique values of (preceding text of lasts &quot;_&quot; of it | it) of (it as UPPERCASE) of string values of ( selects &quot;PNPDeviceID from Win32_DesktopMonitor&quot; of wmis ; (selects &quot;InstanceName FROM WMIMonitorID&quot; of wmis &quot;root\wmi&quot;) )</Property>
+    <Property ID="7" Name="PNPDeviceIDs (expanded)" EvaluationPeriod="PT6H">unique values of ( ( (it as UPPERCASE) of string values of ( selects &quot;PNPDeviceID from Win32_DesktopMonitor&quot; of wmis ; (selects &quot;InstanceName FROM WMIMonitorID&quot; of wmis &quot;root\wmi&quot;) ) ) ; ( (it as UPPERCASE) of (following texts of lasts &quot;\Enum\&quot; of it) of (it as string) of keys whose(exists keys &quot;Device Parameters&quot; of it) of keys of keys &quot;Enum\DISPLAY&quot; of (keys &quot;CurrentControlSet&quot; of it;keys whose(name of it starts with &quot;ControlSet&quot;) of it) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of (x64 registries;x32 registries) ) )</Property>
+    <Property ID="8" Name="VideoOutput Connection" EvaluationPeriod="PT6H">unique values of (tuple string items ( (it + 2) of (integer values of selects &quot;VideoOutputTechnology FROM WmiMonitorConnectionParams&quot; of wmis &quot;root\wmi&quot;) ) of &quot;UNINITIALIZED, OTHER, HD15, SVIDEO, COMPOSITE_VIDEO, COMPONENT_VIDEO, DVI, HDMI, LVDS, D_JPN, SDI, DISPLAYPORT_EXTERNAL, DISPLAYPORT_EMBEDDED, UDI_EXTERNAL, UDI_EMBEDDED, SDTVDONGLE, MIRACAST, UNKNOWN, https://msdn.microsoft.com/en-us/library/ff546605.aspx&quot;)</Property>
+    <Property ID="9" Name="VideoInputType" EvaluationPeriod="PT6H">unique values of (tuple string items ( (integer values of selects &quot;VideoInputType FROM WmiMonitorBasicDisplayParams&quot; of wmis &quot;root\wmi&quot;) ) of &quot;Analog, Digital, UNKNOWN, https://msdn.microsoft.com/en-us/library/aa394535%28v=vs.85%29.aspx&quot;)</Property>
+    <Property ID="10" Name="ImageArea" EvaluationPeriod="PT12H">( (string value of properties &quot;InstanceName&quot; of it) &amp;&quot;   H:&quot;&amp; ( (it as string) of integer value of property &quot;MaxHorizontalImageSize&quot; of it ) &amp;&quot;cm V:&quot;&amp; ( (it as string) of integer value of property &quot;MaxVerticalImageSize&quot; of it ) &amp; &quot;cm&quot; ) of select objects &quot;InstanceName,MaxHorizontalImageSize,MaxVerticalImageSize FROM WmiMonitorBasicDisplayParams WHERE MaxHorizontalImageSize &gt; 0 AND MaxVerticalImageSize &gt; 0&quot; of wmis &quot;root\wmi&quot;</Property>
+    <Property ID="11" Name="DPI" EvaluationPeriod="PT6H">unique values of integer values of selects &quot;PixelsPerXLogicalInch,PixelsPerYLogicalInch from Win32_DesktopMonitor&quot; of wmis</Property>
+    <Property ID="14" Name="Resolution" EvaluationPeriod="PT6H">unique values of ( (unique value of ( (string values of properties &quot;Caption&quot; of it);(string values of properties &quot;Description&quot; of it);(string values of properties &quot;MonitorType&quot; of it) ) ) &amp;&quot;: &quot;&amp; ( (it as string) of integer value of property &quot;ScreenWidth&quot; of it ) &amp;&quot;x&quot;&amp; ( (it as string) of integer value of property &quot;ScreenHeight&quot; of it ) ) of select objects &quot;* from Win32_DesktopMonitor WHERE ScreenHeight &gt; 0 AND ScreenWidth &gt; 0&quot; of wmis</Property>
+    <Property ID="15" Name="Monitor Size" EvaluationPeriod="PT6H">unique values of ( ((it as integer as string &amp; &quot; inches&quot;) of sqrt of it) | (&quot;sqrt of &quot; &amp; (it as string) of it) ) of (item 1 of it * item 1 of it + item 2 of it * item 2 of it) of ( (string value of properties &quot;InstanceName&quot; of it), ( (it * &quot;0.393701&quot; as floating point) of integer value of property &quot;MaxHorizontalImageSize&quot; of it ), ( (it * &quot;0.393701&quot; as floating point) of integer value of property &quot;MaxVerticalImageSize&quot; of it ) ) of select objects &quot;InstanceName,MaxHorizontalImageSize,MaxVerticalImageSize FROM WmiMonitorBasicDisplayParams WHERE MaxHorizontalImageSize &gt; 0 AND MaxVerticalImageSize &gt; 0&quot; of wmis &quot;root\wmi&quot;</Property>
+    <Property ID="16" Name="Serial# (MonitorModel) of EDID" EvaluationPeriod="PT6H">unique values whose(it != &quot;# (#)&quot;) of ( ( hexadecimal string (first 24 of following texts of first &quot;000000ff00&quot; of it) | &quot;#&quot;) &amp; &quot; (&quot; &amp; ( hexadecimal string ((preceding text of first &quot;0a&quot; of it | it) of (first 24 of following text of first &quot;000000fc00&quot; of it )) | &quot;#&quot; ) &amp; &quot;)&quot; ) of unique values of (it as string) of values &quot;EDID&quot; of keys ((&quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\&quot; &amp; it &amp; &quot;\Device Parameters&quot;) of (string values of selects &quot;PNPDeviceID from Win32_DesktopMonitor WHERE Status=&apos;OK&apos;&quot; of wmi)) of (x32 registries;x64 registries)</Property>
+  </Analysis>
+</BES>

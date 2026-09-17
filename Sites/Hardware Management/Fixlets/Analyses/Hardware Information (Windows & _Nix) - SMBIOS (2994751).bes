@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware Information (Windows & *Nix) - SMBIOS
+  ID       : 2994751
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-10T10:49:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware Information (Windows &amp; *Nix) - SMBIOS</Title>
+    <Description><![CDATA[<P>This analysis uses the SMBIOS inspector: <A href="http://support.bigfix.com/fixlet/documents/Windows%20Inspectors%2081_110706.pdf"><FONT color=#000080>http://support.bigfix.com/fixlet/documents/Windows%20Inspectors%2081_110706.pdf</FONT></A></P>
+<P><A href="https://support.bigfix.com/inspectors/SMBIOS%20objects_Any.html">https://support.bigfix.com/inspectors/SMBIOS%20objects_Any.html</A></P>
+<P>&nbsp;<STRONG>Latest version found here:</STRONG> <A href="http://bigfix.me/analysis/details/2994597"><FONT color=#000080>http://bigfix.me/analysis/details/2994597</FONT></A></P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://en.wikipedia.org/wiki/System_Management_BIOS">http://en.wikipedia.org/wiki/System_Management_BIOS</A></P>
+<P><A href="http://dmtf.org/sites/default/files/standards/documents/DSP0134_2.8.0.pdf">http://dmtf.org/sites/default/files/standards/documents/DSP0134_2.8.0.pdf</A></P>
+<P><A href="http://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.0.0d.pdf">http://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.0.0d.pdf</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>exists smbios</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Dec 2014 17:48:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="BIOS Vendor" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;vendor&quot; of structures &quot;bios_information&quot; of smbios</Property>
+    <Property ID="2" Name="BIOS Version" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;bios_version&quot; of structures &quot;bios_information&quot; of smbios</Property>
+    <Property ID="3" Name="BIOS release_date" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;bios_release_date&quot; of structures &quot;bios_information&quot; of smbios</Property>
+    <Property ID="4" Name="UUID of SysInfo" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;uuid&quot; of structures &quot;system_information&quot; of smbios</Property>
+    <Property ID="5" Name="serial_number" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;serial_number&quot; of structures &quot;system_information&quot; of smbios</Property>
+    <Property ID="6" Name="wake_up_type" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;wake_up_type&quot; of structures &quot;system_information&quot; of smbios</Property>
+    <Property ID="7" Name="MotherBoard Info" EvaluationPeriod="P2D">unique values of (name of it as string as trimmed string &amp; &quot;=&quot; &amp; it as string as trimmed string) of values of structures &quot;base_board_information&quot; of smbios</Property>
+    <Property ID="8" Name="CPU Info" EvaluationPeriod="P2D">unique values of (name of it as string as trimmed string &amp; &quot;=&quot; &amp; it as string as trimmed string) of values of structures &quot;processor_information&quot; of smbios</Property>
+    <Property ID="9" Name="System Power Controls" EvaluationPeriod="P2D">unique values of (name of it as string as trimmed string &amp; &quot;=&quot; &amp; it as string as trimmed string) of values of structures &quot;system_power_controls&quot; of smbios</Property>
+    <Property ID="10" Name="Asset Tag - motherboard" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;asset_tag&quot; of structures &quot;base_board_information&quot; of smbios</Property>
+    <Property ID="11" Name="Asset Tag - chassis" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;asset_tag_number&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios</Property>
+    <Property ID="16" Name="Asset Tags" EvaluationPeriod="P2D">unique values whose((it != &quot;&quot; AND it != &quot;asset tag#&quot; AND it != &quot;type2 - board asset tag&quot; AND it != &quot;base board asset tag&quot; AND it != &quot;base board asset tag#&quot; AND it != &quot;n/a&quot; AND it != &quot;no asset tag&quot; AND it != &quot;to be filled by o.e.m.&quot; AND it != &quot;asset tag&quot; AND it != &quot;no asset information&quot; AND it != &quot;none&quot; AND it != &quot;not available&quot;) of (it as lowercase)) of (it as trimmed string) of ((if exists values &quot;asset_tag&quot; of structures &quot;base_board_information&quot; of smbios then (unique values of (it as string) of (values &quot;asset_tag&quot; of structures &quot;base_board_information&quot; of smbios)) else &quot;&quot;) ; (if exists values &quot;asset_tag_number&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios then (unique values of (it as string) of (values &quot;asset_tag_number&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios)) else &quot;&quot;))</Property>
+    <Property ID="17" Name="Asset Tags test2" EvaluationPeriod="P2D">unique values whose((it != &quot;&quot; AND it != &quot;asset tag#&quot; AND it != &quot;type2 - board asset tag&quot; AND it != &quot;base board asset tag&quot; AND it != &quot;base board asset tag#&quot; AND it != &quot;n/a&quot; AND it != &quot;no asset tag&quot; AND it != &quot;to be filled by o.e.m.&quot; AND it != &quot;asset tag&quot; AND it != &quot;no asset information&quot; AND it != &quot;none&quot; AND it != &quot;not available&quot; AND it != &quot;reserved&quot; AND it != &quot;null&quot; AND it != &quot;*&quot; AND it != &quot;chassis asset tag&quot; AND it does not contain &quot;ÿÿÿÿÿÿÿ&quot;) of (it as lowercase)) of (it as trimmed string) of ((if exists values &quot;asset_tag&quot; of structures &quot;base_board_information&quot; of smbios then (unique values of (it as string) of (values &quot;asset_tag&quot; of structures &quot;base_board_information&quot; of smbios)) else &quot;&quot;) ; (if exists values &quot;asset_tag_number&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios then (unique values of (it as string) of (values &quot;asset_tag_number&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios)) else &quot;&quot;))</Property>
+    <Property ID="18" Name="product_name" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;product_name&quot; of structures &quot;system_information&quot; of smbios</Property>
+    <Property ID="19" Name="chassis type #" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;type&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios</Property>
+    <Property ID="20" Name="oem_strings" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values of structures &quot;oem_strings&quot; of smbios</Property>
+    <Property ID="21" Name="chassis type name" EvaluationPeriod="PT12H">(tuple string item ( (it as string as integer) of values &quot;type&quot; of structures &quot;system_enclosure_or_chassis&quot; of smbios ) of &quot;Unknown, Other, Unknown, Desktop, Low Profile Desktop, Pizza Box, Mini Tower, Tower, Portable, Laptop, Notebook, Hand Held, Docking Station, All in One, Sub Notebook, Space-Saving, Lunch Box, Main System Chassis, Expansion Chassis, SubChassis, Bus Expansion Chassis, Peripheral Chassis, Storage Chassis, Rack Mount Chassis, Sealed-Case PC, Multi-system chassis, CompactPCI, AdvancedTCA, Blade, Blade Enclosure, Tablet, Convertible, Detachable&quot;) | ERROR &quot;Unknown&quot;</Property>
+    <Property ID="22" Name="structures of smbios" EvaluationPeriod="PT12H">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of names whose(it != &quot;end_of_table&quot;) of structures of smbios</Property>
+    <Property ID="23" Name="All SMBIOS values" EvaluationPeriod="P2D">unique values of (item 0 of it &amp; name of item 1 of it as trimmed string &amp; &quot;=&quot; &amp; item 1 of it as string as trimmed string) of (name of it &amp; &quot;: &quot;, values of it) of structures of smbios</Property>
+  </Analysis>
+</BES>

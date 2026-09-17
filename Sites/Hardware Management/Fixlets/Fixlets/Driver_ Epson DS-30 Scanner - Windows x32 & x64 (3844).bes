@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Driver: Epson DS-30 Scanner - Windows x32 & x64
+  ID       : 3844
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-08-27T12:42:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Driver: Epson DS-30 Scanner - Windows x32 &amp; x64</Title>
+    <Description><![CDATA[<P>This task will install the <STRONG>Epson DS-3</STRONG><STRONG>0</STRONG> Scanner Drivers.</P>
+<P>PID:&nbsp;USB\VID_04B8&amp;PID_0147</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://technet.microsoft.com/en-us/library/cc749104(v=ws.10).aspx">http://technet.microsoft.com/en-us/library/cc749104(v=ws.10).aspx</A></P>
+<P><A href="http://www.7-zip.org/">http://www.7-zip.org/</A></P>
+<P><A href="http://info-zip.org/UnZip.html">http://info-zip.org/UnZip.html</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>not exists folder whose (name of it as lowercase starts with &quot;esca.inf&quot;) of folder &quot;DriverStore\FileRepository&quot; of system x64 folder</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-08-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 26 Aug 2014 16:11:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// Downloads
+
+//  - This is the commandline 7zip console which is use to unpack installers
+//  - https://www.virustotal.com/en/file/2a3afe19c180f8373fa02ff00254d5394fec0349f5804e0ad2f6067854ff28ac/analysis
+prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+
+//  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
+//  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+//  This is the driver from Epson
+prefetch epson_driver_installer.exe sha1:3fa1f612845369f13429337d0335696e2f6f9d1e size:16251168 https://ftp.epson.com/drivers/epson15919.exe
+
+// END of Downloads
+
+
+// Add unzip.exe & 7za920.zip to the client utility cache since they are used in many tasks
+//  - This will prevent these from from being redownloaded multiple times to the client ( as long as they are in either the download or utility cache )
+utility __Download\unzip.exe
+utility __Download\7za920.zip
+
+// use the unzip redistributable to unzip the 7zip command line utility
+waithidden __Download\unzip.exe -o "{pathname of file "7za920.zip" of folder "__Download" of client folder of current site}" -d "{pathname of folder "__Download" of client folder of current site}"
+
+// use 7zip to extract the installers from the Epson download
+waithidden "{(pathname of file "7za.exe" of folder "__Download" of client folder of current site)}" x -y -o"{pathname of folder "__Download" of client folder of current site}\Epson_Driver" "{pathname of file "epson_driver_installer.exe" of folder "__Download" of client folder of current site}"
+
+// Install
+waithidden "{pathname of file "Setup.exe" of folder "Epson_Driver" of folder "__Download" of client folder of current site}" /SI -sms /Nodisp
+
+// Delete Desktop Icon
+delete "{pathnames of folders (value of variable "PUBLIC" of environment)}\Desktop\EPSON Scan.lnk"
+
+// Move start menu folder (only if the 'Digital Imaging' folder exists - for Lab Computers)
+if{exists folders "Digital Imaging" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}
+	// Delete destination folder (in case it already exists)
+	folder delete "{pathname of folders "Digital Imaging" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}\EPSON Scan"
+	// Move the 'EPSON Scan' folder into the 'Digital Imaging' folder in the start menu
+	dos move /Y "{pathname of (folders "EPSON\EPSON Scan" of it;folders "EPSON Scan" of it) of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}" "{pathname of folders "Digital Imaging" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}"
+
+else
+// This will move the 'EPSON Scan' folder out of the 'EPSON' folder if created there. Older drives do this, newer ones do not, so this unifies them.
+	if{exists folders "EPSON\EPSON Scan" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}
+		// Delete destination folder (in case it already exists)
+		folder delete "{pathname of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}\EPSON Scan"
+		dos move /Y "{pathname of folders "EPSON\EPSON Scan" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}" "{pathname of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}"
+	endif
+endif
+
+// Delete the 'EPSON' folder that remains, only if it exists and is empty ( in case other items remain in this folder that existed before this action was run, the folder will not be deleted )
+if{exists folders "EPSON" whose(0 = number of descendants of it) of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}
+	folder delete "{pathname of folders "EPSON" of folders "Microsoft\Windows\Start Menu\Programs" of folders (value of variable "ALLUSERSPROFILE" of environment)}"
+endif
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

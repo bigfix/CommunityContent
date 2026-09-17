@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run: Notify User to Reboot System with pending restart due to Dell Updates - Dell Command Update - Windows
+  ID       : 3903
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-29T13:07:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run: Notify User to Reboot System with pending restart due to Dell Updates - Dell Command Update - Windows</Title>
+    <Description><![CDATA[<P>This taks will prompt the user to reboot their computer but only if a reboot is required due to Dell Updates being applied to the system.</P>
+<P>&nbsp;</P>
+<P><STRONG>Steps to using Dell Command Update:</STRONG></P>
+<OL>
+<LI>Install/Update: Dell Command Update - Windows&nbsp; (Only once for each client)
+<LI>Run: Check for updates - Dell Command Update - Windows&nbsp;&nbsp;(Once every 60 days)
+<LI>Check Results in Analysis:&nbsp; Dell Command Update Audit - Windows
+<LI>Run: Install Updates - Dell Command Update - Windows&nbsp; (Only if updates are needed)
+<LI>Reboot Computer&nbsp; (Only if reboot is actually required)</LI>
+<OL>
+<LI>Run: Notify User to Reboot System with pending restart due to Dell Updates - Dell Command Update - Windows
+<LI>Run: Reboot System if no user is logged on with pending restart due to Dell Updates - Dell Command Update - Windows</LI></OL></OL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>pending restart &quot;DellUpdatesInstalled&quot;</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-10-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 29 Oct 2014 19:54:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// this doesn&apos;t do anything, just uses the reboot notification mechanism
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

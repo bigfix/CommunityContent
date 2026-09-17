@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Network Information Extended (Mac OS X)
+  ID       : 2998364
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2016-08-19T08:20:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Network Information Extended (Mac OS X)</Title>
+    <Description>Additional network information for OS X </Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.10"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Aug 2016 14:04:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Wireless (Airport) Power Enabled" EvaluationPeriod="P2D">boolean &quot;PowerEnabled&quot; of dictionaries of values of entries of dictionaries of values of entries of dictionary &quot;Interface&quot; of dictionaries of values of entries of dictionaries of values of entries of dictionary &quot;Sets&quot; of dictionaries of file &quot;/Library/Preferences/SystemConfiguration/preferences.plist&quot;</Property>
+    <Property ID="2" Name="Bluetooth Power Enabled" EvaluationPeriod="P2D">if boolean &quot;ControllerPowerState&quot; of dictionary of file &quot;/Library/Preferences/com.apple.Bluetooth.plist&quot; = True then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+  </Analysis>
+</BES>

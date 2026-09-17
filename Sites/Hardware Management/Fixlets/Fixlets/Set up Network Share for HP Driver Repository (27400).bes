@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set up Network Share for HP Driver Repository
+  ID       : 27400
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-12-29T05:30:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set up Network Share for HP Driver Repository</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Use the action below to setup a Network Share for an HP driver repository.</P>
+<P><B>Note:</B> Ensure there is sufficient hard disk space.</P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[(not exist value of settings "_BESClient_DriverRepo_HP" of client) or (not exists files "HP.ClientManagement.psm1" of folders of folders of folders (program files x64 folder as string & "\WindowsPowerShell\Modules"))]]></Relevance>
+    <Relevance>&quot;Win98|WinME|Win2000|WinXP|Win2003|WinXP-2003|WinVista|Win2008&quot; does not contain name of operating system</Relevance>
+    <Category>Drivers</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-12-10</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 23 Dec 2025 15:35:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Request drive letter from user
+action parameter query "DriveLetter" with description "Specify the drive letter to store the driver repository within. For example, 'C'." with default "<Enter drive letter>"
+
+if {not exists parameter "DriveLetter"}
+	parameter "DriveLetter" = "C"
+endif
+
+// Verify valid drive letter
+continue if {(exists match (regex "[A-Za-z]") of (parameter "DriveLetter")) and ((parameter "DriveLetter") & ":" is contained by set of (names of drives whose (type of it = "DRIVE_FIXED")))}
+
+// Create and share driver repository folder
+parameter "DriverRepo" = "{(parameter "DriveLetter") & ":\bigfix.DriverRepo.HP"}"
+folder create "{parameter "DriverRepo"}"
+dos net share bigfix.DriverRepo.HP="{parameter "DriverRepo"}"
+
+// Install HP CMSL
+if {not exists files "HP.ClientManagement.psm1" of folders of folders of folders (program files x64 folder as string & "\WindowsPowerShell\Modules")}
+	action uses wow64 redirection false
+	waithidden powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Install-PackageProvider -Name NuGet -Force; Install-Module PackageManagement, PowerShellGet -Force -AllowClobber -SkipPublisherCheck"
+	waithidden powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Import-Module PowerShellGet; Install-Module -Name HPCMSL -Force -AcceptLicense"
+	waithidden powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "cd {parameter "DriverRepo"}; Initialize-Repository; Set-RepositoryConfiguration -Setting OfflineCacheMode -CacheValue Enable; Set-RepositoryConfiguration -Setting OnRemoteFileNotFound -Value LogAndContinue"
+	continue if {exists files "HP.ClientManagement.psm1" of folders of folders of folders (program files x64 folder as string & "\WindowsPowerShell\Modules")}
+endif
+
+setting "_BESClient_DriverRepo_HP"="{parameter "DriverRepo"}" on "{now}" for client]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

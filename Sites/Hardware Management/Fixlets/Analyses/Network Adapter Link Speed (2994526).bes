@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Network Adapter Link Speed
+  ID       : 2994526
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-06-04T11:19:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Network Adapter Link Speed</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Jun 2013 17:44:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="LAN - Link Speed" EvaluationPeriod="P1D">((unique value of it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of link speeds of adapters whose (link speed of it = maximum of link speeds of adapters whose (up of it AND (friendly name of it as lowercase contains &quot;ethernet&quot; OR friendly name of it as lowercase contains &quot;local area connection&quot;)) of networks) of networks</Property>
+    <Property ID="3" Name="Max Link Speed" EvaluationPeriod="P1D">((it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of maximum of link speeds of adapters of networks</Property>
+    <Property ID="4" Name="Max Link Speed of active NICs" EvaluationPeriod="P1D">((it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of maximum of link speeds of adapters whose(up of it) of networks</Property>
+  </Analysis>
+</BES>

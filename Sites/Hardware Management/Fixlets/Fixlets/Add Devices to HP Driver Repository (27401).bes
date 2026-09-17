@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Add Devices to HP Driver Repository
+  ID       : 27401
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-12-29T05:32:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Add Devices to HP Driver Repository</Title>
+    <Description><![CDATA[<P>Adds&nbsp;computer models&nbsp;to HP driver repository. Multiple&nbsp;models can be added within the same action. Once a&nbsp;model is added to the repository, it does not need to be re-added when updating drivers.</P>
+<P>You must&nbsp;retrieve the Platform ID for each respective model added to the repository. This can be done using the <STRONG>Get-HPDeviceDetails</STRONG> function from the HP Client Management Script Library.</P>
+<P>Example (PowerShell):</P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>Import-Module HP.ClientManagement<BR>Get-HPDeviceDetails -Like -Name ‘HP Elitebook 840’</P></BLOCKQUOTE>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>&quot;Win98|WinME|Win2000|WinXP|Win2003|WinXP-2003|WinVista|Win2008&quot; does not contain name of operating system</Relevance>
+    <Relevance><![CDATA[(exists value of settings "_BESClient_DriverRepo_HP" of client) and (exists files "HP.ClientManagement.psm1" of folders of folders of folders (program files x64 folder as string & "\WindowsPowerShell\Modules"))]]></Relevance>
+    <Relevance><![CDATA[exists file "repository.json" of folder (value of settings "_BESClient_DriverRepo_HP" of client & "\.repository")]]></Relevance>
+    <Category>Drivers</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-12-22</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 Dec 2025 13:26:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Request parameters from user
+action parameter query "Platforms" with description "Specify the platform ID(s) to add to the HP driver repository filter. Multiple entries must be separated by a comma. For example, '8B41,8C63'." with default "<Enter platform ID(s)>"
+action parameter query "Os" with description "Specify the OS to add to the HP driver repository filter. Can only be 'win10' or 'win11'. For example, 'win11'." with default "<Enter OS>"
+action parameter query "OsVers" with description "Specify the OS version(s) to add to the HP driver repository filter. Multiple entries must be separated by a comma. For example, '24H2,25H2'." with default "<Enter OS version(s)>"
+
+// Verify valid parameters
+continue if {(not exists substrings separated by "," whose (length of it != 4) of (parameter "Platforms")) and (not exists match (regex "[^A-Za-z0-9]") of (substrings separated by "," of (parameter "Platforms")))}
+continue if {(parameter "Os") as lowercase is contained by set of ("win10";"win11")}
+continue if {(not exists substrings separated by "," whose (length of it != 4) of (parameter "OsVers")) and (not exists match (regex "[^A-Za-z0-9]") of (substrings separated by "," of (parameter "OsVers")))}
+
+action uses wow64 redirection false
+
+// Create PowerShell script
+createfile until ENDOFSCRIPT
+cd "{value of setting "_BESClient_DriverRepo_HP" of client}"
+Import-Module HP.ClientManagement
+
+$platforms = "{parameter "Platforms"}".Split(',')
+$os = "{parameter "Os"}"
+$osVers = "{parameter "OsVers"}".Split(',')
+
+$platforms | ForEach-Object {{
+	$platform = $_
+
+	$osVers | ForEach-Object {{
+		Add-RepositoryFilter -Platform $platform -Os $os -OsVer $_ -Category bios,firmware,driver,dock
+	}
+}
+ENDOFSCRIPT
+
+parameter "ScriptPath" = "__Download\hp-driver-filters.ps1"
+if {exists file (parameter "ScriptPath")}
+	delete {parameter "ScriptPath"}
+endif
+copy __createfile "{parameter "ScriptPath"}"
+
+// Run script
+waithidden powershell.exe -ExecutionPolicy Bypass -File "{parameter "ScriptPath"}"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28483">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view the download page for the HP Client Management Script Library.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.hp.com/us-en/solutions/client-management-solutions/download.html</ActionScript>
+    </Action>
+    <Action ID="Action28484">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view documentation on Get-HPDeviceDetails from HPCMSL.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://developers.hp.com/hp-client-management/doc/get-hpdevicedetails</ActionScript>
+    </Action>
+  </Task>
+</BES>

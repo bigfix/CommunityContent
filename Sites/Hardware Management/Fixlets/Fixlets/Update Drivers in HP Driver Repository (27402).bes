@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Update Drivers in HP Driver Repository
+  ID       : 27402
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-12-29T05:32:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Update Drivers in HP Driver Repository</Title>
+    <Description><![CDATA[<P>Updates drivers for filtered computer models in HP driver repository.</P>
+<P>To add computers to the driver repository, you must first run the <STRONG>Add Devices to HP Driver Repository </STRONG>task.</P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>&quot;Win98|WinME|Win2000|WinXP|Win2003|WinXP-2003|WinVista|Win2008&quot; does not contain name of operating system</Relevance>
+    <Relevance><![CDATA[(exists value of settings "_BESClient_DriverRepo_HP" of client) and (exists files "HP.ClientManagement.psm1" of folders of folders of folders (program files x64 folder as string & "\WindowsPowerShell\Modules"))]]></Relevance>
+    <Relevance><![CDATA[exists file "repository.json" of folder (value of settings "_BESClient_DriverRepo_HP" of client & "\.repository")]]></Relevance>
+    <Category>Drivers</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-12-23</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 29 Dec 2025 13:17:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden powershell.exe -ExecutionPolicy Bypass -Command &quot;cd &quot;{value of setting &quot;_BESClient_DriverRepo_HP&quot; of client}&quot;; Import-Module HP.ClientManagement; Invoke-RepositorySync; Invoke-RepositoryCleanup&quot;
+setting &quot;_BESClient_DriverRepo_HP_LastUpdate&quot; = &quot;{now}&quot; on &quot;{now}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Upgrade Linux TinyCore Relay to version 12.0 (5.10.3-tinycore)
+  ID       : 26907
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-02-25T11:29:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Upgrade Linux TinyCore Relay to version 12.0 (5.10.3-tinycore)</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=2>IMPORTANT NOTES: </FONT></STRONG></P>
+<UL>
+<LI><STRONG><FONT size=2>Due to the potential TinyCore Linux relay configuration being unique to each BigFix deployment, this will need to be thoroughly tested in your own environment before deploying to Production.</FONT></STRONG>
+<LI><STRONG><FONT size=2><FONT color=#ff0000>This fixlet requires all files to be cached on the BigFix root server.</FONT>&nbsp; The prefetch block in the action script is blank for this reason.&nbsp; You will need to manually cache all files listed below and update the prefetch statement.&nbsp; </FONT></STRONG>
+<LI><STRONG><FONT size=2>This fixlet is designed to upgrade from a specific existing TinyCore Linux v10 configuration.&nbsp; If you are upgrading from a different version and do not have the same extensions installed, you will need to modify the action script</FONT></STRONG></LI></UL>
+<P><STRONG>This fixlet will upgrade relays running&nbsp;Linux TinyCore 10.0 to Linux TinyCore 12.0.&nbsp; The OS, kernel, and extensions will be upgraded.&nbsp; The filetool format is also updated to work with Linux TinyCore 12.0.&nbsp; VM Tools and openssl are both updated in this fixlet.</STRONG></P>
+<P><FONT color=#ff0000>This fixlet requires all files (os, kernel, and extensions) to be cached on the BigFix server.&nbsp; The extensions can be downloaded&nbsp;locally on the relay using&nbsp;the TinyCore repo using the built in "tce-" commands or directly from the following URL: <A href="https://distro.ibiblio.org/tinycorelinux/12.x/x86/tcz/"><FONT color=#0066cc>https://distro.ibiblio.org/tinycorelinux/12.x/x86/tcz/</FONT></A></FONT></P>
+<P><FONT color=#ff0000>The files in this fixlet have been tested as of 12/31/2021.</FONT></P>
+<P><FONT color=#000000>If version rollback is needed, all files are backed up to "/home/tc/v10_backup/".</FONT></P>
+<P><STRONG>The following files&nbsp;will be&nbsp;updated/added and are cached on the BigFix server:</STRONG></P>
+<UL>
+<LI>core.gz
+<LI>vmlinuz
+<LI>bzip2-lib.tcz
+<LI>bzip2-lib.tcz.md5.txt
+<LI>fuse.tcz
+<LI>fuse.tcz.md5.txt
+<LI>glib2.tcz
+<LI>glib2.tcz.dep
+<LI>glib2.tcz.md5.txt
+<LI>libdnet.tcz
+<LI>libdnet.tcz.md5.txt
+<LI>libffi.tcz
+<LI>libffi.tcz.md5.txt
+<LI>libtirpc.tcz
+<LI>libtirpc.tcz.md5.txt
+<LI>ncursesw.tcz
+<LI>ncursesw.tcz.md5.txt
+<LI>nspr.tcz
+<LI>nspr.tcz.md5.txt
+<LI>nss.tcz
+<LI>nss.tcz.dep
+<LI>nss.tcz.md5.txt
+<LI>openssl-1.1.1.tcz
+<LI>openssl-1.1.1.tcz.md5.txt
+<LI>open-vm-tools.tcz
+<LI>open-vm-tools.tcz.dep
+<LI>open-vm-tools.tcz.md5.txt
+<LI>pcre.tcz
+<LI>pcre.tcz.dep
+<LI>pcre.tcz.md5.txt
+<LI>sqlite3.tcz
+<LI>sqlite3.tcz.md5.txt
+<LI>tzdata.tcz
+<LI>tzdata.tcz.md5.txt</LI></UL>
+<P><STRONG>This fixlet removes the following two extensions. openssl has been replaced by openssl-1.1.1 and libattr is no longer present in the v12 repo.</STRONG></P>
+<UL>
+<LI>openssl
+<LI>libattr</LI></UL>]]></Description>
+    <Relevance>name of operating system contains &quot;TinyCore&quot;</Relevance>
+    <Relevance><![CDATA[exists relay service whose (version of it >= "10.0.5")]]></Relevance>
+    <Relevance>version of operating system = &quot;10.0&quot;</Relevance>
+    <Relevance>not (it as string = &quot;Linux TinyCore 12.0 (5.10.3-tinycore)&quot;) of operating system</Relevance>
+    <Relevance>not exists file &quot;/mnt/sda1/tce/optional/openssh.tcz&quot; OR not exists file &quot;/usr/local/etc/ssh/ssh_config.orig&quot; OR not exists lines whose (it = &quot;openssh.tcz&quot;) of files &quot;/mnt/sda1/tce/onboot.lst&quot;</Relevance>
+    <Source>jules.miller@va.gov</Source>
+    <SourceReleaseDate>2022-02-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 25 Feb 2022 18:37:30 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//TinyCore v12 Upgrade
+
+//Download the files
+
+//INSERT PREFETCH STATEMENT HERE
+
+//Verify the downloaded files exist
+
+continue if {exists (file of folder (pathname of folder "__Download" of client folder of current site)) whose (name of it contains "core.gz")}
+continue if {exists (file of folder (pathname of folder "__Download" of client folder of current site)) whose (name of it contains "vmlinuz")}
+continue if {(it = 32) of number of (files of folder (pathname of folder "__Download" of client folder of current site)) whose (name of it contains ".tcz")}
+
+//Create backup directory for v10 files
+
+if {not exists folder "/home/tc/v10_backup"}
+
+wait mkdir /home/tc/v10_backup
+
+endif
+
+//Backup the old OS, Kernel
+
+wait mv -f /mnt/sda1/tce/boot/core.gz /home/tc/v10_backup/
+wait mv -f /mnt/sda1/tce/boot/vmlinuz /home/tc/v10_backup/
+
+//Copy in the v12 OS and Kernel
+
+continue if {not exists file "/mnt/sda1/tce/boot/core.gz"}
+continue if {not exists file "/mnt/sda1/tce/boot/vmlinuz"}
+
+wait mv -f "{pathname of file "core.gz" of folder "__Download" of client folder of current site}" /mnt/sda1/tce/boot/
+wait mv -f "{pathname of file "vmlinuz" of folder "__Download" of client folder of current site}" /mnt/sda1/tce/boot/
+
+continue if {exists file "/mnt/sda1/tce/boot/core.gz"}
+continue if {exists file "/mnt/sda1/tce/boot/vmlinuz"}
+
+//Backup the old extensions, md5 and dep files that are being upgraded
+
+delete __appendfile
+appendfile #!/bin/sh
+appendfile mv -f /mnt/sda1/tce/optional/fuse.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/glib2.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/libdnet.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/libffi.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/libtirpc.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/ncursesw.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/nspr.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/nss.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/open-vm-tools.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/sqlite3.tcz* /home/tc/v10_backup/
+appendfile mv -f /mnt/sda1/tce/optional/tzdata.tcz* /home/tc/v10_backup/
+appendfile cp -f /mnt/sda1/tce/optional/openssl.tcz* /home/tc/v10_backup/
+appendfile cp -f /mnt/sda1/tce/optional/libattr.tcz* /home/tc/v10_backup/
+
+//Copy in the updated v12 extensions
+
+appendfile mv -f {(concatenations ("\ ") of substrings separated by " " of it) of (pathname of folder "__Download" of client folder of current site & "/*.tcz*")} /mnt/sda1/tce/optional/
+
+//Create and Run the extcopy script
+
+delete /var/opt/BESClient/extcopy.sh
+move __appendfile /var/opt/BESClient/extcopy.sh
+wait chmod 555 /var/opt/BESClient/extcopy.sh
+run /bin/sh /var/opt/BESClient/extcopy.sh
+
+//Wait 1 minutes.
+// Set starting time
+parameter "startTime1" = "{apparent registration server time}"
+
+pause while {(apparent registration server time - time (parameter "startTime1")) < 1*minute}
+
+continue if {(it = 31) of number of (files of folder "/home/tc/v10_backup/")}
+continue if {(exists file "/mnt/sda1/tce/optional/openssl-1.1.1.tcz") AND (exists file "/mnt/sda1/tce/optional/openssl-1.1.1.tcz.md5.txt")}
+
+//Remove openssl and libattr extensions via tce audit delete
+
+delete __appendfile
+appendfile #!/bin/sh
+appendfile su -c "tce-audit builddb" tc
+appendfile su -c "tce-audit delete openssl" tc
+appendfile su -c "tce-audit delete libattr" tc
+
+//Remove openssl and libattr from onboot.lst
+
+appendfile sed -i '/openssl.tcz/d' /mnt/sda1/tce/onboot.lst
+appendfile sed -i '/libattr.tcz/d' /mnt/sda1/tce/onboot.lst
+
+//Add pcre.tcz and openssl-1.1.1.tcz to onboot.lst
+
+if {(not exists (lines of file "/mnt/sda1/tce/onboot.lst") whose (it contains "openssl-1.1.1.tcz"))}
+
+appendfile echo 'openssl-1.1.1.tcz' >> /mnt/sda1/tce/onboot.lst
+
+endif
+
+if {(not exists (lines of file "/mnt/sda1/tce/onboot.lst") whose (it contains "pcre.tcz"))}
+
+appendfile echo 'pcre.tcz' >> /mnt/sda1/tce/onboot.lst
+
+endif
+
+//Filetool fix
+
+if {(exists (lines of file "/opt/.filetool.lst") whose (it contains "/etc/shadow"))}
+
+appendfile sed -i 's/\///' /opt/.filetool.lst
+
+endif
+
+//filetool.sh -b
+
+appendfile sudo filetool.sh -b
+appendfile sleep 10
+appendfile sudo reboot
+
+//Create and Run the v12upgrade script
+
+delete /var/opt/BESClient/v12upgrade.sh
+move __appendfile /var/opt/BESClient/v12upgrade.sh
+wait chmod 555 /var/opt/BESClient/v12upgrade.sh
+run /bin/sh /var/opt/BESClient/v12upgrade.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware Information (Universal) - CPU
+  ID       : 2994710
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T11:49:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware Information (Universal) - CPU</Title>
+    <Description><![CDATA[<P>This analysis provides information regarding the client's CPU.</P>
+<P>&nbsp;</P>
+<P>Requires: Version 8.2 or higher of the BES Client</P>
+<P>Latest version found here: <A href="http://bigfix.me/analysis/details/2994583"><FONT color=#000080>http://bigfix.me/analysis/details/2994583</FONT></A> </P>]]></Description>
+    <Relevance><![CDATA[/* This analysis uses inspectors that require version 8.2 or higher of the BES Client to function */ (version of client >= "8.2")]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Sep 2014 17:20:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Number of Cores of CPUs" EvaluationPeriod="P1D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then ((core of it*count of it) of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="2" Name="Number of CPUs" EvaluationPeriod="P1D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then (count of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="3" Name="Number of Cores per CPU" EvaluationPeriod="P1D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then (core of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="4" Name="# of Threads per CPU" EvaluationPeriod="P1D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then (thread of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="5" Name="CPU Simultaneous MultiThreading supported?" EvaluationPeriod="P1D">if(mac of operating system) then ERROR &quot;not supported&quot; else (if (exists properties whose(it as string starts with &quot;smt capable&quot; AND it as string contains &quot;cpupackage&quot;)) then (smt capable of cpupackage) else ERROR &quot;cpupackage property not available&quot;)</Property>
+    <Property ID="6" Name="CPU Simultaneous MultiThreading enabled?" EvaluationPeriod="P1D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then (smt enabled of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="7" Name="Size of RAM (MB)" EvaluationPeriod="P1D">if (exists properties whose(it as string starts with &quot;ram&quot;)) then ((if (it &gt; 128) then (((it/32)*32) + (if (it mod 32 &gt; 16) then 32 else 0) ) else it ) of (size of ram / (1024*1024))) else ERROR &quot;ram property not available&quot;</Property>
+    <Property ID="8" Name="brand string of CPU" EvaluationPeriod="P2D">unique values of brand strings of processors</Property>
+    <Property ID="9" Name="family name of CPU" EvaluationPeriod="P2D">unique values of family names of processors</Property>
+    <Property ID="10" Name="Vendor Name of CPU" EvaluationPeriod="P2D">unique values of vendor names of processors</Property>
+    <Property ID="11" Name="CPU Family#" EvaluationPeriod="P2D">unique values of families of processors</Property>
+    <Property ID="12" Name="CPU Model#" EvaluationPeriod="P2D">unique values of models of processors</Property>
+    <Property ID="13" Name="CPU Hertz" EvaluationPeriod="P2D">unique values of speeds of processors</Property>
+    <Property ID="14" Name="CPU Stepping#" EvaluationPeriod="P2D">unique values of steppings of processors</Property>
+    <Property ID="15" Name="CPU Brand ID#" EvaluationPeriod="P2D">unique values of brand ids of processors</Property>
+    <Property ID="16" Name="CPU Type#" EvaluationPeriod="P2D">unique values of types of processors</Property>
+    <Property ID="17" Name="CPU Extended Model#" EvaluationPeriod="P2D">unique values of extended models of processors</Property>
+    <Property ID="18" Name="CPU feature mask" EvaluationPeriod="P2D">unique values of feature masks of processors</Property>
+    <Property ID="19" Name="# of Threads Total" EvaluationPeriod="P2D">if (exists properties whose (it as string contains &quot;cpupackage&quot;)) then ((thread of it*count of it) of cpupackage) else ERROR &quot;cpupackage property not available&quot;</Property>
+    <Property ID="20" Name="architecture of OS" EvaluationPeriod="P2D">architecture of operating system</Property>
+    <Property ID="21" Name="CPU extended feature mask" EvaluationPeriod="P2D">unique values of extended feature masks of processors</Property>
+    <Property ID="22" Name="CPU DisplayModel#" EvaluationPeriod="P2D">if (exists families whose(it = 6 OR it = 15) of processors) then (it as integer) of ((left shift 4 of (it as bit set) of unique value of extended models of processors) + ((it as bit set) of unique value of models of processors)) else (unique value of models of processors) /* http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-2a-manual.html DisplayModel */</Property>
+    <Property ID="23" Name="CPU Extended Family#" EvaluationPeriod="P2D">unique values of extended families of processors</Property>
+    <Property ID="24" Name="CPU DisplayFamily#" EvaluationPeriod="P2D">if (15 != unique value of families of processors) then (unique value of families of processors) else (it as integer) of ((left shift 4 of (it as bit set) of unique value of extended families of processors) + ((it as bit set) of unique value of families of processors)) /* http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-vol-2a-manual.html DisplayFamily */</Property>
+  </Analysis>
+</BES>

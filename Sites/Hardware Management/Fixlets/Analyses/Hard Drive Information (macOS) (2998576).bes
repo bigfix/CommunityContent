@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hard Drive Information (macOS)
+  ID       : 2998576
+  Author   : rustymyers
+  Domain   : BESC
+  Imported : 2017-08-25T18:08:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hard Drive Information (macOS)</Title>
+    <Description><![CDATA[<P>This analysis extends <A href="linkid:openfixlet(2147495505,551594)">Hard Drive Information</A>&nbsp;to&nbsp;provide macOS-specific information about system hard drives. <STRONG>It is activated globally.</STRONG></P>
+<P>See also:&nbsp;<A href="linkid:openfixlet(2147495505,1014387)">Hard Drive Information (Windows)</A></P>
+<P>Additional details:</P>
+<UL>
+<LI><A href="https://discussions.apple.com/thread/3548863">https://discussions.apple.com/thread/3548863</A>
+<LI>
+<P><A href="http://superuser.com/questions/57466/how-can-i-tell-the-speed-of-my-macbook-hard-drive">http://superuser.com/questions/57466/how-can-i-tell-the-speed-of-my-macbook-hard-drive<FONT size=1><STRONG></STRONG></FONT></A></P>
+<LI>
+<P><FONT size=1><STRONG></STRONG></FONT>&nbsp;</P></LI></UL>
+<P><FONT size=2><STRONG>Reference:</STRONG>&nbsp;</FONT><A href="http://bigfix.me/cdb/Analysis/2994532"><FONT size=2>http://bigfix.me/cdb/Analysis/2994532</FONT></A></P>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "10.4"]]></Relevance>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Tue, 28 May 2013 10:18:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Tue, 28 May 2013 10:18:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 10 Mar 2017 16:24:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Hard Drive Model" EvaluationPeriod="P7D">(if (it != &quot;&quot;) then (concatenation &quot;; &quot; of it as trimmed string) else (&quot;&quot;)) of ((strings of values of entries whose (key of it = &quot;Product Name&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes of nodes of it; strings of values of entries whose (key of it = &quot;Product Name&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry)</Property>
+    <Property ID="2" Name="Hard Drive Serial Number" EvaluationPeriod="P7D">(if (it != &quot;&quot;) then ( it as trimmed string) else (&quot;&quot;)) of (strings of values of entries whose (key of it = &quot;Serial Number&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes of nodes of it; strings of values of entries whose (key of it = &quot;Serial Number&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="3" Name="Hard Drive Firmware" EvaluationPeriod="P7D">(strings of values of entries whose (key of it = &quot;Product Revision Level&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes of nodes of it; strings of values of entries whose (key of it = &quot;Product Revision Level&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="8" Name="Size of tmp Folder" EvaluationPeriod="P7D">if exists (folder &quot;/tmp&quot;) then ((sum of sizes of descendants of folder &quot;/tmp&quot;) / (1024 * 1024)) as string &amp; &quot; MB&quot; else &quot;&lt;none&gt;&quot;</Property>
+    <Property ID="9" Name="Hard Drive Physical Block Size" EvaluationPeriod="P7D">(if (exists entries whose (key of it = &quot;Physical Block Size&quot;) of dictionaries of nodes whose (name of it = &quot;AppleAHCIDiskDriver&quot;) of nodes whose (name of it = &quot;IOAHCIDevice&quot;) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) then ((integers of it as string) of values of entries whose (key of it = &quot;Physical Block Size&quot;) of dictionaries of nodes whose (name of it = &quot;AppleAHCIDiskDriver&quot;) of nodes whose (name of it = &quot;IOAHCIDevice&quot;) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) else &quot;No Physical Block Size&quot;)</Property>
+    <Property ID="10" Name="Hard Drive Media Type" EvaluationPeriod="P7D">(strings of values of entries whose (key of it = &quot;Medium Type&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes of nodes of it; strings of values of entries whose (key of it = &quot;Medium Type&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="13" Name="Hard Drive Rotational Rate" EvaluationPeriod="P7D">if (exists entries whose (key of it = &quot;Rotation Rate&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes &quot;AppleAHCIDiskDriver&quot; of nodes &quot;IOAHCIDevice&quot; of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it =&quot;RP01&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) then (concatenation &quot;; &quot; of it ) of ( (integers of it as string) of values of entries whose (key of it = &quot;Rotation Rate&quot;) of dictionaries of values of entries whose (key of it = &quot;Device Characteristics&quot;) of dictionaries of nodes &quot;IOAHCIBlockStorageDevice&quot; of nodes &quot;AppleAHCIDiskDriver&quot; of nodes &quot;IOAHCIDevice&quot; of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it =&quot;RP01&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) else &quot;No Rotation Rate&quot;</Property>
+    <Property ID="14" Name="Trim Supported" EvaluationPeriod="P7D">if (exists boolean of values of entries whose (key of it = &quot;Unmap&quot;) of dictionaries of values of entries whose (key of it = &quot;IOStorageFeatures&quot;) of (dictionaries of nodes of nodes of nodes of it; dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) then (((boolean of values of it) as string) of entries whose (key of it = &quot;Unmap&quot;) of dictionaries of values of entries whose (key of it = &quot;IOStorageFeatures&quot;) of (dictionaries of nodes of nodes of nodes of it; dictionaries of it) of (if (name of it = &quot;SATA&quot;) then (nodes of nodes of it) else (nodes of nodes of nodes of nodes of it)) of nodes whose ((name of it = &quot;SATA&quot;) OR (name of it starts with &quot;RP&quot;)) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) else (&quot;No Trim Support&quot;)</Property>
+  </Analysis>
+</BES>

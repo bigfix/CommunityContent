@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware Info - Apple
+  ID       : 2994554
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-07-30T14:52:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware Info - Apple</Title>
+    <Description><![CDATA[<P>This is not fully developed, but should work on most Apple&nbsp;systems. Some report &lt;error&gt; either due to the value not existing, or due to it being in a different place on different models.</P>
+<P>The latest version of this&nbsp;Analysis&nbsp;is found here: <A href="http://bigfix.me/cdb/Analysis/2994553"><FONT color=#000080>http://bigfix.me/cdb/Analysis/2994553</FONT></A></P>]]></Description>
+    <Relevance>exists service plane of iokit registry</Relevance>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 30 Jul 2013 21:50:32 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="WOL-State GigE" EvaluationPeriod="P1D">string of value of entries whose (key of it = &quot;WOL-State&quot;) of dictionary of node of node &quot;GIGE&quot; of node &quot;IOPCI2PCIBridge&quot; of node &quot;RP01&quot; of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="3" Name="Memory Card Reader?" EvaluationPeriod="P2D">exists node &quot;Card Reader&quot; of node &quot;AppleUSBEHCI&quot; of node &quot;EHC2&quot; of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="6" Name="Wake Reason?" EvaluationPeriod="PT6H">(string of value of entry whose(key of it = &quot;Wake Reason&quot;) of dictionary of node &quot;IOPMrootDomain&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry)</Property>
+    <Property ID="8" Name="PrinterURIs" EvaluationPeriod="P1D">if(not exists file &quot;/private/etc/cups/printers.conf&quot;) then &quot;&lt;no printers.conf file&gt;&quot; else if(not exists lines whose(it starts with &quot;DeviceURI &quot;) of file &quot;/private/etc/cups/printers.conf&quot;) then &quot;&lt;no PrinterURIs&gt;&quot; else (concatenation &quot; - &quot; of following texts of firsts &quot;DeviceURI &quot; of lines whose(it starts with &quot;DeviceURI &quot;) of file &quot;/private/etc/cups/printers.conf&quot;)</Property>
+    <Property ID="9" Name="Bonjour Printer URIs" EvaluationPeriod="P1D">if(not exists file &quot;/private/etc/cups/printers.conf&quot;) then &quot;&lt;no printers.conf file&gt;&quot; else if(not exists lines whose(it starts with &quot;DeviceURI &quot; AND it contains &quot;dns&quot; AND it contains &quot;.local&quot;) of file &quot;/private/etc/cups/printers.conf&quot;) then &quot;&lt;no Bonjour Printers&gt;&quot; else (concatenation &quot; - &quot; of following texts of firsts &quot;DeviceURI &quot; of lines whose(it starts with &quot;DeviceURI &quot; AND it contains &quot;dns&quot; AND it contains &quot;.local&quot;) of file &quot;/private/etc/cups/printers.conf&quot;)</Property>
+    <Property ID="2" Name="GigE model" EvaluationPeriod="P1D">string of value of entries whose (key of it = &quot;model&quot;) of dictionary of nodes &quot;GIGE&quot; of nodes &quot;IOPCI2PCIBridge&quot; of nodes of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="4" Name="iGPU model" EvaluationPeriod="P1D">(cstring of values of entries whose(key of it = &quot;model&quot;) of dictionary of node whose(name of it contains &quot;IGPU&quot;) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry)</Property>
+    <Property ID="7" Name="dGPU model -" EvaluationPeriod="P1D">(strings of values of entries whose(key of it = &quot;model&quot;) of dictionary of node whose(name of it contains &quot;GFX&quot;) of node &quot;IOPCI2PCIBridge&quot; of node whose(exists node whose(name of it contains &quot;GFX&quot;) of node &quot;IOPCI2PCIBridge&quot; of it) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry)</Property>
+    <Property ID="11" Name="WiFi Driver Model" EvaluationPeriod="P1D">strings of values of entries whose (key of it = &quot;IO80211DriverVersion&quot;) of dictionaries of nodes of nodes of nodes &quot;ARPT&quot; of nodes &quot;IOPCI2PCIBridge&quot; of nodes of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="10" Name="USB Devices" EvaluationPeriod="P1D">unique values of (((strings of values of entries whose (key of it = &quot;USB Vendor Name&quot;) of it, strings of values of entries whose (key of it = &quot;USB Product Name&quot;) of it) of dictionaries of nodes of nodes whose (name of it contains &quot;AppleUSB&quot;) of nodes whose (name of it contains &quot;EHC&quot; OR name of it contains &quot;XHC&quot; OR name of it contains &quot;OHC&quot;) of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry) as string)</Property>
+    <Property ID="12" Name="FireWire Gen" EvaluationPeriod="P1D">strings of values of entries whose(key of it = &quot;FireWire Generation ID&quot;)/* 1 is probably 400 and 2 is probably 800 */ of dictionaries of node of node of nodes &quot;FRWR&quot; of nodes &quot;IOPCI2PCIBridge&quot; of nodes of node &quot;AppleACPIPCI&quot; of node &quot;PCI0&quot; of node &quot;AppleACPIPlatformExpert&quot; of service plane of iokit registry</Property>
+    <Property ID="13" Name="Bluetooth Version" EvaluationPeriod="P1D">(if it = &quot;0&quot; then &quot;1.0b&quot; else if it = &quot;1&quot; then &quot;1.1&quot; else if it = &quot;2&quot; then &quot;1.2&quot; else if it = &quot;3&quot; then &quot;2.0 + EDR&quot; else if it = &quot;4&quot; then &quot;2.1 + EDR&quot; else if it = &quot;5&quot; then &quot;3.0 + HS&quot; else if it = &quot;6&quot; then &quot;4.0&quot; else if it as integer &gt; 6 then &quot;newer than BT v4.0&quot; else ERROR &quot;unknown&quot;) of ((integer of values of entries whose(key of it = &quot;LMPVersion&quot;)/* https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager */ of dictionaries of node &quot;IOBluetoothHCIController&quot; of node &quot;IOResources&quot; of service plane of iokit registry) as string)</Property>
+  </Analysis>
+</BES>
