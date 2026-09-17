@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace Branch Relay - 9.10.2.1 - Windows
+  ID       : 22946
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace Branch Relay - 9.10.2.1 - Windows</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace 2015 SR1 Branch Relay!</P>
+<P>This parameterized Fixlet allows you to deploy RES ONE Workspace Relays connecting via Relay Authentication to another relay.</P>
+<P><STRONG>Suggested Usage:<BR></STRONG>- If you are deploying a <STRONG>Top Level Relay</STRONG> you should <STRONG>use the corresponding Deploy - RES ONE Workspace Top Level Relay Fixlet</STRONG>.<BR>- If you are deploying a <STRONG>Branch Office or Leaf Relay</STRONG> you should use this fixlet.</P>
+<P><FONT color=#ff0000><STRONG>NOTES: Grayed out settings used in this fixlet are configured via the Environment Configuration section of the Deployment Wizard!</STRONG></FONT><BR>- If you are using <STRONG>"Relay"</STRONG> for authentication, the Environment Configuration section below must be populated<STRONG>.<BR></STRONG>
+
+<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
+
+<script>
+    loaded = false;
+
+	function loadGlobalization() {
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(globalization);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
+		return globalizationSanitized;
+	}
+
+	function loadUtils() {
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+	}
+
+    function loadScript(url, callback) {
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = loadUtils() + loadGlobalization();
+        script.onreadystatechange = callback;
+        script.onload = callback;
+
+        head.appendChild(script);
+    }
+
+    function scriptLoaded() {
+        if (!loaded) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
+                loaded = true;
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
+                FixletUtils.initFixletRender();
+            } else {
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
+            }
+        }
+    }
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>
+]]></Description>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>not exists service &quot;RESRLS&quot;</Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-res-release-display-name</Name>
+      <Value>RES ONE Workspace 2015 SR2</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section1&quot; :{
+	&quot;Name&quot;: &quot;Method&quot;,
+	&quot;Title&quot;: &quot;Relay Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Authentication&quot;,
+	    &quot;Description&quot;: &quot;Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Relay&quot;]
+	},
+	{
+	    &quot;Name&quot;: &quot;rlParent&quot;,
+	    &quot;Title&quot;: &quot;Relay Parent&quot;,
+	    &quot;Description&quot;: &quot;Select the parent of this relay&quot;,
+		&quot;UIType&quot;: &quot;select&quot;,
+		&quot;Override&quot;: &quot;true&quot;,
+		&quot;Parent&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;\&quot;Current BigFix Relay\&quot;;unique values of ((concatenation of (hostname of computer of it as lowercase;\&quot;:\&quot;; value of it)) of results of property 5 of fixlets whose (name of it = \&quot;RES ONE Workspace - Relay - Universal\&quot;) of site of current fixlet;substrings separated by \&quot;,\&quot; of (values of shared variables whose (name of it contains \&quot;RelayServers\&quot;) of wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot;) of site of current fixlet) as lowercase)&quot;
+	}
+	]
+},
+&quot;Section2&quot; : {
+	&quot;Name&quot;: &quot;dbInfo&quot;,
+	&quot;Title&quot;: &quot;Database Information&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbServer&quot;,
+	    &quot;Title&quot;: &quot;Database Server&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbserver\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot;)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbName&quot;,
+	    &quot;Title&quot;: &quot;Database Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database on the DB Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot;)&quot;
+	}
+]
+},
+&quot;Section5&quot; : {
+	&quot;Name&quot;: &quot;EnvConfig&quot;,
+	&quot;Title&quot;: &quot;Environment Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;RESEnvPwdHash&quot;,
+	    &quot;Title&quot;: &quot;RES Environment Password Hash&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment Password Hash&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Encrypt&quot;: &quot;false&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;respw_hash\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESRELPORT&quot;,
+	    &quot;Title&quot;: &quot;RES Relay Port&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Relay Port&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;resrelport\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;RESEnvGUID&quot;,
+	    &quot;Title&quot;: &quot;RES Environment GUID&quot;,
+	    &quot;Description&quot;: &quot;Enter the RES Environment GUID&quot;,
+		&quot;UIType&quot;: &quot;Select&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;unique values of (values of shared variables whose (name of it contains \&quot;EnvironmentGUID\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet);(values of results of properties whose (name of it = \&quot;RES ONE Workspace Database - Site GUID - Windows\&quot;) of fixlets whose (name of it = \&quot;RES ONE Workspace - Database - Windows\&quot;) of site of current fixlet))&quot;
+	}
+]
+}
+}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23943">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+if {x64 of operating system}
+	prefetch WMRELAY.msi sha1:BEE346B41D9153EACFA451E7DA755C4F33D1075E size:2907136 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-SR2-Relay-Server(x64)-9.10.2.1.msi sha256:49F7E5EC86559B4BFC6D121B99A6A226E6F3EC8686BDB7FF730E85168D7D510E
+else
+	prefetch WMRELAY.msi sha1:0BF99ADE3078F0A3AD192FBA1E96A56B4C633615 size:2907136 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-SR2-Relay-Server(x86)-9.10.2.1.msi sha256:FC88F887F955FEAA678989E6FD421658BB2E7023EF5CB475DA4673FB9F7CD352
+endif
+
+// action log all
+
+// If your action dies here you did not select an authentication method!
+continue if {parameter "dbAuthMethod" of action != "Select an Authentication Type"}
+
+if {parameter "dbAuthMethod" of action = "Relay"}
+	if {parameter "rlParent" of action = "Current BigFix Relay"}
+		parameter "ParentRelay"="{(preceding text of last "." of name of selected server as lowercase) & ":" & parameter "RESRELPORT" of action}"
+	else
+		parameter "ParentRelay"="{parameter "rlParent" of action}"
+	endif
+else
+	parameter "ParentRelay"=""
+endif
+
+//
+// Create Relay GUID
+//
+
+delete __createfile
+delete wuid_patch.ps1
+
+createfile until _done_
+$WUID_PATH = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WUID"
+
+if (! (Get-ItemProperty -Path $WUID_PATH -ErrorAction SilentlyContinue).'(default)') {{
+    New-Item -Path $WUID_PATH -ItemType Directory -force
+    Set-ItemProperty -Path $WUID_PATH -name '(default)' -Value ([GUID]::NewGuid()).ToString('B').ToUpper()
+}
+_done_
+
+copy __createfile wuid_patch.ps1
+
+waithidden powershell.exe -executionpolicy bypass -file "wuid_patch.ps1"
+
+
+delete __createfile
+delete relayconfig.xml
+delete relayconfigu.xml
+
+createfile until _done_
+<?xml version="1.0" encoding="UTF-16"?>
+<relayserver>
+  <environments>
+    <environment guid="{(parameter "RESEnvGUID" of action)}">
+      <enabled>yes</enabled>
+      <environmentname>{parameter "dbName" of action}@{parameter "dbServer" of action}</environmentname>
+      <local>
+        <providertype>0</providertype>
+        <cachelocation>{value of variable "ALLUSERSPROFILE" of environment & "\RES\Relay Server"}</cachelocation>
+      </local>
+      <remote>
+        <providertype>3</providertype>
+        <addresslist>{parameter "ParentRelay"}</addresslist>
+        <password encrypted="yes">{parameter "RESEnvPwdHash" of action}</password>
+        <storefipsencrypted>yes</storefipsencrypted>
+      </remote>
+    </environment>
+  </environments>
+  <port>{parameter "RESRELPORT" of action}</port>
+</relayserver>
+_done_
+
+move __createfile relayconfig.xml
+
+wait CMD /U /C Type "relayconfig.xml" >> "relayconfigu.xml"
+
+wait msiexec /i "__Download\WMRELAY.msi" ConfigFile="{pathname of client folder of current site}\relayconfigu.xml" /qn
+
+wait "{pathname of system folder}\netsh.exe" firewall add portopening protocol=tcp port={parameter "RESRELPORT" of action} name="RES Relay" mode=ENABLE profile=ALL
+
+wait net start RESRLS
+
+notify client forcerefresh
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

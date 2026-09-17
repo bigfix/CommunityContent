@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Count KVM Virtuals Status
+  ID       : 2588
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-09-04T10:50:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Count KVM Virtuals Status</Title>
+    <Description><![CDATA[<P>Count the status of my virtuals running/shut-off for my KVM Host running on Ubuntu.</P>
+<P>virsh list --all | grep -c running &gt; KVM_Running.txt<BR>virsh list --all | grep -c "shut off" &gt; KVM_ShutOff.txt</P>
+<P>Running these two commands will create two files with a number within which we will pull back via Global Property.</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>NOT windows of operating system</Relevance>
+    <Relevance>exists file &quot;virsh&quot; of folder &quot;/usr/bin&quot;</Relevance>
+    <Category>Inventory</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-09-04</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 04 Sep 2013 15:36:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-sh"><![CDATA[#!/bin/sh
+virsh list --all | grep -c running > /tmp/KVM_Running.txt
+virsh list --all | grep -c "shut off" > /tmp/KVM_ShutOff.txt]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

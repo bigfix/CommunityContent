@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy "Wincollect" using KC EP "10.150.126.8" for Win 64 bit
+  ID       : 24860
+  Author   : nirajmishra20feb
+  Domain   : SYST
+  Imported : 2017-12-01T02:20:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy &quot;Wincollect&quot; using KC EP &quot;10.150.126.8&quot; for Win 64 bit</Title>
+    <Description><![CDATA[This task will download 1 files from the "Wincollect" Software Distribution Package onto selected endpoints <BR><BR><B>Installation Command:</B> "AGENT_x64_WinCollect-7.2.2.1018564-setup.exe" /s /v" /qn INSTALLDIR="C:\IBM\WinCollect" AUTHTOKEN=804e50fb-7cef-4cd0-bfc9-21462be576b6 FULLCONSOLEADDRESS=10.150.126.8:8413 HOSTNAME={hostname} LOG_SOURCE_AUTO_CREATION_ENABLED=True LOG_SOURCE_AUTO_CREATION_PARAMETERS=""Component1.AgentDevice=DeviceWindowsLog&amp;Component1.Action=create&amp;Component1.LogSourceName={hostname}&amp;Component1.LogSourceIdentifier={addresses of adapters whose (cidr string of it = wake on lan subnet cidr string) of network}&amp;Component1.Destination.Name=10.150.126.8&amp;Component1.CoalesceEvents=False&amp;Component1.StoreEventPayload=True&amp;Component1.Encoding=UTF-8&amp;Component1.Log.Application=True&amp;Component1.Log.Security=True&amp;Component1.Log.System=True&amp;Component1.Log.DNS+Server=False&amp;Component1.Log.Directory+Service=False&amp;Component1.Log.File+Replication+Service=False"""<BR><BR><B>Run Command As:</B> System User<BR><BR><B>Download Size:</B> 20,701.6 KB ]]></Description>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance>windows of operating system AND (if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else true)</Relevance>
+    <Relevance><![CDATA[(if(name of operating system starts with "Win") then free space of drive of client > 42396806 else if ((mac of it) of operating system) then free space of filesystem of folder (pathname of client) > 42396806 else free space of filesystem of client > 42396806)]]></Relevance>
+    <Relevance><![CDATA[version of client >= "8.1"]]></Relevance>
+    <Relevance>/*Optional Target Marker*/ /* See KB Article swg21668807 (http://www-01.ibm.com/support/docview.wss?uid=swg21668807) for more information. */ ( ((name of it as lowercase contains &quot;win&quot; as lowercase )) of operating system)</Relevance>
+    <Relevance>(exists true whose (if true then (exists ((if (name of operating system as lowercase starts with &quot;win&quot;) then if (x64 of operating system) then &quot;x64&quot; else &quot;x32&quot; else &quot;Non-Windows OS&quot;)) whose (it as string as lowercase contains &quot;x64&quot; as lowercase)) else false))</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Wincollect</Source>
+    <SourceID>Niraj20150305</SourceID>
+    <SourceReleaseDate>2015-03-05</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-runFileSha1</Name>
+      <Value>411267BE3D0C3F692ECB6D24677298ACB0DA4F9C</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>&quot;AGENT_x64_WinCollect-7.2.2.1018564-setup.exe&quot; /s /v&quot; /qn INSTALLDIR=&quot;C:\IBM\WinCollect&quot; AUTHTOKEN=804e50fb-7cef-4cd0-bfc9-21462be576b6 FULLCONSOLEADDRESS=10.130.126.5:8413 HOSTNAME={hostname} LOG_SOURCE_AUTO_CREATION_ENABLED=True LOG_SOURCE_AUTO_CREATION_PARAMETERS=&quot;&quot;Component1.AgentDevice=DeviceWindowsLog&amp;Component1.Action=create&amp;Component1.LogSourceName={hostname}&amp;Component1.LogSourceIdentifier={addresses of adapters whose (cidr string of it = wake on lan subnet cidr string) of network}&amp;Component1.Destination.Name=10.130.126.11&amp;Component1.CoalesceEvents=False&amp;Component1.StoreEventPayload=True&amp;Component1.Encoding=UTF-8&amp;Component1.Log.Application=True&amp;Component1.Log.Security=True&amp;Component1.Log.System=True&amp;Component1.Log.DNS+Server=False&amp;Component1.Log.Directory+Service=False&amp;Component1.Log.File+Replication+Service=False&quot;&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_nmishra@ironmountain.com_1425581452106367</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;411267BE3D0C3F692ECB6D24677298ACB0DA4F9C&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgTag</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgType</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedLogOptions</Name>
+      <Value>{&quot;individualLog&quot;:false,&quot;individualLogCustomerName&quot;:null,&quot;uploadTheLog&quot;:false}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedPathOptions</Name>
+      <Value>{&quot;customPathName&quot;:null,&quot;deleteCustomPath&quot;:false,&quot;customPath&quot;:false}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;pkgvariablekey&quot;:&quot;SWD_Package_nmishra@ironmountain.com_1425581452106367&quot;,&quot;lastmodified&quot;:&quot;Thu Mar 5 13:52:35 GMT-0500 2015&quot;,&quot;files&quot;:[{&quot;id&quot;:&quot;411267BE3D0C3F692ECB6D24677298ACB0DA4F9C_1425581555753708&quot;,&quot;msi_metadata&quot;:null,&quot;spb_metadata&quot;:null,&quot;appv_metadata&quot;:null,&quot;size&quot;:21198403,&quot;exe_metadata&quot;:{&quot;exe_metadata_version&quot;:&quot;1.0.0.9&quot;,&quot;ProductVersion&quot;:&quot;7.2.2.0000&quot;,&quot;FileVersion&quot;:&quot;7.2.2.0000&quot;,&quot;ProductName&quot;:&quot;WinCollect&quot;,&quot;CompanyName&quot;:&quot;IBM&quot;},&quot;dateadded&quot;:&quot;Thu, 05 Mar 2015 13:52:34 -0500&quot;,&quot;compressed_data_for_package&quot;:false,&quot;osd_metadata&quot;:null,&quot;folderoffset&quot;:&quot;&quot;,&quot;sha1&quot;:&quot;411267BE3D0C3F692ECB6D24677298ACB0DA4F9C&quot;,&quot;sha256&quot;:&quot;0c5286fd7d68e34d1b2f5ace3bb6e0dbdc00a53b4c5eca87cabdb0ee2a7b1432&quot;,&quot;filename&quot;:&quot;AGENT_x64_WinCollect-7.2.2.1018564-setup.exe&quot;}],&quot;pkgTag&quot;:&quot;&quot;,&quot;creator&quot;:&quot;nmishra@ironmountain.com&quot;,&quot;owner&quot;:&quot;nmishra@ironmountain.com&quot;,&quot;version&quot;:&quot;7.2.2.1018564&quot;,&quot;comment&quot;:null,&quot;vendor&quot;:&quot;IBM&quot;,&quot;product&quot;:&quot;Wincollect&quot;,&quot;description&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-prePostInstall</Name>
+      <Value>{&quot;preType&quot;:null,&quot;selected&quot;:false,&quot;preInstall&quot;:null,&quot;postType&quot;:null,&quot;postInstall&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Apr 2015 12:53:15 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <Action ID="Action26125">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// ---------------------------------------------EDITING INSTRUCTIONS---------------------------------------------------------------------
+// When editing this task through the Manage Software Distribution Packages dashboard, you will have the option to preserve any custom edits you make to this action.
+// If you select the option to preserve custom edits, only areas bound by the comment markers 'Preparation Marker', 'Command Marker' and 'Closing Marker' are updated.
+// To ensure that all your custom Action Script changes can be preserved, only make changes to areas that are not bound by the comment markers.
+// Removing the comment markers may result in the Action Script not updating correctly during the next edit.
+// See KB Article swg21668807 (http://www-01.ibm.com/support/docview.wss?uid=swg21668807) for more information.
+// --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//**Begin Preparation Marker
+// Download all specified files
+begin prefetch block
+  add prefetch item name=411267BE3D0C3F692ECB6D24677298ACB0DA4F9C sha1=411267be3d0c3f692ecb6d24677298acb0da4f9c size=21198403 url=SWDProtocol://127.0.0.1:52311/uploads/411267BE3D0C3F692ECB6D24677298ACB0DA4F9C/AGENT_x64_WinCollect-7.2.2.1018564-setup.exe.bfswd sha256=0c5286fd7d68e34d1b2f5ace3bb6e0dbdc00a53b4c5eca87cabdb0ee2a7b1432
+end prefetch block
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter "baseFolder" =  "__Download/"
+// Move files into subfolders and unescape file names
+move "__Download/411267BE3D0C3F692ECB6D24677298ACB0DA4F9C" "{parameter "baseFolder"}AGENT_x64_WinCollect-7.2.2.1018564-setup.exe"
+run "{parameter "baseFolder"}AGENT_x64_WinCollect-7.2.2.1018564-setup.exe" /s /v" /qn INSTALLDIR="C:\IBM\WinCollect" AUTHTOKEN=804e50fb-7cef-4cd0-bfc9-21462be576b6 FULLCONSOLEADDRESS=10.150.126.8:8413 HOSTNAME={hostname} LOG_SOURCE_AUTO_CREATION_ENABLED=True LOG_SOURCE_AUTO_CREATION_PARAMETERS=""Component1.AgentDevice=DeviceWindowsLog&Component1.Action=create&Component1.LogSourceName={hostname}&Component1.LogSourceIdentifier={addresses of adapters whose (cidr string of it = wake on lan subnet cidr string) of network}&Component1.Destination.Name=uskanmqrep01&Component1.CoalesceEvents=False&Component1.StoreEventPayload=True&Component1.Encoding=UTF-8&Component1.Log.Application=True&Component1.Log.Security=True&Component1.Log.System=True&Component1.Log.DNS+Server=False&Component1.Log.Directory+Service=False&Component1.Log.File+Replication+Service=False"""
+parameter "startTime"="{now}"
+pause while { (now-time(parameter "startTime") < 600*second) }
+dos net start "WinCollect"]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy ComplianceWhitelist File
+  ID       : 25546
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2018-09-17T21:34:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy ComplianceWhitelist File</Title>
+    <Description><![CDATA[<P><FONT size=3 face=Arial><STRONG>This task&nbsp;downloads the latest version of the "ComplianceWhitelist.txt" file&nbsp;to a computer.</STRONG></FONT></P>
+<P><FONT size=3 face=Arial><STRONG>If changes to the Master 'ComplianceWhitelist.txt' file are made this action must be taken to propagate the changes in the file to endpoints.</STRONG></FONT></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Utility-Manage Windows Admins</Category>
+    <Source>Mike Consuegra</Source>
+    <SourceReleaseDate>2018-09-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 18 Sep 2018 04:14:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Deploy</Link>
+        <PostLink>&amp;nbsp;ComplianceWhitelist file</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[///////////////////////////////////
+// TO SET DIFFERENT FILE NAMES AND
+// LOCATIONS CHANGE THE FOLLOWING
+// PARAMETER VALUES
+///////////////////////////////////
+
+parameter "primarywhitelist" = "{(parent folder of regapp "BESClient.exe" as string) & "\ComplianceWhitelist\ComplianceWhitelist.txt"}"
+parameter "backupwhitelist" = "{(((data folder of client) as string) & "\__Global\__Download\actionsite\_listbackup.txt")}"
+
+// -END- PARAMETER DECLARATIONS
+
+
+
+// Delete any old versions of the Whitelist file
+delete "{((client folder of current site) as string) & "\__Download\ComplianceWhitelist.txt"}"
+delete "{parameter "primarywhitelist"}"
+delete "{parameter "backupwhitelist"}"
+
+// Download the Compliance WhiteList file from the BES Server
+download now as ComplianceWhitelist.txt http://<YOUR-ROOT-SERVER-NAME-HERE>:52311/CustomDownloads/ComplianceWhitelist/ComplianceWhitelist.txt
+pause while {not exists file "__Download\ComplianceWhitelist.txt"}
+
+// Make a backup copy of the whitelist file downloaded above
+dos copy /Y "{((client folder of current site) as string) & "\__Download\ComplianceWhitelist.txt"}" "{parameter "backupwhitelist"}"
+
+// Check for the existence of the 'ComplianceWhitelist' directory in the Client Folder
+// If the directory exists, just copy the file over, if not, create the folder and then copy the file
+if {not exists folder (parent folder of regapp "BESClient.exe" as string & "\ComplianceWhitelist")}
+	dos mkdir "{(parent folder of regapp "BESClient.exe" as string) & "\ComplianceWhitelist"}"
+	dos copy /Y "{((client folder of current site) as string) & "\__Download\ComplianceWhitelist.txt"}" "{parameter "primarywhitelist"}"
+
+else
+dos copy /Y "{((client folder of current site) as string) & "\__Download\ComplianceWhitelist.txt"}" "{parameter "primarywhitelist"}"
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

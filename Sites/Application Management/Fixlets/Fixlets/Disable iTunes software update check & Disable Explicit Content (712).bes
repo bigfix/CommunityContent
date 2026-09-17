@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Disable iTunes software update check & Disable Explicit Content
+  ID       : 712
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-05T10:32:47
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Disable iTunes software update check &amp; Disable Explicit Content</Title>
+    <Description><![CDATA[This task will edit the Windows Registry to disable iTunes from checking for updates. This action will also disable iTunes sharing, Explicit Content, and lock the parental controls to prevent changes. <VALUE><BR><BR></VALUE>This task is applicable on:&nbsp;Windows XP, Windows Vista, Windows 7. ]]></Description>
+    <Relevance>(name of operating system = &quot;WinXP&quot; OR name of operating system = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; and product type of it = nt workstation product type) of operating system OR name of operating system = &quot;Win7&quot;)</Relevance>
+    <Relevance>exists regapp &quot;iTunes.exe&quot;</Relevance>
+    <Relevance>NOT exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry OR NOT exists value &quot;AdminFlags&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry OR (281 != value &quot;AdminFlags&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry as integer)</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2011-08-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 17 Feb 2012 16:22:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here&amp;nbsp;</Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// 0x119 is 281 decimal
+//   the value 281 does the following:
+//                        kParentalFlags_Locked
+//                        kParentalFlags_DisableSharing
+//                        kParentalFlags_DisableExplicitContent
+//                        kParentalFlags_DisableCheckForUpdates?
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;=dword:{281 as hexadecimal}</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

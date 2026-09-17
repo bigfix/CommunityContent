@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Yammer Desktop 2.0
+  ID       : 2493
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-06-26T11:02:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Yammer Desktop 2.0</Title>
+    <Description><![CDATA[<P>This task will deploy Yammer Desktop 2.0 </P>
+<P>- Requires Adobe AIR<BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 </P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance>exists file &quot;/Applications/Adobe/Flash Player/AddIns/airappinstaller/airappinstaller&quot;</Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "Yammer.app" and ((version of it) >= "300222" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 26 Jun 2013 16:36:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Yammer.air sha1:864c0ad586e3221b9fc9c2f325ec8b29619232a4 size:811807 https://www.yammer.com/desktop/2.0/production/Yammer.air
+wait sh -c &quot;/Applications/Adobe/Flash\ Player/AddIns/airappinstaller/airappinstaller -silent &apos;{posix path of file &quot;Yammer.air&quot; of folder &quot;__Download&quot; of client folder of current site}&apos;&quot;</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

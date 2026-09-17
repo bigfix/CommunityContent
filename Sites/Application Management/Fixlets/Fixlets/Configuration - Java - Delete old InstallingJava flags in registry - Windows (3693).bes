@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration - Java - Delete old InstallingJava flags in registry - Windows
+  ID       : 3693
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-16T12:08:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration - Java - Delete old InstallingJava flags in registry - Windows</Title>
+    <Description><![CDATA[<P><STRONG>The Problem:</STRONG>&nbsp; IBM's java patches set a flag in the registry before installing the java update and delete it after. If something goes wrong then this flag is never deleted, and it&nbsp;will cause the machine to never become relevant for the update again.</P>
+<P><STRONG>The Fix:</STRONG>&nbsp; This Fixlet will delete any "InstallingJava" flags set in the registry if they are older than 2 days. There may be multiple flags set on the same machine, in which case this fixlet should be deployed as a policy so that it can run multiple times and delete them all.</P>
+<P>See this analysis for related information:&nbsp; <A href="http://bigfix.me/analysis/details/2994622"><FONT color=#000080>http://bigfix.me/analysis/details/2994622</FONT></A></P>
+<P>See the latest version of this Fixlet here:&nbsp; <A href="http://bigfix.me/fixlet/details/3691"><FONT color=#000080>http://bigfix.me/fixlet/details/3691</FONT></A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Make sure the flags that need deleting exist */ exists values whose(name of it starts with &quot;InstallingJava&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry</Relevance>
+    <Relevance><![CDATA[/* Make sure the flags are older than 2 days */ ((if(it < 2*day) then FALSE else TRUE) of (now - last write time of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation" of registry))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-01-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 16 Jan 2014 19:07:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// This will only delete 1 flag, but there could be multiple.
+//   This fixlet will reapply multiple times until all are deleted.
+regdelete &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation]&quot; &quot;{name of value whose(name of it starts with &quot;InstallingJava&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\JavaInstallation&quot; of registry}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

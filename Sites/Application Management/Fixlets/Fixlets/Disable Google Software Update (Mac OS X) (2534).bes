@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Disable Google Software Update (Mac OS X)
+  ID       : 2534
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-15T06:16:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Disable Google Software Update (Mac OS X)</Title>
+    <Description><![CDATA[<P>This task will disable Google Software Update.</P>
+<P>- <A href="https://support.google.com/installer/answer/147176">https://support.google.com/installer/answer/147176</A></P>
+<P>This task is applicable on Mac OS X 10.5, Mac OS X 10.6, Mac OS X 10.7, Mac OS X 10.8, Mac OS X 10.9</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.5" AND system version <= "10.9")]]></Relevance>
+    <Relevance>not (((exists file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot;) AND (exists entry whose (key of it = &quot;checkInterval&quot;) of dictionary of file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot;)) AND (((type of value of entry whose (key of it = &quot;checkInterval&quot;) of dictionary of file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot; = &quot;string&quot;) AND (string of value of entry whose (key of it = &quot;checkInterval&quot;) of dictionary of file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot; = &quot;0&quot;)) OR ((type of value of entry whose (key of it = &quot;checkInterval&quot;) of dictionary of file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot; = &quot;integer&quot;) AND (integer of value of entry whose (key of it = &quot;checkInterval&quot;) of dictionary of file &quot;/Library/Preferences/com.google.Keystone.Agent.plist&quot; = 0))))</Relevance>
+    <Category>Mac Software Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2013-07-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 15 Jul 2013 13:02:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait /usr/bin/defaults write /Library/Preferences/com.google.Keystone.Agent checkInterval 0</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

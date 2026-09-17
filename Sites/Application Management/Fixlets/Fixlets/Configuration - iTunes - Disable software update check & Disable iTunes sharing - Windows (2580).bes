@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Configuration - iTunes - Disable software update check & Disable iTunes sharing - Windows
+  ID       : 2580
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-29T12:09:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Configuration - iTunes - Disable software update check &amp; Disable iTunes sharing - Windows</Title>
+    <Description><![CDATA[This task will edit the Windows Registry to disable iTunes from checking for updates. This action will also disable iTunes sharing,&nbsp;and lock the parental controls to prevent changes. <VALUE>]]></Description>
+    <Relevance>exists regapp &quot;iTunes.exe&quot;</Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>NOT ((exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry) AND (exists value &quot;AdminFlags&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry) AND (265 = value &quot;AdminFlags&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry as integer))</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2011-08-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Aug 2013 18:37:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here&amp;nbsp;</Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//   the value 265 does the following:
+//                        kParentalFlags_Locked
+//                        kParentalFlags_DisableSharing
+//                        kParentalFlags_DisableCheckForUpdates
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;=dword:{265 as hexadecimal}</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

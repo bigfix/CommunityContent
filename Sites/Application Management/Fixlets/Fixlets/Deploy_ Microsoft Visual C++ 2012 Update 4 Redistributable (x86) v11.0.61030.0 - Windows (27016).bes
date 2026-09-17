@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy: Microsoft Visual C++ 2012 Update 4 Redistributable (x86) v11.0.61030.0 - Windows
+  ID       : 27016
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2023-12-07T13:44:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy: Microsoft Visual C++ 2012 Update 4 Redistributable (x86) v11.0.61030.0 - Windows</Title>
+    <Description><![CDATA[<DIV>This Fixlet will download and install "Microsoft Visual C++ 2012 Update 4 v<FONT size=4>11.0.61030.0 x32</FONT>" onto selected endpoints. <BR><BR><B>Download Size:</B> <FONT size=4>6554576</FONT><BR><BR>Note: This is an older, no longer supported runtime library, but may be required for some products.</DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.2" AND not in proxy agent context AND windows of operating system AND version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "11.0.61030.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Microsoft Visual C++ 2012" AND value "DisplayName" of it as string contains "Redistributable (x86)") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Category>Deploy</Category>
+    <Source>Microsoft</Source>
+    <SourceID>30679</SourceID>
+    <SourceReleaseDate>2013-11-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-cpe23-item-name</Name>
+      <Value>cpe:2.3:a:microsoft:microsoft_visual_c++_2015:14.38.33130.0:*:*:*:*:*:*:*</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>action-ui-metadata</Name>
+      <Value>{ &quot;version&quot;:&quot;14.38.33130.0&quot;,&quot;size&quot;:13846856 }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Microsoft</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 07 Dec 2023 21:42:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy Microsoft Visual C++ 2012 Update 4 &amp;nbsp;v11.0.61030.0.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Download:
+prefetch vc_redist.x86.exe sha1:96b377a27ac5445328cbaae210fc4f0aaa750d3f size:6554576 https://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x86.exe sha256:b924ad8062eaf4e70437c8be50fa612162795ff0839479546ce907ffa8d6e386
+
+// Install:
+override wait
+hidden=true
+completion=job
+wait __Download\vc_redist.x86.exe /install /quiet /norestart
+// End</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

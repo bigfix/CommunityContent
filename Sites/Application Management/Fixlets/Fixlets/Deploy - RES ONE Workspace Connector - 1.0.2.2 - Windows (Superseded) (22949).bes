@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace Connector - 1.0.2.2 - Windows (Superseded)
+  ID       : 22949
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace Connector - 1.0.2.2 - Windows (Superseded)</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace  Connector!</P>
+<P><STRONG>This Fixlet has been superseded by Fixlet: Deploy - RES ONE Workspace Connector - 1.1.0.0 - Windows</STRONG></P>
+</DIV>
+
+<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
+
+<script>
+    loaded = false;
+
+	function loadGlobalization() {
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(globalization);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
+		return globalizationSanitized;
+	}
+
+	function loadUtils() {
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+	}
+
+    function loadScript(url, callback) {
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = loadUtils() + loadGlobalization();
+        script.onreadystatechange = callback;
+        script.onload = callback;
+
+        head.appendChild(script);
+    }
+
+    function scriptLoaded() {
+        if (!loaded) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
+                loaded = true;
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
+                FixletUtils.initFixletRender();
+            } else {
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
+            }
+        }
+    }
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>FALSE</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Relevance><![CDATA[(not exists file (pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe")) or (version of file (pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe") < "1.0.2.2")]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section0&quot; :{
+	&quot;Name&quot;: &quot;Connector&quot;,
+	&quot;Title&quot;: &quot;RES ONE Workspace Connector Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;ConnectorAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Console Authentication Method&quot;,
+	    &quot;Description&quot;: &quot;Console Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Windows Authentication&quot;, &quot;SQL Authentication&quot;]
+	}
+	]
+
+},
+&quot;Section2&quot; : {
+	&quot;Name&quot;: &quot;dbInfo&quot;,
+	&quot;Title&quot;: &quot;RES ONE Workspace Database Configuration&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbServer&quot;,
+	    &quot;Title&quot;: &quot;Database Server&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbserver\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbName&quot;,
+	    &quot;Title&quot;: &quot;Database Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database on the DB Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+	]
+},
+&quot;Section4&quot; : {
+	&quot;Name&quot;: &quot;SQLAuth&quot;,
+	&quot;Title&quot;: &quot;RES ONE Workspace Database SQL Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;SQLUser&quot;,
+	    &quot;Title&quot;: &quot;Database User Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Active Directory environment&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbuser\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;SQLPass&quot;,
+	    &quot;Title&quot;: &quot;Database User Password&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured security group&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;Encrypt&quot;: &quot;true&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbpwd\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+	]
+},
+&quot;Section5&quot; : {
+	&quot;Name&quot;: &quot;SOAPConf&quot;,
+	&quot;Title&quot;: &quot;BigFix WebReports SOAP API Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;SOAPUrl&quot;,
+	    &quot;Title&quot;: &quot;Web Reports SOAP URL&quot;,
+	    &quot;Description&quot;: &quot;Enter the SOAP URL&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;soapurl\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;SOAPUser&quot;,
+	    &quot;Title&quot;: &quot;SOAP User Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the SOAP User&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;soapuser\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;SOAPPass&quot;,
+	    &quot;Title&quot;: &quot;SOAP User Password&quot;,
+	    &quot;Description&quot;: &quot;Enter the password for the SOAP User&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;Encrypt&quot;: &quot;true&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;soappw\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+	]
+}
+}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23946">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+prefetch RES2BES.exe sha1:1D93533B3830539F06DBD8CBA3AC57BAE6011818 size:160616 http://downloads.ressoftware.com/downloads/cdm/res2bes/1.0.2.2/RES2BES.exe sha256:6BA151125B125D7656F05903F563E5BD568AB7F4A94457BE9D784E80E482DABE
+prefetch Newtonsoft.Json.dll sha1:b087180286743cb8666032d384a95f344f547729 size:401920 http://downloads.ressoftware.com/downloads/cdm/Newtonsoft.Json.txt
+
+// action log all
+
+parameter "install_path"="{(pathname of parent folder of parent folder of file of service "res" & "\RES2BES")}"
+
+delete __createfile
+delete "{parameter "install_path"}\settings.config"
+delete "{parameter "install_path"}\Newtonsoft.Json.dll"
+delete "{parameter "install_path"}\RES2BES.exe"
+delete "{parameter "install_path"}\RES2BES.exe.config"
+
+createfile until __EOF__
+<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <APIUrl>{parameter "SOAPURL" of action}</APIUrl>
+  <Username>{parameter "SOAPUSER" of action}</Username>
+  <Password>tbd</Password>
+  <ConnectionString>Data Source={parameter "DBServer" of action};Initial Catalog={parameter "DBName" of action};Integrated Security=True</ConnectionString>
+  <DashboardId_Whitelist>Whitelist.ojo</DashboardId_Whitelist>
+  <DashboardId_Baseline>RESBaselineWizard.ojo</DashboardId_Baseline>
+  <DashboardVariableName_RelayServers>RelayServers</DashboardVariableName_RelayServers>
+  <DashboardVariableName_RSpwd>respw_hash</DashboardVariableName_RSpwd>
+  <DashboardId_Deployment>RESDeploymentWizard.ojo</DashboardId_Deployment>
+  <DashboardVariableName_Whitelist>WhiteList</DashboardVariableName_Whitelist>
+  <DashboardVariableName_Containers>Containers</DashboardVariableName_Containers>
+  <DashboardVariableName_TimeStamp>TimeStamp</DashboardVariableName_TimeStamp>
+</Config>
+
+__EOF__
+
+waithidden cmd /c mkdir "{parameter "install_path"}"
+
+copy __createfile "{parameter "install_path"}\settings.config"
+copy __Download\Newtonsoft.Json.dll "{parameter "install_path"}\Newtonsoft.Json.dll"
+copy __Download\RES2BES.exe "{parameter "install_path"}\RES2BES.exe"
+
+delete __createfile
+
+createfile until __EOF__
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="RelevanceBinding" />
+                <binding name="UserManagementBinding" />
+                <binding name="DashboardVariableBinding" />
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="RelevanceBinding" contract="BigFixAPI.RelevancePortType"
+                name="RelevancePort" />
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="UserManagementBinding" contract="BigFixAPI.UserManagementPortType"
+                name="UserManagementPort" />
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="DashboardVariableBinding" contract="BigFixAPI.DashboardVariablePortType"
+                name="DashboardVariablePort" />
+        </client>
+    </system.serviceModel>
+</configuration>
+__EOF__
+
+copy __createfile "{parameter "install_path"}\RES2BES.exe.config"
+
+appendfile {name of drive of folder (parameter "install_path")}
+appendfile cd {parameter "install_path"}
+
+if {parameter "ConnectorAuthMethod" of action as lowercase = "Windows Authentication" as lowercase}
+
+appendfile "{parameter "install_path"}\RES2BES.exe" -u "{parameter "SOAPUSER" of action}" -p "{parameter "SOAPPass" of action}" "{parameter "install_path"}\settings.config"
+
+else
+
+appendfile "{parameter "install_path"}\RES2BES.exe" -u "{parameter "SOAPUSER" of action}" -p "{parameter "SOAPPass" of action}" -dbu "{parameter "SQLUser" of action}" -dbp "{parameter "SQLPass" of action}" "{parameter "install_path"}\settings.config"
+
+endif
+
+delete config.bat
+move __appendfile config.bat
+wait config.bat
+
+wait "{parameter "install_path"}\res2bes.exe" "{parameter "install_path"}\settings.config"
+notify client forcerefresh
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

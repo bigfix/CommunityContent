@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Adobe Air 3.7.0.2100
+  ID       : 2532
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-09T07:54:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Adobe Air 3.7.0.2100</Title>
+    <Description><![CDATA[This task will deploy Deploy: Adobe Air 3.7.0.2100 <BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7, Mac OS X 10.9, Mac OS X 10.9 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version <= "10.9")]]></Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "Adobe AIR Application Installer.app" and ((bundle version of it) >= "3.7.0.2100" as version)) of utilities folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 09 Jul 2013 14:49:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AdobeAIR.dmg sha1:1cff6f31be6de547acc6f5cd59c59c1645322a71 size:27483677 http://airdownload.adobe.com/air/mac/download/3.7/AdobeAIR.dmg
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/ADOBEAIR&quot; &quot;{posix path of file &quot;AdobeAIR.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
+continue if {exist folder &quot;/tmp/ADOBEAIR/Adobe AIR Installer.app&quot;}
+wait /bin/sh -c &quot;/bin/launchctl bsexec `ps auwwx |grep [l]oginwindow | awk &apos;{{ print $2 }&apos;` /tmp/ADOBEAIR/Adobe\ AIR\ Installer.app/Contents/MacOS/Adobe\ AIR\ Installer -silent -eulaAccepted&quot;
+wait /usr/bin/hdiutil detach -force &quot;/tmp/ADOBEAIR&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

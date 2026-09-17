@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Dump Virtualization Types of KVM Virtualization Hosts
+  ID       : 26635
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2019-07-17T06:03:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Dump Virtualization Types of KVM Virtualization Hosts</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This task creates a file named "<STRONG>Virt_Domains.lst</STRONG>" containing the types of virtualization available on a KVM virtualization host (using&nbsp;virsh)
+<UL>
+<LI>Operating system: Linux x86 or ppc64
+<LI>Libvirt-client library installed on the host (virsh command available)
+<LI>Libxml2 library installed on the host (xmllint command available)
+<LI>Bash shell available</LI>
+</UL>
+<P></P>
+<P>A corresponding analysis returns the retrieved values reading them from the file (lines of file "Virt_Domains.lst")</P>
+</TD>
+</TR>
+</TBODY>
+</TABLE>]]></Description>
+    <Relevance>(if (name of it as lowercase starts with &quot;win&quot;) then (true) else ((name of it as lowercase starts with &quot;linux&quot;) OR (name of it as lowercase starts with &quot;aix&quot;) OR (name of it as lowercase starts with &quot;mac&quot;) OR (name of it as lowercase starts with &quot;hp-ux&quot; AND ((architecture of it as lowercase contains &quot;ia64&quot;) OR (family name of main processor as lowercase contains &quot;pa-risc&quot;) OR (exists match (regex &quot;^PA8[0-9]{3}(\s+)?$&quot;) of (family name of main processor)))) OR (exists match (regex &quot;sunos 5\.(8|9|10|11)&quot;) of (name of it as lowercase)) of operating system)) of operating system AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true)</Relevance>
+    <Relevance>not exists settings whose (name of it equals &quot;CIT_Deny&quot; AND value of it = &quot;1&quot;) of client</Relevance>
+    <Relevance>( ( name of it as lowercase starts with &quot;linux&quot; AND ( ( exists match ( regex &quot;^i[0-9]86$&quot; ) of it ) of ( architecture of it as lowercase ) OR architecture of it as lowercase = &quot;x86_64&quot; OR architecture of it as lowercase starts with &quot;ppc&quot; ) ) of operating system ) of operating system</Relevance>
+    <Relevance>exists file &quot;/usr/bin/virsh&quot; OR exists file &quot;/usr/local/sbin/virsh&quot; OR exists file &quot;/usr/local/bin/virsh&quot; OR exists file &quot;/sbin/virsh&quot; OR exists file &quot;/bin/virsh&quot; OR exists file &quot;/usr/sbin/virsh&quot; OR exists file &quot;/usr/bin/xl&quot; OR exists file &quot;/usr/local/sbin/xl&quot; OR exists file &quot;/usr/local/bin/xl&quot; OR exists file &quot;/sbin/xl&quot; OR exists file &quot;/bin/xl&quot; OR exists file &quot;/usr/sbin/xl&quot; OR exists file &quot;/opt/xensource/bin/xl&quot;</Relevance>
+    <Relevance>exists file &quot;/bin/bash&quot;</Relevance>
+    <Relevance>exists file &quot;/usr/bin/xmllint&quot; OR exists file &quot;/usr/local/sbin/xmllint&quot; OR exists file &quot;/usr/local/bin/xmllint&quot; OR exists file &quot;/sbin/xmllint&quot; OR exists file &quot;/bin/xmllint&quot; OR exists file &quot;/usr/sbin/xmllint&quot;</Relevance>
+    <Relevance>not exist files &quot;Virt_Domains.lst&quot; of folders &quot;vtech&quot; of folder &quot;LMT&quot; of parent folder of data folder of client</Relevance>
+    <Category>VM Managers</Category>
+    <Source>Andrea_Capasso@it.ibm.com with partial copy of BigFix Inventory task </Source>
+    <SourceReleaseDate>2019-07-16</SourceReleaseDate>
+    <SourceSeverity>High</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 16 Jul 2019 15:38:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "sourceReleaseDate" = "2019-01-08"
+
+if {not (exists parameter "collectHostnames")}
+	parameter "collectHostnames" = "false"
+endif
+parameter "checkDomainfilebase" = "vmman_checkDomain"
+parameter "homefolder" = "{(if (version of client >= "9" as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site "actionsite")) & "/LMT"}"
+parameter "outdir_vtech" = "{(parameter "homefolder" as string) & "/vtech"}"
+parameter "outdir" = "{(parameter "homefolder" as string) & "/VMMAN/upload"}"
+
+parameter "run_checkDomain_script" = "{parameter "outdir_vtech" as string}/run_vtech_check.sh"
+parameter "logfilepath" = "{parameter "outdir_vtech" as string}/run_vtech_checkDomain.log"
+parameter "logfilepath_template" = "{parameter "outdir_vtech" as string}/run_vtech_checkDomain"
+parameter "hostidfilepath" = "{parameter "outdir_vtech" as string}/vmman_host_id"
+
+wait mkdir -p "{parameter "outdir_vtech"}"
+continue if {exit code of action = 0}
+wait mkdir -p "{parameter "outdir"}"
+continue if {exit code of action = 0}
+
+parameter "checkDomainfilepath_previous"   = "{(parameter "outdir_vtech" as string) & "/" & (parameter "checkDomainfilebase" as string) & "_previous.xml" }"
+parameter "checkDomainfilepath_current"   = "{(parameter "outdir_vtech" as string) & "/" & (parameter "checkDomainfilebase" as string) & "_current.xml" }"
+
+// run scanner
+delete "{parameter "run_checkDomain_script" as string}"
+
+createfile until eofdelim
+#!/bin/bash
+
+/etc/init.d/libvirtd start
+
+# Set English locale
+LANG=C
+
+# allow overwrite a file's content by redirecting some output to it (>)
+set +o noclobber
+
+currData=`date -u +"%Y-%m-%d %H:%M:%S UTC"`
+vtechDir="{parameter "outdir_vtech" as string}"
+echo $currData > "$vtechDir/last_checkDomain_attempt.info"
+echo 0 > "$vtechDir/checkDomain_status.info"
+
+#errors of piped commands are ANDed
+set -o pipefail
+
+logMsg()
+{{
+	TS=`date +%Y-%m-%d:%H:%M:%S`
+	echo "$TS $1" >> "{parameter "logfilepath" as string}"
+}
+
+exitMsg()
+{{
+	logMsg "Exiting."
+	echo 2:$1 > "$vtechDir/checkDomain_status.info"
+	exit $1
+}
+
+exitWithError()
+{{
+	logMsg "Command: '$1', failed with error: $2."
+	exitMsg $2
+}
+
+exitWrongResult()
+{{
+	logMsg "Command: '$1', returned wrong result: $2."
+	exitMsg $3
+}
+
+exitIfNotNumber()
+{{
+	if ! [[ "$2" =~ ^[[:digit:]]+$ ]]; then
+		logMsg "A number expected for parameter: $1, while got: $2."
+		exitMsg 40
+	fi
+}
+
+logError()
+{{
+	logMsg "Command: '$1', failed with error: $2. Continuing."
+}
+
+
+if [ -f "{parameter "logfilepath" as string}" ] ; then
+	# 1MB size
+	MAXSIZE=1000000
+	SIZE=$(wc -c "{parameter "logfilepath" as string}" | cut -f 1 -d ' ')
+	if [ $SIZE -ge $MAXSIZE ]; then
+		mv -f "{parameter "logfilepath" as string}" "{parameter "logfilepath_template" as string}_2.log"
+		touch "{parameter "logfilepath" as string}"
+	fi
+else
+	touch "{parameter "logfilepath" as string}"
+fi
+
+logMsg "Starting."
+
+# find available virtualization types:
+VIRT_TYPES="Unknown"
+
+CMD_EXE="virsh --readonly capabilities 2>/dev/null | cat | grep \"domain type\" | sort -u |  cut -f2 -d\' "
+VIRT_TYPES=`eval "$CMD_EXE"`;
+
+echo $VIRT_TYPES > "$vtechDir/Virt_Domains.lst"
+
+exit 0
+eofdelim
+//*********************************** CREATE FILE "run_checkDomain_script" END *********************************** //
+
+move __createfile "{parameter "run_checkDomain_script" as string}"
+wait bash -C "{parameter "run_checkDomain_script" as string}"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

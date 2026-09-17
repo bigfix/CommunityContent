@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: Adobe Flash Player - Disable Flash Player Update - Windows
+  ID       : 3724
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-03T15:23:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Adobe Flash Player - Disable Flash Player Update - Windows</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>The listed computers have Adobe Flash Player installed and configured to check for updates automatically. Deploying the action below will both disable Flash Player Update and disallow the user from re-enabling it through the Settings&nbsp;Manager.</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<P><A href="https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014780737">https://www.ibm.com/developerworks/community/forums/html/topic?id=77777777-0000-0000-0000-000014780737</A></P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(exists folder &quot;macromed\flash&quot; of system folder AND (exists file whose ((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;swflash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder))  OR (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance><![CDATA[(exists folder "macromed\flash" of system folder) AND (exists file whose (((it starts with "flash" and it ends with ".ocx") OR (it = "swflash.ocx")) of (name of it as lowercase) and version of it >= "8.0") of it) of folder "macromed\flash" of system folder]]></Relevance>
+    <Relevance>(it != &quot;WinNT&quot; AND it != &quot;Win95&quot;) of name of operating system</Relevance>
+    <Relevance>not ((exists files &quot;Macromed\Flash\mms.cfg&quot; of it AND (exists lines whose(it contains &quot;AutoUpdateDisable&quot; AND following text of first &quot;=&quot; of it as trimmed string starts with &quot;1&quot; AND preceding text of first &quot;AutoUpdateDisable&quot; of it does not contain &quot;#&quot;) of files &quot;Macromed\Flash\mms.cfg&quot; of it)) of (if(not x64 of operating system) then (system folder) else (system wow64 folder)))</Relevance>
+    <Category>Configuration</Category>
+    <Source>Adobe</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2014-03-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SANSID>N/A</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 20 Jan 2012 03:57:22 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement Configuration Updating 3rdPartyApp Adobe FlashPlayer</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 03 Mar 2014 22:16:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable Flash Player Update.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Store the value of the System 32bit folder
+//     For 32bit systems:  C:\Windows\system32
+//     For 64bit systems:  C:\Windows\SysWOW64
+parameter "sysFolder32" = "{pathname of (if(not x64 of operating system) then (system folder) else (system wow64 folder))}"
+
+// If no MMS.CFG file exists, create one
+if{not exists file (parameter "sysFolder32" & "\Macromed\Flash\mms.cfg")}
+
+// if the Macromed folder does not exist, create it
+if{not exists folder (parameter "sysFolder32" & "\Macromed\")}
+	dos mkdir {parameter "sysFolder32" & "\Macromed\"}
+endif
+
+// if the Macromed/Flash folder does not exist, create it
+if{not exists folder (parameter "sysFolder32" & "\Macromed\Flash")}
+	dos mkdir {parameter "sysFolder32" & "\Macromed\Flash"}
+endif
+
+delete __createfile
+delete mms.cfg
+
+createfile until End_Create_File
+#Disables Adobe Flash auto update
+AutoUpdateDisable = 1
+End_Create_File
+
+move __createfile {parameter "sysFolder32" & "\Macromed\Flash\mms.cfg"}
+
+else
+//If an MMS.CFG file exists, then append "AutoUpdateDisable = 1" to the MMS.CFG file, while removing any other "AutoUpdateDisable"'s
+delete __appendfile
+appendfile {concatenation "%0d%0a" of lines whose (not(it contains "AutoUpdateDisable" AND preceding text of first "AutoUpdateDisable" of it does not contain "#")) of file (parameter "sysFolder32" & "\Macromed\Flash\mms.cfg")}
+appendfile {"%0d%0a"}AutoUpdateDisable = 1
+
+//  Delete backup file if it already exists, otherwise this will fail
+delete "{(parameter "sysFolder32" & "\Macromed\Flash\mms.cfg.bak")}"
+//  Backup existing mms.cfg
+move "{(parameter "sysFolder32" & "\Macromed\Flash\mms.cfg")}" "{(parameter "sysFolder32" & "\Macromed\Flash\mms.cfg.bak")}"
+//  Delete existing mms.cfg if exists (which it should not due to the move above)
+delete {(parameter "sysFolder32" & "\Macromed\Flash\mms.cfg")}
+//  Copy new mms.cfg into place
+copy __appendfile {(parameter "sysFolder32" & "\Macromed\Flash\mms.cfg")}
+
+endif
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

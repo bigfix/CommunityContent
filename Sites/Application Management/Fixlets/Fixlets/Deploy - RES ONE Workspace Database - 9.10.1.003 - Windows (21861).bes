@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy - RES ONE Workspace Database - 9.10.1.003 - Windows
+  ID       : 21861
+  Author   : RES
+  Domain   : RESS
+  Imported : 2016-10-03T16:46:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - RES ONE Workspace Database - 9.10.1.003 - Windows</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace 2015 SR2 Database Server!</P>
+<P>Select an authentication mode for deploying the Database and take action against the endpoint you would like to use to manage the environment through BigFix (Typically the BigFix Server itself).</P>
+<P>Deploying the database requires SQL Command Line Tools and Powershell 2.0. You should always run the Environment Validation fixlet from the device you will be actioning this Fixlet against and make sure the validation succeeds before deploying the database.</P>
+<P><FONT color=#ff0000><STRONG>NOTE: Grayed out settings below&nbsp;are configured via the Environment Configuration section of the Deployment Wizard!</STRONG><BR></FONT>- If you are using "Windows - Only" or&nbsp;"Mixed - Use Windows" the&nbsp;<STRONG>Windows Authentication </STRONG>section <STRONG>must be populated.<BR>- </STRONG>If you are using "SQL- Only" or "Mixed - Use SQL" the <STRONG>SQL Authentication </STRONG>section <STRONG>must be populated.<BR>- </STRONG>If you are using "Mixed - Use Windows" or "Mixed - Use SQL" both the <STRONG>SQL Authentication</STRONG> and <STRONG>Windows Authentication</STRONG> sections <STRONG>must be populated</STRONG>.</P></DIV><script>
+loaded = false;
+var CODE_SITE_NAME = 'BES Support' ;
+function loadScript (siteName, callback) {
+loaded = false;
+var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+var code = EvaluateRelevance(relevanceQuery);
+var head = document.getElementsByTagName("head")[0];
+var script   = document.createElement("script");
+script.type  = "text/javascript";
+script.text = code;
+head.appendChild(script);
+callback();
+}
+function scriptLoaded(){
+if (!loaded){
+if ( typeof FixletUtils !== 'undefined') {
+loaded = true;
+/*
+* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+*/
+var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+var messages = EvaluateRelevance(relQuery);
+var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+var matches = regex.exec(messages);
+matches[1]=matches[1].replace(/<br>/gi,"");
+eval(matches[1]);
+FixletUtils.initFixletRender();
+} } }
+loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>
+<DIV class=FixletProperty></DIV></DIV>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists service &quot;res&quot; /* Agent is not Installed */</Relevance>
+    <Relevance><![CDATA[not exists file ((it & "pwrtech.exe") of (values "InstallDir" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager" of x32 registry as string)) /* Console is not Installed */]]></Relevance>
+    <Relevance>exists files &quot;SQLCMD.exe&quot; of folders (substrings separated by &quot;;&quot; of value of variable &quot;PATH&quot; of environment) or exists (file &quot;SQLCmd.exe&quot; of folder &quot;Microsoft SQL Server\110\Tools\Binn&quot; of program files x64 folder)</Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-10-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-res-release-display-name</Name>
+      <Value>RES ONE Workspace 2015 SR1</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section1&quot; :{
+	&quot;Name&quot;: &quot;Method&quot;,
+	&quot;Title&quot;: &quot;Database Authentication Method&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Authentication&quot;,
+	    &quot;Description&quot;: &quot;Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Windows - Only&quot;,&quot;Mixed - Use Windows&quot;,&quot;Mixed - Use SQL&quot;,&quot;SQL - Only&quot;]
+	}
+	]
+},
+&quot;Section2&quot; : {
+	&quot;Name&quot;: &quot;dbInfo&quot;,
+	&quot;Title&quot;: &quot;Database Information&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbServer&quot;,
+	    &quot;Title&quot;: &quot;Database Server&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbserver\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbName&quot;,
+	    &quot;Title&quot;: &quot;Database Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database on the DB Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+},
+&quot;Section3&quot; : {
+	&quot;Name&quot;: &quot;adWinAuth&quot;,
+	&quot;Title&quot;: &quot;Windows Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;adGroupName&quot;,
+	    &quot;Title&quot;: &quot;Group Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured security group&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;gname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+},
+&quot;Section4&quot; : {
+	&quot;Name&quot;: &quot;SQLAuth&quot;,
+	&quot;Title&quot;: &quot;SQL Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;SQLUser&quot;,
+	    &quot;Title&quot;: &quot;Database User Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Active Directory environment&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbuser\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;SQLPass&quot;,
+	    &quot;Title&quot;: &quot;Database User Password&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured security group&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;Encrypt&quot;: &quot;true&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbpwd\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+}
+}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:51 +0000</Value>
+    </MIMEField>
+    <Domain>RESS</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this task.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-10-03
+prefetch RES-ONE-Workspace.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
+prefetch Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha1:71B269170D2288689F295FEE57C7C7E47799CBFB size:6132584 http://downloads.ressoftware.com/downloads/cdm/040116/Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha256:70A250F4F7B2B14B332AC4E1919A9329CA5B8B7DB2814791965BC9A32A347B0F
+
+//
+// DEBUG ONLY
+//
+
+// action log all
+
+//
+// Setup
+//
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+parameter "SQLCMDExe"="{tuple string item 0 of concatenations "," of pathnames of files "SQLCMD.exe" of folders (substrings separated by ";" of value of variable "PATH" of environment) | pathname of (file "SQLCmd.exe" of folder "Microsoft SQL Server\110\Tools\Binn" of program files x64 folder)}"
+
+//
+// Validation
+//
+continue if {parameter "dbAuthMethod" of action != ""}
+continue if {parameter "dbServer" of action != ""}
+continue if {parameter "dbName" of action != ""}
+
+if {parameter "dbAuthMethod" of action = "Windows - Only"}
+	continue if {parameter "adGroupName" of action != "" or parameter "adGroupName" of action as string does not contain "\"}
+elseif {parameter "dbAuthMethod" of action starts with "Mixed - "}
+	continue if {parameter "adDomainName" of action != ""}
+	continue if {parameter "adGroupName" of action != ""}
+	continue if {parameter "SQLUser" of action != ""}
+	continue if {parameter "SQLPass" of action != ""}
+elseif {parameter "dbAuthMethod" of action = "SQL - Only"}
+	continue if {parameter "SQLUser" of action != ""}
+	continue if {parameter "SQLPass" of action != ""}
+endif
+
+//
+// Provision Database
+//
+
+// We will use this for the connection when provisioning the database
+if {parameter "dbAuthMethod" of action = "SQL - Only" or parameter "dbAuthMethod" of action = "Mixed - Use SQL"}
+	parameter "SQLConnAuth"="-U {"%22"}{parameter "SQLUser" of action}{"%22"} -P {"%22"}{parameter "SQLPass" of action}{"%22"}"
+	parameter "PSSQLConnAuth"="-Username {"%22"}{parameter "SQLUser" of action}{"%22"} -Password {"%22"}{parameter "SQLPass" of action}{"%22"}"
+	parameter "RESConnAuth"="DBTYPE=MSSQL DBSERVER={"%22"}{parameter "DBServer" of action}{"%22"} DBNAME={"%22"}{parameter "DBName" of action}{"%22"} DBUSER={"%22"}{parameter "SQLUser" of action}{"%22"} DBPASSWORD={"%22"}{parameter "SQLPass" of action}{"%22"}"
+elseif {parameter "dbAuthMethod" of action = "Windows - Only" or parameter "dbAuthMethod" of action = "Mixed - Use Windows"}
+	parameter "SQLConnAuth"="-E"
+	parameter "PSSQLConnAuth"=""
+	parameter "RESConnAuth"=""
+endif
+
+// We will use these to provision access to the database
+parameter "DomainLogin"="{parameter "adDomainName" of action}\{parameter "adGroupName" of action}"
+
+if {parameter "dbAuthMethod" of action = "SQL - Only" or parameter "dbAuthMethod" of action starts with "Mixed - "}
+	parameter "SQLLogin"="{parameter "SQLUser" of action}"
+endif
+
+
+delete __appendfile
+delete createdb.sql
+
+appendfile create database [{parameter "dbName" of action}]
+
+appendfile go
+
+move __appendfile createdb.sql
+
+override wait
+hidden=true
+completion=job
+wait "{parameter "SQLCMDExe"}" -S "{parameter "DBServer" of action}" {parameter "SQLConnAuth"} -i "createdb.sql" -o "createdb.log"
+
+// If your action fails here, the SQL user being used has an invalid default database set.
+continue if {not exists line containing "Cannot open user default database." of file "createdb.log" of client folder of current site}
+
+
+//
+// Install Workspace
+//
+override wait
+hidden=true
+completion=job
+wait msiexec /i __Download\RES-ONE-Workspace.msi /qn {parameter "RESConnAuth"}
+
+//
+// Configure Connection Details for PWRTech.exe
+//
+if {parameter "dbAuthMethod" of action = "Windows - Only" or parameter "dbAuthMethod" of action starts with "Mixed"}
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBType"="MSSQL"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBName"="{parameter "DBName" of action}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBServer"="{concatenations "\\" of substrings separated by "\" of (parameter "DBServer" of action)}"
+endif
+
+
+
+// Capture Installation Directory
+parameter "InstallDir"="{(value "InstallDir" of key "HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager" of x32 registry as string) | ""}"
+continue if {exists parameter "InstallDir" and length of parameter "InstallDir" > 2}
+
+// Initialize Workspace Manager and Add Management Group
+waithidden cmd.exe /c ""{parameter "InstallDir"}pwrtech.exe" /FIPS /createtables /ADDGROUPTOTECHMGR={parameter "adDomainName" of action}\{parameter "adGroupName" of action}"
+
+delete __createfile
+delete setpwdhash.ps1
+
+createfile until _end_
+
+function Hash($textToHash)
+{
+    $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider
+
+    $toHash = [System.Text.Encoding]::UTF8.GetBytes($textToHash)
+
+    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash($toHash))) -replace ("-","")
+
+    return $Hashstring
+}
+
+$PWD = Hash (([GUID]::NewGuid()).guid)
+
+& "{parameter "InstallDir"}pwrtech.exe" /sethashedpassword="$PWD"
+
+_end_
+
+move __createfile setpwdhash.ps1
+
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -File setpwdhash.ps1
+
+
+//
+// Grant access to Technical Managers
+//
+
+delete __appendfile
+delete grantaccess.sql
+
+appendfile USE [master]
+
+if {parameter "dbAuthMethod" of action = "SQL - Only" or parameter "dbAuthMethod" of action starts with "Mixed"}
+appendfile create login [{parameter "SQLLogin"}] WITH PASSWORD = '{parameter "SQLPass" of action}'
+endif
+
+appendfile create login [{parameter "DomainLogin"}] from windows
+
+
+appendfile go
+
+appendfile USE [{parameter "dbName" of action}];
+
+if {parameter "dbAuthMethod" of action = "SQL - Only" or parameter "dbAuthMethod" of action starts with "Mixed"}
+appendfile ALTER LOGIN [{parameter "SQLLogin"}] WITH DEFAULT_DATABASE=[{parameter "dbName" of action}], DEFAULT_LANGUAGE=[us_english]
+appendfile CREATE USER [{parameter "SQLLogin"}] from login [{parameter "SQLLogin"}]
+appendfile exec sp_addrolemember 'db_owner' , [{parameter "SQLLogin"}]
+endif
+
+appendfile ALTER LOGIN [{parameter "DomainLogin"}] WITH DEFAULT_DATABASE=[{parameter "dbName" of action}], DEFAULT_LANGUAGE=[us_english]
+appendfile CREATE USER [{following text of first "\" of parameter "adGroupName"}] from login [{parameter "adGroupName"}]
+appendfile exec sp_addrolemember 'db_owner' , [{parameter "adGroupName"}]
+
+appendfile go
+
+move __appendfile grantaccess.sql
+
+override wait
+hidden=true
+completion=job
+wait "{parameter "SQLCMDExe"}" -S "{parameter "DBServer" of action}" {parameter "SQLConnAuth"} -i "grantaccess.sql" -o "grantaccess.log"
+
+
+//
+// Configure Default Log Retention
+//
+
+delete __createfile
+delete logretention.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<respowerfuse>
+	<version>9.9.2.3</version>
+	<buildingblock>
+		<advancedsettings>
+			<keeplogs>90</keeplogs>
+		</advancedsettings>
+	</buildingblock>
+</respowerfuse>
+_end_
+
+move __createfile logretention.xml
+
+waithidden "{parameter "InstallDir"}\pwrtech.exe" /add /overwrite logretention.xml
+
+
+
+//
+// Set Account Names
+//
+
+delete __createfile
+delete accountnames.xml
+
+createfile until _end_
+<?xml version="1.0"?>
+<respowerfuse>
+	<version>9.10.0.0</version>
+	<buildingblock>
+		<directoryservices>
+			<directoryservice>
+				<allowquery>no</allowquery>
+				<type>ad</type>
+				<usetokenbag>no</usetokenbag>
+				<tokenbagexception>no</tokenbagexception>
+				<mountpoint/>
+				<queryusername/>
+				<querypassword/>
+				<name></name>
+				<netbiosdomain resolved="yes"></netbiosdomain>
+				<domainlocalgroups>yes</domainlocalgroups>
+				<groupnesting>yes</groupnesting>
+				<usedisplaynames>no</usedisplaynames>
+				<accesscontrol>accountnames</accesscontrol>
+				<guid></guid>
+				<enabled>yes</enabled>
+			</directoryservice>
+		</directoryservices>
+	</buildingblock>
+</respowerfuse>
+_end_
+
+move __createfile accountnames.xml
+
+waithidden "{parameter "InstallDir"}\pwrtech.exe" /add /overwrite accountnames.xml
+
+waithidden "__Download\Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe"
+notify client forcerefresh
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

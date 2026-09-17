@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RES2BES SOAP Connector
+  ID       : 10554
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-03-24T05:00:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RES2BES SOAP Connector</Title>
+    <Description><![CDATA[
+      This task will deploy the RES2BES utility application to the designated RES IEM Integration Endpoint. <script>document.body.ontakeaction = function() {
+	var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	var dbname = EvaluateRelevance('(if (exists shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	var soapurl = EvaluateRelevance('(if (exists shared variable "soapurl" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "soapurl" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	var soapuser = EvaluateRelevance('(if (exists shared variable "soapuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "soapuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	var soappw = EvaluateRelevance('(if (exists shared variable "soappw" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "soappw" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+
+	TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1", { SOAPURL: soapurl, SOAPUSER: soapuser, DBServer: dbserver, DBName: dbname }, { SOAPPW: soappw } );
+	return false;
+}</script>
+    ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists setting &quot;RES_IEM_Integration_Endpoint&quot; whose (value of it = &quot;1&quot;) of client</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Relevance><![CDATA[not exists file (pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160321-102103
+
+
+prefetch Newtonsoft.Json.dll sha1:b087180286743cb8666032d384a95f344f547729 size:401920 http://downloads.ressoftware.com/downloads/cdm/Newtonsoft.Json.txt
+prefetch RES2BES.exe sha1:983b8b5cbe5607b7151cb9e3ce84fce9ffbe3ede size:33792 http://downloads.ressoftware.com/downloads/cdm/040116/RES2BES.exe
+action parameter query "SOAPURL" with description "Please enter the SOAP URL (http://bigfixserver:80/soap)"
+action parameter query "SOAPUSER" with description "Please enter the SOAP User Name"
+action parameter query "SOAPPW" with description "Please enter the SOAP password"
+action parameter query "DBServer" with description "Please enter the SQL server where the workspace manager resides"
+action parameter query "DBName" with description "Please enter the workspace manager database name (WorkspaceManager)"
+
+parameter "install_path"="{(pathname of parent folder of parent folder of file of service "res" & "\RES2BES\")}"
+
+
+
+delete __createfile
+delete "{parameter "install_path"}settings.config"
+delete "{parameter "install_path"}Newtonsoft.Json.dll"
+delete "{parameter "install_path"}RES2BES.exe"
+delete "{parameter "install_path"}RES2BES.exe.config"
+
+createfile until __EOF__
+<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <APIUrl>{parameter "SOAPURL" of action}</APIUrl>
+  <Username>{parameter "SOAPUSER" of action}</Username>
+  <Password>tbd</Password>
+  <ConnectionString>Data Source={parameter "DBServer" of action};Initial Catalog={parameter "DBName" of action};Integrated Security=True</ConnectionString>
+  <DashboardId_Whitelist>Whitelist.ojo</DashboardId_Whitelist>
+  <DashboardId_Baseline>RESBaselineWizard.ojo</DashboardId_Baseline>
+  <DashboardId_Deployment>RESDeploymentWizard.ojo</DashboardId_Deployment>
+  <DashboardVariableName_Whitelist>WhiteList</DashboardVariableName_Whitelist>
+  <DashboardVariableName_Containers>Containers</DashboardVariableName_Containers>
+  <DashboardVariableName_TimeStamp>TimeStamp</DashboardVariableName_TimeStamp>
+</Config>
+
+__EOF__
+
+waithidden cmd /c mkdir "{parameter "install_path"}"
+
+copy __createfile "{parameter "install_path"}settings.config"
+copy __Download\Newtonsoft.Json.dll "{parameter "install_path"}Newtonsoft.Json.dll"
+copy __Download\RES2BES.exe "{parameter "install_path"}RES2BES.exe"
+
+delete __createfile
+
+createfile until __EOF__
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="RelevanceBinding" />
+                <binding name="UserManagementBinding" />
+                <binding name="DashboardVariableBinding" />
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="RelevanceBinding" contract="BigFixAPI.RelevancePortType"
+                name="RelevancePort" />
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="UserManagementBinding" contract="BigFixAPI.UserManagementPortType"
+                name="UserManagementPort" />
+            <endpoint address="{parameter "SOAPURL" of action}" binding="basicHttpBinding"
+                bindingConfiguration="DashboardVariableBinding" contract="BigFixAPI.DashboardVariablePortType"
+                name="DashboardVariablePort" />
+        </client>
+    </system.serviceModel>
+</configuration>
+__EOF__
+
+copy __createfile "{parameter "install_path"}RES2BES.exe.config"
+
+waithidden cmd.exe /c {"%22" & name of drive of folder (pathname of parent folder of parent folder of file of service "res") & " %26 cd" & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes%22" & " %26" & " %22"  & pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe%22" & " -u " & parameter "SOAPUSER" of action & " -p " & parameter "SOAPPW" of action &" %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}"
+
+
+delete {" %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}
+
+move {" %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\" & parameter "SOAPUSER" of action & " %22"} {" %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}
+
+wait {"%22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe%22" & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

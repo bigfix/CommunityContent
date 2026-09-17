@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy Logic Pro X Additional Content - Mac OS X
+  ID       : 3796
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-06-27T11:55:06
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy Logic Pro X Additional Content - Mac OS X</Title>
+    <Description><![CDATA[Metadata - <A href="http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist">http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist</A> ]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2014-06-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 27 Jun 2014 18:53:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch GarageBandBasicContent.pkg sha1:819393edefdee5cb6cf82a71bd3176afb24692ec size:1572867270 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/GarageBandBasicContent.pkg
+prefetch JamPack1.pkg sha1:7adb56645d2683b1cee616709d9f2596a4625b1a size:254313626 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/JamPack1.pkg
+prefetch JamPack4_Instruments.pkg sha1:a43234bd0bd558f4f72a83289c1f5cf507125e7f size:443072706 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/JamPack4_Instruments.pkg
+prefetch MAContent10_AppleLoopsChillwave.pkg sha1:b3b9e43e34b1bbc06c1d5b7de4bdebfe81d51a18 size:138065952 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsChillwave.pkg
+prefetch MAContent10_AppleLoopsDeepHouse.pkg sha1:f3eeb22cbc71dd391526182b519d3ffe64faf7a7 size:29885618 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsDeepHouse.pkg
+prefetch MAContent10_AppleLoopsDubstep.pkg sha1:88a575fe99463d5985ccd6e817292fd9d56b0d80 size:92365010 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsDubstep.pkg
+prefetch MAContent10_AppleLoopsElectroHouse.pkg sha1:5cc4601f697c6cfea31ec4298849f4c3751e494e size:160434899 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsElectroHouse.pkg
+prefetch MAContent10_AppleLoopsHipHop.pkg sha1:d80bab0faf3ddb96c6f79ed0a531b4a0ea4fbce8 size:232461287 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsHipHop.pkg
+prefetch MAContent10_AppleLoopsLegacy1.pkg sha1:522e20ffd3683481bd393b578a508b45df09b9bc size:448385015 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacy1.pkg
+prefetch MAContent10_AppleLoopsLegacyRemix.pkg sha1:c474d5d5b4ea80b8f9fe3f8331fe595850a7cf4a size:411309766 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacyRemix.pkg
+prefetch MAContent10_AppleLoopsLegacyRhythm.pkg sha1:017792767b67d35bbdc0d984a8e0882616b7cab3 size:379717508 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacyRhythm.pkg
+prefetch MAContent10_AppleLoopsLegacySymphony.pkg sha1:e2be2ae9b1903d310273bd86f1fef04eefb00147 size:655206404 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacySymphony.pkg
+prefetch MAContent10_AppleLoopsLegacyVoices.pkg sha1:1d4e5346319fb34b1dfa956f7161a7f862b49808 size:301367795 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacyVoices.pkg
+prefetch MAContent10_AppleLoopsLegacyWorld.pkg sha1:1c23b7b423fcb7b1ed95d4a368ae6ba2ebdfe373 size:577679306 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsLegacyWorld.pkg
+prefetch MAContent10_AppleLoopsModernRnB.pkg sha1:264f4f62fd2fba38776e1a968a5f572eeb965898 size:127938605 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsModernRnB.pkg
+prefetch MAContent10_AppleLoopsTechHouse.pkg sha1:686273939446da1e1a48c1f9bc562e8bea77e01d size:90638470 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_AppleLoopsTechHouse.pkg
+prefetch MAContent10_ElectronicDrumKits.pkg sha1:b4427bde47bf2ce00715dbbd1afc350d1c2e41fc size:92896736 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ElectronicDrumKits.pkg
+prefetch MAContent10_GarageBand6Legacy.pkg sha1:96e756c791661620d3674aeb64ba304de2e72bbe size:1193594198 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_GarageBand6Legacy.pkg
+prefetch MAContent10_InstrumentsBass.pkg sha1:2612a6fa3566deea231255542e3db1091cec2070 size:409751011 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsBass.pkg
+prefetch MAContent10_InstrumentsGuitar.pkg sha1:9325a1b32364b279821768f45a2cca1fe154ca89 size:143544338 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsGuitar.pkg
+prefetch MAContent10_InstrumentsMallet.pkg sha1:33d89e5c2dfc7a6ffb4535d7bccf32e9e259e844 size:338641255 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsMallet.pkg
+prefetch MAContent10_InstrumentsOrchestralBrass.pkg sha1:77e0146bc77a242efa29d8b65c046e44d5786b2c size:208055750 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralBrass.pkg
+prefetch MAContent10_InstrumentsOrchestralChoir.pkg sha1:4075769c1ec1b0e362e6c138bb7b48514b0812b7 size:429402975 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralChoir.pkg
+prefetch MAContent10_InstrumentsOrchestralHarp.pkg sha1:d26f0b79057714d37beeb7b9aba76aeeb158de2e size:49962796 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralHarp.pkg
+prefetch MAContent10_InstrumentsOrchestralKeyboard.pkg sha1:38b314b70a6f82de1ff177641193a94bf399d678 size:56908452 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralKeyboard.pkg
+prefetch MAContent10_InstrumentsOrchestralPercussion.pkg sha1:4866126afbf4afae4cb7153f27df7f2f6b3cbf0e size:290555074 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralPercussion.pkg
+prefetch MAContent10_InstrumentsOrchestralPipeOrgan.pkg sha1:dba2bf3cb581c87bcd96593638cfbcd851785476 size:323653581 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralPipeOrgan.pkg
+prefetch MAContent10_InstrumentsOrchestralStrings.pkg sha1:59329b3ef8bf6949ea3f03cf70ed7c0496627908 size:837290847 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralStrings.pkg
+prefetch MAContent10_InstrumentsOrchestralWoodwinds.pkg sha1:0f1001b4790108945d5e33d1c590e19a47f3c2ca size:326225686 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsOrchestralWoodwinds.pkg
+prefetch MAContent10_InstrumentsPiano.pkg sha1:d1df57ff854f5b127006691998b4ba0b9460b8c3 size:1062200247 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsPiano.pkg
+prefetch MAContent10_InstrumentsWorldKeyboards.pkg sha1:8689a00be841403402fcd0841cbc5c4472636296 size:316891520 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsWorldKeyboards.pkg
+prefetch MAContent10_InstrumentsWorldPercussion.pkg sha1:0a20e45ea11bdff554da17ad1f3ad1c4d1af81b6 size:1025698311 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsWorldPercussion.pkg
+prefetch MAContent10_InstrumentsWorldStringed.pkg sha1:fe74c69039aa2af8c6c2235b789b79c4cdd5964e size:996469886 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsWorldStringed.pkg
+prefetch MAContent10_InstrumentsWorldVoice.pkg sha1:6c7e43b0ee8282a7a274537ccea95b2eadf11412 size:64411105 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsWorldVoice.pkg
+prefetch MAContent10_InstrumentsWorldWoodwind.pkg sha1:e04a1fd27c098cb047c827113c321c7c756298fa size:416508596 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_InstrumentsWorldWoodwind.pkg
+prefetch MAContent10_IRsStereo.pkg sha1:9becfc389cc7ce5a010d321a2d1deb55f845a57f size:679298334 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_IRsStereo.pkg
+prefetch MAContent10_IRsSurround.pkg sha1:0c421829620ba2d55a4692a9dace8dd0b4a11099 size:506758576 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_IRsSurround.pkg
+prefetch MAContent10_Logic9Legacy.pkg sha1:19d0e1988f832790fb9d3a385603fbc583ccf339 size:2548058487 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_Logic9Legacy.pkg
+prefetch MAContent10_ProducerBirchKit.pkg sha1:73fba51e763f0ff638a4ae29a68c97e18f30d333 size:1221147042 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerBirchKit.pkg
+prefetch MAContent10_ProducerClassicSixtiesKit.pkg sha1:af0b5bf86edeceeaff6ee9bca43881401c0ada5d size:1131815007 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerClassicSixtiesKit.pkg
+prefetch MAContent10_ProducerModernMapleKit.pkg sha1:f6203dfdac9a6b465fd97cc4fa952a9dc82a6d51 size:1008826868 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerModernMapleKit.pkg
+prefetch MAContent10_ProducerPatches.pkg sha1:01ec540f044a168df27fcc29fc024b7b4be67d5c size:1295558 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerPatches.pkg
+prefetch MAContent10_ProducerPawnShopKit.pkg sha1:81e714bfc01859ae252c355218d9abf849570253 size:1054953335 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerPawnShopKit.pkg
+prefetch MAContent10_ProducerSeventiesPlexiKit.pkg sha1:6c099853353204521b70420be81d34fe38b916d7 size:1225208274 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerSeventiesPlexiKit.pkg
+prefetch MAContent10_ProducerStadiumKit.pkg sha1:bd8a1cd5277a23b29676bc38c4b43c13106685eb size:1231095378 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerStadiumKit.pkg
+prefetch MAContent10_ProducerStudioKit.pkg sha1:dbe05a8c664fedcd6999affea9a721203b7d4fbd size:1008154389 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerStudioKit.pkg
+prefetch MAContent10_ProducerTightMapleKit.pkg sha1:9b1fafeda29448eef83ec71c045d298ab4cc4aa3 size:1230454039 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_ProducerTightMapleKit.pkg
+prefetch MAContent10_StereoDrumKitsAlternative.pkg sha1:7bab81029cf19ed4cc544cbf240c3d0793976552 size:1450087514 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_StereoDrumKitsAlternative.pkg
+prefetch MAContent10_StereoDrumKitsRnB.pkg sha1:56b4cd1b9f5775f56bd56943b8b61061b2da5217 size:1200164449 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_StereoDrumKitsRnB.pkg
+prefetch MAContent10_StereoDrumKitsRock.pkg sha1:cc6ae92233fe94c26e816fdd090b93c2d984740e size:1768883841 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_StereoDrumKitsRock.pkg
+prefetch MAContent10_StereoDrumKitsSongwriter.pkg sha1:bcfdc179e518f5299d7b98dcbc075c05b5a990a8 size:1758011149 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_StereoDrumKitsSongwriter.pkg
+prefetch MGBContentCompatibility.pkg sha1:504ee1032ca9d5cd6f40cbda478115054e0bff10 size:387530483 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MGBContentCompatibility.pkg
+prefetch ProAudioCoreContent10.pkg sha1:a5ba79b1f90da9d503c977f306854bd29e2d71f0 size:1846244537 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/ProAudioCoreContent10.pkg
+prefetch RemixTools_Instruments.pkg sha1:81772c2166ff1f8517b4263611c89a58272d1c17 size:507801527 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/RemixTools_Instruments.pkg
+prefetch RhythmSection_Instruments.pkg sha1:70e805a0a89c20d7d9436e1e784fdc3d8d517487 size:1309809333 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/RhythmSection_Instruments.pkg
+prefetch Voices_Instruments.pkg sha1:db8fa92fc2ff4dc25618f6bbb3ea12b70b8dd6c3 size:253559454 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/Voices_Instruments.pkg
+prefetch WorldMusic_Instruments.pkg sha1:22e1a1ee9b42a6c74aa32c9b109c5f66826c2ae0 size:115699349 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/WorldMusic_Instruments.pkg
+prefetch MAContent10_StereoDrumKitsRockB.pkg sha1:0e569ed972d366bdff092591cd1214f6be6d4612 size:407638425 http://audiocontentdownload.apple.com/lp10_ms3_content_2013/MAContent10_StereoDrumKitsRockB.pkg
+
+wait /usr/sbin/installer -pkg &quot;__Download/JamPack1.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/JamPack4_Instruments.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsChillwave.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsDeepHouse.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsDubstep.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsElectroHouse.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsHipHop.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacy1.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacyRemix.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacyRhythm.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacySymphony.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacyVoices.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsLegacyWorld.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsModernRnB.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_AppleLoopsTechHouse.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ElectronicDrumKits.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_GarageBand6Legacy.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_IRsStereo.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_IRsSurround.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsBass.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsGuitar.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsMallet.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralBrass.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralChoir.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralHarp.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralKeyboard.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralPercussion.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralPipeOrgan.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralStrings.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsOrchestralWoodwinds.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsPiano.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsWorldKeyboards.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsWorldPercussion.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsWorldStringed.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsWorldVoice.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_InstrumentsWorldWoodwind.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_Logic9Legacy.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerBirchKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerClassicSixtiesKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerModernMapleKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerPatches.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerPawnShopKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerSeventiesPlexiKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerStadiumKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerStudioKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_ProducerTightMapleKit.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_StereoDrumKitsAlternative.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_StereoDrumKitsRnB.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_StereoDrumKitsRock.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_StereoDrumKitsSongwriter.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MGBContentCompatibility.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/ProAudioCoreContent10.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/RemixTools_Instruments.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/RhythmSection_Instruments.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/Voices_Instruments.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/WorldMusic_Instruments.pkg&quot; -target /
+wait /usr/sbin/installer -pkg &quot;__Download/MAContent10_StereoDrumKitsRockB.pkg -target /</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

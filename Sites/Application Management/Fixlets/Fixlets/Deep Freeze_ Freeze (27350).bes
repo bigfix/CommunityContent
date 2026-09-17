@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deep Freeze: Freeze
+  ID       : 27350
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-07-07T13:26:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deep Freeze: Freeze</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Enter Deep Freeze password to freeze device. This fixlet uses secure parameters to safely send the password to the device.<script>
+loaded = false;
+var CODE_SITE_NAME = 'BES Support' ;
+function loadScript (siteName, callback) {
+loaded = false;
+var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+var code = EvaluateRelevance(relevanceQuery);
+var head = document.getElementsByTagName("head")[0];
+var script   = document.createElement("script");
+script.type  = "text/javascript";
+script.text = code;
+head.appendChild(script);
+callback();
+}
+function scriptLoaded(){
+if (!loaded){
+if ( typeof FixletUtils !== 'undefined') {
+loaded = true;
+/*
+* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+*/
+var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+var messages = EvaluateRelevance(relQuery);
+var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+var matches = regex.exec(messages);
+matches[1]=matches[1].replace(/<br>/gi,"");
+eval(matches[1]);
+FixletUtils.initFixletRender();
+} } }
+loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>&nbsp;</P>
+<P>On success, devices will report back "Not Relevant"</P>
+</DIV></DIV>]]></Description>
+    <Relevance>exists file (&quot;/usr/local/bin/deepfreeze&quot;;&quot;C:\Windows\syswow64\DFC.exe&quot;)</Relevance>
+    <Relevance>if (windows of operating system) then (value &quot;DF Status&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Faronics\Deep Freeze 6&quot; of (x32 registries) as string is &quot;Thawed&quot;) else (not boolean &quot;Frozen&quot; of dictionaries of file &quot;/Library/Application Support/Faronics/Private/StorageSpace/DeepFreeze/com.faronics.deepfreezed.plist&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2024-06-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{    &quot;dfPassword&quot;: {     &quot;Name&quot;: &quot;dfPassword&quot;,     &quot;Title&quot;: &quot;Password:&quot;,     &quot;Description&quot;: &quot;Enter the Deep Freeze password&quot;,     &quot;UIType&quot;: &quot;Textbox&quot;,     &quot;Required&quot;:&quot;1&quot;,     &quot;Encrypt&quot; : &quot;true&quot;,     &quot;SubUIType&quot; : &quot;Password&quot;    }      }</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 05 Jul 2024 22:56:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+
+if {windows of operating system}
+waithidden cmd.exe /C echo %DATE% %TIME% >> "{parameter "mainSWDLogFolder"}\{parameter "logFile"}"
+waithidden cmd.exe /C echo Action ID: {id of active action} >> "{parameter "mainSWDLogFolder"}\{parameter "logFile"}"
+
+waithidden C:\Windows\SysWOW64\DFC.exe {parameter "dfPassword"} /FREEZENEXTBOOT >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+parameter "error" = "{exit code of action}"
+waithidden cmd.exe /C echo Return Code: {parameter "error"} >> "{parameter "mainSWDLogFolder"}\{parameter "logFile"}"
+waithidden cmd.exe /C echo. >> "{parameter "mainSWDLogFolder"}\{parameter "logFile"}"
+
+action requires restart "Freeze computer"
+restart 10
+
+elseif {mac of operating system}
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+wait sh -c "DFXPSWD='{parameter "dfPassword"}' /usr/local/bin/deepfreeze freeze --computer --env >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+parameter "error" = "{exit code of action}"
+wait sh -c "echo Return Code: {parameter "error"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+endif
+exit {parameter "error"}]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>
