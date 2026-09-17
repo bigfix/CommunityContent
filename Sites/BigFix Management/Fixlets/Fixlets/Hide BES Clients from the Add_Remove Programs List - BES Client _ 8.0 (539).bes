@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Hide BES Clients from the Add/Remove Programs List - BES Client < 8.0
+  ID       : 539
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Hide BES Clients from the Add/Remove Programs List - BES Client &lt; 8.0</Title>
+    <Description><![CDATA[
+The standard BES Client installation package will list the BES Client in the Windows "Add/Remove Programs" Tool. Any user logged in with sufficient privileges can see and remove the BES Client using "Add/Remove Programs". Use the action below to remove the BES Client entry from the "Add/Remove Programs" list.<BR><BR><b>Note:</b> After applying this action, Task #252 will become relevant and will allow you to restore the BES Client entry to the "Add/Remove Programs" list.<BR><BR><b>Note:</b> On BES Client upgrades, the BES Client entry will be automatically restored to the "Add/Remove Programs" list. To prevent this from happening, you can apply this action as a "policy" action.
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[((if (version of client >= "8.0") then (windows of it) else (name of it starts with "Win")) AND platform id of it != 3) of operating system]]></Relevance>
+    <Relevance><![CDATA[version of client < "8.0"]]></Relevance>
+    <Relevance>exists key whose (exists value &quot;DisplayName&quot; of it AND value &quot;DisplayName&quot; of it = &quot;BigFix Enterprise Client&quot; AND name of it starts with &quot;{&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Relevance>not exists key &quot;HKEY_CLASSES_ROOT\Installer\Products\CB3207FBB9131EF45B968C451AF9188F&quot; of registry</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 03 Feb 2005 17:59:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to hide the BES Client from the &quot;Add/Remove Programs&quot; list.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;guid&quot; = &quot;{(name of it) of (key whose (value &quot;DisplayName&quot; of it = &quot;BigFix Enterprise Client&quot; and name of it starts with &quot;{&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry)}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{parameter &quot;guid&quot;}]&quot; &quot;RemovedDisplayName&quot;=&quot;BigFix Enterprise Client&quot;
+continue if {exists key whose (exists value &quot;RemovedDisplayName&quot; of it and value &quot;RemovedDisplayName&quot; of it = &quot;BigFix Enterprise Client&quot; and name of it starts with &quot;{&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry}
+regdelete &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{parameter &quot;guid&quot;}]&quot; &quot;DisplayName&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action415">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for information on how to make this action a &quot;policy&quot; action that will automatically open the BES port on any computer that has this Fixlet message relevant. </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/cgi-bin/kbdirect.pl?id=113</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : OSD - Disable  Windows Store Updates
+  ID       : 26664
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2020-02-13T11:34:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>OSD - Disable Windows Store Updates</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>operating system as string contains &quot;Win10&quot;</Relevance>
+    <Relevance>NOT exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore&quot; whose (value &quot;AutoDownload&quot; of it = 2) of x64 registry</Relevance>
+    <Category>OSD</Category>
+    <Source>Brad Sexton</Source>
+    <SourceReleaseDate>2019-03-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 13 Feb 2020 19:33:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">dos reg add HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore /v AutoDownload /t REG_DWORD /d 2 /f</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

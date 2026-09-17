@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Production Client Performance Settings
+  ID       : 87
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Production Client Performance Settings</Title>
+    <Description><![CDATA[The settings contained within this policy are designed for the production environment.&nbsp; ]]></Description>
+    <Relevance>host name of root server as string as lowercase contains &quot;master.bigfix.me&quot;</Relevance>
+    <Relevance>if name of operating system as lowercase starts with &quot;win&quot; then   (exists setting &quot;_BESClient_Resource_WorkIdle&quot; whose (value of it != &quot;20&quot;) of client)  OR (exists setting &quot;_BESClient_Resource_SleepIdle&quot; whose (value of it != &quot;480&quot;) of client)  OR (exists setting &quot;_BESClient_Report_MinimumInterval&quot; whose (value of it != &quot;900&quot;) of client)  OR (exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose (value of it != &quot;1&quot;) of client)  OR (exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; whose (value of it != &quot;3600&quot;) of client)  OR (exists setting &quot;_BESClient_Register_IntervalSeconds&quot; whose (value of it != &quot;41400&quot;) of client)  OR (exists setting &quot;_BESClient_RelaySelect_IntervalSeconds&quot; whose (value of it != &quot;302400&quot;) of client)  OR (exists setting &quot;_BESClient_RelaySelect_ResistFailureIntervalSeconds&quot; whose (value of it != &quot;10800&quot;) of client) else  (exists setting &quot;_BESClient_Resource_WorkIdle&quot; whose (value of it != &quot;10&quot;) of client)  OR (exists setting &quot;_BESClient_Resource_SleepIdle&quot; whose (value of it != &quot;480&quot;) of client)  OR (exists setting &quot;_BESClient_Report_MinimumInterval&quot; whose (value of it != &quot;1800&quot;) of client)  OR (exists setting &quot;_BESClient_Comm_CommandPollEnable&quot; whose (value of it != &quot;1&quot;) of client)  OR (exists setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot; whose (value of it != &quot;86400&quot;) of client)  OR (exists setting &quot;_BESClient_Register_IntervalSeconds&quot; whose (value of it != &quot;82800&quot;) of client)  OR (exists setting &quot;_BESClient_RelaySelect_IntervalSeconds&quot; whose (value of it != &quot;604800&quot;) of client)  OR (exists setting &quot;_BESClient_RelaySelect_ResistFailureIntervalSeconds&quot; whose (value of it != &quot;21600&quot;) of client)</Relevance>
+    <Category>BES Client Settings</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-02-14</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Aug 2012 21:11:28 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;IsRelayRunning&quot;=&quot;{if name of operating system as lowercase starts with &quot;win&quot; then exists running application &quot;BESRelay.exe&quot; else False}&quot;
+if {parameter &quot;IsRelayRunning&quot; as boolean}
+	//Work/Sleep Speed settings milliseconds
+	setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;20&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;480&quot; on &quot;{now}&quot; for client
+	//update action status (15min)
+	setting &quot;_BESClient_Report_MinimumInterval&quot;=&quot;900&quot; on &quot;{now}&quot; for client
+	//enable upline querying for cmds (60min)
+	setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;3600&quot; on &quot;{now}&quot; for client
+	//setup Register/Heartbeat (11.5hrs) and ForceRelaySelect (3.5days) settings
+	setting &quot;_BESClient_Register_IntervalSeconds&quot;=&quot;41400&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_RelaySelect_IntervalSeconds&quot;=&quot;302400&quot; on &quot;{now}&quot; for client
+	//if com failures occurs, then resist the urge to failover for 3 hours.
+	setting &quot;_BESClient_RelaySelect_ResistFailureIntervalSeconds&quot;=&quot;10800&quot; on &quot;{now}&quot; for client
+else
+	//Work/Sleep Speed settings milliseconds
+	setting &quot;_BESClient_Resource_WorkIdle&quot;=&quot;10&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_Resource_SleepIdle&quot;=&quot;480&quot; on &quot;{now}&quot; for client
+	//update action status (30min)
+	setting &quot;_BESClient_Report_MinimumInterval&quot;=&quot;1800&quot; on &quot;{now}&quot; for client
+	//enable upline querying for cmds (24hours)
+	setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;86400&quot; on &quot;{now}&quot; for client
+	//setup Register/Heartbeat (23hrs) and ForceRelaySelect (7days) settings
+	setting &quot;_BESClient_Register_IntervalSeconds&quot;=&quot;82800&quot; on &quot;{now}&quot; for client
+	setting &quot;_BESClient_RelaySelect_IntervalSeconds&quot;=&quot;604800&quot; on &quot;{now}&quot; for client
+	//if com failures occurs, then resist the urge to failover for 6 hours.
+	setting &quot;_BESClient_RelaySelect_ResistFailureIntervalSeconds&quot;=&quot;21600&quot; on &quot;{now}&quot; for client
+endif
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

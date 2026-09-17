@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : BES Web Reports: Allow Custom Web Reports
+  ID       : 26656
+  Author   : alinder_
+  Domain   : BESC
+  Imported : 2019-11-01T07:16:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>BES Web Reports: Allow Custom Web Reports</Title>
+    <Description>This fixlet sets the &quot;AllowCustomReportCreation&quot; value on a BigFix server, which enables the creation of custom reports in Web Reports. </Description>
+    <Relevance>exists service &quot;BESWebReportsServer&quot;</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists value &quot;AllowCustomReportCreation&quot; whose (it = &quot;1&quot;) of key &quot;HKLM\Software\BigFix\Enterprise Server\BESReports&quot; of x32 registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-11-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 01 Nov 2019 14:00:18 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset &quot;[HKEY_LOCAL_MACHINE\Software\BigFix\Enterprise Server\BESReports]&quot; &quot;AllowCustomReportCreation&quot;=&quot;1&quot;
+
+wait net stop BESWebReportsServer
+wait net start BESWebReportsServer</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Clear BES Local Download Caches
+  ID       : 234
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Clear BES Local Download Caches</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>When a client's download cache directory becomes too large, it prevents other actions from being run.&nbsp;Clearing these directories will allow actions to run correctly.</P> <P>This task will clear files in these two directories:</P><FONT size=2> <P>__BESData\__Global\__Cache\Downloads</FONT><BR><FONT size=2>__BESData\__Global\__Cache\Utilities</P></FONT> <P><STRONG>Note:</STRONG> Do not keep reapplying this task or the download cache will keep on clearing, preventing other actions that require the download cache from actually running.</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>(exists files of folder &quot;__BESData\__Global\__Cache\Downloads&quot; of parent folder of regapp &quot;Besclient.exe&quot;) or (exists files of folder &quot;__BESData\__Global\__Cache\Utilities&quot; of parent folder of regapp &quot;Besclient.exe&quot;)</Relevance>
+    <Category>BES Client Setting</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 17 Jul 2009 18:59:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to clear BES Local download caches on clients.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+delete clearquiet.bat
+appendfile @ECHO OFF
+appendfile del /F /Q /S "{pathname of  folder "__BESData\__Global\__Cache\Downloads" of parent folder of regapp "Besclient.exe" & "\*.*"}"
+appendfile del /F /Q /S "{pathname of  folder "__BESData\__Global\__Cache\Utilities" of parent folder of regapp "Besclient.exe" & "\*.*"}"
+move __appendfile clearquiet.bat
+waithidden clearquiet.bat
+delete clearquiet.bat]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

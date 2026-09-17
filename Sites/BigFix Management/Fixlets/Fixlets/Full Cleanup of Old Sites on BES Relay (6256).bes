@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Full Cleanup of Old Sites on BES Relay
+  ID       : 6256
+  Author   : SteveHull
+  Domain   : BESC
+  Imported : 2015-10-20T21:54:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Full Cleanup of Old Sites on BES Relay</Title>
+    <Description><![CDATA[<P>This task will rename the GatherState.xml and bfemapfile.xml files on&nbsp;the relay and delete the bfsites folder, then&nbsp;restart the BES Relay service to cleanup old sites and reinitialize the gather process.&nbsp; </P>
+<P>When attempting to use this task on all relays, run it first on the bottom tier of relays and work up to the server one tier at a time.</P>
+<P>NOTE:&nbsp;This task should be deployed only at the direction of BigFix support.</P>]]></Description>
+    <Relevance>exists regapp &quot;besrelay.exe&quot;</Relevance>
+    <Category>Troubleshooting</Category>
+    <Source>BigFix</Source>
+    <SourceReleaseDate>2009-05-06</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:18:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// restart the BES Relay first
+waithidden cmd.exe /C net stop besrelay
+
+// set starting time
+setting "_BESClient_PauseWhile"="{now as string}" on "{parameter "action issue date" of action}" for client
+
+// PAUSE until the relay service stops or 3 minutes has passed.
+pause while {(exists running application whose (name of it as lowercase = "besrelay.exe") OR exists running service whose (service name of it as lowercase = "besrelay")) AND (now - (value of setting "_BESClient_PauseWhile" of client as string as time)) < 3*minute}
+
+delete "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\GatherState.xml.bak"
+move "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\GatherState.xml" "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\GatherState.xml.bak"
+delete "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\bfemapfile.xml.bak"
+move "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\bfemapfile.xml" "{value "InboxLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\bfemapfile.xml.bak"
+
+waithidden cmd.exe /C rmdir "{value "ContentLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}" /S /Q
+
+// set starting time
+setting "_BESClient_PauseWhile"="{now as string}" on "{parameter "action issue date" of action}" for client
+
+// PAUSE until the bfsites directory is gone or 5 minutes has passed.
+pause while {(exists folder (value "ContentLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry as string)) AND (now - (value of setting "_BESClient_PauseWhile" of client as string as time)) < 5*minute}
+
+waithidden cmd.exe /C mkdir "{value "ContentLocation" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry as string}"
+
+waithidden cmd.exe /C net start besrelay
+
+// if for some reason the BES Relay hasn't started yet, fail here
+continue if{exists running service "BESRelay"}
+
+// then restart the BES Client
+delete __appendfile
+appendfile @echo off
+appendfile echo Your administrator is restarting the BES Client... Please Wait...
+appendfile net stop BESClient
+appendfile net start BESClient
+
+delete clientRestart.bat
+copy __appendfile clientRestart.bat
+runhidden cmd.exe /C clientRestart.bat]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: BES Client - Lower BESClient Max Disk Usage if less than 20gb free - Universal
+  ID       : 3943
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-12T09:59:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: BES Client - Lower BESClient Max Disk Usage if less than 20gb free - Universal</Title>
+    <Description><![CDATA[<P>This task will lower the BES Client cache storage settings for machines with low disk space or small hard drives. </P>
+<P>This may cause very large software installation tasks to fail.</P>
+<P>SSDs for the computer's Operating System should be at least 250gb in size for optimal use, particularly when deploying large software packages. 500gb or higher recommended for new systems, but BigFix can work with any size hard drive. </P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[(not exists settings "_BESClient_Download_DownloadsCacheLimitMB" whose( (it <= 5000) of (it as string as integer) of values of it ) of client) OR (not exists settings "_BESClient_Download_NormalStageDiskLimitMB" whose( (it <= 10000) of (it as string as integer) of values of it ) of client) OR (not exists settings "_BESClient_Download_PreCacheStageDiskLimitMB" whose( (it <= 2000) of (it as string as integer) of values of it ) of client) OR (not exists settings "_BESClient_Download_MinimumDiskFreeMB" whose( (it >= 2000) of (it as string as integer) of values of it ) of client)]]></Relevance>
+    <Relevance><![CDATA[/* drive < 140gb total  OR  drive < 20gb free_space */ ( (total space of drive of system folder) < (140*1024*1024*1024) ) OR ( (free space of drive of system folder) < (20*1024*1024*1024) )]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-01-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 12 Jan 2015 16:56:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+if{ not exists settings "_BESClient_Download_DownloadsCacheLimitMB" whose( (it <= 5000) of (it as string as integer) of values of it ) of client }
+	setting "_BESClient_Download_DownloadsCacheLimitMB"="5000" on "{parameter "action issue date" of action}" for client
+endif
+
+if{ not exists settings "_BESClient_Download_NormalStageDiskLimitMB" whose( (it <= 10000) of (it as string as integer) of values of it ) of client }
+	setting "_BESClient_Download_NormalStageDiskLimitMB"="10000" on "{parameter "action issue date" of action}" for client
+endif
+
+if{ not exists settings "_BESClient_Download_PreCacheStageDiskLimitMB" whose( (it <= 2000) of (it as string as integer) of values of it ) of client }
+	setting "_BESClient_Download_PreCacheStageDiskLimitMB"="2000" on "{parameter "action issue date" of action}" for client
+endif
+
+if{ not exists settings "_BESClient_Download_MinimumDiskFreeMB" whose( (it >= 2000) of (it as string as integer) of values of it ) of client }
+	setting "_BESClient_Download_MinimumDiskFreeMB"="2000" on "{parameter "action issue date" of action}" for client
+endif
+
+notify client ForceRefresh
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

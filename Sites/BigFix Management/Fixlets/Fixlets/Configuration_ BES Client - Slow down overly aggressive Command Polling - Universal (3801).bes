@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: BES Client - Slow down overly aggressive Command Polling - Universal
+  ID       : 3801
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-06-30T15:21:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: BES Client - Slow down overly aggressive Command Polling - Universal</Title>
+    <Description><![CDATA[<P>This task is relevant on clients whose command polling is too aggressive and may cause issues both with the relay and the client.</P>
+<P>This task&nbsp;will reduce the frequency of command polling.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Command Polling is enabled */ (exists settings whose(&quot;_BESClient_Comm_CommandPollEnable&quot; = name of it AND 1 = value of it as integer) of client)</Relevance>
+    <Relevance><![CDATA[/* Command Polling is set to less than once every 30 min */ (exists settings whose("_BESClient_Comm_CommandPollIntervalSeconds" = name of it AND 1800 > value of it as integer) of client)]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-06-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 30 Jun 2014 22:20:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to reduce polling to 60 min.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+// 3600 is the number of seconds in 60 min.
+setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;3600&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4170">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to reduce polling to 30 min.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+setting &quot;_BESClient_Comm_CommandPollEnable&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+// 1800 is the number of seconds in 30 min.
+setting &quot;_BESClient_Comm_CommandPollIntervalSeconds&quot;=&quot;1800&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>
