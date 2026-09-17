@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Setup Free HTTPS via Let's Encrypt Certbot (Windows)
   ID       : 26966
   Author   : brolly33
@@ -12,16 +12,16 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Setup Free HTTPS via Let&apos;s Encrypt Certbot (Windows)</Title>
-    <Description>&lt;P&gt;If you have a domain, but don&apos;t have a CA and don&apos;t want to shell out the $$ for an SSL cert. &lt;/P&gt;
-&lt;P&gt;Setup a free certificate using Let&apos;s Encrypt and Certbot&lt;/P&gt;
-&lt;P&gt;Will set REST API, Web Reports and WebUI if local to the BigFix server to all share the certificate.&lt;/P&gt;
-&lt;P&gt;Will prompt you for your domain and the responsible party&apos;s e-mail&lt;/P&gt;
-&lt;P&gt;The server targeted must resolve to the domain name you are using from external (Let&apos;s encrypt checks as part of the cert process).&lt;/P&gt;
-&lt;P&gt;You might have to put your BigFix server in the DMZ for the certbot to work and on renewal of the free certificate every 90 days.&lt;/P&gt;
-&lt;P&gt;Beta Code - there are lots of links and references in the action script, if you get stuck then read and adapt.&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>If you have a domain, but don't have a CA and don't want to shell out the $$ for an SSL cert. </P>
+<P>Setup a free certificate using Let's Encrypt and Certbot</P>
+<P>Will set REST API, Web Reports and WebUI if local to the BigFix server to all share the certificate.</P>
+<P>Will prompt you for your domain and the responsible party's e-mail</P>
+<P>The server targeted must resolve to the domain name you are using from external (Let's encrypt checks as part of the cert process).</P>
+<P>You might have to put your BigFix server in the DMZ for the certbot to work and on renewal of the free certificate every 90 days.</P>
+<P>Beta Code - there are lots of links and references in the action script, if you get stuck then read and adapt.</P>]]></Description>
     <Relevance>exists main gather service</Relevance>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>version of client &gt;= &quot;10.0&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "10.0"]]></Relevance>
     <Category>Obsolete</Category>
     <Source>Internal</Source>
     <SourceReleaseDate>2022-10-06</SourceReleaseDate>
@@ -36,57 +36,57 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// based on https://certbot.eff.org/instructions?ws=other&amp;os=windows
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// based on https://certbot.eff.org/instructions?ws=other&os=windows
 // based on https://help.hcltechsw.com/bigfix/10.0/platform/c_SSL_overview.html
-// hash as of 10/06/2022 
+// hash as of 10/06/2022
 prefetch certbot-beta-installer-win_amd64.exe sha1:a40b5d1a0ec0e4aba1552bde7bdd7a8c87ede9a5 size:22413696 https://dl.eff.org/certbot-beta-installer-win_amd64.exe sha256:a35c7546e9618fe3cfe2bc8ad6a017a4d2b01c90fa4972d1aaeabe91c77afa80
-wait &quot;__download\certbot-beta-installer-win_amd64.exe&quot; /S
+wait "__Download\certbot-beta-installer-win_amd64.exe" /S
 
 //check the install
-continue if {exists file &quot;C:\Program Files\Certbot\bin\certbot.exe&quot;}
+continue if {exists file "C:\Program Files\Certbot\bin\certbot.exe"}
 
 //Gen the cert must have these two entries at least.
-action parameter query &quot;domain&quot; with description &quot;the Domain for this cert&quot; and with default value &quot;company.com&quot;
-action parameter query &quot;mail&quot; with description &quot;the e-mail address associated with this cert&quot; and with default value &quot;BigFixAdmin@company.com&quot;
+action parameter query "domain" with description "the Domain for this cert" and with default value "company.com"
+action parameter query "mail" with description "the e-mail address associated with this cert" and with default value "BigFixAdmin@company.com"
 
 // full command line list here: https://eff-certbot.readthedocs.io/en/stable/using.html#certbot-commands
 // NOTE - this will fail if the domain does not route back to where Certbot is running from - Internet routing - probably needs to be in DMZ
-// Check C:\Certbot\log\letsencrypt.log for details 
+// Check C:\Certbot\log\letsencrypt.log for details
 
-wait &quot;C:\Program Files\Certbot\bin\certbot.exe&quot; certonly --noninteractive --agree-tos -d {parameter &quot;domain&quot;} --standalone -m {parameter &quot;mail&quot;}
+wait "C:\Program Files\Certbot\bin\certbot.exe" certonly --noninteractive --agree-tos -d {parameter "domain"} --standalone -m {parameter "mail"}
 
-parameter &quot;crtpath&quot;=&quot;C:\Certbot\live\{parameter &quot;domain&quot;}\fullchain.pem&quot; 
-parameter &quot;pvkpath&quot;=&quot;C:\Certbot\live\{parameter &quot;domain&quot;}\privkey.pem&quot; 
+parameter "crtpath"="C:\Certbot\live\{parameter "domain"}\fullchain.pem"
+parameter "pvkpath"="C:\Certbot\live\{parameter "domain"}\privkey.pem"
 
-continue if { exists file (parameter &quot;crtpath&quot;)}
-continue if { exists file (parameter &quot;pvkpath&quot;)}
+continue if { exists file (parameter "crtpath")}
+continue if { exists file (parameter "pvkpath")}
 
-if {exists service &quot;BESRootServer&quot;}
+if {exists service "BESRootServer"}
 	// https://help.hcltechsw.com/bigfix/10.0/platform/Platform/Config/c_restapi_https_settings.html
-	setting &quot;_BESRelay_HTTPServer_UseSSLFlag&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-	setting &quot;_BESRelay_HTTPServer_SSLCertificateFilePath&quot;=&quot;{parameter &quot;crtpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-	setting &quot;_BESRelay_HTTPServer_SSLPrivateKeyFilePath&quot;=&quot;{parameter &quot;pvkpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+	setting "_BESRelay_HTTPServer_UseSSLFlag"="1" on "{parameter "action issue date" of action}" for client
+	setting "_BESRelay_HTTPServer_SSLCertificateFilePath"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_BESRelay_HTTPServer_SSLPrivateKeyFilePath"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
 	wait sc.exe stop BESRootServer
 	wait sc.exe start BESRootServer
 endif
 
-if {exists service &quot;BESWebReportsServer&quot;}
+if {exists service "BESWebReportsServer"}
 	// https://help.hcltechsw.com/bigfix/10.0/platform/Platform/Web_Reports/c_web_reports_https_settings.html
-	setting &quot;_WebReports_HTTPServer_UseSSLFlag&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-	setting &quot;_WebReports_HTTPServer_SSLCertificateFilePath&quot;=&quot;{parameter &quot;crtpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-	setting &quot;_WebReports_HTTPServer_SSLPrivateKeyFilePath&quot;=&quot;{parameter &quot;pvkpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+	setting "_WebReports_HTTPServer_UseSSLFlag"="1" on "{parameter "action issue date" of action}" for client
+	setting "_WebReports_HTTPServer_SSLCertificateFilePath"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_WebReports_HTTPServer_SSLPrivateKeyFilePath"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
 	wait sc.exe stop BESWebReportsServer
 	wait sc.exe start BESWebReportsServer
 endif
 
-if {exists service &quot;BESWebUI&quot;}
+if {exists service "BESWebUI"}
 	// WebUI settings  use SSL is automatically on for WebUI, so no separate setting there.
-	setting &quot;_WebUIAppEnv_WEB_CERT_FILE&quot;=&quot;{parameter &quot;crtpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-	setting &quot;_WebUIAppEnv_WEB_KEY_FILE&quot;=&quot;{parameter &quot;pvkpath&quot;}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+	setting "_WebUIAppEnv_WEB_CERT_FILE"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_WebUIAppEnv_WEB_KEY_FILE"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
 	wait sc.exe stop BESWebUI
 	wait sc.exe start BESWebUI
 endif
-</ActionScript>
+]]></ActionScript>
     </DefaultAction>
   </Fixlet>
 </BES>

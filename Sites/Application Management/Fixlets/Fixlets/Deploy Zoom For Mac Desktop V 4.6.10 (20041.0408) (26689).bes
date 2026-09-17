@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Deploy Zoom For Mac Desktop V 4.6.10 (20041.0408)
   ID       : 26689
   Author   : suzib6sw
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Deploy Zoom For Mac Desktop V 4.6.10 (20041.0408)</Title>
-    <Description>This task will deploy Zoom&amp;nbsp; for Mac desktop&lt;BR&gt;This task is applicable on Mac OS X </Description>
+    <Description><![CDATA[This task will deploy Zoom&nbsp; for Mac desktop<BR>This task is applicable on Mac OS X ]]></Description>
     <Relevance>mac of operating system</Relevance>
     <Relevance>not exists application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
     <Category>Software Deployment</Category>

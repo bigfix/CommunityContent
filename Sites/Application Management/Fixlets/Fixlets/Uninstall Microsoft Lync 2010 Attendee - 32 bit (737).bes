@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Uninstall Microsoft Lync 2010 Attendee - 32 bit
   ID       : 737
   Author   : mel
@@ -12,14 +12,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Uninstall Microsoft Lync 2010 Attendee - 32 bit</Title>
-    <Description>    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet. 
-    &lt;P&gt;&lt;B&gt;Source Wizard:&lt;/B&gt; &lt;A href=&quot;http://bigfix.me/uninstall&quot;&gt;http://bigfix.me/uninstall&lt;/A&gt;&lt;/P&gt;
-    &lt;P&gt;This fixlet is constructed from the following variables provided by the developer:&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Registry Source:&lt;/B&gt; HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Display Name:&lt;/B&gt; Microsoft Lync 2010 Attendee&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Application Guid:&lt;/B&gt; 6F72D695-5188-4484-B21E-E16CD89C4008&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Uninstall Command String:&lt;/B&gt; MsiExec.exe /x{appGuid} /quiet /norestart&lt;/P&gt;
-</Description>
+    <Description><![CDATA[    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet.
+    <P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+    <P>This fixlet is constructed from the following variables provided by the developer:</P>
+    <P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+    <P><B>Display Name:</B> Microsoft Lync 2010 Attendee</P>
+    <P><B>Application Guid:</B> 6F72D695-5188-4484-B21E-E16CD89C4008</P>
+    <P><B>Uninstall Command String:</B> MsiExec.exe /x{appGuid} /quiet /norestart</P>
+]]></Description>
     <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
     <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
     <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft Lync 2010 Attendee&quot; AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>

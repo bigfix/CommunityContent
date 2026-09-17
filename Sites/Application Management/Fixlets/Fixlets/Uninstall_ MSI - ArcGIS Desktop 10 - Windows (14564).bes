@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Uninstall: MSI - ArcGIS Desktop 10 - Windows
   ID       : 14564
   Author   : jgstew
@@ -12,8 +12,8 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Uninstall: MSI - ArcGIS Desktop 10 - Windows</Title>
-    <Description>&lt;P&gt;This task will uninstall the MSI: ArcGIS Desktop 10&lt;/P&gt;&lt;P&gt;This task was automatically generated using the task: &quot;RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows&quot;&lt;/P&gt;&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
-    <Relevance>/* Windows XP or later */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Description><![CDATA[<P>This task will uninstall the MSI: ArcGIS Desktop 10</P><P>This task was automatically generated using the task: "RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows"</P><P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance>/* Only run if ArcGIS Desktop 10 is installed */ 1 = number of keys whose( (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;ArcGIS Desktop 10&quot; as lowercase) of it) AND (exists values whose(it as string as lowercase starts with &quot;msiexec&quot;) of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries )</Relevance>
     <Category>Software Sharing</Category>

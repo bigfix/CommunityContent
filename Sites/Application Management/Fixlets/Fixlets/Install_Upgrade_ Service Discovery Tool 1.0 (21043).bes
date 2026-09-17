@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Install/Upgrade: Service Discovery Tool 1.0
   ID       : 21043
   Author   : rustymyers
@@ -12,11 +12,11 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Install/Upgrade: Service Discovery Tool 1.0</Title>
-    <Description>&lt;P&gt;This task utilizes python3 to run code that will check for a DHCP IP address and NetBoot Server. If an address or NetBoot Image&amp;nbsp;is returned, it is written to a plist for analysis retrevial.&lt;/P&gt;
-&lt;P&gt;Task will become relevant after plist file is one day old.&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task utilizes python3 to run code that will check for a DHCP IP address and NetBoot Server. If an address or NetBoot Image&nbsp;is returned, it is written to a plist for analysis retrevial.</P>
+<P>Task will become relevant after plist file is one day old.</P>]]></Description>
     <Relevance>mac of operating system</Relevance>
     <Relevance>exists file &quot;/usr/local/bin/python3&quot;</Relevance>
-    <Relevance>not exists file &quot;/Library/Preferences/edu.psu.sdt.plist&quot; whose (now - modification time of it &lt; day * 1)</Relevance>
+    <Relevance><![CDATA[not exists file "/Library/Preferences/edu.psu.sdt.plist" whose (now - modification time of it < day * 1)]]></Relevance>
     <Source>Internal</Source>
     <SourceID>rzm102</SourceID>
     <SourceReleaseDate>2016-07-15</SourceReleaseDate>

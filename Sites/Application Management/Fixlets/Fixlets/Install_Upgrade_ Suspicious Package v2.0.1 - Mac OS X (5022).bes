@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Upgrade: Suspicious Package v2.0.1 - Mac OS X
   ID       : 5022
   Author   : jgstew
@@ -12,11 +12,11 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: Suspicious Package v2.0.1 - Mac OS X</Title>
-    <Description>&lt;P&gt;This will install Suspicious Package v2.0.1&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This will install Suspicious Package v2.0.1</P>
+<P>&nbsp;</P>]]></Description>
     <Relevance>mac of operating system</Relevance>
-    <Relevance>system version &gt;= &quot;10.8&quot;</Relevance>
-    <Relevance>not exists strings &quot;CFBundleShortVersionString&quot; whose(it as version &gt;= &quot;2.0.1&quot;) of dictionaries of files &quot;/Library/QuickLook/Suspicious Package.qlgenerator/Contents/Info.plist&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.8"]]></Relevance>
+    <Relevance><![CDATA[not exists strings "CFBundleShortVersionString" whose(it as version >= "2.0.1") of dictionaries of files "/Library/QuickLook/Suspicious Package.qlgenerator/Contents/Info.plist"]]></Relevance>
     <Category>Software Sharing</Category>
     <Source>Internal</Source>
     <SourceID>jgstew</SourceID>

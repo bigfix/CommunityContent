@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Install/Upgrade: Visual Studio Code 1.7.1 - Windows
   ID       : 22625
   Author   : jgstew
@@ -12,9 +12,9 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Install/Upgrade: Visual Studio Code 1.7.1 - Windows</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>not exists keys whose(exists values &quot;DisplayName&quot; whose(it as string starts with &quot;Microsoft Visual Studio Code&quot;) of it AND exists values &quot;DisplayVersion&quot; whose(it as string as version &gt;= &quot;1.7.1&quot; as version) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
+    <Relevance><![CDATA[not exists keys whose(exists values "DisplayName" whose(it as string starts with "Microsoft Visual Studio Code") of it AND exists values "DisplayVersion" whose(it as string as version >= "1.7.1" as version) of it) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-11-14</SourceReleaseDate>
     <MIMEField>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install Rancher Desktop 0.6.0 (Current User)
   ID       : 26881
   Author   : erowley2501
@@ -12,12 +12,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install Rancher Desktop 0.6.0 (Current User)</Title>
-    <Description>&lt;P&gt;Download and install Rancher Desktop 0.6.0 (for the Current User.)&lt;/P&gt;
-&lt;P&gt;Note: Rancher Desktop can only be installed per-user (not system-wide), and so this BigFix Task is only relevant when the user is logged in to the target computer.&lt;/P&gt;
-&lt;P&gt;Note: Rancher Desktop only works on recent versions of Windows 10 and Windows&amp;nbsp;11 where Hyper-V and Windows Subsystem for Linux 2 (WSL)&amp;nbsp;are installed and setup (Microsoft&apos;s requirements detailed&amp;nbsp;&lt;A href=&quot;https://docs.microsoft.com/en-us/windows/wsl/install&quot;&gt;&lt;FONT color=#0066cc&gt;here&lt;/FONT&gt;&lt;/A&gt;.)&amp;nbsp;If&amp;nbsp;WSL is not installed when&amp;nbsp;launching Rancher Desktop,&amp;nbsp;then an error message will be shown. To install WSL, the official Microsoft instructions should be followed, or use the script based on these instructions created by the Rancher Desktop&amp;nbsp;installer (&amp;lt;System Drive&amp;gt;:\Windows\Temp\rancher-desktop-install.ps1) which installs WSL and the Hyper-V pre-requisite.&lt;/P&gt;
-&lt;P&gt;Rancher Desktop Website: &lt;A href=&quot;https://rancherdesktop.io/&quot;&gt;https://rancherdesktop.io/&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;Rancher Desktop GitHub Repo: &lt;A href=&quot;https://github.com/rancher-sandbox/rancher-desktop&quot;&gt;https://github.com/rancher-sandbox/rancher-desktop&lt;/A&gt;&lt;/P&gt;</Description>
-    <Relevance>not exists (it as string as version) whose(it &gt;= &quot;0.6.0&quot;) of values &quot;DisplayVersion&quot; of keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;Rancher Desktop&quot;) of keys &quot;Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (user key of current user)</Relevance>
+    <Description><![CDATA[<P>Download and install Rancher Desktop 0.6.0 (for the Current User.)</P>
+<P>Note: Rancher Desktop can only be installed per-user (not system-wide), and so this BigFix Task is only relevant when the user is logged in to the target computer.</P>
+<P>Note: Rancher Desktop only works on recent versions of Windows 10 and Windows&nbsp;11 where Hyper-V and Windows Subsystem for Linux 2 (WSL)&nbsp;are installed and setup (Microsoft's requirements detailed&nbsp;<A href="https://docs.microsoft.com/en-us/windows/wsl/install"><FONT color=#0066cc>here</FONT></A>.)&nbsp;If&nbsp;WSL is not installed when&nbsp;launching Rancher Desktop,&nbsp;then an error message will be shown. To install WSL, the official Microsoft instructions should be followed, or use the script based on these instructions created by the Rancher Desktop&nbsp;installer (&lt;System Drive&gt;:\Windows\Temp\rancher-desktop-install.ps1) which installs WSL and the Hyper-V pre-requisite.</P>
+<P>Rancher Desktop Website: <A href="https://rancherdesktop.io/">https://rancherdesktop.io/</A></P>
+<P>Rancher Desktop GitHub Repo: <A href="https://github.com/rancher-sandbox/rancher-desktop">https://github.com/rancher-sandbox/rancher-desktop</A></P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "0.6.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Rancher Desktop") of keys "Software\Microsoft\Windows\CurrentVersion\Uninstall" of (user key of current user)]]></Relevance>
     <Relevance>1 = number of unique values of names of (logged on users;current users)</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2021-10-12</SourceReleaseDate>

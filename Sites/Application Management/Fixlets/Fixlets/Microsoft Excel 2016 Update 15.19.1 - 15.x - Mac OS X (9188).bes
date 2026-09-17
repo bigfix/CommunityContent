@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Microsoft Excel 2016 Update 15.19.1 - 15.x - Mac OS X
   ID       : 9188
   Author   : alexk
@@ -12,12 +12,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Microsoft Excel 2016 Update 15.19.1 - 15.x - Mac OS X</Title>
-    <Description>&lt;P&gt;Use this action to update Microsoft Excel 2016 for Mac to version 15.19.1. The update is relevant on Macs running Yosemite or newer with Excel 2016 installed.&lt;/P&gt;
-&lt;P&gt;Update 15.19.1 was released on February 16, 2016&lt;/P&gt;
-&lt;P&gt;MS16-015: &lt;A href=&quot;https://support.microsoft.com/en-us/kb/3134241&quot;&gt;https://support.microsoft.com/en-us/kb/3134241&lt;/A&gt;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>Use this action to update Microsoft Excel 2016 for Mac to version 15.19.1. The update is relevant on Macs running Yosemite or newer with Excel 2016 installed.</P>
+<P>Update 15.19.1 was released on February 16, 2016</P>
+<P>MS16-015: <A href="https://support.microsoft.com/en-us/kb/3134241">https://support.microsoft.com/en-us/kb/3134241</A></P>]]></Description>
     <Relevance>mac of operating system</Relevance>
-    <Relevance>system version &gt;= &quot;10.10.0&quot;</Relevance>
-    <Relevance>exists application whose (name of it = &quot;Microsoft Excel.app&quot; and version of it &lt; &quot;15.19.1&quot; AND version of it &gt;= &quot;15.15.0&quot;)</Relevance>
+    <Relevance><![CDATA[system version >= "10.10.0"]]></Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Microsoft Excel.app" and version of it < "15.19.1" AND version of it >= "15.15.0")]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-01-17</SourceReleaseDate>
     <MIMEField>

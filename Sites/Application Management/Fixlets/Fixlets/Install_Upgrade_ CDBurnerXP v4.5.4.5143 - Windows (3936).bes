@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Upgrade: CDBurnerXP v4.5.4.5143 - Windows
   ID       : 3936
   Author   : jgstew
@@ -12,13 +12,13 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: CDBurnerXP v4.5.4.5143 - Windows</Title>
-    <Description>&lt;P&gt;This task will Install/Upgrade &lt;STRONG&gt;CDBurnerXP&lt;/STRONG&gt;, &lt;FONT size=2&gt;a free application to burn CDs and DVDs, including Blu-Ray and HD-DVDs.&amp;nbsp; &lt;A href=&quot;https://cdburnerxp.se/en/home&quot;&gt;https://cdburnerxp.se/en/home&lt;/A&gt;&lt;/P&gt;&lt;/FONT&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task will Install/Upgrade <STRONG>CDBurnerXP</STRONG>, <FONT size=2>a free application to burn CDs and DVDs, including Blu-Ray and HD-DVDs.&nbsp; <A href="https://cdburnerxp.se/en/home">https://cdburnerxp.se/en/home</A></P></FONT>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>version of operating system &gt;= &quot;5.1&quot;</Relevance>
-    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string contains &quot;CDBurnerXP&quot; AND value &quot;DisplayVersion&quot; of it as string as version &gt;= &quot;4.5.4.5143&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;registry)</Relevance>
-    <Relevance>/* Requires .NET 4 */ &quot;4.0&quot; as version &lt;= maximum of ((it as version) of names of keys whose(name of it as string as lowercase contains &quot;v&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of native registry)</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string contains "CDBurnerXP" AND value "DisplayVersion" of it as string as version >= "4.5.4.5143") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (native registry;registry)]]></Relevance>
+    <Relevance><![CDATA[/* Requires .NET 4 */ "4.0" as version <= maximum of ((it as version) of names of keys whose(name of it as string as lowercase contains "v") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP" of native registry)]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2014-12-19</SourceReleaseDate>
     <MIMEField>

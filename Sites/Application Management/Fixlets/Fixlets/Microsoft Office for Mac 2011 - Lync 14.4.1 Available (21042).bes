@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Microsoft Office for Mac 2011 - Lync 14.4.1 Available
   ID       : 21042
   Author   : BrianCanFixIT
@@ -12,25 +12,29 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Microsoft Office for Mac 2011 - Lync 14.4.1 Available</Title>
-    <Description>
-&lt;DIV class=FixletMessage&gt;
-&lt;TABLE&gt;&lt;TBODY&gt;&lt;TR&gt;&lt;TD&gt;
-	&lt;P&gt;Microsoft Office for Mac 2011 - Lync (14.4.1)&lt;/P&gt;
-	&lt;P&gt;Use the action below to update Microsoft Office for Mac 2011 Lync to the latest version.&lt;/P&gt;
-	&lt;P&gt;&lt;STRONG&gt;Note: &lt;/STRONG&gt;Affected computers may report back as &apos;Pending Restart&apos; once the patch has run successfully, but will not report back their final status until the computer has been restarted.&lt;/P&gt;
-&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;
-&lt;/DIV&gt;
-&lt;DIV class=FixletProperty&gt;
-&lt;H4&gt;File Size:&lt;/H4&gt;37.1 MB &lt;/DIV&gt;
-</Description>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD>
+	<P>Microsoft Office for Mac 2011 - Lync (14.4.1)</P>
+	<P>Use the action below to update Microsoft Office for Mac 2011 Lync to the latest version.</P>
+	<P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P>
+</TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>37.1 MB </DIV>
+]]></Description>
     <Relevance>mac of operating system</Relevance>
-    <Relevance>version of operating system &gt; &quot;10.5.7&quot;</Relevance>
-    <Relevance>exists application whose (name of it = &quot;Microsoft Lync.app&quot; AND version of it = &quot;14&quot; as version AND (version of it &lt; &quot;14.4.1&quot; OR version of it as string = &quot;14.4&quot;))</Relevance>
+    <Relevance><![CDATA[version of operating system > "10.5.7"]]></Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Microsoft Lync.app" AND version of it = "14" as version AND (version of it < "14.4.1" OR version of it as string = "14.4"))]]></Relevance>
     <Category>Upgrade</Category>
     <Source>Microsoft</Source>
     <SourceID>KB3175174</SourceID>
     <SourceReleaseDate>2016-07-14</SourceReleaseDate>
     <SourceSeverity>Low</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:45 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>

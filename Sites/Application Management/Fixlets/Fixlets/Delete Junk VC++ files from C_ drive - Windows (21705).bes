@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Delete Junk VC++ files from C: drive - Windows
   ID       : 21705
   Author   : jgstew
@@ -12,9 +12,9 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Delete Junk VC++ files from C: drive - Windows</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>exists files whose(&quot;Wed, 07 Nov 2007 08:00:00 -0700&quot; as time &lt; creation time of it AND &quot;Wed, 07 Nov 2007 08:59:40 -0700&quot; as time &gt; creation time of it AND (now - accessed time of it) &gt; 4*hour) of root folders of drives of system folders</Relevance>
+    <Relevance><![CDATA[exists files whose("Wed, 07 Nov 2007 08:00:00 -0700" as time < creation time of it AND "Wed, 07 Nov 2007 08:59:40 -0700" as time > creation time of it AND (now - accessed time of it) > 4*hour) of root folders of drives of system folders]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-07-25</SourceReleaseDate>
     <MIMEField>

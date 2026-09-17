@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Invoke - Baseline of System Image - Windows
   ID       : 22962
   Author   : RES
@@ -12,10 +12,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Invoke - Baseline of System Image - Windows</Title>
-    <Description>Deploy this task to trusted and secured endpoints or gold images.&amp;nbsp; This task will enumerate and record all EXE and their associated hashes to be imported in to the applications whitelist. </Description>
+    <Description><![CDATA[Deploy this task to trusted and secured endpoints or gold images.&nbsp; This task will enumerate and record all EXE and their associated hashes to be imported in to the applications whitelist. ]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Source>RES Software</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:41 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>
@@ -23,36 +27,36 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
-      
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
 action uses wow64 redirection false
 
 // action log all
 
-action parameter query &quot;Algorithm&quot; with description &quot;Please enter the hashing algorithm&quot;
-action parameter query &quot;Container&quot; with description &quot;Please enter the destination container&quot;
+action parameter query "Algorithm" with description "Please enter the hashing algorithm"
+action parameter query "Container" with description "Please enter the destination container"
 
 // If the action fails here you are trying to use MD5 on a system with FIPS cryptography requirements
 // There is no FIPS-Compliant MD5 algorithm
-continue if {not ((parameter &quot;Algorithm&quot; of action = &quot;MD5&quot;) and exists (values &quot;Enabled&quot; whose (it=1) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\FipsAlgorithmPolicy&quot; of registry))}
+continue if {not ((parameter "Algorithm" of action = "MD5") and exists (values "Enabled" whose (it=1) of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\FipsAlgorithmPolicy" of registry))}
 
-parameter &quot;BaselineStorage&quot;=&quot;{pathname of folder &quot;__Global&quot; of data folder of client}\RES Baseline Wizard&quot;
+parameter "BaselineStorage"="{pathname of folder "__Global" of data folder of client}\RES Baseline Wizard"
 
 delete __createfile
 
-folder create &quot;{parameter &quot;BaselineStorage&quot;}&quot;
+folder create "{parameter "BaselineStorage"}"
 
-delete &quot;{parameter &quot;BaselineStorage&quot;}\baseline.ps1&quot;
-delete &quot;{parameter &quot;BaselineStorage&quot;}\authorizedfiles.txt&quot;
-delete &quot;{parameter &quot;BaselineStorage&quot;}\baseline.log&quot;
-delete &quot;{parameter &quot;BaselineStorage&quot;}\{computer name}.txt&quot;
+delete "{parameter "BaselineStorage"}\baseline.ps1"
+delete "{parameter "BaselineStorage"}\authorizedfiles.txt"
+delete "{parameter "BaselineStorage"}\baseline.log"
+delete "{parameter "BaselineStorage"}\{computer name}.txt"
 
 createfile until _end_
 param (
-    $Directory = &quot;C:\&quot;,
-    $OutDir = &quot;.&quot;,
-    $Algorithm = &quot;SHA256&quot;,
-    $Container = &quot;&quot;
+    $Directory = "C:\",
+    $OutDir = ".",
+    $Algorithm = "SHA256",
+    $Container = ""
 )
 
 function write-log {{
@@ -60,60 +64,60 @@ function write-log {{
         $Message
     )
     write-host $Message
-    $Message &gt;&gt; &quot;$OutDir\Baseline.log&quot;
+    $Message >> "$OutDir\Baseline.log"
 }
 
 Function get-authorizedfileinfo {{
     Param(
     [parameter(Mandatory=$True)]$file,
-    [parameter(Mandatory=$false)][ValidateSet(&quot;MD5&quot;, &quot;SHA1&quot;, &quot;SHA256&quot;)]$Algorithm = &quot;SHA256&quot;
+    [parameter(Mandatory=$false)][ValidateSet("MD5", "SHA1", "SHA256")]$Algorithm = "SHA256"
     )
 
     Switch ($Algorithm)
     {{
-        &quot;SHA1&quot;  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
-        &quot;SHA256&quot;  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
-        &quot;MD5&quot;   {{ $AlgorithmObj = New-Object System.Security.Cryptography.MD5CryptoServiceProvider }
+        "SHA1"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
+        "SHA256"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+        "MD5"   {{ $AlgorithmObj = New-Object System.Security.Cryptography.MD5CryptoServiceProvider }
         Default {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
     }
-    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash([System.IO.File]::ReadAllBytes($File.FullName)))) -replace (&quot;-&quot;,&quot;&quot;) 
-        
+    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash([System.IO.File]::ReadAllBytes($File.FullName)))) -replace ("-","")
+
     return @{{Hash = $Hashstring;Path = $File.FullName}
 }
 
-write-log &quot;Hashing Directory: $Directory&quot;
-write-log &quot;Output Directory: $OutDir&quot;
-write-log &quot;Algorithm: $Algorithm&quot;
-write-log &quot;Containers: $Container&quot;
+write-log "Hashing Directory: $Directory"
+write-log "Output Directory: $OutDir"
+write-log "Algorithm: $Algorithm"
+write-log "Containers: $Container"
 
-$Files = Get-ChildItem -force -Recurse $Directory -Filter &quot;*.exe&quot; -ErrorAction SilentlyContinue
+$Files = Get-ChildItem -force -Recurse $Directory -Filter "*.exe" -ErrorAction SilentlyContinue
 
 foreach ($File in $Files) {{
     try {{
-        write-log &quot;Processing file: $($File.Name)&quot;
+        write-log "Processing file: $($File.Name)"
         $FileInfo = get-authorizedfileinfo -file $File -Algorithm $Algorithm
 
-        if (!($FileInfo.Path) -or !($FileInfo.Hash)) {{throw &quot;Invalid Authorized File Info&quot;}
+        if (!($FileInfo.Path) -or !($FileInfo.Hash)) {{throw "Invalid Authorized File Info"}
 
-        &quot;$($FileInfo.Path)`t$($FileInfo.Hash)`t*`tAllow`t$Container&quot; &gt;&gt; &quot;$OutDir\authorizedfiles.txt&quot;
+        "$($FileInfo.Path)`t$($FileInfo.Hash)`t*`tAllow`t$Container" >> "$OutDir\authorizedfiles.txt"
     } catch {{
-        write-log &quot;Error processing $File&quot;
+        write-log "Error processing $File"
     }
 }
 _end_
 
-copy __createfile &quot;{parameter &quot;BaselineStorage&quot;}\baseline.ps1&quot;
+copy __createfile "{parameter "BaselineStorage"}\baseline.ps1"
 
-waithidden powershell.exe -executionpolicy bypass -file &quot;{parameter &quot;BaselineStorage&quot;}\baseline.ps1&quot; -Directory &quot;{name of drive of system folder}\\&quot; -OutDir &quot;{parameter &quot;BaselineStorage&quot;}&quot; -Algorithm &quot;{parameter &quot;Algorithm&quot; of action}&quot; -Container &quot;{parameter &quot;Container&quot; of action}&quot;
+waithidden powershell.exe -executionpolicy bypass -file "{parameter "BaselineStorage"}\baseline.ps1" -Directory "{name of drive of system folder}\\" -OutDir "{parameter "BaselineStorage"}" -Algorithm "{parameter "Algorithm" of action}" -Container "{parameter "Container" of action}"
 
-move &quot;{parameter &quot;BaselineStorage&quot;}\AuthorizedFiles.txt&quot; &quot;{parameter &quot;BaselineStorage&quot;}\{computer name}.txt&quot;
+move "{parameter "BaselineStorage"}\AuthorizedFiles.txt" "{parameter "BaselineStorage"}\{computer name}.txt"
 
-setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot;=&quot;52428800&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client 
-setting &quot;_BESClient_ArchiveManager_FileSet-authfiles&quot;=&quot;{parameter &quot;BaselineStorage&quot;}\*.*&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
-setting &quot;_BESClient_ArchiveManager_OperatingMode&quot;=&quot;2&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="52428800" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-authfiles"="{parameter "BaselineStorage"}\*.*" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
 
 archive now
-</ActionScript>
+]]></ActionScript>
     </DefaultAction>
   </Task>
 </BES>

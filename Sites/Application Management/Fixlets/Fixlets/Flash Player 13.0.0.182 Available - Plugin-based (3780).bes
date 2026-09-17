@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Flash Player 13.0.0.182 Available - Plugin-based
   ID       : 3780
   Author   : techpppp
@@ -12,25 +12,25 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Flash Player 13.0.0.182 Available - Plugin-based</Title>
-    <Description>&lt;DIV class=FixletMessage&gt;
-&lt;TABLE&gt;
-&lt;TBODY&gt;
-&lt;TR&gt;
-&lt;TD&gt;&lt;FONT size=2&gt;
-&lt;P&gt;&lt;B&gt; Relevance changed to avoid overwriting installations of the &quot;content debugger&quot; &lt;/B&gt;&lt;/P&gt;
-&lt;P&gt;Adobe has released a new version of the Flash Player Plugin (13.0.0.182) for Netscape-based browsers. Use the action below to update Flash Player to the latest version.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;Note:&lt;/STRONG&gt; Affected computers may report back as &apos;Pending Restart&apos; once the update has run successfully, but will not report back their final status until the computer has been restarted.&lt;/P&gt;
-&lt;P&gt;&lt;B&gt;Note:&lt;/B&gt; Client machines may briefly display progress windows during installation of this update.&lt;/P&gt;
-&lt;P&gt;&lt;FONT color=red&gt;&lt;B&gt;Important Note:&lt;/B&gt;&lt;/FONT&gt; If the Flash Player is running, a pop-up message may be displayed prompting the user to reboot their computer once the update is complete. The action will not complete until the prompt is closed. To prevent this behavior, you may want to deploy this action with the user constraint &quot;Run only when no user is present&quot; or display a message box before action execution instructing the user to shut down all web browsers before applying this update.&lt;BR&gt;&lt;BR&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important Note:&lt;/FONT&gt;&lt;/STRONG&gt; Choosing the &quot;Upgrade to Flash Player regardless of whether or not Firefox running action&quot; will close any running instance of Firefox on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable&lt;/P&gt;&lt;/FONT&gt;&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;/DIV&gt;
-&lt;DIV class=FixletProperty&gt;
-&lt;H4&gt;File Size:&lt;/H4&gt;17.1 MB &lt;/DIV&gt;
-&lt;DIV class=FixletProperty&gt;
-&lt;H4&gt;CVE:&lt;/H4&gt;CVE-2014-0506; CVE-2014-0507; CVE-2014-0508; CVE-2014-0509 &lt;/DIV&gt;</Description>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD><FONT size=2>
+<P><B> Relevance changed to avoid overwriting installations of the "content debugger" </B></P>
+<P>Adobe has released a new version of the Flash Player Plugin (13.0.0.182) for Netscape-based browsers. Use the action below to update Flash Player to the latest version.</P>
+<P><STRONG>Note:</STRONG> Affected computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.</P>
+<P><B>Note:</B> Client machines may briefly display progress windows during installation of this update.</P>
+<P><FONT color=red><B>Important Note:</B></FONT> If the Flash Player is running, a pop-up message may be displayed prompting the user to reboot their computer once the update is complete. The action will not complete until the prompt is closed. To prevent this behavior, you may want to deploy this action with the user constraint "Run only when no user is present" or display a message box before action execution instructing the user to shut down all web browsers before applying this update.<BR><BR><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> Choosing the "Upgrade to Flash Player regardless of whether or not Firefox running action" will close any running instance of Firefox on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable</P></FONT></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>17.1 MB </DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2014-0506; CVE-2014-0507; CVE-2014-0508; CVE-2014-0509 </DIV>]]></Description>
     <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
     <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
     <Relevance>(exists folder &quot;macromed\flash&quot; of system folder AND (exists file whose ((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;swflash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder))  OR (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
     <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
-    <Relevance>(exists folder &quot;Macromed\Flash&quot; whose (exists file whose (version of it &lt; &quot;13.0.0.182&quot; AND name of it as string contains &quot;NPSWF32&quot; AND name of it as string contains &quot;.dll&quot;) of it) of system folder) OR (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file &quot;NPSWF32.dll&quot; whose (version of it &lt; &quot;13.0.0.182&quot;) of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
+    <Relevance><![CDATA[(exists folder "Macromed\Flash" whose (exists file whose (version of it < "13.0.0.182" AND name of it as string contains "NPSWF32" AND name of it as string contains ".dll") of it) of system folder) OR (exists key "HKLM\Software\Mozilla" whose (exists key whose (name of it does not contain "Netscape" AND exists key "Extensions" whose (exists file "NPSWF32.dll" whose (version of it < "13.0.0.182") of folder (value "Plugins" of it as string)) of it) of it) of registry)]]></Relevance>
     <Relevance>(it != &quot;WinNT&quot; AND it != &quot;Win95&quot; AND it != &quot;Win2000&quot;) of name of operating system</Relevance>
     <Relevance>exists value whose (name of it is &quot;isScriptDebugger&quot; and it is 0) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Macromedia\FlashPlayerPlugin&quot; of registry</Relevance>
     <Category>Security Update</Category>

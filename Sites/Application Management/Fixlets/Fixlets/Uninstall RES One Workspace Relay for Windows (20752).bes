@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall RES One Workspace Relay for Windows
   ID       : 20752
   Author   : RESQA
@@ -37,7 +37,7 @@
         ELSE
         waithidden msiexec /x __Download\WMRELAY86.MSI /qn /norestart
         ENDIF
-      </ActionScript>
+</ActionScript>
     </DefaultAction>
   </Fixlet>
 </BES>

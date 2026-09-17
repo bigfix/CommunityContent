@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Perfc - NotPetya/Petna/Petya Vaccine (alpha)
   ID       : 24569
   Author   : aurora
@@ -12,12 +12,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Perfc - NotPetya/Petna/Petya Vaccine (alpha)</Title>
-    <Description>&lt;P&gt;NotPetya/Petna/Petya Vaccine (alpha)&lt;/P&gt;
-&lt;P&gt;reference:&lt;BR&gt;&lt;A href=&quot;https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/&quot;&gt;https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;acknowledgement: &lt;BR&gt;&lt;A href=&quot;https://twitter.com/LawrenceAbrams&quot;&gt;https://twitter.com/LawrenceAbrams&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;Create readonly files perfc perfc.dat perfc.dll in C:\Windows directory&lt;/P&gt;
-&lt;P&gt;Disclaimer: Provided &apos;as-is&apos;&lt;/P&gt;
-&lt;P&gt;THE SAMPLE CODE IS PROVIDED “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL&amp;nbsp;THE&amp;nbsp;AUTHOR&amp;nbsp;OR CONTRIBUTORS OF THIS CODE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>NotPetya/Petna/Petya Vaccine (alpha)</P>
+<P>reference:<BR><A href="https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/">https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/</A></P>
+<P>acknowledgement: <BR><A href="https://twitter.com/LawrenceAbrams">https://twitter.com/LawrenceAbrams</A></P>
+<P>Create readonly files perfc perfc.dat perfc.dll in C:\Windows directory</P>
+<P>Disclaimer: Provided 'as-is'</P>
+<P>THE SAMPLE CODE IS PROVIDED “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL&nbsp;THE&nbsp;AUTHOR&nbsp;OR CONTRIBUTORS OF THIS CODE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</P>]]></Description>
     <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
     <Relevance>not exists file &quot;perfc&quot; of folder &quot;c:\windows&quot;</Relevance>
     <Relevance>not exists file &quot;perfc.dll&quot; of folder &quot;c:\windows&quot;</Relevance>

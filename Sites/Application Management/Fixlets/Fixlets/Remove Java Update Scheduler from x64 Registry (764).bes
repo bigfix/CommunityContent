@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Remove Java Update Scheduler from x64 Registry
   ID       : 764
   Author   : jgstew
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Remove Java Update Scheduler from x64 Registry</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
     <Relevance>(name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
     <Relevance>exists value &quot;SunJavaUpdateSched&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot; of x64 registry</Relevance>
     <Source>Internal</Source>

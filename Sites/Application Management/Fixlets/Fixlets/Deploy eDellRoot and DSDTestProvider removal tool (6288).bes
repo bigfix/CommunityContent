@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Deploy eDellRoot and DSDTestProvider removal tool
   ID       : 6288
   Author   : baiyf
@@ -12,13 +12,13 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Deploy eDellRoot and DSDTestProvider removal tool</Title>
-    <Description>&lt;TABLE&gt;
-&lt;TBODY&gt;
-&lt;TR&gt;
-&lt;TD&gt;
-&lt;P&gt;Use this Fixlet to run the Deploy eDellRoot and DSDTestProvider removal tool on target computers.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;Note:&lt;/STRONG&gt; To deploy this Fixlet, ensure that you have .NET Framework 4.0 or above installed.&lt;/P&gt;
-&lt;P&gt;THIS CONTENT IS PROVIDED BY THE AUTHOR &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.&lt;/P&gt;&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;</Description>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Use this Fixlet to run the Deploy eDellRoot and DSDTestProvider removal tool on target computers.</P>
+<P><STRONG>Note:</STRONG> To deploy this Fixlet, ensure that you have .NET Framework 4.0 or above installed.</P>
+<P>THIS CONTENT IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</P></TD></TR></TBODY></TABLE>]]></Description>
     <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false</Relevance>
     <Relevance>exists keys (&quot;98A04E4163357790C4A79E6D713FF0AF51FE6927&quot;; &quot;02C2D931062D7B1DC2A5C7F5F0685064081FB221&quot;) of keys &quot;Software\Microsoft\SystemCertificates\Root\Certificates&quot; of (keys of key &quot;HKEY_USERS&quot; of it; keys &quot;HKEY_LOCAL_MACHINE&quot; of it) of native registry</Relevance>
     <Relevance>not pending restart &quot;c497112138eaf1d0ffa6818ea234f7f7ebb2c43f&quot;</Relevance>

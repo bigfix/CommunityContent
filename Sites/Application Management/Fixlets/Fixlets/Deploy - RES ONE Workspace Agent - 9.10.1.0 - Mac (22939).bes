@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Deploy - RES ONE Workspace Agent - 9.10.1.0 - Mac
   ID       : 22939
   Author   : RES
@@ -12,68 +12,68 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Deploy - RES ONE Workspace Agent - 9.10.1.0 - Mac</Title>
-    <Description>&lt;DIV id=fixletMessage2 class=FixletMessage&gt;
-&lt;DIV id=paramFixletDescription&gt;
-&lt;P&gt;Deploy a new RES ONE Workspace 2015 SR1 Agent!&lt;/P&gt;
-&lt;P&gt;This parameterized Fixlet allows you to deploy RES ONE Workspace Agent that connects via Relay Authentication to a RES ONE Workspace Relay (This is the only form of agent to environment connection currently supported).&lt;/P&gt;
-&lt;P&gt;To deploy an agent you must determine what it&apos;s parent relay is going to be to connect into the environment as well as whether or not to inherit settings.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;Relay Parent&amp;nbsp;Selection&lt;/STRONG&gt;:&lt;BR&gt;This dropdown is populated with the current RES Relays deployed in the environment as well as a value, &quot;Current BigFix Relay&quot; which uses the currently configured BigFix Agent relay as the RES ONE Workspace Agent&apos;s relay.&lt;/P&gt;
-&lt;P&gt;&lt;FONT color=#ff0000&gt;&lt;STRONG&gt;NOTES: Grayed out settings used in this fixlet are configured via the Environment Configuration section of the Deployment Wizard!&lt;/STRONG&gt;&lt;/FONT&gt;&lt;BR&gt;- For &lt;STRONG&gt;&quot;Relay&quot;&lt;/STRONG&gt; authentication, the Environment Configuration section below must be populated&lt;STRONG&gt;.&lt;/STRONG&gt;&lt;/P&gt;&lt;/DIV&gt;
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>Deploy a new RES ONE Workspace 2015 SR1 Agent!</P>
+<P>This parameterized Fixlet allows you to deploy RES ONE Workspace Agent that connects via Relay Authentication to a RES ONE Workspace Relay (This is the only form of agent to environment connection currently supported).</P>
+<P>To deploy an agent you must determine what it's parent relay is going to be to connect into the environment as well as whether or not to inherit settings.</P>
+<P><STRONG>Relay Parent&nbsp;Selection</STRONG>:<BR>This dropdown is populated with the current RES Relays deployed in the environment as well as a value, "Current BigFix Relay" which uses the currently configured BigFix Agent relay as the RES ONE Workspace Agent's relay.</P>
+<P><FONT color=#ff0000><STRONG>NOTES: Grayed out settings used in this fixlet are configured via the Environment Configuration section of the Deployment Wizard!</STRONG></FONT><BR>- For <STRONG>"Relay"</STRONG> authentication, the Environment Configuration section below must be populated<STRONG>.</STRONG></P></DIV>
 
-&lt;DIV id=plainOrdinaryFixletDescription&gt;Failed to load parameterized fixlet.&lt;/div&gt;
-&lt;/div&gt;
+<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
 
-&lt;script&gt;
+<script>
     loaded = false;
-	
+
 	function loadGlobalization() {
-		var globalization = EvaluateRelevance(&apos;(messages of it) of fixlets whose ( name of it = &quot;Parameterized Fixlet Library&quot;) of all bes sites whose (name of it = &quot;BES Support&quot;)&apos;);
-		var regex = /\s*&lt;DIV id=globalizationMessageDiv  style=&quot;display:none;&quot;&gt;([\x00-\x7F]+)\s*&lt;\/Div&gt;/i;
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
 		var matches = regex.exec(globalization);
-		var globalizationSanitized = matches[1].replace(/&lt;br&gt;/gi, &quot;&quot;);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
 		return globalizationSanitized;
 	}
-	
+
 	function loadUtils() {
-		return EvaluateRelevance(&apos;unique value of values of mime fields whose (name of it = &quot;vrt_utils.js&quot;) of fixlets whose ( name of it = &quot;Parameterized Fixlet Library&quot;) of all bes sites whose (name of it = &quot;BES Support&quot;)&apos;);
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
 	}
-	
+
     function loadScript(url, callback) {
-		var head = document.getElementsByTagName(&quot;head&quot;)[0]; 
-		var script = document.createElement(&quot;script&quot;);
-		script.type = &quot;text/javascript&quot;;
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
 		script.text = loadUtils() + loadGlobalization();
         script.onreadystatechange = callback;
         script.onload = callback;
-		
+
         head.appendChild(script);
     }
 
     function scriptLoaded() {
         if (!loaded) {
-            var paramFixletDescription = document.getElementById(&apos;paramFixletDescription&apos;);
-            var plainOrdinaryFixletDescription = document.getElementById(&apos;plainOrdinaryFixletDescription&apos;);
-			
-            if (typeof FixletUtils !== &apos;undefined&apos;) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
                 loaded = true;
-                paramFixletDescription.style.display = &quot;block&quot;;
-                plainOrdinaryFixletDescription.style.display = &quot;none&quot;;
-				
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
                 FixletUtils.initFixletRender();
             } else {
-                paramFixletDescription.style.display = &quot;none&quot;;
-                plainOrdinaryFixletDescription.style.display = &quot;block&quot;;
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
             }
         }
     }
-	
-    loadScript(&quot;vrt_fixletUtils.js&quot;, scriptLoaded);
-&lt;/script&gt;
-</Description>
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>
+]]></Description>
     <Relevance>not exists file &quot;/usr/local/bin/resauthd&quot;</Relevance>
     <Relevance>name of operating system as lowercase starts with &quot;mac os x&quot;</Relevance>
-    <Relevance>system version &gt;= &quot;10.8.5&quot;</Relevance>
-    <Relevance>system version &lt;= &quot;11.10&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.8.5"]]></Relevance>
+    <Relevance><![CDATA[system version <= "11.10"]]></Relevance>
     <Category>Upgrade</Category>
     <Source>RES Software</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
@@ -91,7 +91,7 @@
 	&quot;Values&quot;: [
 	{
 	    &quot;Name&quot;: &quot;rlParent&quot;,
-	    &quot;Title&quot;: &quot;Relay Parent&quot;, 
+	    &quot;Title&quot;: &quot;Relay Parent&quot;,
 	    &quot;Description&quot;: &quot;Select the parent of this relay&quot;,
 		&quot;UIType&quot;: &quot;select&quot;,
 		&quot;Override&quot;: &quot;true&quot;,
@@ -116,7 +116,7 @@
 	&quot;Values&quot;: [
 	{
 	    &quot;Name&quot;: &quot;RESEnvPwdHash&quot;,
-	    &quot;Title&quot;: &quot;RES Environment Password Hash&quot;, 
+	    &quot;Title&quot;: &quot;RES Environment Password Hash&quot;,
 	    &quot;Description&quot;: &quot;Enter the RES Environment Password Hash&quot;,
 		&quot;UIType&quot;: &quot;Textbox&quot;,
 		&quot;Encrypt&quot;: &quot;false&quot;,
@@ -127,7 +127,7 @@
 	},
 	{
 	    &quot;Name&quot;: &quot;RESRELPORT&quot;,
-	    &quot;Title&quot;: &quot;RES Relay Port&quot;, 
+	    &quot;Title&quot;: &quot;RES Relay Port&quot;,
 	    &quot;Description&quot;: &quot;Enter the RES Relay Port&quot;,
 		&quot;Disabled&quot;: &quot;true&quot;,
 		&quot;UIType&quot;: &quot;Textbox&quot;,
@@ -136,7 +136,7 @@
 	},
 	{
 	    &quot;Name&quot;: &quot;RESEnvGUID&quot;,
-	    &quot;Title&quot;: &quot;RES Environment GUID&quot;, 
+	    &quot;Title&quot;: &quot;RES Environment GUID&quot;,
 	    &quot;Description&quot;: &quot;Enter the RES Environment GUID&quot;,
 		&quot;UIType&quot;: &quot;Textbox&quot;,
 		&quot;Disabled&quot;: &quot;true&quot;,
@@ -147,6 +147,10 @@
 }
 }</Value>
     </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:45 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <Action ID="Action23936">
       <Description>
@@ -154,34 +158,34 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
 begin prefetch block
   add prefetch item name=RESWMosXAgent.pkg sha1=a1ca5d8d577708406eb63976ee35aa34f86d2a88 size=321558 url=http://downloads.ressoftware.com/downloads/cdm/040116/agents/reswmad-9.10.1.0-1.3280.pkg sha256=fc408509018ed6b95db7ae33435f3317c3f119d46cd86ce43cc6a293f9a1e617
 end prefetch block
 
-if {parameter &quot;rlParent&quot; of action = &quot;Current BigFix Relay&quot;}
+if {parameter "rlParent" of action = "Current BigFix Relay"}
 	// This Relay List will provide 127.0.0.1 if the current device is a relay
-	parameter &quot;RelayList&quot;=&quot;{(preceding text of first &quot;:&quot; of name of registration server as lowercase) &amp; &quot;:&quot; &amp; parameter &quot;RESRELPORT&quot; of action}&quot;
+	parameter "RelayList"="{(preceding text of first ":" of name of registration server as lowercase) & ":" & parameter "RESRELPORT" of action}"
 
-	// This Relay List will provide the relay&apos;s parent if the current device is a relay
-	//parameter &quot;RelayList&quot;=&quot;{((if ((it does not contain &quot;127.0.0.1&quot; and it does not contain &quot;::1&quot;) of name of registration server) then (preceding text of first &quot;:&quot; of name of registration server) else (preceding text of first &quot;:&quot; of following text of first &quot;://&quot; of value of setting &quot;_BESRelay_PostResults_ParentRelayURL&quot; of client)) &amp; &quot;:&quot; &amp; parameter &quot;RESRELPORT&quot; of action)}&quot;
+	// This Relay List will provide the relay's parent if the current device is a relay
+	//parameter "RelayList"="{((if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (preceding text of first ":" of name of registration server) else (preceding text of first ":" of following text of first "://" of value of setting "_BESRelay_PostResults_ParentRelayURL" of client)) & ":" & parameter "RESRELPORT" of action)}"
 else
-	parameter &quot;RelayList&quot;=&quot;{parameter &quot;rlParent&quot; of action}&quot;
+	parameter "RelayList"="{parameter "rlParent" of action}"
 endif
 
-wait sh -c &quot;installer -pkg &apos;__Download/RESWMosXAgent.pkg&apos; -target /&quot;
+wait sh -c "installer -pkg '__Download/RESWMosXAgent.pkg' -target /"
 
 delete __createfile
 
 createfile until __end
-sed -i &apos;s/LearningMode=no/LearningMode=yes/g&apos; /etc/res/resauthd.conf
-sed -i &apos;s/AllowAny=no/AllowAny=yes/g&apos; /etc/res/resauthd.conf
+sed -i 's/LearningMode=no/LearningMode=yes/g' /etc/res/resauthd.conf
+sed -i 's/AllowAny=no/AllowAny=yes/g' /etc/res/resauthd.conf
 rm /etc/res/reswmad.conf
 touch /etc/res/reswmad.conf
-echo RSENVGUID={(parameter &quot;RESEnvGUID&quot; of action)} &gt;&gt; /etc/res/reswmad.conf
-echo RSPASSWORD={(parameter &quot;RESEnvPwdHash&quot; of action)} &gt;&gt; /etc/res/reswmad.conf
-echo RSPWHASHED=Yes &gt;&gt; /etc/res/reswmad.conf
-echo RSLIST={parameter &quot;RelayList&quot;} &gt;&gt; /etc/res/reswmad.conf
+echo RSENVGUID={(parameter "RESEnvGUID" of action)} >> /etc/res/reswmad.conf
+echo RSPASSWORD={(parameter "RESEnvPwdHash" of action)} >> /etc/res/reswmad.conf
+echo RSPWHASHED=Yes >> /etc/res/reswmad.conf
+echo RSLIST={parameter "RelayList"} >> /etc/res/reswmad.conf
 launchctl load /Library/LaunchDaemons/com.ressoftware.reswmad.plist
 launchctl load /Library/LaunchDaemons/com.ressoftware.resauthd.plist
 __end
@@ -190,7 +194,7 @@ move __createfile agent_config.sh
 wait bash agent_config.sh
 delete agent_config.sh
 delete run.sh
-     </ActionScript>
+]]></ActionScript>
     </Action>
   </Fixlet>
 </BES>

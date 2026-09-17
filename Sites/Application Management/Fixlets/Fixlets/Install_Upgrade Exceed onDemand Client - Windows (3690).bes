@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Upgrade Exceed onDemand Client - Windows
   ID       : 3690
   Author   : jgstew
@@ -14,8 +14,8 @@
     <Title>Install/Upgrade Exceed onDemand Client - Windows</Title>
     <Description>Install Exceed onDemand Client </Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* WinXP or later */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
-    <Relevance>not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Open Text Exceed onDemand Client&quot; AND (value &quot;DisplayVersion&quot; of it as string as version &gt;= &quot;13.8.3&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose (value "DisplayName" of it as string contains "Open Text Exceed onDemand Client" AND (value "DisplayVersion" of it as string as version >= "13.8.3")) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
     <Source>Internal</Source>
     <SourceID>jgs194</SourceID>
     <SourceReleaseDate>2013-12-06</SourceReleaseDate>
@@ -30,30 +30,30 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// http://connectivity.opentext.com/products/exceed-ondemand-windows-platforms.aspx
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// http://connectivity.opentext.com/products/exceed-ondemand-windows-platforms.aspx
 // https://www.virustotal.com/en/file/f1b58aece46a9ee3724857d12ca933a273eedb636d89292df025ca3f0c5d3811/analysis/
 // https://www.virustotal.com/en/file/0f847e5df13b32b1282b83f2a87c57f5ea6990ba1935a513774335cd7bb94a32/analysis/
 //prefetch OpenTextExceedonDemandClient8SR3_RealESD.exe sha1:3014f77a52607c73f71ba9853896b2fb757428d8 size:13270144 http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x64_RealESD.exe
 //prefetch OpenTextExceedonDemandClient8SR3_RealESD.exe sha1:8ba31af0edf1b2b627c13d26ef8545f019d9e1b9 size:12168584 http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x86_RealESD.exe
 
-// Using a prefetch block to avoid downloading both 32bit &amp; 64bit versions when only one is needed.
+// Using a prefetch block to avoid downloading both 32bit & 64bit versions when only one is needed.
 begin prefetch block
 	if {x64 of operating system}
 		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=3014f77a52607c73f71ba9853896b2fb757428d8 size=13270144 url=http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x64_RealESD.exe
 	else
-		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=8ba31af0edf1b2b627c13d26ef8545f019d9e1b9 size=12168584 url=http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x86_RealESD.exe 
+		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=8ba31af0edf1b2b627c13d26ef8545f019d9e1b9 size=12168584 url=http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x86_RealESD.exe
 	endif
 
 	collect prefetch items
 end prefetch block
 
 // If Exceed onDemand Client has been previously installed, then uninstalled, then this folder will stick around, which will prevent installation from succeeding.
-if{ exists ((folders &quot;C:\Program Files\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x86&quot;); (folders &quot;C:\Program Files (x86)\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x64&quot;)) }
-	waithidden cmd /c RMDIR /q /s &quot;{pathname of ((folders &quot;C:\Program Files\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x86&quot;); (folders &quot;C:\Program Files (x86)\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x64&quot;))}&quot;
+if{ exists ((folders "C:\Program Files\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x86"); (folders "C:\Program Files (x86)\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x64")) }
+	waithidden cmd /c RMDIR /q /s "{pathname of ((folders "C:\Program Files\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x86"); (folders "C:\Program Files (x86)\Open Text Installation Media\Open Text Exceed onDemand Client 8 SR3 x64"))}"
 endif
 
 //  /QN REBOOT=ReallySuppress
-wait __Download\OpenTextExceedonDemandClient_RealESD.exe /QN REBOOT=ReallySuppress</ActionScript>
+wait __Download\OpenTextExceedonDemandClient_RealESD.exe /QN REBOOT=ReallySuppress]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

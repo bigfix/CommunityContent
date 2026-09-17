@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Update: Dell Command Update 2.1.1 - Windows
   ID       : 11942
   Author   : jgstew
@@ -12,31 +12,31 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Update: Dell Command Update 2.1.1 - Windows</Title>
-    <Description>&lt;P&gt;This task will&amp;nbsp;install Dell Command Update.&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;Steps to using Dell Command Update:&lt;/STRONG&gt;&lt;/P&gt;
-&lt;OL&gt;
-&lt;LI&gt;Install/Update: Dell Command Update - Windows&amp;nbsp; (Only once for each client) 
-&lt;LI&gt;Run: Check for updates - Dell Command Update - Windows&amp;nbsp;&amp;nbsp;(Once every 60 days) 
-&lt;LI&gt;Check Results in Analysis:&amp;nbsp; Dell Command Update Audit - Windows 
-&lt;LI&gt;Run: Install Updates - Dell Command Update - Windows&amp;nbsp; (Only if updates are needed) 
-&lt;LI&gt;Reboot Computer&amp;nbsp; (Only if reboot is actually required) 
-&lt;OL&gt;
-&lt;LI&gt;Run: Notify User to Reboot System with pending restart due to Dell Updates - Dell Command Update - Windows 
-&lt;LI&gt;Run: Reboot System if no user is logged on with pending restart due to Dell Updates - Dell Command Update - Windows&lt;/LI&gt;&lt;/OL&gt;&lt;/LI&gt;&lt;/OL&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;References:&lt;/STRONG&gt;&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-94F5B76D-F3AF-4485-BD45-0BFBF80B03C3&quot;&gt;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-94F5B76D-F3AF-4485-BD45-0BFBF80B03C3&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-BEEFE51A-E9FE-4A31-8104-05AD32AF518B&quot;&gt;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-BEEFE51A-E9FE-4A31-8104-05AD32AF518B&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-72C8F511-C7A5-4729-BF86-F92837841289&quot;&gt;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-72C8F511-C7A5-4729-BF86-F92837841289&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-5A058BEF-5A75-4037-A9C2-65628F818EB7&quot;&gt;http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-5A058BEF-5A75-4037-A9C2-65628F818EB7&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task will&nbsp;install Dell Command Update.</P>
+<P>&nbsp;</P>
+<P><STRONG>Steps to using Dell Command Update:</STRONG></P>
+<OL>
+<LI>Install/Update: Dell Command Update - Windows&nbsp; (Only once for each client)
+<LI>Run: Check for updates - Dell Command Update - Windows&nbsp;&nbsp;(Once every 60 days)
+<LI>Check Results in Analysis:&nbsp; Dell Command Update Audit - Windows
+<LI>Run: Install Updates - Dell Command Update - Windows&nbsp; (Only if updates are needed)
+<LI>Reboot Computer&nbsp; (Only if reboot is actually required)
+<OL>
+<LI>Run: Notify User to Reboot System with pending restart due to Dell Updates - Dell Command Update - Windows
+<LI>Run: Reboot System if no user is logged on with pending restart due to Dell Updates - Dell Command Update - Windows</LI></OL></LI></OL>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-94F5B76D-F3AF-4485-BD45-0BFBF80B03C3">http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-94F5B76D-F3AF-4485-BD45-0BFBF80B03C3</A></P>
+<P><A href="http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-BEEFE51A-E9FE-4A31-8104-05AD32AF518B">http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-BEEFE51A-E9FE-4A31-8104-05AD32AF518B</A></P>
+<P><A href="http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-72C8F511-C7A5-4729-BF86-F92837841289">http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-72C8F511-C7A5-4729-BF86-F92837841289</A></P>
+<P><A href="http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-5A058BEF-5A75-4037-A9C2-65628F818EB7">http://www.dell.com/support/Manuals/us/en/19/Topic/dell-comnd-update-v2.0/DCU_formerly_DCSU_UG-v2/en-us/GUID-5A058BEF-5A75-4037-A9C2-65628F818EB7</A></P>
+<P>&nbsp;</P>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* Windows Vista or Higher */ version of operating system &gt;= &quot;6.0&quot;</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
     <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
     <Relevance>/* check for supported model: OptiPlex, Latitude, Precision, Venue Tablets, XPS */ exists ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as uppercase) whose(it starts with &quot;OPTIPLEX&quot; OR it starts with &quot;LATITUDE&quot; OR it starts with &quot;PRECISION&quot; OR it starts with &quot;XPS&quot; OR it starts with &quot;VENUE&quot;)</Relevance>
     <Relevance>/* Requires .NET 4+ */ exists values &quot;Install&quot; whose(1 = it as string as integer) of keys of keys whose(name of it starts with &quot;v4&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of (x32 registries;x64 registries)</Relevance>
-    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string as trimmed string starts with &quot;Dell Command | Update&quot; AND value &quot;DisplayVersion&quot; of it as string as version &gt;= &quot;2.1.1&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string as trimmed string starts with "Dell Command | Update" AND value "DisplayVersion" of it as string as version >= "2.1.1") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></Relevance>
     <Category>Software Sharing</Category>
     <Source>Internal</Source>
     <SourceID>jgstew</SourceID>
@@ -83,7 +83,7 @@ if{ not exists descendants of folders &quot;C:\ProgramData\Microsoft\Windows\Sta
 	folder delete &quot;C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Dell&quot;
 endif
 
-// if run, check for updates and notify 
+// if run, check for updates and notify
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate\Preferences]&quot; &quot;automationmode&quot;=&quot;ScanNotify&quot;
 // Only run if manually invoked
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate\Preferences]&quot; &quot;scheduledexecution&quot;=&quot;Off&quot;
@@ -109,7 +109,7 @@ action launch preference low-priority
 waithidden __Download\Systems-Management_Application.EXE /s
 
 
-// if run, check for updates and notify 
+// if run, check for updates and notify
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate\Preferences]&quot; &quot;automationmode&quot;=&quot;ScanNotify&quot;
 // Only run if manually invoked
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Dell\CommandUpdate\Preferences]&quot; &quot;scheduledexecution&quot;=&quot;Off&quot;

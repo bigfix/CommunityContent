@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall RES One Workspace Agent for Linux
   ID       : 20755
   Author   : RESQA
@@ -53,7 +53,7 @@
         __end
         move __createfile agent_config.sh
         wait bash agent_config.sh
-      </ActionScript>
+</ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

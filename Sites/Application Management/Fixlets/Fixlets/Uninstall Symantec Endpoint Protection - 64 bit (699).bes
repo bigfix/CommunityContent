@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Uninstall Symantec Endpoint Protection - 64 bit
   ID       : 699
   Author   : danielheth
@@ -12,14 +12,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Uninstall Symantec Endpoint Protection - 64 bit</Title>
-    <Description>    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet. 
-    &lt;P&gt;&lt;B&gt;Source Wizard:&lt;/B&gt; &lt;A href=&quot;http://bigfix.me/uninstall&quot;&gt;http://bigfix.me/uninstall&lt;/A&gt;&lt;/P&gt;
-    &lt;P&gt;This fixlet is constructed from the following variables provided by the developer:&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Registry Source:&lt;/B&gt; HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Display Name:&lt;/B&gt; Symantec Endpoint Protection&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Application Guid:&lt;/B&gt; 5C8BE867-CC84-452B-940C-1C18200277E5&lt;/P&gt;
-    &lt;P&gt;&lt;B&gt;Uninstall Command String:&lt;/B&gt; MsiExec.exe /x{appGuid} /quiet /norestart&lt;/P&gt;
-</Description>
+    <Description><![CDATA[    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet.
+    <P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+    <P>This fixlet is constructed from the following variables provided by the developer:</P>
+    <P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+    <P><B>Display Name:</B> Symantec Endpoint Protection</P>
+    <P><B>Application Guid:</B> 5C8BE867-CC84-452B-940C-1C18200277E5</P>
+    <P><B>Uninstall Command String:</B> MsiExec.exe /x{appGuid} /quiet /norestart</P>
+]]></Description>
     <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
     <Relevance>x64 of operating system</Relevance>
     <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>

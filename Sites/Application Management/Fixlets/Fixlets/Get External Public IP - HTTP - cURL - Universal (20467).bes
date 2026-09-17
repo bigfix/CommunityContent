@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Get External Public IP - HTTP - cURL - Universal
   ID       : 20467
   Author   : jgstew
@@ -12,8 +12,8 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Get External Public IP - HTTP - cURL - Universal</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
-    <Relevance>not exists files whose(name of it as lowercase starts with &quot;public_ip_http_curl.log&quot; AND name of it as lowercase ends with &quot;.log&quot; AND (now - modification time of it) &lt; 9*day ) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Relevance>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance><![CDATA[not exists files whose(name of it as lowercase starts with "public_ip_http_curl.log" AND name of it as lowercase ends with ".log" AND (now - modification time of it) < 9*day ) of folders "Logs" of folders "__Global" of data folders of client]]></Relevance>
     <Relevance>exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments</Relevance>
     <Source>Internal</Source>
     <SourceID>jgstew</SourceID>

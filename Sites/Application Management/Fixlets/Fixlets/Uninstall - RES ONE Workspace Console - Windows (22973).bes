@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall - RES ONE Workspace Console - Windows
   ID       : 22973
   Author   : RES
@@ -12,14 +12,18 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Uninstall - RES ONE Workspace Console - Windows</Title>
-    <Description>&lt;P&gt;Removes an installed RES ONE Workspace Console.&lt;/P&gt;
-&lt;P&gt;This simply runs a standard uninstall and does not perform any additional cleanup.&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>Removes an installed RES ONE Workspace Console.</P>
+<P>This simply runs a standard uninstall and does not perform any additional cleanup.</P>]]></Description>
     <Relevance>NOT exists main gather service</Relevance>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string starts with &quot;RES ONE Workspace&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Relay Server&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Agent&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry as string) /* Workspace key exists in Registry */</Relevance>
-    <Relevance>exists file ((it &amp; &quot;pwrtech.exe&quot;) of (values &quot;InstallDir&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string)) /* Console is Installed */</Relevance>
+    <Relevance><![CDATA[exists file ((it & "pwrtech.exe") of (values "InstallDir" of keys "HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager" of x32 registry as string)) /* Console is Installed */]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:45 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>

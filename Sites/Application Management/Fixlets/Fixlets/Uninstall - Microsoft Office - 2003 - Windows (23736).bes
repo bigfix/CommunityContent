@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall - Microsoft Office - 2003 - Windows
   ID       : 23736
   Author   : strawgate
@@ -12,12 +12,16 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Uninstall - Microsoft Office - 2003 - Windows</Title>
-    <Description>&lt;P&gt;This Fixlet uses the Office Cleanup tool to remove a Microsoft Office 2003 Installation.&lt;/P&gt;
-&lt;P&gt;For general information or to report issues with C3 Patch content please visit GitHub here: &lt;A href=&quot;https://github.com/strawgate/C3-Patch&quot;&gt;https://github.com/strawgate/C3-Patch&lt;/A&gt;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This Fixlet uses the Office Cleanup tool to remove a Microsoft Office 2003 Installation.</P>
+<P>For general information or to report issues with C3 Patch content please visit GitHub here: <A href="https://github.com/strawgate/C3-Patch">https://github.com/strawgate/C3-Patch</A></P>]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists keys (&quot;Access&quot;;&quot;Excel&quot;;&quot;Outlook&quot;;&quot;PowerPoint&quot;;&quot;Word&quot;) of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Office\11.0&quot; of (x32 registries;x64 registries)</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2017-02-24</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:45 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>

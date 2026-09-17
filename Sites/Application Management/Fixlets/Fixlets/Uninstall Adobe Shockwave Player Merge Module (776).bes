@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall Adobe Shockwave Player Merge Module
   ID       : 776
   Author   : jgstew
@@ -30,7 +30,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /QN REBOOT=ReallySuppress /X{name of key whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;swMSM&quot; as lowercase AND name of it starts with &quot;{&quot; AND value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;MsiExec&quot; as lowercase) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry}</ActionScript>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[waithidden "{pathname of system folder & "\msiexec.exe"}" /QN REBOOT=ReallySuppress /X{name of key whose (value "DisplayName" of it as string as lowercase contains "swMSM" as lowercase AND name of it starts with "{" AND value "uninstallstring" of it as string as lowercase contains "MsiExec" as lowercase) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry}]]></ActionScript>
     </DefaultAction>
   </Fixlet>
 </BES>

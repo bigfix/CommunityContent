@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Disable Check for updates for Articulate Storyline
   ID       : 725
   Author   : jgstew
@@ -12,13 +12,13 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Disable Check for updates for Articulate Storyline</Title>
-    <Description>&lt;P&gt;This task will disable update checking for Articulate Storyline&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;http://www.articulate.com/support/kb_article.php?product=st1&amp;amp;id=qqmuutqt7u43&quot;&gt;&lt;FONT color=#000080&gt;http://www.articulate.com/support/kb_article.php?product=st1&amp;amp;id=qqmuutqt7u43&lt;/FONT&gt;&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&lt;BR&gt;This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7 and Windows 7 x64. &lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task will disable update checking for Articulate Storyline</P>
+<P><A href="http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43"><FONT color=#000080>http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43</FONT></A></P>
+<P><BR>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7 and Windows 7 x64. </P>]]></Description>
     <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
     <Relevance>exists current user AND (1 = number of logged on users)</Relevance>
-    <Relevance>(exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Articulate Storyline&quot; AND (it &gt;= &quot;1.0.15&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry)</Relevance>
-    <Relevance>not exists key &quot;Software\Articulate\Storyline\1.0\Workspace&quot; whose (&quot;false&quot; = value &quot;CheckUpdates&quot; of it) of (key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase &amp; &quot;@&quot;) of (it as string as lowercase) of (if (name of operating system = &quot;Win7&quot;) then value &quot;USERNAME&quot; of key &quot;Volatile Environment&quot; of it else value &quot;Logon User Name&quot; of key &quot;Software\Microsoft\Windows\CurrentVersion\Explorer&quot; of it))) of key &quot;HKEY_USERS&quot; of registry)</Relevance>
+    <Relevance><![CDATA[(exists key whose (value "DisplayName" of it as string contains "Articulate Storyline" AND (it >= "1.0.15" as version) of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry)]]></Relevance>
+    <Relevance><![CDATA[not exists key "Software\Articulate\Storyline\1.0\Workspace" whose ("false" = value "CheckUpdates" of it) of (key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry)]]></Relevance>
     <Category>Disable Updates</Category>
     <Source>http://www.articulate.com/support/kb_article.php?product=st1&amp;id=qqmuutqt7u43</Source>
     <SourceID>jgs194</SourceID>
@@ -38,7 +38,7 @@
         <Link>here </Link>
         <PostLink>to initiate the deployment process.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset64 &quot;[{(&quot;HKEY_USERS\&quot; &amp; (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase &amp; &quot;@&quot;) of (it as string as lowercase) of (if (name of operating system = &quot;Win7&quot;) then value &quot;USERNAME&quot; of key &quot;Volatile Environment&quot; of it else value &quot;Logon User Name&quot; of key &quot;Software\Microsoft\Windows\CurrentVersion\Explorer&quot; of it))) of key &quot;HKEY_USERS&quot; of registry) &amp; &quot;\Software\Articulate\Storyline\1.0\Workspace&quot; )}]&quot; &quot;CheckUpdates&quot;=&quot;false&quot;</ActionScript>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[regset64 "[{("HKEY_USERS\" & (name of key whose (((it = name of current user as lowercase OR it starts with name of current user as lowercase & "@") of (it as string as lowercase) of (if (name of operating system = "Win7") then value "USERNAME" of key "Volatile Environment" of it else value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it))) of key "HKEY_USERS" of registry) & "\Software\Articulate\Storyline\1.0\Workspace" )}]" "CheckUpdates"="false"]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Task>

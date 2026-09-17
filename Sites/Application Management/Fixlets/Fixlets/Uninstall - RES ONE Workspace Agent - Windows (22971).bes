@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall - RES ONE Workspace Agent - Windows
   ID       : 22971
   Author   : RES
@@ -12,15 +12,19 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Uninstall - RES ONE Workspace Agent - Windows</Title>
-    <Description>&lt;P&gt;Removes an installed RES ONE Workspace Agent.&lt;/P&gt;
-&lt;P&gt;This simply runs a standard uninstall and does not perform any additional cleanup.&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>Removes an installed RES ONE Workspace Agent.</P>
+<P>This simply runs a standard uninstall and does not perform any additional cleanup.</P>]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists service &quot;res&quot; /* RES is Installed */</Relevance>
-    <Relevance>exists file (pathname of parent folder of parent folder of file of service &quot;res&quot; &amp; &quot;\pfwsmgr.exe&quot;) /* Client is installed */</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe") /* Client is installed */]]></Relevance>
     <Relevance>not exists values &quot;CDMsiteGUID&quot; whose(it as string as trimmed string != &quot;&quot;) of keys &quot;HKLM\Software\RES\CDM&quot; of x32 registry /* Client is not an Integration Endpoint */</Relevance>
     <Relevance>exists (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string starts with &quot;RES ONE Workspace&quot; and value &quot;DisplayName&quot; of it as string ends with &quot;Agent&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry as string)</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:40 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>

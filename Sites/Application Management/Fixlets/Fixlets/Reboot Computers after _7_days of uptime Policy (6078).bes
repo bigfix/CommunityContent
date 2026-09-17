@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    :  Reboot Computers after "7"days of uptime Policy
   ID       : 6078
   Author   : DanPaquette
@@ -11,22 +11,22 @@
 -->
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
-    <Title> Reboot Computers after &quot;7&quot;days of uptime Policy</Title>
-    <Description>&lt;P&gt;This Fixlet restarts Windows machines after &quot;7&quot;&amp;nbsp;days of uptime or 168 hours. After 168 hours an endpoint will evaluate the fixlet and find itself relevant and therefore relevant to any actions on this&amp;nbsp;task.&amp;nbsp;This task is only applicable to windows workstations and not servers though you could probably target MACs if you change the relevance.&lt;/P&gt;
-&lt;P&gt;This fixlet was for a customer specifically trying to address users that rarely rebooted their machines. This creates an issue with patching in some cases where the OS is in a pending file operation status from a previous patch or software install. Additionally, the operating system might just be in a bad state from various transistions in and out of power management states. This task as a policy allows them to address those users who rarely reboot while giving those users some flexibility as to when the reboot happens(per snooze).&lt;/P&gt;
-&lt;P&gt;To properly action this task ensure the following constraints and behaviors are set.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Constraints:&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;P&gt;The idea of this task is to run as a policy, so you should uncheck the &quot;Ends On&quot; option.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Behavior:&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;P&gt;You want this task to run as a policy when a machine reaches 7 days of uptime but you also want it to run again the next time the endpoint reaches 7 days of uptime. So make sure you check the box &quot;Reapply this Action&quot; and choose &quot;whenever it becomes relevant again&quot;. Then uncheck the box that limits the reapplications.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Post Action Tab:&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;P&gt;You must set your restart option here, the message you want, whether you will prompt them to save work, allow them to cancel the action and how many hours or days you will give them before deadline. Default is 24 hours.&lt;/P&gt;
-&lt;P&gt;Note - This fixlet requires no action script to run.&amp;nbsp;By setting the post action tab you are essentially sending the &quot;Action requires restart&quot; command to the endpoint.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;Editing this fixlet:&lt;/STRONG&gt;&lt;/P&gt;
-&lt;P&gt;All you need to do is edit the&amp;nbsp;day value in the line of relevance. Note that the value must be &quot;X*Day&quot;. A numerical value alone will not work in this case. Then you can edit the title and description of the fixlet and save it.&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
-    <Relevance>(now - boot time of operating system) &gt;7*day</Relevance>
+    <Title>Reboot Computers after &quot;7&quot;days of uptime Policy</Title>
+    <Description><![CDATA[<P>This Fixlet restarts Windows machines after "7"&nbsp;days of uptime or 168 hours. After 168 hours an endpoint will evaluate the fixlet and find itself relevant and therefore relevant to any actions on this&nbsp;task.&nbsp;This task is only applicable to windows workstations and not servers though you could probably target MACs if you change the relevance.</P>
+<P>This fixlet was for a customer specifically trying to address users that rarely rebooted their machines. This creates an issue with patching in some cases where the OS is in a pending file operation status from a previous patch or software install. Additionally, the operating system might just be in a bad state from various transistions in and out of power management states. This task as a policy allows them to address those users who rarely reboot while giving those users some flexibility as to when the reboot happens(per snooze).</P>
+<P>To properly action this task ensure the following constraints and behaviors are set.</P>
+<P><STRONG><FONT color=#ff0000>Constraints:</FONT></STRONG></P>
+<P>The idea of this task is to run as a policy, so you should uncheck the "Ends On" option.</P>
+<P><STRONG><FONT color=#ff0000>Behavior:</FONT></STRONG></P>
+<P>You want this task to run as a policy when a machine reaches 7 days of uptime but you also want it to run again the next time the endpoint reaches 7 days of uptime. So make sure you check the box "Reapply this Action" and choose "whenever it becomes relevant again". Then uncheck the box that limits the reapplications.</P>
+<P><STRONG><FONT color=#ff0000>Post Action Tab:</FONT></STRONG></P>
+<P>You must set your restart option here, the message you want, whether you will prompt them to save work, allow them to cancel the action and how many hours or days you will give them before deadline. Default is 24 hours.</P>
+<P>Note - This fixlet requires no action script to run.&nbsp;By setting the post action tab you are essentially sending the "Action requires restart" command to the endpoint.</P>
+<P><STRONG>Editing this fixlet:</STRONG></P>
+<P>All you need to do is edit the&nbsp;day value in the line of relevance. Note that the value must be "X*Day". A numerical value alone will not work in this case. Then you can edit the title and description of the fixlet and save it.</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[(now - boot time of operating system) >7*day]]></Relevance>
     <Relevance>((name of it as lowercase = &quot;WinXP&quot;  as lowercase  OR name of it as lowercase = &quot;WinVista&quot;  as lowercase  OR name of it as lowercase = &quot;Win7&quot;  as lowercase  OR name of it as lowercase = &quot;Win8&quot;  as lowercase ) of operating system)</Relevance>
     <Category>Task</Category>
     <Source>IBM - Dan Paquette</Source>

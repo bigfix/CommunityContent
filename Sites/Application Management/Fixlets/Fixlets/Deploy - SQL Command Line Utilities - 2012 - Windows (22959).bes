@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Deploy - SQL Command Line Utilities - 2012 - Windows
   ID       : 22959
   Author   : RES
@@ -12,13 +12,13 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Deploy - SQL Command Line Utilities - 2012 - Windows</Title>
-    <Description>&lt;P&gt;This Fixlet installs the following SQL Runtime Components:&lt;/P&gt;
-&lt;OL&gt;
-&lt;LI&gt;Microsoft ODBC Driver 13 for SQL Server&lt;/LI&gt;
-&lt;LI&gt;Microsoft SQL Server 2012 Native Client&lt;/LI&gt;
-&lt;LI&gt;Microsoft SQL Server 2012 Command Line Utilities&lt;/LI&gt;&lt;/OL&gt;&lt;br&gt;&lt;p&gt;
-This Fixlet will only be relevant on the BigFix Root Server.&lt;/p&gt;
-</Description>
+    <Description><![CDATA[<P>This Fixlet installs the following SQL Runtime Components:</P>
+<OL>
+<LI>Microsoft ODBC Driver 13 for SQL Server</LI>
+<LI>Microsoft SQL Server 2012 Native Client</LI>
+<LI>Microsoft SQL Server 2012 Command Line Utilities</LI></OL><br><p>
+This Fixlet will only be relevant on the BigFix Root Server.</p>
+]]></Description>
     <Relevance>exists main gather service</Relevance>
     <Relevance>windows of operating system</Relevance>
     <Relevance>not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft ODBC Driver 13 for SQL Server&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)  or  not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft SQL Server 2012 Native Client&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)  or  not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft SQL Server 2012 Command Line Utilities&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)</Relevance>

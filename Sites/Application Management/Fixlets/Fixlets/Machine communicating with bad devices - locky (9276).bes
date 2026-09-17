@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Machine communicating with bad devices - locky
   ID       : 9276
   Author   : jgo
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Machine communicating with bad devices - locky</Title>
-    <Description>&lt;P&gt;If this is relevant it means that your machine is talking to one of these IP&apos;s that are none as being related to locky.&lt;/P&gt;&lt;PRE&gt;&lt;SPAN class=cm-string&gt;95.181.171.58,&lt;/SPAN&gt;&lt;SPAN class=cm-string&gt;185.14.30.97,&lt;/SPAN&gt;&lt;SPAN class=cm-string&gt;195.22.28.196,&lt;/SPAN&gt;&lt;SPAN class=cm-string&gt;195.22.28.198&lt;/SPAN&gt;&lt;/PRE&gt;&lt;PRE&gt;&lt;SPAN class=cm-string&gt;&lt;/SPAN&gt;&amp;nbsp;&lt;/PRE&gt;</Description>
+    <Description><![CDATA[<P>If this is relevant it means that your machine is talking to one of these IP's that are none as being related to locky.</P><PRE><SPAN class=cm-string>95.181.171.58,</SPAN><SPAN class=cm-string>185.14.30.97,</SPAN><SPAN class=cm-string>195.22.28.196,</SPAN><SPAN class=cm-string>195.22.28.198</SPAN></PRE><PRE><SPAN class=cm-string></SPAN>&nbsp;</PRE>]]></Description>
     <Relevance>name of operating system contains &quot;Win&quot;</Relevance>
     <Relevance>set of concatenation &quot;;&quot; of ((unique values of ((remote address of it as string|&quot;0.0.0.0&quot;)) of sockets of network) as string) contains set of (&quot;95.181.171.58&quot;;&quot;185.14.30.97&quot;;&quot;195.22.28.196&quot;;&quot;195.22.28.198&quot;;&quot;pvwinlrmwvccuo.eu&quot;;&quot;cgavqeodnop.it&quot;;&quot;kqlxtqptsmys.in&quot;;&quot;kqlxtqptsmys.in&quot;;&quot;wblejsfob.pw&quot;)</Relevance>
     <Category>Malware Detection</Category>

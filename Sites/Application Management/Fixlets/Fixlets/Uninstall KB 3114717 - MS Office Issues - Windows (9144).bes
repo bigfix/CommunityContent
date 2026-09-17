@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Uninstall KB 3114717 - MS Office Issues - Windows
   ID       : 9144
   Author   : jgstew
@@ -28,19 +28,19 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
 // uninstall KB 3114717
 
 delete __createfile
 
 createfile until END_OF_FILE
-{ concatenations &quot;%0d%0a&quot; of (&quot;msiexec /qn /package &quot; &amp; (preceding text of first &quot;_&quot; of it) &amp; &quot; /uninstall &quot; &amp; (following text of last &quot;_&quot; of it)) of names of keys whose(exists values &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;kb3114717&quot; AND it as string as lowercase contains &quot;32-bit&quot;) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries) }
+{ concatenations "%0d%0a" of ("msiexec /qn /package " & (preceding text of first "_" of it) & " /uninstall " & (following text of last "_" of it)) of names of keys whose(exists values "DisplayName" whose(it as string as lowercase contains "kb3114717" AND it as string as lowercase contains "32-bit") of it) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries;x32 registries) }
 END_OF_FILE
 
 delete __Download\uninstall.bat
 copy __createfile __Download\uninstall.bat
 
-waithidden __Download\uninstall.bat</ActionScript>
+waithidden __Download\uninstall.bat]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Task>

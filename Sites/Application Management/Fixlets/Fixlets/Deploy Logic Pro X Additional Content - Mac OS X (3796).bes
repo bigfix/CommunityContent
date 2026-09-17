@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Deploy Logic Pro X Additional Content - Mac OS X
   ID       : 3796
   Author   : hansen_m
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Deploy Logic Pro X Additional Content - Mac OS X</Title>
-    <Description>Metadata - &lt;A href=&quot;http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist&quot;&gt;http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist&lt;/A&gt; </Description>
+    <Description><![CDATA[Metadata - <A href="http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist">http://audiocontentdownload.apple.com/lp10_ms3_content_2013/logicpro1000_en.plist</A> ]]></Description>
     <Relevance>true</Relevance>
     <Category>Software Sharing</Category>
     <Source>SysMan</Source>

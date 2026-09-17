@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Update: Microsoft Expression Web 4 - Windows
   ID       : 3779
   Author   : jgstew
@@ -12,12 +12,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Update: Microsoft Expression Web 4 - Windows</Title>
-    <Description>&lt;P&gt;This task will deploy: Microsoft Expression Web 4&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task will deploy: Microsoft Expression Web 4</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
-    <Relevance>/* Only install if missing or an older version of Microsoft Expression Web is installed */ (not exists keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;Microsoft Expression Web&quot; AND (value &quot;DisplayVersion&quot; of it as string as version) &gt;= &quot;4.0.1460.0&quot; as version) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry)</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* Only install if missing or an older version of Microsoft Expression Web is installed */ (not exists keys whose (value "DisplayName" of it as string starts with "Microsoft Expression Web" AND (value "DisplayVersion" of it as string as version) >= "4.0.1460.0" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
     <Category>Software Sharing</Category>
     <SourceID>jgs194</SourceID>
     <SourceReleaseDate>2014-04-25</SourceReleaseDate>

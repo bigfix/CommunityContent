@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Mozilla Firefox 45.0.2 Available - Mac OS X
   ID       : 20205
   Author   : BrianCanFixIT
@@ -13,8 +13,8 @@
   <Fixlet>
     <Title>Mozilla Firefox 45.0.2 Available - Mac OS X</Title>
     <Description>This fixlet is created using the &quot;Fixlet Maker&quot; wizard. </Description>
-    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if system version &gt;= &quot;10.6&quot; then version of client &gt;= &quot;8.2&quot; else true)</Relevance>
-    <Relevance>exists application &quot;Firefox.app&quot; whose (version of it &lt; &quot;45.0.2&quot; as version)</Relevance>
+    <Relevance><![CDATA[(name of operating system = "Mac OS X") AND (if system version >= "10.6" then version of client >= "8.2" else true)]]></Relevance>
+    <Relevance><![CDATA[exists application "Firefox.app" whose (version of it < "45.0.2" as version)]]></Relevance>
     <Category>Update</Category>
     <Source>Firefox</Source>
     <SourceReleaseDate>2016-04-11</SourceReleaseDate>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Install/Update: Chocolatey 0.9.9.12 - Windows
   ID       : 12967
   Author   : jgstew
@@ -12,12 +12,12 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Install/Update: Chocolatey 0.9.9.12 - Windows</Title>
-    <Description>&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;&lt;A href=&quot;https://chocolatey.org/&quot;&gt;https://chocolatey.org/&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P><A href="https://chocolatey.org/">https://chocolatey.org/</A></P>
+<P>&nbsp;</P>]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>version of operating system &gt; &quot;5.1&quot;</Relevance>
-    <Relevance>not exists files &quot;choco.exe&quot; whose(version of it &gt;= &quot;0.9.9.12&quot;) of folders ( unique values of (it as string as trimmed string) of values &quot;ChocolateyInstall&quot; of keys &quot;Control\Session Manager\Environment&quot; of keys whose(name of it contains &quot;ControlSet&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM&quot; of (x64 registries;x32 registries) )</Relevance>
+    <Relevance><![CDATA[version of operating system > "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists files "choco.exe" whose(version of it >= "0.9.9.12") of folders ( unique values of (it as string as trimmed string) of values "ChocolateyInstall" of keys "Control\Session Manager\Environment" of keys whose(name of it contains "ControlSet") of keys "HKEY_LOCAL_MACHINE\SYSTEM" of (x64 registries;x32 registries) )]]></Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2015-05-29</SourceReleaseDate>
     <MIMEField>
@@ -36,7 +36,7 @@
 // https://github.com/chocolatey/choco/wiki/DefaultChocolateyInstallReasoning
 //  NOTE: As of 0.9.8.24, Chocolatey&apos;s default install location is C:\ProgramData\Chocolatey
 // https://chocolatey.org/packages/wuinstall
-prefetch unzip.exe sha1:e1652b058195db3f5f754b7ab430652ae04a50b8 size:167936 http://software.bigfix.com/download/redist/unzip-5.52.exe
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 prefetch chocolatey.zip sha1:0a7b2db52ec0e69a20ba46804fd2085c87b7d7f0 size:1806795 https://packages.chocolatey.org/chocolatey.0.9.9.12.nupkg sha256:0d515f7ff83785865927c8900eb6750a3a333465c90d13d1220f6354c023ba7d
 
 utility __Download\unzip.exe

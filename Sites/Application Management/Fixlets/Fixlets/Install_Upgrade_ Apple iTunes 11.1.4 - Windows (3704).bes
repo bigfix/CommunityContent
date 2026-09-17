@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Upgrade: Apple iTunes 11.1.4 - Windows
   ID       : 3704
   Author   : jgstew
@@ -12,79 +12,79 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: Apple iTunes 11.1.4 - Windows</Title>
-    <Description>&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About iTunes&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;iTunes is a free multimedia player, organizer, and interface developed by Apple.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P dir=ltr&gt;&lt;STRONG&gt;&lt;FONT color=#0080ff size=3&gt;Licensing&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P dir=ltr&gt;iTunes is freeware.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About This Task&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;This task will install/upgrade: Apple iTunes 11.1.4&lt;/P&gt;
-&lt;P&gt;This task is applicable on: Windows XP and higher (32-bit and 64-bit)&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Action Description&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;UL dir=ltr&gt;
-&lt;LI&gt;
-&lt;DIV&gt;&lt;STRONG&gt;Action1: Install/upgrade and disable updates. [DEFAULT]&lt;/STRONG&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;This action installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options) and&amp;nbsp;also disables the ability to manually&amp;nbsp;check for updates.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;UL dir=ltr&gt;
-&lt;LI&gt;
-&lt;DIV&gt;&lt;STRONG&gt;Action2: Install/upgrade only if iTunes and QuickTime are not running and disable updates.&lt;/STRONG&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;This action only installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options) if it and QuickTime Player are not running. &lt;/P&gt;
-&lt;P&gt;Use this action to prevent the update while a dependent application is running.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important Note:&lt;/FONT&gt;&lt;/STRONG&gt; If either iTunes or QuickTime Player is running, the action may report back as failed. To ensure that the update is eventually applied, you may want to deploy this action as a policy and set it to&amp;nbsp;retry the installation if it fails.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;UL dir=ltr&gt;
-&lt;LI&gt;&lt;STRONG&gt;Action3: Install/upgrade regardless of whether or not iTunes and QuickTime are currently running and disable updates.&lt;/STRONG&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;This action closes all running instances of iTunes and QuickTime Player, then installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options). &lt;/P&gt;
-&lt;P&gt;Use this action to ensure that the update is applied when the action is deployed.&lt;/P&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important Note:&lt;/FONT&gt;&lt;/STRONG&gt; This action will close any running instance of QuickTime and iTunes on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Additional Notes&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;If the QuickTime Player plugin is running, the installer may display a dialog box with the message, &quot;Error - 108: An unknown error has occurred,&quot; or a dialog box asking the user to close all applications running QuickTime. Users can click OK to continue the installation. To prevent this behavior, it is recommended that you run either action with the user constraint &quot;Run only when no user is present,&quot; or display a message before action execution instructing users to shut down all applications using the QuickTime Player plugin.&lt;/P&gt;
-&lt;P&gt;QuickTime Player is&amp;nbsp;required for playing movies with iTunes. QuickTime &lt;STRONG&gt;is not included&lt;/STRONG&gt; in this task. Please use the &lt;EM&gt;Install/Upgrade: QuickTime&lt;/EM&gt; task to install QuickTime if it is desired.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P dir=ltr&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Installation Options&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Desktop Icon&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;By default, this task installs iTunes WITHOUT a desktop icon&lt;/DIV&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;To install iTunes WITH a desktop icon, do the following:&lt;/DIV&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;On the &lt;STRONG&gt;two&lt;/STRONG&gt; &lt;STRONG&gt;wait&lt;/STRONG&gt; command lines underneath the &lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install iTunes&lt;/FONT&gt; comments, CHANGE the last option, DESKTOP_SHORTCUTS=0 to DESKTOP_SHORTCUTS=1&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Apple Bonjour&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks. Bonjour is required for sharing music with others, playing music through AirPlay speakers, connecting to Apple TV, and using the iPhone and iPod Touch Remote&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;By default, this task&amp;nbsp;DOES NOT&amp;nbsp;install the Bonjour service.&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Note: If Bonjour is not installed, iTunes may display a dialog box with the message, &quot;The Bonjour service can&apos;t be found&quot; when iTunes first runs. Users can click OK to continue and load iTunes.&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;To install the Bonjour service, do the following:&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;UNCOMMENT the &lt;STRONG&gt;two wait&lt;/STRONG&gt; command lines underneath the &lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install Bonjour&lt;/FONT&gt; comments.&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Apple Software Update&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;UL&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Apple Software Update is a tool that informs users about and installs the latest versions of Apple software.&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;LI&gt;
-&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Note: In order to install Apple Updates, a user will need an administrative account.&lt;/FONT&gt;&lt;/DIV&gt;
-&lt;LI&gt;&lt;FONT size=2&gt;If installing Apple Software Update is desired, then uncomment the lines that install it in whichever of the 3 actions are chosen. &lt;/FONT&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;</Description>
+    <Description><![CDATA[<P><STRONG><FONT size=3>About iTunes</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>iTunes is a free multimedia player, organizer, and interface developed by Apple.</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT color=#0080ff size=3>Licensing</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr>iTunes is freeware.</P></BLOCKQUOTE>
+<P><STRONG><FONT size=3>About This Task</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This task will install/upgrade: Apple iTunes 11.1.4</P>
+<P>This task is applicable on: Windows XP and higher (32-bit and 64-bit)</P></BLOCKQUOTE>
+<P><STRONG><FONT size=3>Action Description</FONT></STRONG></P>
+<UL dir=ltr>
+<LI>
+<DIV><STRONG>Action1: Install/upgrade and disable updates. [DEFAULT]</STRONG></DIV></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action installs iTunes <EM>without</EM> Apple Software Update (see Installation Options) and&nbsp;also disables the ability to manually&nbsp;check for updates.</P></BLOCKQUOTE>
+<UL dir=ltr>
+<LI>
+<DIV><STRONG>Action2: Install/upgrade only if iTunes and QuickTime are not running and disable updates.</STRONG></DIV></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action only installs iTunes <EM>without</EM> Apple Software Update (see Installation Options) if it and QuickTime Player are not running. </P>
+<P>Use this action to prevent the update while a dependent application is running.</P>
+<P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> If either iTunes or QuickTime Player is running, the action may report back as failed. To ensure that the update is eventually applied, you may want to deploy this action as a policy and set it to&nbsp;retry the installation if it fails.</P></BLOCKQUOTE>
+<UL dir=ltr>
+<LI><STRONG>Action3: Install/upgrade regardless of whether or not iTunes and QuickTime are currently running and disable updates.</STRONG></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action closes all running instances of iTunes and QuickTime Player, then installs iTunes <EM>without</EM> Apple Software Update (see Installation Options). </P>
+<P>Use this action to ensure that the update is applied when the action is deployed.</P>
+<P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> This action will close any running instance of QuickTime and iTunes on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.</P></BLOCKQUOTE>
+<P><STRONG><FONT size=3>Additional Notes</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>If the QuickTime Player plugin is running, the installer may display a dialog box with the message, "Error - 108: An unknown error has occurred," or a dialog box asking the user to close all applications running QuickTime. Users can click OK to continue the installation. To prevent this behavior, it is recommended that you run either action with the user constraint "Run only when no user is present," or display a message before action execution instructing users to shut down all applications using the QuickTime Player plugin.</P>
+<P>QuickTime Player is&nbsp;required for playing movies with iTunes. QuickTime <STRONG>is not included</STRONG> in this task. Please use the <EM>Install/Upgrade: QuickTime</EM> task to install QuickTime if it is desired.</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT size=3>Installation Options</FONT></STRONG></P>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2><STRONG>Desktop Icon</STRONG></FONT></DIV>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px">By default, this task installs iTunes WITHOUT a desktop icon</DIV>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px">To install iTunes WITH a desktop icon, do the following:</DIV>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px">On the <STRONG>two</STRONG> <STRONG>wait</STRONG> command lines underneath the <FONT color=#008000 face="Courier New">//install iTunes</FONT> comments, CHANGE the last option, DESKTOP_SHORTCUTS=0 to DESKTOP_SHORTCUTS=1</DIV></LI></UL></LI></UL></LI></UL>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2><STRONG>Apple Bonjour</STRONG></FONT></DIV>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks. Bonjour is required for sharing music with others, playing music through AirPlay speakers, connecting to Apple TV, and using the iPhone and iPod Touch Remote</FONT></DIV>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>By default, this task&nbsp;DOES NOT&nbsp;install the Bonjour service.</FONT></DIV>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>Note: If Bonjour is not installed, iTunes may display a dialog box with the message, "The Bonjour service can't be found" when iTunes first runs. Users can click OK to continue and load iTunes.</FONT></DIV>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>To install the Bonjour service, do the following:</FONT></DIV>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>UNCOMMENT the <STRONG>two wait</STRONG> command lines underneath the <FONT color=#008000 face="Courier New">//install Bonjour</FONT> comments.</FONT></DIV></LI></UL></LI></UL></LI></UL>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2><STRONG>Apple Software Update</STRONG></FONT></DIV>
+<UL>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>Apple Software Update is a tool that informs users about and installs the latest versions of Apple software.</FONT></DIV>
+<LI>
+<DIV style="MARGIN-RIGHT: 0px"><FONT size=2>Note: In order to install Apple Updates, a user will need an administrative account.</FONT></DIV>
+<LI><FONT size=2>If installing Apple Software Update is desired, then uncomment the lines that install it in whichever of the 3 actions are chosen. </FONT></LI></UL></LI></UL>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* Exclude Windows Server */ exists name whose(it does not contain &quot;Win2&quot;) of operating system</Relevance>
-    <Relevance>not exists regapp &quot;iTunes.exe&quot; whose (version of it &gt;= &quot;11.1.4&quot;)</Relevance>
+    <Relevance><![CDATA[not exists regapp "iTunes.exe" whose (version of it >= "11.1.4")]]></Relevance>
     <Category>Software Sharing</Category>
     <SourceID>jgs194</SourceID>
     <SourceReleaseDate>2014-01-27</SourceReleaseDate>
@@ -121,7 +121,7 @@
 // APPLE SOFTWARE UPDATE
 //   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
 //       Note: In order to install Apple Updates, a user will need an administrative account.
-//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates.
 //   - To install Apple Software Update, do the following:
 //     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
 //   - To enable manual checking for updates, do the following:
@@ -214,7 +214,7 @@ regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental C
 // APPLE SOFTWARE UPDATE
 //   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
 //       Note: In order to install Apple Updates, a user will need an administrative account.
-//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates.
 //   - To install Apple Software Update, do the following:
 //     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
 //   - To enable manual checking for updates, do the following:
@@ -316,7 +316,7 @@ endif
 // APPLE SOFTWARE UPDATE
 //   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
 //       Note: In order to install Apple Updates, a user will need an administrative account.
-//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates.
 //   - To install Apple Software Update, do the following:
 //     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
 //   - To enable manual checking for updates, do the following:

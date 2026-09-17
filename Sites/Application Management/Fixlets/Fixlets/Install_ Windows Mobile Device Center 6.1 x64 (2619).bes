@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install: Windows Mobile Device Center 6.1 x64
   ID       : 2619
   Author   : jgstew
@@ -12,15 +12,15 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install: Windows Mobile Device Center 6.1 x64</Title>
-    <Description>&lt;P&gt;This task installs &quot;Windows Mobile Device Center 6.1 x64&quot;. This installer seems to have an issue when there is no admin user logged on or maybe an issue with Windows 7 in general, even though it seems to install just fine on windows 8.&lt;/P&gt;
-&lt;P&gt;&amp;nbsp;&lt;/P&gt;
-&lt;P&gt;Original Download Location: &amp;nbsp;&lt;A href=&quot;http://download.microsoft.com/download/0/4/3/0432540e-2d1a-415d-9c9d-a9963e43503e/drvupdate-amd64.exe&quot;&gt;http://download.microsoft.com/download/0/4/3/0432540e-2d1a-415d-9c9d-a9963e43503e/drvupdate-amd64.exe&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;About the Download:&amp;nbsp; &lt;A href=&quot;http://www.microsoft.com/en-us/download/details.aspx?id=3182&quot;&gt;http://www.microsoft.com/en-us/download/details.aspx?id=3182&lt;/A&gt;&lt;/P&gt;
-&lt;P&gt;Problems Deploying with SCCM:&amp;nbsp; &lt;A href=&quot;http://social.technet.microsoft.com/Forums/systemcenter/en-US/1f038d33-3c5a-4d27-b595-92aa919ef786/deploying-windows-mobile-device-center-61-to-windows-7-x64-enterprise-using-sccm?forum=configmgrswdist&quot;&gt;http://social.technet.microsoft.com/Forums/systemcenter/en-US/1f038d33-3c5a-4d27-b595-92aa919ef786/deploying-windows-mobile-device-center-61-to-windows-7-x64-enterprise-using-sccm?forum=configmgrswdist&lt;/A&gt;&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>This task installs "Windows Mobile Device Center 6.1 x64". This installer seems to have an issue when there is no admin user logged on or maybe an issue with Windows 7 in general, even though it seems to install just fine on windows 8.</P>
+<P>&nbsp;</P>
+<P>Original Download Location: &nbsp;<A href="http://download.microsoft.com/download/0/4/3/0432540e-2d1a-415d-9c9d-a9963e43503e/drvupdate-amd64.exe">http://download.microsoft.com/download/0/4/3/0432540e-2d1a-415d-9c9d-a9963e43503e/drvupdate-amd64.exe</A></P>
+<P>About the Download:&nbsp; <A href="http://www.microsoft.com/en-us/download/details.aspx?id=3182">http://www.microsoft.com/en-us/download/details.aspx?id=3182</A></P>
+<P>Problems Deploying with SCCM:&nbsp; <A href="http://social.technet.microsoft.com/Forums/systemcenter/en-US/1f038d33-3c5a-4d27-b595-92aa919ef786/deploying-windows-mobile-device-center-61-to-windows-7-x64-enterprise-using-sccm?forum=configmgrswdist">http://social.technet.microsoft.com/Forums/systemcenter/en-US/1f038d33-3c5a-4d27-b595-92aa919ef786/deploying-windows-mobile-device-center-61-to-windows-7-x64-enterprise-using-sccm?forum=configmgrswdist</A></P>]]></Description>
     <Relevance>x64 of operating system</Relevance>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* Windows Vista or Higher */ version of operating system &gt;= &quot;6.0&quot;</Relevance>
-    <Relevance>not exists key whose(value &quot;DisplayName&quot; of it as string contains &quot;Windows Mobile Device Center&quot; AND value &quot;DisplayVersion&quot; of it as string &gt;= &quot;6.1&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose(value "DisplayName" of it as string contains "Windows Mobile Device Center" AND value "DisplayVersion" of it as string >= "6.1") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
     <Source>Internal</Source>
     <SourceID>jgs194</SourceID>
     <SourceReleaseDate>2013-10-21</SourceReleaseDate>

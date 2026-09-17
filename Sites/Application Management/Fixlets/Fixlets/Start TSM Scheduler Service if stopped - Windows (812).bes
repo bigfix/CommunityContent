@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Start TSM Scheduler Service if stopped - Windows
   ID       : 812
   Author   : jgstew
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Start TSM Scheduler Service if stopped - Windows</Title>
-    <Description>&amp;lt;enter a description of the problem and the corrective action here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;</Relevance>
     <Relevance>exists service &quot;TSM Scheduler Service&quot;</Relevance>
@@ -30,8 +30,8 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait &quot;{pathname of client folder of site &quot;BESSupport&quot; &amp; &quot;\changeservicestartmode&quot;}&quot; &quot;TSM Scheduler Service&quot; auto
-waithidden net start &quot;TSM Scheduler Service&quot;</ActionScript>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[wait "{pathname of client folder of site "BESSupport" & "\changeservicestartmode"}" "TSM Scheduler Service" auto
+waithidden net start "TSM Scheduler Service"]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

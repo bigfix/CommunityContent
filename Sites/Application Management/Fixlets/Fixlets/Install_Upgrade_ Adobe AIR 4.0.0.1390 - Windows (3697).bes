@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Upgrade: Adobe AIR 4.0.0.1390 - Windows
   ID       : 3697
   Author   : jgstew
@@ -14,8 +14,8 @@
     <Title>Install/Upgrade: Adobe AIR 4.0.0.1390 - Windows</Title>
     <Description>Install Adobe Air</Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* WinXP or later */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
-    <Relevance>not exists key &quot;Adobe AIR&quot; whose (value &quot;DisplayVersion&quot; of it as string as version &gt;= &quot;4.0.0.1390&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key "Adobe AIR" whose (value "DisplayVersion" of it as string as version >= "4.0.0.1390") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
     <Category>Software Sharing</Category>
     <Source>Internal</Source>
     <SourceReleaseDate>2014-01-14</SourceReleaseDate>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall - RES ONE Workspace Agent - Linux
   ID       : 22969
   Author   : RES
@@ -16,6 +16,10 @@
     <Relevance>(unix of operating system and exists file &quot;/etc/res/resauthd.conf&quot; and exists file &quot;/usr/local/bin/reswmad&quot;)</Relevance>
     <Source>RES Software</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:43 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>
@@ -48,7 +52,7 @@
         __end
         move __createfile agent_config.sh
         wait bash agent_config.sh
-      </ActionScript>
+</ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

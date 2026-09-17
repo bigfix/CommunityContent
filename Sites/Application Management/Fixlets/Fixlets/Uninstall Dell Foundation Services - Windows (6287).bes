@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Uninstall Dell Foundation Services - Windows
   ID       : 6287
   Author   : jgstew
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Uninstall Dell Foundation Services - Windows</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists keys whose(exists value &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;dell foundation services&quot;) of it AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
     <Source>Internal</Source>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Install/Update: Firefox 17.0.11esr - Windows
   ID       : 3735
   Author   : jgstew
@@ -12,35 +12,35 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Update: Firefox 17.0.11esr - Windows</Title>
-    <Description>&lt;P&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;WARNING:&lt;/STRONG&gt; Version 17.0.11esr is no longer being updated by Mozilla as of &lt;FONT size=2&gt;&lt;FONT size=2&gt;November 15, 2013&lt;/FONT&gt;. Do not install this product unless proper security precautions are taken.&lt;/FONT&gt;&lt;/FONT&gt;&lt;/P&gt;
-&lt;P&gt;&lt;FONT size=2&gt;&lt;FONT size=2&gt;&amp;nbsp;&lt;/P&gt;&lt;/FONT&gt;&lt;/FONT&gt;
-&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About Mozilla Firefox&lt;/FONT&gt;&lt;/STRONG&gt; &lt;/P&gt;
-&lt;BLOCKQUOTE&gt;Firefox is a free and open source web browser managed by Mozilla Corporation.&lt;/BLOCKQUOTE&gt;
-&lt;BLOCKQUOTE&gt;
-&lt;P&gt;Firefox Extended Support Release (ESR) is an enterprise version of Desktop Firefox for organizations requiring extended support for mass deployments of Firefox. Releases will be maintained by Mozilla for approximately one year, with point releases containing&amp;nbsp;security updates coinciding with regular Firefox releases. The ESR will also have a two-cycle (12-week) overlap between the time of a new release and the end-of-life of the previous release to permit testing and certification prior to deploying a new version.&amp;nbsp;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P&gt;&lt;FONT color=#0080ff size=3&gt;&lt;STRONG&gt;Licensing&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;Firefox is open source software (Mozilla Public License).&lt;/P&gt;&lt;/BLOCKQUOTE&gt;&lt;STRONG&gt;
-&lt;P&gt;&lt;FONT size=3&gt;About This Task&lt;/FONT&gt;&lt;/P&gt;&lt;/STRONG&gt;
-&lt;BLOCKQUOTE&gt;This task will install/upgrade: Mozilla Firefox 17.0.11esr.&lt;BR&gt;&lt;BR&gt;This task is applicable on: Windows XP and up. &lt;/BLOCKQUOTE&gt;
-&lt;P&gt;&lt;FONT size=3&gt;&lt;STRONG&gt;Action Description&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
-&lt;UL&gt;&lt;FONT size=2&gt;&lt;/UL&gt;
-&lt;UL dir=ltr&gt;
-&lt;LI&gt;
-&lt;DIV&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action1: Install/upgrade and disable auto-updates.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
-&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
-&lt;P&gt;&lt;FONT size=2&gt;This action installs Firefox and then disables the automatic check for&amp;nbsp;updates.&lt;/FONT&gt;&lt;/P&gt;
-&lt;P&gt;&lt;/FONT&gt;&amp;nbsp;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
-&lt;P dir=ltr&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Additional Notes&lt;/FONT&gt;&lt;FONT color=#ff0000&gt;&lt;/P&gt;&lt;/FONT&gt;&lt;/STRONG&gt;
-&lt;BLOCKQUOTE&gt;
-&lt;P&gt;This task will replace all versions of Desktop Firefox with Firefox ESR, even if the version of Desktop Firefox is&amp;nbsp;more current&amp;nbsp;than this version of Firefox ESR.&lt;/P&gt;
-&lt;P&gt;&lt;FONT size=2&gt;Firefox Release History:&amp;nbsp; &lt;A href=&quot;http://en.wikipedia.org/wiki/Firefox_release_history&quot;&gt;http://en.wikipedia.org/wiki/Firefox_release_history&lt;/A&gt;&lt;/FONT&gt;&lt;/P&gt;
-&lt;P&gt;Find the related &quot;&lt;FONT size=2&gt;Firefox Configuration - Windows&quot; analysis here:&amp;nbsp; &lt;A href=&quot;http://bigfix.me/analysis/details/2994642&quot;&gt;http://bigfix.me/analysis/details/2994642&lt;/A&gt;&lt;/FONT&gt;&lt;/P&gt;
-&lt;P&gt;&lt;FONT size=2&gt;Find the latest version of this task here:&amp;nbsp; &lt;A href=&quot;http://bigfix.me/fixlet/details/3734&quot;&gt;http://bigfix.me/fixlet/details/3734&lt;/A&gt;&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;</Description>
+    <Description><![CDATA[<P><FONT size=2><STRONG>WARNING:</STRONG> Version 17.0.11esr is no longer being updated by Mozilla as of <FONT size=2><FONT size=2>November 15, 2013</FONT>. Do not install this product unless proper security precautions are taken.</FONT></FONT></P>
+<P><FONT size=2><FONT size=2>&nbsp;</P></FONT></FONT>
+<P><STRONG><FONT size=3>About Mozilla Firefox</FONT></STRONG> </P>
+<BLOCKQUOTE>Firefox is a free and open source web browser managed by Mozilla Corporation.</BLOCKQUOTE>
+<BLOCKQUOTE>
+<P>Firefox Extended Support Release (ESR) is an enterprise version of Desktop Firefox for organizations requiring extended support for mass deployments of Firefox. Releases will be maintained by Mozilla for approximately one year, with point releases containing&nbsp;security updates coinciding with regular Firefox releases. The ESR will also have a two-cycle (12-week) overlap between the time of a new release and the end-of-life of the previous release to permit testing and certification prior to deploying a new version.&nbsp;</P></BLOCKQUOTE>
+<P><FONT color=#0080ff size=3><STRONG>Licensing</STRONG></FONT></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>Firefox is open source software (Mozilla Public License).</P></BLOCKQUOTE><STRONG>
+<P><FONT size=3>About This Task</FONT></P></STRONG>
+<BLOCKQUOTE>This task will install/upgrade: Mozilla Firefox 17.0.11esr.<BR><BR>This task is applicable on: Windows XP and up. </BLOCKQUOTE>
+<P><FONT size=3><STRONG>Action Description</STRONG></FONT></P>
+<UL><FONT size=2></UL>
+<UL dir=ltr>
+<LI>
+<DIV><FONT size=2><STRONG>Action1: Install/upgrade and disable auto-updates.</STRONG></FONT></DIV></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><FONT size=2>This action installs Firefox and then disables the automatic check for&nbsp;updates.</FONT></P>
+<P></FONT>&nbsp;</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT size=3>Additional Notes</FONT><FONT color=#ff0000></P></FONT></STRONG>
+<BLOCKQUOTE>
+<P>This task will replace all versions of Desktop Firefox with Firefox ESR, even if the version of Desktop Firefox is&nbsp;more current&nbsp;than this version of Firefox ESR.</P>
+<P><FONT size=2>Firefox Release History:&nbsp; <A href="http://en.wikipedia.org/wiki/Firefox_release_history">http://en.wikipedia.org/wiki/Firefox_release_history</A></FONT></P>
+<P>Find the related "<FONT size=2>Firefox Configuration - Windows" analysis here:&nbsp; <A href="http://bigfix.me/analysis/details/2994642">http://bigfix.me/analysis/details/2994642</A></FONT></P>
+<P><FONT size=2>Find the latest version of this task here:&nbsp; <A href="http://bigfix.me/fixlet/details/3734">http://bigfix.me/fixlet/details/3734</A></FONT></P></BLOCKQUOTE>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
-    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
-    <Relevance>/* Firefox ESR not installed, or an older version of Firefox ESR is installed */ (not exists regapp &quot;firefox.exe&quot; whose( &quot;esr&quot; = (preceding text of first &quot;%22&quot; of following text of first &quot;%22&quot; of following text of first &quot;%22app.update.channel%22&quot; of lines whose(it contains &quot;%22app.update.channel%22&quot; AND it starts with &quot;pref&quot;) of file &quot;defaults\pref\channel-prefs.js&quot; of parent folder of it ))) OR (exists regapp &quot;firefox.exe&quot; whose(product version of it &lt; &quot;17.0.11&quot; AND (&quot;esr&quot; = (unique value of preceding texts of firsts &quot;%22&quot; of following texts of firsts &quot;%22&quot; of following texts of firsts &quot;%22app.update.channel%22&quot; of lines whose(it contains &quot;%22app.update.channel%22&quot; AND it starts with &quot;pref&quot;) of file &quot;defaults\pref\channel-prefs.js&quot; of parent folder of it))))</Relevance>
+    <Relevance><![CDATA[/* Firefox ESR not installed, or an older version of Firefox ESR is installed */ (not exists regapp "firefox.exe" whose( "esr" = (preceding text of first "%22" of following text of first "%22" of following text of first "%22app.update.channel%22" of lines whose(it contains "%22app.update.channel%22" AND it starts with "pref") of file "defaults\pref\channel-prefs.js" of parent folder of it ))) OR (exists regapp "firefox.exe" whose(product version of it < "17.0.11" AND ("esr" = (unique value of preceding texts of firsts "%22" of following texts of firsts "%22" of following texts of firsts "%22app.update.channel%22" of lines whose(it contains "%22app.update.channel%22" AND it starts with "pref") of file "defaults\pref\channel-prefs.js" of parent folder of it))))]]></Relevance>
     <Category>Software Distribution</Category>
     <SourceID>jgstew</SourceID>
     <SourceReleaseDate>2014-03-10</SourceReleaseDate>
@@ -59,7 +59,7 @@
         <Link>Install/Update</Link>
         <PostLink>&amp;nbsp;and disable updates.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">continue if {not exists running application whose (name of it as lowercase = &quot;firefox.exe&quot;)}
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {not exists running application whose (name of it as lowercase = "firefox.exe")}
 
 // http://en.wikipedia.org/wiki/Firefox_release_history
 
@@ -75,19 +75,19 @@ createfile until END_OF_FILE
 ; Remove the semicolon (;) to un-comment a line.
 ;
 ; By default all of the following shortcuts are created. To prevent the
-; creation of a shortcut specify false for the shortcut you don&apos;t want created.
+; creation of a shortcut specify false for the shortcut you don't want created.
 
-; Create a shortcut for the application in the current user&apos;s QuickLaunch
+; Create a shortcut for the application in the current user's QuickLaunch
 ; directory.
 ; QuickLaunchShortcut=false
 
 ; Create a shortcut for the application on the desktop. This will create the
 ; shortcut in the All Users Desktop directory and if that fails this will
-; attempt to create the shortcuts in the current user&apos;s Start Menu directory.
+; attempt to create the shortcuts in the current user's Start Menu directory.
 DesktopShortcut=false
 
 ; The MozillaMaintenance service is used for silent updates and may be used
-; for other maintenance related tasks.  It is an optional component. 
+; for other maintenance related tasks.  It is an optional component.
 ; This option can be used in Firefox 16 or later to skip installing the service.
 MaintenanceService=false
 END_OF_FILE
@@ -95,22 +95,22 @@ END_OF_FILE
 move __createfile __Download\config.ini
 
 //install Firefox (-ms: run setup in silent mode, -ira: ignore the [RunAppX sections], -hideBanner: hide the banner image, -cleanUpOnUpgrade: detect if upgrading and clean up)
-wait __Download\FirefoxSetupESR.exe /INI=&quot;{(pathname of client folder of current site) &amp; &quot;\__Download\config.ini&quot;}&quot;
+wait __Download\FirefoxSetupESR.exe /INI="{(pathname of client folder of current site) & "\__Download\config.ini"}"
 
-// Configure Firefox &amp; Disable Updates
-if {exists regapp &quot;firefox.exe&quot;}
+// Configure Firefox & Disable Updates
+if {exists regapp "firefox.exe"}
 
-	// create &quot;local-settings.js&quot; file
+	// create "local-settings.js" file
 	delete __createfile
 	createfile until END_OF_FILE
-pref(&quot;general.config.obscure_value&quot;, 0);
-pref(&quot;general.config.filename&quot;, &quot;firefox_bigfix.cfg&quot;);
+pref("general.config.obscure_value", 0);
+pref("general.config.filename", "firefox_bigfix.cfg");
 END_OF_FILE
 
-	delete &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\defaults\pref\local-settings.js&quot;}&quot;
-	move __createfile &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\defaults\pref\local-settings.js&quot;}&quot;
+	delete "{(pathname of parent folder of regapp "firefox.exe") & "\defaults\pref\local-settings.js"}"
+	move __createfile "{(pathname of parent folder of regapp "firefox.exe") & "\defaults\pref\local-settings.js"}"
 
-	// create &quot;mozilla.cfg&quot; file
+	// create "mozilla.cfg" file
 	delete __createfile
 	createfile until END_OF_FILE
 // Firefox Configure Default Settings
@@ -118,31 +118,31 @@ END_OF_FILE
 //         http://kb.mozillazine.org/Locking_preferences
 
 // disable application updates
-lockPref(&quot;app.update.auto&quot;, false);
-lockPref(&quot;app.update.enabled&quot;, false);
-lockPref(&quot;app.update.autoUpdateEnabled&quot;, false);
+lockPref("app.update.auto", false);
+lockPref("app.update.enabled", false);
+lockPref("app.update.autoUpdateEnabled", false);
 
 // Disable EULA
-lockPref(&quot;Browser.EULA.override&quot;, true);
+lockPref("Browser.EULA.override", true);
 
 // Disable Default Browser Check
-pref(&quot;browser.shell.checkDefaultBrowser&quot;, false);
+pref("browser.shell.checkDefaultBrowser", false);
 
 // http://kb.mozillazine.org/Browser.startup.homepage_override.mstone
-lockPref(&quot;browser.startup.homepage_override.mstone&quot;, &quot;ignore&quot;);
+lockPref("browser.startup.homepage_override.mstone", "ignore");
 
 // Disables ‘Know your rights’ message on first launch
-lockPref(&quot;browser.rights.3.shown&quot;, true);
+lockPref("browser.rights.3.shown", true);
 
 // disables the request to send performance data from displaying
-pref(&quot;toolkit.telemetry.prompted&quot;, 2);
-pref(&quot;toolkit.telemetry.rejected&quot;, true);
+pref("toolkit.telemetry.prompted", 2);
+pref("toolkit.telemetry.rejected", true);
 END_OF_FILE
 
-	delete &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\firefox_bigfix.cfg&quot;}&quot;
-	move __createfile &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\firefox_bigfix.cfg&quot;}&quot;
+	delete "{(pathname of parent folder of regapp "firefox.exe") & "\firefox_bigfix.cfg"}"
+	move __createfile "{(pathname of parent folder of regapp "firefox.exe") & "\firefox_bigfix.cfg"}"
 
-	// create &quot;override.ini&quot; file
+	// create "override.ini" file
 	delete __createfile
 	createfile until END_OF_FILE
 [XRE]
@@ -150,18 +150,17 @@ EnableProfileMigrator=0
 END_OF_FILE
 
 	// the browser subfolder does not exist by default
-	waithidden cmd /C mkdir &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\browser&quot;}&quot;
-	delete &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\override.ini&quot;}&quot;
-	delete &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\browser\override.ini&quot;}&quot;
+	waithidden cmd /C mkdir "{(pathname of parent folder of regapp "firefox.exe") & "\browser"}"
+	delete "{(pathname of parent folder of regapp "firefox.exe") & "\override.ini"}"
+	delete "{(pathname of parent folder of regapp "firefox.exe") & "\browser\override.ini"}"
 	// the override.ini location used to be the root folder for firefox
-	copy __createfile &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\override.ini&quot;}&quot;
+	copy __createfile "{(pathname of parent folder of regapp "firefox.exe") & "\override.ini"}"
 	// at some point, the override.ini location was moved to the browser sub-folder
-	move __createfile &quot;{(pathname of parent folder of regapp &quot;firefox.exe&quot;) &amp; &quot;\browser\override.ini&quot;}&quot;
+	move __createfile "{(pathname of parent folder of regapp "firefox.exe") & "\browser\override.ini"}"
 
 endif
 
-
-</ActionScript>
+]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

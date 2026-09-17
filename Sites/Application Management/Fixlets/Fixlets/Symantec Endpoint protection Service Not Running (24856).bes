@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Symantec Endpoint protection Service Not Running
   ID       : 24856
   Author   : wilson.arya
@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Symantec Endpoint protection Service Not Running</Title>
-    <Description>The listed computers do not have one or more services that are required for Symantec Endpoint protection to run. These computers currently do not have anti-virus protection.&lt;br&gt;Click the link in the Actions box to start the services and provide the computers with anti-virus protection.</Description>
+    <Description><![CDATA[The listed computers do not have one or more services that are required for Symantec Endpoint protection to run. These computers currently do not have anti-virus protection.<br>Click the link in the Actions box to start the services and provide the computers with anti-virus protection.]]></Description>
     <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Symantec\Symantec Endpoint Protection\SMC&quot; of native registry)</Relevance>
     <Relevance>(not exists running service whose (service name of it = &quot;SepMasterService&quot;))</Relevance>
     <Category>Running Status</Category>

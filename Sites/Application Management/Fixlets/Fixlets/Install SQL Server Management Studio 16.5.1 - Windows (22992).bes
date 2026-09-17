@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Install SQL Server Management Studio 16.5.1 - Windows
   ID       : 22992
   Author   : jgstew
@@ -12,9 +12,9 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Install SQL Server Management Studio 16.5.1 - Windows</Title>
-    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>version of operating system &gt;= &quot;6.1&quot;</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6.1"]]></Relevance>
     <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string contains &quot;SQL Server Management Studio&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries)</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-12-07</SourceReleaseDate>

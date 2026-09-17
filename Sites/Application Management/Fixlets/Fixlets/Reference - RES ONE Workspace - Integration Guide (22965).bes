@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Reference - RES ONE Workspace - Integration Guide
   ID       : 22965
   Author   : RES
@@ -12,10 +12,14 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Reference - RES ONE Workspace - Integration Guide</Title>
-    <Description>&lt;P&gt;Integration Guide for the RES ONE Workspace 9.10.2.1 Release (2015 SR2)&lt;/P&gt;</Description>
+    <Description><![CDATA[<P>Integration Guide for the RES ONE Workspace 9.10.2.1 Release (2015 SR2)</P>]]></Description>
     <Relevance>exists main gather service</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:46:41 +0000</Value>
+    </MIMEField>
     <Domain>RESS</Domain>
     <DefaultAction ID="Action1">
       <Description>
