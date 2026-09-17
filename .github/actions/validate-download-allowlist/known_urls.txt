@@ -1,5 +1,6 @@
 SWDProtocol://127\.0\.0\.1:52311/.*
 RedHatProtocol://.*.rpm
+AIXProtocol://.*
 https?://support\.bigfix\.com/download/.*
 https?://download.bigfix.com/download/.*
 https?://software\.bigfix\.com/download/.*
