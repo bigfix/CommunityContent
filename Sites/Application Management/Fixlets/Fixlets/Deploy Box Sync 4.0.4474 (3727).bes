@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Deploy Box Sync 4.0.4474
+  ID       : 3727
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2014-03-05T11:17:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy Box Sync 4.0.4474</Title>
+    <Description>Deploy Box Sync 4.0.4474</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[system version >= "10.5"]]></Relevance>
+    <Relevance><![CDATA[not exists folder "/Applications/Box Sync.app" whose (version of it >= "4.0.4474")]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>AutoPkgBESEngine.pyc v0.20</Source>
+    <SourceID>hansen_m</SourceID>
+    <SourceReleaseDate>2014-03-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>AutoPkgBESEngine.pyc</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Mar 2014 15:12:43 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Action1 - Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to take action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BoxSync.dmg sha1:fcfa1617c84f054593da2707471125f3fb817b3d size:11799431 http://box.com/sync4mac
+
+delete &quot;/tmp/BoxSync.dmg&quot;
+move &quot;__Download/BoxSync.dmg&quot; &quot;/tmp/BoxSync.dmg&quot;
+
+wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/BoxSync&quot; &quot;/tmp/BoxSync.dmg&quot;
+
+continue if {exists folder &quot;/tmp/BoxSync/Box Sync.app&quot;}
+
+wait /bin/rm -rf &quot;/Applications/Box Sync.app&quot;
+wait /bin/cp -Rfp &quot;/tmp/BoxSync/Box Sync.app&quot; &quot;/Applications&quot;
+
+wait /usr/bin/hdiutil detach -force &quot;/tmp/BoxSync&quot;
+delete &quot;/tmp/BoxSync.dmg&quot;
+
+wait /usr/sbin/chown -R root:admin &quot;/Applications/Box Sync.app&quot;
+
+delete /Library/PrivilegedHelperTools/com.box.sync.bootstrapper
+delete /Library/PrivilegedHelperTools/com.box.sync.iconhelper
+
+copy &quot;/Applications/Box Sync.app/Contents/Resources/com.box.sync.bootstrapper&quot; /Library/PrivilegedHelperTools/com.box.sync.bootstrapper
+copy &quot;/Applications/Box Sync.app/Contents/Resources/com.box.sync.iconhelper&quot; /Library/PrivilegedHelperTools/com.box.sync.iconhelper
+
+wait /usr/sbin/chown root:wheel /Library/PrivilegedHelperTools/com.box.sync.bootstrapper /Library/PrivilegedHelperTools/com.box.sync.iconhelper
+wait /bin/chmod 4755 /Library/PrivilegedHelperTools/com.box.sync.bootstrapper /Library/PrivilegedHelperTools/com.box.sync.iconhelper
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

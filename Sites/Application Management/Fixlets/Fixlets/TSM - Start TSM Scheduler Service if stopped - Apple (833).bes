@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : TSM - Start TSM Scheduler Service if stopped - Apple
+  ID       : 833
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-13T12:25:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>TSM - Start TSM Scheduler Service if stopped - Apple</Title>
+    <Description></Description>
+    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>exists folder &quot;/Applications/Tivoli Storage Manager&quot;</Relevance>
+    <Relevance>exists file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/dsmcad&quot;</Relevance>
+    <Relevance>exists file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/dsmagent&quot;</Relevance>
+    <Relevance>exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot; AND exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;</Relevance>
+    <Relevance>not exists processes whose (name of it = &quot;dsmcad&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2012-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 13 Dec 2012 18:27:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete &quot;{(client folder of current site as string) &amp; &quot;/__appendfile&quot;}&quot;
+appendfile #!/bin/sh
+appendfile /bin/sleep 2
+appendfile /sbin/SystemStarter start dsmcad
+appendfile exit 0
+wait chmod 555 &quot;{(client folder of current site as string) &amp; &quot;/__appendfile&quot;}&quot;
+run {&quot;/bin/sh -c %22trap &apos;&apos; 15;&apos;&quot; &amp; (client folder of current site as string) &amp; &quot;/__appendfile&apos;%22&quot;}
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

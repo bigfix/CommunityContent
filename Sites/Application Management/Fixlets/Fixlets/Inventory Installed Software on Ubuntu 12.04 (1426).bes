@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Inventory Installed Software on Ubuntu 12.04
+  ID       : 1426
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T21:11:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Inventory Installed Software on Ubuntu 12.04</Title>
+    <Description>&lt;P&gt;&lt;A href=&quot;http://www.howtogeek.com/howto/linux/show-the-list-of-installed-packages-on-ubuntu-or-debian/&quot;&gt;http://www.howtogeek.com/howto/linux/show-the-list-of-installed-packages-on-ubuntu-or-debian/&lt;/A&gt;&lt;BR&gt;suggests using the following commands to get a list of currently installed software:&lt;/P&gt;
+&lt;P&gt;dpkg --get-selections&lt;/P&gt;
+&lt;P&gt;or find files within a package using:&lt;/P&gt;
+&lt;P&gt;dpkg -L openssh-server&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;to dump all &quot;available&quot; packages... use the following command:&lt;/P&gt;
+&lt;P&gt;
+&lt;TABLE&gt;
+&lt;TBODY&gt;
+&lt;TR&gt;
+&lt;TD class=votecell&gt;
+&lt;DIV class=vote&gt;&lt;SPAN class=&quot;vote-count-post &quot;&gt;&lt;/SPAN&gt;&lt;FONT color=#000000&gt;&lt;/FONT&gt;&amp;nbsp;&lt;/DIV&gt;&lt;/TD&gt;
+&lt;TD class=answercell&gt;
+&lt;DIV class=post-text&gt;
+&lt;H3&gt;On local system&lt;/H3&gt;
+&lt;P&gt;Using your local package management caches a simple use of some shell scripting:&lt;/P&gt;&lt;PRE&gt;&lt;CODE&gt;apt-cache dumpavail | grep ^Package | cut -d &quot; &quot; -f 2 | sort | uniq
+&lt;/CODE&gt;&lt;/PRE&gt;
+&lt;P&gt;This just lists package names, so it&apos;s not the same as using the Software Centre API, but it will list all package names you can use later to query the API with, I guess. This lists 38820 packages on my system. Be aware that it may contain non-Ubuntu repository backed packages, so not all of them might be available in the SC.&lt;/P&gt;
+&lt;P&gt;Note: on &lt;CODE&gt;amd64&lt;/CODE&gt; systems with Multiarch enabled &lt;CODE&gt;apt-cache&lt;/CODE&gt; will list many double ones, so that&apos;s why the &lt;CODE&gt;uniq&lt;/CODE&gt; tool is used.&lt;/P&gt;&lt;/DIV&gt;&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;BR&gt;Or online at:&lt;/P&gt;
+&lt;P&gt;&lt;A href=&quot;http://packages.ubuntu.com/precise/allpackages?format=txt.gz&quot;&gt;http://packages.ubuntu.com/precise/allpackages?format=txt.gz&lt;/A&gt;&amp;nbsp;or &lt;A href=&quot;http://packages.ubuntu.com/precise/&quot;&gt;http://packages.ubuntu.com/precise/&lt;/A&gt;&amp;nbsp; (click the link at the bottom that says &quot;all packages&quot;&lt;/P&gt;</Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;apt-cache&quot; of folder &quot;/usr/bin&quot;</Relevance>
+    <Relevance>exists file &quot;dpkg&quot; of folder &quot;/usr/bin&quot;</Relevance>
+    <Category>Inventory</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 27 Apr 2013 22:14:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//first get a list of currently installed applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile dpkg --get-selections &gt; &quot;{pathname of parent folder of client}/installedApps.txt&quot;
+delete &quot;installedApps.sh&quot;
+delete &quot;{pathname of parent folder of client}/installedApps.txt&quot;
+move __appendfile &quot;installedApps.sh&quot;
+wait chmod +x installedApps.sh
+wait ./installedApps.sh
+//then get a list of all available applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile apt-cache dumpavail | grep ^Package | cut -d &quot; &quot; -f 2 | sort | uniq &gt; &quot;{pathname of parent folder of client}/availableApps.txt&quot;
+delete &quot;availableApps.sh&quot;
+delete &quot;{pathname of parent folder of client}/availableApps.txt&quot;
+move __appendfile &quot;availableApps.sh&quot;
+wait chmod +x availableApps.sh
+wait ./availableApps.sh
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

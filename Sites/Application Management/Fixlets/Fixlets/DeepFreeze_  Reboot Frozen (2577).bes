@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : DeepFreeze:  Reboot Frozen
+  ID       : 2577
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-08-29T11:19:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>DeepFreeze: Reboot Frozen</Title>
+    <Description><![CDATA[This action will prompt for the DeepFreeze password and send the command to boot <STRONG><FONT color=#ff0000>Frozen</FONT></STRONG>. ]]></Description>
+    <Relevance>exists (if (windows of it) of operating system then (if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Faronics\Deep Freeze 6&quot; whose (exists value &quot;DF Status&quot; of it) of registry) then (value &quot;DF Status&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Faronics\Deep Freeze 6&quot; of registry as string)else &quot;Not Installed&quot;) else &quot;N/A&quot;) whose (it as string as lowercase = &quot;Thawed&quot; as lowercase)</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Aug 2013 18:10:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// reboot frozen
+action parameter query "DfcPass" with description "Please enter the Command Line password to use"
+delete __createfile
+delete freeze.bat
+createfile until EOF
+{pathname of system folder}\DFC.exe {parameter "DfcPass" of action} /BOOTFROZEN >>nul
+EOF
+move __createfile freeze.bat
+waithidden freeze.bat]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

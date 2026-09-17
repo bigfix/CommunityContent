@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: RoyalTS v2.02.07.60327
+  ID       : 3745
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-28T07:47:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: RoyalTS v2.02.07.60327</Title>
+    <Description><![CDATA[<P>This task will deploy: RoyalTS.<BR><BR><A href="http://www.royalts.com/main/home/win.aspx">http://www.royalts.com/main/home/win.aspx</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance><![CDATA[/* Install only if RoyalTS is not installed, or an older version is installed */  not exists keys whose(value "DisplayName" of it as string contains "Royal TS" and value "DisplayVersion" of it as string as version >= "2.2.7.60327") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Relevance>/* Only update if RoyalTS is not running. */  not exists running application whose(name of it as lowercase = &quot;rts2app.exe&quot;)  /*  This will cause a computer with RoyalTS running to show up as not applicable, even though it does need the update. Deploy as an action with an end date far in the future and target to a property, not a computer list. */</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 28 Mar 2014 14:36:16 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// http://www.royalts.com/main/home/win.aspx
+
+// Download
+// http://www.royalts.com/dl/RoyalTS/RoyalTSInstaller_2.02.07.60327.msi
+prefetch RoyalTSInstaller_2.02.07.60327.msi sha1:962d64bfd699ca1da75f37f330948f9665bc7655 size:49668608 http://www.royalts.com/dl/RoyalTS/RoyalTSInstaller_2.02.07.60327.msi
+// Install
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\RoyalTSInstaller_2.02.07.60327.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

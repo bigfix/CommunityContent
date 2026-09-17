@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Microsoft Excel 2016 Update 15.19.1 - 15.x - Mac OS X
+  ID       : 9188
+  Author   : alexk
+  Domain   : BESC
+  Imported : 2016-02-21T15:28:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Excel 2016 Update 15.19.1 - 15.x - Mac OS X</Title>
+    <Description>&lt;P&gt;Use this action to update Microsoft Excel 2016 for Mac to version 15.19.1. The update is relevant on Macs running Yosemite or newer with Excel 2016 installed.&lt;/P&gt;
+&lt;P&gt;Update 15.19.1 was released on February 16, 2016&lt;/P&gt;
+&lt;P&gt;MS16-015: &lt;A href=&quot;https://support.microsoft.com/en-us/kb/3134241&quot;&gt;https://support.microsoft.com/en-us/kb/3134241&lt;/A&gt;&lt;/P&gt;</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>system version &gt;= &quot;10.10.0&quot;</Relevance>
+    <Relevance>exists application whose (name of it = &quot;Microsoft Excel.app&quot; and version of it &lt; &quot;15.19.1&quot; AND version of it &gt;= &quot;15.15.0&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-01-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 21 Feb 2016 22:04:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.19.1_160212_Updater.pkg sha1:a319e14410ad7f2a64a52701413f8d49510f23d3 size:863202898 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.19.1_160212_Updater.pkg sha256:e4e6d06f1cebe6d7c9782841f6291cc02eb1ceb15653a55e8dbf5ae8c6b1da65
+
+// Delete the Excel Update PKG in case it exists
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Excel_15.19.1_160212_Updater.pkg&apos; &quot;
+
+// Kill all Excel processes to forcibly close Excel
+// Uncomment the next line to forcibly close Excel by killing the process
+// wait /usr/bin/killall -9 &quot;Microsoft Excel&quot;
+
+// Move the downloaded Excel Update PKG to the temp directory
+move &quot;{posix path of file &quot;Microsoft_Excel_15.19.1_160212_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Microsoft_Excel_15.19.1_160212_Updater.pkg&quot;
+
+// Install the Excel Update
+wait installer -pkg &quot;/private/tmp/Microsoft_Excel_15.19.1_160212_Updater.pkg&quot; -target /
+
+// Delete the Excel Update PKG in the temp directory
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Excel_15.19.1_160212_Updater.pkg&apos; &quot;
+
+// Uncomment the next line to require a restart after the update
+// action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

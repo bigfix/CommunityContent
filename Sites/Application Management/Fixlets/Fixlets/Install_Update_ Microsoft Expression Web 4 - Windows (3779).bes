@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Update: Microsoft Expression Web 4 - Windows
+  ID       : 3779
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-04-25T14:26:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: Microsoft Expression Web 4 - Windows</Title>
+    <Description>&lt;P&gt;This task will deploy: Microsoft Expression Web 4&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>/* Only install if missing or an older version of Microsoft Expression Web is installed */ (not exists keys whose (value &quot;DisplayName&quot; of it as string starts with &quot;Microsoft Expression Web&quot; AND (value &quot;DisplayVersion&quot; of it as string as version) &gt;= &quot;4.0.1460.0&quot; as version) of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry)</Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-04-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 25 Apr 2014 20:30:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// http://www.microsoft.com/en-us/download/details.aspx?id=36179
+prefetch Web_Trial_en.exe sha1:21531996203e83575d5e61e861c147d687c57ed6 size:103542856 http://download.microsoft.com/download/F/D/8/FD88D81D-52B5-486A-A53F-CCDB485D5258/Web_Trial_en.exe
+
+wait __Download\Web_Trial_en.exe -q
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Deploy BESChildProcessKiller Scheduled Task v1.3
+  ID       : 23050
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2016-12-16T07:28:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy BESChildProcessKiller Scheduled Task v1.3</Title>
+    <Description>&lt;P&gt;This Fixlet sets up a process to kill stuck processes launced by the BES Client.&amp;nbsp; When the BES Client launches a process via &apos;wait&apos; or &apos;waithidden&apos; commands, if the process never completes, the BES Client will not respond to any further actions and remains &quot;stuck&quot; until the process is terminated, BESClient is restarted, or the system is rebooted.&lt;/P&gt;
+&lt;P&gt;This Fixlet deploys BESChildProcessKiller, which watches for these &quot;stuck&quot; child processes and kills them after a timeout value has been exceeded.&amp;nbsp; This creates a Scheduled Task to check every 15 minutes.&amp;nbsp; The Scheduled Task sends a query file to the &quot;qna.exe&quot; utility to identify stuck processes and returns their PID.&amp;nbsp; The Scheduled Task then logs the process and kills it.&lt;/P&gt;
+&lt;P&gt;Components:&lt;/P&gt;
+&lt;UL&gt;
+&lt;LI&gt;Client Settings (configure via Task &quot;Configure BESChildProcessKiller Timeout Values&quot;) 
+&lt;UL&gt;
+&lt;LI&gt;BESClient_ChildProcess_Timeout - The &lt;EM&gt;current&lt;/EM&gt; time interval after which stuck BES Child Processes should be terminated 
+&lt;LI&gt;BESClient_ChildProcess_PreferredTimeout - The &lt;EM&gt;normal&lt;/EM&gt; time interval after which stuck BES Child Processes should be terminated&lt;/LI&gt;&lt;/UL&gt;
+&lt;LI&gt;Scheduled Tasks 
+&lt;UL&gt;
+&lt;LI&gt;BESChildProcessKiller&lt;/LI&gt;&lt;/UL&gt;
+&lt;LI&gt;Files (under __BESData\ChildProcessKiller 
+&lt;UL&gt;
+&lt;LI&gt;ChildProcessKiller.cmd - Batch file executed by Scheduled Task to identify and kill stuck child processes 
+&lt;LI&gt;ChildProcessTimeout.qna - Relevance query to identify and list PIDs of stuck processes 
+&lt;LI&gt;ChildProcessTimeout.log - Log file containing execution outputs&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;P&gt;&amp;nbsp;v1.2 adds checking client setting &quot;BESClient_ChildProcess_ExcludeList&quot; to whitelist specific processes that should not be killed.&amp;nbsp; These processes, their parent process, and parent&apos;s parent process will not be killed.&amp;nbsp; Useful for excluding known long-running processes such as &quot;rbagent.exe&quot; used in BigFix OS Deployment&lt;/P&gt;
+&lt;P&gt;v1.3 adds a check to handle recycled PIDs.&amp;nbsp; The BESClient service may be using a PID that was previously assigned for another process, and BESChildKiller would try to kill that defunct process&apos;s children.&amp;nbsp; In some cases this was trying to terminate csrss.exe!&amp;nbsp; v.1.3 adds a check that the target process is newer than the besclient.exe process (and hence should really be a child of besclient, as no other process could have reused besclient&apos;s pid as long as besclient is still running).&lt;/P&gt;</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>exists running services whose (service name of it = &quot;Schedule&quot;)</Relevance>
+    <Relevance>exists file &quot;qna.exe&quot; of storage folder of client</Relevance>
+    <Relevance>/* QNA query file is not present or not correct version */ (not exists file &quot;ChildProcessTimeout.qna&quot; whose ((preceding text of first &quot; &quot; of following text of first &quot;Version:&quot; of line 1 of it) as string as version &gt;= version &quot;1.3&quot;) of folders &quot;ChildProcessKiller&quot; of data folder of client) OR /* Task is not present or does not point to correct batch file */ (not exists scheduled tasks &quot;BESChildProcessKiller&quot; whose (exists (node values of child nodes of xpaths (&quot;xmlns:t=&apos;http://schemas.microsoft.com/windows/2004/02/mit/task&apos;&quot;, &quot;/t:Task/t:Actions/t:Exec/t:Command&quot;) of xml document of xml of it) whose (it = &quot;%22&quot; &amp; pathname of data folder of client &amp; &quot;\ChildProcessKiller\ChildProcessKiller.cmd%22&quot;)))</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Dec 2016 23:08:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to set up the BESChildProcessKiller Scheduled Task.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// setup all of the scripts involved
+action uses wow64 redirection false
+parameter &quot;FolderPath&quot;=&quot;{pathname of data folder of client}\ChildProcessKiller&quot;
+delete __appendfile
+
+// The following file will be a query passed to qna.exe.  It should output the list of process IDs to terminate -
+appendfile Q: /* Do not remove this comment Version:1.3 */ pids of it of processes whose ((ppid of it = pid of service &quot;BESClient&quot;) and (name of it != &quot;BESClientUI.exe&quot;) AND (creation time of it &gt; creation time of process (pid of service &quot;BESClient&quot;)) and (now - creation time of it &gt; value of setting &quot;BESClient_ChildProcess_Timeout&quot; of client as time interval) and (if not exists setting &quot;BESClient_ChildProcess_ExcludeList&quot; of client then true else (pid of it is not contained by  set of (pid of it; pids of processes (ppids of it); pids of processes (ppids of processes (ppids of it))) of processes whose (name of it as lowercase is contained by (set of (substrings separated by &quot;;&quot; of  value of setting &quot;BESClient_ChildProcess_ExcludeList&quot; of client as trimmed string as lowercase))))))
+
+folder create &quot;{parameter &quot;FolderPath&quot;}&quot;
+folder create &quot;{parameter &quot;FolderPath&quot;}\Log&quot;
+delete &quot;{parameter &quot;FolderPath&quot;}\ChildProcessTimeout.qna&quot;
+move __appendfile &quot;{parameter &quot;FolderPath&quot;}\ChildProcessTimeout.qna&quot;
+
+// The following file will be a .cmd script, executed by the Task Scheduler in SYSTEM context, which executes qna.exe and kills the resulting process list
+delete __createfile
+createfile until EOF_EOF
+@SET WD=&quot;{parameter &quot;FolderPath&quot;}&quot;
+@For /f &quot;tokens=2-4 delims=/ &quot; %%a in (&apos;date /t&apos;) do (set mydate=%%c-%%a-%%b)
+@SET LOGFILE=Log\ChildProcessKiller_%mydate%.log
+PUSHD %WD%
+
+if not exist &quot;{pathname of storage folder of client}\qna.exe&quot; (@echo %DATE% %TIME% ERROR: Could not locate qna.exe &gt;&gt; %LOGFILE% &amp; exit /B 1)
+if not exist &quot;{parameter &quot;FolderPath&quot;}\ChildProcessTimeout.qna&quot; (@echo %DATE% %TIME% ERROR: Could not locate ChildProcessTimeout.qna &gt;&gt; %LOGFILE% &amp; exit /B 1)
+
+GOTO MAIN
+
+:HandlePID
+@echo %DATE% %TIME$% Stopping Process %1 &gt;&gt; %LOGFILE%  
+@TASKLIST /FI &quot;PID eq %1&quot;  &gt;&gt; %LOGFILE% 2&gt;&amp;1
+@TASKKILL /PID %1 /T /F &gt;&gt; %LOGFILE% 2&gt;&amp;1
+@exit /B %ERRORLEVEL%
+
+:MAIN
+echo %DATE% %TIME% Checking for stuck processes &gt;&gt; %LOGFILE%
+@REM We need to call out to another subroutine, because the &apos;for&apos; syntax doesn&apos;t seem to handle directly executing the result
+for /F &quot;skip=1 tokens=1,* delims=:&quot; %%i in (&apos;&quot;{pathname of storage folder of client}\qna.exe&quot;  ChildProcessTimeout.qna&apos;) do @CALL :HandlePID %%j
+EOF_EOF
+delete &quot;{parameter &quot;FolderPath&quot;}\ChildProcessKiller.cmd&quot;
+move __createfile &quot;{parameter &quot;FolderPath&quot;}\ChildProcessKiller.cmd&quot;
+
+// Create the Scheduled Task to run every 15 minutes
+waithidden schtasks.exe /create /RU System /SC MINUTE /MO 15 /TN BESChildProcessKiller /TR &quot;&apos;{parameter &quot;FolderPath&quot;}\ChildProcessKiller.cmd&apos;&quot; /F
+waithidden schtasks.exe /run /TN BESChildProcessKiller</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

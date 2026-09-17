@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: Rhino 5 - Windows
+  ID       : 3827
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-08-15T16:59:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: Rhino 5 - Windows</Title>
+    <Description><![CDATA[<P>This will install Rhino 5</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://wiki.mcneel.com/rhino/installingrhio/5.0/setupini">http://wiki.mcneel.com/rhino/installingrhio/5.0/setupini</A></P>
+<P><U><FONT color=#5386b3><A href="http://wiki.mcneel.com/rhino/installingrhino/5.0#rhino_50_install_with_script_and_ini_file">http://wiki.mcneel.com/rhino/installingrhino/5.0#rhino_50_install_with_script_and_ini_file</A></FONT></U></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system > "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string starts with "Rhinoceros" AND value "DisplayVersion" of it as string >= "5.9.40617.14345") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-08-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Aug 2014 23:58:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install Rhino 5 Evaluation.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// Downloads
+prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+
+// Download Utilities for automating Local Group Policy management
+//   http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx
+prefetch LGPO_Utilities.zip sha1:e849599553425754e2e070014fa7967d75671bdf size:311761 http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip
+
+// Add unzip.exe to the client utility cache
+if {exists file (pathname of client folder of current site & "\__Download\unzip.exe")}
+    utility __Download\unzip.exe
+endif
+
+// use the unzip redistributable to unzip the 7zip command line utility
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\7za920.zip" -d "{pathname of client folder of current site}\__Download"
+
+// use 7zip to extract the installers from the Rhino download
+waithidden "{(pathname of client folder of current site & "\__Download\7za.exe")}" x -y -o"{pathname of client folder of current site}\__Download\Rhino" "{pathname of client folder of current site}\__Download\rh50_en-us.exe"
+
+//// MSI Install Options
+// http://wiki.mcneel.com/rhino/installingrhino/5.0
+// http://wiki.mcneel.com/rhino/installingrhio/5.0/setupini
+//# INSTALL_EN = 1
+//## User and company information:
+//# USERNAME=Joe Smith
+//# COMPANYNAME=Acme Construction, Inc.
+//## For Standalone Node Installs:
+//# WORKGROUP_NODE=0     # Install as stand-alone node. RMA_CDKEY is required.
+//# RMA_CDKEY=RH50-____-____-____-____ # Your CD-Key
+//# RMA_VALIDATION_CODE=____-____-____-____-____ # Optional. Obtained from https://www.mcneel.com/validate/rhino/5/
+
+//## For Zoo Installs:
+//# WORKGROUP_NODE=1     # Install so Rhino uses Zoo license manager
+//# ZOO_SERVER=zoohost.domain.com # server IP address or Fully Qualified Domain Name
+
+//## For Evaluation Installs:
+//# RMA_LICENSENODETYPE=Evaluation
+
+// Install
+if{x64 of operating system}
+	wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x64.msi" RMA_LICENSENODETYPE=Evaluation /qn
+endif
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x86.msi" RMA_LICENSENODETYPE=Evaluation /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\LanguagePack_en-us.msi" /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\HelpMedia.msi" /qn
+
+// Delete Shortcuts
+delete "C:\Users\Public\Desktop\Rhinoceros 5 (64-bit).lnk"
+delete "C:\Users\Public\Desktop\Rhinoceros 5.lnk"
+
+// Disable updater service from autostarting
+waithidden sc stop "McNeelUpdate"
+waithidden sc config "McNeelUpdate" start= demand
+
+// --- Apply Local GPO --------------------------------------------
+
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\LGPO_Utilities.zip" -d "{pathname of client folder of current site}\__Download"
+
+// Create LGPO file to be applied to the system
+delete __createfile
+delete __Download\LGPO_Settings.txt
+createfile until END_OF_FILE
+; -------------------------------------------------------------------------
+; Local Group Policy settings
+; -------------------------------------------------------------------------
+
+User
+Software\McNeel\McNeelUpdate
+Enabled
+SZ:False
+
+User
+Software\McNeel\Rhinoceros\5.0\Global Options\Privacy
+RhinoSplash.UsageStatsEnabledDialog Shown
+SZ:yes
+
+END_OF_FILE
+
+move __createfile "{pathname of client folder of current site}\__Download\LGPO_Settings.txt"
+
+// Apply the above LGPO
+waithidden "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.exe" "{pathname of client folder of current site}\__Download\LGPO_Settings.txt" /log "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.log" /error "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta_ERROR.log"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4224">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install Rhino 5 with a&amp;nbsp;CDKEY.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+action parameter query "CDKEY" with description "Enter the Rhino CDKEY:" and with default value "RH50-____-____-____-____"
+
+// Downloads
+prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+
+// Add unzip.exe to the client utility cache
+if {exists file (pathname of client folder of current site & "\__Download\unzip.exe")}
+    utility __Download\unzip.exe
+endif
+
+// use the unzip redistributable to unzip the 7zip command line utility
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\7za920.zip" -d "{pathname of client folder of current site}\__Download"
+
+// use 7zip to extract the installers from the Rhino download
+waithidden "{(pathname of client folder of current site & "\__Download\7za.exe")}" x -y -o"{pathname of client folder of current site}\__Download\Rhino" "{pathname of client folder of current site}\__Download\rh50_en-us.exe"
+
+//// MSI Install Options
+// http://wiki.mcneel.com/rhino/installingrhino/5.0
+// http://wiki.mcneel.com/rhino/installingrhio/5.0/setupini
+//# INSTALL_EN = 1
+//## User and company information:
+//# USERNAME=Joe Smith
+//# COMPANYNAME=Acme Construction, Inc.
+//## For Standalone Node Installs:
+//# WORKGROUP_NODE=0     # Install as stand-alone node. RMA_CDKEY is required.
+//# RMA_CDKEY=RH50-____-____-____-____ # Your CD-Key
+//# RMA_VALIDATION_CODE=____-____-____-____-____ # Optional. Obtained from https://www.mcneel.com/validate/rhino/5/
+
+//## For Zoo Installs:
+//# WORKGROUP_NODE=1     # Install so Rhino uses Zoo license manager
+//# ZOO_SERVER=zoohost.domain.com # server IP address or Fully Qualified Domain Name
+
+//## For Evaluation Installs:
+//# RMA_LICENSENODETYPE=Evaluation
+
+// Install
+if{x64 of operating system}
+	wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x64.msi" WORKGROUP_NODE=0 RMA_CDKEY="{parameter "CDKEY"}" /qn
+endif
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x86.msi" WORKGROUP_NODE=0 RMA_CDKEY="{parameter "CDKEY"}" /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\LanguagePack_en-us.msi" /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\HelpMedia.msi" /qn
+
+// Delete Shortcuts
+delete "C:\Users\Public\Desktop\Rhinoceros 5 (64-bit).lnk"
+delete "C:\Users\Public\Desktop\Rhinoceros 5.lnk"
+
+// Disable updater service from autostarting
+waithidden sc stop "McNeelUpdate"
+waithidden sc config "McNeelUpdate" start= demand
+
+// --- Apply Local GPO --------------------------------------------
+
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\LGPO_Utilities.zip" -d "{pathname of client folder of current site}\__Download"
+
+// Create LGPO file to be applied to the system
+delete __createfile
+delete __Download\LGPO_Settings.txt
+createfile until END_OF_FILE
+; -------------------------------------------------------------------------
+; Local Group Policy settings
+; -------------------------------------------------------------------------
+
+User
+Software\McNeel\McNeelUpdate
+Enabled
+SZ:False
+
+User
+Software\McNeel\Rhinoceros\5.0\Global Options\Privacy
+RhinoSplash.UsageStatsEnabledDialog Shown
+SZ:yes
+
+END_OF_FILE
+
+move __createfile "{pathname of client folder of current site}\__Download\LGPO_Settings.txt"
+
+// Apply the above LGPO
+waithidden "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.exe" "{pathname of client folder of current site}\__Download\LGPO_Settings.txt" /log "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.log" /error "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta_ERROR.log"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action4225">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to install Rhino 5 with a Zoo License Server.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+action parameter query "ZOOSERVER" with description "Enter the Rhino Zoo License Server:" and with default value "zoohost.domain.com"
+
+// Downloads
+prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+
+// Add unzip.exe to the client utility cache
+if {exists file (pathname of client folder of current site & "\__Download\unzip.exe")}
+    utility __Download\unzip.exe
+endif
+
+// use the unzip redistributable to unzip the 7zip command line utility
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\7za920.zip" -d "{pathname of client folder of current site}\__Download"
+
+// use 7zip to extract the installers from the Rhino download
+waithidden "{(pathname of client folder of current site & "\__Download\7za.exe")}" x -y -o"{pathname of client folder of current site}\__Download\Rhino" "{pathname of client folder of current site}\__Download\rh50_en-us.exe"
+
+//// MSI Install Options
+// http://wiki.mcneel.com/rhino/installingrhino/5.0
+// http://wiki.mcneel.com/rhino/installingrhio/5.0/setupini
+//# INSTALL_EN = 1
+//## User and company information:
+//# USERNAME=Joe Smith
+//# COMPANYNAME=Acme Construction, Inc.
+//## For Standalone Node Installs:
+//# WORKGROUP_NODE=0     # Install as stand-alone node. RMA_CDKEY is required.
+//# RMA_CDKEY=RH50-____-____-____-____ # Your CD-Key
+//# RMA_VALIDATION_CODE=____-____-____-____-____ # Optional. Obtained from https://www.mcneel.com/validate/rhino/5/
+
+//## For Zoo Installs:
+//# WORKGROUP_NODE=1     # Install so Rhino uses Zoo license manager
+//# ZOO_SERVER=zoohost.domain.com # server IP address or Fully Qualified Domain Name
+
+//## For Evaluation Installs:
+//# RMA_LICENSENODETYPE=Evaluation
+
+// Install
+if{x64 of operating system}
+	wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x64.msi" WORKGROUP_NODE=1 ZOO_SERVER="{parameter "ZOOSERVER"}" /qn
+endif
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\rhino5setup_en-us_x86.msi" WORKGROUP_NODE=1 ZOO_SERVER="{parameter "ZOOSERVER"}" /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\LanguagePack_en-us.msi" /qn
+wait msiexec /i "{pathname of client folder of current site}\__Download\Rhino\Installers\HelpMedia.msi" /qn
+
+// Delete Shortcuts
+delete "C:\Users\Public\Desktop\Rhinoceros 5 (64-bit).lnk"
+delete "C:\Users\Public\Desktop\Rhinoceros 5.lnk"
+
+// Disable updater service from autostarting
+waithidden sc stop "McNeelUpdate"
+waithidden sc config "McNeelUpdate" start= demand
+
+// --- Apply Local GPO --------------------------------------------
+
+waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\LGPO_Utilities.zip" -d "{pathname of client folder of current site}\__Download"
+
+// Create LGPO file to be applied to the system
+delete __createfile
+delete __Download\LGPO_Settings.txt
+createfile until END_OF_FILE
+; -------------------------------------------------------------------------
+; Local Group Policy settings
+; -------------------------------------------------------------------------
+
+User
+Software\McNeel\McNeelUpdate
+Enabled
+SZ:False
+
+User
+Software\McNeel\Rhinoceros\5.0\Global Options\Privacy
+RhinoSplash.UsageStatsEnabledDialog Shown
+SZ:yes
+
+END_OF_FILE
+
+move __createfile "{pathname of client folder of current site}\__Download\LGPO_Settings.txt"
+
+// Apply the above LGPO
+waithidden "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.exe" "{pathname of client folder of current site}\__Download\LGPO_Settings.txt" /log "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.log" /error "{pathname of client folder of current site}\__Download\Apply_LGPO_Delta_ERROR.log"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

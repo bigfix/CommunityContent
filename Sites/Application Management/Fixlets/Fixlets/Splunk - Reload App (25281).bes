@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Splunk - Reload App
+  ID       : 25281
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2018-03-08T06:10:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Splunk - Reload App</Title>
+    <Description>Task used to reload apps that are not fully deployed on Splunk Fowarders. This fixlet should be used if a deployment server is reporting a problem while deploying an app to forwarders in your environment.
+
+NOTE: This action implies to forwarder is running as &quot;root&quot; rather than another non-root account.</Description>
+    <Relevance>if windows of operating system then exists service &quot;splunkforwarder&quot; else exists folder &quot;/opt/splunkforwarder/etc/apps&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Jun 2016 13:38:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "app" with description "Name of app to be reloaded."
+
+if {windows of operating system AND exists file "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe"}
+waithidden "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" stop
+waithidden cmd.exe /C del /S /Q "{"C:\Program Files\SplunkUniversalForwarder\etc\apps\" & (parameter "app" as string)}"
+waithidden "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" start
+elseif {windows of operating system AND exists file "E:\Program Files\SplunkUniversalForwarder\bin\splunk.exe"}
+waithidden "E:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" stop
+waithidden cmd.exe /C del /S /Q "{"E:\Program Files\SplunkUniversalForwarder\etc\apps\" & (parameter "app" as string)}"
+waithidden "E:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" start
+else
+wait /opt/splunkforwarder/bin/splunk stop
+wait rm -rf {"/opt/splunkforwarder/etc/apps/" & (parameter "app" as string)}
+wait /opt/splunkforwarder/bin/splunk start
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

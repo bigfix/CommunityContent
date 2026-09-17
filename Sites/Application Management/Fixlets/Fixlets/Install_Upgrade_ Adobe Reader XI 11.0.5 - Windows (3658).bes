@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Upgrade: Adobe Reader XI 11.0.5 - Windows
+  ID       : 3658
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-27T13:01:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Reader XI 11.0.5 - Windows</Title>
+    <Description>&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About Adobe Reader&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;Adobe Reader&amp;nbsp;is an&amp;nbsp;application developed by Adobe Systems to view and&amp;nbsp;print files in portable document format (PDF). Adobe&apos;s solution for creating and manipulating PDF files is Adobe Acrobat Professional, which requires a license.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;FONT color=#0080ff size=3&gt;&lt;STRONG&gt;Licensing&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;Adobe Reader is freeware.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;&lt;STRONG&gt;
+&lt;P&gt;&lt;FONT size=3&gt;About This Task&lt;/FONT&gt;&lt;/P&gt;&lt;/STRONG&gt;
+&lt;BLOCKQUOTE&gt;This task will install/upgrade: Adobe Reader XI 11.0.5&lt;BR&gt;&lt;BR&gt;This task is applicable on: Windows XP and higher (32-bit and 64-bit)&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;FONT size=3&gt;&lt;STRONG&gt;Action Description&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
+&lt;UL&gt;&lt;FONT size=2&gt;
+&lt;LI&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action1: Install/upgrade.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;&lt;FONT size=2&gt;This action installs Reader.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;&lt;/FONT&gt;</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Adobe Reader&quot; AND (it &gt;= &quot;11.0.05&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry</Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 27 Nov 2013 20:00:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action3935">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe
+
+//Adobe Reader XI 11.0.05 is a security update, i.e., no full installer
+prefetch AdbeRdrSecUpd11005.msp sha1:6117f8b7545966b4b57fad13bf9636ca329139c8 size:2682880 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.05/misc/AdbeRdrSecUpd11005.msp
+
+// The following should not be needed as the installer should do this by default
+//uninstall previous version of Adobe Reader
+//if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+//    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+//endif
+
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/basics.html#expanding-exe-packages
+// Extract the EXE to access the installer files directly - this will delete/overwrite files in the target directory
+wait __Download\AdbeRdr_en_US.exe -sfx_o&quot;{(pathname of client folder of current site)}\__Download\AdbeRdr_en_US&quot; -sfx_ne
+
+delete __Download\AdbeRdr_en_US\AdbeRdrSecUpd11005.msp
+move __Download\AdbeRdrSecUpd11005.msp __Download\AdbeRdr_en_US\AdbeRdrSecUpd11005.msp
+
+// create a setup.ini file to install both 11.0.4 and 11.0.5 at the same time. (chainloading)
+delete setup.ini
+delete __createfile
+createfile until endCreateFile
+[Startup]
+RequireMSI=3.0
+
+[Product]
+msi=AcroRead.msi
+PATCH=AdbeRdrUpd11004.msp;AdbeRdrSecUpd11005.msp
+
+[MSI Updater]
+Path=http://ardownload.adobe.com/pub/adobe/reader/win/8.x/8.0/misc/WindowsInstaller-KB893803-v2-x86.exe
+endCreateFile
+
+move __createfile setup.ini
+
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/properties.html
+// http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/bootstrapper.html
+// Setup.exe installation option effects. 
+//   /sAll                           --&gt; Run installer in silent mode.
+//   /rs                             --&gt; Reboot Suppress. Setup.exe will not initiate reboot even if it is required.
+//   /l                              --&gt; Enable Logging
+//   /ini &quot;path\to\file.ini&quot;         --&gt;
+//   DISABLE_ARM_SERVICE_INSTALL=1   --&gt; Do not install updater service
+//   EULA_ACCEPT=YES                 --&gt; Accept the EULA to bypass it on first launch
+//   DISABLE_AIR_SHARE=YES           --&gt; Do not install AdobeAIR
+//   SUPPRESS_APP_LAUNCH=YES         --&gt; Do not launch Reader after installation
+//   AgreeToLicense=Yes              --&gt; ???? not sure what this does, if anything
+//   ALLUSERS=1                      --&gt; Install for all users
+//   DISABLEDESKTOPSHORTCUT=1        --&gt; Do not create desktop shortcut
+//   DISABLE_CACHE=1                 --&gt; Do not cache installer files
+//   /msi /qn /norestart             --&gt; pass &quot;/qn /norestart&quot; along to MSI, this may be redundant with &quot;/rs&quot; above
+wait __Download\AdbeRdr_en_US\setup.exe /sAll /rs /l /ini &quot;{(pathname of client folder of current site)}\setup.ini&quot; DISABLE_ARM_SERVICE_INSTALL=1 EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 DISABLE_CACHE=1 /msi /qn /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

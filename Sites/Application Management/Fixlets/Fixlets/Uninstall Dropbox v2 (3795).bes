@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Dropbox v2
+  ID       : 3795
+  Author   : vtdarryl
+  Domain   : BESC
+  Imported : 2014-06-22T03:53:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Dropbox v2</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>exist file (((if it starts with &quot;%22&quot; and it ends with &quot;%22&quot; then substring between &quot;%22&quot; of it else it) of (if it contains &quot;%00&quot; then preceding text of first &quot;%00&quot; of it else it) of (value &quot;UninstallString&quot; of it as string) of key whose (value &quot;DisplayName&quot; of it as string as lowercase = &quot;dropbox&quot;) of key &quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of it | &quot;&quot; ) of keys of key &quot;HKU&quot; of registry)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-04-30</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 May 2014 08:08:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[createfile until EOS
+{concatenation "%0d%0a" of ("call "& (if it starts with "%22" and it ends with "%22" then substring between "%22" of it else it) of (if it contains "%00" then preceding text of first "%00" of it else it) of (value "UninstallString" of it as string) of key whose (value "DisplayName" of it as string as lowercase = "dropbox") of key "Uninstall" of it & " /S" & "%0d%0a" & ("rmdir /s /q %22" & value "AppData" of it as string & "\Dropbox") of key "Explorer\Shell Folders" of it & "%22%0d%0a" & ("rmdir /s /q %22" & value "Start Menu" of it as string & "\Programs\Dropbox") of key "Explorer\Shell Folders" of it & "%22%0d%0a") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion" of keys whose (exists keys whose (value "DisplayName" of it as string as lowercase = "dropbox") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of it) of key "HKU" of registry}
+EOS
+delete uninstall.bat
+move __createfile uninstall.bat
+wait "{pathname of system folder}\cmd.exe" /c uninstall.bat]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

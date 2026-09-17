@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Invoke - Baseline of System Image - Linux
+  ID       : 22960
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Invoke - Baseline of System Image - Linux</Title>
+    <Description><![CDATA[Deploy this task to trusted and secured endpoints or gold images.&nbsp; This task will enumerate and record all EXE and their associated hashes to be imported in to the applications whitelist.&nbsp;&nbsp;]]></Description>
+    <Relevance>unix of operating system</Relevance>
+    <Relevance>not mac of operating system</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:40:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+action parameter query "Algorithm" with description "Please enter the hashing algorithm"
+
+
+delete __createfile
+delete generatehash.sh
+
+createfile until _end_
+#!/bin/sh -f
+#!/bin/sh -f
+
+#
+# generate_hash_list
+#
+# Version 1.6-1511301904
+#
+# Generates a list of executables to standard output with their hash values.
+# An optional algorithm argument of sha1, md5, or sha256 may be specified.  sha1 is the default.
+#
+# Copyright 2015, RES Software
+#
+# All rights reserved.
+#
+
+# Close standard input & redirect from /dev/null
+exec < /dev/null
+
+# Select the algorithm based on the optional cmd line argument
+case x"$1" in
+xmd5)
+    ALGORITHM="md5"
+    ;;
+xsha1)
+    ALGORITHM="sha1"
+    ;;
+xsha256)
+    ALGORITHM="sha256"
+    ;;
+*)
+    ALGORITHM="sha256"
+    ;;
+esac
+
+
+# Options to "find" for preventing transient file errors.
+FINDOPTS="-ignore_readdir_race"
+
+# Options to "find" for disallowed filesystem types.
+# Also, disallow core dump files.
+DISALLOW="( -fstype proc -o -fstype sysfs -o -fstype debugfs -o -fstype devpts -o -fstype vmhgfs -o -fstype cifs -o -fstype smbfs ) -prune -o ! -name core"
+
+# Use standard locations for utility executables
+FIND="/usr/bin/find"
+XARGS="/usr/bin/xargs"
+OPENSSL="/usr/bin/openssl"
+SED="/usr/bin/sed"
+GREP="/usr/bin/grep"
+FILECMD="/usr/bin/file"
+TR="/usr/bin/tr"
+UNAME="/usr/bin/uname"
+PRINTF="/usr/bin/printf"
+
+# Some distributions may have the utilities in a different directory.
+if [ \! -x "$FIND" ] ; then FIND="/bin/find" ; fi
+if [ \! -x "$XARGS" ] ; then XARGS="/bin/xargs" ; fi
+if [ \! -x "$OPENSSL" ] ; then OPENSSL="/bin/openssl" ; fi
+if [ \! -x "$SED" ] ; then SED="/bin/sed" ; fi
+if [ \! -x "$GREP" ] ; then GREP="/bin/grep" ; fi
+if [ \! -x "$FILECMD" ] ; then FILECMD="/bin/file" ; fi
+if [ \! -x "$TR" ] ; then TR="/bin/tr" ; fi
+if [ \! -x "$UNAME" ] ; then UNAME="/bin/uname" ; fi
+if [ \! -x "$PRINTF" ] ; then UNAME="/bin/printf" ; fi
+
+# Fail if the utilities are not found in either location.
+if [ \! -x "$FIND" ] ; then echo find command not found; exit 1; fi
+if [ \! -x "$XARGS" ] ; then echo xargs command not found; exit 1; fi
+if [ \! -x "$OPENSSL" ] ; then echo openssl command not found; exit 1; fi
+if [ \! -x "$SED" ] ; then echo sed command not found; exit 1; fi
+if [ \! -x "$GREP" ] ; then echo grep command not found; exit 1; fi
+if [ \! -x "$FILECMD" ] ; then echo file command not found; exit 1; fi
+if [ \! -x "$TR" ] ; then echo tr command not found; exit 1; fi
+if [ \! -x "$UNAME" ] ; then echo uname command not found; exit 1; fi
+if [ \! -x "$PRINTF" ] ; then echo printf command not found; exit 1; fi
+
+# Is this Mac OSX or Linux?
+OSTYPE=`$UNAME`
+if [ x"$OSTYPE" = xDarwin ] ; then
+    OSTYPE=macosx
+else
+    OSTYPE=linux
+fi
+
+# Put the tab character in the TABCHAR variable for use as a field separator.
+TABCHAR=`$PRINTF "\t"`
+
+# Put the carriage return (CR) character in the CRCHAR variable for use as a field separator.
+CRCHAR=`$PRINTF "\r"`
+
+#
+# Generate a list of executables to standard output.
+#
+find_executables () {
+
+    "$FIND" / $FINDOPTS $DISALLOW -type f -perm +ugo+x -print
+}
+
+exclude_filetypes () {
+    if [ x"$OSTYPE" = xmacosx ] ; then
+        exclude_filetypes_macosx
+    else
+        exclude_filetypes_linux
+    fi
+}
+
+#
+# Exclude shared libraries, scripts, etc from the input list of executable filenames for Linux.
+#
+exclude_filetypes_linux () {"%7B"}
+
+     #
+     # Use the file command to determine the type of each file in the list.
+     # Instead of the default file command output, use the TABCHAR as a separator for
+     # more robust pattern matching.
+     #
+     # Match ELF or \DOS executables, but exclude object and library files.
+     #
+     # Note that \script files are NOT included here, since they are not ELF or \DOS exes.
+     #
+     # Finally use the sed command to remove the file type output, leaving only the filenames.
+     #
+    "$FILECMD" -L -F "${"%7B"}TABCHAR{"%7D"}" -N -f - | \
+    "$GREP" "${"%7B"}TABCHAR{"%7D"}.*ELF\|${"%7B"}TABCHAR{"%7D"}.*DOS executable" | \
+    "$GREP" -v "\.o${"%7B"}TABCHAR{"%7D"}" | \
+    "$GREP" -v "\.obj${"%7B"}TABCHAR{"%7D"}" | \
+    "$GREP" -v "\.a[\.[0-9]*]*${"%7B"}TABCHAR{"%7D"}" | \
+    "$GREP" -v "\.so[\.[0-9]*]*${"%7B"}TABCHAR{"%7D"}" | \
+    "$SED" -e "s/${"%7B"}TABCHAR{"%7D"}.*$//"
+{"%7D"}
+
+#
+# Exclude shared libraries, scripts, etc from the input list of executable filenames for Mac OSX
+#
+exclude_filetypes_macosx () {"%7B"}
+
+     #
+     # Use the file command to determine the type of each file in the list.
+     # Instead of the default file command output, use the TABCHAR as a separator for
+     # more robust pattern matching.
+     #
+     # Exclude object and library files.
+     #
+     # Note that \script files are NOT included here.
+     #
+     # Finally use the sed command to remove the file type output, leaving only the filenames.
+     #
+     "$FILECMD" -L -F "${"%7B"}TABCHAR{"%7D"}" -N -f - | \
+     "$GREP" "${"%7B"}TABCHAR{"%7D"}.*Mach-O" | \
+     "$GREP" -v "(for architecture.*${"%7B"}TABCHAR{"%7D"}" | \
+     "$GREP" -v "\.o${"%7B"}TABCHAR{"%7D"}" | \
+     "$GREP" -v "\.obj${"%7B"}TABCHAR{"%7D"}" | \
+     "$GREP" -v "\.a[\.[0-9]*]*${"%7B"}TABCHAR{"%7D"}" | \
+     "$GREP" -v "\.so[\.[0-9]*]*${"%7B"}TABCHAR{"%7D"}" | \
+     "$GREP" -v "\.dylib[\.[0-9]*]*${"%7B"}TABCHAR{"%7D"}" | \
+     "$SED" -e "s/${"%7B"}TABCHAR{"%7D"}.*$//"
+{"%7D"}
+
+#
+# Read a list of executables from standard input and produces a list of hashes and
+# filenames on the standard output.
+#
+compute_hashes () {
+
+    #
+    # Use xargs to collect the filenames and invoke openssl.
+    #
+    if [ "$ALGORITHM" = "md5" ] ; then
+        "$TR" "\n" "\0" |"$XARGS" -0 "$OPENSSL" dgst -md5 | "$SED" -e 's/^MD5(//' | "$SED" -e 's/)= / /'
+    elif [ "$ALGORITHM" = "sha1" ] ; then
+        "$TR" "\n" "\0" |"$XARGS" -0 "$OPENSSL" dgst -sha1 | "$SED" -e 's/^SHA1(//' | "$SED" -e 's/)= / /'
+    elif [ "$ALGORITHM" = "sha256" ] ; then
+        "$TR" "\n" "\0" |"$XARGS" -0 "$OPENSSL" dgst -sha256 | "$SED" -e 's/^SHA256(//' | "$SED" -e 's/)= / /'
+    fi
+}
+
+#
+# Format output into a comma-separated list suitable for
+# import into RES Workspace Manager Console.
+#
+format_csv_output () {
+
+    #
+    # Convert from input lines in the form:
+    # /sbin/ifconfig 52b040df07bc61889b99cb3d41766d5c26447e68
+    #
+    # to tab-separated items with an additional *
+    # /sbin/ifconfig	52b040df07bc61889b99cb3d41766d5c26447e68	*
+    #
+    # Also, convert Linux LF to Windows CRLF line termination.
+    #
+    "$SED" -e 's/^\(.*\) \([0-9a-f]*\)$/\1'"$TABCHAR"'\2'"$TABCHAR"'*/' | "$SED" -e 's/$/'"$CRCHAR"/
+}
+
+#
+# Generate a list of executables to standard output with their hash values.
+#
+
+if [ -e "whitebaseliner.csv" ]
+then rm whitebaseliner.csv
+fi
+
+find_executables | exclude_filetypes | compute_hashes | format_csv_output >> whitebaseliner.csv
+mv whitebaseliner.csv /tmp/{(computer name)}.txt
+_end_
+move __createfile generatehash.sh
+
+wait chmod 700 generatehash.sh
+wait sh generatehash.sh {parameter "Algorithm" of action as lowercase}
+delete generatehash.sh
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="52428800" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-authfiles"="/tmp/{(computer name)}.txt" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_SendAll"="1" on "{parameter "action issue date" of action}" for client
+archive now
+delete /tmp/{(computer name)}.txt]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

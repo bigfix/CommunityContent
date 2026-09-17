@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Fences v2.0.0.484
+  ID       : 3621
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-10-22T12:43:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Fences v2.0.0.484</Title>
+    <Description>Uninstall Fences </Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Fences 2&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-05</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Nov 2012 16:40:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;app&quot;=&quot;Fences 22.00&quot;
+
+parameter &quot;UninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+continue if {(parameter &quot;UninstallString&quot; != &quot;&quot;)}
+
+waithidden {parameter &quot;UninstallString&quot;} /silent
+
+
+if {exists folder whose (exists file &quot;Customize Fences.lnk&quot; of it) of folders of folder &quot;c:\users&quot;}
+	delete __appendfiledelete removeShortcuts.bat
+	appendfile for /r c:\users\ %%G IN (*Fences.lnk) DO del &quot;%%G&quot;
+	move __appendfile removeShortcuts.bat
+	waithidden ./removeShortcuts.bat
+endif</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action3883">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about Fences.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.stardock.com/products/fences/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

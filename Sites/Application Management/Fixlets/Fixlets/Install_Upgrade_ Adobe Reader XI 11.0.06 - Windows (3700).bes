@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Upgrade: Adobe Reader XI 11.0.06 - Windows
+  ID       : 3700
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-24T10:01:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Reader XI 11.0.06 - Windows</Title>
+    <Description>&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About Adobe Reader&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;Adobe Reader&amp;nbsp;is an&amp;nbsp;application developed by Adobe Systems to view and&amp;nbsp;print files in portable document format (PDF). Adobe&apos;s solution for creating and manipulating PDF files is Adobe Acrobat Professional, which requires a license.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;FONT color=#0080ff size=3&gt;&lt;STRONG&gt;Licensing&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;Adobe Reader is freeware.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;&lt;STRONG&gt;
+&lt;P&gt;&lt;FONT size=3&gt;About This Task&lt;/FONT&gt;&lt;/P&gt;&lt;/STRONG&gt;
+&lt;BLOCKQUOTE&gt;This task will install/upgrade: Adobe Reader XI 11.0.6&lt;BR&gt;&lt;BR&gt;This task is applicable on: Windows XP and higher (32-bit and 64-bit)&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;FONT size=3&gt;&lt;STRONG&gt;Action Description&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
+&lt;UL&gt;&lt;FONT size=2&gt;
+&lt;LI&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action1: Install/upgrade.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;&lt;FONT size=2&gt;This action installs Reader. &lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action2: Install/upgrade and disable auto-updates.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;&lt;FONT size=2&gt;This action installs Reader and then disables the automatic check for&amp;nbsp;updates.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL&gt;
+&lt;LI&gt;&lt;FONT size=2&gt;
+&lt;P dir=ltr&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action3: Install/upgrade only if&lt;/STRONG&gt;&amp;nbsp;&lt;STRONG&gt;Reader is not running.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;&lt;/FONT&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P dir=ltr&gt;&lt;FONT size=2&gt;This action only installs Reader if it is not running; if it is running, the action may report back as failed. To ensure that the update is eventually applied, you may to deploy this action as a policy and and retry the installation if it fails.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action4: Install/upgrade only if Reader is not running and disable auto-updates.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P dir=ltr&gt;&lt;FONT size=2&gt;This action performs the same action as Action3 and then disables the automatic check for updates.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action5: Install/upgrade regardless of whether or not Reader&amp;nbsp;is currently running.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P dir=ltr&gt;&lt;FONT size=2&gt;This action installs Reader regardless of whether or not it is running. Use this action to ensure that the update is applied when the action is deployed.&lt;/FONT&gt;&lt;/P&gt;
+&lt;P&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important note:&lt;/FONT&gt; &lt;/STRONG&gt;This action will close any running instance of Reader on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Action6: Install/upgrade regardless of whether or not Reader is currently running and disable auto-updates.&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P dir=ltr&gt;&lt;FONT size=2&gt;This action performs the same action as Action5 and then disables the automatic check for&amp;nbsp;updates.&lt;/FONT&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P dir=ltr&gt;&lt;FONT color=#000000 size=3&gt;&lt;STRONG&gt;Additional&amp;nbsp;Notes&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE&gt;
+&lt;P&gt;By default, Actions1-6 do not&amp;nbsp;install a desktop shortcut. To perform the action with a&amp;nbsp;desktop shortcut, do the following:&lt;/P&gt;
+&lt;UL&gt;
+&lt;LI&gt;Take the normal action you want to take (e.g., &lt;EM&gt;Install/upgrade&lt;/EM&gt;, &lt;EM&gt;Install/upgrade if not running&lt;/EM&gt;, etc.) 
+&lt;LI&gt;Select the &quot;Action Script&quot; tab 
+&lt;LI&gt;Select &quot;Use the following action script&quot; 
+&lt;LI&gt;&lt;STRONG&gt;UNCOMMENT&lt;/STRONG&gt; the &lt;STRONG&gt;wait&lt;/STRONG&gt; statement under the&amp;nbsp;&lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install Adobe Reader&amp;nbsp;WITH a desktop shortcut&lt;/FONT&gt; comment. 
+&lt;LI&gt;&lt;STRONG&gt;COMMENT&lt;/STRONG&gt; the &lt;STRONG&gt;wait&lt;/STRONG&gt; statement under the &lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install Adobe Reader&amp;nbsp;WITHOUT a desktop shortcut&lt;/FONT&gt;&amp;nbsp;comment.&amp;nbsp;&lt;/LI&gt;&lt;/UL&gt;&lt;/BLOCKQUOTE&gt;&lt;/FONT&gt;</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not contain &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance>not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Adobe Reader&quot; AND (it &gt;= &quot;11.0.06&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-01-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 24 Jan 2014 17:00:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 25
+//  - COMMENT line 28
+
+//install Adobe Reader WITH a desktop shortcut and disable updates
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1
+
+//install Adobe Reader WITHOUT a desktop shortcut and disable updates
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action3993">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 22
+//  - COMMENT line 25
+
+//install Adobe Reader WITH a desktop shortcut
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1
+
+//to install Adobe Reader WITHOUT a desktop shortcut
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action3994">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;only if Reader is not running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">continue if {not exists running application whose (name of it as lowercase = &quot;acrord32.exe&quot;)}
+
+//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 24
+//  - COMMENT line 27
+
+//install Adobe Reader WITH a desktop shortcut
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1
+
+//to install Adobe Reader WITHOUT a desktop shortcut
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action3995">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;only if Reader is not running and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">continue if {not exists running application whose (name of it as lowercase = &quot;acrord32.exe&quot;)}
+
+//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 24
+//  - COMMENT line 27
+
+//install Adobe Reader WITH a desktop shortcut and disable updates
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1
+
+//install Adobe Reader WITHOUT a desktop shortcut and disable updates
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action3996">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;regardless of whether or not Reader is currently running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//close any running instance of Reader
+if {exists running application whose (name of it as lowercase = &quot;acrord32.exe&quot;)}
+	waithidden taskkill /F /T /IM acrord32.exe
+	pause while {exists running application &quot;acrord32.exe&quot;}
+endif
+
+//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 28
+//  - COMMENT line 31
+
+//install Adobe Reader WITH a desktop shortcut
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1
+
+//to install Adobe Reader WITHOUT a desktop shortcut
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action3997">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;regardless of whether or not Reader is currently running and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//close any running instance of Reader
+if {exists running application whose (name of it as lowercase = &quot;acrord32.exe&quot;)}
+	waithidden taskkill /F /T /IM acrord32.exe
+	pause while {exists running application &quot;acrord32.exe&quot;}
+endif
+
+//download the Adobe Reader installer
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+
+//uninstall previous version of Adobe Reader
+if  { exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}&quot; of registry }
+    wait &quot;{pathname of system folder &amp; &quot;\msiexec.exe&quot;}&quot; /x &quot;{{AC76BA86-7AD7-1033-7B44-AB0000000001}&quot; /qn /norestart
+endif
+
+// *** BEGIN INSTALL OPTIONS
+// The default installation is to install Adobe Reader WITHOUT a desktop shortcut.
+// To install with a desktop shortcut:
+//  - Take the normal action you want to take (e.g., Install/Upgrade, Install/Upgrade if not running, etc.)
+//  - Select the &quot;Action Script&quot; tab
+//  - Select &quot;Use the following action script&quot;
+//  - UNCOMMENT line 28
+//  - COMMENT line 31
+
+//install Adobe Reader WITH a desktop shortcut and disable updates
+//wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1
+
+//install Adobe Reader WITHOUT a desktop shortcut and disable updates
+wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVICE_INSTALL=1 DISABLE_AIR_SHARE=YES SUPPRESS_APP_LAUNCH=YES EULA_ACCEPT=YES AgreeToLicense=Yes ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 /L*v C:\Windows\Temp\software_reader.log
+
+// *** END INSTALL OPTIONS
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Apple Software Update - 32 bit
+  ID       : 707
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-12-04T18:16:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Apple Software Update - 32 bit</Title>
+    <Description><![CDATA[    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet.
+    <P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+    <P>This fixlet is constructed from the following variables provided by the developer:</P>
+    <P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+    <P><B>Display Name:</B> Apple Software Update</P>
+    <P><B>Application Guid:</B> 789A5B64-9DD9-4BA5-915A-F0FC0A1B7BFE</P>
+    <P><B>Uninstall Command String:</B> MsiExec.exe /x{appGuid} /quiet /norestart</P>
+]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Apple Software Update&quot; AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-12-04</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 4 Dec 2012 18:16:000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//User Defined Uninstall String
+waithidden MsiExec.exe /x{{789A5B64-9DD9-4BA5-915A-F0FC0A1B7BFE} /quiet /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action956">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about the Windows Installer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://msdn.microsoft.com/en-us/library/windows/desktop/aa367449(v=vs.85).aspx</ActionScript>
+    </Action>
+  </Task>
+</BES>

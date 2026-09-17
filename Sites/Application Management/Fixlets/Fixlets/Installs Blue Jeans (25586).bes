@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Installs Blue Jeans
+  ID       : 25586
+  Author   : N0m4d1c
+  Domain   : BESC
+  Imported : 2018-11-13T11:53:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Installs Blue Jeans</Title>
+    <Description><![CDATA[<P>Downloads and installs Blue Jeans from the BlueJeans website</P>
+<P>This can be used with the Self Service Application</P>]]></Description>
+    <Relevance>(not exists key whose(value &quot;DisplayName&quot; of it as string as lowercase contains &quot;blue jeans&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry)</Relevance>
+    <Category>Bigfix.me</Category>
+    <Source>Internal</Source>
+    <SourceID>n0m4d1c</SourceID>
+    <SourceReleaseDate>2018-11-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 13 Nov 2018 19:52:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//************************************************************************************
+// Downloads the BlueJeans installer and installs it
+//	Sha and Size are subject to change as the download is from Blue Jeans directly
+//************************************************************************************
+
+prefetch BlueJeans.1.35.15m.msi sha1:c95378d4120e36bf07a54fa075540a33927c030c size:38883328 https://swdl.bluejeans.com/desktop/win/1.35/1.35.15/BlueJeans.1.35.15m.msi
+
+action uses wow64 redirection false
+
+waithidden msiexec /i &quot;__Download\BlueJeans.1.35.15m.msi&quot; /q</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

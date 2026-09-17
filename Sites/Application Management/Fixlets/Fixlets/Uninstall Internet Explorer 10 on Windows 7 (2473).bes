@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Internet Explorer 10 on Windows 7
+  ID       : 2473
+  Author   : Manny_i
+  Domain   : BESC
+  Imported : 2013-05-13T10:26:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Internet Explorer 10 on Windows 7</Title>
+    <Description><![CDATA[This task will deploy: Uninstall Internet Explorer 10.<BR><BR>This task is applicable on: Windows 7 and Windows 7 x64. ]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>(name of it = &quot;WinVista&quot; or name of it = &quot;Win7&quot;) of operating system</Relevance>
+    <Relevance>exists version of regapp &quot;iexplore.exe&quot; AND &quot;10.0&quot; as version = version of regapp &quot;iexplore.exe&quot;</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 May 2013 15:30:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Package-TopLevel~31bf3856ad364e35~amd64~~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Package~31bf3856ad364e35~amd64~en-US~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Package~31bf3856ad364e35~amd64~~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-VistaPlus-Update~31bf3856ad364e35~amd64~~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Optional-Package~31bf3856ad364e35~amd64~en-US~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Optional-Package~31bf3856ad364e35~amd64~~10.2.9200.16521 /quiet /norestart
+wait {parent folder of system folder as string}\sysnative\pkgmgr /up:Microsoft-Windows-InternetExplorer-Package-MiniLP~31bf3856ad364e35~amd64~en-US~10.2.9200.16521 /quiet /norestart
+action requires restart</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

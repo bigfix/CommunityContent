@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Upgrade: Suspicious Package v2.0.1 - Mac OS X
+  ID       : 5022
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-04-09T10:48:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Suspicious Package v2.0.1 - Mac OS X</Title>
+    <Description>&lt;P&gt;This will install Suspicious Package v2.0.1&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>system version &gt;= &quot;10.8&quot;</Relevance>
+    <Relevance>not exists strings &quot;CFBundleShortVersionString&quot; whose(it as version &gt;= &quot;2.0.1&quot;) of dictionaries of files &quot;/Library/QuickLook/Suspicious Package.qlgenerator/Contents/Info.plist&quot;</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-03-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 09 Apr 2015 17:47:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// http://www.mothersruin.com/software/SuspiciousPackage/download.html
+prefetch SuspiciousPackage.pkg sha1:036b24c18e6318731d62446906431d27b3910b57 size:235765 http://www.mothersruin.com/software/downloads/SuspiciousPackage.pkg
+
+wait /usr/sbin/installer -pkg &quot;__Download/SuspiciousPackage.pkg&quot; -target /
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

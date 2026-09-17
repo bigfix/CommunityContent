@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Uninstall - RES ONE Workspace Console - Windows
+  ID       : 22973
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall - RES ONE Workspace Console - Windows</Title>
+    <Description>&lt;P&gt;Removes an installed RES ONE Workspace Console.&lt;/P&gt;
+&lt;P&gt;This simply runs a standard uninstall and does not perform any additional cleanup.&lt;/P&gt;</Description>
+    <Relevance>NOT exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string starts with &quot;RES ONE Workspace&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Relay Server&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Agent&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry as string) /* Workspace key exists in Registry */</Relevance>
+    <Relevance>exists file ((it &amp; &quot;pwrtech.exe&quot;) of (values &quot;InstallDir&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; of x32 registry as string)) /* Console is Installed */</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+
+// If the action fails on this line -- composer is running!
+continue if {not exists processes &quot;pfwsmgr.exe&quot;}
+wait net stop res
+WAITHIDDEN CMD.EXE /C taskkill /im cpushld.exe /f /t
+WAITHIDDEN CMD.EXE /C taskkill /im pwrcache.exe /f /t
+WAITHIDDEN CMD.EXE /C taskkill /im resop.exe /f /t
+wait {preceding text of first &quot;%00&quot; of (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string starts with &quot;RES ONE Workspace&quot; and (value &quot;DisplayName&quot; of it as string does not end with &quot;Relay Server&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Agent&quot;)) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry as string)} /qn
+WAITHIDDEN CMD.EXE /C taskkill /im cpushld.exe /f /t
+WAITHIDDEN CMD.EXE /C taskkill /im pwrcache.exe /f /t
+WAITHIDDEN CMD.EXE /C taskkill /im resop.exe /f /t
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

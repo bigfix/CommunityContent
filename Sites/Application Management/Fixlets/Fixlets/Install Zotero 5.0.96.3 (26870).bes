@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Zotero 5.0.96.3
+  ID       : 26870
+  Author   : erowley2501
+  Domain   : BESC
+  Imported : 2021-09-08T21:37:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Zotero 5.0.96.3</Title>
+    <Description><![CDATA[<P>Download and install Zotero 5.0.96.3.</P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "5.0.96.3") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Zotero") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-09-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 09 Sep 2021 04:34:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Zotero-5.0.96.3_setup.exe sha1:6a34ef84cfe5b593f955fbae9c2b4e76b14a7d1a size:43466024 https://download.zotero.org/client/release/5.0.96.3/Zotero-5.0.96.3_setup.exe sha256:0e38eafce391f944784574a360db9902ac10f9630bcc2e21b114ede7ca32fc51
+
+override wait
+hidden=true
+completion=job
+wait __Download\Zotero-5.0.96.3_setup.exe /S</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

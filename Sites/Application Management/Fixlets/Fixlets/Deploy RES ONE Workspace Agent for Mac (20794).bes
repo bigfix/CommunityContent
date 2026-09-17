@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RES ONE Workspace Agent for Mac
+  ID       : 20794
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-06-02T10:54:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RES ONE Workspace Agent for Mac</Title>
+    <Description><![CDATA[<P>This task will install the RES&nbsp;ONE Workspace Agent to&nbsp;Mac Endpoints.</P>
+    <script>
+      document.body.ontakeaction = function() {
+var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+
+var resid = EvaluateRelevance('(if (exists shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var respw = EvaluateRelevance('(if (exists shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressa = EvaluateRelevance('(if (exists shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var resrelport = EvaluateRelevance('(if (exists shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var inherit= EvaluateRelevance('(if (exists shared variable "inherit" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "inherit" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else ("no"))');
+var DNSname= EvaluateRelevance('(if (exists shared variable "DNSname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "DNSname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+
+	TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1",{ WMserver: dbserver, GUID: resid, serviceaccount: ressa, RESRELPORT: resrelport,INHERIT:inherit, DNSNAME:DNSname }, { secret: ressapwd, RESPW: respw });
+	return false;
+}
+      </script>
+    ]]></Description>
+    <Relevance>not exists file &quot;/usr/local/bin/resauthd&quot;</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;mac os x&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.8.5"]]></Relevance>
+    <Relevance><![CDATA[system version <= "11.10"]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 06 Dec 2013 04:16:50 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>user, net.exe, secure parameter, password</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Deploy</Link>
+        <PostLink>&amp;nbsp;this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160527-192409
+
+
+begin prefetch block
+  add prefetch item name=RESWMosXAgent.pkg sha1=a1ca5d8d577708406eb63976ee35aa34f86d2a88 size=321558 url=http://downloads.ressoftware.com/downloads/cdm/040116/agents/reswmad-9.10.1.0-1.3280.pkg sha256=fc408509018ed6b95db7ae33435f3317c3f119d46cd86ce43cc6a293f9a1e617
+end prefetch block
+
+action parameter query "GUID" with description "Please enter the RES Environment ID. DO NOT INCLUDE CURLY BRACES {}(WM Console/Administration/Relay Servers/Settings)"
+action parameter query "WMserver" with description "Please enter the name of your BigFix server"
+//action parameter query "RESPW" with description "Please enter the Workspace Manager Environment Password"
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter "baseFolder" =  "__Download/"
+// Log setup
+parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+
+//**End Preparation Marker
+parameter "logFolder" = "{parameter "mainSWDLogFolder"}"
+// Run setup process
+delete __createfile
+delete run.sh
+
+// Use run.sh to set working directory to package root, for setup command.
+createfile until _end_
+cd "{parameter "baseFolder"}"
+# See comments at the beginning of this action for an explanation of the comment markers.
+echo $(date) >> "{parameter "logFolder"}/{parameter "logFile"}"
+echo Action ID: {id of active action} >> "{parameter "logFolder"}/{parameter "logFile"}"
+# //**Begin Command Marker
+echo Command: installer -pkg "RESWMosXAgent.pkg" -target / >> "{parameter "logFolder"}/{parameter "logFile"}"
+installer -pkg "RESWMosXAgent.pkg" -target / >> "{parameter "logFolder"}/{parameter "logFile"}" 2>&1
+
+SWDExitCode=$?
+# //**End Command Marker
+
+echo Return code: $SWDExitCode >> "{parameter "logFolder"}/{parameter "logFile"}"
+echo >> "{parameter "logFolder"}/{parameter "logFile"}"
+exit $SWDExitCode
+_end_
+
+move __createfile run.sh
+// You will not be able to stop or take action on an applicable BigFix Client until your installer completes.
+// So ensure no user input is required.
+// If your package absolutely must interact with the user, replace 'waithidden' with 'run'.
+wait bash run.sh
+//**Begin Closing Marker
+// Get the return code of the previous action.
+parameter "returnCode" = "{exit code of action}"
+
+delete __createfile
+
+createfile until __end
+sed -i 's/LearningMode=no/LearningMode=yes/g' /etc/res/resauthd.conf
+sed -i 's/AllowAny=no/AllowAny=yes/g' /etc/res/resauthd.conf
+rm /etc/res/reswmad.conf
+touch /etc/res/reswmad.conf
+echo RSENVGUID={(parameter "GUID" of action)} >> /etc/res/reswmad.conf
+echo RSPASSWORD={(parameter "RESPW" of action)} >> /etc/res/reswmad.conf
+echo RSPWHASHED=Yes >> /etc/res/reswmad.conf
+echo RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action} >> /etc/res/reswmad.conf
+launchctl load /Library/LaunchDaemons/com.ressoftware.reswmad.plist
+launchctl load /Library/LaunchDaemons/com.ressoftware.resauthd.plist
+__end
+
+move __createfile agent_config.sh
+wait bash agent_config.sh
+delete agent_config.sh
+delete run.sh
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

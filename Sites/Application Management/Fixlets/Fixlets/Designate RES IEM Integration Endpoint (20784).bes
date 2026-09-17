@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Designate RES IEM Integration Endpoint
+  ID       : 20784
+  Author   : RES
+  Domain   : SYST
+  Imported : 2016-06-02T10:53:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Designate RES IEM Integration Endpoint</Title>
+    <Description><![CDATA[
+      <P>In order for the RES IEM Integration to function, an Endpoint must be designated as the RES IEM Integration Endpoint. This Endpoint will be responsible for communicating with both RES and IEM, dispatching whitelist entries to RES for distribution, etc.</P>
+<P><STRONG>Note:</STRONG> Currently, only the IEM Root Server should be selected.</P><script>document.body.ontakeaction = function() {
+var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbname = EvaluateRelevance('(if (exists shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var respw = EvaluateRelevance('(if (exists shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressa = EvaluateRelevance('(if (exists shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+
+var authtype = EvaluateRelevance('(if (exists shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "AuthType" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbuser = EvaluateRelevance('(if (exists shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbuser" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbpassword = EvaluateRelevance('(if (exists shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbpwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1", {WMserver: dbserver, WMDB: dbname, serviceaccount: ressa, AuthType: authtype, DBuser: dbuser},{RESPW: respw, secret: ressapwd, DBPWD: dbpassword }  );
+	return false;
+}
+</script>
+    ]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists setting &quot;RES_IEM_Integration_Endpoint&quot; whose (value of it = &quot;1&quot;) of client</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160527-192409
+
+        setting "RES_IEM_Integration_Endpoint"="1" on "{parameter "action issue date" of action}" for client
+
+        //Console Install - Checks for RES service or existence of pwrtech.exe file first
+        IF {not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
+
+        prefetch RES-ONE-Workspace-2015.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
+
+IF {(parameter "AuthType" of action as lowercase = "sqlauth") or (parameter "AuthType" of action as lowercase = "mixmode")}
+	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" /qn
+else
+	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi /qn
+	IF {x64 of operating system}
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBType"="MSSQL"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
+	ELSE
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBType"="MSSQL"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
+	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
+	EndIf
+endif
+        ENDIF]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

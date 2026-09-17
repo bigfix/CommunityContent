@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Thunderbird - 24.0.1 - Mac
+  ID       : 3643
+  Author   : kerryt9455
+  Domain   : BESC
+  Imported : 2013-10-24T07:10:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Thunderbird - 24.0.1 - Mac</Title>
+    <Description><![CDATA[<P>Mozilla has released a new version of the Thunderbird email client. Use the action below to update Thunderbird to the latest version (24.0.1).</P>
+<P><STRONG>File Size:</STRONG>&nbsp;44.1 MB</P>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[system version >= "10.6"]]></Relevance>
+    <Relevance><![CDATA[exists application "Thunderbird.app" whose (version of it >= "" as version AND version of it < "24.0.1" as version)]]></Relevance>
+    <Relevance><![CDATA[free space of filesystem of folder (pathname of client) > 92655018]]></Relevance>
+    <Category>Update</Category>
+    <Source>Mozilla</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-10-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 24 Oct 2013 14:01:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+  add prefetch item name=Thunderbird_24_0_1 sha1=29f2d8a3e55f31167a84ec3135f2caa515bd9565 size=46327509 url=http://download-installer.cdn.mozilla.net/pub/mozilla.org/thunderbird/releases/24.0.1/mac/en-US/Thunderbird%2024.0.1.dmg
+end prefetch block
+
+
+// Create variables to house the name of the .dmg file, mount name and current install location. Makes updating the script easier.
+// NOTE: Install_Mount MUST match the name used in the prefetch block!
+parameter "Install_DMG" = "Thuderbird 24.0.dmg"
+parameter "Install_Mount" = "Thunderbird_24_0_1"
+
+// All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
+parameter "baseFolder" =  "__Download/"
+
+// Move files into subfolders and unescape file names
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"
+move "__Download/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+// Mount the Disk Image
+wait hdiutil attach -quiet -private -mountpoint "/tmp/{parameter "Install_Mount"}" "/tmp/{parameter "Install_DMG"}"
+
+parameter "Install_Location" = "{posix path of application (name whose (it ends with ".app") of folders of folder ("/tmp/" & parameter "Install_Mount"))}"
+
+wait sh -c "rm -R '{parameter "Install_Location"}'"
+wait sh -c "cp -Rfp /tmp/{parameter "Install_Mount"}/*.app {parameter "Install_Location"}"
+wait sh -c "chown -R root:admin '{parameter "Install_Location"}'"
+wait sh -c "chmod -R 775 '{parameter "Install_Location"}'"
+wait sh -c "xattr -d com.apple.quarantine '{parameter "Install_Location"}'"
+
+wait /bin/sh -c "hdiutil detach -force `mount | grep /tmp/{parameter "Install_Mount"} | cut -f 1 -d \ | cut -f 3 -d / | head -1`"
+wait sh -c "rm '/tmp/{parameter "Install_DMG"}'"]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action3915">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information about this Thunderbird release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.mozilla.com/en-US/thunderbird/24.0.1/releasenotes/</ActionScript>
+    </Action>
+    <Action ID="Action3916">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for security-related information from Mozilla.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.mozilla.org/security/known-vulnerabilities/thunderbird.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

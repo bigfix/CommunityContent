@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install Mod-Mono on Ubuntu 12.04
+  ID       : 1438
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T22:11:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install Mod-Mono on Ubuntu 12.04</Title>
+    <Description><![CDATA[<P>Install Mod-Mono which is a .Net Framework and MVC hosting plugin for apache2.</P>
+<P>Once you install this:</P>
+<P>1. place you're MVC3 website into /var/wwwmono&nbsp;&nbsp;<BR>2. set example.com -&gt; targeted host's ip address in you're local workstations hosts file<BR>3. visit example.com in that workstations web browser.</P>
+<P>This is validated for very basic MVC3 websites... it has not been tested with more complex ones like bigfix.me yet.</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;apache2&quot;) of it) of parent folder of client</Relevance>
+    <Relevance>NOT exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;libapache2-mod-mono&quot;) of it) of parent folder of client</Relevance>
+    <Relevance>NOT exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;mono-apache-server4&quot;) of it) of parent folder of client</Relevance>
+    <Relevance>NOT exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;mono-devel&quot;) of it) of parent folder of client</Relevance>
+    <Relevance>NOT exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;mono-runtime&quot;) of it) of parent folder of client</Relevance>
+    <Category>Installation</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 May 2013 13:51:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+delete __appendfile
+appendfile #!/bin/sh
+delete "mono.txt"
+appendfile apt-get install -q -y libapache2-mod-mono mono-apache-server4 mono-devel mono-runtime > mono.txt
+delete "installer.sh"
+move __appendfile "installer.sh"
+wait chmod +x installer.sh
+wait ./installer.sh
+//create Mono virtualhost
+delete __appendfile
+appendfile <VirtualHost *:80>
+appendfile   ServerName example.com
+appendfile
+appendfile   MonoServerPath monosite "/usr/bin/mod-mono-server4"
+appendfile   MonoDebug monosite true
+appendfile   MonoSetEnv monosite MONO_IOMAP=all
+appendfile   MonoApplications monosite "/:/var/wwwmono"
+appendfile
+appendfile   DocumentRoot "/var/wwwmono"
+appendfile
+appendfile   <Directory "/var/wwwmono">
+appendfile     Options Indexes Includes FollowSymLinks MultiViews
+appendfile     AllowOverride All
+appendfile     Order allow,deny
+appendfile     Allow from all
+appendfile     Deny from env=blocked
+appendfile
+appendfile     MonoSetServerAlias monosite
+appendfile     SetHandler mono
+appendfile   </Directory>
+appendfile
+appendfile   <DirectoryMatch "/(bin|App_Code|App_Data|App_GlobalResources|App_LocalResource)/">
+appendfile     Order deny,allow
+appendfile     Deny from all
+appendfile   </DirectoryMatch>
+appendfile </VirtualHost>
+delete "/etc/apache2/sites-available/example.com"
+move __appendfile "/etc/apache2/sites-available/example.com"
+//setup directory and permissions
+delete __appendfile
+appendfile #!/bin/sh
+appendfile mkdir /var/wwwmono
+appendfile chown -R www-data:www-data /var/wwwmono
+//lastly restart apache
+appendfile service apache2 restart
+delete "postinstall.sh"
+move __appendfile "postinstall.sh"
+wait chmod +x postinstall.sh
+wait ./postinstall.sh
+//lastly update the list of currently installed applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile dpkg --get-selections > "{pathname of parent folder of client}/installedApps.txt"
+delete "installedApps.sh"
+delete "{pathname of parent folder of client}/installedApps.txt"
+move __appendfile "installedApps.sh"
+wait chmod +x installedApps.sh
+wait ./installedApps.sh]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action1687">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read the inspiring article.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://devblog.rayonnant.net/2012/11/mvc3-working-in-mono-ubuntu-1210.html#!/2012/11/mvc3-working-in-mono-ubuntu-1210.html</ActionScript>
+    </Action>
+    <Action ID="Action1688">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to read another useful article on the subject.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://library.linode.com/frameworks/mod-mono/ubuntu-10.04-lucid#sph_configure-apache</ActionScript>
+    </Action>
+  </Task>
+</BES>

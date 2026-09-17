@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Microsoft Office for Mac 2011 - Lync 14.4.1 Available
+  ID       : 21042
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-07-15T08:15:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Office for Mac 2011 - Lync 14.4.1 Available</Title>
+    <Description>
+&lt;DIV class=FixletMessage&gt;
+&lt;TABLE&gt;&lt;TBODY&gt;&lt;TR&gt;&lt;TD&gt;
+	&lt;P&gt;Microsoft Office for Mac 2011 - Lync (14.4.1)&lt;/P&gt;
+	&lt;P&gt;Use the action below to update Microsoft Office for Mac 2011 Lync to the latest version.&lt;/P&gt;
+	&lt;P&gt;&lt;STRONG&gt;Note: &lt;/STRONG&gt;Affected computers may report back as &apos;Pending Restart&apos; once the patch has run successfully, but will not report back their final status until the computer has been restarted.&lt;/P&gt;
+&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;
+&lt;/DIV&gt;
+&lt;DIV class=FixletProperty&gt;
+&lt;H4&gt;File Size:&lt;/H4&gt;37.1 MB &lt;/DIV&gt;
+</Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance>version of operating system &gt; &quot;10.5.7&quot;</Relevance>
+    <Relevance>exists application whose (name of it = &quot;Microsoft Lync.app&quot; AND version of it = &quot;14&quot; as version AND (version of it &lt; &quot;14.4.1&quot; OR version of it as string = &quot;14.4&quot;))</Relevance>
+    <Category>Upgrade</Category>
+    <Source>Microsoft</Source>
+    <SourceID>KB3175174</SourceID>
+    <SourceReleaseDate>2016-07-14</SourceReleaseDate>
+    <SourceSeverity>Low</SourceSeverity>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update the Microsoft Lync only if it is not running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch lync_14.4.1_160608.dmg sha1:3cc2cbf70d1d8c14edf2dcb56c919bd43eb742c2 size:41672089 http://download.microsoft.com/download/5/0/0/500C7E1F-3235-47D4-BC11-95A71A1BA3ED/lync_14.4.1_160608.dmg sha256:8aa4dd7d17d82f454b78da41c7be9344b49d9b9e8734094fc61faf362bc89291
+
+continue if{not (exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Lync&quot; as lowercase))}
+
+wait cp &quot;{posix path of file &quot;lync_14.4.1_160608.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/Volumes/lync_14.4.1_160608&quot; &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /Volumes/lync_14.4.1_160608/Lync\ Installer.pkg -target /&quot;
+
+wait /bin/bash -c &quot;devname=`df | grep lync_14.4.1_160608 | awk &apos;{{print $1}&apos;`; hdiutil detach -force $devname;&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/lync_14.4.1_160608.dmg&apos;&quot;
+
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action21937">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update the Microsoft Lync, asking, then forcing to quit after 1 minute.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch lync_14.4.1_160608.dmg sha1:3cc2cbf70d1d8c14edf2dcb56c919bd43eb742c2 size:41672089 http://download.microsoft.com/download/5/0/0/500C7E1F-3235-47D4-BC11-95A71A1BA3ED/lync_14.4.1_160608.dmg sha256:8aa4dd7d17d82f454b78da41c7be9344b49d9b9e8734094fc61faf362bc89291
+
+wait cp &quot;{posix path of file &quot;lync_14.4.1_160608.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/Volumes/lync_14.4.1_160608&quot; &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Lync&quot; as lowercase))}
+wait /usr/bin/osascript -e &quot;ignoring application responses&quot; -e &quot;tell application \&quot;Microsoft Lync\&quot; to quit with saving&quot; -e &quot;end ignoring&quot;
+wait /bin/sh -c &quot;sleep 30&quot;
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Lync&quot; as lowercase))}
+wait /bin/sh -c &quot;sleep 30&quot;
+wait /bin/sh -c &quot;kill {id of process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Lync&quot; as lowercase)}&quot;
+wait /bin/sh -c &quot;sleep 1&quot;
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Error Reporting&quot; as lowercase))}
+wait /bin/sh -c &quot;killall &apos;Microsoft Error Reporting&apos;&quot;
+endif
+endif
+endif
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /Volumes/lync_14.4.1_160608/Lync\ Installer.pkg -target /&quot;
+
+wait /bin/bash -c &quot;devname=`df | grep lync_14.4.1_160608 | awk &apos;{{print $1}&apos;`; hdiutil detach -force $devname;&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/lync_14.4.1_160608.dmg&apos;&quot;
+
+</ActionScript>
+    </Action>
+    <Action ID="Action21938">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run the installer regardless if Lync is running (not officially supported by Microsoft).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch lync_14.4.1_160608.dmg sha1:3cc2cbf70d1d8c14edf2dcb56c919bd43eb742c2 size:41672089 http://download.microsoft.com/download/5/0/0/500C7E1F-3235-47D4-BC11-95A71A1BA3ED/lync_14.4.1_160608.dmg sha256:8aa4dd7d17d82f454b78da41c7be9344b49d9b9e8734094fc61faf362bc89291
+
+wait cp &quot;{posix path of file &quot;lync_14.4.1_160608.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/Volumes/lync_14.4.1_160608&quot; &quot;/private/tmp/lync_14.4.1_160608.dmg&quot;
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /Volumes/lync_14.4.1_160608/Lync\ Installer.pkg -target /&quot;
+
+wait /bin/bash -c &quot;devname=`df | grep lync_14.4.1_160608 | awk &apos;{{print $1}&apos;`; hdiutil detach -force $devname;&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/lync_14.4.1_160608.dmg&apos;&quot;
+
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Lync&quot; as lowercase))}
+action requires restart 3cc2cbf70d1d8c14edf2dcb56c919bd43eb742c2
+endif
+</ActionScript>
+    </Action>
+    <Action ID="Action21939">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this Microsoft Office for Mac 2011 release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.microsoft.com/en-us/kb/3175174</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

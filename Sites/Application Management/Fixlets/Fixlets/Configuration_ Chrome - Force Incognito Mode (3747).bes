@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Configuration: Chrome - Force Incognito Mode
+  ID       : 3747
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-28T14:45:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Chrome - Force Incognito Mode</Title>
+    <Description>&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;This fixlet uses Local Group Policy to set Chrome Policies&lt;/P&gt;
+&lt;P&gt;The changes are made the binary file located here:&amp;nbsp; C:\Windows\System32\GroupPolicy\Machine\Registry.pol&lt;/P&gt;
+&lt;P&gt;The changes are also seen in the registry here:&amp;nbsp; &lt;FONT size=2&gt;&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome&quot;&lt;/P&gt;&lt;/FONT&gt;
+&lt;P&gt;&lt;STRONG&gt;NOTE:&lt;/STRONG&gt;&amp;nbsp; Editing the registry directly does not work. These changes must be made using Local GPO. These policies seem to work with the per-user version of chrome, not just the enterprise MSI version.&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>/* Chrome Installed */ exists regapp &quot;chrome.exe&quot;</Relevance>
+    <Relevance>/* Only deploy if not currently found in registry */ not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome&quot; whose(exists value &quot;IncognitoModeAvailability&quot; whose(it=2) of it) of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 28 Mar 2014 21:44:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Download Utilities for automating Local Group Policy management
+//   http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx
+prefetch LGPO_Utilities.zip sha1:e849599553425754e2e070014fa7967d75671bdf size:311761 http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip
+
+// Download UnZip utility
+prefetch unzip.exe sha1:e1652b058195db3f5f754b7ab430652ae04a50b8 size:167936 http://software.bigfix.com/download/redist/unzip-5.52.exe
+utility __Download\unzip.exe
+
+waithidden __Download\unzip.exe -o &quot;{pathname of client folder of current site}\__Download\LGPO_Utilities.zip&quot; -d &quot;{pathname of client folder of current site}\__Download&quot;
+
+// Create LGPO file to be applied to the system
+delete __createfile
+delete __Download\ChromeForceIncognitoLGPO.txt
+createfile until END_OF_FILE
+; -------------------------------------------------------------------------
+; This Local Group Policy setting forces Google Chrome to always use Incognito Mode
+; -------------------------------------------------------------------------
+
+Computer
+software\Policies\Google\Chrome
+IncognitoModeAvailability
+DWORD:2
+
+END_OF_FILE
+
+move __createfile &quot;{pathname of client folder of current site}\__Download\ChromeForceIncognitoLGPO.txt&quot;
+
+// Apply the above LGPO
+waithidden &quot;{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.exe&quot; &quot;{pathname of client folder of current site}\__Download\ChromeForceIncognitoLGPO.txt&quot; /log &quot;{pathname of client folder of current site}\__Download\Apply_LGPO_Delta.log&quot; /error &quot;{pathname of client folder of current site}\__Download\Apply_LGPO_Delta_ERROR.log&quot;
+
+// Update GPO - This might not be needed, and it might not even work.
+waithidden gpupdate /Force /Wait:600 &gt;&gt; &quot;{pathname of client folder of current site}\__Download\gpupdate.log&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

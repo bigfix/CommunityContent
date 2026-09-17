@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall Mockups v2.2.3
+  ID       : 669
+  Author   : pjones
+  Domain   : BESC
+  Imported : 2012-11-27T17:55:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Mockups v2.2.3</Title>
+    <Description>Uninstall Mockups from an endpoint. </Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Balsamiq Mockups For Desktop&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <SourceReleaseDate>2012-11-02</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 27 Nov 2012 23:32:47 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//name of registry key
+parameter &quot;app&quot;=&quot;{{A00B6300-4810-19EE-F306-7F4C0C2A27CC}&quot;
+//first retrieve our uninstall command...
+parameter &quot;UninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+continue if {(parameter &quot;UninstallString&quot; != &quot;&quot;)}
+waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action912">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.balsamiq.com/products/mockups</ActionScript>
+    </Action>
+    <Action ID="Action914">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about Mockups.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.balsamiq.com/products/mockups</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Uninstall: MSI - Blackmagic Videohub - Windows
+  ID       : 14765
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-04-21T09:47:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall: MSI - Blackmagic Videohub - Windows</Title>
+    <Description>&lt;P&gt;This task will uninstall the MSI: Blackmagic Videohub&lt;/P&gt;&lt;P&gt;This task was automatically generated using the task: &quot;RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows&quot;&lt;/P&gt;&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Relevance>/* Windows XP or later */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Only run if Blackmagic Videohub is installed */ 1 = number of keys whose( (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;Blackmagic Videohub&quot; as lowercase) of it) AND (exists values whose(it as string as lowercase starts with &quot;msiexec&quot;) of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries )</Relevance>
+    <Category>Software Sharing</Category>
+    <Source>RESTAPI: Generate uninstall tasks for all MSI applications on target computer - Windows</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-04-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Apr 2016 22:50:18 -070 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall Blackmagic Videohub</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden msiexec.exe /X { name of keys whose( (exists values &quot;DisplayName&quot; whose(it as string as lowercase starts with &quot;Blackmagic Videohub&quot; as lowercase) of it) AND (exists values whose(it as string as lowercase starts with &quot;msiexec&quot;) of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x64 registries; x32 registries ) } /qn</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

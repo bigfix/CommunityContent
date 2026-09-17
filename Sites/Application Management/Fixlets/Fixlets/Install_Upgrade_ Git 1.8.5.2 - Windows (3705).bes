@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Upgrade: Git 1.8.5.2 - Windows
+  ID       : 3705
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-29T14:58:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Upgrade: Git 1.8.5.2 - Windows</Title>
+    <Description><![CDATA[<P>Install Git v1.8.5.2</P>
+<P>Git is a Cross Platform Version Control system.</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose (value "DisplayName" of it as string contains "Git" AND (preceding text of first "-" of (value "DisplayVersion" of it as string)) as version >= "1.8.5.2") of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-01-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 29 Jan 2014 21:47:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download http://tem.server.domain.tld:52311/Uploads/0e8e86b19dc0739857635fefb9c5adf28b3ddc0b/Git-1.7.10-preview20120409.exe.tmp
+//continue if {(size of it = 15190559 AND sha1 of it = &quot;0e8e86b19dc0739857635fefb9c5adf28b3ddc0b&quot;) of file &quot;Git-1.7.10-preview20120409.exe.tmp&quot; of folder &quot;__Download&quot;}
+
+//extract Git-1.7.10-preview20120409.exe.tmp
+
+prefetch Git-1.8.5.2-preview20131230.exe sha1:df67e9910585e316781d2c75847308ae033d3673 size:15483869 http://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe
+
+wait __Download\Git-1.8.5.2-preview20131230.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /MERGETASKS=&quot;!desktopicon&quot;
+//wait __Download\Git-1.7.10-preview20120409.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /MERGETASKS=&quot;!desktopicon&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

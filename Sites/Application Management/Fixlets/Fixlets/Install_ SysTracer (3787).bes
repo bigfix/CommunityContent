@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install: SysTracer
+  ID       : 3787
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-27T20:46:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install: SysTracer</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string starts with &quot;SysTracer&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-05-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 26 May 2014 22:21:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//
+// https://www.virustotal.com/en/file/b52f653f8dabdc7f19174beeb675c0833c48869ef2acba041f3239339e2cde1f/analysis/
+
+begin prefetch block
+	if {x64 of operating system}
+		add prefetch item name=systracer_setup_en.exe sha1=466342878ae4e2a08f85b77f0fd305483e5311b1 size=3558912 url=http://www.blueproject.ro/down/systracer_x64_setup_en.exe
+	else
+		add prefetch item name=systracer_setup_en.exe sha1=65b140591c9373b857f61e637a2cab9aa89c643f size=2785280 url=http://www.blueproject.ro/down/systracer_setup_en.exe
+	endif
+end prefetch block
+
+action parameter query &quot;activation&quot; with description &quot;Enter the registration key for SysTracer&quot;
+
+waithidden __Download\systracer_setup_en.exe -install -quiet -register { parameter &quot;activation&quot; }</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

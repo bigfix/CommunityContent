@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Configuration: Cisco VPN Registry Fix - Windows 8+
+  ID       : 3945
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-15T11:53:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: Cisco VPN Registry Fix - Windows 8+</Title>
+    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows 8 or Higher */ version of operating system &gt;= &quot;6.2&quot;</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Cisco Systems VPN Client&quot; AND (it &gt;= &quot;5.0.6&quot; as version) of (value &quot;DisplayVersion&quot; of it as string as version)) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance>exists (keys of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services&quot; of native registry) whose ((it as string contains &quot;CVirtA_Desc&quot;) of value &quot;DisplayName&quot; of it)</Relevance>
+    <Category>Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-01-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Jan 2015 18:52:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+regset64 &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CVirtA]&quot; &quot;DisplayName&quot;=&quot;Cisco Systems VPN Adapter{ if (x64 of operating system) then &quot; for 64-bit Windows&quot; else &quot;&quot; }&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

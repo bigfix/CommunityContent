@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Deploy - SQL Command Line Utilities - 2012 - Windows
+  ID       : 22959
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:00:56
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - SQL Command Line Utilities - 2012 - Windows</Title>
+    <Description>&lt;P&gt;This Fixlet installs the following SQL Runtime Components:&lt;/P&gt;
+&lt;OL&gt;
+&lt;LI&gt;Microsoft ODBC Driver 13 for SQL Server&lt;/LI&gt;
+&lt;LI&gt;Microsoft SQL Server 2012 Native Client&lt;/LI&gt;
+&lt;LI&gt;Microsoft SQL Server 2012 Command Line Utilities&lt;/LI&gt;&lt;/OL&gt;&lt;br&gt;&lt;p&gt;
+This Fixlet will only be relevant on the BigFix Root Server.&lt;/p&gt;
+</Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft ODBC Driver 13 for SQL Server&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)  or  not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft SQL Server 2012 Native Client&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)  or  not exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;Microsoft SQL Server 2012 Command Line Utilities&quot;) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries)</Relevance>
+    <Relevance>not exists files &quot;SQLCMD.exe&quot; of folders (substrings separated by &quot;;&quot; of value of variable &quot;PATH&quot; of environment) and not exists (files &quot;SQLCmd.exe&quot; of folders &quot;Microsoft SQL Server\110\Tools\Binn&quot; of program files x64 folders)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 18 Sep 2016 16:45:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+prefetch SqlCmdLnUtils.msi sha1:52A3B376C28A071893F1F199FDDB5E88546B23E7 size:2433024 https://download.microsoft.com/download/3/A/6/3A632674-A016-4E31-A675-94BE390EA739/ENU/x64/SqlCmdLnUtils.msi sha256:52C9B56A7AD9A92C3F4E06F86DBCF000B367E1DA3839DC1A61E5D928536C317E
+
+prefetch msodbcsql.msi sha1:FF52D5A464AEB0B394C4E5FC2ADF4FBD1CDAAAA0 size:4206592 https://download.microsoft.com/download/D/5/E/D5EEF288-A277-45C8-855B-8E2CB7E25B96/13.1.811.168/amd64/msodbcsql.msi sha256:43A0461DA90DE02B795BEDBF5E135857E0229B97F8C014847A1F404497428D94
+
+prefetch sqlncli.msi sha1:9D80199DFE82E097FA3C795276542D29C503BDB5 size:5074944 http://download.microsoft.com/download/F/E/D/FEDB200F-DE2A-46D8-B661-D019DFE9D470/ENU/x64/sqlncli.msi sha256:1364BF4C37A09CE3C87B029A2DB4708F066074B1EAA22AA4E86D437B7B05203D
+
+waithidden msiexec /i &quot;__Download\msodbcsql.msi&quot; /qn /norestart REBOOT=REALLYSUPPRESS IACCEPTMSODBCSQLLICENSETERMS=YES
+
+waithidden msiexec /i &quot;__Download\sqlncli.msi&quot; /qn /norestart REBOOT=REALLYSUPPRESS
+
+waithidden msiexec /i &quot;__Download\SqlCmdLnUtils.msi&quot; /qn /norestart REBOOT=REALLYSUPPRESS</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

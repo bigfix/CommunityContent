@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Upgrade: Apple iTunes 11.1.4 - Windows
+  ID       : 3704
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-27T13:13:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Apple iTunes 11.1.4 - Windows</Title>
+    <Description>&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About iTunes&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;iTunes is a free multimedia player, organizer, and interface developed by Apple.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P dir=ltr&gt;&lt;STRONG&gt;&lt;FONT color=#0080ff size=3&gt;Licensing&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P dir=ltr&gt;iTunes is freeware.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;About This Task&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;This task will install/upgrade: Apple iTunes 11.1.4&lt;/P&gt;
+&lt;P&gt;This task is applicable on: Windows XP and higher (32-bit and 64-bit)&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Action Description&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;STRONG&gt;Action1: Install/upgrade and disable updates. [DEFAULT]&lt;/STRONG&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;This action installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options) and&amp;nbsp;also disables the ability to manually&amp;nbsp;check for updates.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;
+&lt;DIV&gt;&lt;STRONG&gt;Action2: Install/upgrade only if iTunes and QuickTime are not running and disable updates.&lt;/STRONG&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;This action only installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options) if it and QuickTime Player are not running. &lt;/P&gt;
+&lt;P&gt;Use this action to prevent the update while a dependent application is running.&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important Note:&lt;/FONT&gt;&lt;/STRONG&gt; If either iTunes or QuickTime Player is running, the action may report back as failed. To ensure that the update is eventually applied, you may want to deploy this action as a policy and set it to&amp;nbsp;retry the installation if it fails.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;UL dir=ltr&gt;
+&lt;LI&gt;&lt;STRONG&gt;Action3: Install/upgrade regardless of whether or not iTunes and QuickTime are currently running and disable updates.&lt;/STRONG&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;This action closes all running instances of iTunes and QuickTime Player, then installs iTunes &lt;EM&gt;without&lt;/EM&gt; Apple Software Update (see Installation Options). &lt;/P&gt;
+&lt;P&gt;Use this action to ensure that the update is applied when the action is deployed.&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;FONT color=#ff0000&gt;Important Note:&lt;/FONT&gt;&lt;/STRONG&gt; This action will close any running instance of QuickTime and iTunes on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Additional Notes&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;If the QuickTime Player plugin is running, the installer may display a dialog box with the message, &quot;Error - 108: An unknown error has occurred,&quot; or a dialog box asking the user to close all applications running QuickTime. Users can click OK to continue the installation. To prevent this behavior, it is recommended that you run either action with the user constraint &quot;Run only when no user is present,&quot; or display a message before action execution instructing users to shut down all applications using the QuickTime Player plugin.&lt;/P&gt;
+&lt;P&gt;QuickTime Player is&amp;nbsp;required for playing movies with iTunes. QuickTime &lt;STRONG&gt;is not included&lt;/STRONG&gt; in this task. Please use the &lt;EM&gt;Install/Upgrade: QuickTime&lt;/EM&gt; task to install QuickTime if it is desired.&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P dir=ltr&gt;&lt;STRONG&gt;&lt;FONT size=3&gt;Installation Options&lt;/FONT&gt;&lt;/STRONG&gt;&lt;/P&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Desktop Icon&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;By default, this task installs iTunes WITHOUT a desktop icon&lt;/DIV&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;To install iTunes WITH a desktop icon, do the following:&lt;/DIV&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;On the &lt;STRONG&gt;two&lt;/STRONG&gt; &lt;STRONG&gt;wait&lt;/STRONG&gt; command lines underneath the &lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install iTunes&lt;/FONT&gt; comments, CHANGE the last option, DESKTOP_SHORTCUTS=0 to DESKTOP_SHORTCUTS=1&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Apple Bonjour&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks. Bonjour is required for sharing music with others, playing music through AirPlay speakers, connecting to Apple TV, and using the iPhone and iPod Touch Remote&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;By default, this task&amp;nbsp;DOES NOT&amp;nbsp;install the Bonjour service.&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Note: If Bonjour is not installed, iTunes may display a dialog box with the message, &quot;The Bonjour service can&apos;t be found&quot; when iTunes first runs. Users can click OK to continue and load iTunes.&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;To install the Bonjour service, do the following:&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;UNCOMMENT the &lt;STRONG&gt;two wait&lt;/STRONG&gt; command lines underneath the &lt;FONT color=#008000 face=&quot;Courier New&quot;&gt;//install Bonjour&lt;/FONT&gt; comments.&lt;/FONT&gt;&lt;/DIV&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;&lt;STRONG&gt;Apple Software Update&lt;/STRONG&gt;&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;UL&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Apple Software Update is a tool that informs users about and installs the latest versions of Apple software.&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;LI&gt;
+&lt;DIV style=&quot;MARGIN-RIGHT: 0px&quot;&gt;&lt;FONT size=2&gt;Note: In order to install Apple Updates, a user will need an administrative account.&lt;/FONT&gt;&lt;/DIV&gt;
+&lt;LI&gt;&lt;FONT size=2&gt;If installing Apple Software Update is desired, then uncomment the lines that install it in whichever of the 3 actions are chosen. &lt;/FONT&gt;&lt;/LI&gt;&lt;/UL&gt;&lt;/LI&gt;&lt;/UL&gt;</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* Windows XP or Higher */ version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not contain &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance>not exists regapp &quot;iTunes.exe&quot; whose (version of it &gt;= &quot;11.1.4&quot;)</Relevance>
+    <Category>Software Sharing</Category>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-01-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 27 Jan 2014 20:12:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;and disable updates</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// *** INSTALLATION OPTIONS
+//
+// DESKTOP ICON
+//   By default, this task installs iTunes WITHOUT a desktop icon
+//   - To install iTunes WITH a desktop icon, do the following
+//      - On the lines starting with &quot;wait msiexec /i iTunes&quot;, change the last option, DESKTOP_SHORTCUTS=0, to DESKTOP_SHORTCUTS=1
+//
+// APPLE BONJOUR
+//   The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks
+//   - By default, this task DOES NOT install the Bonjour service.
+//   If Bonjour is not installed, iTunes may display a dialog box with the message, &quot;The Bonjour service can&apos;t be found&quot;
+//   when iTunes first runs. Users can click OK to continue and load iTunes.
+//   - To install the Bonjour service, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i Bonjour&quot;
+//
+// APPLE SOFTWARE UPDATE
+//   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
+//       Note: In order to install Apple Updates, a user will need an administrative account.
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   - To install Apple Software Update, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
+//   - To enable manual checking for updates, do the following:
+//     - COMMENT the line starting with &quot;regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;&quot;
+// ***
+
+if{ x64 of operating system }
+// Install for x64
+
+//download iTunes installer
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+
+//extract Setup files
+wait __Download\iTunes64Setup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport64.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour64.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes64.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+
+// End of x64 installation
+else
+// Install for x86
+
+//download iTunes installer
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+
+//extract Setup files
+wait __Download\iTunesSetup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+// End of x86 installation
+endif
+
+// Configure Settings:  http://support.apple.com/kb/ht2102
+//     AdminFlags = 1 (enable lock), 256 (disable check for updates)
+//              http://bigfix.me/relevance/details/2998595
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;=dword:{((it as hexadecimal) of (it as integer) of (it + (1 as bits + 256 as bits)) of (it as bits) of (((it as integer) of value &quot;AdminFlags&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry) | 0))}
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4002">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;only if iTunes&amp;nbsp;and QuickTime are&amp;nbsp;not running and disable updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">continue if {not exists running application whose (name of it as lowercase = &quot;itunes.exe&quot;) OR not exists running application whose (name of it as lowercase = &quot;quicktimeplayer.exe&quot;)}
+
+// *** INSTALLATION OPTIONS
+//
+// DESKTOP ICON
+//   By default, this task installs iTunes WITHOUT a desktop icon
+//   - To install iTunes WITH a desktop icon, do the following
+//      - On the lines starting with &quot;wait msiexec /i iTunes&quot;, change the last option, DESKTOP_SHORTCUTS=0, to DESKTOP_SHORTCUTS=1
+//
+// APPLE BONJOUR
+//   The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks
+//   - By default, this task DOES NOT install the Bonjour service.
+//   If Bonjour is not installed, iTunes may display a dialog box with the message, &quot;The Bonjour service can&apos;t be found&quot;
+//   when iTunes first runs. Users can click OK to continue and load iTunes.
+//   - To install the Bonjour service, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i Bonjour&quot;
+//
+// APPLE SOFTWARE UPDATE
+//   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
+//       Note: In order to install Apple Updates, a user will need an administrative account.
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   - To install Apple Software Update, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
+//   - To enable manual checking for updates, do the following:
+//     - COMMENT the line starting with &quot;regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;&quot;
+// ***
+
+if{ x64 of operating system }
+// Install for x64
+
+//download iTunes installer
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+
+//extract Setup files
+wait __Download\iTunes64Setup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport64.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour64.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes64.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+// End of x64 installation
+else
+// Install for x86
+
+//download iTunes installer
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+
+//extract Setup files
+wait __Download\iTunesSetup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+// End of x86 installation
+endif
+
+// Configure Settings:  http://support.apple.com/kb/ht2102
+//     AdminFlags = 1 (enable lock), 256 (disable check for updates)
+//              http://bigfix.me/relevance/details/2998595
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;=dword:{((it as hexadecimal) of (it as integer) of (it + (1 as bits + 256 as bits)) of (it as bits) of (((it as integer) of value &quot;AdminFlags&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry) | 0))}
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action4003">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;regardless of whether or not iTunes and QuickTime are currently running and disable updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//close any running instance of QuickTime Player
+if {exists running application whose (name of it as lowercase = &quot;quicktimeplayer.exe&quot;)}
+	waithidden taskkill /F /T /IM quicktimeplayer.exe
+	pause while {exists running application &quot;quicktimeplayer.exe&quot;}
+endif
+
+//close any running instance of iTunes
+if {exists running application whose (name of it as lowercase = &quot;itunes.exe&quot;)}
+	waithidden taskkill /F /T /IM itunes.exe
+	pause while {exists running application &quot;itunes.exe&quot;}
+endif
+
+// *** INSTALLATION OPTIONS
+//
+// DESKTOP ICON
+//   By default, this task installs iTunes WITHOUT a desktop icon
+//   - To install iTunes WITH a desktop icon, do the following
+//      - On the lines starting with &quot;wait msiexec /i iTunes&quot;, change the last option, DESKTOP_SHORTCUTS=0, to DESKTOP_SHORTCUTS=1
+//
+// APPLE BONJOUR
+//   The Apple Bonjour service enables automatic discovery of computers, devices, and services on IP networks
+//   - By default, this task DOES NOT install the Bonjour service.
+//   If Bonjour is not installed, iTunes may display a dialog box with the message, &quot;The Bonjour service can&apos;t be found&quot;
+//   when iTunes first runs. Users can click OK to continue and load iTunes.
+//   - To install the Bonjour service, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i Bonjour&quot;
+//
+// APPLE SOFTWARE UPDATE
+//   Apple Software Update is a tool that informs users about and installs the latest versions of Apple software
+//       Note: In order to install Apple Updates, a user will need an administrative account.
+//   By default these actions do not install Apple Software Update and also disable the ability to manually check for updates. 
+//   - To install Apple Software Update, do the following:
+//     - UNCOMMENT the lines starting with &quot;//wait msiexec /i AppleSoftwareUpdate&quot;
+//   - To enable manual checking for updates, do the following:
+//     - COMMENT the line starting with &quot;regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;&quot;
+// ***
+
+if{ x64 of operating system }
+//Install for x64
+
+//download iTunes installer
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+
+//extract Setup files
+wait __Download\iTunes64Setup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport64.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour64.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes64.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+// End of x64 installation
+else
+// Install for x86
+
+//download iTunes installer
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+
+//extract Setup files
+wait __Download\iTunesSetup.exe /extract
+
+//install Apple Application Support (required)
+wait msiexec /i AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Mobile Device Support (required)
+wait msiexec /i AppleMobileDeviceSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Apple Software Update (optional)
+//wait msiexec /i AppleSoftwareUpdate.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1
+
+//install Bonjour (optional)
+//wait msiexec /i Bonjour.msi /qn /norestart ALLUSERS=1
+
+//install iTunes (required)
+wait msiexec /i iTunes.msi /qn /norestart REGSRCH_DESKTOP_SHORTCUTS=0 ALLUSERS=1 REENABLEAUTORUN=0 DESKTOP_SHORTCUTS=0
+
+// End of x86 installation
+endif
+
+// Configure Settings:  http://support.apple.com/kb/ht2102
+//     AdminFlags = 1 (enable lock), 256 (disable check for updates)
+//              http://bigfix.me/relevance/details/2998595
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default]&quot; &quot;AdminFlags&quot;=dword:{((it as hexadecimal) of (it as integer) of (it + (1 as bits + 256 as bits)) of (it as bits) of (((it as integer) of value &quot;AdminFlags&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Apple Computer, Inc.\iTunes\Parental Controls\Default&quot; of registry) | 0))}
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

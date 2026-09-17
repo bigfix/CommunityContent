@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Get External Public IP - HTTP - wget - Universal
+  ID       : 20466
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-05-05T14:04:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Get External Public IP - HTTP - wget - Universal</Title>
+    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Relevance>not exists files whose(name of it as lowercase starts with &quot;public_ip_http_wget.log&quot; AND name of it as lowercase ends with &quot;.log&quot; AND (now - modification time of it) &lt; 9*day ) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client</Relevance>
+    <Relevance>exists files whose(name of it as lowercase = &quot;wget&quot; OR name of it as lowercase = &quot;wget.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-05-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 05 May 2016 20:59:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// http://myip.dnsomatic.com
+// http://whatismyip.org
+// http://icanhazip.com
+// http://ipecho.net/plain
+// http://externip.com
+
+parameter &quot;ProviderPublicIP&quot; = &quot;http://ipecho.net/plain&quot;
+
+wait wget {parameter &quot;ProviderPublicIP&quot;} -O &quot;{pathname of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client}{if windows of operating system then &quot;\&quot; else &quot;/&quot;}public_ip_http_wget.log&quot;
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

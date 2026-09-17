@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy RES ONE Workspace Consoles
+  ID       : 10568
+  Author   : RESQA
+  Domain   : SYST
+  Imported : 2016-03-24T05:00:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy RES ONE Workspace Consoles</Title>
+    <Description><![CDATA[
+      This task will deploy extra RES ONE Workspace&nbsp;Consoles. <script>document.body.ontakeaction = function() {
+var resid = EvaluateRelevance('(if (exists shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resid" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var resrelport = EvaluateRelevance('(if (exists shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "resrelport" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var inherit= EvaluateRelevance('(if (exists shared variable "inherit" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "inherit" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else ("no"))');
+var DNSname= EvaluateRelevance('(if (exists shared variable "DNSname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "DNSname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbserver = EvaluateRelevance('(if (exists shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbserver" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var dbname = EvaluateRelevance('(if (exists shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "dbname" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var respw = EvaluateRelevance('(if (exists shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "respw_hash" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressa = EvaluateRelevance('(if (exists shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressa" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) then (shared variable "ressapwd" of bes wizards whose (dashboard id of it = "RESDeploymentWizard.ojo")) else (""))');
+	TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('(if (exists id of current bes site) then (id of current bes site) else (id of bes site whose (name of it is "ActionSite")))'), "Action1", {WMserver: dbserver,  WMDB: dbname, serviceaccount: ressa,GUID: resid,RESRELPORT: resrelport,INHERIT:inherit, DNSNAME:DNSname},{RESPW: respw, secret: ressapwd}  );
+	return false;
+}
+</script>
+    ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-03-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Dec 2015 10:32:12 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//SourceReleaseDate: 20160321-102103
+prefetch RESWMAgent.msi sha1:29166d1c2cfe9c9c5cdefef5fd85c49b550d0863 size:35611648 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-Agent-SR1.msi
+//remove agent if it is installed already
+prefetch RES-ONE-Workspace-2015.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
+
+action parameter query "WMDB" with description "Please enter the Workspace Manager Database Name (WorkspaceManager)"
+action parameter query "WMserver" with description "Please enter the SQL Server Name (BigFixServer)"
+
+If {exists service "res"}
+  If {exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
+    If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+      If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+        regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
+      else
+        regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
+      EndIf
+    EndIf
+    waithidden cmd /C net stop "res"
+    wait msiexec /x __Download\RESWMAgent.msi autoruncomposer=no remove=all reboot=R /qn
+  EndIf
+EndIf
+If {(parameter "DNSNAME" of action) != ""}
+	wait msiexec /i __Download\RES-ONE-Workspace-2015.msi RSENVGUID={(parameter "GUID" of action)} RSPASSWORD={parameter "RESPW" of action} RSPWHASHED=Yes RSDISCOVER=No RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action} DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME={parameter "WMDB" of action} RSRESOLVE={parameter "DNSNAME" of action} INHERITSETTINGS={parameter "INHERIT" of action} /qn
+else
+	wait msiexec /i __Download\RES-ONE-Workspace-2015.msi RSENVGUID={(parameter "GUID" of action)} RSPASSWORD={parameter "RESPW" of action} RSPWHASHED=Yes RSDISCOVER=No RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action} DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME={parameter "WMDB" of action} INHERITSETTINGS={parameter "INHERIT" of action} /qn
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

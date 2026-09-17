@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall PowerGUI
+  ID       : 93
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall PowerGUI</Title>
+    <Description>Uninstall the PowerGUI application. </Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellSnapIns\PowerGUI&quot; of registry</Relevance>
+    <Relevance>( (exists x64 registry AND exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F27D4317-9EF7-46DF-BE4F-D8432C17A0EB}&quot; of x64 registry AND exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F27D4317-9EF7-46DF-BE4F-D8432C17A0EB}&quot; of x64 registry) ) OR ( (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F27D4317-9EF7-46DF-BE4F-D8432C17A0EB}&quot; of x32 registry AND exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F27D4317-9EF7-46DF-BE4F-D8432C17A0EB}&quot; of x32 registry) )</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-04-21</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:23:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall PowerGUI.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;app&quot;=&quot;{{F27D4317-9EF7-46DF-BE4F-D8432C17A0EB}&quot;
+//first retrieve our uninstall command...
+parameter &quot;QuietUninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;QuietUninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+parameter &quot;UninstallString&quot;=&quot;{if (exists x64 registry) AND (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x64 registry as string)) else if (exists key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) AND (exists value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry) then ((value &quot;UninstallString&quot; whose (it as string != &quot;&quot;) of key (concatenation of (&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\&quot;;(parameter &quot;app&quot; as string))) of x32 registry as string)) else &quot;&quot;}&quot;
+continue if {(parameter &quot;UninstallString&quot; != &quot;&quot;) OR (parameter &quot;QuietUninstallString&quot; != &quot;&quot;)}
+if {parameter &quot;QuietUninstallString&quot; != &quot;&quot;}
+	if {parameter &quot;QuietUninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+		waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+	else
+		waithidden {parameter &quot;QuietUninstallString&quot;}
+	endif
+else
+	if {parameter &quot;UninstallString&quot; != &quot;&quot;}
+		if {parameter &quot;UninstallString&quot; as lowercase contains &quot;msiexec.exe&quot;}
+			waithidden msiexec.exe /x {parameter &quot;app&quot; as string} /quiet
+		else
+			waithidden {parameter &quot;UninstallString&quot;} /quiet /norestart
+		endif
+	endif
+endif
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

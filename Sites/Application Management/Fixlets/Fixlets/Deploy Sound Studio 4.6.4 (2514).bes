@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Deploy Sound Studio 4.6.4
+  ID       : 2514
+  Author   : hansen_m
+  Domain   : BESC
+  Imported : 2013-07-02T10:45:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Deploy Sound Studio 4.6.4</Title>
+    <Description><![CDATA[This task will deploy Sound Studio 4.6.4 <BR><BR>This task is applicable on Mac OS X 10.6, Mac OS X 10.7 and Mac OS X 10.8 ]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[(system version >= "10.6" AND system version < "10.9")]]></Relevance>
+    <Relevance><![CDATA[not exists application whose (name of it as string is "Sound Studio.app" and ((bundle version of it) >= "4.6.4" as version)) of applications folder]]></Relevance>
+    <Category>Software Deployment</Category>
+    <Source>Mac Software Deployment Wizard</Source>
+    <SourceID>mah60</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Mac Software Deployment Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Jul 2013 16:28:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch sound_studio_4.6.4.t.zip sha1:134ed748a78fe328fa8614aff8b117ec5675a9ca size:16430842 http://felttip.com/downloads/sound_studio_4.6.4.t.zip
+delete &quot;/tmp/sound_studio_4.6.4.t.zip&quot;
+move __Download/sound_studio_4.6.4.t.zip &quot;/tmp/sound_studio_4.6.4.t.zip&quot;
+continue if {exists file &quot;/tmp/sound_studio_4.6.4.t.zip&quot;}
+wait /bin/rm -rf &quot;/Applications/Sound\ Studio.app&quot;
+wait /usr/bin/unzip -qn /tmp/sound_studio_4.6.4.t.zip -x &quot;__MACOSX/*&quot; -d /Applications
+wait /usr/bin/defaults write /Library/Preferences/com.felttip.SoundStudio.trial golden-braeburn.license -string &quot;My-Organization-License-Key&quot;
+wait /usr/bin/defaults write /Library/Preferences/com.felttip.SoundStudio.trial SUSoftwareUpdateEnabled -bool NO
+wait /usr/bin/defaults write /Library/Preferences/com.felttip.SoundStudio.trial SUHasLaunchedBefore -bool YES
+delete &quot;/tmp/sound_studio_4.6.4.t.zip&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

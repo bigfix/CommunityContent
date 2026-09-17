@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : TROUBLESHOOTING:  Upload multiple registry keys
+  ID       : 27369
+  Author   : Jsaylor
+  Domain   : BESC
+  Imported : 2024-09-24T15:18:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>TROUBLESHOOTING:  Upload multiple registry keys</Title>
+    <Description>&lt;P&gt;&amp;nbsp;This task will export the specified registry keys with reg.exe, compress them with the built in windows makecab.exe utility, and upload the resulting .cab to the Bigfix server.&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;To specify multiple registry keys, separate the values with a semicolon.&amp;nbsp; A common example to gather the SxS and CBS keys for windows patch troubleshooting would look like this:&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;&lt;STRONG&gt;HKLM\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing;HKLM\Software\Microsoft\Windows\CurrentVersion\SideBySide&lt;/STRONG&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;To locate the compressed registry export files, you must have access to the file system of the Bigfix root server, and know the computer ID of the computer that you want to find the files for.&amp;nbsp; The filename ends in registryexport.cab, and the path for each computer ID will look like this:&lt;/P&gt;
+&lt;BLOCKQUOTE style=&quot;MARGIN-RIGHT: 0px&quot; dir=ltr&gt;
+&lt;P&gt;&lt;STRONG&gt;&amp;lt;Bigfix server install folder&amp;gt;\UploadManagerData\BufferDir\sha1\&amp;lt;last two digits of computer ID&amp;gt;\&amp;lt;full computer ID&amp;gt;&lt;/STRONG&gt;&lt;/P&gt;&lt;/BLOCKQUOTE&gt;
+&lt;P&gt;This fixlet has a hardcoded secure parameter to prevent targeting endpoints by property, this reduces the risk of an unintentional DDoS on your infrastructure.&amp;nbsp; To disable this behavior, make a copy of this fixlet and remove the script element below this text.&lt;/P&gt;
+&lt;P&gt;&lt;script&gt;			document.body.ontakeaction = function() {
+	
+				TakeSecureFixletAction( Relevance(&apos;id of current fixlet&apos;), Relevance(&apos;id of current bes site&apos;), &quot;Action1&quot;, {}, {encryptedvariable: &apos;ThisPreventsPropertyTargeting&apos; } );
+				return false;
+			}&lt;/script&gt; &lt;/P&gt;</Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-03-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 11 Mar 2019 03:35:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;RegistryKeys&quot; with description &quot;Please enter full registry key names to export.  Separate multiple keys with a semicolon ;&quot;
+action uses wow64 redirection false
+
+//set and create working directory
+parameter &quot;Exportfolder&quot; = &quot;{data folder of client as string &amp; &quot;\registryexport&quot;}&quot;
+folder create &quot;{parameter &quot;Exportfolder&quot;}&quot;
+
+
+//create batch file to run reg.exe against each semicolon separated registry key.  Deletes all .reg files in the working directory.  Names resulting .reg files after the last key name + a random number to prevent duplicate filenames
+appendfile cd &quot;{parameter &quot;Exportfolder&quot;}&quot;
+appendfile del *.reg
+appendfile {(&quot;reg.exe export %22&quot; &amp; it as string &amp; &quot;%22 %22&quot; &amp; following text of last &quot;\&quot; of (it as string) &amp; index of it as string &amp; &quot;.reg%22 /y%0d%0a&quot;) of (tuple items of it of (concatenations &quot;, &quot; of (substrings separated by &quot;;&quot; of Parameter &quot;RegistryKeys&quot;)))}
+delete &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\export.bat&quot;}&quot;
+move __appendfile &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\export.bat&quot;}&quot;
+waithidden cmd.exe /c &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\export.bat&quot;}&quot;
+
+
+//create makecab file list
+appendfile {(&quot;%22&quot; &amp; it &amp; &quot;%22%0d%0a&quot;) of (pathnames  of files whose (name of it contains &quot;.reg&quot;) of folder (parameter &quot;Exportfolder&quot;))}
+delete &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\files.txt&quot;}&quot;
+move __appendfile &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\files.txt&quot;}&quot;
+
+//compress listed files
+waithidden makecab /d CabinetName1={computer ID}registryexport.cab /d MaxDiskSize=0 /D CompressionType=LZX /D DiskDirectoryTemplate=&quot;{parameter &quot;Exportfolder&quot;}&quot; /f &quot;{parameter &quot;Exportfolder&quot; &amp; &quot;\files.txt&quot;}&quot;
+
+
+//limit upload results to 20MB and start the upload.
+setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot;=&quot;20971520&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ArchiveManager_OperatingMode&quot;=&quot;2&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ArchiveManager_FileSet-RegistryExport&quot;=&quot;{parameter &quot;Exportfolder&quot;}\{computer ID}registryexport.cab&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+archive now</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

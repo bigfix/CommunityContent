@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Uninstall Dell Foundation Services - Windows
+  ID       : 6287
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-11-25T20:25:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall Dell Foundation Services - Windows</Title>
+    <Description>&amp;lt;enter a description of the task here&amp;gt; </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys whose(exists value &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;dell foundation services&quot;) of it AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-11-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 26 Nov 2015 03:13:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+waithidden msiexec /X{ unique value of names of keys whose(exists value &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;dell foundation services&quot;) of it AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries) } /qn
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

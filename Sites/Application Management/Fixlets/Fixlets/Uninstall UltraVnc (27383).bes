@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall UltraVnc
+  ID       : 27383
+  Author   : 00BBC589-28E7-403D-B23A-FBC173402451
+  Domain   : BESC
+  Imported : 2025-09-01T07:07:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall UltraVnc</Title>
+    <Description><![CDATA[<P>This task performs a silent, non-interactive uninstallation of UltraVNC on targeted systems.</P>
+<UL>
+<LI>
+<P><B>Targeting:</B> It identifies devices by looking for a registry key under <CODE>...\CurrentVersion\Uninstall</CODE> that contains "ultravnc" and has an <CODE>UninstallString</CODE> pointing to <CODE>unins000.exe</CODE>. </P></LI>
+<LI>
+<P><B>Execution:</B> It runs the uninstall command found in the registry and appends the <CODE>/VERYSILENT</CODE> and <CODE>/SUPPRESSMSGBOXES</CODE> parameters to prevent any on-screen prompts or wizards from appearing to the end-user.</P></LI></UL>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists key whose ((value &quot;DisplayName&quot; of it as string as lowercase contains &quot;ultravnc&quot;) AND(value &quot;UninstallString&quot; of it as string as lowercase contains &quot;unins000.exe&quot;)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x64 registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth&quot;&apos;`</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-12-04</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 29 Aug 2025 20:56:51 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Fri, 29 Aug 2025 14:07:01 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Fri, 29 Aug 2025 14:07:01 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>UltraVNC</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>27381</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Get the full uninstall command from the registry
+parameter &quot;uninstallCommand&quot; = &quot;{value &quot;UninstallString&quot; of key whose (name of it as lowercase contains &quot;ultravnc&quot; and value &quot;UninstallString&quot; of it as string as lowercase contains &quot;unins000.exe&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (if x64 of operating system then x64 registry else registry)}&quot;
+
+// Execute the uninstall command silently and wait for the process to complete
+waithidden {parameter &quot;uninstallCommand&quot;} /VERYSILENT /SUPPRESSMSGBOXES</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action28466">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/27381</ActionScript>
+    </Action>
+  </Task>
+</BES>

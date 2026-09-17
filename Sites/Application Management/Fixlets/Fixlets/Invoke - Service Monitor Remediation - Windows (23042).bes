@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Invoke - Service Monitor Remediation - Windows
+  ID       : 23042
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-09T18:14:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Service Monitor Remediation - Windows</Title>
+    <Description>&lt;P&gt;This Fixlet will start any stopped services defined as being, &quot;Monitored&quot; by the BES Agent.&lt;/P&gt;
+&lt;P&gt;To define a service as, &quot;Monitored&quot; for use by this fixlet:&lt;/P&gt;
+&lt;OL&gt;
+&lt;LI&gt;Create a client setting: besservicemonitor-&amp;lt;name&amp;gt; 
+&lt;LI&gt;Populate the setting with a semicolon separated list of services to monitor: &quot;&lt;FONT size=2&gt;BESProxyAgent;BESRelay;BESGather;BESPluginService;BESRootServer;BESWebReportsServer&quot;&lt;/FONT&gt;&lt;/LI&gt;&lt;/OL&gt;
+&lt;P&gt;&lt;FONT size=2&gt;This action will then check those services to make sure they are running.&lt;/FONT&gt;&lt;/P&gt;
+&lt;P&gt;For general information or to report issues with C3 Inventory content please visit GitHub here: &lt;A href=&quot;https://github.com/strawgate/C3-Inventory&quot;&gt;https://github.com/strawgate/C3-Inventory&lt;/A&gt;&lt;/P&gt;</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists settings whose (name of it starts with &quot;besservicemonitor-&quot;) of client</Relevance>
+    <Relevance>/*Compare System Uptime to User Configured Remediation Delay */ uptime of operating system &gt; (value of settings &quot;besservicemonitor-settings-remediation-delay&quot; of client as integer | 5) * minute</Relevance>
+    <Relevance>exists ((it as trimmed string) of elements of (set of (substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings whose (name of it starts with &quot;besservicemonitor-&quot; and name of it does not start with &quot;besservicemonitor-settings-&quot;) of client) - set of (substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings &quot;besservicemonitor-settings-blacklist&quot; of client))) whose (exists (service it) whose (state of it != &quot;Running&quot; and start type of it != &quot;disabled&quot;))</Relevance>
+    <Category>Service Monitor</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-25</SourceReleaseDate>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to start any stopped services.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;PowerShellExe&quot;=&quot;{ pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) }&quot;
+
+parameter &quot;Services&quot;=&quot;{concatenations &quot;;&quot; whose (it != &quot;&quot;) of unique values of ((it as trimmed string) of substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings whose (name of it starts with &quot;besservicemonitor-&quot; and name of it does not start with &quot;besservicemonitor-settings-&quot;) of client) whose (exists (service it) whose (state of it != &quot;Running&quot; and start type of it != &quot;disabled&quot;))}&quot;
+
+delete Start-Service.ps1
+delete __createfile
+
+createfile until _end_
+param (
+    $ServicesList,
+    $Timestamp
+)
+
+new-item -Path &quot;HKLM:\Software\C3 Inventory&quot; -ErrorAction SilentlyContinue
+
+foreach ($Service in $ServicesList.Split(&apos;;&apos;)) {{
+    start-service $Service
+
+    new-item -Path &quot;HKLM:\Software\C3 Inventory\Service Monitoring&quot; -ErrorAction SilentlyContinue
+    
+    new-item -Path &quot;HKLM:\Software\C3 Inventory\Service Monitoring\$Service&quot; -ErrorAction SilentlyContinue
+ 
+    $Count = (Get-ItemProperty -Path &quot;HKLM:\Software\C3 Inventory\Service Monitoring\$Service&quot; -Name &quot;Count&quot; -ErrorAction SilentlyContinue).Count
+
+    if (!$Count) {{$Count = 0}
+
+    set-ItemProperty -Path &quot;HKLM:\Software\C3 Inventory\Service Monitoring\$Service&quot; -Name &quot;Count&quot; -Value ($Count + 1) -ErrorAction SilentlyContinue
+
+    Set-ItemProperty -Path &quot;HKLM:\Software\C3 Inventory\Service Monitoring\$Service&quot; -Name &quot;Last&quot; -Value $Timestamp -ErrorAction SilentlyContinue
+    
+}
+
+_end_
+
+move __createfile Start-Service.ps1
+
+waithidden &quot;{parameter &quot;PowershellExe&quot;}&quot; -ExecutionPolicy Bypass -File &quot;Start-Service.ps1&quot; -ServicesList &quot;{parameter &quot;Services&quot;}&quot; -Timestamp &quot;{now}&quot;
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall TeamViewer - 32 bit
+  ID       : 3762
+  Author   : njagi
+  Domain   : BESC
+  Imported : 2014-04-11T04:46:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall TeamViewer - 32 bit</Title>
+    <Description><![CDATA[
+    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet.
+    <P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+    <P>This fixlet is constructed from the following variables provided by the developer:</P>
+    <P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+    <P><B>Display Name:</B> TeamViewer</P>
+    <P><B>Application Guid:</B> Ex 02EB5871-4DC4-4126-91D6-F1FA82166313</P>
+    <P><B>Uninstall Command String:</B> C:\Program Files\TeamViewer\Version9\uninstall.exe /S</P>
+]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;TeamViewer&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>njagi</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2014-04-11</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 11 Apr 2014 04:46:070</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//User Defined Uninstall String
+waithidden C:\Program Files\TeamViewer\Version9\uninstall.exe /S
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

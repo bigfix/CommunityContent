@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Deploy - .NET Framework - 3.5.30729 - Windows
+  ID       : 22937
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T01:59:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Deploy - .NET Framework - 3.5.30729 - Windows</Title>
+    <Description>&lt;DIV class=FixletMessage&gt;
+&lt;TABLE&gt;
+&lt;TBODY&gt;
+&lt;TR&gt;
+&lt;TD&gt;
+&lt;P&gt;This fixlet installs or activates .NET Framework 3.5 SP1 in order to install Powershell.&lt;/P&gt;
+&lt;P&gt;&lt;STRONG&gt;Important:&lt;/STRONG&gt; Important: The activation of .NET Framework 3.5 SP1 may require Internet access on the target when performed on Windows 2008 R2, Windows 8, Windows 8.1, Windows 2012 or Windows 2012 R2. In case of fixlet errors on one of these platforms, you must activate the .NET Framework 3.5 feature manually by using the Turn Windows Features on or off function available from the Add or Remove Programs applet of the Control Panel (appwiz.cpl). The installation of .NET Framework 3.5 SP1 on other platforms does not require Internet access on the target.&lt;BR&gt;
+&lt;P&gt;&lt;STRONG&gt;Note:&lt;/STRONG&gt; You must accept the license for Microsoft .NET Framework 3.5 SP1 before deploying this Fixlet. By applying this Fixlet, you are implicitly accepting the license agreement. The end user will NOT be prompted to accept the new license. The license agreement can be found within the installer for the product found at the link below.&lt;/P&gt;&lt;/TD&gt;&lt;/TR&gt;&lt;/TBODY&gt;&lt;/TABLE&gt;&lt;/DIV&gt;
+&lt;DIV class=FixletProperty&gt;
+&lt;H4&gt;File Size:&lt;/H4&gt;197.1 MB &lt;/DIV&gt;</Description>
+    <Relevance>((if (exists property &quot;in proxy agent context&quot;) then (if (in proxy agent context) then (device type = &quot;Bare Metal Target&quot;) else false) else false) OR ((exists main gather service OR exists relay service OR (if (name of operating system as lowercase starts with &quot;win&quot;) then (platform id of operating system != 3) else (name of operating system as lowercase contains &quot;linux&quot;))) and (if (exists property &quot;in proxy agent context&quot;) then (if (in proxy agent context) then (device type = &quot;Bare Metal Target&quot;) else true) else true))) AND (version of client &gt;= &quot;8.2&quot;)</Relevance>
+    <Relevance>version of operating system &lt; &quot;6.1&quot; or (it = &quot;Win2008&quot; or it = &quot;Win2008R2&quot; or it = &quot;Win2012&quot; or it = &quot;Win2012R2&quot; or it contains &quot;Win8&quot; or it contains &quot;Win8.1&quot; OR it contains &quot;Win10&quot;) of name of operating system</Relevance>
+    <Relevance>not exists (values &quot;Version&quot; of keys of keys &quot;HKLM\software\microsoft\net framework setup\ndp&quot; of native registry) whose (it as string as version = &quot;3.5.30729&quot; as version)</Relevance>
+    <Category>Important</Category>
+    <Source>BigFix</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+// Install or activate .NET 3.5 SP 1 
+if {(it contains &quot;Win8&quot; OR it contains &quot;Win8.1&quot; OR it contains &quot;Win2012&quot; OR it contains &quot;Win2012R2&quot; OR it contains &quot;Win10&quot;) of name of operating system}
+        if {x64 of operating system}
+            action uses wow64 redirection false
+            waithidden cmd /C &quot;{pathname of system x64 folder}\dism /online /enable-feature /all /featurename:NetFx3
+            action uses wow64 redirection true
+        else
+            waithidden cmd /C &quot;{pathname of system folder}\dism /online /enable-feature /all /featurename:NetFx3
+        endif
+endif
+// On 2008R2 does not support the all option        
+if {(it contains &quot;Win2008R2&quot;) of name of operating system}
+        action uses wow64 redirection false
+        waithidden cmd /C &quot;{pathname of system x64 folder}\dism /online /enable-feature /featurename:NetFx3
+        action uses wow64 redirection true
+endif
+// On 2008 and pre Win 7 need to download and install.        
+if {version of operating system &lt; &quot;6.1&quot; or (it contains &quot;Win2008&quot;) of name of operating system}
+    prefetch dotnetfx35.exe sha1:3dce66bae0dd71284ac7a971baed07030a186918 size:242743296 http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe sha256:0582515bde321e072f8673e829e175ed2e7a53e803127c50253af76528e66bc1
+    wait __download\dotnetfx35.exe /q /norestart
+    run &quot;{pathname of client folder of site &quot;BESSupport&quot; &amp; &quot;\RunQuiet.exe&quot;}&quot; &quot;{pathname of client folder of site &quot;BESSupport&quot; &amp; &quot;\qchain.exe&quot;}&quot;
+endif
+// In case of failures: 
+// On Windows 2008 R2, Windows 8, Windows 8.1, Windows 2012 or Windows 2012 R2 the 
+// activation of .NET 3.5 SP1 may require Internet access. 
+// You can manually activate .NET 3.5 SP1 by using the Turn Windows Features on or off 
+// function  from the Add or Remove Programs applet (appwiz.cpl). 
+// The installation of  .NET 3.5 SP1 on other platforms does not require Internet access on the target.
+action may require restart &quot;0a271bb44531aadef902829f98dfad66e4a57586&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action23934">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about Microsoft .NET Framework 3.5.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.microsoft.com/download/en/details.aspx?id=21</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

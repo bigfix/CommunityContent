@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run HitmanPro Virus Scanner
+  ID       : 3967
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-30T14:25:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run HitmanPro Virus Scanner</Title>
+    <Description><![CDATA[<P>Run HitmanPro "<FONT size=2>Second Opinion Malware Scanner</FONT>"</P>
+<P><STRONG>From:</STRONG>&nbsp; <A href="http://www.surfright.nl/en/hitmanpro">http://www.surfright.nl/en/hitmanpro</A></P>
+<P>Read about command line options here:&nbsp; <A href="http://dl.surfright.nl/hmp-command-line_reference.pdf">http://dl.surfright.nl/hmp-command-line_reference.pdf<STRONG></STRONG></A></P>
+<P><STRONG>NOTE:</STRONG> The prefetch block of this task will require&nbsp;updates to SHA1 &amp; SIZE&nbsp;if HitmanPro is updated and the&nbsp;SHA1s referenced in the prefetch block&nbsp;are no longer in the Root server webcache.</P>
+<P><STRONG>Find the latest version of this task here:</STRONG>&nbsp; <A href="http://bigfix.me/fixlet/details/3719">http://bigfix.me/fixlet/details/3719</A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[/* No scan results within the last 30 days */ not exists file ((pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\results_HitmanPro.xml") whose((now - modification time of it) < 30*day)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-02-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 30 Jan 2015 21:23:50 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+	if {x64 of operating system}
+		add prefetch item name=HitmanPro.exe sha1=3ba2ec7515eaeacd45e89a2df21520b197291c7b size=11225840 url=http://dl.surfright.nl/HitmanPro_x64.exe
+	else
+		add prefetch item name=HitmanPro.exe sha1=9c53121755bc5873d60374c4a6da47d5b0b728e4 size=10285456 url=http://dl.surfright.nl/HitmanPro.exe
+	endif
+
+	collect prefetch items
+end prefetch block
+
+// http://pic.dhe.ibm.com/infocenter/tivihelp/v26r1/index.jsp?topic=%2Fcom.ibm.tem.doc_8.2%2FPlatform%2FAction%2Fc_action_launch_preference_low_p.html
+// launch exe's with low priority settings to help prevent disrupting the user
+action launch preference low-priority
+
+// http://dl.surfright.nl/hmp-command-line_reference.pdf
+// Command Line Arguments:   /scanonly /noupdate /nocookies /nopups /log="c:\example\"
+//     /scanonly    - Stand alone scan, do not install
+//     /noupdate    - Do not update Hitman (this may not be needed)
+//     /nocookies   - Do not scan for tracking cookies
+//     /nopups      - Do not scan for "potentially unwanted programs" like the Ask Toolbar
+waithidden __Download\HitmanPro.exe /scanonly /noupdate /nocookies /nopups /log="{(pathname of folder "__BESData\__Global\Logs" of parent folder of client) & "\results_HitmanPro.xml"}"
+
+// prevent the action from ending before hitman finishes scanning and writes out the scan results file
+pause while{exists running applications whose(name of it starts with "HitmanPro")}
+
+// The results of this task will update Analysis properties, which the following line will force.
+notify client ForceRefresh
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

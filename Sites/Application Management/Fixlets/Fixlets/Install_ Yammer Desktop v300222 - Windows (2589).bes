@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install: Yammer Desktop v300222 - Windows
+  ID       : 2589
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-09-06T08:07:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install: Yammer Desktop v300222 - Windows</Title>
+    <Description><![CDATA[<DIV style="TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-VARIANT: normal; FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Verdana, Arial, sans-serif; WHITE-SPACE: normal; LETTER-SPACING: normal; COLOR: rgb(103,103,103); FONT-SIZE: 11px; FONT-WEIGHT: normal; WORD-SPACING: 0px; -webkit-text-stroke-width: 0px"><STRONG><FONT size=4>Yammer Desktop</FONT></STRONG></DIV>
+<DIV style="TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-VARIANT: normal; FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Verdana, Arial, sans-serif; WHITE-SPACE: normal; LETTER-SPACING: normal; COLOR: rgb(103,103,103); FONT-SIZE: 11px; FONT-WEIGHT: normal; WORD-SPACING: 0px; -webkit-text-stroke-width: 0px">&nbsp;</DIV>
+<DIV style="TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-VARIANT: normal; FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Verdana, Arial, sans-serif; WHITE-SPACE: normal; LETTER-SPACING: normal; COLOR: rgb(103,103,103); FONT-SIZE: 11px; FONT-WEIGHT: normal; WORD-SPACING: 0px; -webkit-text-stroke-width: 0px">Target OS: Windows</DIV>
+<DIV style="TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-VARIANT: normal; FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Verdana, Arial, sans-serif; WHITE-SPACE: normal; LETTER-SPACING: normal; COLOR: rgb(103,103,103); FONT-SIZE: 11px; FONT-WEIGHT: normal; WORD-SPACING: 0px; -webkit-text-stroke-width: 0px"></DIV>
+<DIV style="TEXT-TRANSFORM: none; BACKGROUND-COLOR: rgb(246,249,255); FONT-VARIANT: normal; FONT-STYLE: normal; TEXT-INDENT: 0px; FONT-FAMILY: Verdana, Arial, sans-serif; WHITE-SPACE: normal; LETTER-SPACING: normal; COLOR: rgb(103,103,103); FONT-SIZE: 11px; FONT-WEIGHT: normal; WORD-SPACING: 0px; -webkit-text-stroke-width: 0px">Command Line: Adobe AIR Application Installer.exe -silent -eulaAccepted -programMenu Yammer.air</DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists keys whose (value "DisplayName" of it as string as lowercase contains "Adobe AIR" as lowercase AND value "DisplayVersion" of it as string as version >= "2.7" as version) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Relevance>exists folder (preceding text of last &quot;Resources\&quot; of (value &quot;UninstallString&quot; whose (it as string as lowercase contains &quot;\Resources\&quot; as lowercase) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;Adobe AIR&quot; as lowercase) of key&quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry as string))</Relevance>
+    <Relevance><![CDATA[exists file ((preceding text of last "Resources\" of (value "UninstallString" whose (it as string as lowercase contains "\Resources\" as lowercase) of keys whose (value "DisplayName" of it as string as lowercase contains "Adobe AIR" as lowercase) of key"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry as string)) & "Adobe AIR Application Installer.exe")]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string as lowercase contains "Yammer" as lowercase AND value "DisplayVersion" of it as string as integer >= "300222" as integer) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1" /* windows xp or later */]]></Relevance>
+    <Category>Software Distribution</Category>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2013-06-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 06 Sep 2013 15:06:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Yammer Notifier: https://assets.yammer.com/application_support/windows_notifier/setup.exe
+
+prefetch Yammerair.air sha1:864c0ad586e3221b9fc9c2f325ec8b29619232a4 size:811807 https://www.yammer.com/desktop/2.0/production/Yammer.air
+
+wait "{((preceding text of last "\Resources\" of (value "UninstallString" whose (it as string as lowercase contains "\Resources\" as lowercase) of keys whose (value "DisplayName" of it as string as lowercase contains "Adobe AIR" as lowercase) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry as string)) & "\Adobe AIR Application Installer.exe")}" -silent -eulaAccepted -programMenu "{(pathname of client folder of current site)}\__Download\Yammer.air"
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

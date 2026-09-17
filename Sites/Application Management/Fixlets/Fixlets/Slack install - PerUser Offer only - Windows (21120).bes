@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+  
+  Title    : Slack install - PerUser Offer only - Windows
+  ID       : 21120
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-07-28T13:11:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Slack install - PerUser Offer only - Windows</Title>
+    <Description>This offer will install Slack for the current user. The user that intends to run Slack must be the one to run this offer. If another user does it on behalf of the primary user, then they will have slack, while the primary user will not. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>1 = number of unique values of names of user keys of (current users; logged on users)</Relevance>
+    <Relevance>not exists files &quot;slack.exe&quot; of folders of folders &quot;AppData\Local\slack&quot; of (folders it) of (preceding text of last &quot;%00&quot; of it | it) of unique values of (it as string as trimmed string) of values &quot;ProfileImagePath&quot; of keys whose(name of it = unique value of names of user keys of (current users; logged on users)) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList&quot; of (x64 registries; x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-07-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 28 Jul 2016 20:10:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch SlackSetup.exe sha1:a27dfbc5ac96473c528a58f975ad7a364d48a554 size:62885344 https://downloads.slack-edge.com/releases/SlackSetup.exe sha256:b26ba1fd1d691de945b20b4a091fc48f56a8aab8a842815db909ccb09151d973
+
+parameter &quot;CUTempSlackSetup&quot; = &quot;{ pathname of folders &quot;AppData\Local\Temp&quot; of (folders it) of (preceding text of last &quot;%00&quot; of it | it) of unique values of (it as string as trimmed string) of values &quot;ProfileImagePath&quot; of keys whose(name of it = unique value of names of user keys of (current users; logged on users)) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList&quot; of (x64 registries; x32 registries) }\SlackSetup.exe&quot;
+
+delete &quot;{ parameter &quot;CUTempSlackSetup&quot; }&quot;
+// MUST USE COPY, NOT MOVE!
+copy __Download\SlackSetup.exe &quot;{ parameter &quot;CUTempSlackSetup&quot; }&quot;
+delete __Download\SlackSetup.exe
+
+// http://www.ibm.com/support/knowledgecenter/SS63NW_9.5.0/com.ibm.bigfix.doc/Platform/Action/c_override.html
+override wait
+runas=currentuser
+wait &quot;{ parameter &quot;CUTempSlackSetup&quot; }&quot;
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

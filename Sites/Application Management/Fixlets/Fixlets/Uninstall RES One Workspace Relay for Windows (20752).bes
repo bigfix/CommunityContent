@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Uninstall RES One Workspace Relay for Windows
+  ID       : 20752
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-06-01T08:12:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall RES One Workspace Relay for Windows</Title>
+    <Description>This task will uninstall RES Workspace Manager Relay </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;RESRLS&quot;</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 27 May 2016 23:25:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+        prefetch WMRELAY86.MSI sha1:e68d4c183d4b6dea4da9e441f7fa08fcc480e0a6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x86)-9.10.1.0.msi
+        prefetch WMRELAY64.MSI sha1:79820c3a7ff54a1cd723c7fd670ef1e0deb84bf6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x64)-9.10.1.0.msi
+
+        IF {x64 of operating system}
+        waithidden msiexec /x __Download\WMRELAY64.MSI /qn /norestart
+        ELSE
+        waithidden msiexec /x __Download\WMRELAY86.MSI /qn /norestart
+        ENDIF
+      </ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

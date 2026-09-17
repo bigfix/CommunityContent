@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Update: WinDirStat - Windows
+  ID       : 3785
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-22T09:30:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Update: WinDirStat - Windows</Title>
+    <Description><![CDATA[This task will deploy: WinDirStat.<BR><BR>This task is applicable on: Windows ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* WinXP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists files whose(name of it as lowercase = "windirstat.exe" AND version of it >= "1.1.2.80") of folders whose(name of it as lowercase = "windirstat") of folders whose(name of it as lowercase starts with "program files") of root folder of drive of system folder]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>https://windirstat.info/</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-05-22</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 22 May 2014 16:25:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// https://windirstat.info
+// Download Installer
+prefetch windirstat1_1_2_setup.exe sha1:6fa92dd2ca691c11dfbfc0a239e34369897a7fab size:645729 http://softlayer-dal.dl.sourceforge.net/project/windirstat/windirstat/1.1.2%20installer%20re-release%20%28more%20languages%21%29/windirstat1_1_2_setup.exe
+
+// Install Silently
+wait __Download\windirstat1_1_2_setup.exe /S
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

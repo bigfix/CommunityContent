@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Universal Uninstaller
+  ID       : 27376
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-05-07T14:00:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Universal Uninstaller</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<DIV id=paramFixletDescription>
+<P>This task will uninstall any program that matches the entered Display Name.</P>
+<P><STRONG>Display Name</STRONG> selects the program to uninstall by matching the DisplayName value in the registry for the program. <BR><EM>Example: Google Chrome</EM></P>
+<P><STRONG>Match Type</STRONG> determines if an exact match or partial match is used for the Display Name value. If "Notepad" is entered for the Display Name, <STRONG>Exact</STRONG> would uninstall programs named exactly "Notepad", <STRONG>Partial</STRONG> would also uninstall something like "Notepad++". <BR><EM>Options: Exact, Partial</EM></P>
+<P><STRONG>Version</STRONG> specifies to uninstall all versions less than this value. <BR><EM>Example: 1.2.0.0</EM></P>
+<P><STRONG>Version Inclusion</STRONG> determines if the specified version is included or excluded from being uninstalled. If "1.2.0.0" is entered for Version, <STRONG>Exclude</STRONG> would uninstall any version less than 1.2.0.0, <STRONG>Include</STRONG> would also uninstall 1.2.0.0. <BR><EM>Options: Exclude, Include</EM></P>
+<P><STRONG>MSI Switch</STRONG> adds a switch to the uninstaller's executable. Only applies to MSI uninstallers. <BR><EM>Example: /qn /norestart FULL_UNINSTALL=YES</EM></P>
+<P><STRONG>EXE Switch</STRONG> adds a switch to the uninstaller's executable. Only applies to EXE uninstallers. Recommended to leave blank unless the program's uninstall method does not run silently. <BR><EM>Example: /silent</EM></P>
+<P><STRONG>Exit Codes</STRONG> defines a list of exit codes returned from the uninstaller that indicate success. Enter these as a list of comma separated values. <BR><EM>Example: 0,1,3010</EM></P>
+<P><STRONG>Force</STRONG> determines if the uninstall registry key is forcibly removed if the uninstaller executable isn't detected. Recommended to leave <STRONG>False</STRONG>. <BR><EM>Options: True, False</EM></P></DIV><script>
+loaded = false;
+var CODE_SITE_NAME = 'BES Support' ;
+function loadScript (siteName, callback) {
+loaded = false;
+var relevanceQuery ='unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( task flag of it AND "Parameterized Fixlet Library" = name of it ) of bes sites whose( \"' + siteName + '\" = name of it )'
+var code = EvaluateRelevance(relevanceQuery);
+var head = document.getElementsByTagName("head")[0];
+var script   = document.createElement("script");
+script.type  = "text/javascript";
+script.text = code;
+head.appendChild(script);
+callback();
+}
+function scriptLoaded(){
+if (!loaded){
+if ( typeof FixletUtils !== 'undefined') {
+loaded = true;
+/*
+* Pleas Note: The following code will be moved to library with next publish of lib and user will have to only call method
+*/
+var relQuery = '(messages of it) of fixlets whose ( task flag of it AND "Parameterized Fixlet Library" = name of it ) of bes sites whose( \"' + CODE_SITE_NAME + '\" = name of it )';
+var messages = EvaluateRelevance(relQuery);
+var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+var matches = regex.exec(messages);
+matches[1]=matches[1].replace(/<br>/gi,"");
+eval(matches[1]);
+FixletUtils.initFixletRender();
+} } }
+loadScript(CODE_SITE_NAME, scriptLoaded);
+</script>
+<DIV class=FixletProperty></DIV></DIV>]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-01-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{  &quot;DisplayName&quot;: {   &quot;Name&quot;: &quot;DisplayName&quot;,   &quot;Title&quot;: &quot;Display Name:&quot;,   &quot;Description&quot;: &quot;Enter the display name of the program to uninstall.&quot;,   &quot;UIType&quot;: &quot;Textbox&quot;,   &quot;Required&quot;:&quot;1&quot;  },  &quot;MatchType&quot;: {   &quot;Name&quot;: &quot;MatchType&quot;,   &quot;Title&quot;: &quot;Match Type:&quot;,   &quot;Description&quot;: &quot;Exact selects exact matches of entered display name, partial selects any partial matches.&quot;,   &quot;UIType&quot;: &quot;Select&quot;,   &quot;ValueType&quot;: &quot;specified&quot;,   &quot;Values&quot;: [&quot;Exact&quot;,&quot;Partial&quot;],   &quot;Default&quot;: &quot;Exact&quot;  },  &quot;Version&quot;: {   &quot;Name&quot;: &quot;Version&quot;,   &quot;Title&quot;: &quot;Version:&quot;,   &quot;Description&quot;: &quot;When entered, uninstalls all versions of the application less than the version entered here.&quot;,   &quot;UIType&quot;: &quot;Textbox&quot;,   &quot;Default&quot;: &quot;9999.0.0.0&quot;,   &quot;Required&quot;:&quot;1&quot;  },  &quot;VersionInclusion&quot;: {   &quot;Name&quot;: &quot;VersionInclusion&quot;,   &quot;Title&quot;: &quot;Version Inclusion:&quot;,   &quot;Description&quot;: &quot;Exclude uninstalls versions less than the specified Version, include also uninstalls the specified Version.&quot;,   &quot;UIType&quot;: &quot;Select&quot;,   &quot;ValueType&quot;: &quot;specified&quot;,   &quot;Values&quot;: [&quot;Exclude&quot;,&quot;Include&quot;],   &quot;Default&quot;: &quot;Exclude&quot;  },  &quot;MsiSwitch&quot;: {   &quot;Name&quot;: &quot;MsiSwitch&quot;,   &quot;Title&quot;: &quot;MSI Switch:&quot;,   &quot;Description&quot;: &quot;Adds switch to the uninstall string. Only appllies to MSI uninstallers.&quot;,   &quot;Default&quot;: &quot;/qn&quot;,   &quot;UIType&quot;: &quot;Textbox&quot;  },  &quot;ExeSwitch&quot;: {   &quot;Name&quot;: &quot;ExeSwitch&quot;,   &quot;Title&quot;: &quot;EXE Switch:&quot;,   &quot;Description&quot;: &quot;Adds switch to the uninstall string. Only appllies to EXE uninstallers. Recommended to leave empty unless the uninstaller doesn&apos;t execute silently.&quot;,   &quot;UIType&quot;: &quot;Textbox&quot;  },  &quot;ExitCodes&quot;: {   &quot;Name&quot;: &quot;ExitCodes&quot;,   &quot;Title&quot;: &quot;Exit Codes:&quot;,   &quot;Description&quot;: &quot;Successful exit codes for uninstaller. Enter as a list of comma separated values.&quot;,   &quot;Default&quot;: &quot;0,3010&quot;,   &quot;UIType&quot;: &quot;Textbox&quot;  },  &quot;Force&quot;: {   &quot;Name&quot;: &quot;Force&quot;,   &quot;Title&quot;: &quot;Force:&quot;,   &quot;Description&quot;: &quot;Removes uninstall reg key if uninstaller exe isn&apos;t detected.&quot;,   &quot;UIType&quot;: &quot;Select&quot;,   &quot;ValueType&quot;: &quot;specified&quot;,   &quot;Values&quot;: [&quot;False&quot;,&quot;True&quot;],   &quot;Default&quot;: &quot;False&quot;  }   }   </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 06 Feb 2025 19:54:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Disable redirecting 64-bit registry paths to 32-bit paths
+action uses wow64 redirection false
+
+parameter "ScriptPath" = "__Download\UniversalUninstaller.ps1"
+
+// Delete PowerShell script if already detected to prevent errors w/ copy action
+if {exists parameter "ScriptPath"}
+	delete {parameter "ScriptPath"}
+endif
+
+// Create PowerShell script
+createfile until ENDOFSCRIPT
+
+param (
+	[Parameter(Mandatory)]
+	[string]$displayName,
+	[ValidateSet('Exact', 'Partial')]
+	[string]$matchType = 'Exact',
+	[version]$version = '9999.0.0.0',
+	[ValidateSet('Exclude', 'Include')]
+	[string]$versionInclusion = 'Exclude',
+	[string]$msiSwitch = '/qn',
+	[string]$exeSwitch = $null,
+	[array]$exitCodes = (0,3010),
+	[switch]$force
+)
+
+# Revert whitespace parameters to default values
+if ([string]::IsNullOrWhiteSpace($msiSwitch)) {{ $msiSwitch = '/qn' }
+if ([string]::IsNullOrWhiteSpace($exeSwitch)) {{ $exeSwitch = $null }
+if ([string]::IsNullOrWhiteSpace($exitCodes)) {{ $exitCodes = (0,3010) }
+
+# Get all uninstall registry keys
+$uninstallPaths =
+	"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall",
+	"HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+
+$uninstallString = Get-ChildItem $uninstallPaths | ForEach-Object {{
+	Get-ItemProperty -LiteralPath $_.PsPath | Where-Object {{
+		$item = $_
+
+		$condition1 = switch ($matchType) {{
+			'Exact'     {{$item.DisplayName -eq $displayName}
+			'Partial'   {{$item.DisplayName -match $displayName}
+		}
+		$condition2 = switch ($versionInclusion) {{
+			'Exclude'   {{[version]$item.DisplayVersion -lt $version}
+			'Include'   {{[version]$item.DisplayVersion -le $version}
+		}
+
+		$condition1 -and $condition2
+	} | Select-Object PsPath, DisplayName, UninstallString, QuietUninstallString
+}
+
+$uninstallString | ForEach-Object {{
+	$_.DisplayName
+
+	$string = $(
+		if ([string]::IsNullOrWhiteSpace($_.QuietUninstallString)) {{ $_.UninstallString }
+		else {{ $_.QuietUninstallString }
+	) -replace '(?<!")([a-zA-Z]:\\[^"]+\.(bat|cmd|exe|msi))(?!")', '"$1"'
+
+	$uninstallParams = @{{
+		Wait		= $true
+		PassThru	= $true
+	}
+
+	# If uninstall string is msiexec uninstaller
+	if ($string -match '/[IX]\{{[^}]*\}') {{
+		$uninstallParams.FilePath = $string.Replace($matches[0], '')
+		$uninstallParams.ArgumentList =
+			if ($uninstallParams.ArgumentList -match $msiSwitch) {{ $matches[0] }
+			else {{ $matches[0] + " $msiSwitch" }
+	# If uninstall string is .cmd/.bat/.exe uninstaller
+	} elseif ($string -match '"[^"]*"') {{
+		$uninstallParams.FilePath = $matches[0]
+		if ($exeSwitch) {{
+			$uninstallParams.ArgumentList = $exeSwitch
+		} elseif (![string]::IsNullOrWhiteSpace($string.Replace($matches[0], ''))) {{
+			$uninstallParams.ArgumentList = $string.Replace($matches[0], '')
+		}
+
+		# Remove registry key if -Force switch used and executable doesn't exist
+		if (!(Test-Path $matches[0])) {{
+			if ($force) {{
+				Remove-Item -LiteralPath $_.PsPath -Force -Recurse
+			} else {{
+				Write-Host "- Uninstaller not detected"
+				Write-Host "  $($matches[0])"
+				$throw = $true
+			}
+
+			return
+		}
+	} else {{
+		return
+	}
+
+	# Start uninstaller
+	$process = Start-Process @uninstallParams
+
+	# Check if uninstalled successfully
+	if ((Test-Path -LiteralPath $_.PsPath) -and ($process.ExitCode -notin $exitCodes)) {{
+		Write-Host "- Failed to uninstall"
+		Write-Host "  ExitCode = $($process.ExitCode)"
+		$throw = $true
+	} else {{
+		Write-Host "- Uninstalled"
+	}
+}
+
+# Throw if any uninstall failed
+if ($throw) {{ throw }
+
+ENDOFSCRIPT
+
+// Run PowerShell script
+copy __createfile {parameter "ScriptPath"}
+wait powershell.exe -ExecutionPolicy Bypass -File "{parameter "ScriptPath"}" -DisplayName "{parameter "DisplayName"}" -MatchType {parameter "MatchType"} -Version "{parameter "Version"}" -VersionInclusion {parameter "VersionInclusion"} -MsiSwitch "{parameter "MsiSwitch"}" -ExeSwitch "{parameter "ExeSwitch"}" -ExitCodes {parameter "ExitCodes"} {if parameter "Force" = "True" then "-Force" else ""}
+delete {parameter "ScriptPath"}]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

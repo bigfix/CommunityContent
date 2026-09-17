@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall QuickTime for Windows
+  ID       : 12960
+  Author   : mgraepel
+  Domain   : BESC
+  Imported : 2016-04-15T09:05:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall QuickTime for Windows</Title>
+    <Description><![CDATA[<P>This task will uninstall: All versions of QuickTime</P>
+<P>This task is applicable on: Windows XP, Windows XP x64, Windows 2003, Windows 2003 x64, Windows Vista, Windows Vista x64, Windows 2008, Windows 2008 x64, Windows 7, Windows 7 x64, Windows 2008 R2, Windows XP Embedded, Windows 8, Windows 8 x64, Windows 2012, Windows 8.1, Windows 8.1 x64 and Windows 2012 R2. </P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2016-04-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Apr 2016 01:04:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Is QuickTime Running
+If (exists running application "quicktimeplayer.exe")
+
+//Kill QuickTime
+waithidden taskkill /F /IM quicktimeplayer.exe
+endif
+
+//Detect QuickTime
+If {exists key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries}
+
+//Uninstall
+waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries} /QN
+endif]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

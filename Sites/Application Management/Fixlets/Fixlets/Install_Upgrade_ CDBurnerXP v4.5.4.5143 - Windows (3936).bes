@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+  
+  Title    : Install/Upgrade: CDBurnerXP v4.5.4.5143 - Windows
+  ID       : 3936
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-19T13:50:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: CDBurnerXP v4.5.4.5143 - Windows</Title>
+    <Description>&lt;P&gt;This task will Install/Upgrade &lt;STRONG&gt;CDBurnerXP&lt;/STRONG&gt;, &lt;FONT size=2&gt;a free application to burn CDs and DVDs, including Blu-Ray and HD-DVDs.&amp;nbsp; &lt;A href=&quot;https://cdburnerxp.se/en/home&quot;&gt;https://cdburnerxp.se/en/home&lt;/A&gt;&lt;/P&gt;&lt;/FONT&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>version of operating system &gt;= &quot;5.1&quot;</Relevance>
+    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string contains &quot;CDBurnerXP&quot; AND value &quot;DisplayVersion&quot; of it as string as version &gt;= &quot;4.5.4.5143&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;registry)</Relevance>
+    <Relevance>/* Requires .NET 4 */ &quot;4.0&quot; as version &lt;= maximum of ((it as version) of names of keys whose(name of it as string as lowercase contains &quot;v&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of native registry)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-12-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Dec 2014 20:49:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// https://cdburnerxp.se/
+// https://www.virustotal.com/en/file/ea9f9af545664546014a15afb03ac29415ae0ee95101bdaedb25f5fbba466f4d/analysis/1419001075/
+// InnoSetup Installer:  http://www.jrsoftware.org/ishelp/index.php?topic=setupcmdline
+prefetch cdbxp_setup_minimal.exe sha1:b4e2a813c09e30893cc5fcf7605a872d7f5736f7 size:5402840 http://download.cdburnerxp.se/minimal/bbbf71d055a99e60046e68a3c4d7a886/5494819d/cdbxp_setup_4.5.4.5143_minimal.exe
+
+waithidden __Download\cdbxp_setup_minimal.exe /SP- /VERYSILENT /NORESTART /MERGETASKS=&quot;!desktopicon&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>
