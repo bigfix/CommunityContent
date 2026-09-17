@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : GTS UKI - AIX Patching - Populate Repository - 7100-03 (TL) - v1.0
+  ID       : 20772
+  Author   : beasleya
+  Domain   : BESC
+  Imported : 2016-06-02T07:47:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>GTS UKI - AIX Patching - Populate Repository - 7100-03 (TL) - v1.0</Title>
+    <Description><![CDATA[<P><U>Task to populate an NFS repository on the target server&nbsp;for use by the&nbsp;AIX patching service.</U></P>
+<P>The task will ask for the path to the top level repository directory on the target server, and will then download the required filesets, and create a directory beneath this containing the downloaded SP or TL. It will generate a .toc file, and export the directory as a new NFS share.</P>
+<P>&nbsp;</P>
+<P>This task creates a repository share for -</P>
+<P><STRONG>7100-03 (TL)</STRONG></P>
+<P>&nbsp;NFS share will be : /&lt;repository path&gt;/7100-03&nbsp;</P>
+<P>&nbsp;</P>
+<P>Note: Sufficient space must exist in the /var/opt/BESClient filesystem on the target server, to download and extract the filesets, before they are moved to the repository directory structure.</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>GTS UKI Patching</Category>
+    <Source>GTS UKI</Source>
+    <SourceReleaseDate>2015-11-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 24 Nov 2015 14:21:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Get path to repository top level directory.
+action parameter query "input1" with description "Please enter the full path to the repository top level directory, e.g. /repos (TL & SP shares will be created below this.)" with default value ""
+parameter "Repos_Base" = "{parameter "input1" of action as trimmed string}"
+
+// Download the required filesets as a .aix archive via the IEM infrastructure.
+download AIXProtocol://7100-00/7100-03
+
+// Define parameters.
+parameter "Fix_Pack"="7100-03"
+parameter "Fix_Dir"="{parameter "Repos_Base" of action & "/" & parameter "Fix_Pack" of action}"
+
+// Ensure sufficient space exists in the client filesystem to extract the archive.
+continue if {free space of (filesystem of (parent folder of client folder of current site)) > 674467840}
+
+// Extract the filesets from the .aix archive.
+extract 7100-03
+
+// Delete the archive to save space.
+delete "{pathname of client folder of current site & "/__Download/" & parameter "Fix_Pack" of action}"
+
+// Create new directory and transfer out of the __Download Directory.
+// First check to see if an NFS share already exists for this directory.
+if {exists line whose (it starts with (parameter "Fix_Dir" of action & " ")) of file "/etc/xtab"}
+	wait sh -c "/usr/sbin/rmnfsexp -d '{parameter "Fix_Dir" of action}' -N"
+	continue if {NOT exists line whose (it starts with (parameter "Fix_Dir" of action & " ")) of file "/etc/xtab"}
+endif
+wait rm -rf "{parameter "Fix_Dir" of action}"
+wait mkdir -p "{parameter "Fix_Dir" of action}"
+// Use find to move the files because long file lists may result in a 'The parameter or environment lists are too long.' error
+wait sh -c "find \"{pathname of client folder of current site & "/__Download/"}\" -name *.bff* -exec mv {{} \"{parameter "Fix_Dir" of action}/\" \;"
+
+// Create table of contents (.toc)
+wait inutoc "{parameter "Fix_Dir" of action}"
+
+// Export the newly created directory as an NFS share.
+wait sh -c "/usr/sbin/mknfsexp -d '{parameter "Fix_Dir" of action}' -t ro -N"
+continue if {exists line whose (it starts with (parameter "Fix_Dir" of action & " ")) of file "/etc/xtab"}
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

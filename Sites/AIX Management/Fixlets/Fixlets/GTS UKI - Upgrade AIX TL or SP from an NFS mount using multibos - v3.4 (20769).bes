@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : GTS UKI - Upgrade AIX TL or SP from an NFS mount using multibos - v3.4
+  ID       : 20769
+  Author   : beasleya
+  Domain   : BESC
+  Imported : 2016-06-02T07:41:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>GTS UKI - Upgrade AIX TL or SP from an NFS mount using multibos - v3.4</Title>
+    <Description><![CDATA[<FONT size=+1>
+<P>Task to upgrade AIX TL or SP from an NFS mount&nbsp;using multibos.</P></FONT>
+<P>The task requires a valid NFS share to be specified (in the format <STRONG>&lt;server&gt;:/&lt;path&gt;</STRONG>). The share must contain all filesets required for the upgrade and a .toc file.</P>
+<P>The task will -</P>
+<UL>
+<LI>Mount the specified share on a temporary mount point
+<LI>Remove any existing standby BOS instances
+<LI>Create a new standby BOS
+<LI>Attempt to upgrade the standby BOS from the mounted filesystem.</LI></UL>
+<P>&nbsp;</P>
+<HR>
+
+<P><B>The following parameters must be completed before running the task -</B></P>
+<P>&nbsp;</P>
+<STYLE type=text/css>
+.input_box {
+   width: 600px;
+   clear: both;
+   color: blue;
+}
+.input_box input {
+   width: 100%;
+   clear: both;
+}
+</STYLE>
+
+<DIV class=input_box>
+<P><B><LABEL for=nfsshare>NFS Share: </LABEL></B><INPUT id=nfsshare name=nfsshare></P></DIV>
+<P><INPUT onchange=checkoptions(); id=preview_radios_0 type=radio value=standby name=preview><LABEL for=preview_radios_0><FONT color=#0000ff><STRONG> Preview multibos standby creation operation ONLY</STRONG></FONT></LABEL>&nbsp;&nbsp;&nbsp;&nbsp;(Use the -p multibos option for preview mode) - Upgrade step will be skipped.<BR></P>
+<P><INPUT onchange=checkoptions(); id=preview_radios_1 type=radio value=upgrade name=preview><LABEL for=preview_radios_1><FONT color=#0000ff><STRONG> Preview multibos upgrade operation</STRONG></FONT></LABEL>&nbsp;&nbsp;&nbsp;&nbsp;(Use the -p multibos option for preview mode) - Preview of the upgrade step requires a valid standby BOS, so creation of the standby will be performed without preview.<BR></P>
+<P><INPUT onchange=checkoptions(); id=preview_radios_2 CHECKED type=radio value=none name=preview><LABEL for=preview_radios_2><FONT color=#0000ff><STRONG> Perform the upgrade without a preview</STRONG></FONT></LABEL><BR></P>
+<P><FONT color=#0000ff><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;Prevent multibos from changing the bootlist ?:&nbsp;&nbsp;&nbsp;</STRONG></FONT><INPUT onchange=checkoptions(); id=nobootlist_box CHECKED type=checkbox name=nobootlist_box>&nbsp;&nbsp;&nbsp;(Use the -t multibos option to preserve the bootlist.)</P>
+<P>&nbsp;</P>
+<P><B>- Take care that the above options are set correctly for the action you wish to perform.</B></P>
+<P>&nbsp;</P>
+<P>Output from&nbsp;the action&nbsp;will be logged to the file "/var/opt/BESClient/__GTS/multibos/last_multibos.log" on the endpoint. This can be read using the analysis - "GTS UKI - Multibos Analysis - AIX"</P>
+<HR>
+<script>
+document.body.ontakeaction = function () {
+var okToGo = true;
+var theNfsShare = document.getElementById("nfsshare").value;
+var theNobootlistVal;
+var thePreviewVal;
+var theradios = document.getElementsByName('preview');
+for (var i = 0, length = theradios.length; i < length; i++){
+	if (theradios[i].checked){
+		thePreviewVal = theradios[i].value;
+		break;
+	}
+}
+
+if (document.getElementById('nobootlist_box').checked) {
+	theNobootlistVal = "yes";
+} else {
+	theNobootlistVal = "no";
+}
+
+if (theNfsShare==null || theNfsShare=="") {
+	alert("ERROR! NFS Share is a required value, please enter a valid share.");
+	okToGo = false;
+} else if (/\s/.test(theNfsShare)) {
+	alert("ERROR! The NFS Share should not contain spaces.");
+	theNfsShare = "null";
+	okToGo = false;
+}
+
+if (okToGo==true) {
+TakeFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", { NFS_SHARE: theNfsShare, NOBOOTLIST: theNobootlistVal, PREVIEW: thePreviewVal }, {} );
+}
+return false;
+}
+
+function checkoptions() {
+if (document.getElementById('preview_radios_1').checked == true){
+	if (document.getElementById('nobootlist_box').checked == false){
+		document.getElementById('nobootlist_box').checked = true;
+	}
+}
+}
+
+</script>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[(version of client >= "6.0.0.0") AND (exists true whose (if true then (exists (operating system) whose (it as string as lowercase contains "AIX" as lowercase AND it as string as lowercase does not contain "VIOS" as lowercase)) else false))]]></Relevance>
+    <Relevance><![CDATA[(((exists logical volume whose (name of it as lowercase = "bos_hd4") of it) AND (exists logical volume whose (name of it as lowercase = "hd4") of it)) of volume group "rootvg" of logical volume manager) OR (((sum of (((partition count of it)*(mirror count of it)) of logical volumes of filesystems whose (size of it > 0 AND ((it = "/" OR it = "/var" OR it = "/usr" OR it = "/opt") of name of it)))) + (if (exists logical volume "hd5" of it) then (((partition count of it)*(mirror count of it)) of logical volume "hd5" of it) else (if (exists logical volume "bos_hd5" of it) then (((partition count of it)*(mirror count of it)) of logical volume "bos_hd5" of it) else (0))) of volume group "rootvg" of logical volume manager) < free partition count of volume group "rootvg" of logical volume manager)]]></Relevance>
+    <Category>GTS UKI Patching</Category>
+    <Source>GTS UKI</Source>
+    <SourceReleaseDate>2016-04-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Apr 2016 13:07:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Get path to NFS source directory.
+//action parameter query "input1" with description "Please enter full path to the NFS repository share for this upgrade, in the format <server>:/<path>  E.g. mynfssrv:/repo/7100-03-05" with default value ""
+//parameter "NFS_SRC" = "{parameter "input1" of action as trimmed string}"
+// Below parameters now come from the javascript frontend
+// parameter "NFSSHARE" (nfs share value entered in description tab)
+// parameter "NOBOOTLIST" (if "yes" use the -t option in multibos)
+// parameter "PREVIEW" (use the -p option in multibos, can be "standby", "upgrade", or "none")
+parameter "NFS_SRC" = "{parameter "NFS_SHARE" of action as trimmed string}"
+
+// Define additional parameters.
+parameter "NFS_SAVE"="{pathname of parent folder of client folder of current site & "/__TEMP_NFS_SAVE"}"
+parameter "NFS_MNT"="{pathname of parent folder of client folder of current site & "/__TEMP_NFS_MNT"}"
+
+
+// ====================================================================
+// Create the top level __GTS directory if not existing
+// The idea is to create a master directory for all GTS extensions
+// so that they do not interfere with any Tivoli developed content
+// This should be included at the start of all GTS extensions
+
+parameter "GTS_FOLDER" = "{pathname of parent folder of parent folder of client folder of current site}/__GTS"
+if {not exists folder (parameter "GTS_FOLDER" of action)}
+	wait mkdir "{parameter "GTS_FOLDER" of action}"
+endif
+
+//====================================================================
+// Now the __GTS directory is in place we can begin
+// The action base dir can be referenced using {parameter "GTS_FOLDER" of action}
+
+
+// Prepare multibos log directory
+if {not exists folder "multibos" of folder (parameter "GTS_FOLDER" of action)}
+	wait mkdir "{parameter "GTS_FOLDER" of action}/multibos"
+endif
+
+
+// First check that the mount point is not hanging around from a previous run.
+if {exists filesystem whose (name of it is (parameter "NFS_MNT" of action))}
+	// Exit code 99 - Mounted filesystem already exists. Manual NFS tidy up required.
+	exit {99}
+endif
+
+// Create temporary directories.
+wait rm -rf "{parameter "NFS_SAVE" of action}"
+wait mkdir -p "{parameter "NFS_SAVE" of action}"
+wait rm -rf "{parameter "NFS_MNT" of action}"
+wait mkdir -p "{parameter "NFS_MNT" of action}"
+
+// Save original NFS settings.
+wait sh -c "nfso -o nfs_use_reserved_ports | awk '{{print $NF}' > \"{(parameter "NFS_SAVE" of action) & "/nfs_use_reserved_ports"}\""
+wait sh -c "nfso -o portcheck | awk '{{print $NF}' > \"{(parameter "NFS_SAVE" of action) & "/portcheck"}\""
+
+// Set portcheck and nfs_use_reserved_ports to 1
+wait nfso -o nfs_use_reserved_ports=1
+wait nfso -o portcheck=1
+
+// Mount NFS source directory
+wait sh -c "mount -o ro {parameter "NFS_SRC" of action} \"{parameter "NFS_MNT" of action}\""
+
+// Check mount. If failed, cleanup and exit.
+if {NOT (exists filesystem whose (name of it is (parameter "NFS_MNT" of action)))}
+	wait umount "{parameter "NFS_MNT" of action}"
+	wait sh -c "nfso -o nfs_use_reserved_ports={line 1 of file (parameter "NFS_SAVE" of action & "/nfs_use_reserved_ports")}"
+	wait sh -c "nfso -o portcheck={line 1 of file (parameter "NFS_SAVE" of action & "/portcheck")}"
+	wait rm -rf "{parameter "NFS_SAVE" of action}"
+	wait rm -rf "{parameter "NFS_MNT" of action}"
+	// Exit code 98 - Unable to mount NFS share.
+	exit {98}
+endif
+
+// Initialise log
+if {exists file "/etc/multibos/logs/op.alog"}
+	delete /etc/multibos/logs/op.alog.old
+	move /etc/multibos/logs/op.alog /etc/multibos/logs/op.alog.old
+endif
+
+// Begin the multibos upgrade...
+// Remove any existing standby BOS objects if they exist
+if {((exists logical volume whose (name of it as lowercase = "bos_hd4") of it) AND (exists logical volume whose (name of it as lowercase = "hd4") of it)) of volume group "rootvg" of logical volume manager}
+	wait multibos -RX
+endif
+
+if {(parameter "PREVIEW" of action) contains "standby"}
+	// Preview the standby operation only.
+	if {(parameter "NOBOOTLIST" of action) contains "yes"}
+		wait multibos -Xstp
+	else
+		wait multibos -Xsp
+	endif
+
+elseif {(parameter "PREVIEW" of action) contains "upgrade"}
+	// Preview the upgrade operation after creating the standby.
+	wait multibos -Xst
+	wait multibos -Xacp -l "{parameter "NFS_MNT" of action}"
+
+else
+	// Perform a real upgrade without preview.
+	if {(parameter "NOBOOTLIST" of action) contains "yes"}
+		wait multibos -Xst
+	else
+		wait multibos -Xs
+	endif
+	wait multibos -Xac -l "{parameter "NFS_MNT" of action}"
+endif
+
+// Create snapshot of the multibos log, and store in multibos log directory for reading via analysis.
+delete "{parameter "GTS_FOLDER" of action}/multibos/last_multibos.log"
+wait /bin/sh -c "alog -of /etc/multibos/logs/op.alog >> {parameter "GTS_FOLDER" of action}/multibos/last_multibos.log 2>&1"
+
+// Cleanup
+wait umount "{parameter "NFS_MNT" of action}"
+wait sh -c "nfso -o nfs_use_reserved_ports={line 1 of file (parameter "NFS_SAVE" of action & "/nfs_use_reserved_ports")}"
+wait sh -c "nfso -o portcheck={line 1 of file (parameter "NFS_SAVE" of action & "/portcheck")}"
+wait rm -rf "{parameter "NFS_SAVE" of action}"
+wait rm -rf "{parameter "NFS_MNT" of action}"
+
+// Check cleanup.
+if {exists filesystem whose (name of it is (parameter "NFS_MNT" of action))}
+	// Exit code 97 - Problem with unmount. Manual NFS tidy up required.
+	exit {97}
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
