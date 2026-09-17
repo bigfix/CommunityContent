@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : grails-databinding detection scan (Windows)
+  ID       : 26943
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-07-20T09:14:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>grails-databinding detection scan (Windows)</Title>
+    <Description><![CDATA[<H3>This is Community Content. When you use these solutions, it is incumbent on your organization to test any solutions provided across the broadest available system base including various OS, storage solutions, and application inventory.</H3>
+<P></P>
+<P>Please see the <A href="https://forum.bigfix.com/t/log4j-vulnerability-identification-and-3rd-party-remediation-solution-testing-statement/40273"><FONT color=#0066cc>Community Solution Testing Statement</FONT></A></P>
+<P>This Task performs a filesystem scan on Windows systems to attempt detecting grails-databinding versions that may be vulnerable to the following vulnerabilty reported in&nbsp;July 2022:</P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"></SPAN>&nbsp;</P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><A href="https://nvd.nist.gov/vuln/detail/CVE-2022-35912">https://nvd.nist.gov/vuln/detail/CVE-2022-35912</A></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN></P>
+<P><A href="https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97">https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97</A></P>
+<P>&nbsp;</P>
+<P>This Task performs a filesystem search across all fixed disks on Windows platforms, to locate JAR files, either directly on the filesystem or embedded in a .WAR or .EAR&nbsp;archive file.&nbsp; In the case any .WAR/.EAR file is found on the system, the 'unzip.exe' utility is used to perform a listing of files inside the archive to locate Spring-related .JAR files.&nbsp; Specifically, this Task searches for any versions of <STRONG>grails-databinding-*.jar</STRONG>.&nbsp; Information on the Grails vulnerability is still evolving and the list of vulnerable versions is still subject to change.</P>
+<P>Scan results are stored in a "Scans" subdirectory beneath the "BES Client" folder. 'grails-databinding-scan-output.txt' contains the full script output for potential debugging or diagnosis, and 'grails-databinding-scan.txt' contains a listing of detected files in one of the forms</P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>C:\temp\grails\grails\libs\grails-databinding-5.1.9.jar</P>
+<P>C:\temp\grails\test\grails-dist.war||grails.RELEASE/libs/grails-databinding-5.1.9.jar</P></BLOCKQUOTE>
+<P dir=ltr>The first sample entry indicates a detected grails-databinding.jar file directly in the filesystem, while the second entry indicates a Grails .jar file embedded within a .WAR archive.</P>
+<P>This Task has several known limitations:</P>
+<UL>
+<LI>Archives are not extracted recursively - only .JAR files contained directly within a .WAR archive are found; archives embedded within multiple layers of .WAR archives are not detected.
+<LI>There is no option to throttle the scan in terms of processor or disk i/o usage.&nbsp; Scans should be executed during non-critical hours, and staggered over time especially where multiple systems share a storage resource, such as a SAN or virtual machine storage pool.</LI></UL>
+<P>At time of writing, the specific known-vulnerable versions are</P>
+<UL>
+<LI>3.3.10 lower than 3.3.15</LI>
+<LI>4.0.0 lower than 4.1.1</LI>
+<LI>5.0.0 lower than 5.1.9</LI>
+<LI>5.2.0 lower than 5.2.1</LI></UL>
+<P>More details and FAQ from the product developer are available at <A href="https://github.com/grails/grails-core/issues/12626">https://github.com/grails/grails-core/issues/12626</A></P>
+<P>This detection method uses Windows batch scripts with no external utility aside from 'unzip.exe'.&nbsp; Results of the scan may be retrieved using the related Analysis.</P>]]></Description>
+    <Relevance>windows of operating system AND (if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Category>Vulnerability Scan</Category>
+    <Source>HCL BigFix Services</Source>
+    <SourceReleaseDate>2022-07-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Jul 2022 15:01:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+end prefetch block
+// Add Unzip to Utility Cache:
+utility __Download\unzip.exe
+
+parameter "unzip"="{pathname of file "__Download\unzip.exe"}"
+parameter "ScansFolder" = "{(if (version of client >= "9" as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site "actionsite"))}\Scans"
+folder create "{parameter "ScansFolder"}"
+
+parameter "output"="{pathname of folder (parameter "ScansFolder")}\grails-databinding-scan.txt"
+parameter "exec_output"="{pathname of folder (parameter "ScansFolder")}\grails-databinding-scan-output.txt"
+
+delete "{parameter "output"}"
+delete "{parameter "exec_output"}"
+
+delete __createfile
+createfile until EOF_EOF_EOF_EOF
+set UNZIP="{parameter "unzip"}"
+setlocal EnableDelayedExpansion
+GOTO MAIN
+:PROCESSFILE
+echo Processfile %*
+REM If the file itself matches, output it and exit this function
+if %~x1==.jar echo %~dpnx1 >> "{parameter "output"}"& exit /B 0
+REM the file is a war/jar, expand it to search for embedded files
+REM Use DelayedExpansion and !FILENAME! to prevent 'for' loop crashing on symbols like 'Program Files (x86)'
+set FILENAME=%~dpnx1
+for /F "tokens=*" %%i in ('"%UNZIP% -Z -1C "!FILENAME!" *grails-databinding-*.jar -x *-sources.jar *-javadoc.jar"') do @echo !FILENAME!^|^|%%i >> "{parameter "output"}"
+exit /B 0
+
+:MAIN
+echo ::START::%DATE%::%TIME%>> "{parameter "output"}"
+
+{concatenation "%0d%0a" of ("for /F %22tokens=*%22 %25%25i in ('dir /s /b " & it & "\ ^| findstr /R /C:%22.*\.war$%22 /C:%22.*\.ear$%22 /C:%22grails\-databinding\-.*\.jar$%22 ^|findstr /R /V /C:%22\-javadoc\.jar$%22 /C:%22\-sources\.jar$%22') do CALL :PROCESSFILE %22%25%25~dpnxi%22") of pathnames of root folders of drives whose (type of it = "DRIVE_FIXED")}
+
+endlocal
+echo ::FINISH::%DATE%::%TIME%>> "{parameter "output"}"
+
+EOF_EOF_EOF_EOF
+
+delete run_scan.cmd
+copy __createfile run_scan.cmd
+action uses wow64 redirection {not x64 of operating system}
+waithidden cmd.exe /c "run_scan.cmd > "{parameter "output"}">"{parameter "exec_output"}" 2>&1"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

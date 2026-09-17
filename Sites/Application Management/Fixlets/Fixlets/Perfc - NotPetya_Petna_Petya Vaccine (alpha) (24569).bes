@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Perfc - NotPetya/Petna/Petya Vaccine (alpha)
+  ID       : 24569
+  Author   : aurora
+  Domain   : BESC
+  Imported : 2017-06-29T05:00:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Perfc - NotPetya/Petna/Petya Vaccine (alpha)</Title>
+    <Description><![CDATA[<P>NotPetya/Petna/Petya Vaccine (alpha)</P>
+<P>reference:<BR><A href="https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/">https://www.bleepingcomputer.com/news/security/vaccine-not-killswitch-found-for-petya-notpetya-ransomware-outbreak/</A></P>
+<P>acknowledgement: <BR><A href="https://twitter.com/LawrenceAbrams">https://twitter.com/LawrenceAbrams</A></P>
+<P>Create readonly files perfc perfc.dat perfc.dll in C:\Windows directory</P>
+<P>Disclaimer: Provided 'as-is'</P>
+<P>THE SAMPLE CODE IS PROVIDED “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL&nbsp;THE&nbsp;AUTHOR&nbsp;OR CONTRIBUTORS OF THIS CODE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</P>]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>not exists file &quot;perfc&quot; of folder &quot;c:\windows&quot;</Relevance>
+    <Relevance>not exists file &quot;perfc.dll&quot; of folder &quot;c:\windows&quot;</Relevance>
+    <Relevance>not exists file &quot;perfc.dat&quot; of folder &quot;c:\windows&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-06-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Jun 2017 11:57:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Disclaimer: Provided &apos;as-is&apos;
+// THE SAMPLE CODE IS PROVIDED “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS OF THIS CODE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+if {not exists file &quot;perfc&quot; of folder &quot;c:\windows&quot;}
+delete __createfile
+createfile until _endFile
+#BigFix NotPetya/Petna/Petya Vaccine (alpha)
+_endFile
+copy __createfile c:\windows\perfc
+endif
+
+if {not exists file &quot;perfc2.dll&quot; of folder &quot;c:\windows&quot;}
+delete __createfile
+createfile until _endFile
+#BigFix NotPetya/Petna/Petya Vaccine (alpha)
+_endFile
+copy __createfile c:\windows\perfc.dll
+endif
+
+if {not exists file &quot;perfc2.dat&quot; of folder &quot;c:\windows&quot;}
+delete __createfile
+createfile until _endFile
+#BigFix NotPetya/Petna/Petya Vaccine (alpha)
+_endFile
+copy __createfile c:\windows\perfc.dat
+endif
+
+waithidden cmd.exe /C attrib +R  &quot;c:\windows\perfc&quot;
+waithidden cmd.exe /C attrib +R  &quot;c:\windows\perfc.dll&quot;
+waithidden cmd.exe /C attrib +R  &quot;c:\windows\perfc.dat&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

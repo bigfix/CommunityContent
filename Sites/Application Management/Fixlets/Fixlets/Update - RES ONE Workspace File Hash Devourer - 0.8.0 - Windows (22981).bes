@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace File Hash Devourer - 0.8.0 - Windows
+  ID       : 22981
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace File Hash Devourer - 0.8.0 - Windows</Title>
+    <Description><![CDATA[
+<P>
+	Updates the RES ONE Workspace File Hash Devourer.
+</P>
+<P>
+	The Devourer is a tool that scans the BigFix Root Server Uploads and BigFix Root Server Cache directories for installers, archives, etc searching for executables to whitelist. Once it finishes its scan it imports the generated hash list into RES ONE Workspace.
+</P>
+]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists folder &quot;\RES Software\File Hash Devourer\Configuration&quot; of program files x32 folder</Relevance>
+    <Relevance><![CDATA[(not exists file "Version.xml" of folder "\RES Software\File Hash Devourer\Bin" of program files x32 folder) or (exists (it as text as version) whose (it < "0.8.0" as version) of selects "Devourer/Version" of xml documents of file "Version.xml" of folder "\RES Software\File Hash Devourer\Bin" of program files x32 folder)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://www.7-zip.org/a/7za920.zip
+
+prefetch 7z1602-x64.exe sha1:0D2C251DBF1BF3CF47DA6D8118679995A979AD2A size:1378550 http://www.7-zip.org/a/7z1602-x64.exe sha256:F1601B09CD0C9627B1AAB7299B83529E8FBC6B5078E43DFD81A1B0BFCDF4A308
+
+prefetch bfarchive.zip sha1:11AEB6E54F5977B9F00E3D8F3DA35CC2C0DE80FA size:118880 https://github.com/bigfix/bfarchive/releases/download/v9.3.3/bfarchive-win-x86.zip sha256:3B66DADADACAD567E22B4E824FB6B16D7D8710513A39282475F982C5904C08BF
+
+parameter "InstallationDir"="{pathname of program files x32 folder}\RES Software\File Hash Devourer"
+
+folder create "{parameter "InstallationDir"}\Bin"
+folder create "{parameter "InstallationDir"}\Logs"
+folder create "{parameter "InstallationDir"}\Output"
+folder create "{parameter "InstallationDir"}\Staging"
+folder create "{parameter "InstallationDir"}\Staging\Uploads"
+folder create "{parameter "InstallationDir"}\Staging\SHA1"
+folder create "{parameter "InstallationDir"}\Configuration"
+folder create "{parameter "InstallationDir"}\Extractors"
+folder create "{parameter "InstallationDir"}\Extractors\7zip"
+folder create "{parameter "InstallationDir"}\Extractors\BFArchive"
+folder create "{parameter "InstallationDir"}\Extractors\PATCH_CAB"
+
+waithidden __Download\unzip.exe -o "{pathname of file "7za.zip" of folder "__Download" of client folder of current site}" 7za.exe -d "{pathname of folder "__Download" of client folder of current site}"
+
+waithidden __Download\7za.exe x "{pathname of file "7z1602-x64.exe" of folder "__Download" of client folder of current site}" -o"{parameter "InstallationDir"}\Extractors\7zip" -aoa
+
+waithidden __Download\unzip.exe -o "{pathname of file "bfarchive.zip" of folder "__Download" of client folder of current site}" BFArchive.exe -d "{parameter "InstallationDir"}\Extractors\BFArchive"
+
+
+//
+// Writing .\Bin\Baseline.ps1
+//
+
+delete __createfile
+
+createfile until _end_
+param (
+    $Directory = "C:\",
+    $OutFile = "$(Split-Path $MyInvocation.MyCommand.Path -Parent)\AuthorizedFiles.txt",
+    $Algorithm = "SHA256",
+    $Container = "",
+    $LogFile = "$(Split-Path $MyInvocation.MyCommand.Path -Parent)\AuthorizedFiles.log",
+    $Filter = "*.exe",
+    [switch] $Append = $false,
+    [switch] $FullPath = $false,
+    [switch] $PrintParameters = $true
+)
+
+try {{
+	Add-Type -AssemblyName System.Core
+} catch {{}
+
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+
+    $FormattedMessage = "$((get-date).tostring()) - " + ("|" * (@(get-pscallstack).count - 2)) + "$((get-pscallstack)[1].Location) : $((get-pscallstack)[1].Command) - $Message"
+
+    write-verbose $FormattedMessage;
+
+    $FormattedMessage >> $Logfile
+}
+
+Function get-authorizedfileinfo {{
+    Param(
+        [parameter(Mandatory=$True)]$file,
+        [parameter(Mandatory=$false)][ValidateSet("MD5", "SHA1", "SHA256")]$Algorithm = "SHA256"
+    )
+    Switch ($Algorithm)
+    {{
+        "SHA1"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA1CryptoServiceProvider }
+        "SHA256"  {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+        "MD5"   {{ $AlgorithmObj = New-Object System.Security.Cryptography.MD5CryptoServiceProvider }
+        Default {{ $AlgorithmObj = New-Object System.Security.Cryptography.SHA256CryptoServiceProvider }
+    }
+    $Hashstring = ([System.BitConverter]::ToString($AlgorithmObj.ComputeHash([System.IO.File]::ReadAllBytes($File.FullName)))) -replace ("-","")
+
+    return @{{Hash = $Hashstring; Path = $File.FullName; Name = $File.Name}
+}
+
+if (!($Append)) {{
+    remove-item $LogFile -ErrorAction SilentlyContinue
+    remove-item $OutFile -ErrorAction SilentlyContinue
+}
+
+#Output Supplied Parameters
+if ($PrintParameters) {{
+    write-log "Log File: $LogFile"
+    write-log "Append Output: $Append"
+    write-log "Output File: $OutFile"
+    write-log "Input Directory: $Directory"
+    write-log "File Filter: $Filter"
+    write-log "Hashing Algorithm: $Algorithm"
+    write-log "Destination Container: $Container"
+    write-log "Use Full Path: $FullPath"
+}
+
+#Get File List to Hash
+$Files = @(Get-ChildItem -force -Recurse $Directory -Filter "$Filter" -ErrorAction SilentlyContinue)
+
+if ($Files.count -eq 0) {{ write-log "No Files matching $Filter in $Directory" }
+
+foreach ($File in $Files) {{
+    try {{
+        write-log "Hashing: $($File.FullName)"
+        $FileInfo = get-authorizedfileinfo -file $File -Algorithm $Algorithm
+
+        if (!($FileInfo.Path) -or !($FileInfo.Hash)) {{throw "Invalid Authorized File Info"}
+
+        "$(if($FullPath){{$FileInfo.Path}else{{"*\$($FileInfo.Name)"})`t$($FileInfo.Hash)`t*`tAllow`t$Container" >> $OutFile
+        write-log "Saving $(if($FullPath){{$FileInfo.Path}else{{"*\$($FileInfo.Name)"})`t$($FileInfo.Hash)`t*`tAllow`t$Container to $OutFile"
+    } catch {{
+        write-log "Error Hashing: $File"
+    }
+}
+_end_
+
+delete "{parameter "InstallationDir" of action}\.\Bin\Baseline.ps1"
+copy __createfile "{parameter "InstallationDir"}\.\Bin\Baseline.ps1"
+
+//
+// Writing .\Bin\Devourer.ps1
+//
+
+delete __createfile
+
+createfile until _end_
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+$Warning = 0
+$Information = 1
+$Verbose = 2
+
+function load-config {{
+    param (
+        $Path
+    )
+    [XML] $XML = New-Object System.XML.XMLDocument
+
+    $XML.Load($Path)
+
+    return $XML
+}
+
+function write-log {{
+    param(
+        $Message,
+        [ValidateSet(0,1,2)]
+        $Type = $Information
+    )
+    $LogFile = "$($Configuration.Config.LogDirectory)\FHD-$Runtime.log"
+
+    $FormattedMessage = "$((get-date).tostring()) - " + ("|" * (@(get-pscallstack).count - 2)) + "$((get-pscallstack)[1].Location) : $((get-pscallstack)[1].Command) - $Message"
+
+    if (!$Configuration.Config.LogLevel -or ($Type -le $Configuration.Config.LogLevel)) {{
+        write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+    }
+}
+
+function rotate-logs {{
+    $Logs = @(get-item -Path "$($Configuration.Config.LogDirectory)\*" | ? {{ $_.LastWriteTime -lt (get-date).AddDays(-7) })
+
+    foreach ($Log in $Logs) {{
+        remove-item $Log -ErrorAction SilentlyContinue
+    }
+}
+
+function Process-Extractors {{
+    param (
+        $File,
+        $Staging
+    )
+
+    foreach ($Extractor in $Global:Configuration.Config.Extractor) {{
+        Process-Extractor -Extractor $Extractor -File $File -Staging $Staging
+    }
+
+    return $Staging
+}
+
+function Process-Extractor {{
+    param (
+        $Extractor,
+        $File,
+        $Staging
+    )
+
+	# Dont mess with Folders
+    if ($File -is [System.IO.DirectoryInfo]) {{ write-log "Skipping Folder: $($File.FullName)" -Type $Verbose; return }
+
+    #Match Extractor Filter
+    if ($File.Name -notlike $Extractor.Include) {{ write-log "Skipping File: $($File.name) due to include: $($Extractor.Include)" -Type $Verbose; return }
+    if ($Extractor.Exclude -and $File.Name -like $Extractor.Exclude) {{ write-log "Skipping File: $($File.name) due to exclude: $($Extractor.Include)" -Type $Verbose; return }
+
+    #Swap Command Line Arguments with Values
+    $CmdLine = $Extractor.CmdLine.ToString()
+    $CmdLine = $CmdLine.replace("!Archive!","""$($File.FullName)""")
+    $CmdLine = $CmdLine.replace("!Outdir!","""$Staging""")
+
+    #Process Extraction
+    write-log "Running $($Extractor.exe) $($CmdLine -join " ")" -Type $Verbose
+
+    $proc = start-process -FilePath $Extractor.exe -ArgumentList $CmdLine -PassThru -WindowStyle hidden
+    $proc.WaitForExit()
+
+    write-log "Done running $($Extractor.exe)" -Type $Verbose
+}
+
+function Process-Files {{
+    param (
+        $Files,
+        $Staging,
+        [switch] $Recursive,
+        $Recursion = 1,
+        $MaxRecursion = 3
+    )
+
+    if ($Recursive -and $Recursion -gt $MaxRecursion) {{
+        return
+    }
+
+    write-log "Processing $($Files.Length) $(if ($Recursion -eq 2) {{"child "})$(if ($Recursion -eq 3) {{"grandchild "})Files"
+
+    #Loop through each file that has been recently modified
+    foreach ($File in $Files) {{ # Make 7-Zip Overwrite do not prompt
+
+        #Create Staging Area
+        $Storage = $Staging + "\" + (([GUID]::NewGuid()).guid)
+
+        new-item -Path $Storage -ItemType directory -ErrorAction SilentlyContinue | out-null
+
+        write-log "Processing $(if ($Recursion -eq 2) {{"child "})$(if ($Recursion -eq 3) {{"grandchild "})$($File) in $Storage"
+
+        #Process Archives
+        $Output = Process-Extractors -Staging $Storage -File $File
+
+        #Recurse if necessary
+        if ((Get-ChildItem -Path $Output) -and $Recursive) {{
+            Process-Files -Files @(Get-ChildItem -Path $Output) -Staging $Staging -Recursive -Recursion ($Recursion + 1) | out-null
+        }
+
+        #The Parent Executables need to get hashed in addition to their contents
+        #Nested executables are already captured by the parent so don't copy them again
+        if (($Recursion -eq 1) -and $File.Extension -eq ".exe") {{ copy-item -Path $File.FullName -Destination "$Storage\$($File.Name)" -Container }
+
+        #Baseline whatever we've got so far
+        & "$PSScriptRoot\Baseline.ps1" -Directory $Storage -OutDir $PSScriptRoot -Algorithm $Global:Configuration.Config.Algorithm -Container $Global:Configuration.Config.Container -PrintParameters:$False -Append -LogFile "$($Configuration.Config.LogDirectory)\FHD-$Runtime.log"
+
+        #Cleanup Staging Area
+        remove-item -Path $Storage -Recurse -ErrorAction SilentlyContinue
+    }
+}
+
+$Runtime = (get-date).tostring("yyyyMMdd-HHmmss")
+
+cd $PSScriptRoot
+
+#Load Configuration
+[XML]$Global:Configuration = load-config -Path "$PSScriptRoot\..\Configuration\Config.xml"
+
+write-log "Running from $PSScriptRoot"
+
+if (!(Test-Path "$PSScriptRoot\Import.ps1")) {{ write-log "Could not find Import.ps1 in $PSScriptroot"; exit }
+if (!(Test-Path "$PSScriptRoot\Baseline.ps1")) {{ write-log "Could not find Baseline.ps1 in $PSScriptroot"; exit }
+
+
+#Create Directory Structure
+new-item $($Configuration.Config.LogDirectory) -ItemType directory -ErrorAction SilentlyContinue
+new-item $($Configuration.Config.OutputDirectory) -ItemType directory -ErrorAction SilentlyContinue
+
+if (test-path "$PSScriptRoot\AuthorizedFiles.txt" ) {{
+    write-log "Previous AuthorizedFiles Found -- skipping scan and attempting import."
+
+    & "$PSScriptRoot\Import.ps1" -inputdir $PSScriptRoot -InputFilter "AuthorizedFiles.txt" -LogFile "$($Configuration.Config.LogDirectory)\FHD-$Runtime.log"
+
+} else {{
+
+    foreach ($Repository in $Configuration.Config.Repository) {{
+
+        write-log "Processing $($Repository.Name) at $((resolve-path $Repository.Path).path)"
+        write-log "Skipping files older than $([DateTime]$Repository.TimeStamp)"
+        write-log "Using $($Repository.Staging) for temporary storage"
+
+        #Clean Staging Directory
+        remove-item $Repository.Staging -recurse -ErrorAction SilentlyContinue | out-null
+        new-item $Repository.Staging -ItemType directory -ErrorAction SilentlyContinue | out-null
+
+        #Verify Free Space
+        if ( (get-item  $Repository.Staging).PSDrive.Free -lt ([int64]$Repository.MaxSize * 1.5)) {{
+            write-log "Skipping $($Repository.Name) due to lack of free space. Only $((get-item  $Repository.Staging).PSDrive.Free) bytes free. Minimum is $([int64]$Repository.MaxSize * 1.5) bytes"
+            continue;
+        }
+
+        #Get List of Files older than the TimeStamp in the Repository (Initialize Empty Array for PS <= 2.0)
+        $Files = @(Get-ChildItem -force -Recurse (resolve-path $Repository.Path).path -Filter "*" -ErrorAction SilentlyContinue | ? {{$_.length -lt [int64]$Repository.MaxSize} | ? {{ $_.LastWriteTime -gt ([DateTime]$Repository.TimeStamp) })
+
+        #Process File List
+        Process-Files $Files -Staging (resolve-path $Repository.Staging).path -Recursive
+
+        #Log Message
+        write-log "Done Processing $($Repository.Name) at $((resolve-path $Repository.Path).path)"
+
+        #Update Repository Timestamp
+        $Repository.TimeStamp = (get-date).tostring()
+        write-log "Updating timestamp for $($Repository.Name) to $($Repository.TimeStamp)"
+        $Configuration.Save("$PSScriptRoot\..\Configuration\Config.xml")
+
+    }
+    write-log "Done processing repositories"
+
+    write-log "Backing up AuthorizedFiles to $($Configuration.Config.OutputDirectory)\AuthorizedFiles-$Runtime.txt"
+    copy-item "$PSScriptRoot\AuthorizedFiles.txt" "$($Configuration.Config.OutputDirectory)\AuthorizedFiles-$Runtime.txt" -ErrorAction SilentlyContinue
+
+    write-log "Importing Authorized Files: $PSScriptRoot\AuthorizedFiles.txt"
+    & "$PSScriptRoot\Import.ps1" -inputdir $PSScriptRoot -InputFilter "AuthorizedFiles.txt" -LogFile "$($Configuration.Config.LogDirectory)\FHD-$Runtime.log"
+}
+
+rotate-logs
+
+write-log "Exiting FHD"
+_end_
+
+delete "{parameter "InstallationDir" of action}\.\Bin\Devourer.ps1"
+copy __createfile "{parameter "InstallationDir"}\.\Bin\Devourer.ps1"
+
+//
+// Writing .\Bin\Import.ps1
+//
+
+delete __createfile
+
+createfile until _end_
+param (
+    $InputDir = ".",
+    $InputFilter = "authfiles*.txt",
+    $PwrTech = "${{env:ProgramFiles(x86)}\RES Software\Workspace Manager\PwrTech.exe",
+    $Logfile = "$(Split-Path $MyInvocation.MyCommand.Path -Parent)\Import.log"
+)
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+
+    $FormattedMessage = "$((get-date).tostring()) - " + ("|" * (@(get-pscallstack).count - 2)) + "$((get-pscallstack)[1].Location) : $((get-pscallstack)[1].Command) - $Message"
+
+    write-verbose $FormattedMessage
+
+    $FormattedMessage >> $Logfile
+}
+
+#Get List of Files older than the TimeStamp in the Repository (Initialize Empty Array for PS <= 2.0)
+$Files = @(Get-ChildItem -force -Recurse (resolve-path $InputDir).path -Filter $InputFilter -ErrorAction SilentlyContinue)
+
+if ($Files.count -eq 0) {{ write-log "No Files matching $InputFilter." }
+
+foreach ($File in $Files) {{
+
+    try {{
+        write-log "Processing $($File.FullName)"
+
+        write-log "Deduplicating File Hashes"
+
+        $Hashes = get-content -path $File.FullName
+
+        write-log "Starting with $($Hashes.Count) hashes"
+
+        $Hashes = $Hashes | Sort-Object | Get-Unique
+
+        write-log "Deduplicated down to $($Hashes.count) hashes"
+
+  	    set-content -path $File.FullName -value $Hashes -force
+
+	    write-log "Running: & ""$PwrTech"" /importhashes=""$($File.FullName)"" /createifnotexists"
+
+        $Output = & "$PwrTech" /importhashes="$($File.FullName)" /createifnotexists | Out-String
+
+        write-log $Output
+
+	    if (($Output -join "`r`n") -like "*Finished importing file hashes*") {{
+		    remove-item $File.FullName -erroraction silentlycontinue
+		    write-log "Success. Deleting $($File.FullName)"
+	    } else {{
+		    write-log "Failure. Leaving $($File.FullName)"
+	    }
+
+        write-log "Done Processing $($File.FullName)"
+    } catch {{
+        write-log "Unrecognized Import Failure: $($_.Exception.Message) from $($_.Exception.ItemName)"
+    }
+}
+_end_
+
+delete "{parameter "InstallationDir" of action}\.\Bin\Import.ps1"
+copy __createfile "{parameter "InstallationDir"}\.\Bin\Import.ps1"
+
+//
+// Writing .\Extractors\PATCH_CAB\Handler.ps1
+//
+
+delete __createfile
+
+createfile until _end_
+param (
+    $Path = "C:\Users\EastonB\Desktop\Team Foundation\IBM BigFix\Helpers\File Hash Devourer\Repository\PATCH_CAB",
+    $Output = "C:\Users\EastonB\Desktop\Team Foundation\IBM BigFix\Helpers\File Hash Devourer\Repository\TEST"
+)
+
+$InFile = get-item $Path
+$OutDir = get-item $Output
+
+expand -F:*.exe "$($InFile.FullName)" "$($OutDir.FullName)"
+
+$Files = @(get-childitem -Path $($OutDir.FullName) -Filter "*.exe" -File)
+
+foreach ($File in $Files) {{
+    $Directory = $File.Directory
+
+    $TranslatedName = ($File.Name.Split(".") | select-object -last 2) -join "."
+
+    move-item "$($File.FullName)" "$Directory\$TranslatedName" -force
+}
+_end_
+
+delete "{parameter "InstallationDir" of action}\.\Extractors\PATCH_CAB\Handler.ps1"
+copy __createfile "{parameter "InstallationDir"}\.\Extractors\PATCH_CAB\Handler.ps1"
+
+//
+// Writing Configuration\Config.xml
+//
+
+delete __createfile
+
+createfile until _end_
+<Config>
+  <Container></Container>
+  <Algorithm>SHA256</Algorithm>
+  <LogDirectory>..\Logs</LogDirectory>
+  <OutputDirectory>..\Output</OutputDirectory>
+  <Type>Delta</Type>
+  <LogLevel>1</LogLevel>
+  <Repository Name="SHA1">
+    <Path>{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client}\bfmirror\downloads\sha1</Path>
+    <Staging>..\Staging\SHA1</Staging>
+    <TimeStamp>{((it as text) of select "Config/Repository[@Name='SHA1']/TimeStamp" of xml documents of files "Configuration\Config.xml" of folders (parameter "InstallationDir")) | "1/1/0001 12:00:00 AM"}</TimeStamp>
+    <MaxSize>10737418240</MaxSize>
+  </Repository>
+   <Repository Name="Uploads">
+    <Path>{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client}\Uploads</Path>
+    <Staging>..\Staging\Uploads</Staging>
+    <TimeStamp>{((it as text) of select "Config/Repository[@Name='Uploads']/TimeStamp" of xml documents of files "Configuration\Config.xml" of folders (parameter "InstallationDir")) | "1/1/0001 12:00:00 AM"}</TimeStamp>
+    <MaxSize>10737418240</MaxSize>
+  </Repository>
+  <Extractor Name="BFArchive">
+    <Exe>..\Extractors\BFArchive\BFArchive.exe</Exe>
+    <Include>*</Include>
+    <Exclude></Exclude>
+    <CmdLine>-x !Archive! !Outdir!</CmdLine>
+  </Extractor>
+  <Extractor Name="7Zip">
+    <Exe>..\Extractors\7zip\7z.exe</Exe>
+    <Include>*</Include>
+    <Exclude>*PATCH_CAB*</Exclude>
+    <CmdLine>x !Archive! -o!Outdir! *.exe *.msi *.msp *.msu *PATCH_CAB* -y -p1 -r</CmdLine>
+  </Extractor>
+  <Extractor Name="PATCH_CAB">
+    <Exe>powershell.exe</Exe>
+    <Include>*PATCH_CAB*</Include>
+    <Exclude></Exclude>
+    <CmdLine>-executionpolicy bypass -file "..\Extractors\PATCH_CAB\Handler.ps1" -Path !Archive! -Output !Outdir!</CmdLine>
+  </Extractor>
+</Config>
+_end_
+
+delete "{parameter "InstallationDir" of action}\Configuration\Config.xml"
+copy __createfile "{parameter "InstallationDir"}\Configuration\Config.xml"
+
+//
+// Writing .\Bin\Version.xml
+//
+
+delete __createfile
+
+createfile until _end_
+<Devourer>
+	<Version>0.8.0</Version>
+</Devourer>
+_end_
+
+delete "{parameter "InstallationDir" of action}\.\Bin\Version.xml"
+copy __createfile "{parameter "InstallationDir"}\.\Bin\Version.xml"
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

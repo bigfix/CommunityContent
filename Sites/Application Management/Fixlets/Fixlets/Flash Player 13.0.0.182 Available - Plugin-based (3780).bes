@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Flash Player 13.0.0.182 Available - Plugin-based
+  ID       : 3780
+  Author   : techpppp
+  Domain   : BESC
+  Imported : 2014-04-28T06:02:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Flash Player 13.0.0.182 Available - Plugin-based</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD><FONT size=2>
+<P><B> Relevance changed to avoid overwriting installations of the "content debugger" </B></P>
+<P>Adobe has released a new version of the Flash Player Plugin (13.0.0.182) for Netscape-based browsers. Use the action below to update Flash Player to the latest version.</P>
+<P><STRONG>Note:</STRONG> Affected computers may report back as 'Pending Restart' once the update has run successfully, but will not report back their final status until the computer has been restarted.</P>
+<P><B>Note:</B> Client machines may briefly display progress windows during installation of this update.</P>
+<P><FONT color=red><B>Important Note:</B></FONT> If the Flash Player is running, a pop-up message may be displayed prompting the user to reboot their computer once the update is complete. The action will not complete until the prompt is closed. To prevent this behavior, you may want to deploy this action with the user constraint "Run only when no user is present" or display a message box before action execution instructing the user to shut down all web browsers before applying this update.<BR><BR><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> Choosing the "Upgrade to Flash Player regardless of whether or not Firefox running action" will close any running instance of Firefox on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable</P></FONT></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>17.1 MB </DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2014-0506; CVE-2014-0507; CVE-2014-0508; CVE-2014-0509 </DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(exists folder &quot;macromed\flash&quot; of system folder AND (exists file whose ((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;swflash&quot; and it ends with &quot;.ocx&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder OR exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder &quot;macromed\flash&quot; of system folder))  OR (exists key &quot;HKLM\Software\Mozilla&quot; whose (exists key whose (name of it does not contain &quot;Netscape&quot; AND exists key &quot;Extensions&quot; whose (exists file whose ((it starts with &quot;npswf32&quot; and it ends with &quot;.dll&quot;) of (name of it as lowercase)) of folder (value &quot;Plugins&quot; of it as string)) of it) of it) of registry)</Relevance>
+    <Relevance>not exists values &quot;PROCESSOR_ARCHITECTURE&quot; whose (it as string as lowercase = &quot;ia64&quot;) of keys &quot;HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment&quot; of registry</Relevance>
+    <Relevance><![CDATA[(exists folder "Macromed\Flash" whose (exists file whose (version of it < "13.0.0.182" AND name of it as string contains "NPSWF32" AND name of it as string contains ".dll") of it) of system folder) OR (exists key "HKLM\Software\Mozilla" whose (exists key whose (name of it does not contain "Netscape" AND exists key "Extensions" whose (exists file "NPSWF32.dll" whose (version of it < "13.0.0.182") of folder (value "Plugins" of it as string)) of it) of it) of registry)]]></Relevance>
+    <Relevance>(it != &quot;WinNT&quot; AND it != &quot;Win95&quot; AND it != &quot;Win2000&quot;) of name of operating system</Relevance>
+    <Relevance>exists value whose (name of it is &quot;isScriptDebugger&quot; and it is 0) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Macromedia\FlashPlayerPlugin&quot; of registry</Relevance>
+    <Category>Security Update</Category>
+    <Source>Adobe</Source>
+    <SourceID>APSB14-09</SourceID>
+    <SourceReleaseDate>2014-04-08</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2014-0506; CVE-2014-0507; CVE-2014-0508; CVE-2014-0509</CVENames>
+    <SANSID>SANS C4</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 09 Apr 2014 10:25:32 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Adobe FlashPlayer</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 25 Apr 2014 09:19:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch install_flash_player_13_plugin.exe sha1:068ce8a17038579704272583c39b5ca0f65f16f5 size:17929904 http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_13_plugin.exe sha256:f578925c50816119f22d5bee36a8f11ad2c20c07e7490c7db22c6274955194b5
+
+wait __Download\install_flash_player_13_plugin.exe /install
+
+action may require restart &quot;068ce8a17038579704272583c39b5ca0f65f16f5&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action4120">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Flash Player regardless of whether Firefox is running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch install_flash_player_13_plugin.exe sha1:068ce8a17038579704272583c39b5ca0f65f16f5 size:17929904 http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_13_plugin.exe sha256:f578925c50816119f22d5bee36a8f11ad2c20c07e7490c7db22c6274955194b5
+
+
+waithidden {if (name of operating system = &quot;WinXP&quot; AND personal bit (suite mask of operating system)) then &quot;tskill firefox /a&quot; else &quot;taskkill /F /IM firefox.exe&quot;}
+
+wait __Download\install_flash_player_13_plugin.exe /install
+
+action may require restart &quot;068ce8a17038579704272583c39b5ca0f65f16f5&quot;</ActionScript>
+    </Action>
+    <Action ID="Action4121">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information from Adobe.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/support/flashplayer/downloads.html</ActionScript>
+    </Action>
+    <Action ID="Action4122">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Adobe.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/support/security/#flashplayer</ActionScript>
+    </Action>
+    <Action ID="Action4123">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information from SANS on vulnerabilities in media player applications.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c4</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

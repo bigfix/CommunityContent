@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : TSM - Configure Tivoli Storage Manager if dsm.opt is missing - Windows
+  ID       : 811
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-07T08:37:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>TSM - Configure Tivoli Storage Manager if dsm.opt is missing - Windows</Title>
+    <Description><![CDATA[<P>This action will configure TSM</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://pic.dhe.ibm.com/infocenter/tsmfbinf/v6/index.jsp?topic=%2Fcom.ibm.itsm.fbws.doc%2Fhelp%2Fref%2Fcdp_ref_InstallCmdSyntax.html">http://pic.dhe.ibm.com/infocenter/tsmfbinf/v6/index.jsp?topic=%2Fcom.ibm.itsm.fbws.doc%2Fhelp%2Fref%2Fcdp_ref_InstallCmdSyntax.html</A>?<BR><A href="http://pic.dhe.ibm.com/infocenter/tsminfo/v6r2/index.jsp?topic=%2Fcom.ibm.itsm.client.doc%2Fc_cfg_dsmcutil_cmdwin.html">http://pic.dhe.ibm.com/infocenter/tsminfo/v6r2/index.jsp?topic=%2Fcom.ibm.itsm.client.doc%2Fc_cfg_dsmcutil_cmdwin.html</A>?<BR><A href="http://www.itninja.com/software/tivoli/tivoli-storage-manager/3-383">http://www.itninja.com/software/tivoli/tivoli-storage-manager/3-383</A>?</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key whose(&quot;IBM Tivoli Storage Manager Client&quot; = value &quot;DisplayName&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry</Relevance>
+    <Relevance>exists folder &quot;C:\Program Files\Tivoli\TSM\baclient&quot;</Relevance>
+    <Relevance>exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmcutil.exe&quot;</Relevance>
+    <Relevance>exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsmc.exe&quot;</Relevance>
+    <Relevance>not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;</Relevance>
+    <Category>Configuration &amp; Setup</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2012-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 07 Dec 2012 14:38:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "TSMserver" = "www.domain.tld"
+parameter "NodeSuffix" = ""
+parameter "RandomPassword" = {(sha1 of (computer name & (concatenation "; " of (mac addresses of adapters of network as string)) & now as string) as string)}
+delete __createfile
+delete dsm.opt
+createfile until END_OF_CREATE_FILE
+NODENAME {computer name}{parameter "NodeSuffix"}
+PASSWORDACCESS GENERATE
+TCPSERVERADDRESS {parameter "TSMserver" of action}
+BACKUPREGISTRY NO
+EXCLUDE "C:\…\*"
+INCLUDE "C:\Users\…\*"
+ERRORLOGRETENTION 30 D
+SCHEDLOGRETENTION 15 D
+DOMAIN "\\{computer name}\c$"
+END_OF_CREATE_FILE
+move __createfile dsm.opt
+delete "C:\Program Files\Tivoli\TSM\baclient\dsm.opt"
+copy dsm.opt "C:\Program Files\Tivoli\TSM\baclient\dsm.opt"
+//waithidden "C:\Program Files\Tivoli\TSM\baclient\dsmc.exe" set password changepass {parameter "RandomPassword"}
+delete __createfile
+delete dsmc_setup.bat
+createfile until END_OF_CREATE_FILE2
+c:
+cd\
+cd "%programfiles%\tivoli\tsm\baclient"
+dsmc set password changepass {parameter "RandomPassword"}
+END_OF_CREATE_FILE2
+move __createfile dsmc_setup.bat
+waithidden dsmc_setup.bat
+waithidden "C:\Program Files\Tivoli\TSM\baclient\dsmcutil.exe" install scheduler /name:"TSM Scheduler Service" /password:{parameter "RandomPassword"} /node:{computer name}{parameter "NodeSuffix"} /autostart:yes /clientdir:"C:\Program Files\Tivoli\TSM\baclient" /optfile:"C:\Program Files\Tivoli\TSM\baclient\dsm.opt"
+waithidden "C:\Program Files\Tivoli\TSM\baclient\dsmcutil.exe" install cad /name:"TSM Acceptor Service" /node:{computer name}{parameter "NodeSuffix"} /password:{parameter "RandomPassword"} /autostart:yes /clientdir:"C:\Program Files\Tivoli\TSM\baclient" /optfile:"C:\Program Files\Tivoli\TSM\baclient\dsm.opt"
+waithidden cmd /c net start "TSM Scheduler Service"
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(not exists file &quot;C:\Program Files\Tivoli\TSM\baclient\dsm.opt&quot;) OR (not exists service whose(&quot;TSM Scheduler Service&quot; = display name of it AND &quot;Running&quot; = state of it))</SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

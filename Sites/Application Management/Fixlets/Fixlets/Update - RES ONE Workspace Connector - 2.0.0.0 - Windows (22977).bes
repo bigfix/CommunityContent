@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace Connector - 2.0.0.0 - Windows
+  ID       : 22977
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace Connector - 2.0.0.0 - Windows</Title>
+    <Description><![CDATA[<P>Updates the RES ONE Workspace Connector!</P>]]></Description>
+    <Relevance>exists service &quot;BESPluginService&quot;</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[exists main gather service whose (version of it >= "9")]]></Relevance>
+    <Relevance><![CDATA[/* RES2BES is out of date */ exists files "res2bes.exe" whose (version of it < "2.0.0.0") of folders (value "path" of key "HKLM\SOFTWARE\BigFix\Enterprise Server\Applications\res2bes" of registry as string)]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action23976">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+prefetch RES2BES.exe sha1:C3F77A5038225B4D255027F1D33C750A0FD88F4C size:166248 http://downloads.ressoftware.com/downloads/cdm/res2bes/2.0.0.0/RES2BES.exe sha256:3AF3EB030830C62D2B6F499D6243A6D45A3B94BE505FBED734E89322CBAD4A15
+
+
+parameter &quot;pluginVersion&quot; = &quot;2.0.0.0&quot;
+parameter &quot;serverFolder&quot; = &quot;{parent folder of file (following text of first &quot;%22&quot; of (image path of main gather service as string))}&quot;
+parameter &quot;pluginsFolder&quot; = &quot;{parameter &quot;serverFolder&quot;}\Applications&quot;
+parameter &quot;configFolder&quot; = &quot;{parameter &quot;pluginsFolder&quot;}\Config&quot;
+parameter &quot;pluginFolder&quot; = &quot;{parameter &quot;pluginsFolder&quot;}\res2bes&quot;
+
+delete &quot;{parameter &quot;pluginFolder&quot;}\res2bes.exe&quot;
+move &quot;__Download\RES2BES.exe&quot; &quot;{parameter &quot;pluginFolder&quot;}\res2bes.exe&quot;
+
+// configure plugin
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\res2bes]&quot; &quot;Installation Time&quot;=&quot;{now}&quot;
+regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\Applications\res2bes]&quot; &quot;Version&quot;=&quot;{parameter &quot;pluginVersion&quot;}&quot;
+
+notify client forcerefresh</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

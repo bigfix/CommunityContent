@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Google Chrome - Newest Version - Windows
+  ID       : 3702
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-24T11:33:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Google Chrome - Newest Version - Windows</Title>
+    <Description><![CDATA[<P>This task will attempt to install / upgrade Google Chrome.</P>
+<P><STRONG>Warning:</STRONG> This task does not at all verify the Google Chrome Download due to Chrome's rapid release cycle. This is a potential security issue. The fact that the download is over SSL only partially mitigates this issue.</P>
+<P>&nbsp;</P>
+<P>Find the latest version of this Task here:&nbsp; <A href="http://bigfix.me/fixlet/details/3701">http://bigfix.me/fixlet/details/3701</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Only Relevant if Chrome is not installed, or it was installed more than 30 days ago */ not exists key whose(value "DisplayName" of it as string starts with "Google Chrome" AND ((now - last write time of it) < 30*day)) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-01-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 24 Jan 2014 18:33:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download Google Chrome
+download https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BD62DB895-8244-5C7A-597A-9705708D86DB%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi
+
+// WARNING - this will not verify the download at all because it will change regularly.
+//   -Might add a check to see if the download is over 10mb (10*1024*1024)
+
+//install Chrome
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\GoogleChromeStandaloneEnterprise.msi"}" /qn /norestart
+
+// These MSI options don't seem to work anymore: DESKTOP_SHORTCUT=0 MAKEDEFAULT=0
+
+// delete the Google Chrome Desktop Shortcut
+if{exists file "Google Chrome.lnk" of (folder "C:\Users\Public\Desktop" | folder "C:\Documents and Settings\All Users\Desktop")}
+	delete "{pathname of file "Google Chrome.lnk" of (folder "C:\Users\Public\Desktop" | folder "C:\Documents and Settings\All Users\Desktop")}"
+endif]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : TSM - Configure Tivoli Storage Manager if dsm.opt is missing - Apple
+  ID       : 832
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-13T11:44:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>TSM - Configure Tivoli Storage Manager if dsm.opt is missing - Apple</Title>
+    <Description><![CDATA[<P>This action will configure TSM</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://pic.dhe.ibm.com/infocenter/tsmfbinf/v6/index.jsp?topic=%2Fcom.ibm.itsm.fbws.doc%2Fhelp%2Fref%2Fcdp_ref_InstallCmdSyntax.html">http://pic.dhe.ibm.com/infocenter/tsmfbinf/v6/index.jsp?topic=%2Fcom.ibm.itsm.fbws.doc%2Fhelp%2Fref%2Fcdp_ref_InstallCmdSyntax.html</A><BR><A href="http://pic.dhe.ibm.com/infocenter/tsminfo/v6r2/index.jsp?topic=%2Fcom.ibm.itsm.client.doc%2Fc_cfg_dsmcutil_cmdwin.html">http://pic.dhe.ibm.com/infocenter/tsminfo/v6r2/index.jsp?topic=%2Fcom.ibm.itsm.client.doc%2Fc_cfg_dsmcutil_cmdwin.html</A><BR><A href="http://www.itninja.com/software/tivoli/tivoli-storage-manager/3-383">http://www.itninja.com/software/tivoli/tivoli-storage-manager/3-383</A></P>]]></Description>
+    <Relevance>(name of operating system = &quot;Mac OS X&quot;) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>exists folder &quot;/Applications/Tivoli Storage Manager&quot;</Relevance>
+    <Relevance>exists file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/dsmcad&quot;</Relevance>
+    <Relevance>exists file &quot;/Library/Application Support/tivoli/tsm/client/ba/bin/dsmagent&quot;</Relevance>
+    <Relevance>not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot; OR not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot;</Relevance>
+    <Category>Configuration &amp; Setup</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2012-11-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 13 Dec 2012 17:45:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "TSMserver" with description "Specify the TSM backup server" and with default value "server.domain.tld"
+parameter "NodeSuffix" = ""
+// This is a fairly random password that will be changed automatically due to the "PASSWORDACCESS GENERATE" in dsm.opt
+parameter "RandomPassword" = "{((sha1 of (computer name & now as string)) as string)}"
+delete __appendfile
+appendfile SERVERNAME {parameter "TSMserver" of action}
+move __appendfile "/Library/Preferences/Tivoli Storage Manager/dsm.opt"
+delete __createfile
+createfile until END_OF_CREATE_FILE
+SERVERNAME {parameter "TSMserver"}
+NODENAME {computer name}{parameter "NodeSuffix"}
+PASSWORDACCESS GENERATE
+TCPSERVERADDRESS {parameter "TSMserver" of action}
+ERRORLOGRETENTION 30 D
+SCHEDLOGRETENTION 15 D
+DOMAIN "/"
+EXCLUDE ".../*"
+INCLUDE "/Users/.../*"
+EXCLUDE "/Users/etcadmin/.../*"
+EXCLUDE.DIR "/Users/.../Library/Caches"
+EXCLUDE.DIR "/.../.Trashes"
+EXCLUDE.DIR "/.../.Trash"
+EXCLUDE.DIR "/.../Library/Caches"
+EXCLUDE.DIR "/.../.Spotlight-V100"
+END_OF_CREATE_FILE
+delete "/Library/Preferences/Tivoli Storage Manager/dsm.sys"
+move __createfile "/Library/Preferences/Tivoli Storage Manager/dsm.sys"
+if{not exists file "/Library/StartupItems/dsmcad" AND exists file "/Library/Application Support/tivoli/tsm/client/ba/bin/TsmBaDsmcadStartupItem.pkg"}
+// Need to silently run the startup creation package: TsmBaDsmcadStartupItem.pkg
+endif
+delete "{(client folder of current site as string) & "/__appendfile"}"
+appendfile #!/bin/sh
+appendfile /bin/sleep 2
+appendfile /sbin/SystemStarter stop dsmcad
+appendfile /usr/libexec/ApplicationFirewall/socketfilterfw --add /Library/Application\ Support/tivoli/tsm/client/ba/bin/dsmcad
+appendfile /usr/libexec/ApplicationFirewall/socketfilterfw --add /Library/Application\ Support/tivoli/tsm/client/ba/bin/dsmagent
+appendfile /bin/sleep 2
+//The password must be changed to "changepass" on the TSM console before running this action, otherwise this will hang. You can also change this to whatever the current password is, or a different temporary password
+appendfile /Library/Application\ Support/tivoli/tsm/client/ba/bin/dsmc set password changepass {parameter "RandomPassword"}
+appendfile /bin/sleep 2
+appendfile /sbin/SystemStarter start dsmcad
+appendfile exit 0
+wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}
+run "/Library/Application Support/tivoli/tsm/client/ba/bin/dsmc" incr]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.opt&quot; OR not exists file &quot;/Library/Preferences/Tivoli Storage Manager/dsm.sys&quot; OR not exists processes whose (name of it = &quot;dsmcad&quot;)</SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

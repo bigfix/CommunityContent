@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : RC - Generate new GUID for BigFIx RC Targets - Windows
+  ID       : 27386
+  Author   : Jack
+  Domain   : BESC
+  Imported : 2025-09-09T16:47:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>RC - Generate new GUID for BigFIx RC Targets - Windows</Title>
+    <Description><![CDATA[Kills the BigFix Remote Control Target Processes, resets the config file to remove the GUID if it exists, then starts the service. <BR>Related to <A href="https://support.hcl-software.com/csm?id=kb_article&amp;sysparm_article=KB0120396">https://support.hcl-software.com/csm?id=kb_article&amp;sysparm_article=KB0120396</A> ]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-08-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 09 Sep 2025 23:45:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete __createfile
+createfile until __ENDCREATE
+__ENDCREATE
+
+waithidden cmd.exe /C taskkill /im trc_base.exe /f
+waithidden cmd.exe /C taskkill /im trc_gui.exe /f
+pause while {exists running application &quot;trc_base.exe&quot;}
+pause while {exists running application &quot;trc_gui.exe&quot;}
+
+if {exists file &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot;}
+copy &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot; &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties.bak&quot;
+delete &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot;
+endif
+
+copy __createfile &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot;
+
+waithidden cmd.exe /C sc start trctarget
+
+delete __createfile
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

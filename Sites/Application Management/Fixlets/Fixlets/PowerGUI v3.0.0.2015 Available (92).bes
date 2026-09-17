@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : PowerGUI v3.0.0.2015 Available
+  ID       : 92
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>PowerGUI v3.0.0.2015 Available</Title>
+    <Description>Install the PowerGUI editor for PowerShell Scripting. </Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine&quot; whose (value &quot;PowerShellVersion&quot; of it as string = &quot;2.0&quot;) of registry</Relevance>
+    <Relevance>if NOT (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Quest Software\PowerGUI&quot; of registry) then true else ( if (NOT (exists value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Quest Software\PowerGUI&quot; of registry)) then true else if (NOT (exists folder (value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Quest Software\PowerGUI&quot; of registry as string))) then true else NOT( exists file &quot;ScriptEditor.exe&quot; whose (version of it = &quot;3.0.0.2015&quot;) of folder (value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Quest Software\PowerGUI&quot; of registry as string) ) )</Relevance>
+    <Category>Update</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-07-15</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:23:27 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+download http://community-downloads.quest.com/powergui/Release/3.0/PowerGUI.3.0.0.2015.msi
+continue if {(size of it = 14258176 AND sha1 of it = "7f9cac3a9b752219d877076b4babe051e4986aea") of file "PowerGUI.3.0.0.2015.msi" of folder "__Download"}
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\PowerGUI.3.0.0.2015.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action239">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about PowerGUI.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.powergui.org</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

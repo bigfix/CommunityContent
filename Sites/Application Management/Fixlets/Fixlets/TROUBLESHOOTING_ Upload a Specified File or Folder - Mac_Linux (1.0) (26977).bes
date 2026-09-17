@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : TROUBLESHOOTING: Upload a Specified File or Folder - Mac/Linux (1.0)
+  ID       : 26977
+  Author   : dmccalla
+  Domain   : BESC
+  Imported : 2022-11-17T13:39:40
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>TROUBLESHOOTING: Upload a Specified File or Folder - Mac/Linux (1.0)</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=4>TROUBLESHOOTING:&nbsp; Upload a Specified File or Folder - Mac/Linux&nbsp;(1.0)</FONT></STRONG></P>
+<P><STRONG><FONT size=3>Description</FONT></STRONG></P>
+<P>This task will&nbsp;compress&nbsp;the file or folder with the&nbsp;native tar.gz for Mac and Linux machines.&nbsp; It will then upload the resulting&nbsp;compressed file&nbsp;to the Bigfix server.&nbsp;<STRONG> </STRONG></P>
+<P><STRONG>IMPORTANT</STRONG>: To specify a folder, leave a trailing slash on the file name prompt.&nbsp; To upload the logs from the Bigfix client folder from a Linux machine, for instance, use this:</P>
+<UL>
+<LI>/var/opt/BES Client/__BESData/__Global/Logs/</LI></UL>
+<P>A single file needs a full path, this sample will upload the&nbsp;realy log&nbsp;file from&nbsp;a Linux-based relay&nbsp;server:</P>
+<UL>
+<LI>/var/log/BESRelay.log</LI></UL>
+<P><STRONG><FONT size=3>Deployment Notes</FONT></STRONG></P>
+<UL>
+<LI>Run this only when needed.
+<LI>This fixlet will exit with code 413 if the combined file size of the target files is over <STRONG>100MB </STRONG>and will exist&nbsp;with a code 404 if the file or folder does not exist on the endpoint.&nbsp;&nbsp;.
+<LI>To locate the compressed files, you must have access to the file system of the Bigfix root server and know the computer ID of the computer that you want to find the files for.&nbsp; The filename ends in fileupload.cab or fileupload.tar.gz and the path for each computer ID will look like this:</LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P><STRONG>&lt;Bigfix server install folder&gt;\UploadManagerData\BufferDir\sha1\&lt;last two digits of computer ID&gt;\&lt;full computer ID&gt;</STRONG></P></BLOCKQUOTE>
+<UL>
+<LI>As an alternative to digging into the UploadManagerData folder structure, there is an accompanying task named <STRONG><EM>"TROUBLESHOOTING: File or Folder Uploads Monitor"</EM></STRONG> which&nbsp;can be used to monitor for file uploads on the&nbsp;root&nbsp;server&nbsp;that are a result of this task and then&nbsp;move them to a specific folder for easier consumption.
+<LI>This fixlet has a hardcoded secure parameter to prevent targeting endpoints by property, this reduces the risk of an unintentional DDoS on your infrastructure.&nbsp; To disable this behavior, make a copy of this fixlet and remove the script element below this text.</LI></UL>
+<P><script>			document.body.ontakeaction = function() {
+
+				TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", {}, {encryptedvariable: 'ThisPreventsPropertyTargeting' } );
+				return false;
+			}</script></P>
+<DIV><STRONG><FONT size=3>Supported Platforms</FONT></STRONG></DIV>
+<P><FONT size=2>All versions of Mac and&nbsp;Linux currently supported by the BigFix client.</FONT></P>
+<P><BR><STRONG><FONT size=3>Version and Release Info</FONT></STRONG></P>
+<P>1.0.0 -- Initial Version </P>]]></Description>
+    <Relevance>/* MAC OR LINUX */ mac of operating system OR name of operating system as lowercase contains &quot;linux&quot;</Relevance>
+    <Category>BigFix AVP</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-03-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 17 Nov 2022 20:30:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action log all
+
+//* ====================================================================================================>
+//*
+//*     DESCRIPTION AND NOTES
+//*
+//*     - This task will upload speciifed files or folders to the root server.
+//*
+//* ====================================================================================================>
+
+
+//* ====================================================================================================>
+//*
+//*     SET SOME PARAMETERS
+//*
+//*     - These parameters can be used to control the behavior of the action
+//*
+//* ====================================================================================================>
+
+action parameter query "FilePath" with description "Please enter full path to file or folder.  Leave a trailing trailing / for Mac/Linux to indicate folder upload mode."
+parameter "Exportfolder" = "{data folder of client as string & ("/FileUploader/")}"
+parameter "maximumfilesizeMB" = "100"
+
+//action uses wow64 redirection false
+
+//create working directory
+folder create "{parameter "Exportfolder"}"
+
+//enter single or multiple file copy - we don't need different logic for those on mac/linux
+//check sizing
+if {sum of sizes of files of folder (parameter "FilePath")|0/1024/1024 > parameter "maximumfilesizeMB" as integer}
+		exit 413
+	//check existance
+	elseif {if ((character (length of it - 1) of it) of parameter "FilePath" = "/") then (not exists folder (parameter "FilePath")) else (not exists file (parameter "FilePath"))}
+		exit 404
+endif
+	//remove old stuff
+ 	folder delete "{parameter "Exportfolder" & "temp"}"
+	//fresh working folder
+	folder create "{parameter "Exportfolder" & "temp"}"
+	//copy file or folder to BigFix temp folder
+	wait cp -R "{parameter "FilePath"}" "{parameter "Exportfolder" & "temp"}"
+
+	parameter "timestamp" = "{(((month of it as two digits & "-" & day_of_month of it as two digits & "-" & year of it as string) of date(local time zone) of it & "_" & (two digit hour of it as string & two digit minute of it as string) of time (local time zone) of it) of now)}"
+
+	//compress and remove directory structure - this is just the option I chose since I think it extracts cleaner
+	wait tar -zcvf "{parameter "Exportfolder"}{(computer name as lowercase & "_" & parameter "timestamp" & "_fileupload.tar.gz")}" -C "{parameter "Exportfolder" & "temp"}" .
+
+//save existing ArchiveManager settings
+parameter "prevOperatingMode" = "{if (exists setting whose (name of it = "_BESClient_ArchiveManager_OperatingMode" and exists value of it) of client) then value of setting "_BESClient_ArchiveManager_OperatingMode" of client else "0"}"
+parameter "prevMaxArchiveSize" = "{if (exists setting whose (name of it = "_BESClient_ArchiveManager_MaxArchiveSize" and exists value of it) of client) then value of setting "_BESClient_ArchiveManager_MaxArchiveSize" of client else "52428800"}"
+
+//limit upload results to 100MB and start the upload asap.
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="109715200" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-AVPFileUpload"="{parameter "Exportfolder"}{(computer name as lowercase & "_" & parameter "timestamp" & "_fileupload.tar.gz")}" on "{parameter "action issue date" of action}" for client
+archive now
+
+//restore previous ArchiveManager settings
+setting "_BESClient_ArchiveManager_OperatingMode"="{parameter "prevOperatingMode"}" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="{parameter "prevMaxArchiveSize"}" on "{parameter "action issue date" of action}" for client
+
+//cleanup after ourselves
+folder delete "{parameter "Exportfolder" & "temp"}"
+delete "{parameter "Exportfolder"}{(computer name as lowercase & "_" & parameter "timestamp" & "_fileupload.tar.gz")}"]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

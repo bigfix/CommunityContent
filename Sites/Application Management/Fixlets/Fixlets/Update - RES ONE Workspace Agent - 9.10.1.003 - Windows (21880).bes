@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace Agent - 9.10.1.003 - Windows
+  ID       : 21880
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-10-03T16:46:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace Agent - 9.10.1.003 - Windows</Title>
+    <Description><![CDATA[<P>Updates an existing 9.10.1.0 agent to hotfix level 9.10.1.003.</P>
+<P>This Hotfix applies only to Agents.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")]]></Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager&quot; whose (value &quot;Version&quot; of it as string as version = &quot;9.10.1.0&quot; as version) of x32 registry</Relevance>
+    <Category>Upgrade</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-10-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-10-03
+prefetch Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha1:71B269170D2288689F295FEE57C7C7E47799CBFB size:6132584 http://downloads.ressoftware.com/downloads/cdm/040116/Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha256:70A250F4F7B2B14B332AC4E1919A9329CA5B8B7DB2814791965BC9A32A347B0F
+waithidden &quot;__Download\Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

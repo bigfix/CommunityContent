@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall: Ask Toolbar
+  ID       : 788
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T22:03:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall: Ask Toolbar</Title>
+    <Description><![CDATA[This fixlet uninstalls the&nbsp;Ask Toolbar ]]></Description>
+    <Relevance>Exists key whose (value &quot;displayname&quot; of it as string = &quot;Ask Toolbar&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 18 Feb 2011 16:00:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string = &quot;Ask Toolbar&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

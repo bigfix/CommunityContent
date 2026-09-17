@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : <Software Updates>: Upgrade - Adobe Acrobat Reader DC - 15.010.20060 (Windows)
+  ID       : 9271
+  Author   : cdh
+  Domain   : BESC
+  Imported : 2016-03-08T12:32:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>&lt;Software Updates&gt;: Upgrade - Adobe Acrobat Reader DC - 15.010.20060 (Windows)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This patches in the <A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/whatsnewdc.html#continuous-track"><FONT color=#0066cc>continuous track</FONT></A>.&nbsp; <BR><BR>Adobe Acrobat Reader DC Updates <A href="http://www.adobe.com/support/downloads/product.jsp?platform=windows&amp;product=10"><FONT color=#0066cc>Link</FONT></A><BR><BR>Updated on 2016-03-08</P></TD></TR></TBODY></TABLE><BR>This update disables Adobe Updater for all Adobe applications.</P>
+<P><B>Note:</B> Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P>
+<P><SPAN id=fixletLinks><FONT color=#ff0000><STRONG>Important Note:</STRONG></FONT></SPAN> If Adobe Acrobat Reader is installed, this update may modify existing .PDF file associations to point to Adobe Acrobat Reader.<BR></P><SPAN id=fixletLinks><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> Choosing the "Upgrade Adobe Acrobat Reader regardless of whether or not Adobe Acrobat Reader is running" action will close any running instance of Adobe Reader on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable</SPAN></TD></TR></TBODY></TABLE></DIV>]]></Description>
+    <Relevance>exists regapp &quot;acrord32.exe&quot;</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Acrobat Reader\DC&quot; of it) of registry</Relevance>
+    <Relevance>not (exists key whose (value whose (name of it contains &quot;DisplayName&quot;) of it as string contains &quot;Adobe Acrobat 5.0&quot; AND exists value &quot;UninstallString&quot; of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry AND not exists regapp &quot;acrobat.exe&quot; whose (version of it = &quot;5&quot;))</Relevance>
+    <Relevance><![CDATA[(exists key whose ((((it = "Adobe Acrobat Reader DC") AND (it does not contain "MUI")) of (value "DisplayName" of it as string)) AND (it >= "15.0.0" AND it < "15.010.20060") of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
+    <Category>Software Updates</Category>
+    <SourceReleaseDate>2015-01-04</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <SANSID>SANS C2</SANSID>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 13 Oct 2015 22:38:32 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Adobe Reader</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Mar 2016 19:09:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat Reader.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AdbeRdrUpd.msp sha1:f46002c7e1e49b8f2d41616b2cb9678642811eac size:64245760 http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1501020060/AcroRdrDCUpd1501020060.msp sha256:9d518715c61b112b05731afb3f81227bb46eeceefbe9a4872eeec499cb77d05e
+
+waithidden msiexec.exe /p &quot;__Download\AdbeRdrUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+delete __appendfile
+appendfile REGEDIT4
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Acrobat Reader\DC\AdobeViewer]
+appendfile &quot;EULA&quot;=dword:00000001
+appendfile &quot;Launched&quot;=dword:00000001
+appendfile
+
+// Disable the updater
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe ARM\1.0\ARM]
+appendfile &quot;iCheck&quot;=dword:00000000
+appendfile
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+appendfile &quot;Adobe ARM&quot;=-
+appendfile
+
+delete temp.reg
+
+move __appendfile temp.reg
+
+wait regedit -s temp.reg
+
+action may require restart &quot;f46002c7e1e49b8f2d41616b2cb9678642811eac&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action9994">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat Reader regardless of whether or not Adobe Acrobat Reader is running</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AdbeRdrUpd.msp sha1:f46002c7e1e49b8f2d41616b2cb9678642811eac size:64245760 http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1501020060/AcroRdrDCUpd1501020060.msp sha256:9d518715c61b112b05731afb3f81227bb46eeceefbe9a4872eeec499cb77d05e
+
+waithidden {if (name of operating system = &quot;WinXP&quot; AND personal bit (suite mask of operating system)) then &quot;tskill acrord32 /a&quot; else &quot;taskkill /F /IM acrord32.exe&quot;}
+
+waithidden msiexec.exe /p &quot;__Download\AdbeRdrUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+delete __appendfile
+appendfile REGEDIT4
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Acrobat Reader\DC\AdobeViewer]
+appendfile &quot;EULA&quot;=dword:00000001
+appendfile &quot;Launched&quot;=dword:00000001
+appendfile
+
+// Disable the updater
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe ARM\1.0\ARM]
+appendfile &quot;iCheck&quot;=dword:00000000
+appendfile
+appendfile [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+appendfile &quot;Adobe ARM&quot;=-
+appendfile
+
+delete temp.reg
+
+move __appendfile temp.reg
+
+wait regedit -s temp.reg
+
+action may require restart &quot;f46002c7e1e49b8f2d41616b2cb9678642811eac&quot;</ActionScript>
+    </Action>
+    <Action ID="Action9995">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about the latest version of Adobe Acrobat Reader.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.adobe.com/support/downloads/detail.jsp?ftpID=5982</ActionScript>
+    </Action>
+    <Action ID="Action9996">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Adobe.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/support/security/#readerwin</ActionScript>
+    </Action>
+    <Action ID="Action9997">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information from SANS on vulnerabilities in office software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c2</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : RHSA-2014:1306 - Bash Security Update - Red Hat Enterprise 6.0 (x86_64)
+  ID       : 3863
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2014-09-28T16:59:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>RHSA-2014:1306 - Bash Security Update - Red Hat Enterprise 6.0 (x86_64)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>A security update for bash is available for Red Hat Enterprise Linux 6. See the Red Hat errata page for more information.</P>Target RPMs
+<UL>
+<LI>bash-4.1.2-15.el6_5.2.x86_64.rpm</LI></UL>
+<P><STRONG>Note:</STRONG> A target package will only be installed if a previous version of that package exists on the targeted system. Additionally, the action will attempt to find and install all required dependency packages. It is possible that the dependencies might conflict with existing packages on the endpoint.</P>
+<P><STRONG>Note:</STRONG> Repository metadata will be downloaded on the endpoint. The number of files, download size and file size reflect the target packages only.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>Number of Target Files:</H4>1 </DIV>
+<DIV class=FixletProperty>
+<H4>Total Target File Size:</H4>905 KB </DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2014-7169; CVE-2014-7186; CVE-2014-7187 </DIV>]]></Description>
+    <Relevance>architecture of operating system = &quot;x86_64&quot;</Relevance>
+    <Relevance><![CDATA[(version of client >= "8.2") AND (exists file "/etc/redhat-release" whose (exists line whose (exists match (regex "Red Hat Enterprise Linux (Client|Server|Workstation) release 6") of it) of it) AND NOT exists file "/etc/vmware-release" whose (exists line whose (it contains "VMware ESX") of it) AND NOT exists file "/etc/enterprise-release" whose (exists line whose (it contains "Enterprise Linux Enterprise Linux") of it)) AND (if exists property "in proxy agent context" then (not in proxy agent context) else true) AND (if exists property "android" of type "operating system" then (not android of operating system) else true)]]></Relevance>
+    <Relevance><![CDATA[exists package "yum" whose (rpm version record of it >= rpm package version record "3.2.19-18") of rpm]]></Relevance>
+    <Relevance><![CDATA[((exists package "bash" whose (rpm version record of it < rpm package version record "4.1.2-15.el6_5.2" AND architecture of it = "x86_64") of it AND (not exists package "bash" whose (rpm version record of it >= rpm package version record "4.1.2-15.el6_5.2" AND architecture of it = "x86_64") of it))) of rpm]]></Relevance>
+    <Category>Security Advisory</Category>
+    <Source>Red Hat</Source>
+    <SourceID>RHSA-2014:1306</SourceID>
+    <SourceReleaseDate>2014-09-26</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <CVENames>CVE-2014-7169; CVE-2014-7186; CVE-2014-7187</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-applicable-os-conf</Name>
+      <Value>RHEL6_X86_64_CLIENT RHEL6_X86_64_SERVER RHEL6_X86_64_WORKSTATION</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 26 Sep 2014 21:44:58 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-target_packages</Name>
+      <Value>bash-4.1.2-15.el6_5.2.x86_64</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-channelization</Name>
+      <Value>5 : 6 </Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 28 Sep 2014 23:51:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to start the deployment process and to update the current packages.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Note: The target packages can be found at https://rhn.redhat.com/rhn/errata/details/Packages.do?eid=27923. The dependencies for the target packages will not be listed on that page.
+// Note: SHA1 and SHA256 are not the same values.
+
+prefetch bash-4.1.2-15.el6_5.2.x86_64.rpm sha1:1bdcaf3ed96d1dd635a42fb315d56eb5cf2066fb size:926944 RedHatProtocol://bash-4.1.2-15.el6_5.2.x86_64.rpm sha256:c911010bb31bcf6248495b54762d4030810f8bcb4a7e5af340f94f9c7963c7b1
+
+wait rpm -U __Download/bash-4.1.2-15.el6_5.2.x86_64.rpm</ActionScript>
+    </DefaultAction>
+    <Action ID="Action4264">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to view the errata page.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://rhn.redhat.com/errata/RHSA-2014-1306.html</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

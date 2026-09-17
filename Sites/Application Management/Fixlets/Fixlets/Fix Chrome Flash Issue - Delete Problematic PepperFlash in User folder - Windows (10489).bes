@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Fix Chrome Flash Issue - Delete Problematic PepperFlash in User folder - Windows
+  ID       : 10489
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-22T13:13:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Fix Chrome Flash Issue - Delete Problematic PepperFlash in User folder - Windows</Title>
+    <Description><![CDATA[<P>This task will delete any versions of PepperFlash equal to or newer in the user profile than the one in ProgramFiles.</P>
+<P>This is needed due to a bug when switching from per-user installed Chrome to Chrome 64-bit in which Chrome 64-bit will find a similar or newer version of PepperFlash in the user folder and prefer it over the version in its own folder even though it is the wrong architecture in this case.</P>]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files &quot;pepflashplayer.dll&quot; of folders &quot;PepperFlash&quot; whose(exists values whose(it as string = &quot;x64&quot;) of keys &quot;x-ppapi-arch&quot; of jsons of files &quot;manifest.json&quot; of it) of folders of folders &quot;Google\Chrome\Application&quot; of folders whose(name of it starts with &quot;Program Files&quot;) of folders &quot;C:&quot;</Relevance>
+    <Relevance>exists files &quot;pepflashplayer.dll&quot; of folders whose(exists values whose(it as string = &quot;ia32&quot;) of keys &quot;x-ppapi-arch&quot; of jsons of files &quot;manifest.json&quot; of it) of folders &quot;AppData\Local\Google\Chrome\User Data\PepperFlash&quot; of folders of folders &quot;C:\Users&quot;</Relevance>
+    <Relevance><![CDATA[exists it whose( /* maximum x32 flash version in user folders */ item 0 of it >= /* max x64 flash version in program files */ item 1 of it) of ( ( maxima of versions of files "pepflashplayer.dll" of folders whose(exists values whose(it as string = "ia32") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders "AppData\Local\Google\Chrome\User Data\PepperFlash" of folders of folders "C:\Users" ), ( maxima of versions of files "pepflashplayer.dll" of folders "PepperFlash" whose(exists values whose(it as string = "x64") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders of folders "Google\Chrome\Application" of folders whose(name of it starts with "Program Files") of folders "C:" ) )]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-03-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 22 Mar 2016 20:09:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action as an offer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// need to delete all occurances of a higher version pepperflash in the user folder
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+{ concatenation "%0d%0a" of ("rmdir /S /Q %22"&it&"%22") of pathnames of items 1 of it whose( (version of files "pepflashplayer.dll" of items 1 of it) >= item 0 of it ) of ( ( maxima of versions of files "pepflashplayer.dll" of folders "PepperFlash" whose(exists values whose(it as string = "x64") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders of folders "Google\Chrome\Application" of folders whose(name of it starts with "Program Files") of folders "C:" ), (folders whose(exists values whose(it as string = "ia32") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders "AppData\Local\Google\Chrome\User Data\PepperFlash" of folders of folders "C:\Users") ) }
+END_OF_FILE
+
+delete delete_folders.bat
+copy __createfile delete_folders.bat
+waithidden cmd /c delete_folders.bat
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action11225">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// need to delete all occurances of a higher version pepperflash in the user folder
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+{ concatenation "%0d%0a" of ("rmdir /S /Q %22"&it&"%22") of pathnames of items 1 of it whose( (version of files "pepflashplayer.dll" of items 1 of it) >= item 0 of it ) of ( ( maxima of versions of files "pepflashplayer.dll" of folders "PepperFlash" whose(exists values whose(it as string = "x64") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders of folders "Google\Chrome\Application" of folders whose(name of it starts with "Program Files") of folders "C:" ), (folders whose(exists values whose(it as string = "ia32") of keys "x-ppapi-arch" of jsons of files "manifest.json" of it) of folders "AppData\Local\Google\Chrome\User Data\PepperFlash" of folders of folders "C:\Users") ) }
+END_OF_FILE
+
+delete delete_folders.bat
+copy __createfile delete_folders.bat
+waithidden cmd /c delete_folders.bat
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </Action>
+  </Task>
+</BES>

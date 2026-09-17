@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Launch HomeSeer Server
+  ID       : 1375
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-01-14T10:18:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Launch HomeSeer Server</Title>
+    <Description><![CDATA[<P>Run HomeSeer as current user if it is not already running. </P>
+<P>NOTE:&nbsp; If you have UAC enabled, the target system will prompt you for authorization.&nbsp; I would recommend you download the "Disable UAC" fixlet, run it against your HomeSeer computer and restart before using this fixlet.</P>]]></Description>
+    <Relevance>exists file &quot;homeseer.exe&quot; of folder (value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\HomeSeer Technologies\HomeSeer 2&quot; of registry as string)</Relevance>
+    <Relevance>NOT exists running application &quot;homeseer.exe&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-01-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Jan 2013 15:44:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+rundetached __Download\RunAsCurrentUser-2.0.3.1.exe --w --q cmd.exe /c &quot;{value &quot;InstallDir&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\HomeSeer Technologies\HomeSeer 2&quot; of registry}\homeseer.exe&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

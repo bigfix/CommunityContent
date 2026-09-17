@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Mozilla Firefox 47.0 Available - Mac OS X
+  ID       : 20806
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-06-08T13:15:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Mozilla Firefox 47.0 Available - Mac OS X</Title>
+    <Description>This fixlet was created using the &quot;Fixlet Maker&quot; wizard and then cleaned up significantly. </Description>
+    <Relevance><![CDATA[(name of operating system = "Mac OS X") AND (if system version >= "10.6" then version of client >= "8.2" else true)]]></Relevance>
+    <Relevance><![CDATA[exists application "Firefox.app" whose (version of it < "47.0" as version)]]></Relevance>
+    <Category>Update</Category>
+    <Source>Firefox</Source>
+    <SourceReleaseDate>2016-06-07</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2016-2819; CVE-2016-2815</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-template-os</Name>
+      <Value>Mac</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-template-id</Name>
+      <Value>mozillaFirefoxMacTemplate</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product-name</Name>
+      <Value>Mozilla Firefox</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-vendor-name</Name>
+      <Value>Mozilla</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Jun 2016 16:03:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action21683">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch Firefox_47.0.dmg sha1:611df544d8e75bf768a982c48cd507e1ddb7d692 size:88464798 http://download-installer.cdn.mozilla.net/pub/firefox/releases/47.0/mac/en-US/Firefox%2047.0.dmg sha256:e8e068a8f87126d1e252a51bbd0d4b20314fef8dc015c70c21468deaab9c4d9d
+
+move "{posix path of file "Firefox_47.0.dmg" of folder "__Download" of client folder of current site}" "/private/tmp/Firefox_47.0.dmg"
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  "/Volumes/Firefox_47.0" "/private/tmp/Firefox_47.0.dmg"
+
+wait cp -r "/Volumes/Firefox_47.0/Firefox.app" "/Applications/"
+
+wait hdiutil detach -force "/Volumes/Firefox_47.0"
+
+wait /bin/sh -c "rm '/private/tmp/Firefox_47.0.dmg' "
+
+if {0 < size of intersection of (set of (names of processes as lowercase); set of ("firefox"))}
+	action requires restart 611df544d8e75bf768a982c48cd507e1ddb7d692
+endif]]></ActionScript>
+    </Action>
+    <Action ID="Action21684">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Firefox regardless of whether or not Firefox is currently running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Firefox_47.0.dmg sha1:611df544d8e75bf768a982c48cd507e1ddb7d692 size:88464798 http://download-installer.cdn.mozilla.net/pub/firefox/releases/47.0/mac/en-US/Firefox%2047.0.dmg sha256:e8e068a8f87126d1e252a51bbd0d4b20314fef8dc015c70c21468deaab9c4d9d
+
+move &quot;{posix path of file &quot;Firefox_47.0.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Firefox_47.0.dmg&quot;
+
+wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  &quot;/Volumes/Firefox_47.0&quot; &quot;/private/tmp/Firefox_47.0.dmg&quot;
+
+wait sh -c &quot;killall &apos;firefox&apos; &quot;
+
+wait cp -r &quot;/Volumes/Firefox_47.0/Firefox.app&quot; &quot;/Applications/&quot;
+
+wait hdiutil detach -force &quot;/Volumes/Firefox_47.0&quot;
+
+wait /bin/sh -c &quot;rm &apos;/private/tmp/Firefox_47.0.dmg&apos; &quot;
+</ActionScript>
+    </Action>
+    <Action ID="Action21685">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Mozilla.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c1</ActionScript>
+    </Action>
+    <Action ID="Action21686">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review the latest Security Advisories for Firefox.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.mozilla.org/en-US/security/known-vulnerabilities/firefox/#firefox47</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

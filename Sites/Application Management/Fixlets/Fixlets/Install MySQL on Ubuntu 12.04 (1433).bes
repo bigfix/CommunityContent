@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install MySQL on Ubuntu 12.04
+  ID       : 1433
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T22:07:39
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install MySQL on Ubuntu 12.04</Title>
+    <Description><![CDATA[<P><STRONG>Step 1</STRONG> Once again open up the amazing Terminal and then copy/paste this line:</P>
+<P class=command>sudo apt-get install mysql-server</P>
+<P><STRONG>Step 2</STRONG> (optional). In order for other computers on your network to view the server you have created, you must first edit the "Bind Address". Begin by opening up Terminal to edit the <SPAN class=system>my.cnf</SPAN> file. </P>
+<P class=command>gksudo gedit /etc/mysql/my.cnf</P>
+<P>Change the line</P>
+<P class=command>bind-address = 127.0.0.1</P>
+<P>And change the <SPAN class=system>127.0.0.1</SPAN> to your IP address. </P>
+<P><STRONG>Step 3</STRONG> This is where things may start to get tricky. Begin by typing the following into Terminal:</P>
+<P class=command>mysql -u root</P>
+<P>Following that copy/paste this line:</P>
+<P class=command>mysql&gt; SET PASSWORD FOR 'root'@'localhost' = PASSWORD('yourpassword');</P>
+<P>(Make sure to change <SPAN class=system>yourpassword</SPAN> to a password of your choice.) </P>
+<P><STRONG>Step 4</STRONG> We are now going to install a program called phpMyAdmin which is an easy tool to edit your databases. Copy/paste the following line into Terminal:</P>
+<P class=command>sudo apt-get install libapache2-mod-auth-mysql php5-mysql phpmyadmin</P>
+<P>After that is installed our next task is to get PHP to work with MySQL. To do this we will need to open a file entitled <SPAN class=system>php.ini</SPAN>. To open it type the following:</P>
+<P class=command>gksudo gedit /etc/php5/apache2/php.ini</P>
+<P>Now we are going to have to uncomment the following line by taking out the semicolon (<SPAN class=system>;</SPAN>). </P>
+<P>Change this line:</P>
+<P class=command>;extension=mysql.so</P>
+<P>To look like this:</P>
+<P class=command>extension=mysql.so</P>
+<P>Now just restart Apache and you are all set!</P>
+<P class=command>sudo /etc/init.d/apache2 restart</P>]]></Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;availableApps.txt&quot; whose (exists lines whose (it starts with &quot;mysql-server&quot;) of it) of parent folder of client</Relevance>
+    <Relevance>NOT exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;mysql-server&quot;) of it) of parent folder of client</Relevance>
+    <Category>Installation</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 30 Apr 2013 05:13:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//install php
+delete __appendfile
+appendfile #!/bin/sh
+appendfile export DEBIAN_FRONTEND=noninteractive
+delete "mysql-server.txt"
+appendfile apt-get install -q -y mysql-server > mysql-server.txt
+//if php is installed.. then also install the php5mysql extension
+if {(exists file "installedApps.txt" whose (exists lines whose (it starts with "php5") of it) of parent folder of client) AND NOT (exists file "installedApps.txt" whose (exists lines whose (it starts with "php5-mysql") of it) of parent folder of client)}
+delete "php5-mysql.txt"
+appendfile apt-get install -q -y php5-mysql > php5-mysql.txt
+appendfile /etc/init.d/apache2 restart
+endif
+delete "installer.sh"
+move __appendfile "installer.sh"
+wait chmod +x installer.sh
+wait ./installer.sh
+//add test document
+delete __appendfile
+appendfile type mysql > mysql.test
+delete "testmysql.sh"
+move __appendfile "testmysql.sh"
+wait chmod +x testmysql.sh
+wait ./testmysql.sh
+//lastly update the list of currently installed applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile dpkg --get-selections > "{pathname of parent folder of client}/installedApps.txt"
+delete "installedApps.sh"
+delete "{pathname of parent folder of client}/installedApps.txt"
+move __appendfile "installedApps.sh"
+wait chmod +x installedApps.sh
+wait ./installedApps.sh
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">if exists file &quot;mysql.test&quot; of client folder of current site then NOT exists lines whose (it as lowercase contains &quot;mysql is hashed (/usr/bin/mysql)&quot;) of file &quot;mysql.test&quot; of client folder of current site else true</SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

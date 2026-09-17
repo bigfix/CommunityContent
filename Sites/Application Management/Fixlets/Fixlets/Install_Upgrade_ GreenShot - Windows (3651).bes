@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: GreenShot - Windows
+  ID       : 3651
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-11-01T12:34:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: GreenShot - Windows</Title>
+    <Description><![CDATA[<P>This will Install or Update the Greenshot application, which is used for taking ScreenShots. The most recent version of this task is found here: <A href="http://bigfix.me/fixlet/details/3650"><FONT color=#000080>http://bigfix.me/fixlet/details/3650</FONT></A></P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="https://www.virustotal.com/en/file/5fa61a42aca57b8533b8dd6f817b0edfcee120920d1fa7e5c5bd70909fdb4447/analysis/"><FONT color=#000080>https://www.virustotal.com/en/file/5fa61a42aca57b8533b8dd6f817b0edfcee120920d1fa7e5c5bd70909fdb4447/analysis/</FONT></A></P>
+<P>Installer built with Inno Setup</P>
+<P><A href="http://www.jrsoftware.org/ishelp/index.php?topic=setupcmdline"><FONT color=#000080>http://www.jrsoftware.org/ishelp/index.php?topic=setupcmdline</FONT></A></P>
+<P><A href="http://wpkg.org/Greenshot"><FONT color=#000080>http://wpkg.org/Greenshot</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists key whose(value "DisplayName" of it as string starts with "Greenshot" AND value "DisplayVersion" of it >= "1.1.6.2779") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2013-11-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 01 Nov 2013 19:33:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Greenshot-INSTALLER-1.1.6.2779.exe sha1:476fe42c65776865d4095122173baf001f41d5a8 size:1296924 http://softlayer-dal.dl.sourceforge.net/project/greenshot/Greenshot/Greenshot%201.1/Greenshot-INSTALLER-1.1.6.2779.exe
+
+wait __Download\Greenshot-INSTALLER-1.1.6.2779.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS /NOCANCEL /NORESTART /NORUN /MERGETASKS=&quot;!desktopicon,!startup&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

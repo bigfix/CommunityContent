@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Setup Free HTTPS via Let's Encrypt Certbot (Windows)
+  ID       : 26966
+  Author   : brolly33
+  Domain   : BESC
+  Imported : 2022-10-31T19:06:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Setup Free HTTPS via Let&apos;s Encrypt Certbot (Windows)</Title>
+    <Description><![CDATA[<P>If you have a domain, but don't have a CA and don't want to shell out the $$ for an SSL cert. </P>
+<P>Setup a free certificate using Let's Encrypt and Certbot</P>
+<P>Will set REST API, Web Reports and WebUI if local to the BigFix server to all share the certificate.</P>
+<P>Will prompt you for your domain and the responsible party's e-mail</P>
+<P>The server targeted must resolve to the domain name you are using from external (Let's encrypt checks as part of the cert process).</P>
+<P>You might have to put your BigFix server in the DMZ for the certbot to work and on renewal of the free certificate every 90 days.</P>
+<P>Beta Code - there are lots of links and references in the action script, if you get stuck then read and adapt.</P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "10.0"]]></Relevance>
+    <Category>Obsolete</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-10-06</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 01 Nov 2022 02:05:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// based on https://certbot.eff.org/instructions?ws=other&os=windows
+// based on https://help.hcltechsw.com/bigfix/10.0/platform/c_SSL_overview.html
+// hash as of 10/06/2022
+prefetch certbot-beta-installer-win_amd64.exe sha1:a40b5d1a0ec0e4aba1552bde7bdd7a8c87ede9a5 size:22413696 https://dl.eff.org/certbot-beta-installer-win_amd64.exe sha256:a35c7546e9618fe3cfe2bc8ad6a017a4d2b01c90fa4972d1aaeabe91c77afa80
+wait "__Download\certbot-beta-installer-win_amd64.exe" /S
+
+//check the install
+continue if {exists file "C:\Program Files\Certbot\bin\certbot.exe"}
+
+//Gen the cert must have these two entries at least.
+action parameter query "domain" with description "the Domain for this cert" and with default value "company.com"
+action parameter query "mail" with description "the e-mail address associated with this cert" and with default value "BigFixAdmin@company.com"
+
+// full command line list here: https://eff-certbot.readthedocs.io/en/stable/using.html#certbot-commands
+// NOTE - this will fail if the domain does not route back to where Certbot is running from - Internet routing - probably needs to be in DMZ
+// Check C:\Certbot\log\letsencrypt.log for details
+
+wait "C:\Program Files\Certbot\bin\certbot.exe" certonly --noninteractive --agree-tos -d {parameter "domain"} --standalone -m {parameter "mail"}
+
+parameter "crtpath"="C:\Certbot\live\{parameter "domain"}\fullchain.pem"
+parameter "pvkpath"="C:\Certbot\live\{parameter "domain"}\privkey.pem"
+
+continue if { exists file (parameter "crtpath")}
+continue if { exists file (parameter "pvkpath")}
+
+if {exists service "BESRootServer"}
+	// https://help.hcltechsw.com/bigfix/10.0/platform/Platform/Config/c_restapi_https_settings.html
+	setting "_BESRelay_HTTPServer_UseSSLFlag"="1" on "{parameter "action issue date" of action}" for client
+	setting "_BESRelay_HTTPServer_SSLCertificateFilePath"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_BESRelay_HTTPServer_SSLPrivateKeyFilePath"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
+	wait sc.exe stop BESRootServer
+	wait sc.exe start BESRootServer
+endif
+
+if {exists service "BESWebReportsServer"}
+	// https://help.hcltechsw.com/bigfix/10.0/platform/Platform/Web_Reports/c_web_reports_https_settings.html
+	setting "_WebReports_HTTPServer_UseSSLFlag"="1" on "{parameter "action issue date" of action}" for client
+	setting "_WebReports_HTTPServer_SSLCertificateFilePath"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_WebReports_HTTPServer_SSLPrivateKeyFilePath"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
+	wait sc.exe stop BESWebReportsServer
+	wait sc.exe start BESWebReportsServer
+endif
+
+if {exists service "BESWebUI"}
+	// WebUI settings  use SSL is automatically on for WebUI, so no separate setting there.
+	setting "_WebUIAppEnv_WEB_CERT_FILE"="{parameter "crtpath"}" on "{parameter "action issue date" of action}" for client
+	setting "_WebUIAppEnv_WEB_KEY_FILE"="{parameter "pvkpath"}" on "{parameter "action issue date" of action}" for client
+	wait sc.exe stop BESWebUI
+	wait sc.exe start BESWebUI
+endif
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

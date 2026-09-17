@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : <Software Updates>: Upgrade - Adobe Acrobat Pro DC - 2015.010.20060 (Windows)
+  ID       : 9270
+  Author   : cdh
+  Domain   : BESC
+  Imported : 2016-03-08T12:31:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>&lt;Software Updates&gt;: Upgrade - Adobe Acrobat Pro DC - 2015.010.20060 (Windows)</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>This patches in the <A href="http://www.adobe.com/devnet-docs/acrobatetk/tools/AdminGuide/whatsnewdc.html#continuous-track">continuous track</A>.&nbsp; <BR><BR>Adobe Acrobat DC Updates <A href="https://www.adobe.com/support/downloads/product.jsp?product=1&amp;platform=Windows">Link</A><BR><BR>Updated on 2016-03-08<BR><BR>Adobe has released a new version of Adobe Acrobat DC.<BR><BR><B>Note:</B> Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P>
+<P><SPAN id=fixletLinks></SPAN><SPAN id=fixletLinks><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> Choosing the "Upgrade Adobe Acrobat regardless of whether or not&nbsp;Adobe Acrobat is&nbsp;running" action&nbsp;will close any running instance of Adobe Acrobat on the client machines. Please schedule the update to occur at a time when a service interruption is acceptable.</SPAN></P></TD></TR></TBODY></TABLE></DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists regapp &quot;acrobat.exe&quot;</Relevance>
+    <Relevance>(exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Adobe\Adobe Acrobat\DC&quot; of it) of registry</Relevance>
+    <Relevance><![CDATA[exists regapp "acrobat.exe" whose (version of it < "15.010.20060")]]></Relevance>
+    <Relevance><![CDATA[(exists key whose (value "DisplayName" of it as string contains "Adobe Acrobat" AND (it >= "15.0.0" AND it < "15.010.20060") of (value "DisplayVersion" of it as string as version)) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry)]]></Relevance>
+    <Category>Software Updates</Category>
+    <SourceReleaseDate>2016-01-04</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 13 Oct 2015 22:38:32 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Adobe Acrobat</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Mar 2016 19:07:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:8bef05d74cf1778139a4ad936285ba2728b6fed5 size:132689920 http://ardownload.adobe.com/pub/adobe/acrobat/win/AcrobatDC/1501020060/AcrobatDCUpd1501020060.msp sha256:5cc53a310111692e92bb1e2e82504426e1d47fd34faa7ae81a8d3102cb81b64c
+
+wait msiexec.exe /p &quot;__Download\AcrobatUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+action may require restart &quot;8bef05d74cf1778139a4ad936285ba2728b6fed5&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action9989">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade Adobe Acrobat regardless of whether or not Adobe Acrobat is running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:8bef05d74cf1778139a4ad936285ba2728b6fed5 size:132689920 http://ardownload.adobe.com/pub/adobe/acrobat/win/AcrobatDC/1501020060/AcrobatDCUpd1501020060.msp sha256:5cc53a310111692e92bb1e2e82504426e1d47fd34faa7ae81a8d3102cb81b64c
+
+waithidden {if (name of operating system = &quot;WinXP&quot; AND personal bit (suite mask of operating system)) then &quot;tskill acrobat /a&quot; else &quot;taskkill /F /IM acrobat.exe&quot;}
+
+wait msiexec.exe /p &quot;__Download\AcrobatUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
+
+action may require restart &quot;8bef05d74cf1778139a4ad936285ba2728b6fed5&quot;</ActionScript>
+    </Action>
+    <Action ID="Action9990">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about the latest version of Adobe Acrobat.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://www.adobe.com/support/downloads/detail.jsp?ftpID=5920</ActionScript>
+    </Action>
+    <Action ID="Action9991">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for security-related information from Adobe.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.adobe.com/support/security/#acrobatwin</ActionScript>
+    </Action>
+    <Action ID="Action9992">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information from SANS on vulnerabilities in office software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.sans.org/top20/#c2</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

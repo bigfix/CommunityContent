@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Update Firefox (Mac)
+  ID       : 27340
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-05-06T08:48:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Update Firefox (Mac)</Title>
+    <Description><![CDATA[<p>Checks for the latest version of Firefox available, and installs it if a newer version is found.</p>
+
+<p>Modify ".MyCompany" on line 23 of the action script, and in the relevance, as needed.</p>
+
+<p>This Fixlet does not validate the hashes of the downloaded Mozilla Firefox installer. Use at your own risk</p>
+
+<p>This Fixlet will become relevant 3 days after its last runtime. To change this, modify the relevance</p>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[if (exists file "/Library/.MyCompany/firefoxUpdater/lastRun") then ((now - (line of file "/Library/.MyCompany/firefoxUpdater/lastRun" as time)) > "3 days" as time interval) else True]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Firefox Updater</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2024-01-31</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-runAsSystem</Name>
+      <Value>{&quot;passwordType&quot;:&quot;required&quot;,&quot;asAdmin&quot;:&quot;true&quot;,&quot;username&quot;:&quot;&quot;,&quot;targetuser&quot;:&quot;&quot;,&quot;completion&quot;:&quot;job&quot;,&quot;userType&quot;:&quot;system&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedPathOptions</Name>
+      <Value>{&quot;customPath&quot;:false,&quot;deleteCustomPath&quot;:false,&quot;customPathName&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-advancedLogOptions</Name>
+      <Value>{&quot;individualLog&quot;:false,&quot;uploadTheLog&quot;:false,&quot;individualLogCustomerName&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>action-ui-metadata</Name>
+      <Value>{&quot;version&quot;:&quot;1.0&quot;,&quot;size&quot;:&quot;1350&quot;,&quot;icon&quot;:&quot;&quot;}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-prePostInstall</Name>
+      <Value>{&quot;selected&quot;:false,&quot;preInstall&quot;:null,&quot;preType&quot;:null,&quot;postInstall&quot;:null,&quot;postType&quot;:null}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swd-wizard-data</Name>
+      <Value>{&quot;lastmodified&quot;:&quot;Wed Jan 31 2024 22:09:47 GMT-0500&quot;,&quot;product&quot;:&quot;Firefox Updater&quot;,&quot;version&quot;:&quot;1.0&quot;,&quot;vendor&quot;:&quot;NYU IT&quot;,&quot;comment&quot;:null,&quot;creator&quot;:&quot;eg2428@ad.nyu.edu&quot;,&quot;owner&quot;:&quot;eg2428@ad.nyu.edu&quot;,&quot;pkgvariablekey&quot;:&quot;SWD_Package_eg2428@ad.nyu.edu_1706756970583605&quot;,&quot;pkgTag&quot;:&quot;&quot;,&quot;description&quot;:null,&quot;categories&quot;:[],&quot;os&quot;:[],&quot;fullInstallCommand&quot;:null,&quot;runAsSystem&quot;:null,&quot;useCommandLine&quot;:false,&quot;site&quot;:null,&quot;files&quot;:[{&quot;filename&quot;:&quot;nyu.jpg&quot;,&quot;dateadded&quot;:&quot;Wed, 31 Jan 2024 22:09:46 -0500&quot;,&quot;folderoffset&quot;:&quot;&quot;,&quot;file_url&quot;:&quot;&quot;,&quot;size&quot;:1350,&quot;sha1&quot;:&quot;2db68f2d42b82151016720f4d1f7cd873d97c794&quot;,&quot;sha256&quot;:&quot;5e1b1b36e066c9cc2685f46cbd397459fbf0aa846b42a029b93097c1dd8f08e0&quot;,&quot;compressed_data_for_package&quot;:false,&quot;id&quot;:&quot;2db68f2d42b82151016720f4d1f7cd873d97c794_1706756987020974&quot;,&quot;uploadSuffix&quot;:&quot;bfswd&quot;,&quot;fileHostedStatus&quot;:0,&quot;included&quot;:false,&quot;msi_metadata&quot;:null,&quot;exe_metadata&quot;:null,&quot;spb_metadata&quot;:null,&quot;osd_metadata&quot;:null,&quot;appv_metadata&quot;:null,&quot;ReferenceID&quot;:&quot;669841&quot;,&quot;ReferenceName&quot;:&quot;/2db68f2d42b82151016720f4d1f7cd873d97c794/nyu.jpg&quot;,&quot;HasAnonymousReference&quot;:false,&quot;rpm_metadata&quot;:null,&quot;appx_metatdata&quot;:null}],&quot;relativePath&quot;:&quot;&quot;,&quot;fileLoadingCount&quot;:0,&quot;fileOrphanCount&quot;:0,&quot;fixletBrokenCount&quot;:0}</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdPackageID</Name>
+      <Value>SWD_Package_eg2428@ad.nyu.edu_1706756970583605</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdCommandOverride</Name>
+      <Value>inoculate</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgTag</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-pkgType</Name>
+      <Value></Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdSelectedFiles</Name>
+      <Value>[&quot;2db68f2d42b82151016720f4d1f7cd873d97c794&quot;]</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-canPreserveCustom</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdUseCommandLine</Name>
+      <Value>true</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-swdDeployCategory</Name>
+      <Value>Install</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-source</Name>
+      <Value>Software Distribution_SoftwareDistribution</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-adf-wizard-data</Name>
+      <Value>&quot;&quot;</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 02 May 2024 14:02:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+parameter "logFolder" = "{parameter "mainSWDLogFolder"}"
+
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+if {exists application ("Firefox.app" of folder "/Applications")}
+parameter "installedVersion" = "{version of application "Firefox.app" of folder "/Applications")}"
+wait sh -c "echo Installed Firefox version: {parameter "installedVersion"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+else
+parameter "installedVersion" = "0.0"
+wait sh -c "echo Firefox is not installed >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+endif
+
+delete __createfile
+delete "__Download/runtime.sh"
+createfile until _end_
+#/bin/zsh
+
+homepath="/Library/.MyCompany/firefoxUpdater"
+currDate=$(LANG=en_US date '+%a, %d %b %Y %H:%M:%S %z' 2>&1)
+
+if [ -d $homepath ]; then
+        rm -r $homepath
+fi
+mkdir -p $homepath
+
+echo $currDate > $homepath/lastRun
+_end_
+copy "__createfile" "__Download/runtime.sh"
+wait chmod +x "__Download/runtime.sh"
+wait /bin/zsh "__Download/runtime.sh"
+
+delete __createfile
+delete getLatestFirefox.sh
+delete latestFirefox.txt
+createfile until _EOF_
+#!/bin/zsh
+latestURL=""
+tries=0
+while [[ -z $latestURL && $tries -lt 20 ]]
+do
+	if [[ $tries -gt 0 ]]; then
+		echo -n "[$(LANG=en_US date +%R 2>&1)] Trying again in $(( 5*$tries )) seconds..." >> "{parameter "logFolder"}/{parameter "logFile"}"
+		sleep $(( 5*$tries ))
+	fi
+	latestURL=$(curl -fIsS 'https://download.mozilla.org/?product=firefox-latest&os=osx&lang=en-US') 2>> "{parameter "logFolder"}/{parameter "logFile"}"
+	curlExit=$?
+	tries=$((tries+1))
+done
+if [[ tries -gt 1 ]]; then
+	echo "" >> "{parameter "logFolder"}/{parameter "logFile"}"
+fi
+if [[ -z $latestURL ]]; then
+	echo "Failed to gather latest URL. Exiting..." >> "{parameter "logFolder"}/{parameter "logFile"}"
+	exit $curlExit
+fi
+latestURL=$(echo $latestURL | awk '/^Location/ {{print $NF}')
+echo "curl exit $curlExit with value: $latestURL" >> "{parameter "logFolder"}/{parameter "logFile"}"
+echo $latestURL > latestFirefox.txt
+_EOF_
+copy __createfile getLatestFirefox.sh
+wait chmod +x getLatestFirefox.sh
+wait /bin/zsh getLatestFirefox.sh
+parameter "curlCheckError" = "{exit code of action}"
+if {parameter "curlCheckError" != "0"}
+exit {parameter "curlCheckError"}
+endif
+
+parameter "latestFirefoxURL" = "{line of file "latestFirefox.txt"}"
+parameter "latestFirefoxVersion" = "{substring before ".dmg" of (substring after "%2520" of (parameter "latestFirefoxURL"))}"
+wait sh -c "echo Latest Firefox version: {parameter "latestFirefoxVersion"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+if {pad of version (parameter "latestFirefoxVersion") > pad of version (parameter "installedVersion")}
+delete __createfile
+delete foxHound.sh
+createfile until _EOF_
+#!/bin/bash
+curl -Lo firefox.pkg '{(substring before ".dmg" of (parameter "latestFirefoxURL") & ".pkg")}'
+curlExit=$?
+echo "curl download exited with value: $curlExit" >> "{parameter "logFolder"}/{parameter "logFile"}"
+installer -pkg "firefox.pkg" -target /  >> "{parameter "logFolder"}/{parameter "logFile"}"
+_EOF_
+copy __createfile foxHound.sh
+wait chmod +x foxHound.sh
+wait /bin/sh foxHound.sh
+parameter "error" = "{exit code of action}"
+
+if {exists running application whose (name of it as lowercase contains "firefox") and exists file "/usr/local/bin/hubcli"}
+wait /bin/sh -c "/usr/local/bin/hubcli notify -t 'Please restart Firefox' -i 'Updates have been installed. Click Okay to restart Firefox' --actionbtn 'Okay' --script 'pkill firefox && sleep 5 && open -a firefox &'"
+endif
+
+else
+//exit code 10 means Firefox is up to date
+wait sh -c "echo Firefox is already up to date >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+parameter "error" = "10"
+endif
+
+wait sh -c "echo Return Code: {parameter "error"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+if {parameter "error" != "0" and parameter "error" != "10"}
+exit {parameter "error"}
+endif
+
+exit {parameter "error"}]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

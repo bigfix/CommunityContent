@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Adobe Flash Player 12.0.0.70 ActiveX - Windows
+  ID       : 3729
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-05T14:44:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Flash Player 12.0.0.70 ActiveX - Windows</Title>
+    <Description><![CDATA[<P><STRONG>&nbsp;<FONT size=3>About Adobe Flash Player</FONT></STRONG></P><FONT size=2>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>The Adobe Flash Player is a freeware cross-platform, browser-based application runtime for viewing multimedia, Rich Internet Applications, and streaming video and audio created by Adobe Flash, Adobe Flex, or a number of other third party tools.</P>
+<P>This ActiveX version of Adobe Flash Player is for Internet Explorer.</P></BLOCKQUOTE>
+<P><STRONG><FONT color=#0080ff size=3>Licensing</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>Adobe Flash Player is freeware.</P></BLOCKQUOTE></FONT><STRONG>
+<P><FONT size=3>About This Task</FONT></P></STRONG>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This task will install/upgrade: Adobe Flash Player <FONT size=2>12.0.0.70 </FONT>ActiveX<BR><BR>This task is applicable on: Windows XP/Vista/7 and Windows XP/Vista/7 x64 </P></BLOCKQUOTE><FONT size=2>
+<P dir=ltr><STRONG><FONT size=3>Additional Notes</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr>Internet Explorer for Windows 8 includes a built-in version of Adobe Flash Player; thus, this plugin is not required for IE on Windows 8.</P>
+<P dir=ltr>If a 64-bit version of Player is installed on a client machine, it must be uninstalled before using this task.</P></BLOCKQUOTE></FONT>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows 7 or Lower */ version of operating system < "6.2" /* NOTE: Flash ActiveX is managed by Microsoft in Windows 8 and higher */]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string starts with "Adobe Flash Player" AND value "DisplayName" of it as string ends with "ActiveX" AND (value "DisplayVersion" of it as string as version) >= "12.0.0.70" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry]]></Relevance>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Mar 2014 21:08:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download Adobe Flash Player installer
+prefetch install_flash_player_12_active_x.exe sha1:b00f2e77841e9537e20f6bda9b4c46efa573adf1 size:17268616 http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_12_active_x.exe  sha256:3a404d36c98ad63da202688bb4f3efdcd71b1e1119e85ba6e6ec51def9bfa197
+wait __Download\install_flash_player_12_active_x.exe /install /au 2
+//  (/au 2: disable automatic updates)
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

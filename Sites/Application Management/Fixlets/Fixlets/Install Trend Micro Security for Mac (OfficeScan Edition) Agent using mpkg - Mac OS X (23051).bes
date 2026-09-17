@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Trend Micro Security for Mac (OfficeScan Edition) Agent using mpkg - Mac OS X
+  ID       : 23051
+  Author   : andym
+  Domain   : BESC
+  Imported : 2016-12-18T18:29:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Trend Micro Security for Mac (OfficeScan Edition) Agent using mpkg - Mac OS X</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P>This sample Fixlet installs Trend Micro Security for Mac (OfficeScan Edition) with the tmsminstall.mpkg.zip file .</P> <P>For the action to complete successfully, you must do the following steps before deploying this Fixlet: </P> <P>1. Get the tmsminstall.mpkg.zip file from Trend Micro Security for Mac agent installation package, which is located at <SERVER folder installation >\TMSM_HTML\ActiveUpdate\ClientInstall\. For more information about the agent installation package , see the <A href="http://docs.trendmicro.com/en-us/enterprise/trend-micro-security-(for-mac).aspx">Trend Micro Security for Mac Administrator's Guide (OfficeScan Edition)</A>.</P> <P>2. Use the Fixlet Debugger tool to calculate the sha1, size, and sha256 values of the agent installer and take note of the values. For example, use the following relevance to query the required values: Q: (sha1 of it, size of it, sha256 of it) of file "C:\Users\ADMIN\Downloads\tmsminstall.mpkg.zip"</P> <P><STRONG>Note:</STRONG> To use the Fixlet Debugger tool, run the FixletDebugger.exe file, which is located in Program Files > BigFix Enterprise > BES Console > QnA. For more information about the Fixlet Debugger, see <A href="http://www.ibm.com/support/knowledgecenter/SS6MER_9.5.0/com.ibm.bigfix.doc/Platform/Relevance/c_using_the_fixlet_debugger.html">Using the Fixlet Debugger tool</A>.</P> <P>3. Update the Fixlet action to use the queried values of the sha1, size, and sha256 properties. </P> <P>4. Rename the agent installer with the sha1 checksum. For example, if the sha1 checksum is d900d36ef19adcc4bbda222ae5baef0d48d3597f , rename the "tmsminstall.mpkg.zip" file to "d900d36ef19adcc4bbda222ae5baef0d48d3597f".</P> <P>5. Place the renamed agent installer in the BigFix Server download cacher folder. For more information about manually caching file downloads on the BES Server, see <A href="http://www-01.ibm.com/support/docview.wss?uid=swg21506037">this technote</A>.<BR></P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance><![CDATA[(name of operating system = "Mac OS X") AND (if system version >= "10.7" then version of client >= "8.2" else true) AND (architecture of operating system = "i386" OR architecture of operating system = "x86_64") AND (if exists property "in proxy agent context" then ( not in proxy agent context ) else true)]]></Relevance>
+    <Relevance>not exists folder &quot;/Library/Application Support/TrendMicro/TmccMac/UIMgmt.app&quot;</Relevance>
+    <Relevance><![CDATA[(system version >= "10.7" as version)]]></Relevance>
+    <Category>Install</Category>
+    <Source>Trend Micro</Source>
+    <SourceReleaseDate>2016-11-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Tue, 08 Nov 2016 02:11:20 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Tue, 08 Nov 2016 02:11:20 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Trend Micro Security for Mac, OfficeScan, tmsminstall.mpk</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>22531</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action24045">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// download the agent installer zip file, manually cached to sha1 folder
+prefetch tmsminstall.mpkg.zip sha1:d900d36ef19adcc4bbda222ae5baef0d48d3597f size:59422535 http://download.trendmicro.com/MANUAL_BES_CACHING_REQUIRED/tmsminstall.mpkg.zip sha256:b0b54bca011db7e3ed8bcf4d3215c53678d2c7e7681755e7ed184e9fb6d56b65
+
+// move the zip file to a temp directory
+move &quot;{posix path of file &quot;tmsminstall.mpkg.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/tmsminstall.mpkg.zip&quot;
+
+//unzip the tmsminstall.zip folder
+wait ditto -xk /private/tmp/tmsminstall.mpkg.zip /private/tmp
+
+// run the installer
+wait installer -pkg &quot;/private/tmp/tmsminstall.mpkg&quot; -target /
+
+// remove the installer zip file
+wait /bin/sh -c &quot;rm -r &apos;/private/tmp/tmsminstall.mpkg.zip&apos;&quot;
+</ActionScript>
+    </Action>
+    <Action ID="Action24046">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/22531</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

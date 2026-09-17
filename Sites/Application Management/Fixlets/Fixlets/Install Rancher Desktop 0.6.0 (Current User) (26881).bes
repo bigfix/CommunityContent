@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Rancher Desktop 0.6.0 (Current User)
+  ID       : 26881
+  Author   : erowley2501
+  Domain   : BESC
+  Imported : 2021-10-13T08:19:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Rancher Desktop 0.6.0 (Current User)</Title>
+    <Description><![CDATA[<P>Download and install Rancher Desktop 0.6.0 (for the Current User.)</P>
+<P>Note: Rancher Desktop can only be installed per-user (not system-wide), and so this BigFix Task is only relevant when the user is logged in to the target computer.</P>
+<P>Note: Rancher Desktop only works on recent versions of Windows 10 and Windows&nbsp;11 where Hyper-V and Windows Subsystem for Linux 2 (WSL)&nbsp;are installed and setup (Microsoft's requirements detailed&nbsp;<A href="https://docs.microsoft.com/en-us/windows/wsl/install"><FONT color=#0066cc>here</FONT></A>.)&nbsp;If&nbsp;WSL is not installed when&nbsp;launching Rancher Desktop,&nbsp;then an error message will be shown. To install WSL, the official Microsoft instructions should be followed, or use the script based on these instructions created by the Rancher Desktop&nbsp;installer (&lt;System Drive&gt;:\Windows\Temp\rancher-desktop-install.ps1) which installs WSL and the Hyper-V pre-requisite.</P>
+<P>Rancher Desktop Website: <A href="https://rancherdesktop.io/">https://rancherdesktop.io/</A></P>
+<P>Rancher Desktop GitHub Repo: <A href="https://github.com/rancher-sandbox/rancher-desktop">https://github.com/rancher-sandbox/rancher-desktop</A></P>]]></Description>
+    <Relevance><![CDATA[not exists (it as string as version) whose(it >= "0.6.0") of values "DisplayVersion" of keys whose(value "DisplayName" of it as string starts with "Rancher Desktop") of keys "Software\Microsoft\Windows\CurrentVersion\Uninstall" of (user key of current user)]]></Relevance>
+    <Relevance>1 = number of unique values of names of (logged on users;current users)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-10-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 13 Oct 2021 15:18:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Rancher.Desktop.Setup.0.6.0.exe sha1:3af59d931298ab6f228d870a61456c066f482334 size:210710384 https://github.com/rancher-sandbox/rancher-desktop/releases/download/v0.6.0/Rancher.Desktop.Setup.0.6.0.exe sha256:dd408f9543ac54f153cf7bfb326aa8bac69748b76e98f5b4dc78a80a102c2bc7
+
+override wait
+hidden=true
+completion=job
+runas=currentuser
+wait __Download\Rancher.Desktop.Setup.0.6.0.exe /S --no-desktop-shortcut</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

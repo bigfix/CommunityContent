@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Microsoft Office for Mac 2016 - Word 15.22.1 Available
+  ID       : 20686
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-05-24T11:04:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Office for Mac 2016 - Word 15.22.1 Available</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>Microsoft Office for Mac 2016 - Word (15.22.1).</P>
+<P>Use the action below to update Microsoft Office for Mac 2016 Microsoft Word to the latest version.</P>
+<P><STRONG>Note: </STRONG>To avoid any service interruptions on the endpoints, use the default action only when the endpoints do not have running instances of related applications such as Microsoft Office Word. If any of the related application is running on the endpoints, the default action might fail. Schedule the update to occur at a time when the client machine is not using these applications.</P>
+<P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P></TD></TR></TBODY></TABLE></DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>987 MB </DIV>
+<DIV class=FixletProperty>
+<H4>CVE:</H4>CVE-2016-0198 </DIV>]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Microsoft Word.app" AND version of it = "15" as version AND (version of it < "15.22.1" OR version of it as string = "15.22"))]]></Relevance>
+    <Category>Security Update</Category>
+    <Source>Microsoft</Source>
+    <SourceID>KB3155777</SourceID>
+    <SourceReleaseDate>2016-05-10</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <CVENames>CVE-2016-0198</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-superseded_date</Name>
+      <Value>2016-05-11</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>PatchManagement 3rdPartyApp Microsoft</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 11 May 2016 05:56:24 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sun, 22 May 2016 22:39:25 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update the Microsoft Word to the latest version.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.22.1_160512_Updater.pkg sha1:720fe07a671b3b9e1269229bc7e3883ab0f70bc5 size:987012675 http://officecdn.microsoft.com.edgesuite.net/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.22.1_160512_Updater.pkg sha256:5f552413df104d58f949c2a4d36ad3dd74e44e17c7516f27d6c92eee661d8b12
+
+// move the pkg file to a temp directory
+wait cp &quot;{posix path of file &quot;Microsoft_Word_15.22.1_160512_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg&quot;
+
+continue if{not (exists process whose (name of it as lowercase = &quot;Microsoft Word&quot; as lowercase))}
+
+// run the installer
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg -target /&quot;
+
+// action requires restart 720fe07a671b3b9e1269229bc7e3883ab0f70bc5
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action21543">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to initiate the deployment process regardless of whether the related applications are running. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.22.1_160512_Updater.pkg sha1:720fe07a671b3b9e1269229bc7e3883ab0f70bc5 size:987012675 http://officecdn.microsoft.com.edgesuite.net/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.22.1_160512_Updater.pkg sha256:5f552413df104d58f949c2a4d36ad3dd74e44e17c7516f27d6c92eee661d8b12
+
+// move the pkg file to a temp directory
+wait cp &quot;{posix path of file &quot;Microsoft_Word_15.22.1_160512_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg&quot;
+
+if{(exists process whose (name of it as lowercase = &quot;Microsoft Word&quot; as lowercase))}
+wait /bin/sh -c &quot;kill {id of process whose (name of it as lowercase = &quot;Microsoft Word&quot; as lowercase)}&quot;
+endif
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg -target /&quot;
+
+// action requires restart 720fe07a671b3b9e1269229bc7e3883ab0f70bc5
+</ActionScript>
+    </Action>
+    <Action ID="Action21544">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run the installer while word is running... because you&apos;re a rebel... and it works.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.22.1_160512_Updater.pkg sha1:720fe07a671b3b9e1269229bc7e3883ab0f70bc5 size:987012675 http://officecdn.microsoft.com.edgesuite.net/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.22.1_160512_Updater.pkg sha256:5f552413df104d58f949c2a4d36ad3dd74e44e17c7516f27d6c92eee661d8b12
+
+wait cp &quot;{posix path of file &quot;Microsoft_Word_15.22.1_160512_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg&quot;
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.22.1_160512_Updater.pkg -target /&quot;
+
+if{(exists process whose (name of it as lowercase = &quot;Microsoft Word&quot; as lowercase))}
+// wait /bin/sh -c &quot;kill {id of process whose (name of it as lowercase = &quot;Microsoft Word&quot; as lowercase)}&quot;
+action requires restart 720fe07a671b3b9e1269229bc7e3883ab0f70bc5
+endif
+</ActionScript>
+    </Action>
+    <Action ID="Action21545">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this Microsoft Office for Mac 2016 release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.microsoft.com/en-us/kb/3155777</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

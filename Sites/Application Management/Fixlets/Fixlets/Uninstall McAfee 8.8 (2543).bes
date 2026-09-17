@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall McAfee 8.8
+  ID       : 2543
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-07-25T07:30:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall McAfee 8.8</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;McAfee VirusScan Enterprise&quot; of it and value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-04-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 24 Jul 2013 13:47:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+waithidden msiexec.exe /x {name of key whose (value &quot;DisplayName&quot; of it as string contains &quot;McAfee VirusScan Enterprise&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /q /norestart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

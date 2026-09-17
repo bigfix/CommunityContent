@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Prepare the upgrade of the IBM Workload Scheduler for z/OS agent to version 9.5 Fix Pack 2 for HP-UX IA64
+  ID       : 26801
+  Author   : WorkloadAutomationSupportTeam
+  Domain   : BESC
+  Imported : 2021-01-22T03:30:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Prepare the upgrade of the IBM Workload Scheduler for z/OS agent to version 9.5 Fix Pack 2 for HP-UX IA64</Title>
+    <Description><![CDATA[<P>Prepare the upgrade of the IBM Workload Scheduler for z/OS agent to version 9.5 Fix Pack 2 for HP-UX IA64</P>
+<P>The following fixlet performs the following actions:</P>
+<UL>
+<LI>Downloads the images from the Tivoli Endpoint Manager server / relay.
+<LI>Extracts the images.
+<LI>Checks if the IBM Workload Scheduler command line tools are running (conman, composer, fileaid). If they are running, the action fails.
+<LI>Enables the Install fixlet for the upgrade.</LI></UL>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance>(name of it starts with &quot;HP-UX&quot; AND (last 5 of name of it = &quot;11.23&quot; OR last 5 of name of it = &quot;11.31&quot;)) of operating system</Relevance>
+    <Relevance>architecture of operating system = &quot;ia64&quot;</Relevance>
+    <Relevance>(not exists file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)</Relevance>
+    <Relevance><![CDATA[exists ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-01-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 22 Jan 2021 11:05:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// Download image from the TEM server / relay
+prefetch 9.5.0-IBM-IWS-HPIA64_ZOS_AGENT-FP0002.zip sha1:1bc0c4f3169fdf5046b945ea2ecfce5f70d6c21f size:687719615 SWDProtocol://127.0.0.1:52311/uploads/1bc0c4f3169fdf5046b945ea2ecfce5f70d6c21f/9.5.0-IBM-IWS-HPIA64_ZOS_AGENT-FP0002.zip.bfswd sha256:7e1699da2657915050ac210864d491dac30b841d1f8d138a4b0571a1a107d782
+parameter "Image" = "9.5.0-IBM-IWS-HPIA64_ZOS_AGENT-FP0002.zip"
+
+// Create subfolder /tmp/TWA
+folder create "/tmp/TWA"
+
+// Create subfolder /tmp/TWA/tws952
+folder create "/tmp/TWA/tws952"
+
+// Cleanup subfolder 952
+folder delete "{pathname of client folder of current site}/952"
+
+// Create subfolder 952
+folder create "{pathname of client folder of current site}/952"
+
+// Retrieve TMP from relevance
+parameter "TMP" = "{pathname of client folder of current site}/952"
+
+// Download unzip from the TEM server / relay
+prefetch unzip sha1:f4631f62d4a68fdbcccedbe69fd2845985af174c size:395184 SWDProtocol://127.0.0.1:52311/uploads/f4631f62d4a68fdbcccedbe69fd2845985af174c/unzip-hpux_ia64.bfswd sha256:f20ab5a1aca4e2042b15cc81cb1ec78894d67606c50a1a72cb55cbdf94c503ee
+
+// Extract image to $TMP/TWA/tws952
+if {not exists folder "TWS" of folder (parameter "TMP") | false}
+	wait chmod +x "{pathname of client folder of current site & "/__Download/unzip"}"
+	wait "{pathname of client folder of current site & "/__Download/unzip"}" -o "{pathname of client folder of current site & "/__Download/" & parameter "Image"}" -d "{parameter "TMP"}"
+	continue if {exit code of action = 0}
+endif
+
+// Retrieve ActionTools from relevance
+parameter "ActionTools" = "{parameter "TMP" & "/TWS/HPIA64/ACTIONTOOLS"}"
+
+// Retrieve UserOwner from relevance
+parameter "UserOwner" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 0 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))}"
+
+// Retrieve InstallationPath from relevance
+parameter "SourceInstallationPath" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 1 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))}"
+
+// Retrieve MajorVersion from relevance
+parameter "SourceMajorVersion" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 2 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))}"
+
+// Retrieve MinorVersion from relevance
+parameter "SourceMinorVersion" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 3 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))}"
+
+// Retrieve MaintenanceVersion from relevance
+parameter "SourceMaintenanceVersion" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 4 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))}"
+
+// Retrieve AgentType from relevance
+parameter "AgentType" = "{(preceding text of first "-" of it | it) of concatenation "-" of items 5 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS")))))) & "Z"}"
+
+// Retrieve FixPack from relevance
+parameter "SourceFixPack" = "{(preceding text of first "-" of it | it) of concatenation "-" of ((items 6 of ((((following text of first "DN_UserOwner=" of element whose (it contains "DN_UserOwner=") of it) , (following text of first "DN_InstallationPath=" of element whose (it contains "DN_InstallationPath=") of it) , (following text of first "DN_MajorVersion=" of element whose (it contains "DN_MajorVersion=") of it) , (following text of first "DN_MinorVersion=" of element whose (it contains "DN_MinorVersion=") of it) , (if ((following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) != "") then (following text of first "DN_MaintenanceVersion=" of element whose (it contains "DN_MaintenanceVersion=") of it) else "0") , (following text of first "DN_Agent=" of element whose (it contains "DN_Agent=") of it) , (maximum of (lasts 2 of substrings separated by "-" of ((if it != "" then it else "00") of concatenation "-" of (following texts of firsts "DN_PackageName=" of elements whose (it contains "FP_TWS") of it)) as integer))) of (set of items 1 of (item 0 of it, elements of item 1 of it) whose (item 1 of it contains ("/" & item 0 of it & "_DN"))) of (unique values of preceding texts of firsts "_DN" of following texts of firsts "/Tivoli/Workload_Scheduler/" of elements of it, it) of (set of lines of file "TWSRegistry.dat" of folder "/etc/TWS")) whose ((item 5 of it = "LWA") AND ((((item 2 of it as integer = 9 AND item 3 of it as integer = 3 AND item 4 of it as integer = 0 AND item 6 of it as integer > 2) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 4 AND item 4 of it as integer = 0) OR (item 2 of it as integer = 9 AND item 3 of it as integer = 5 AND item 4 of it as integer = 0 AND item 6 of it as integer < 2)) AND (exists file ".zcentric" of folder (item 1 of it as string & "/_uninstall/ACTIONTOOLS"))))))) as string)}"
+
+// Retrieve ProcessFile
+parameter "ProcessFile" = "{"/tmp/TWA/tws952/tws952_process_" & parameter "UserOwner" & ".txt"}"
+
+// Call twsCheckInstance.sh to check whether command line tools are still running
+if {(parameter "AgentType" = "FTA") | false}
+	wait sh "{parameter "ActionTools"}/twsCheckInstance.sh" "{parameter "UserOwner"}" "{parameter "SourceInstallationPath"}" "cmdLines" "{parameter "ProcessFile"}"
+
+	// Continue if the return code of the previous command was 0
+	continue if {exit code of action = 0}
+endif
+// Create new filelistJobs_bck86
+if {(((parameter "SourceMajorVersion" = "8") AND (((parameter "SourceMinorVersion" = "5") AND (parameter "SourceMaintenanceVersion" = "1")) OR ((parameter "SourceMinorVersion" = "6") AND (parameter "SourceMaintenanceVersion" = "0")))) OR (parameter "SourceMajorVersion" = "9")) | false}
+	delete "{parameter "ActionTools"}/filelistJobs_bck86"
+
+	// Delete __createfile
+	delete __createfile
+
+	// Create new filelistJobs_bck86
+	createfile until EOF
+jobmanrc
+bin/taskLauncher
+EOF
+
+	// Move filelistJobs_bck86 to ACTIONTOOLS
+	move __createfile "{parameter "ActionTools"}/filelistJobs_bck86"
+endif
+
+// Delete __createfile
+delete __createfile
+
+// Create the lock file
+if {(parameter "AgentType" = "FTA") | false}
+	createfile until EOF
+UserOwner={parameter "UserOwner"}
+SourceInstallationPath={parameter "SourceInstallationPath"}
+SourceMajorVersion={parameter "SourceMajorVersion"}
+SourceMinorVersion={parameter "SourceMinorVersion"}
+SourceMaintenanceVersion={parameter "SourceMaintenanceVersion"}
+SourceFixPack={parameter "SourceFixPack"}
+TargetMajorVersion=9
+TargetMinorVersion=5
+TargetMaintenanceVersion=0
+TargetFixPack=2
+AgentType={parameter "AgentType"}
+EOF
+else
+	createfile until EOF
+UserOwner={parameter "UserOwner"}
+SourceInstallationPath={parameter "SourceInstallationPath"}
+SourceMajorVersion={parameter "SourceMajorVersion"}
+SourceMinorVersion={parameter "SourceMinorVersion"}
+SourceMaintenanceVersion={parameter "SourceMaintenanceVersion"}
+SourceFixPack={parameter "SourceFixPack"}
+TargetMajorVersion=9
+TargetMinorVersion=5
+TargetMaintenanceVersion=0
+TargetFixPack=2
+AgentType={parameter "AgentType"}
+EOF
+endif
+
+// Delete __TWSUpgrade.lck in TEM subfolder
+delete "{pathname of client folder of current site}/__TWSUpgrade.lck"
+
+// Move __createfile to _TWSUpgrade.lck in TEM subfolder
+move __createfile "{pathname of client folder of current site}/__TWSUpgrade.lck"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

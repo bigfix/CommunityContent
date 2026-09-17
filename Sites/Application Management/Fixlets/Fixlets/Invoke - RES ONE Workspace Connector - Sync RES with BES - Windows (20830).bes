@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Invoke - RES ONE Workspace Connector - Sync RES with BES - Windows
+  ID       : 20830
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-06-17T13:59:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Invoke - RES ONE Workspace Connector - Sync RES with BES - Windows</Title>
+    <Description><![CDATA[<P>This task will execute the RES2BES SOAP Connector which is responsible for refreshing the approved applications (whitelist) dashboard data.</P>
+<P><STRONG>Note:</STRONG> This task should be taken as a re-occouring task happening at least once a day, but no more frequently than once an hour.</P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe") AND exists file (pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe")]]></Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-06-17</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-06-17
+
+wait {"%22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe%22" & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

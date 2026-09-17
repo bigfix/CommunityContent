@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Microsoft Office for Mac 2016 - Excel 15.23.2 Available
+  ID       : 20893
+  Author   : BrianCanFixIT
+  Domain   : BESC
+  Imported : 2016-06-28T13:21:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Microsoft Office for Mac 2016 - Excel 15.23.2 Available</Title>
+    <Description><![CDATA[
+<DIV class=FixletMessage>
+<TABLE><TBODY><TR><TD>
+	<P>Microsoft Office for Mac 2016 - Excel (15.23.2)</P>
+	<P>Use the action below to update Microsoft Office for Mac 2016 Excel to the latest version.</P>
+	<P><STRONG>Note: </STRONG>To avoid any service interruptions on the endpoints, use the default action only when the endpoints do not have running instances of related applications such as Microsoft Office Excel. If any of the related application is running on the endpoints, the default action might fail. Schedule the update to occur at a time when the client machine is not using these applications.</P>
+	<P><STRONG>Note: </STRONG>Affected computers may report back as 'Pending Restart' once the patch has run successfully, but will not report back their final status until the computer has been restarted.</P>
+</TD></TR></TBODY></TABLE>
+</DIV>
+<DIV class=FixletProperty>
+<H4>File Size:</H4>951 MB </DIV>
+]]></Description>
+    <Relevance>name of operating system = &quot;Mac OS X&quot;</Relevance>
+    <Relevance><![CDATA[exists application whose (name of it = "Microsoft Excel.app" AND version of it = "15" as version AND (version of it < "15.23.2" OR version of it as string = "15.23"))]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>Microsoft</Source>
+    <SourceID>KB3165798</SourceID>
+    <SourceReleaseDate>2016-06-25</SourceReleaseDate>
+    <SourceSeverity>Low</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update the Microsoft Excel only if it is not running.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+
+wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
+
+continue if{not (exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Excel&quot; as lowercase))}
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg -target /&quot;
+
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action21777">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to update the Microsoft Excel, asking, then forcing to quit after 1 minute.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+
+wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
+
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Excel&quot; as lowercase))}
+wait /usr/bin/osascript -e &quot;ignoring application responses&quot; -e &quot;tell application \&quot;Microsoft Excel\&quot; to quit with saving&quot; -e &quot;end ignoring&quot;
+wait /bin/sh -c &quot;sleep 30&quot;
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Excel&quot; as lowercase))}
+wait /bin/sh -c &quot;sleep 30&quot;
+wait /bin/sh -c &quot;kill {id of process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Excel&quot; as lowercase)}&quot;
+wait /bin/sh -c &quot;sleep 1&quot;
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Error Reporting&quot; as lowercase))}
+wait /bin/sh -c &quot;killall &apos;Microsoft Error Reporting&apos;&quot;
+endif
+endif
+endif
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg -target /&quot;
+
+</ActionScript>
+    </Action>
+    <Action ID="Action21778">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run the installer regardless if Excel is running (not officially supported by Microsoft).</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+
+wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
+
+wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg -target /&quot;
+
+if{(exists process whose (name of it as lowercase = first (minimum of (16; length of it)) of &quot;Microsoft Excel&quot; as lowercase))}
+action requires restart f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92
+endif
+</ActionScript>
+    </Action>
+    <Action ID="Action21779">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for more information about this Microsoft Office for Mac 2016 release.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://support.microsoft.com/en-us/kb/3165798</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

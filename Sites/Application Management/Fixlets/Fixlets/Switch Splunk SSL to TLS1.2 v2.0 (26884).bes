@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Switch Splunk SSL to TLS1.2 v2.0
+  ID       : 26884
+  Author   : FatScottishGuy
+  Domain   : BESC
+  Imported : 2021-11-19T02:19:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Switch Splunk SSL to TLS1.2 v2.0</Title>
+    <Description><![CDATA[<P>This fixlet will modify the server.conf, input.conf and&nbsp;web.conf&nbsp;to include a configuration line for TLS 1.2 to be applied.</P>
+<P><A href="https://docs.splunk.com/Documentation/Splunk/8.2.2/Security/SetyourSSLversion">https://docs.splunk.com/Documentation/Splunk/8.2.2/Security/SetyourSSLversion</A></P>]]></Description>
+    <Relevance>exists service &quot;SplunkForwarder&quot;</Relevance>
+    <Relevance>exists file &quot;server.conf&quot; of folders &quot;C:/Program Files/SplunkUniversalForwarder/etc/system/local/&quot;</Relevance>
+    <Relevance>exists file &quot;web.conf&quot; of folders &quot;C:/Program Files/SplunkUniversalForwarder/etc/system/local/&quot;</Relevance>
+    <Relevance>exists file &quot;input.conf&quot; of folders &quot;C:/Program Files/SplunkUniversalForwarder/etc/system/local/&quot;</Relevance>
+    <Category>Security</Category>
+    <Source>John McKenzie</Source>
+    <SourceReleaseDate>2021-10-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Nov 2021 10:19:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Modify Server Conf File
+parameter "server" = "C:/Program Files/SplunkUniversalForwarder/etc/system/local/server.conf"
+// add some new text
+appendfile {concatenation "%0d%0a" of lines of file (parameter "server") & "%0d%0a" & "[sslConfig]" & "%0d%0a" & "enableSplunkdSSL = true" & "%0d%0a" & "sslVersions = tls1.2" & "%0d%0a"}
+// backup the old file (first delete any old backup files)
+delete "{parameter "server"}.bak"
+move "{parameter "server"}" "{parameter "server"}.bak"
+// replace with the new file
+move __appendfile "{parameter "server"}"
+
+
+//Modify Web Conf File
+parameter "web" = "C:/Program Files/SplunkUniversalForwarder/etc/system/local/web.conf"
+// add some new text
+appendfile {concatenation "%0d%0a" of lines of file (parameter "web") & "%0d%0a" & "sslVersions = tls1.2" & "%0d%0a"}
+// backup the old file (first delete any old backup files)
+delete "{parameter "web"}.bak"
+move "{parameter "web"}" "{parameter "web"}.bak"
+// replace with the new file
+move __appendfile "{parameter "web"}"
+
+
+//Modify Input Conf File
+parameter "input" = "C:/Program Files/SplunkUniversalForwarder/etc/system/local/input.conf"
+// add some new text
+appendfile {concatenation "%0d%0a" of lines of file (parameter "input") & "%0d%0a" & "sslVersions = tls1.2" & "%0d%0a"}
+// backup the old file (first delete any old backup files)
+delete "{parameter "input"}.bak"
+move "{parameter "input"}" "{parameter "input"}.bak"
+// replace with the new file
+move __appendfile "{parameter "input"}"
+
+//Restart the Splunk Forwarder Service
+waithidden cmd /C net stop "SplunkForwarder"
+waithidden cmd /C net start "SplunkForwarder"
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

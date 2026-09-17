@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: BoxEdit v2.0.20.287
+  ID       : 3731
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-03-12T11:33:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: BoxEdit v2.0.20.287</Title>
+    <Description><![CDATA[<P>This task will deploy: BoxEdit.<BR><BR></P>
+<P><A href="https://support.box.com/hc/en-us/articles/200521788">https://support.box.com/hc/en-us/articles/200521788</A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not start with &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance>/* .NET 4.0 Client Profile Installed */ (exists values &quot;Install&quot; whose(1 = it as string as integer) of (keys &quot;Client&quot; of it; keys &quot;Full&quot; of it) of keys whose(name of it starts with &quot;v4&quot; AND (exists key &quot;Client&quot; of it OR exists key &quot;Full&quot; of it)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP&quot; of x32 registry)</Relevance>
+    <Relevance><![CDATA[/* Only install if Box Edit is missing or an older version is installed */ (not exists keys whose (value "DisplayName" of it as string starts with "Box Edit" AND (value "DisplayVersion" of it as string as version) >= "2.0.20.287" as version) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registry)]]></Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-03-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 12 Mar 2014 18:31:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// This prefetch statement will need changed when a new version is released.
+//     because it will fail the SHA1 check if this specific version is not already in the Root Server Mirror Cache.
+prefetch BoxEditInstaller.msi sha1:4ef807f363ca7475d984a4d4fa489d55a694ab34 size:2707968 http://www.box.com/static/BoxEdit/BoxEditInstaller.msi
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\BoxEditInstaller.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

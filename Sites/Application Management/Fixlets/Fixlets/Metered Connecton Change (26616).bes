@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Metered Connecton Change
+  ID       : 26616
+  Author   : stesmi0823
+  Domain   : BESC
+  Imported : 2019-03-29T07:54:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Metered Connecton Change</Title>
+    <Description>Metered Connecton Change</Description>
+    <Relevance>(name of operating system = &quot;Win10&quot;) AND (exists value &quot;4G&quot; whose (1 != it as integer) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\DefaultMediaCost&quot; of native registry)</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-03-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 29 Mar 2019 14:17:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+
+// Special thanks to the following from which portions of this are taken
+// https://social.technet.microsoft.com/Forums/windowsserver/en-US/e718a560-2908-4b91-ad42-d392e7f8f1ad/take-ownership-of-a-registry-key-and-change-permissions?forum=winserverpowershell
+// http://powershellpainrelief.blogspot.com/2014/07/powershell-working-with-registry-part-2.html
+// http://msdn.microsoft.com/en-us/library/bb530716(VS.85).aspx
+
+action uses wow64 redirection false
+
+parameter "RootKey"="LocalMachine"
+parameter "RegKey"="SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\DefaultMediaCost"
+parameter "FullKeyPath"="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\DefaultMediaCost"
+parameter "NewOwner"="NT AUTHORITY\System"
+parameter "AddACL"="{"%22NT AUTHORITY\System%22,%22FullControl%22,@(%22ObjectInherit%22,%22ContainerInherit%22),%22None%22,%22Allow%22"}"
+
+//Example RootKey values
+// LocalMachine; ClassesRoot; CurrentConfig; CurrentUser; Users
+
+// Example RegistryAccessFules
+// "NT AUTHORITY\System","FullControl","Allow"  ==> Applies to this key only
+// "NT AUTHORITY\System","FullControl",@("ObjectInherit","ContainerInherit"),"None","Allow"  ==> applies to this key, subkeys, and values
+
+delete __createfile
+createfile until EOF_EOF_EOF
+##Taken with thanks from https://social.technet.microsoft.com/Forums/windowsserver/en-US/e718a560-2908-4b91-ad42-d392e7f8f1ad/take-ownership-of-a-registry-key-and-change-permissions?forum=winserverpowershell
+
+function enable-privilege {
+ param(
+  ## The privilege to adjust. This set is taken from
+  ## http://msdn.microsoft.com/en-us/library/bb530716(VS.85).aspx
+  [ValidateSet(
+   "SeAssignPrimaryTokenPrivilege", "SeAuditPrivilege", "SeBackupPrivilege",
+   "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeCreatePagefilePrivilege",
+   "SeCreatePermanentPrivilege", "SeCreateSymbolicLinkPrivilege", "SeCreateTokenPrivilege",
+   "SeDebugPrivilege", "SeEnableDelegationPrivilege", "SeImpersonatePrivilege", "SeIncreaseBasePriorityPrivilege",
+   "SeIncreaseQuotaPrivilege", "SeIncreaseWorkingSetPrivilege", "SeLoadDriverPrivilege",
+   "SeLockMemoryPrivilege", "SeMachineAccountPrivilege", "SeManageVolumePrivilege",
+   "SeProfileSingleProcessPrivilege", "SeRelabelPrivilege", "SeRemoteShutdownPrivilege",
+   "SeRestorePrivilege", "SeSecurityPrivilege", "SeShutdownPrivilege", "SeSyncAgentPrivilege",
+   "SeSystemEnvironmentPrivilege", "SeSystemProfilePrivilege", "SeSystemtimePrivilege",
+   "SeTakeOwnershipPrivilege", "SeTcbPrivilege", "SeTimeZonePrivilege", "SeTrustedCredManAccessPrivilege",
+   "SeUndockPrivilege", "SeUnsolicitedInputPrivilege")]
+  $Privilege,
+  ## The process on which to adjust the privilege. Defaults to the current process.
+  $ProcessId = $pid,
+  ## Switch to disable the privilege, rather than enable it.
+  [Switch] $Disable
+ )
+
+ ## Taken from P/Invoke.NET with minor adjustments.
+ $definition = @'
+ using System;
+ using System.Runtime.InteropServices;
+
+ public class AdjPriv
+ {
+  [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+  internal static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall,
+   ref TokPriv1Luid newst, int len, IntPtr prev, IntPtr relen);
+
+  [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
+  internal static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
+  [DllImport("advapi32.dll", SetLastError = true)]
+  internal static extern bool LookupPrivilegeValue(string host, string name, ref long pluid);
+  [StructLayout(LayoutKind.Sequential, Pack = 1)]
+  internal struct TokPriv1Luid
+  {
+   public int Count;
+   public long Luid;
+   public int Attr;
+  }
+
+  internal const int SE_PRIVILEGE_ENABLED = 0x00000002;
+  internal const int SE_PRIVILEGE_DISABLED = 0x00000000;
+  internal const int TOKEN_QUERY = 0x00000008;
+  internal const int TOKEN_ADJUST_PRIVILEGES = 0x00000020;
+  public static bool EnablePrivilege(long processHandle, string privilege, bool disable)
+  {
+   bool retVal;
+   TokPriv1Luid tp;
+   IntPtr hproc = new IntPtr(processHandle);
+   IntPtr htok = IntPtr.Zero;
+   retVal = OpenProcessToken(hproc, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, ref htok);
+   tp.Count = 1;
+   tp.Luid = 0;
+   if(disable)
+   {
+    tp.Attr = SE_PRIVILEGE_DISABLED;
+   }
+   else
+   {
+    tp.Attr = SE_PRIVILEGE_ENABLED;
+   }
+   retVal = LookupPrivilegeValue(null, privilege, ref tp.Luid);
+   retVal = AdjustTokenPrivileges(htok, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero);
+   return retVal;
+  }
+ }
+'@
+
+ $processHandle = (Get-Process -id $ProcessId).Handle
+ $type = Add-Type $definition -PassThru
+ $type[0]::EnablePrivilege($processHandle, $Privilege, $Disable)
+}
+
+enable-privilege SeTakeOwnershipPrivilege
+enable-privilege seRestorePrivilege
+
+$key = [Microsoft.Win32.Registry]::{parameter "RootKey" of action}.OpenSubKey("{parameter "RegKey" of action}",[Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree,[System.Security.AccessControl.RegistryRights]::takeownership)
+
+## *** Note from Jason Walker - I find the following to not be true if the system account has at least "Read Permissions" to the key.
+## Rather than starting from an empty ACL list, I instead try to start from the existing ACL list on the registry key and then modify it as needed
+# You must get a blank acl for the key b/c you do not currently have access
+#$acl = $key.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None)
+
+$acl = $key.GetAccessControl()
+$me = [System.Security.Principal.NTAccount]"{parameter "NewOwner" of action}"
+$acl.SetOwner($me)
+$key.SetAccessControl($acl)
+
+# After you have set owner you need to get the acl with the perms so you can modify it.
+$acl = $key.GetAccessControl()
+$rule = New-Object System.Security.AccessControl.RegistryAccessRule ({parameter "AddACL" of action})
+$acl.AddAccessRule($rule)
+$key.SetAccessControl($acl)
+
+$key.Close()
+
+EOF_EOF_EOF
+
+
+delete TakeOwnerReg.ps1
+move __createfile TakeOwnerReg.ps1
+
+waithidden powershell.exe -ExecutionPolicy Bypass -File TakeOwnerReg.ps1
+
+continue if {exit code of action = 0}
+
+action uses wow64 redirection false
+
+delete __createfile
+delete wizardedit.reg
+
+createfile until @end_create_reg_file
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\DefaultMediaCost]
+"3G"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\DefaultMediaCost]
+"4G"=dword:00000001
+
+@end_create_reg_file
+
+
+move __createfile wizardedit.reg
+waithidden regedit /s "wizardedit.reg"]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

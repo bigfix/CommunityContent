@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Open Steam Big Picture Mode - Windows
+  ID       : 24572
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-07-04T08:51:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Open Steam Big Picture Mode - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam&quot; of (x64 registries; x32 registries)</Relevance>
+    <Relevance><![CDATA[1 <= number of logged on users]]></Relevance>
+    <Relevance>exists unique value of pathnames of files &quot;Steam.exe&quot; of parent folders of (files it) of unique values of (it as string) of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam&quot; of (x64 registries; x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-07-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Jul 2017 15:50:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+override run
+RunAs=currentuser
+run &quot;{ unique values of pathnames of files &quot;Steam.exe&quot; of parent folders of (files it) of unique values of (it as string) of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam&quot; of (x64 registries; x32 registries) }&quot; -start steam://open/bigpicture
+
+// https://steamcommunity.com/groups/bigpicture/discussions/2/882960163727915929/
+// unique values of local ports of sockets whose(exists processes whose(exists image files whose(it as string contains &quot;Steam.exe&quot;) of it) of it) of networks
+// https://bigfix.me/relevance/details/3020266#comments
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

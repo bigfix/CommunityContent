@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall TortoiseSVN 1.7.10.23359 (64 bit) - 64 bit
+  ID       : 700
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-12-04T18:11:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall TortoiseSVN 1.7.10.23359 (64 bit) - 64 bit</Title>
+    <Description><![CDATA[    Standard Uninstallation Fixlet Template.  See the Uninstall Wizard for details related to this fixlet.
+    <P><B>Source Wizard:</B> <A href="http://bigfix.me/uninstall">http://bigfix.me/uninstall</A></P>
+    <P>This fixlet is constructed from the following variables provided by the developer:</P>
+    <P><B>Registry Source:</B> HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall</P>
+    <P><B>Display Name:</B> TortoiseSVN 1.7.10.23359 (64 bit)</P>
+    <P><B>Application Guid:</B> 71EFF430-1A34-423E-8EAF-A80173960A8E</P>
+    <P><B>Uninstall Command String:</B> MsiExec.exe /x{appGuid} /quiet /norestart</P>
+]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>exists key whose (value &quot;DisplayName&quot; of it as string contains &quot;TortoiseSVN 1.7.10.23359 (64 bit)&quot; AND value &quot;UninstallString&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x64 registry</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-12-04</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 4 Dec 2012 18:11:440</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//User Defined Uninstall String
+waithidden MsiExec.exe /x{{71EFF430-1A34-423E-8EAF-A80173960A8E} /quiet /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action956">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about the Windows Installer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://msdn.microsoft.com/en-us/library/windows/desktop/aa367449(v=vs.85).aspx</ActionScript>
+    </Action>
+  </Task>
+</BES>

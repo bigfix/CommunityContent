@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Install/Upgrade: Visual Studio Code 1.7.1 - Windows
+  ID       : 22625
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-11-14T11:01:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Install/Upgrade: Visual Studio Code 1.7.1 - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[not exists keys whose(exists values "DisplayName" whose(it as string starts with "Microsoft Visual Studio Code") of it AND exists values "DisplayVersion" whose(it as string as version >= "1.7.1" as version) of it) of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-11-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Nov 2016 18:59:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+prefetch VSCodeSetup.exe sha1:0f88ffb5da19828690baceca512c9dc3c3a99888 size:33446608 https://az764295.vo.msecnd.net/stable/02611b40b24c9df2726ad8b33f5ef5f67ac30b44/VSCodeSetup-1.7.1.exe sha256:4f1a406321af2f90d16e5b753529d205e66d4f6eeaa5f925566c43b8f8e70638
+
+waithidden __Download\VSCodeSetup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS /NOCANCEL /NORESTART /NORUN /MERGETASKS=&quot;!runcode,!desktopicon&quot;
+
+// Related: https://www.bigfix.me/fixlet/details/6291
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

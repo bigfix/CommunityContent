@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Dell Open Print Driver v1.91 - Windows
+  ID       : 6059
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-11T11:16:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Dell Open Print Driver v1.91 - Windows</Title>
+    <Description><![CDATA[<P>This task will&nbsp;install the&nbsp;Dell&nbsp;Open Print Drivers and create a fake "Dell Open Print Driver" printer that can be used to print to any printer.</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists files whose( (name of it as lowercase ends with ".inf") AND (exists section "Version" of it) AND ("1.91.7882.0" <= unique value of (it as version) of following texts of lasts "," of keys "DriverVer" of section "Version" of it) AND (exists lines whose(it contains "Dell Open Print Driver") of it) ) of folders whose(name of it as lowercase starts with "dell") of folders "DriverStore\FileRepository" of system x64 folder]]></Relevance>
+    <Category>Driver</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-05-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 11 May 2015 18:15:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// http://www.dell.com/learn/us/en/555/solutions/client-systems-printer-opd?c=us&l=en&s=biz
+// http://www.dell.com/support/home/us/en/19/Drivers/DriversDetails?driverId=THFTW&fileId=3353011406&osCode=W732&productCode=dell-open-prnt-drivr&languageCode=EN&categoryId=PE
+// https://technet.microsoft.com/en-us/library/cc730875.aspx
+begin prefetch block
+
+	//add prefetch item name=7za.zip sha1=9ce9ce89ebc070fea5d679936f21f9dde25faae0 size=384846 url=http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
+    add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+
+	add prefetch item name=Software_OPD_Dell_Win.zip sha1=4f15588c6526855c67e9116fd6fc7ac9277ff098 size=13703875 url=http://downloads.dell.com/FOLDER02086920M/1/Software_OPD_Dell_A11_Win.zip
+
+end prefetch block
+
+// ADD TO UTILITY CACHE (to use in multiple tasks)
+utility __Download\unzip.exe
+//utility __Download\7za.zip
+
+// http://pic.dhe.ibm.com/infocenter/tivihelp/v26r1/index.jsp?topic=%2Fcom.ibm.tem.doc_8.2%2FPlatform%2FAction%2Fc_action_launch_preference_low_p.html
+// launch exe's with low priority settings to help prevent disrupting the user
+action launch preference low-priority
+
+// EXTRACT using unzip:
+waithidden __Download\unzip.exe -o "{pathname of file "Software_OPD_Dell_Win.zip" of folder "__Download" of client folder of current site}" -d "{pathname of folder "__Download" of client folder of current site}"
+
+waithidden msiexec /i "{pathname of file "dellopd.msi" of folder "__Download" of client folder of current site}" /qn
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

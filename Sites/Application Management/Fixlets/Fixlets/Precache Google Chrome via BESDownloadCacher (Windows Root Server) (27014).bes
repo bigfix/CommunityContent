@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Precache Google Chrome via BESDownloadCacher (Windows Root Server)
+  ID       : 27014
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2023-12-07T08:09:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Precache Google Chrome via BESDownloadCacher (Windows Root Server)</Title>
+    <Description><![CDATA[<P>This Task downloads the BESDownloadCacher.exe utility on a Windows Root Server, and then uses BESDownloadCacher to download and pre-cache the current x32 and x64 versions of Chrome hosted by Google.</P>
+<P>When Google releases a new version of Chrome, the download binaries are updated at a set of fixed download URLs, which makes any prior version of Google Chrome Fixlets fail the downloads when the new versions do not match the expected hashes of the old versions of Chrome defined in the Fixlet.</P>
+<P>By pre-cachiing the Google Chrome installer binaries onto the Root server, we can avoid this issue and allow older Chrome Fixlets to update clients using the cached versions.</P>
+<P>Because Google updates Chrome frequently, it is useful to check for new Chrome downloads several times daily; i.e. configure action to 'Reapply while relevant, waiting 6 hours between reapplications'</P>]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2023-12-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 07 Dec 2023 15:28:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+// Download BESDownloadCacher.exe, if 5.8.1.0 or higher is not already present on the machine
+if {not exists file "BESDownloadCacher.exe" whose (version of it >= version "5.8.1.0") of folders "BESDownloadCacher" of parent folder of parent folder of client folder of site "actionsite"}
+  add prefetch item name=BESDownloadCacher.exe size=3223638 sha1=62fccabe7aeb4bfa6ca2d41d9c5c313c4fea2cba url=https://software.bigfix.com/download/bes/util/BESDownloadCacher-5.8.1.0.exe sha256=4f05e6f7fe1e79ee9e8a868301876926dc5eb954d9e7162f1ef071bfae94a46e
+endif
+end prefetch block
+
+// Move BESDownloadCacher.exe to "BES Client\BESDownloadCacher\BESDownloadCacher.exe", if 5.8.1.0 or newer is not already there
+if {not exists file "BESDownloadCacher.exe" whose (version of it >= version "5.8.1.0") of folders "BESDownloadCacher" of parent folder of parent folder of client folder of site "actionsite"}
+ folder create "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher"
+ delete "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher\BESDownloadCacher.exe"
+ move __Download\BESDownloadCacher.exe "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher\BESDownloadCacher.exe"
+endif
+
+// Delete prior versions of the BESDownloadCacher log file.  Otherwise the log will continue to grow each time the task is run.
+delete "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher\BESDownloadCacher.log"
+
+// Use BESDownloadCacher to download & precache the current versions of Chrome, logging output to 'BES Client\BESDownloadCacher\
+// chrome x64:
+waithidden "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher\BESDownloadCacher.exe" -l -u https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B03FE9563-80F9-119F-DA3D-72FBBB94BC26%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable%26brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi
+
+// chrome x32:
+waithidden "{pathname of parent folder of parent folder of client folder of site "actionsite"}\BESDownloadCacher\BESDownloadCacher.exe" -l -u https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B03FE9563-80F9-119F-DA3D-72FBBB94BC26%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable%26brand=GCEA/dl/chrome/install/googlechromestandaloneenterprise.msi
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

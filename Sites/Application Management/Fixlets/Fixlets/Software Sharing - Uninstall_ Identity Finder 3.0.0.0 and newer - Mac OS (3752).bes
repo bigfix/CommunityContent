@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Software Sharing - Uninstall: Identity Finder 3.0.0.0 and newer - Mac OS
+  ID       : 3752
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-04-02T07:00:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Software Sharing - Uninstall: Identity Finder 3.0.0.0 and newer - Mac OS</Title>
+    <Description><![CDATA[<P>This task will uninstall: Identity Finder 3.0.0.0&nbsp;and newer&nbsp;- Mac OS</P>
+<P><STRONG><FONT color=#ff0000>Important Note:</FONT></STRONG> This is a "hard" uninstall. Existing settings will not be saved or backed up. This will only remove the user settings for the currently logged in user.</P>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <Relevance><![CDATA[exists application whose (name of it as string is "Identity Finder.app" and (it >= "3.0.0.0" as version) of (version of it as string))]]></Relevance>
+    <Category>Uninstall</Category>
+    <Source>Internal</Source>
+    <SourceID>jbt8</SourceID>
+    <SourceReleaseDate>2011-12-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 11 Mar 2014 13:47:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall Identity Finder 3.0.0.0 and newer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[wait /bin/sh -c "launchctl unload '{"/Users/" & (name of logged on user) & "/Library/LaunchAgents/com.identityfinder.launchagent.plist"}'"
+wait /bin/sh -c "launchctl unload /Library/LaunchDaemons/com.identityfinder.launchdaemon.plist"
+wait /bin/sh -c "rm -f '{"/Users/" & (name of logged on user) & "/Library/LaunchAgents/com.identityfinder.launchagent.plist"}'"
+wait /bin/sh -c "rm -f /Library/LaunchDaemons/com.identityfinder.launchdaemon.plist"
+wait /bin/sh -c "rm -f '{"/Users/" & (name of logged on user) & "/Library/Preferences/com.identityfinder.macedition.plist"}'"
+wait /bin/sh -c "rm -rf '{"/Users/" & (name of logged on user) & "/Library/Application\ Support/Identity\ Finder/"}'"
+wait /bin/sh -c "rm -rf /Applications/Identity\ Finder.app/"
+wait /bin/sh -c "rm -rf /Library/Application\ Support/Identity\ Finder/"
+wait /bin/sh -c "rm -f /Library/Preferences/com.identityfinder.macedition.plist"
+wait /bin/sh -c "rm -rf /Users/Shared/.identityfinder"
+wait /bin/sh -c "rm -rf /var/db/receipts/com.identityfinder.*"]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

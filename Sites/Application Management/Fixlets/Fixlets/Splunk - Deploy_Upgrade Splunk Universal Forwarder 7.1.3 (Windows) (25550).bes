@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Splunk - Deploy/Upgrade Splunk Universal Forwarder 7.1.3 (Windows)
+  ID       : 25550
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2018-09-24T18:16:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Splunk - Deploy/Upgrade Splunk Universal Forwarder 7.1.3 (Windows)</Title>
+    <Description><![CDATA[<P>Deploy Splunk&nbsp;Light Forwarder 7.1.3 </P>
+<P>This fixlet installs the Splunk Universal Forwarder on&nbsp;Windows&nbsp;x64 operating systems.</P>
+<P>The fixlet will ask for the address&nbsp;and mangement port of the deployment server in your environment. Please request this information from your Splunk administrator before installing or else the forwarder will only be managed locally. If a deployment server is not defined, the value is not configured.</P>]]></Description>
+    <Relevance><![CDATA[if name of operating system contains "Win2" AND name of operating system does not contain "Win2003" AND not exists name whose (it contains "Win2008" AND it does not contain "R2") of operating system then exists service "SplunkForwarder" AND (substring after "=" of line containing "VERSION" of file "splunk.version" of folder  "C:\Program Files\SplunkUniversalForwarder\" as trimmed string as version < "7.1.3") OR not exists service "SplunkForwarder" else false]]></Relevance>
+    <Category>Splunk</Category>
+    <Source>Splunk</Source>
+    <SourceReleaseDate>2015-09-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 25 Sep 2018 01:15:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;ds&quot; with description &quot;Hostname of deployment server and management port. Leave empty for upgrade or local management.&quot;
+
+//OS Check
+continue if {name of operating system contains &quot;Win&quot;}
+
+//Grab installer and configuration files
+prefetch splunkforwarder.msi sha1:ef91686217fe13d6faf2ac6eb78b56a7ed3b541a size:58499072 http://download.splunk.com/products/universalforwarder/releases/7.1.3/windows/splunkforwarder-7.1.3-51d9cac7b837-x64-release.msi
+
+//Parameter defining the version being upgraded to
+parameter &quot;version&quot;=&quot;7.1.3&quot;
+
+//Stop existing installation of Splunk
+if {exists file &quot;C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe&quot;}
+waithidden cmd.exe /C &quot;C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe&quot; stop
+endif
+
+//Create the it_info folder if it doesn&apos;t exist
+if {not exists folder &quot;C:\it_info&quot;}
+waithidden cmd.exe /C mkdir C:\it_info
+endif
+
+//Install Forwarder
+if {parameter &quot;ds&quot; of action as string is not &quot;&quot;}
+waithidden msiexec.exe /i &quot;__Download\splunkforwarder.msi&quot; /qn /l*v c:\it_info\Splunk_Forwarder_{parameter &quot;version&quot; of action as string}_Install.log AGREETOLICENSE=YES LAUNCHSPLUNK=1 DEPLOYMENT_SERVER=&quot;{parameter &quot;ds&quot; as string}&quot; GENRANDOMPASSWORD=1
+elseif {not exists folder &quot;C:\Program Files\SplunkUniversalForwarder&quot;}
+waithidden msiexec.exe /i &quot;__Download\splunkforwarder.msi&quot; /qn /l*v c:\it_info\Splunk_Forwarder_{parameter &quot;version&quot; of action as string}_Install.log AGREETOLICENSE=YES LAUNCHSPLUNK=1 GENRANDOMPASSWORD=1
+else
+waithidden msiexec.exe /i &quot;__Download\splunkforwarder.msi&quot; /qn /l*v c:\it_info\Splunk_Forwarder_{parameter &quot;version&quot; of action as string}_Install.log AGREETOLICENSE=YES LAUNCHSPLUNK=1
+endif</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

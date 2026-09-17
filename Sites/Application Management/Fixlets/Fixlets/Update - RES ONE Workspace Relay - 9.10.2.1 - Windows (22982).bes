@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Update - RES ONE Workspace Relay - 9.10.2.1 - Windows
+  ID       : 22982
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:01:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Update - RES ONE Workspace Relay - 9.10.2.1 - Windows</Title>
+    <Description><![CDATA[<P>Updates the corresponding RES ONE Workspace component to RES ONE Workspace 2015 SR2 with version&nbsp;9.10.2.1</P>
+<P>If your relay is also a client please use the corresponding Update Client Fixlet as well.</P>
+<P>If your relay is also a console please use the corresponding Update Console Fixlet as well.</P>
+<P>If your relay is also the root RES server please use the corresponding Update Server Fixlet as well.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;RESRLS&quot;</Relevance>
+    <Relevance><![CDATA[version of service "resrls" < "9.10.2.1" as version]]></Relevance>
+    <Category>Upgrade</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:56 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Source Release Date: 2016-12-05
+IF {x64 of operating system}
+   prefetch WMRELAY64.msi sha1:BEE346B41D9153EACFA451E7DA755C4F33D1075E size:2907136 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-SR2-Relay-Server(x64)-9.10.2.1.msi sha256:49F7E5EC86559B4BFC6D121B99A6A226E6F3EC8686BDB7FF730E85168D7D510E
+wait msiexec /i __Download\WMRELAY64.MSI /qn
+ELSE
+   prefetch WMRELAY86.MSI sha1:0BF99ADE3078F0A3AD192FBA1E96A56B4C633615 size:2907136 http://downloads.ressoftware.com/downloads/cdm/9.10.2.1/RES-ONE-Workspace-2015-SR2-Relay-Server(x86)-9.10.2.1.msi sha256:FC88F887F955FEAA678989E6FD421658BB2E7023EF5CB475DA4673FB9F7CD352
+   wait msiexec /i __Download\WMRELAY86.MSI /qn
+ENDIF</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

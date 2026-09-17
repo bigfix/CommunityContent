@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Office Web Components 2003 - Windows
+  ID       : 3866
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-03T12:32:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Office Web Components 2003 - Windows</Title>
+    <Description><![CDATA[<P>This Task installs the Office Web Components, which are require to view some of the reports in WebReports.</P>
+<P>Adapted from&nbsp;the IBM fixlet:&nbsp; Missing Office Web Components - BES Console - OWC 2003</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://www.microsoft.com/en-us/download/details.aspx?id=1878">http://www.microsoft.com/en-us/download/details.aspx?id=1878</A></P>
+<P><A href="http://www.microsoft.com/en-us/download/details.aspx?id=22276">http://www.microsoft.com/en-us/download/details.aspx?id=22276</A></P>
+<P><A href="http://support2.microsoft.com/kb/972129">http://support2.microsoft.com/kb/972129</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
+    <Relevance><![CDATA[not (exists files "owc11.dll" whose (version of it >= "12.0.6211.1000") of folders "\Microsoft Shared\Web Components\11" of folders (value "CommonFilesDir" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion" of registry as string))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-10-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 03 Oct 2014 19:26:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch owc11.exe sha1:1fc5601201c531d254f1fefa09288b2c9e3304c5 size:18470712 http://download.microsoft.com/download/c/f/f/cff746cd-f17c-40d8-acf2-50d2200ad28b/owc11.exe  sha256:83cf93b09fa76dcfadf29ad0a1908f9dabfca24feedc7c1d4a82cd2aacd57b3d
+
+prefetch owc2007sp1-kb937961-fullfile-en-us.exe sha1:9a3e44ca5621c82724fa070b20ae67030a24aa07 size:6593384 http://download.microsoft.com/download/5/2/e/52e465ed-d515-4d7d-a5a6-c895ee773243/owc2007sp1-kb937961-fullfile-en-us.exe
+
+wait __Download\owc11.exe /quiet /passive /norestart
+wait __Download\owc2007sp1-kb937961-fullfile-en-us.exe /quiet /passive /norestart
+//wait msiexec.exe /i owc11.msi reboot=reallysuppress /q
+
+//run "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" "{pathname of client folder of site "BESSupport" & "\qchain.exe"}"
+action may require restart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

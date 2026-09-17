@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: Adobe Connect 9+ Meeting Add-In v11.9.972.8 - Windows - per user install
+  ID       : 3933
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-19T09:47:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: Adobe Connect 9+ Meeting Add-In v11.9.972.8 - Windows - per user install</Title>
+    <Description><![CDATA[<P class=subsection><STRONG><FONT size=3>About Adobe Connect Meeting Add-In</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr class=subsection>
+<P>The Adobe Connect Meeting Add-In is required to share your screen in an Adobe Connect meeting.</P></BLOCKQUOTE>
+<P class=subsection><STRONG><FONT color=#0080ff size=3>Licensing</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr class=subsection>
+<P>The Adobe Connect Meeting Add-In is freeware.</P></BLOCKQUOTE>
+<P class=subsection><STRONG><FONT size=3>About This Task</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr class=subsection>
+<P>This task will install/upgrade: Adobe Connect 9.1 Add-In version <FONT size=2>11.9.972.8</FONT></P>
+<P><FONT size=2>This task should be deployed as an open action so that it can have a chance to affect all users of&nbsp;a system, which will require multiple runs.</P></FONT>
+<P>This task is applicable on: Windows XP, Windows XP x64, Windows Vista, Windows Vista x64, Windows 7, Windows 7 x64, Windows 8 and Windows 8 x64.</P></BLOCKQUOTE>
+<P class=subsection><STRONG><FONT size=3>Action Description</FONT></STRONG></P>
+<DIV class=subsection>
+<UL>
+<LI><STRONG>Action1: Install/upgrade.</STRONG></LI></UL></DIV>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action installs Adobe Connect Meeting Add-In.</P></BLOCKQUOTE>
+<UL>
+<LI><STRONG>Action2: Install/upgrade only if the Adobe Connect Add-In is not running.</STRONG></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action only installs Adobe Connect Meeting Add-In if it is not running; if it is running, the action may report back as failed. To ensure that the update is eventually applied, you may to deploy this action as a policy and and retry the installation if it fails.</P>
+<P>&nbsp;</P></BLOCKQUOTE>
+<P><STRONG><FONT size=3>Additional Notes</FONT></STRONG></P>
+<P>Adobe Flash Player must be installed on the client machines.</P>
+<P>Adobe Connect 9 Meeting Add-ins are not backwards compatible with prior versions of Adobe Connect; however, the Adobe Connect 9 Add-In can co-exist with previous Add-In versions.</P>
+<P>&nbsp;</P>
+<P><STRONG><FONT size=3>References</FONT></STRONG></P>
+<P><A href="http://www.adobe.com/products/adobeconnect/tech-specs.html"><FONT color=#000080>http://www.adobe.com/products/adobeconnect/tech-specs.html</FONT></A></P>
+<P><A href="http://blogs.adobe.com/connectsupport/installing-add-in-for-all-user-profiles/"><FONT color=#000080>http://blogs.adobe.com/connectsupport/installing-add-in-for-all-user-profiles/</FONT></A></P>
+<P><A href="http://helpx.adobe.com/adobe-connect/kb/latest-connect-91-addin.html"><FONT color=#000080>http://helpx.adobe.com/adobe-connect/kb/latest-connect-91-addin.html</FONT></A></P>
+<P><A href="http://www.adobe.com/support/documentation/en/connect/9_1/pdfs/Adobe_Connect_9_1_Release_notes-eng-En.pdf"><FONT color=#000080>http://www.adobe.com/support/documentation/en/connect/9_1/pdfs/Adobe_Connect_9_1_Release_notes-eng-En.pdf</FONT></A></P>
+<P><A href="http://www.adobe.com/support/connect/downloads-updates.html"><FONT color=#000080>http://www.adobe.com/support/connect/downloads-updates.html</FONT></A></P>
+<P><A href="http://social.technet.microsoft.com/Forums/systemcenter/en-US/9a0df5e6-c46d-424c-98b7-e544eb60e613/adobe-connect-plugin"><FONT color=#000080>http://social.technet.microsoft.com/Forums/systemcenter/en-US/9a0df5e6-c46d-424c-98b7-e544eb60e613/adobe-connect-plugin</FONT></A></P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* check if exactly 1 user is logged in */ (exists current user) AND (1 = number of logged on users)</Relevance>
+    <Relevance><![CDATA[/* check that this version of the add-in is not already installed */ not exists (files "adobeconnectaddin.exe" whose(version of it >= "11.9.972.8") of folders "AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\adobeconnectaddin" of folders (name of current user) of folders "C:\Users")]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-12-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 19 Dec 2014 16:46:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;STRONG&gt;Install/upgrade only if the Adobe Connect Add-In is not running&lt;/STRONG&gt;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+continue if {not exists running application whose (name of it as lowercase = &quot;adobeconnectaddin.exe&quot;)}
+
+// http://www.adobe.com/support/connect/downloads-updates.html
+// http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_385.zip
+// https://www.virustotal.com/en/file/72ce9246e033afbb7390047e065d4f7be6eadf37c3324ea025510c5d3a3a6c5f/analysis/
+
+
+// Download UnZip utility
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+
+// Download the Adobe Connect Add-In
+prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip
+
+// Record the current user name, so that it does not change during execution
+parameter &quot;CurrentUserName&quot; = &quot;{name of current user}&quot;
+
+// extract the setup.exe from the .zip download from adobe
+waithidden __Download\unzip.exe -o &quot;{pathname of client folder of current site}\__Download\ac_addin_win.zip&quot; -d &quot;{pathname of client folder of current site}\__Download&quot;
+
+// only continue if there is exactly 1 user logged on, and it is the same user recorded in the begining.
+continue if {(exists current user) AND (1 = number of logged on users) AND (parameter &quot;CurrentUserName&quot; = name of current user)}
+
+// do the install of the add-in
+wait __Download\setup.exe /VERYSILENT /DIR=&quot;C:\Users\{parameter &quot;CurrentUserName&quot;}\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\adobeconnectaddin&quot;
+</ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action4340">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;STRONG&gt;Install/upgrade&lt;/STRONG&gt;.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// http://www.adobe.com/support/connect/downloads-updates.html
+// http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_385.zip
+// https://www.virustotal.com/en/file/72ce9246e033afbb7390047e065d4f7be6eadf37c3324ea025510c5d3a3a6c5f/analysis/
+
+
+// Download UnZip utility
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+
+// Download the Adobe Connect Add-In
+prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip
+
+// Record the current user name, so that it does not change during execution
+parameter &quot;CurrentUserName&quot; = &quot;{name of current user}&quot;
+
+// extract the setup.exe from the .zip download from adobe
+waithidden __Download\unzip.exe -o &quot;{pathname of client folder of current site}\__Download\ac_addin_win.zip&quot; -d &quot;{pathname of client folder of current site}\__Download&quot;
+
+// only continue if there is exactly 1 user logged on, and it is the same user recorded in the begining.
+continue if {(exists current user) AND (1 = number of logged on users) AND (parameter &quot;CurrentUserName&quot; = name of current user)}
+
+// do the install of the add-in
+wait __Download\setup.exe /VERYSILENT /DIR=&quot;C:\Users\{parameter &quot;CurrentUserName&quot;}\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\adobeconnectaddin&quot;
+</ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall RES One Workspace Agent for MAC
+  ID       : 20756
+  Author   : RESQA
+  Domain   : BESC
+  Imported : 2016-06-01T08:12:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall RES One Workspace Agent for MAC</Title>
+    <Description>This task will uninstall RES ONE Workspace Agent. </Description>
+    <Relevance>(mac of operating system and exists file &quot;/etc/res/resauthd.conf&quot; and exists file &quot;/usr/local/bin/reswmad&quot;)</Relevance>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-05-27</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 27 May 2016 23:25:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+        delete __createfile
+        delete agent_config.sh
+        createfile until __end
+        sed -i &apos;&apos; &apos;s/LearningMode=no/LearningMode=yes/g&apos; /etc/res/resauthd.conf
+        sed -i &apos;&apos; &apos;s/AllowAny=no/AllowAny=yes/g&apos; /etc/res/resauthd.conf
+        launchctl unload /Library/LaunchDaemons/com.ressoftware.reswmad.plist
+        launchctl unload /Library/LaunchDaemons/com.ressoftware.resauthd.plist
+
+        rm -f /Library/LaunchDaemons/com.ressoftware.reswmad.plist
+        rm -f /Library/LaunchDaemons/com.ressoftware.resauthd.plist
+        rm -f /etc/res/README_INSTALL.txt
+        rm -rf /etc/res/modules/osx
+        rm -f /etc/res/resauthd.conf
+        rm -f /etc/res/reswmad.conf
+        rm -f /etc/res/reswmad.conf.example
+        rm -f /etc/res/reswmad.version
+        rm -f /etc/res/sec_globauth.xml
+        rm -f /etc/res/reswmad.conf.swp
+        rm -f /usr/local/bin/resauthd
+        rm -f /usr/local/bin/reswmad
+        rm -f /var/log/reswmad.log
+        rm -f /var/log/resauthd.log
+        rm -f /var/log/res_unauthorized.log
+
+        __end
+        move __createfile agent_config.sh
+        wait bash agent_config.sh
+        delete agent_config.sh
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: 7-Zip 9.38 BETA - Windows
+  ID       : 3946
+  Author   : kuwahard
+  Domain   : BESC
+  Imported : 2015-01-22T12:31:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: 7-Zip 9.38 BETA - Windows</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=3>About 7-Zip</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>7-Zip is an open source file archiver. 7-Zip operates with the 7z archive format, but it can also read and write several other archive formats either from a command-line interface, graphical user interface, or a window-based shell.</P></BLOCKQUOTE>
+<P><STRONG><FONT color=#0080ff size=3>Licensing</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>7-Zip is open source software (GNU LGPLv.1+ with unRAR restriction).</P></BLOCKQUOTE>
+<P><STRONG><FONT size=3>About This Task</FONT></STRONG></P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This task will install/upgrade: 7-Zip 9.38 BETA. This is BETA software not final release, it may not function properly. <BR><BR>This task is applicable on: Windows.</P></BLOCKQUOTE>
+<P dir=ltr><STRONG><FONT size=3>Action Description</FONT></STRONG></P>
+<UL dir=ltr>
+<LI>
+<DIV><STRONG>Action1: Install/upgrade.</STRONG></DIV></LI></UL>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P>This action installs 7-Zip.</P></BLOCKQUOTE>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string contains "7-Zip" AND (it >= "9.38.00.0" as version) of (value "DisplayVersion" of it as string as version)) of keys "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries)]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>SysMan</Source>
+    <SourceID>dtk14</SourceID>
+    <SourceReleaseDate>2015-01-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 22 Jan 2015 19:17:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Install/upgrade</Link>
+        <PostLink>.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+if {x64 of operating system}
+//download 7-zip 3.68 BETA MSI installer: http://www.7-zip.org/a/7z938.msi
+	add prefetch item name=7zip.msi sha1=3b201f4e6f2908aa1817a425685fa87b3c55a764 size=1513472 url=http://www.7-zip.org/a/7z938-x64.msi
+else
+//download 7-zip 3.68 BETA MSI installer: http://www.7-zip.org/a/7z938.msi
+	add prefetch item name=7zip.msi sha1=5f66856e4bacd1801054b6cd3c40d34d0dfc4609 size=1196544 url=http://www.7-zip.org/a/7z938.msi
+endif
+end prefetch block
+
+//install 7-zip
+wait "{pathname of system folder & "\msiexec.exe"}" ALLUSERS=2 /i "{(pathname of client folder of current site) & "\__Download\7zip.msi"}" /qn /norestart
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

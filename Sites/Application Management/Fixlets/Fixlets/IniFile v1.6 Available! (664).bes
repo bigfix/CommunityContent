@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : IniFile v1.6 Available!
+  ID       : 664
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-13T14:04:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>IniFile v1.6 Available!</Title>
+    <Description><![CDATA[This task will deploy: IniFile v1.6.<BR><BR>This task is applicable on: Windows 2000, Windows XP, Windows XP x64, Windows 2003, Windows 2003 x64, Windows Vista, Windows Vista x64, Windows 2008, Windows 2008 x64, Windows 7, Windows 7 x64, Windows 2008 R2 and Windows XP Embedded. ]]></Description>
+    <Relevance>(name of it = &quot;Win2000&quot; OR name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND NOT x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it) OR name of it = &quot;Win2008R2&quot; OR name of it = &quot;WinXPe&quot;) of operating system AND TRUE</Relevance>
+    <Relevance>NOT exists file &quot;inifile.exe&quot; of windows folder</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-11-13</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 13 Nov 2012 17:11:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//download unzip utility
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+utility __Download\unzip.exe
+//download inifile
+prefetch inifile.zip sha1:41f65966139ca1caba5727d1f552f377ca9ef345 size:6717 http://www.horstmuc.de/win/inifile.zip
+waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\inifile.zip
+copy &quot;{pathname of client folder of current site}\__Download\inifile.exe&quot; &quot;{pathname of windows folder}\inifile.exe&quot;
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action907">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about IniFile.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.horstmuc.de/wbat32.htm</ActionScript>
+    </Action>
+  </Task>
+</BES>

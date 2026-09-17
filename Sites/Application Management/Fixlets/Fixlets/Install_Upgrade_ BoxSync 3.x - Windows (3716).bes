@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Upgrade: BoxSync 3.x - Windows
+  ID       : 3716
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-02-18T10:51:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Upgrade: BoxSync 3.x - Windows</Title>
+    <Description>This task will Install / Upgrade Box Sync 3.x</Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Exclude Windows Server */ exists name whose(it does not contain &quot;Win2&quot;) of operating system</Relevance>
+    <Relevance><![CDATA[/* Box is not installed already */ not exists key whose ( value "DisplayName" of it as string contains "Box Sync" AND ( it >= "3.4.25.0" as version ) of ( value "DisplayVersion" of it as string as version ) ) of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of native registry]]></Relevance>
+    <Category>Software Distribution</Category>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-02-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 18 Feb 2014 17:50:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Using a prefetch block to avoid downloading both 32bit & 64bit versions when only one is needed.
+begin prefetch block
+	if {x64 of operating system}
+		add prefetch item name=BoxSyncInstaller.msi sha1=beb553445b146d256058889afec653ed9650aae0 size=16756736 url=https://sync.box.com/static/sync/release/BoxSyncInstaller_Win64.msi
+	else
+		add prefetch item name=BoxSyncInstaller.msi sha1=48d4d508b609500eed0a4b6eeecee29e622bf017 size=15785984 url=https://sync.box.com/static/sync/release/BoxSyncInstaller_Win32.msi
+	endif
+
+	collect prefetch items
+end prefetch block
+
+// prefetch BoxSyncInstaller.msi sha1:48d4d508b609500eed0a4b6eeecee29e622bf017 size:15785984 http://sync.box.com/static/sync/release/BoxSyncInstaller_Win32.msi
+// prefetch BoxSyncInstaller.msi sha1:beb553445b146d256058889afec653ed9650aae0 size:16756736 http://sync.box.com/static/sync/release/BoxSyncInstaller_Win64.msi
+
+wait "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of client folder of current site) & "\__Download\BoxSyncInstaller.msi"}" /qn /norestart NOLAUNCH=1
+//waithidden taskkill /IM BoxSync.exe /F]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

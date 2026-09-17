@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Hide Trend Micro OfficeScan Agent from Program&Features Menu
+  ID       : 13985
+  Author   : Fixico
+  Domain   : BESC
+  Imported : 2016-04-20T07:02:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Hide Trend Micro OfficeScan Agent from Program&amp;Features Menu</Title>
+    <Description><![CDATA[<P>Hide 'Trend Micro OfficeScan Agent' from Program&amp;Features Menu after installation</P>
+<P><A href="https://msdn.microsoft.com/en-us/library/aa367750(VS.85).aspx">https://msdn.microsoft.com/en-us/library/aa367750(VS.85).aspx</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exist keys whose (exist value &quot;DisplayName&quot; whose (it as string = &quot;Trend Micro OfficeScan Agent&quot;) of it and not exist value &quot;SystemComponent&quot; whose (it = 1) of it) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry</Relevance>
+    <SourceReleaseDate>2016-04-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Apr 2016 13:59:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+appendfile {concatenation "%0d%0a" of ("reg add %22" & it as string & "%22 /v %22SystemComponent%22 /t REG_DWORD /d %221%22 /f") of pathnames of keys whose (exist value "DisplayName" whose (it as string = "Trend Micro OfficeScan Agent") of it and not exist value "SystemComponent" whose (it = 1) of it) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry}
+delete SystemComponent.bat
+move __appendfile SystemComponent.bat
+waithidden SystemComponent.bat
+delete SystemComponent.bat]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action14794">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://msdn.microsoft.com/en-us/library/aa367750(VS.85).aspx</ActionScript>
+    </Action>
+  </Task>
+</BES>

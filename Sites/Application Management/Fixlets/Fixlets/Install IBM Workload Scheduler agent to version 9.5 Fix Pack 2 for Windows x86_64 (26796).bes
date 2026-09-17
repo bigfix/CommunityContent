@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install IBM Workload Scheduler agent to version 9.5 Fix Pack 2 for Windows x86_64
+  ID       : 26796
+  Author   : WorkloadAutomationSupportTeam
+  Domain   : BESC
+  Imported : 2021-01-22T03:30:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install IBM Workload Scheduler agent to version 9.5 Fix Pack 2 for Windows x86_64</Title>
+    <Description><![CDATA[<P>Install IBM Workload Scheduler agent to version 9.5 Fix Pack 2 for Windows x86_64</P>
+<P>The following fixlet performs the following actions:</P>
+<UL>
+<LI>Downloads the images from the Tivoli Endpoint Manager server / relay.
+<LI>Extracts the images.
+<LI>Upgrades the instance.
+<LI>Resets the fence to the original value.
+<LI>Links back to the domain manager.</LI></UL>]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "8.2"]]></Relevance>
+    <Relevance>(exists file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)</Relevance>
+    <Relevance>((following text of first &quot;TargetMajorVersion=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) as integer = 9</Relevance>
+    <Relevance>((following text of first &quot;TargetMinorVersion=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) as integer = 5</Relevance>
+    <Relevance>((following text of first &quot;TargetMaintenanceVersion=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) as integer = 0</Relevance>
+    <Relevance>((following text of first &quot;TargetFixPack=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) as integer = 2</Relevance>
+    <Relevance>(((following text of first &quot;AgentType=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) = &quot;FTA&quot; ) OR (((following text of first &quot;AgentType=&quot; of lines of file &quot;__TWSUpgrade.lck&quot; of folder it) of (pathname of client folder of current site)) = &quot;LWA&quot; )</Relevance>
+    <Relevance><![CDATA[((name of it = "Win2008" AND (service pack major version of it as integer) >= 1) OR (name of it = "Win2008R2") OR (name of it = "Win2012") OR (name of it = "Win2012R2") OR (name of it = "Win10") OR (name of it = "Win7") OR (name of it = "Win8") OR (name of it = "Win8.1") OR (name of it = "Win2016") OR (name of it = "Win2019")) of operating system]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-01-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 22 Jan 2021 11:05:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// Download image from the TEM server / relay
+prefetch 9.5.0-IBM-IWS-WIN_X86_64_AGENT-FP0002.zip sha1:530d5ca64057160ea096b52eaf437df65bf71bbf size:653003269 SWDProtocol://127.0.0.1:52311/uploads/530d5ca64057160ea096b52eaf437df65bf71bbf/9.5.0-IBM-IWS-WIN_X86_64_AGENT-FP0002.zip.bfswd sha256:ca56a51152d3dfec336c461097af06a618da11da5d6ce6096690a1eae7dff343
+parameter "Image" = "9.5.0-IBM-IWS-WIN_X86_64_AGENT-FP0002.zip"
+
+// Download unzip.exe from the TEM server / relay
+prefetch unzip.exe sha1:9c242a8c1fe79831ed396e51e05d1d258b9856a3 size:190976 SWDProtocol://127.0.0.1:52311/uploads/9c242a8c1fe79831ed396e51e05d1d258b9856a3/unzip-windows.exe.bfswd sha256:80fbfe33609b0e95ebbd9dbf1fd7a5adfb5a71c598417cdc2336d05c51e55cc4
+
+// Create subfolder 952
+folder create "{value of variable "TEMP" of environment}\952"
+
+// Retrieve TMP from relevance
+parameter "TMP" = "{value of variable "TEMP" of environment}\952"
+
+// Extract image to $TMP\TWA\tws952\extract
+if {not exists folder "TWS" of folder (parameter "TMP") | false}
+	waithidden "{pathname of client folder of current site & "\__Download\unzip.exe"}" -o "{pathname of client folder of current site & "\__Download\" & parameter "Image"}" -d "{parameter "TMP"}"
+	continue if {exit code of action = 0}
+endif
+
+// Retrieve ActionTools from relevance
+parameter "ActionTools" = "{parameter "TMP" & "\TWS\WINDOWS_X86_64\ACTIONTOOLS"}"
+
+// Retrieve UserOwner from relevance
+parameter "UserOwner" = "{((following text of first "UserOwner=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Retrieve InstallationPath from relevance
+parameter "SourceInstallationPath" = "{((following text of first "SourceInstallationPath=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Retrieve SourceMajorVersion from relevance
+parameter "SourceMajorVersion" = "{((following text of first "SourceMajorVersion=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Retrieve SourceMinorVersion from relevance
+parameter "SourceMinorVersion" = "{((following text of first "SourceMinorVersion=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Retrieve SourceMaintenanceVersion from relevance
+parameter "SourceMaintenanceVersion" = "{((following text of first "SourceMaintenanceVersion=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Retrieve AgentType from relevance
+parameter "AgentType" = "{((following text of first "AgentType=" of lines of file "__TWSUpgrade.lck" of folder it) of (pathname of client folder of current site))}"
+
+// Delete __createfile
+delete __createfile
+
+// Create script to launch twsinst
+createfile until EOF
+@ECHO OFF
+SET addjruntime=true
+SET cmdLine=-update -uname {parameter "UserOwner"} -acceptlicense yes
+
+IF NOT "%addjruntime%" == "" (
+	IF "{parameter "AgentType"}" == "FTA" (
+		SET cmdLine=%cmdLine% -addjruntime %addjruntime%
+	)
+)
+
+IF EXIST "{parameter "TMP"}\twsinst.txt" (
+	DEL "{parameter "TMP"}\twsinst.txt"
+)
+cd "{parameter "TMP"}\TWS\WINDOWS_X86_64\" && CALL cscript "twsinst.vbs" %cmdLine% > "{parameter "TMP"}\twsinst.txt" 2>&1
+EOF
+
+// Delete $TMP\run.cmd
+delete "{parameter "TMP"}\run.cmd"
+
+// Move __createfile to $TMP\run.cmd
+move __createfile "{parameter "TMP"}\run.cmd"
+
+// Execute run.cmd
+action uses wow64 redirection false
+waithidden "{parameter "TMP"}\run.cmd"
+action uses wow64 redirection true
+
+// Continue if the return code of the previous command was 0
+continue if {exit code of action = 0}
+
+
+// Delete __createfile
+delete __createfile
+
+// Create script to start agent and link back to domain manager
+if {(((parameter "SourceMajorVersion" = "8") AND ((parameter "SourceMinorVersion" = "5") OR (parameter "SourceMinorVersion" = "6"))) OR (parameter "SourceMajorVersion" = "9")) | false}
+	createfile until EOF
+@ECHO OFF
+IF "{parameter "AgentType"}" == "FTA" (
+	IF EXIST "{parameter "SourceInstallationPath"}\Symphony" (
+		CALL "{parameter "SourceInstallationPath"}\tws_env.cmd" 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\bin\conman.exe" 'start' 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\bin\conman.exe" 'link @;noask' 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\bin\conman.exe" 'startmon' 2>NUL >NUL
+	)
+)
+EOF
+else
+	createfile until EOF
+@ECHO OFF
+IF "{parameter "AgentType"}" == "FTA" (
+	IF EXIST "{parameter "SourceInstallationPath"}\TWS\Symphony" (
+		CALL "{parameter "SourceInstallationPath"}\TWS\tws_env.cmd" 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\TWS\bin\conman.exe" 'start' 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\TWS\bin\conman.exe" 'link @;noask' 2>NUL >NUL
+		CALL "{parameter "SourceInstallationPath"}\TWS\bin\conman.exe" 'startmon' 2>NUL >NUL
+	)
+)
+EOF
+endif
+
+// Delete $TMP\run.cmd
+delete "{parameter "TMP"}\run.cmd"
+
+// Move __createfile to $TMP\run.cmd
+move __createfile "{parameter "TMP"}\run.cmd"
+
+// Execute run.cmd
+waithidden "{parameter "TMP"}\run.cmd"
+
+// Continue if the return code of the previous command was 0
+continue if {exit code of action = 0}
+
+// Delete $TMP\run.cmd
+delete "{parameter "TMP"}\run.cmd"
+
+// Cleanup
+folder delete "{parameter "TMP"}"
+
+// Delete __TWSUpgrade.lck of subfolder TWS
+delete "{pathname of client folder of current site}\__TWSUpgrade.lck"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

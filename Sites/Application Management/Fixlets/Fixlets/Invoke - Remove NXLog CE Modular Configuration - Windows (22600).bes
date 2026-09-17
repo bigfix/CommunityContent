@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Remove NXLog CE Modular Configuration - Windows
+  ID       : 22600
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-10T15:35:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Remove NXLog CE Modular Configuration - Windows</Title>
+    <Description><![CDATA[<P>This Fixlet removes all NXLog CE configurations and stops the service.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries</Relevance>
+    <Relevance>exists folders (&quot;Definition&quot;;&quot;Extension&quot;;&quot;Input&quot;;&quot;Output&quot;) of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)</Relevance>
+    <Category>NXLog CE</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-11-08</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+parameter &quot;nxlog&quot;=&quot;{pathnames of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+parameter &quot;nxlog_conf&quot;=&quot;{pathnames of folders &quot;conf&quot; of folders (values &quot;installdir&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\nxlog&quot; of x32 registries as string)}&quot;
+
+waithidden net stop nxlog
+
+folder delete &quot;{parameter &quot;nxlog_conf&quot;}\Definition&quot;
+folder delete &quot;{parameter &quot;nxlog_conf&quot;}\Definitions&quot;
+folder delete &quot;{parameter &quot;nxlog_conf&quot;}\Extension&quot;
+folder delete &quot;{parameter &quot;nxlog_conf&quot;}\Input&quot;
+folder delete &quot;{parameter &quot;nxlog_conf&quot;}\Output&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Troubleshooting - RES ONE Workspace Environment Validation - Windows
+  ID       : 22966
+  Author   : RES
+  Domain   : RESS
+  Imported : 2016-12-07T02:01:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Troubleshooting - RES ONE Workspace Environment Validation - Windows</Title>
+    <Description><![CDATA[
+<DIV id=fixletMessage2 class=FixletMessage>
+	<DIV id=paramFixletDescription>
+		<P>Use this Fixlet will utilize all of the information provided in the RES ONE Workspace Deployment Wizard in a simulation mode -- it will test each parameter individually and make sure that they work in the environment. This is a prerequisite to database deployment.</P>
+		<p>
+			This works by outputting an exit code which can be translate to a specific error. You can review the exit codes below otherwise we have made the results available in plain english on the  <?relevance link "RES Deployment Health Check Dashboard" of wizards whose (dashboard id of it = "RESHealthCheck.ojo") of site of current fixlet?>.
+		</p>
+		<P>
+			This fixlet will <b>only be applicable against the BigFix Root Server </b> and only if it has SQL Command Line Tools and at least Powershell 2.0 installed. The environment validation will take place using the Root Server as a launching point.
+		</P>
+		<h5>Exit codes for this fixlet</h5>
+		<p>
+			<ul>
+				<li>10 : SQL Server Not Found</li>
+				<li>20 : SQL Authentication Error</li>
+				<li>30 : Missing Create Database Permissions in SQL</li>
+				<li>40 : Missing Create Table Permissions in the Database</li>
+				<li>50 : Invalid NetBIOS Prefix for the BigFix Connector Group</li>
+				<li>60 : Invalid Group Name for the BigFix Connector Group</li>
+				<li>70 : BigFix Server Missing from the BigFix Connector Group</li>
+				<li>80 : Service Account has an incorrect NetBIOS Domain Prefix</li>
+				<li>90 : Could not verify the Service Account Credentials</li>
+			</ul>
+		</p>
+	</DIV>
+	<DIV id=plainOrdinaryFixletDescription>Failed to load parameterized fixlet.</div>
+</div>
+
+<script>
+    loaded = false;
+
+	function loadGlobalization() {
+		var globalization = EvaluateRelevance('(messages of it) of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+		var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+		var matches = regex.exec(globalization);
+		var globalizationSanitized = matches[1].replace(/<br>/gi, "");
+		return globalizationSanitized;
+	}
+
+	function loadUtils() {
+		return EvaluateRelevance('unique value of values of mime fields whose (name of it = "vrt_utils.js") of fixlets whose ( name of it = "Parameterized Fixlet Library") of all bes sites whose (name of it = "BES Support")');
+	}
+
+    function loadScript(url, callback) {
+		var head = document.getElementsByTagName("head")[0];
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.text = loadUtils() + loadGlobalization();
+        script.onreadystatechange = callback;
+        script.onload = callback;
+
+        head.appendChild(script);
+    }
+
+    function scriptLoaded() {
+        if (!loaded) {
+            var paramFixletDescription = document.getElementById('paramFixletDescription');
+            var plainOrdinaryFixletDescription = document.getElementById('plainOrdinaryFixletDescription');
+
+            if (typeof FixletUtils !== 'undefined') {
+                loaded = true;
+                paramFixletDescription.style.display = "block";
+                plainOrdinaryFixletDescription.style.display = "none";
+
+                FixletUtils.initFixletRender();
+            } else {
+                paramFixletDescription.style.display = "none";
+                plainOrdinaryFixletDescription.style.display = "block";
+            }
+        }
+    }
+
+    loadScript("vrt_fixletUtils.js", scriptLoaded);
+</script>
+]]></Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists files &quot;SQLCMD.exe&quot; of folders (substrings separated by &quot;;&quot; of value of variable &quot;PATH&quot; of environment) or exists (file &quot;SQLCmd.exe&quot; of folder &quot;Microsoft SQL Server\110\Tools\Binn&quot; of program files x64 folder)</Relevance>
+    <Category>Upgrade</Category>
+    <Source>RES Software</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-res-release-display-name</Name>
+      <Value>RES ONE Workspace 2015 SR2</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>{
+&quot;Section1&quot; :{
+	&quot;Name&quot;: &quot;Method&quot;,
+	&quot;Title&quot;: &quot;Database Authentication Method&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbAuthMethod&quot;,
+	    &quot;Title&quot;: &quot;Authentication&quot;,
+	    &quot;Description&quot;: &quot;Authentication Method&quot;,
+	    &quot;UIType&quot;: &quot;Select&quot;,
+		&quot;ValueType&quot;: &quot;specified&quot;,
+		&quot;Values&quot;: [&quot;Windows&quot;,&quot;SQL&quot;]
+	}
+	]
+},
+&quot;Section2&quot; : {
+	&quot;Name&quot;: &quot;dbInfo&quot;,
+	&quot;Title&quot;: &quot;Database Information&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;dbServer&quot;,
+	    &quot;Title&quot;: &quot;Database Server&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbserver\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;dbName&quot;,
+	    &quot;Title&quot;: &quot;Database Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the Database on the DB Server to be used for the RES ONE Workspace Database&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+},
+&quot;Section3&quot; : {
+	&quot;Name&quot;: &quot;adWinAuth&quot;,
+	&quot;Title&quot;: &quot;Windows Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;adGroupName&quot;,
+	    &quot;Title&quot;: &quot;Group Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured security group&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;gname\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;adServiceAccountUsername&quot;,
+	    &quot;Title&quot;: &quot;Service Account Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured service account&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;ressa\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;adServiceAccountPassword&quot;,
+	    &quot;Title&quot;: &quot;Service Account Password&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the preconfigured service account&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Encrypt&quot;: &quot;true&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;SubUIType&quot;: &quot;Password&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;ressapwd\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+},
+&quot;Section4&quot; : {
+	&quot;Name&quot;: &quot;SQLAuth&quot;,
+	&quot;Title&quot;: &quot;SQL Authentication&quot;,
+	&quot;UIType&quot;: &quot;accordion&quot;,
+	&quot;Values&quot;: [
+	{
+	    &quot;Name&quot;: &quot;SQLUser&quot;,
+	    &quot;Title&quot;: &quot;Database User Name&quot;,
+	    &quot;Description&quot;: &quot;Enter the name of the SQL User account&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it is \&quot;dbuser\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	},
+	{
+	    &quot;Name&quot;: &quot;SQLPass&quot;,
+	    &quot;Title&quot;: &quot;Database User Password&quot;,
+	    &quot;Description&quot;: &quot;Enter the password for the SQL User account&quot;,
+		&quot;UIType&quot;: &quot;Textbox&quot;,
+		&quot;Disabled&quot;: &quot;true&quot;,
+		&quot;Encrypt&quot;: &quot;true&quot;,
+		&quot;SubUIType&quot;: &quot;password&quot;,
+	    &quot;ValueType&quot;: &quot;relevance&quot;,
+		&quot;Values&quot;: &quot;values of shared variables whose (name of it contains \&quot;dbpwd\&quot;) of bes wizards whose (dashboard id of it as lowercase contains \&quot;resdeploy\&quot; and name of site of it = name of site of current fixlet)&quot;
+	}
+]
+}}</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 22:01:55 +0000</Value>
+    </MIMEField>
+    <Domain>RESS</Domain>
+    <Action ID="Action23965">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this task.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
+
+parameter "PowerShellExe"="{ pathname of file ((it as string) of value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry) }"
+
+parameter "SQLCMDExe"="{tuple string item 0 of concatenations "," of pathnames of files "SQLCMD.exe" of folders (substrings separated by ";" of value of variable "PATH" of environment) | pathname of (file "SQLCmd.exe" of folder "Microsoft SQL Server\110\Tools\Binn" of program files x64 folder)}"
+
+delete __createfile
+delete validate.ps1
+
+createfile until _end_
+param (
+    $SQLCmd = "{parameter "SQLCMDExe"}",
+    $SQLServer = "{parameter "dbServer" of action}",
+    $SQLDatastore = "{parameter "dbName" of action}",
+    [Switch] $SQL = {if (parameter "dbAuthMethod" of action = "SQL") then ("$true") else ("$false")},
+    $SQLUser = "{parameter "SQLUser" of action}",
+    $SQLPassword = "{parameter "SQLPass" of action}",
+    $GroupDomain = "{preceding text of first "\" of parameter "adGroupName" of action}",
+    $GroupName = "{following text of first "\" of parameter "adGroupName" of action}",
+	$ServiceDomain = "{preceding text of first "\" of parameter "adServiceAccountUsername" of action}",
+    $ServiceUser = "{following text of first "\" of parameter "adServiceAccountUsername" of action}",
+    $ServicePassword = "{parameter "adServiceAccountPassword" of action}"
+)
+
+#Not Automatically set on Windows 7
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+function write-log {{
+    param(
+        $Message
+    )
+    $LogFile = "$PSScriptRoot\Validation.log"
+
+    $FormattedMessage = "$((get-date).tostring()) - $((Get-PSCallStack).FunctionName[1]) - $Message"
+
+    write-verbose $FormattedMessage; $FormattedMessage >> $LogFile
+}
+
+$errServerNotFound=10
+$errConnectToSQL=20
+$errCreateDatabase=30
+$errCreateTable=40
+$errGroupDomain = 50
+$errGroupName = 60
+$errGroupMembership = 70
+$errServiceDomain = 80
+$errServiceAccount = 90
+
+$VerbosePreference = "Continue"
+
+function invoke-sqlquery {{
+    [cmdletbinding(DefaultParameterSetName='Windows')]
+    param (
+        [string] $Query
+    )
+
+    if ($SQL) {{
+        $Result = & "$SQLCMD" "-U" "$SQLUser" "-P" "$SQLPassword" "-S" "$SQLServer" "-Q" "$Query" 2>&1 | %{{ "$_" }
+    } else {{
+       $Result = & "$SQLCMD" "-E" "-S" "$SQLServer" "-Q" "$Query" 2>&1 | %{{ "$_" }
+    }
+    return $Result
+}
+
+function ExitWithCode
+{{
+    param
+    (
+        $exitcode
+    )
+    $host.SetShouldExit($exitcode)
+    exit
+    #write-log "Would exit with $Exitcode"
+    #throw "Killing Script"
+}
+
+write-log "Attempting to connect to $SQLServer"
+$ServerTest = invoke-sqlquery -Query "USE [$SQLDatastore]"
+
+write-log "Checking Server $SQLServer"
+if ($ServerTest -like "*Server is not found*") {{ write-log "Server was not found."; ExitWithCode($errServerNotFound)}
+write-log "Found Server $SQLServer"
+
+write-log "Checking Authentication Credentials"
+if ($ServerTest -like "*Login failed for user*") {{ write-log "Login failed."; ExitWithCode($errConnectToSQL)}
+write-log "Login Succeeded"
+
+#Database Exists
+write-log "Checking for Database $SQLDatastore"
+if ($ServerTest -like "*Changed database context to*") {{
+    write-log "Database $SQLDatastore exists!"
+
+    write-log "Checking for Create Table permissions on $SQLDatastore"
+    $DataStorePermissions = invoke-sqlquery -query "SELECT * FROM fn_my_permissions(NULL, 'DATABASE')"
+    if ($DataStorePermissions -like "*CREATE TABLE*") {{
+        write-log "Account has Create Table permissions"
+    } else {{
+        write-log "Does not have create table permissions"
+        exitwithcode($errCreateTable)
+    }
+}
+
+#Database Does Not Exist
+else {{
+    write-log "Database does not exist. Checking for Database Permission"
+    $DBPermissions = invoke-sqlquery -query "SELECT * FROM fn_my_permissions(NULL, 'SERVER')"
+
+    write-log "Checking for Create Database permissions on $SQLServer"
+    if ($DBPermissions -like "*CREATE ANY DATABASE*") {{
+        write-log "Account has Create Database permissions"
+    } else {{
+        write-log "Does not have Create Database permission"
+        exitwithcode($errCreateDatabase)
+    }
+}
+
+Add-Type -AssemblyName System.DirectoryServices.AccountManagement
+$ct = [System.DirectoryServices.AccountManagement.ContextType]::Domain
+
+try {{
+    write-log "Attempting to connect to the domain $GroupDomain"
+    $pc = New-Object System.DirectoryServices.AccountManagement.PrincipalContext $ct,$GroupDomain
+    write-log "Connected to the domain $GroupDomain"
+} catch {{
+    write-log "Error contacting domain $GroupDomain"
+    exitwithcode($errGroupDomain)
+}
+
+try {{
+    write-log "Checking for AD Group: $GroupName"
+    $group = [System.DirectoryServices.AccountManagement.GroupPrincipal]::FindByIdentity($ct,$GroupName)
+    $GroupMembers = ($group.GetMembers($true)).SamAccountName
+    write-log "Found AD Group: $GroupName"
+} catch {{
+    write-log "Invalid AD Group Supplied"
+    exitwithcode($errGroupName)
+}
+
+write-log "Verifying $($env:COMPUTERNAME) is a member of $GroupName"
+if (!($GroupMembers.Contains("$($env:COMPUTERNAME)$"))){{
+    write-log "Computer object is not a member of supplied AD Group"
+    exitwithcode($errGroupMembership)
+} else {{
+    write-log "Computer Object $($env:COMPUTERNAME) is a member of $GroupName"
+}
+
+if ($SQL -and ($ServiceDomain -like "" -or $ServiceUser -like "" -or $ServicePassword -like "")){{
+	write-log "Service Acount is not defined... Skipping"
+} else {
+	write-log "Checking Service Account Domain: $ServiceDomain"
+	try {{
+		write-log "Attempting to connect to the domain $ServiceDomain"
+		$sd = New-Object System.DirectoryServices.AccountManagement.PrincipalContext $ct,$ServiceDomain
+		write-log "Connected to the domain $ServiceDomain"
+	} catch {{
+		write-log "Error contacting domain $ServiceDomain"
+		exitwithcode($errServiceDomain)
+	}
+
+	write-log "Checking Service Account: $ServiceUser"
+	if (!($sd.ValidateCredentials($ServiceUser,$ServicePassword))) {{
+		write-log "Invalid Service Account Credentials for $ServiceUser"
+		exitwithcode($errServiceAccount)
+	} else {{
+		write-log "Service Account Credentials Verified"
+	}
+}
+
+_end_
+
+move __createfile validate.ps1
+
+// We use command here so we can get a return code, file doesnt provide us the return code.
+waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -Command "& .\validate.ps1"
+
+appendfile "Exit Code: {exit code of action}"
+
+// SQL Server not found -- 171 = Start
+continue if {exit code of action != 10}
+
+// Could not connect to SQL -- Start + 2
+continue if {exit code of action != 20}
+
+// Can't create Database -- Start + 4
+continue if {exit code of action != 30}
+
+// Can't create tables in DB -- Start + 6
+continue if {exit code of action != 40}
+
+// Couldn't validate AD -- Start + 8
+continue if {exit code of action != 50}
+
+// Couldn't validate group name -- Start + 10
+continue if {exit code of action != 60}
+
+// BigFix server was not in AD Group -- Start + 12
+continue if {exit code of action != 70}
+
+// Couldn't validate service account domain -- Start + 14
+continue if {exit code of action != 80}
+
+// Couldn't validate service account -- Start + 16
+continue if {exit code of action != 90}
+
+notify client forcerefresh
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

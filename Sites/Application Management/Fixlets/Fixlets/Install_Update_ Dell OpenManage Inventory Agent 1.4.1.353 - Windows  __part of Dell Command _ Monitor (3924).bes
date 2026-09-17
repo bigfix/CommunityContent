@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: Dell OpenManage Inventory Agent 1.4.1.353 - Windows  __part of Dell Command | Monitor
+  ID       : 3924
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-11-21T10:26:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: Dell OpenManage Inventory Agent 1.4.1.353 - Windows __part of Dell Command | Monitor</Title>
+    <Description><![CDATA[<P>This task will install "Dell OpenManage Inventory Agent", version 1.4.1.353</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://en.community.dell.com/techcenter/systems-management/w/wiki/1773">http://en.community.dell.com/techcenter/systems-management/w/wiki/1773</A></P>
+<P><A href="http://en.community.dell.com/techcenter/enterprise-client/w/wiki/7531.dell-command-monitor">http://en.community.dell.com/techcenter/enterprise-client/w/wiki/7531.dell-command-monitor</A></P>
+<P><A href="http://www.shouldiremoveit.com/Dell-OpenManage-Inventory-Agent-for-Dell-Business-Client-Systems-29372-program.aspx">http://www.shouldiremoveit.com/Dell-OpenManage-Inventory-Agent-for-Dell-Business-Client-Systems-29372-program.aspx</A></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <Relevance>/* check for supported model: OptiPlex, Latitude, Precision, Venue Tablets */ exists ((value &quot;product_name&quot; of structures &quot;system_information&quot; of smbios) as string as uppercase) whose(it starts with &quot;OPTIPLEX&quot; OR it starts with &quot;LATITUDE&quot; OR it starts with &quot;PRECISION&quot; OR it starts with &quot;VENUE&quot;)</Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string as trimmed string starts with "Dell OpenManage Inventory Agent" AND value "DisplayVersion" of it as string as version >= "1.4.1.353") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-11-21</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 21 Nov 2014 17:24:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Install/Update Dell OpenManage Inventory Agent.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// DOWNLOAD
+prefetch DSIAPC.msi sha1:d45d6517e663cfc0c002efb195018dbc616d6ce0 size:29349888 http://downloads.dell.com/FOLDER02537188M/1/DSIAPC_1.4.1.353.msi
+
+// INSTALL
+waithidden "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of file "DSIAPC.msi" of folder "__Download" of client folder of current site)}" /qn /norestart
+
+// Running this task will affect analysis properties, so this will force them to be updated right away
+notify client ForceRefresh
+
+
+
+// DELETE: Shortcuts (Desktop & Start Menu)
+if{ exists descendants whose( (name of it as lowercase ends with ".lnk") AND (creation time of it > active start time of active action) AND ( exists (pathnames of it; pathnames of shortcuts of it; argument strings of shortcuts of it) whose(it as trimmed string as uppercase contains "DELL") ) ) of ( folders "C:\ProgramData\Microsoft\Windows\Start Menu\Programs" ; folders "C:\Users\Public\Desktop" ) }
+
+delete __createfile
+delete delete_Shortcuts.bat
+
+//    CREATEFILE - make a batch file to delete all created desktop shortcuts
+// http://ss64.com/nt/del.html
+// https://support.bigfix.com/inspectors/Action%20Objects_Win.html#action
+createfile until END_OF_FILE
+{ concatenation "%0d%0a" of (  ("DEL /Q %22" & it & "%22") of pathnames of descendants whose( (name of it as lowercase ends with ".lnk") AND (creation time of it > active start time of active action) AND ( exists (pathnames of it; pathnames of shortcuts of it; argument strings of shortcuts of it) whose(it as trimmed string as uppercase contains "DELL") ) ) of ( folders "C:\ProgramData\Microsoft\Windows\Start Menu\Programs" ; folders "C:\Users\Public\Desktop" ) ) }
+END_OF_FILE
+
+move __createfile delete_Shortcuts.bat
+waithidden cmd.exe /C delete_Shortcuts.bat >> "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client)}\delete_Shortcuts.bat.log"
+
+endif
+// END of DELETE: Shortcuts
+
+
+// DELETE: Empty Folders (Desktop & Start Menu)
+if{ exists descendant folders whose( (creation time of it > active start time of active action) AND ( 0 = number of descendants of it ) ) of ( folders "C:\ProgramData\Microsoft\Windows\Start Menu\Programs" ; folders "C:\Users\Public\Desktop" ) }
+
+delete __createfile
+delete delete_Empty_Folders.bat
+
+//    CREATEFILE - make a batch file to delete empty folders
+// https://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/rmdir.mspx?mfr=true
+// https://support.bigfix.com/inspectors/Action%20Objects_Win.html#action
+// http://bigfix.me/relevance/details/2999553
+createfile until END_OF_FILE
+{ concatenation "%0d%0a" of (  ("RMDIR /S /Q %22" & it & "%22") of pathnames of descendant folders whose( (creation time of it > active start time of active action) AND ( 0 = number of descendants of it ) ) of ( folders "C:\ProgramData\Microsoft\Windows\Start Menu\Programs" ; folders "C:\Users\Public\Desktop" ) }
+END_OF_FILE
+
+move __createfile delete_Empty_Folders.bat
+waithidden cmd.exe /C delete_Empty_Folders.bat >> "{(pathname of folder "__BESData\__Global\Logs" of parent folder of client)}\delete_Empty_Folders.bat.log"
+
+endif
+// END of DELETE: Empty Folders
+
+]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Software (Machine-Wide)
+  ID       : 27403
+  Author   : oubari
+  Domain   : BESC
+  Imported : 2026-01-23T04:40:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Software (Machine-Wide)</Title>
+    <Description><![CDATA[<P data-start="191" data-end="410">This task uninstalls a Windows application based on a partial application name provided by the administrator at action time. The task searches for the specified application and executes its registered uninstall command.</P>
+<P data-start="412" data-end="651"><STRONG data-start="412" data-end="426">Important:</STRONG> This task applies only to applications that are installed <STRONG data-start="485" data-end="500">system-wide</STRONG> (machine-level installations), typically registered under <EM data-start="559" data-end="582">Programs and Features</EM> and installed in <STRONG data-start="600" data-end="620">C:\Program Files</STRONG> or <STRONG data-start="624" data-end="650">C:\Program Files (x86)</STRONG>.</P>
+<P data-start="653" data-end="971">Applications that were installed <STRONG data-start="686" data-end="698">per user</STRONG> (user-context installations) are not covered by this task. Such applications are usually installed under <STRONG data-start="804" data-end="822">%LOCALAPPDATA%</STRONG> or <STRONG data-start="826" data-end="839">%APPDATA%</STRONG> and register their uninstall information under the user’s registry hive. These applications require a different uninstall approach.</P>]]></Description>
+    <Relevance>/* Windows-only fixlet - applicability is handled at action time */ windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-12-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 16 Dec 2025 09:48:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Ask operator for the application name (substring) as shown in Programs and Features
+action parameter query "AppName" with description "Enter part of the application's DisplayName as shown in Programs and Features:"
+pause while {not exists parameter "AppName"}
+parameter "AppNameLower" = "{parameter "AppName" as lowercase}"
+
+// Default values
+
+// If found in 64-bit node, capture UninstallString, DisplayName
+if {exists keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND (exists value "UninstallString" of it)) of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry}
+	parameter "UninstallCmd64" = {value "UninstallString" of it of keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND (exists value "UninstallString" of it)) of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry}
+	parameter "AppDisplayName64" = "{value "DisplayName" of it of keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND (exists value "UninstallString" of it)) of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of native registry}"
+else
+parameter "UninstallCmd64" = "non-existing"
+parameter "AppDisplayName64" = "non-existing"
+endif
+
+// If found in 32-bit node, capture UninstallString, DisplayName
+if {exists keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND exists value "UninstallString" of it) of keys "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" of native registry}
+    parameter "UninstallCmd32" = value "UninstallString" of it of keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND exists value "UninstallString" of it) of keys "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" of native registry
+    parameter "AppDisplayName32" = value "DisplayName" of it of keys whose (exists value "DisplayName" of it AND (value "DisplayName" of it as string as lowercase contains parameter "AppNameLower") AND exists value "UninstallString" of it) of keys "HKLM\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall" of native registry
+else
+	parameter "UninstallCmd32" = "non-existing"
+	parameter "AppDisplayName32" = "non-existing"
+endif
+
+// Ensure we found at least one uninstall string
+continue if {(parameter "UninstallCmd64" != "non-existing") OR (parameter "UninstallCmd32" != "non-existing")}
+
+// Execute uninstall(s) with /S (you requested /S always)
+if {parameter "UninstallCmd64" != "non-existing"}
+    waithidden cmd.exe /C ""{parameter "UninstallCmd64"}" /S"
+	// Append to BES Client uninstall log (always append)
+	delete __appendfile
+	appendfile {now as string} - {computer name} - Uninstalled: "{parameter "AppDisplayName64"}"
+	waithidden cmd.exe /C type "__appendfile" >> "{pathname of parent folder of client}\uninstalledSW.log"
+	delete __appendfile
+
+endif
+
+if {parameter "UninstallCmd32" != "non-existing"}
+    waithidden cmd.exe /C ""{parameter "UninstallCmd32"}" /S"
+	// Append to BES Client uninstall log (always append)
+	delete __appendfile
+	appendfile {now as string} - {computer name} - Uninstalled: "{parameter "AppDisplayName32"}"
+	waithidden cmd.exe /C type "__appendfile" >> "{pathname of parent folder of client}\uninstalledSW.log"
+	delete __appendfile
+
+endif
+]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Get Approximate Location Info - ipinfo.io - cURL - Universal TODO
+  ID       : 22465
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-10-28T12:02:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Get Approximate Location Info - ipinfo.io - cURL - Universal TODO</Title>
+    <Description>without a paid account, the ipinfo api has limitations, so don&apos;t overload / overuse it.</Description>
+    <Relevance><![CDATA[not exists files whose(name of it as lowercase starts with "public_ip_http_curl_location_approximation.json" AND name of it as lowercase ends with ".json" AND (now - modification time of it) < 11*day ) of folders "Logs" of folders "__Global" of data folders of client]]></Relevance>
+    <Relevance>/* cURL exists */ (mac of operating system) OR ( /* if cURL is missing, it will be downloaded */ windows of operating system) OR ( exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments )</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2016-05-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 23:22:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// if Windows, then download prereqs.
+begin prefetch block
+	if { (windows of operating system) AND ( not exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments ) }
+		add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+		add prefetch item name=7za.zip sha1=9ce9ce89ebc070fea5d679936f21f9dde25faae0 sha256=2a3afe19c180f8373fa02ff00254d5394fec0349f5804e0ad2f6067854ff28ac size=384846 url=http://d.7-zip.org/a/7za920.zip
+		add prefetch item name=curl.cab sha1=1d104ff75f52718709307ba03af0fcad17c1237a sha256=56bb84b3671b21fd41d497d88fba6cad72937312697423fa0fe7a3f1a37e0ad1 size=1435991 url=http://skanthak.homepage.t-online.de/download/curl-7.43.0.cab
+	endif
+end prefetch block
+
+parameter &quot;ProviderPublicIP&quot; = &quot;ipinfo.io&quot;
+
+if { (windows of operating system) AND ( not exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments ) }
+	// set up use of `cURL`
+
+	// ADD TO UTILITY CACHE: unzip,7zip,curl
+	utility __Download\unzip.exe
+	utility __Download\7za.zip
+	utility __Download\curl.cab
+
+	// EXTRACT using unzip: the 7zip command line utility
+	waithidden __Download\unzip.exe -o &quot;{ download path &quot;7za.zip&quot; }&quot; 7za.exe -d &quot;{ pathname of download folder }&quot;
+
+	// EXTRACT using 7zip: CURL
+	waithidden &quot;{ download path &quot;7za.exe&quot; }&quot; e -i!I386\Curl.EXE -y -o&quot;{ pathname of parent folder of download folder }&quot; &quot;{ download path &quot;curl.cab&quot; }&quot;
+endif
+
+wait curl {parameter &quot;ProviderPublicIP&quot;} -o &quot;{pathname of folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of client}{if windows of operating system then &quot;\&quot; else &quot;/&quot;}public_ip_http_curl_location_approximation.json&quot;
+
+// References:
+//  - http://ipinfo.io/developers
+//  - https://developers.google.com/maps/documentation/timezone/intro#Requests
+//  - https://developer.bigfix.com/action-script/reference/download/add-prefetch-item.html
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

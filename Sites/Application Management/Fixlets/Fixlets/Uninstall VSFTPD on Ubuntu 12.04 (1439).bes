@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Uninstall VSFTPD on Ubuntu 12.04
+  ID       : 1439
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T22:11:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Uninstall VSFTPD on Ubuntu 12.04</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;installedApps.txt&quot; whose (exists lines whose (it starts with &quot;vsftpd&quot;) of it) of parent folder of client</Relevance>
+    <Category>Uninstall</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-04-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 May 2013 03:02:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+appendfile #!/bin/sh
+delete "vsftpd.txt"
+appendfile apt-get --purge remove -q -y vsftpd > vsftpd.txt
+delete "uninstaller.sh"
+move __appendfile "uninstaller.sh"
+wait chmod +x uninstaller.sh
+wait ./uninstaller.sh
+//lastly update the list of currently installed applications
+delete __appendfile
+appendfile #!/bin/sh
+appendfile dpkg --get-selections > "{pathname of parent folder of client}/installedApps.txt"
+delete "installedApps.sh"
+delete "{pathname of parent folder of client}/installedApps.txt"
+move __appendfile "installedApps.sh"
+wait chmod +x installedApps.sh
+wait ./installedApps.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

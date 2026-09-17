@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: DigiCertUtil - Windows
+  ID       : 3833
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-08-26T18:21:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: DigiCertUtil - Windows</Title>
+    <Description><![CDATA[<P>This task will install the <FONT size=2>DigiCert Certificate Utility.</FONT></P>
+<P><FONT size=2></FONT>&nbsp;</P>
+<P><FONT size=2>References:</FONT></P>
+<P><FONT size=2><A href="https://www.digicert.com/util/">https://www.digicert.com/util/</A></FONT></P>
+<P><FONT size=2></FONT>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string starts with "DigiCert Certificate Utility" AND value "DisplayVersion" of it as string as version >= "2.3.7") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2014-08-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 27 Aug 2014 01:14:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// Download zipinst
+//   http://www.nirsoft.net/utils/zipinst.html
+prefetch zipinst.exe sha1:6a1290fd85019dc80e34abeb4be5bcbbc742d012 size:39424 http://www.nirsoft.net/utils/zipinst.exe
+
+// Download DigiCertUtil
+//   https://www.digicert.com/util/
+prefetch DigiCertUtil.zip sha1:d045db065c5ed3f768064788dc34006120b9eb02 size:1318407 https://www.digicert.com/util/DigiCertUtil.zip
+
+
+// Add zipinst.exe to Utility Cache (to use in multiple tasks)
+utility __Download\zipinst.exe
+
+// This should be an unnessisary sanity check, but it is a good idea due to the relevance substitution below.
+continue if{ 1 = number of files whose(name of it as lowercase ends with &quot;.zip&quot;) of folder &quot;__Download&quot; of client folder of current site }
+
+// Create zipinst config file
+//   http://www.nirsoft.net/utils/zipinst.html
+delete __createfile
+delete __Download\zipinst.zic
+createfile until END_OF_FILE
+[install]
+ZipFile={ pathname of files whose(name of it as lowercase ends with &quot;.zip&quot;) of folder &quot;__Download&quot; of client folder of current site }
+AddUninstall=1
+AddUninstallShortcut=0
+DesktopShortcut=0
+InstallTo=1
+StartMenuShortcut=1
+NoUserInteraction=1
+InstallFolder=%zi.ProgramFiles%\%zi.ProductName%
+StartMenuFolder=%zi.ProductName%
+NoExtraUninstallInfo=0
+NoSuccessMessage=1
+UninstallInDestFolder=1
+END_OF_FILE
+
+move __createfile &quot;{pathname of client folder of current site}\__Download\zipinst.zic&quot;
+
+waithidden __Download\zipinst.exe /cfg &quot;{pathname of client folder of current site}\__Download\zipinst.zic&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

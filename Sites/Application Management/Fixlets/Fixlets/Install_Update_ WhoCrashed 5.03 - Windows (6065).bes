@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install/Update: WhoCrashed 5.03 - Windows
+  ID       : 6065
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-12T12:48:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install/Update: WhoCrashed 5.03 - Windows</Title>
+    <Description><![CDATA[This task will deploy: WhoCrashed.<BR>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string contains "WhoCrashed" AND value "DisplayName" of it as string as version >= "5.03") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries;x32 registries)]]></Relevance>
+    <Category>Software Sharing</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-05-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 May 2015 19:47:34 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//  http://www.resplendence.com/downloads
+//  http://www.resplendence.com/download/whocrashedSetup.exe
+// https://www.virustotal.com/en/file/28fb3fefb4aa4fa9c2df04b597481b32432a2902e7212492c17027475899d6cc/analysis/
+// http://www.jrsoftware.org/ishelp/index.php?topic=setupcmdline
+prefetch whocrashedSetup.exe sha1:df977e9c3635e61657e3c65bdc0f07527b761584 size:2727584 http://www.resplendence.com/download/whocrashedSetup.exe
+waithidden __Download\whocrashedSetup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

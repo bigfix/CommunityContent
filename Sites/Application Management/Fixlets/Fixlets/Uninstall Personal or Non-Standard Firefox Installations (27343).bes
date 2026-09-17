@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Personal or Non-Standard Firefox Installations
+  ID       : 27343
+  Author   : eg2428
+  Domain   : BESC
+  Imported : 2024-05-06T09:43:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Personal or Non-Standard Firefox Installations</Title>
+    <Description><![CDATA[<P>For the purposes of this fixlet, "non-standard” means Firefox installations in users’ AppData folder instead of Program Files on Windows, or anywhere outside /Applications on macOS</P>]]></Description>
+    <Relevance>if (windows of operating system) then (exists file &quot;helper.exe&quot; of folders &quot;\AppData\Local\Mozilla Firefox\uninstall&quot; of folders of folders &quot;C:\Users\&quot;) else (exists regapp whose (name of it is &quot;Firefox.app&quot; and pathname of it is not &quot;/Applications/Firefox.app&quot;))</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2024-05-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 06 May 2024 16:41:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "mainSWDLogFolder" = "{parent folder of client folder of current site}/__Global/SWDDeployData"
+folder create "{parameter "mainSWDLogFolder"}"
+parameter "logFile" = "SWD_DeploymentResults.log"
+parameter "logFolder" = "{parameter "mainSWDLogFolder"}"
+
+if {windows of operating system}
+waithidden cmd.exe /C echo %DATE% %TIME% >> "{parameter "logFolder"}\{parameter "logFile"}"
+waithidden cmd.exe /C echo Action ID: {id of active action} >> "{parameter "logFolder"}\{parameter "logFile"}"
+
+parameter "uninstallPaths" = "{"%27" & concatenation "%27,%27" of ((pathnames of it) of files "helper.exe" of folders "\AppData\Local\Mozilla Firefox\uninstall" of folders of folders "C:\Users\") & "%27"}"
+delete __createfile
+delete "__Download/draghound.ps1"
+createfile until _EOF_
+$uninstallPaths = @({parameter "uninstallPaths"})
+foreach ($uninstallPath in $uninstallPaths){
+    $loopUsername = $($uninstallPath.split("\") | Select-Object -index 2)
+    $loopUser = New-Object System.Security.Principal.NTAccount($loopUsername)
+
+    #verify that helper.exe is actually a valid Firefox uninstaller
+    $sig = Get-AuthenticodeSignature $uninstallPath
+    $validity = $sig.Status
+    if ($validity -ne "Valid" -or $sig.SignerCertificate.Subject -notmatch "CN=Mozilla Corporation"){
+        Write-Output "helper.exe for $loopUsername certificate is improper" | Out-File "{parameter "logFolder"}\{parameter "logFile"}" -encoding utf8 -append
+        Write-Output "File description is $((Get-Item $uninstallPath).VersionInfo.FileDescription)" | Out-File "{parameter "logFolder"}\{parameter "logFile"}" -encoding utf8 -append
+		Write-Output "$($sig.StatusMessage)" | Out-File "{parameter "logFolder"}\{parameter "logFile"}" -encoding utf8 -append
+        continue
+    }
+
+    #run uninstaller
+    Start-Process -Wait -FilePath $uninstallPath -ArgumentList "-ms"
+
+    #verify files have been removed
+    $expectedExecutable = "$([System.IO.Path]::GetFullPath("$uninstallpath\..\.."))\firefox.exe"
+    if ([System.IO.File]::Exists($expectedExecutable)){
+        Write-Output "File for $loopUsername not successfully deleted" | Out-File "{parameter "logFolder"}\{parameter "logFile"}" -encoding utf8 -append
+        continue
+    }
+
+    #remove registry entries
+    $sid = $loopUser.Translate([System.Security.Principal.SecurityIdentifier]).value
+
+    $unloadAfter=$false
+    if (Test-Path registry::HKU\$sid){
+        $targetHive = $sid
+    }
+    else {
+        reg load HKU\$loopUsername C:\Users\$loopUsername\ntuser.dat
+        $targetHive = $loopUsername
+        $unloadAfter=$true
+    }
+    $installations = @(Get-ChildItem -Path registry::HKU\$targetHive\Software\Microsoft\Windows\CurrentVersion\Uninstall | Where-Object {{$_.Name -match "Mozilla Firefox*"})
+    foreach ($installation in $installations){
+        if ($(Get-ItemPropertyValue registry::$installation "UninstallString").replace("`"","") -eq $uninstallPath){
+            Remove-Item registry::$installation -Recurse
+        }
+    }
+    if ($unloadAfter){
+        $installations.Handle.close()
+        [gc]::collect()
+        reg unload HKU\$loopUsername
+    }
+
+    #remove shortcuts from default Desktop location
+    $desktopFiles = Get-ChildItem "C:\Users\$loopUsername\Desktop"
+    foreach ($desktopFile in $desktopFiles){
+        $extension = [IO.Path]::GetExtension($desktopFile)
+        if ($extension -eq ".lnk" -and $desktopFile.Name -match "Firefox"){
+            $WScript = New-Object -ComObject WScript.Shell
+            $targetPath = $WScript.CreateShortcut($desktopFile.FullName).TargetPath
+            if ($targetPath -match "AppData") {
+                Remove-Item -Path $desktopFile.FullName
+            }
+        }
+    }
+}
+_EOF_
+move __createfile "__Download/draghound.ps1"
+waithidden powershell.exe -executionpolicy bypass -File "__Download/draghound.ps1"
+parameter "error" = "{exit code of action}"
+delete __createfile
+delete __"Download/draghound.ps1"
+waithidden cmd.exe /C echo Return Code: {parameter "error"} >> "{parameter "logFolder"}\{parameter "logFile"}"
+waithidden cmd.exe /C echo. >> "{parameter "logFolder"}\{parameter "logFile"}"
+
+else
+wait sh -c "echo $(date +%Y_%m_%d' '%T) >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo Action ID: {id of active action} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+parameter "uninstallPaths" = "{concatenation " "  of ((pathname of it) of regapps whose (name of it is "Firefox.app" and pathname of it is not "/Applications/Firefox.app"))}"
+delete __createfile
+delete "__Download/draghound.sh"
+createfile until _end_
+#/!bin/zsh
+uninstallPaths=({parameter "uninstallPaths"})
+for uninstallPath in $uninstallPaths; do
+	rm -rf $uninstallPath;
+done
+_end_
+copy "__createfile" "__Download/draghound.sh"
+wait chmod +x "__Download/draghound.sh"
+wait /bin/zsh "__Download/draghound.sh"
+parameter "error" = "{exit code of action}"
+delete __createfile
+delete "__Download/draghound.sh"
+wait sh -c "echo Return Code: {parameter "error"} >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+wait sh -c "echo '' >> '{parameter "mainSWDLogFolder"}/{parameter "logFile"}'"
+
+endif
+exit {parameter "error"}]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

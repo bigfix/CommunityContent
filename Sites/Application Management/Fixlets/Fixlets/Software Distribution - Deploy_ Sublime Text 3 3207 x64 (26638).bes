@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Software Distribution - Deploy: Sublime Text 3 3207 x64
+  ID       : 26638
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2019-08-01T03:58:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Software Distribution - Deploy: Sublime Text 3 3207 x64</Title>
+    <Description><![CDATA[This task will deploy: Sublime Text 3 3207.<BR><BR>This task is applicable on: Windows XP, Windows XP x64, Windows 2003, Windows 2003 x64, Windows Vista, Windows Vista x64, Windows 2008, Windows 2008 x64, Windows 7, Windows 7 x64, Windows 2008 R2, Windows XP Embedded, Windows 8, Windows 8 x64, Windows 2012, Windows 8.1, Windows 8.1 x64, Windows 2012 R2, Windows 10, Windows 2016 and Windows 2019. ]]></Description>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists keys whose(value &quot;DisplayName&quot; of it as string contains &quot;Sublime Text 3&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries; x32 registries)</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2019-08-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 01 Aug 2019 10:58:22 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch SublimeTextSetup.exe sha1:c637fa493b0b3ed6174e9611e9cf7188dea34a29 size:10913768 https://download.sublimetext.com/Sublime%20Text%20Build%203207%20x64%20Setup.exe sha256:1b3ed13c51e428f7f376a611b8ead041594a9251611406e7eaff2e417df48dfb
+
+wait __Download\SublimeTextSetup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCLOSEAPPLICATIONS /NOCANCEL /NORESTART /NORUN /MERGETASKS="!desktopicon,!startup"
+
+//  exists modification times whose(it < "06 Apr 2019 11:58:56 -0400" as time) of files "sublime_text.exe" of folders "C:\Program Files\Sublime Text 3"
+
+// Does NOT work (developer does not include symatic versioning): exists values "DisplayVersion" whose(it as string < "3.2.1") of keys whose(value "DisplayName" of it as string contains "Sublime Text 3") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

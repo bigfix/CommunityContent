@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Uninstall Microsoft Teams Machine Wide Installer
+  ID       : 26840
+  Author   : orbiton
+  Domain   : BESC
+  Imported : 2021-02-28T23:53:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Uninstall Microsoft Teams Machine Wide Installer</Title>
+    <Description><![CDATA[<P>This fixlet will Uninstall Microsoft Teams Machine Wide Installer and&nbsp; instances of it on user profiles</P>
+<P>Based on the following article - <A href="https://docs.microsoft.com/en-us/microsoftteams/msi-deployment"><FONT color=#0066cc>Install Teams using Microsoft Endpoint Configuration Manager - Microsoft Teams | Microsoft Docs</FONT></A></P>]]></Description>
+    <Relevance>(exists file &quot;msiexec.exe&quot; of system folder) AND (disjunction of (exists keys whose ( value &quot;DisplayName&quot; of it as string as lowercase equals &quot;teams machine-wide installer&quot; ) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of ( x32 registry; (if exists x64 registry then x64 registry else nothing) ))) AND true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-02-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 27 Feb 2021 21:50:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Uninstall Microsoft Teams Machine Wide Installer and Microsoft Teams on all user profiles on the machine.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __createfile
+delete __Download\uninstall_Teams_per_machine_guid.txt
+delete __Download\uninstall_Teams_per_machine.bat
+delete __Download\uninstall_Teams_per_user.bat
+delete __Download\uninstall_Teams_per_user_folders.txt
+delete __Download\uninstall_Teams_per_user_folders.bat
+delete __Download\uninstall_Teams_per_user_registry.txt
+delete __Download\uninstall_Teams_per_user_registry.bat
+delete __Download\uninstall_Teams_per_machine_registry.txt
+delete __Download\uninstall_Teams_per_machine_registry.bat
+
+// Get GUID's of the teams machine-wide installer the Installed on the System
+createfile until __END__
+{concatenation "%0d%0a" of (names of keys whose (value "DisplayName" of it as string as lowercase equals "teams machine-wide installer") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries))}
+__END__
+move __createfile __Download\uninstall_Teams_per_machine_guid.txt
+
+// Create Uninstaller based on the GUID's of the teams machine-wide installer (The UninstallString is not Good)
+createfile until __END__
+{concatenation "%0d%0a" of ("msiexec.exe /X " & it & " /QN") of (lines of file "__Download\uninstall_Teams_per_machine_guid.txt")}
+__END__
+move __createfile __Download\uninstall_Teams_per_machine.bat
+
+// Get The Registry Keys of the Microsoft Teams per-user
+createfile until __END__
+{concatenation "%0d%0a" of unique values of (keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "Microsoft\Windows\CurrentVersion\Uninstall" of keys ("SOFTWARE";"SOFTWARE\Wow6432node") of keys of keys "HKEY_USERS" of (x32 registries; (if (exists x64 registries) then x64 registries else nothing)) as string)}
+{concatenation "%0d%0a" of unique values of (keys "Microsoft\Office\Teams" of keys ("SOFTWARE";"SOFTWARE\Wow6432node") of keys of keys "HKEY_USERS" of (x32 registries; (if (exists x64 registries) then x64 registries else nothing)) as string)}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_registry.txt
+
+// Gets the Teams Folder on APPDATA , LOCALDATA of those users that have Microsoft Teams installed
+createfile until __END__
+{concatenation "%0d%0a" of unique values of ((folders "Microsoft\Teams" of (values "APPDATA" of it as folder;values "LOCALAPPDATA" of it as folder) of (keys "Volatile Environment" of parent keys of parent keys of parent keys of parent keys of parent keys of parent keys of keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of keys of keys "HKEY_USERS" of ( x32 registries; (if (exists x64 registries) then x64 registries else nothing ))) as string))}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_folders.txt
+
+// Create Delete procedure for the Teams Folder on APPDATA , LOCALDATA of those users that have Microsoft Teams installed
+createfile until __END__
+{concatenation "%0d%0a" of ("rmdir /S /Q %22" & it & "%22") of (lines of file "__Download\uninstall_Teams_per_user_folders.txt")}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_folders.bat
+
+// Create Uninstaller for those users that have Microsoft Teams installed (Per-User)
+createfile until __END__
+{concatenation "%0d%0a" of unique values of ((values "QuietUninstallString" of keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of keys of keys "HKEY_USERS" of ( x32 registries; (if (exists x64 registries) then x64 registries else nothing )) as string))}
+__END__
+move __createfile __Download\uninstall_Teams_per_user.bat
+
+
+// Delete Leftovers -  The Registry Keys of the Microsoft Teams per-user
+createfile until __END__
+{concatenation "%0d%0a" of ("reg delete %22" & it & "%22 /f") of (lines of file "__Download\uninstall_Teams_per_user_registry.txt")}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_registry.bat
+
+// Delete Procedures
+waithidden __Download\uninstall_Teams_per_machine.bat
+
+parameter "error" = "{exit code of action}"
+if {parameter "error" = "1612" or parameter "error" = "7" or parameter "error" = "1605"}
+  // If the MSI was installed without the ALLUSERS=1, trying to uninstall it with the GUID will result this error
+  // We need to Remove manualy the "Teams Installer" Folder and then it's Registry Key
+  folder delete "{folder "Teams Installer" of program files x32 folder}"
+  createfile until __END__
+{concatenation "%0d%0a" of (keys whose (value "DisplayName" of it as string as lowercase equals "teams machine-wide installer") of keys     "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries) as string)}
+__END__
+  move __createfile __Download\uninstall_Teams_per_machine_registry.txt
+  // Delete Leftovers -  The Registry Keys of the Microsoft Teams per-machine
+  createfile until __END__
+{concatenation "%0d%0a" of ("reg delete %22" & it & "%22 /f") of (lines of file "__Download\uninstall_Teams_per_machine_registry.txt")}
+__END__
+  move __createfile __Download\uninstall_Teams_per_machine_registry.bat
+  waithidden __Download\uninstall_Teams_per_machine_registry.bat
+endif
+
+waithidden __Download\uninstall_Teams_per_user.bat
+waithidden __Download\uninstall_Teams_per_user_folders.bat
+waithidden __Download\uninstall_Teams_per_user_registry.bat]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action28123">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Uninstall Microsoft Teams Machine Wide Installer only.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __createfile
+delete __Download\uninstall_Teams_per_machine_guid.txt
+delete __Download\uninstall_Teams_per_machine.bat
+delete __Download\uninstall_Teams_per_machine_registry.txt
+delete __Download\uninstall_Teams_per_machine_registry.bat
+
+// Get GUID's of the teams machine-wide installer the Installed on the System
+createfile until __END__
+{concatenation "%0d%0a" of (names of keys whose (value "DisplayName" of it as string as lowercase equals "teams machine-wide installer") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries))}
+__END__
+move __createfile __Download\uninstall_Teams_per_machine_guid.txt
+
+// Create Uninstaller based on the GUID's of the teams machine-wide installer (The UninstallString is not Good)
+createfile until __END__
+set errorlevel=
+{concatenation "%0d%0a" of ("msiexec.exe /X " & it & " /QN") of (lines of file "__Download\uninstall_Teams_per_machine_guid.txt")}
+set SWDExitCode=%errorlevel%
+exit %SWDExitCode%
+__END__
+move __createfile __Download\uninstall_Teams_per_machine.bat
+
+// Delete Procedures
+waithidden __Download\uninstall_Teams_per_machine.bat
+parameter "error" = "{exit code of action}"
+if {parameter "error" = "1612" or parameter "error" = "7" or parameter "error" = "1605"}
+  // If the MSI was installed without the ALLUSERS=1, trying to uninstall it with the GUID will result this error
+  // We need to Remove manualy the "Teams Installer" Folder and then it's Registry Key
+  folder delete "{folder "Teams Installer" of program files x32 folder}"
+  createfile until __END__
+{concatenation "%0d%0a" of (keys whose (value "DisplayName" of it as string as lowercase equals "teams machine-wide installer") of keys     "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries) as string)}
+__END__
+  move __createfile __Download\uninstall_Teams_per_machine_registry.txt
+  // Delete Leftovers -  The Registry Keys of the Microsoft Teams per-machine
+  createfile until __END__
+{concatenation "%0d%0a" of ("reg delete %22" & it & "%22 /f") of (lines of file "__Download\uninstall_Teams_per_machine_registry.txt")}
+__END__
+  move __createfile __Download\uninstall_Teams_per_machine_registry.bat
+  waithidden __Download\uninstall_Teams_per_machine_registry.bat
+endif]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </Action>
+    <Action ID="Action28124">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Uninstall Microsoft Teams on all user profiles on the machine.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __createfile
+delete __Download\uninstall_Teams_per_user.bat
+delete __Download\uninstall_Teams_per_user_folders.txt
+delete __Download\uninstall_Teams_per_user_folders.bat
+delete __Download\uninstall_Teams_per_user_registry.txt
+delete __Download\uninstall_Teams_per_user_registry.bat
+
+// Get The Registry Keys of the Microsoft Teams per-user
+createfile until __END__
+{concatenation "%0d%0a" of unique values of (keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "Microsoft\Windows\CurrentVersion\Uninstall" of keys ("SOFTWARE";"SOFTWARE\Wow6432node") of keys of keys "HKEY_USERS" of (x32 registries; (if (exists x64 registries) then x64 registries else nothing)) as string)}
+{concatenation "%0d%0a" of unique values of (keys "Microsoft\Office\Teams" of keys ("SOFTWARE";"SOFTWARE\Wow6432node") of keys of keys "HKEY_USERS" of (x32 registries; (if (exists x64 registries) then x64 registries else nothing)) as string)}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_registry.txt
+
+// Gets the Teams Folder on APPDATA , LOCALDATA of those users that have Microsoft Teams installed
+createfile until __END__
+{concatenation "%0d%0a" of unique values of ((folders "Microsoft\Teams" of (values "APPDATA" of it as folder;values "LOCALAPPDATA" of it as folder) of (keys "Volatile Environment" of parent keys of parent keys of parent keys of parent keys of parent keys of parent keys of keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of keys of keys "HKEY_USERS" of ( x32 registries; (if (exists x64 registries) then x64 registries else nothing ))) as string))}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_folders.txt
+
+// Create Delete procedure for the Teams Folder on APPDATA , LOCALDATA of those users that have Microsoft Teams installed
+createfile until __END__
+{concatenation "%0d%0a" of ("rmdir /S /Q %22" & it & "%22") of (lines of file "__Download\uninstall_Teams_per_user_folders.txt")}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_folders.bat
+
+// Create Uninstaller for those users that have Microsoft Teams installed (Per-User)
+createfile until __END__
+{concatenation "%0d%0a" of unique values of ((values "QuietUninstallString" of keys whose (value "DisplayName" of it as string as lowercase = "microsoft teams") of keys "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of keys of keys "HKEY_USERS" of ( x32 registries; (if (exists x64 registries) then x64 registries else nothing )) as string))}
+__END__
+move __createfile __Download\uninstall_Teams_per_user.bat
+
+
+// Delete Leftovers -  The Registry Keys of the Microsoft Teams per-user
+createfile until __END__
+{concatenation "%0d%0a" of ("reg delete %22" & it & "%22 /f") of (lines of file "__Download\uninstall_Teams_per_user_registry.txt")}
+__END__
+move __createfile __Download\uninstall_Teams_per_user_registry.bat
+
+// Delete Procedures
+waithidden __Download\uninstall_Teams_per_user.bat
+waithidden __Download\uninstall_Teams_per_user_folders.bat
+waithidden __Download\uninstall_Teams_per_user_registry.bat]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>
