@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : WebUI Create a Custom Logon Banner
+  ID       : 26623
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2019-05-16T07:04:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>WebUI Create a Custom Logon Banner</Title>
+    <Description><![CDATA[<P class=MsoNormal style="BACKGROUND: #f6f9ff; MARGIN: 0in 0in 0pt; LINE-HEIGHT: normal; mso-margin-top-alt: auto"><SPAN style='FONT-SIZE: 10pt; FONT-FAMILY: "Helvetica",sans-serif; mso-fareast-font-family: "Times New Roman"'><?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>exist folder &quot;C:\Program Files (x86)\BigFix Enterprise\BES WebUI&quot;</Relevance>
+    <Source>Brad Sexton</Source>
+    <SourceReleaseDate>2019-03-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 16 May 2019 14:02:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;Banner&quot; with description &quot;Please type login banner you want to display&quot; With default &quot;By logging in to the WebUI, I agree to the terms and conditions&quot;
+setting &quot;_WebUIAppEnv_USER_TEXT&quot;=&quot;{parameter &quot;Banner&quot; of action}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

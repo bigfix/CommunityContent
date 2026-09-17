@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Upgrade BES Client from SystemStarter to launchd Start Up Mechanism
+  ID       : 449
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Upgrade BES Client from SystemStarter to launchd Start Up Mechanism</Title>
+    <Description><![CDATA[
+As of Mac OS 10.4.0 the preferred start up mechanism for system services is now launchd, BES client releases of version 7.1 or greater will take advantage of this mechanism, if possible. However BES clients installed on an older version of Mac OS that was then later upgraded will continue to use the old start up mechanism. This fixlet message will modify the BES client to use the new launchd mechanism on computers where it is available.<BR><BR><b>Note:</b> It is strongly suggested that this action be taken on all relevant computers as the SystemStarter mechanism may be deprecated in the future.
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance><![CDATA[(if (version of client >= "8.0") then (mac of it) else (name of it starts with "Mac OS X")) of operating system]]></Relevance>
+    <Relevance><![CDATA[(version of client >= "7.1") AND (exists folder "/Library/StartupItems/BESAgent/BESAgent.app") AND (system version >= "10.4")]]></Relevance>
+    <Relevance>not exists file &quot;/Library/LaunchDaemons/BESAgentDaemon.plist&quot;</Relevance>
+    <Category>Common Tasks</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2008-10-09</SourceReleaseDate>
+    <SourceSeverity>Low</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 09 Oct 2008 19:11:08 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Potential</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upgrade the client&apos;s start up mechanism.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete "{(client folder of current site as string) & "/__appendfile"}"
+appendfile <?xml version="1.0" encoding="UTF-8"?>
+appendfile <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+appendfile <plist version="1.0">
+appendfile <dict>
+appendfile 	<key>Label</key>
+appendfile 	<string>com.bigfix.BESAgent</string>
+appendfile 	<key>OnDemand</key>
+appendfile 	<false/>
+appendfile 	<key>ProgramArguments</key>
+appendfile 	<array>
+appendfile 		<string>/Library/BESAgent/BESAgent.app/Contents/MacOS/BESAgent</string>
+appendfile 		<string>-noservice</string>
+appendfile 	</array>
+appendfile 	<key>WorkingDirectory</key>
+appendfile 	<string>/Library/BESAgent/BESAgent.app/Contents/MacOS</string>
+appendfile </dict>
+appendfile </plist>
+move "{(client folder of current site as string) & "/__appendfile"}" "{(client folder of current site as string) & "/BESAgentDaemon.plist"}"
+appendfile #!/bin/sh
+appendfile /sbin/SystemStarter stop BESAgent
+appendfile sleep 5
+appendfile mv "/Library/StartupItems/BESAgent" "/Library/"
+appendfile rm "/Library/StartupItems/BESAgent/StartupParameters.plist"
+appendfile mv "{(client folder of current site as string) & "/BESAgentDaemon.plist"}" "/Library/LaunchDaemons/"
+appendfile chmod 444 "/Library/LaunchDaemons//BESAgentDaemon.plist"
+appendfile /bin/launchctl load /Library/LaunchDaemons/BESAgentDaemon.plist
+wait chmod 555 "{(client folder of current site as string) & "/__appendfile"}"
+run {"/bin/sh -c %22trap '' 15;'" & (client folder of current site as string) & "/__appendfile'%22"}]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

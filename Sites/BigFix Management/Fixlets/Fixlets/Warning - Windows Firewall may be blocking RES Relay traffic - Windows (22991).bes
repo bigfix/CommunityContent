@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Windows Firewall may be blocking RES Relay traffic - Windows
+  ID       : 22991
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:02:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Windows Firewall may be blocking RES Relay traffic - Windows</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><FONT size=2>The listed computers have the Windows Firewall enabled. Windows Firewall is currently configured to block inbound UDP traffic on the port used by BES (BES uses port 52311 by default) as well as inbound ICMP traffic. <BR><BR></FONT><FONT size=2><FONT color=#ff0000><STRONG>Important Note:</STRONG></FONT>&nbsp;If the listed computers' firewall settings are being administered through a domain group policy, the results of this action may be overwritten by that policy. The actions below will only affect the local firewall policy, and will not affect any group firewall policy settings that may have been applied by a domain administrator. If your firewall has been configured via a domain group policy, these actions may report back as 'Failed', and the firewall must be disabled or configured through group policy instead.</FONT></P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;RESRLS&quot;</Relevance>
+    <Relevance>(firewall enabled of current profile of local policy of firewall|false) OR (exists key &quot;HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile&quot; whose (value &quot;EnableFirewall&quot; of it = 1) of registry) OR (exists key &quot;HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile&quot; whose (value &quot;EnableFirewall&quot; of it = 1) of registry) OR (exists key &quot;HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile&quot; whose (value &quot;EnableFirewall&quot; of it = 1) of registry)</Relevance>
+    <Relevance><![CDATA[NOT ((inbound connections allowed of current profile of local policy of firewall|false) OR (exist key "HKLM\Software\Policies\Microsoft\WindowsFirewall\FirewallRules" whose ((exists value whose (it as string as lowercase contains "|action=allow|" and it as string as lowercase contains "|active=true|" AND it as string as lowercase contains "|dir=in|" and NOT (it as string as lowercase contains "|protocol=") AND ((it as string as lowercase contains "|profile=" & (if (current profile type of firewall = domain firewall profile type) then "domain|" else if (current profile type of firewall = public firewall profile type) then "public|" else if (current profile type of firewall = private firewall profile type) then "private|" else "INVALID")) OR not (it as string as lowercase contains "|profile")) ) of it)) of native registry))]]></Relevance>
+    <Relevance>not exists (rules of firewall) whose ((set of substrings separated by &quot;,&quot; of local ports string of it) contains (Value &quot;Port&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\RES\Workspace Manager\RelayServer&quot; of native registry as string))</Relevance>
+    <Relevance>(not exists authorized application whose (enabled of it AND (it ends with &quot;resrls.exe&quot;) of (process image file name of it as lowercase)) of current profile of local policy of firewall)</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Warn Important</Value>
+    </MIMEField>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:18:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

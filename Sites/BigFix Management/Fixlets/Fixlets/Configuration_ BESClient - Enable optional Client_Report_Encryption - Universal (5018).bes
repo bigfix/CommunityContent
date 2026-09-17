@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration: BESClient - Enable optional Client_Report_Encryption - Universal
+  ID       : 5018
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-04-08T11:56:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration: BESClient - Enable optional Client_Report_Encryption - Universal</Title>
+    <Description><![CDATA[<P>Tells the <FONT size=2>Client&nbsp;to encrypt if it can, otherwise it sends its reports in clear-text.</P></FONT>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://www-01.ibm.com/support/knowledgecenter/SS63NW_9.1.0/com.ibm.tem.doc_9.1/Platform/Adm/c_enabling_encryption_on_clients.html">http://www-01.ibm.com/support/knowledgecenter/SS63NW_9.1.0/com.ibm.tem.doc_9.1/Platform/Adm/c_enabling_encryption_on_clients.html</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>not exists values whose(it = &quot;optional&quot;) of settings &quot;_BESClient_Report_Encryption&quot; of client</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-04-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 Apr 2015 18:55:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+setting &quot;_BESClient_Report_Encryption&quot;=&quot;optional&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

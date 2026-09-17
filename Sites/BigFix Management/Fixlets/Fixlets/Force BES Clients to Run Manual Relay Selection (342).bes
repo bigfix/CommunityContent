@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Force BES Clients to Run Manual Relay Selection
+  ID       : 342
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:15:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Force BES Clients to Run Manual Relay Selection</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD> <P><FONT size=2>Use this task to make the BES Client's re-check for more optimal BES Relays.</FONT> <P><FONT size=2>When a BES Client is using manual Relay selection, the BES Client will choose its BES Relay in the following order (the primary, secondary, and failover relay settings are set using the "Edit Settings" dialog): <OL> <LI>Primary BES Relay <LI>Secondary BES Relay <LI>Failover BES Relay <LI>Main BES Server</LI></OL> <P>If the BES Client's current relay becomes unavailable, it will try to connect to another relay using the order above. Once it connects to a different relay, it will re-check for a better relay periodically (6 hours by default). Using this Task will make the BES Client check for a better relay immediately.</P> <P><FONT size=2><STRONG>Note:</STRONG> During the re-selection process, the BES Client will send out a negligible amount of ICMP packets to the BES Relays in the list above to figure out the distance to each relay (similar to the "tracert" algorithm). </FONT></P></FONT> <P></P> <P><FONT size=2><STRONG>Note:</STRONG> Do <STRONG>not</STRONG> set the "Reapply" behavior when taking this action or you may cause the BES Client to constantly perform&nbsp;manual relay selection. </FONT></P> <P><FONT size=2></FONT>&nbsp;</P></TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>(not exists values of settings &quot;__RelaySelect_Automatic&quot; of client) OR (value of setting &quot;__RelaySelect_Automatic&quot; of client = &quot;0&quot;)</Relevance>
+    <Category>Support</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2007-01-04</SourceReleaseDate>
+    <SourceSeverity>Low</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Fri, 29 Dec 2006 19:19:03 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 29 Jun 2012 22:02:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action547">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to make the BES Client run manual relay selection.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">relay select</ActionScript>
+    </Action>
+    <Action ID="Action548">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>for more information on manual relay selection.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www-01.ibm.com/support/docview.wss?uid=swg21506250</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

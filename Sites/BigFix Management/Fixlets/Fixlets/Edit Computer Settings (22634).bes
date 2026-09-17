@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Edit Computer Settings
+  ID       : 22634
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2016-11-17T18:08:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Edit Computer Settings</Title>
+    <Description><![CDATA[<P>This task will allow non-master operators to add "Client Settings" to computers under their purview.&nbsp; They will only be able to deploy this task to computers they have access to.</P>
+<P>&nbsp;</P>
+<P><STRONG><FONT color=#ff0000>Note:&nbsp;&nbsp; </FONT><FONT color=#000000>Because computer settings are usually created via a specific mechanism of the console an additional step will need to be taken after this deployment is complete in order for the setting to be visible under the "Computers" navigator item in the console.&nbsp; Once deployment of this task is completed, a user must&nbsp;manually assign a value to this setting on any computer (even the original one that this task was deployed to).</FONT></STRONG></P>
+<P><STRONG>What this does is force the server to create a "Property" in the properties repository so the value of this setting can be displayed using the "Column Picker".&nbsp; If this last step is not done the setting will exist in the computer, but it will not be visible in the console.</STRONG></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Client Setting</Category>
+    <Source>Mike Consuegra - Lighthouse Computer Services</Source>
+    <SourceReleaseDate>2016-11-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 19 Aug 2009 22:45:57 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Client</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 18 Nov 2016 01:02:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to &lt;STRONG&gt;enable this setting&lt;/STRONG&gt;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Request for user to enter the name of the client setting to be created or modified
+action parameter query &quot;SettingName&quot; with description &quot;Please enter the name of the Client Setting to be added/modified&quot;
+
+// Request for user to enter the value of the client setting to be created or modified
+action parameter query &quot;SettingValue&quot; with description &quot;Please enter the value of the Client Setting to be added/modified&quot;
+
+// Create or modify the client setting as requested above
+setting &quot;{parameter &quot;SettingName&quot; of action}&quot;=&quot;{parameter &quot;SettingValue&quot; of action}&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

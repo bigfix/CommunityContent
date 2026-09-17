@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cleanup Outdated SHA1 Files
+  ID       : 25525
+  Author   : ronfrades
+  Domain   : BESC
+  Imported : 2018-06-14T03:32:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cleanup Outdated SHA1 Files</Title>
+    <Description>This fixlet will remove sha1 files (older than 10 days) to free up disk space.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[sum of sizes of files of folder "C:\Program Files (x86)\BigFix Enterprise\BES Client\__BESData\__Global\__Cache\Downloads" / (1024*1024) > 1024]]></Relevance>
+    <Relevance><![CDATA[(free space of drive of system folder / (1024 * 1024)) < 5120]]></Relevance>
+    <Source>ronfrades@gmail.com</Source>
+    <SourceReleaseDate>2018-02-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 14 Jun 2018 10:28:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+delete delsha1.cmd
+parameter "sha1folder" = "{pathname of parent folder of regapp "besclient.exe" & "\__BESData\__Global\__Cache\Downloads\"}"
+appendfile {concatenation "%0d%0a" of ("del /q %22" & it & "%22") of pathnames of files whose (now - modification time of it > 10 * day) of folder (parameter "sha1folder")}
+move __appendfile delsha1.cmd
+waithidden cmd /c delsha1.cmd]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

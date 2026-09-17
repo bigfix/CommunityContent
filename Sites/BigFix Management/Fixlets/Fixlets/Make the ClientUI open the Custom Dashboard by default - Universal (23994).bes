@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Make the ClientUI open the Custom Dashboard by default - Universal
+  ID       : 23994
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-04-04T15:05:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Make the ClientUI open the Custom Dashboard by default - Universal</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>not exists values whose(&quot;Dashboard&quot; = it) of settings &quot;_BESClient_ActionManager_InitialUITab&quot; of client</Relevance>
+    <Relevance>exists files &quot;_dashboard.html&quot; of folders &quot;__UISupport&quot; of data folders of client</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2017-04-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 04 Apr 2017 22:04:46 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// related: https://forum.bigfix.com/t/deploying-updated-mac-dashboard-and-technician-pages-besclientui/1418
+setting &quot;_BESClient_ActionManager_InitialUITab&quot;=&quot;Dashboard&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Watchdog for FillDB
+  ID       : 3632
+  Author   : danielheth
+  Domain   : BES
+  Imported : 2013-10-22T13:14:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Watchdog for FillDB</Title>
+    <Description><![CDATA[<P>FillDB has been known to stall.&nbsp; This task will monitor for that situation and correct it. </P>
+<P><STRONG>NOTE:&nbsp; You must enable FillDBperf in order for this watchdog task to be relevant.</STRONG></P>
+<P>this watchdog runs every 15min.&nbsp; </P>
+<P>Here is the sudocode for what will happen:</P>
+<P>if filldb = stopping and no flag<BR>&nbsp;&nbsp;&nbsp; set flag<BR>elseif filldb = stopping and flag<BR>&nbsp;&nbsp;&nbsp; it is taking longer than 15min to stop, so kill it<BR>&nbsp;&nbsp;&nbsp; if flag set, then clear it<BR>&nbsp;&nbsp;&nbsp; start filldb<BR>else<BR>&nbsp;&nbsp;&nbsp; if flag set, then clear it<BR>&nbsp;&nbsp;&nbsp; check sha1 of filldbperf log, this log should be updated every minute or more with data assuming everything is working correctly.<BR>&nbsp;&nbsp;&nbsp; if old sha1 == new sha1 then the log didn't get updated... stop filldb<BR>&nbsp;&nbsp;&nbsp; if filldb = stopped then start filldb</P>]]></Description>
+    <Relevance><![CDATA[version of client >= "6.0"]]></Relevance>
+    <Relevance>exists service &quot;FillDB&quot;</Relevance>
+    <Relevance>if exists value &quot;PerformanceDataPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry then  exists file (value &quot;PerformanceDataPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry as string) else false</Relevance>
+    <Category>Maintenance</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-12-05</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:30:49 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to activate this Watchdog.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//state of service = Continuing, Pausing, Paused, Running, Starting, Stopping, Stopped, Unknown
+
+//if filldb is stopping and we haven&apos;t configured the stopping flag.
+//this means this is the first time we&apos;ve seen the filldb service in a stopping state
+//we need to configure the flag so the next time this task runs, we&apos;ll be able to fix
+if {state of service &quot;FillDB&quot; = &quot;Stopping&quot; AND not exists setting &quot;FillDB_Stopping&quot; of client}
+	//set flag for next run...
+	setting &quot;FillDB_Stopping&quot;=&quot;{now as string}&quot; on &quot;{now}&quot; for client
+	//every 15min this task will run again, filldb will be stopped and
+	//the flag will be set which will make it go into the next section of code
+	//where we can kill the process... it shouldn&apos;t take 15min to stop.
+	//if it was able to stop during the 15min wait, then the else section
+	//will run which clears the flag.
+
+elseif {state of service &quot;FillDB&quot; = &quot;Stopping&quot; AND exists setting &quot;FillDB_Stopping&quot; of client}
+	//forcably kill the FillDB process
+	waithidden cmd /c taskkill /IM FillDB.exe /F
+
+	//if it successfully killed it, then clear the flag and restart
+	if {state of service &quot;FillDB&quot; = &quot;Stopped&quot;}
+		//first remove the flag...
+		if {exists setting &quot;FillDB_Stopping&quot; of client}
+			setting delete &quot;FillDB_Stopping&quot; on &quot;{now}&quot; for client
+		endif
+
+		waithidden cmd /c net start FillDB
+	endif
+
+else
+	//delete the flag under any other circomstances
+	if {exists setting &quot;FillDB_Stopping&quot; of client}
+		setting delete &quot;FillDB_Stopping&quot; on &quot;{now}&quot; for client
+	endif
+
+
+	//pull old sha1 from registry and read new sha1
+	parameter &quot;LASTsha1&quot;=&quot;{if exists setting &quot;FillDB_PerfSha1&quot; of client then value of setting &quot;FillDB_PerfSha1&quot; of client else &quot;&quot;}&quot;
+	parameter &quot;NEWsha1&quot;=&quot;{if exists value &quot;PerformanceDataPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry then sha1 of file (value &quot;PerformanceDataPath&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\FillDB&quot; of registry as string) else &quot;&quot;}&quot;
+
+	//compare sha1&apos;s to see if filldb has stalled...
+	if {parameter &quot;LASTsha1&quot; != &quot;&quot; AND parameter &quot;LASTsha1&quot; = parameter &quot;NEWsha1&quot;}
+		//sha1 did not change, restart service
+		waithidden cmd /c net stop FillDB
+	else
+		//save new sha1 for later use
+		setting &quot;FillDB_PerfSha1&quot;=&quot;{parameter &quot;NEWsha1&quot; of action}&quot; on &quot;{now}&quot; for client
+	endif
+
+
+	//if the filldb is in a stopped state, then start it now
+	if {state of service &quot;FillDB&quot; = &quot;Stopped&quot;}
+		waithidden cmd /c net start FillDB
+	endif
+endif
+
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

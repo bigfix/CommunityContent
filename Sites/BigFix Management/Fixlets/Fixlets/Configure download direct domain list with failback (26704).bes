@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Configure download direct domain list with failback
+  ID       : 26704
+  Author   : Jsaylor
+  Domain   : BESC
+  Imported : 2020-08-11T13:19:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Configure download direct domain list with failback</Title>
+    <Description><![CDATA[<P>This task will configure an endpoint to directly download content in actions from the following list of well known domains:</P>
+<P>*.adobe.com;*.apple.com;*.microsoft.com;*.bigfix.com;*.windowsupdate.com;*.ibm.com;*.google.com;*.mozilla.org</P>
+<P>Any download from these sites that fails to download directly from the vendor&nbsp;will be configured to try the client's parent relay</P>
+<P>&nbsp;</P>
+<P>Requires a 10.0.1 or higher Bigfix client version.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance><![CDATA[version of client > "10.0.0.133"]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2020-08-11</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 11 Aug 2020 20:15:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// turn off global download direct to enable domain based direct download
+
+setting &quot;_BESClient_Download_Direct&quot;=&quot;0&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+
+// Specify a list of domains to perform direct download against
+
+setting &quot;_BESClient_Download_Direct_Domainlist&quot;=&quot;*.adobe.com;*.apple.com;*.microsoft.com;*.bigfix.com;*.windowsupdate.com;*.ibm.com;*.google.com;*.mozilla.org&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+
+// enable failback to the relay in case direct downloads fail.
+
+setting &quot;_BESClient_Download_DirectRecovery&quot;=&quot;1&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

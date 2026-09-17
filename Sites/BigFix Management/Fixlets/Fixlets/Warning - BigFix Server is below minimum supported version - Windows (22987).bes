@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - BigFix Server is below minimum supported version - Windows
+  ID       : 22987
+  Author   : RES
+  Domain   : BESC
+  Imported : 2016-12-07T02:02:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - BigFix Server is below minimum supported version - Windows</Title>
+    <Description>This fixlet is relevant if your BigFix environment is running on an unsupported version </Description>
+    <Relevance>exists main gather service</Relevance>
+    <Relevance><![CDATA[version of registration server < "9.0.0" as version]]></Relevance>
+    <Category>Audit</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-05</SourceReleaseDate>
+    <SourceSeverity>Critical</SourceSeverity>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:18:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

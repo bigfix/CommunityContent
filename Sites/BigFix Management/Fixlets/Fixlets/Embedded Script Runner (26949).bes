@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Embedded Script Runner
+  ID       : 26949
+  Author   : rubenduran
+  Domain   : BESC
+  Imported : 2022-09-15T11:58:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Embedded Script Runner</Title>
+    <Description><![CDATA[<P>Extracts, decodes and executes fixlet embedded scripts</P>
+<P><STRONG>NOTE: Fixlets with embedded scripts must reference a valid Applicability Fixlet's ID in the x-fixlet-scm-sentinel-idref MIMField. Embedded scripts will only be extracted and run from Fixlets whose applicability Fixlet evaluates to true.</STRONG></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Utility</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-09-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 15 Sep 2022 18:57:40 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "root_dir"="{(pathname of parent folder of data folder of client) & "/SCM"}"
+parameter "site_dir"="{(parameter "root_dir") & "/" & (name of current site)}"
+parameter "scripts_dir"="{parameter "site_dir"}/scripts"
+parameter "stdout_dir"="{parameter "site_dir"}/stdout"
+parameter "stderr_dir"="{parameter "site_dir"}/stderr"
+if { not exists folder (parameter "root_dir")}
+  folder create "{parameter "root_dir"}
+endif
+if { not exists folder (parameter "site_dir")}
+  folder create "{parameter "site_dir"}
+endif
+folder delete "{parameter "scripts_dir"}"
+folder delete "{parameter "stdout_dir"}"
+folder delete "{parameter "stderr_dir"}"
+folder create "{parameter "scripts_dir"}"
+folder create "{parameter "stdout_dir"}"
+folder create "{parameter "stderr_dir"}"
+
+//Consolidate all the parameters from x-fixlet-scm-parameters of all fixlets
+createfile until __EOF
+{concatenations "%0a" of (values of headers "x-fixlet-scm-parameters" of it) of fixlets of current site}
+__EOF
+delete delete "{parameter "scripts_dir"}/parameters.txt"
+move __createfile "{parameter "scripts_dir"}/parameters.txt"
+
+createfile until __EOF__
+{concatenations "%0a" of (values of headers "x-fixlet-detect-script" of it) of fixlets whose (exists elements of (intersection of (set of (values of headers "x-fixlet-scm-sentinel-idref" of it) ; set of (values of headers "x-fixlet-scm-sentinel-id" of it) of (relevant fixlets of current site)))) of current site}
+__EOF__
+delete "{parameter "scripts_dir"}/detect_scripts"
+move __createfile "{parameter "scripts_dir"}/detect_scripts"
+
+if {(operating system as string) starts with "Win"}
+createfile until __EOF
+foreach($line in [System.IO.File]::ReadLines("{parameter "scripts_dir"}/detect_scripts")) {{
+  $scriptname = $line.split(":")[0]
+  [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($line.split(":")[1])) > ("{parameter "scripts_dir"}/", $scriptname -join "")
+  try {{
+   & ("{parameter "scripts_dir"}/", $scriptname -join "") > ("{parameter "stdout_dir"}/", ($scriptname -replace ".ps1", ".out") -join "")
+  } catch {{
+    Write-Output $error > ("{parameter "stderr_dir"}/", ($scriptname -replace ".ps1", ".err") -join "")
+  }
+}
+__EOF
+delete base64decode.ps1
+move __createfile base64decode.ps1
+waithidden powershell -F base64decode.ps1
+elseif {(operating system as string) starts with "Linux"}
+  // WIP
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

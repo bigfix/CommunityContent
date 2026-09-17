@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set BES Client Service start type to auto
+  ID       : 2568
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-16T16:17:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set BES Client Service start type to auto</Title>
+    <Description>The service start type is normally delayed auto start, but you could set it to auto. There are advantages to keeping it set to delayed auto start.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>&quot;auto&quot; != start type of service &quot;BESClient&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2013-08-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 16 Aug 2013 22:51:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// change start type of BES Client Service.
+wait "{pathname of client folder of site "BESSupport" & "\changeservicestartmode"}" "BESClient" auto]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

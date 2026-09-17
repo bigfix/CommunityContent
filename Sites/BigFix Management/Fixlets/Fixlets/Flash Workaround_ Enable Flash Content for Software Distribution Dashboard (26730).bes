@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Flash Workaround: Enable Flash Content for Software Distribution Dashboard
+  ID       : 26730
+  Author   : Atanas
+  Domain   : BESC
+  Imported : 2021-01-14T07:54:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Flash Workaround: Enable Flash Content for Software Distribution Dashboard</Title>
+    <Description><![CDATA[<DIV style="FONT-SIZE: 14px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">Enable Flash Content for Software Distribution Dashboard</DIV><BR style="FONT-SIZE: 14px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">This Fixlet enables Flash content for the "Software Distribution" dashboards, by adding the local file directory paths&nbsp;as &nbsp;AllowListUrlPattern entries at \Windows\SysWow64\Macromed\Flash\mms.cfg</DIV>
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">This allows (temporarily) the continued use of Flash-based dashboards for the Software Distribution.</DIV>
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">&nbsp;</DIV>
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">This Fixlet assumes default cache paths for the BigFix Console, and applies the updates only for users who have previously logged on and used the BigFix Console.&nbsp; It may need to be re-executed periodically to find new BigFix Console paths as additional users execute the Console.</DIV>
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">&nbsp;</DIV>
+<DIV style="FONT-SIZE: 16px; FONT-FAMILY: Arial, sans-serif, Verdana; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; BACKGROUND-COLOR: rgb(246,249,255); TEXT-INDENT: 0px; font-variant-ligatures: normal; font-variant-caps: normal; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial">For more details on this workaround to allow Flash content in the Console, please see the BigFix Forum topic at<SPAN>&nbsp;</SPAN><A style="TEXT-DECORATION: underline; COLOR: rgb(34,34,34)" href="https://forum.bigfix.com/t/bigfix-flash-announcement/35218"><FONT color=#0066cc>https://forum.bigfix.com/t/bigfix-flash-announcement/35218</FONT></A></DIV>]]></Description>
+    <Relevance>windows of operating system AND (if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Relevance><![CDATA[(size of it > 0) of ((item 1 of it - item 0 of it)) of (set of lines of files "mms.cfg" of folders "Macromed\Flash" of system folder, set of ("AllowListUrlPattern=file:///" & concatenation "%2520" of substrings separated by " " of concatenation "/" of substrings separated by "\" of it) of  (pathnames of folders "Sites\OS Deployment and Bare Metal Imaging" of folders of folders of folders "AppData\Local\BigFix\Enterprise Console" of folders (expand environment strings of (values "ProfileImagePath" of keys whose (name of it starts with "S-1-5-21-") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" of native registry as string))))]]></Relevance>
+    <Category>TrueNope</Category>
+    <Source>Flash Workaround: Enable Flash Content for Dashboards</Source>
+    <SourceReleaseDate>2021-01-14</SourceReleaseDate>
+    <SourceSeverity>TrueNope</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 14 Jan 2021 14:32:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __appendfile
+appendfile {concatenation "%0d%0a" of ( (elements of item 0 of it; elements of (item 1 of it - item 0 of it)) of (set of lines of files "mms.cfg" of folders "Macromed\Flash" of system folder, set of ("AllowListUrlPattern=file:///" & concatenation "%2520" of substrings separated by " " of concatenation "/" of substrings separated by "\" of it) of  (pathnames of folders "Sites\Software Distribution" of folders of folders of folders "AppData\Local\BigFix\Enterprise Console" of folders (expand environment strings of (values "ProfileImagePath" of keys whose (name of it starts with "S-1-5-21-") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" of native registry as string)))) ) }
+
+delete "{pathname of system folder}\Macromed\Flash\mms.cfg"
+copy __appendfile "{pathname of system folder}\Macromed\Flash\mms.cfg"]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

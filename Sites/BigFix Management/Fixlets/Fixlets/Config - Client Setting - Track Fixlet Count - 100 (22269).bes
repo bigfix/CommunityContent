@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Client Setting - Track Fixlet Count - 100
+  ID       : 22269
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-17T14:17:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Client Setting - Track Fixlet Count - 100</Title>
+    <Description><![CDATA[<P>This Fixlet changes the tracking settings on the client to track the 100 slowest fixlet evaluations on the client.</P>
+<P>&nbsp;For general information or to report issues with C3 Platform Kickstart content please visit GitHub here: <A href="https://github.com/strawgate/C3-Platform-Kickstart">https://github.com/strawgate/C3-Platform-Kickstart</A></P>]]></Description>
+    <Relevance>not exists settings &quot;_BESClient_Resource_TrackingCount&quot; whose (value of it as string = &quot;100&quot;) of client</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-28</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:18:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;_BESClient_Resource_TrackingCount&quot;=&quot;100&quot; on &quot;{now}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

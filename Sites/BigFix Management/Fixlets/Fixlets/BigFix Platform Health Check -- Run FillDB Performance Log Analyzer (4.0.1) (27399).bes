@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BigFix Platform Health Check  Run FillDB Performance Log Analyzer (4.0.1)
+  ID       : 27399
+  Author   : dmccalla
+  Domain   : BES
+  Imported : 2025-11-21T12:10:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BigFix Platform Health Check -- Run FillDB Performance Log Analyzer (4.0.1)</Title>
+    <Description><![CDATA[
+<STYLE> 				.header { 					font-size: 14px; 					background-color: #990000; 					color: white; 					padding: 6px 40px 6px 10px; 					white-space: nowrap; 				} 				.row { 					font-size: 14px; 					padding: 6px 40px 6px 10px; 					border: 1px solid black; 					border-top: none; 				} 				.nowrap { 					white-space: nowrap; 				} 			</STYLE>
+
+<DIV id=seed_2 style="BORDER-TOP: medium none; BORDER-RIGHT: #1976d2 10px solid; BORDER-BOTTOM: #1976d2 10px solid; BORDER-LEFT: #1976d2 10px solid">
+<DIV style="COLOR: white; PADDING-BOTTOM: 10px; PADDING-TOP: 10px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; BACKGROUND-COLOR: #1976d2"><IMG style="VERTICAL-ALIGN: top; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px" src=" data:image/png;base64,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"></DIV>
+<DIV style="FONT-SIZE: 18px; FONT-FAMILY: sans-serif; PADDING-BOTTOM: 20px; PADDING-TOP: 20px; PADDING-LEFT: 20px; PADDING-RIGHT: 20px">
+<DIV><STRONG><FONT size=3>Description</FONT></STRONG></DIV><BR>
+<DIV style="FONT-SIZE: 14px">
+<P><FONT size=2>This task is for automating portions of a standard BigFix platform health check.&nbsp; Specifically, this task will perform the following steps: </FONT></P>
+<UL>
+<LI><FONT size=2>Backup any existing perfmon log analyzer results. </FONT>
+<LI><FONT size=2>Create the&nbsp;BigFix Platform&nbsp;Health Check&nbsp;folder structure to support running the&nbsp;perfmon analyzer&nbsp;on the same drive that the BigFix&nbsp;client is installed to (configurable in the actionscript). </FONT>
+<LI><FONT size=2>Run the analyzer against the log file specfied in the user input fields below.&nbsp; You can enter in a custom file path&nbsp;or use&nbsp;the default location, which is pre-populated.<STRONG>&nbsp;</STRONG> The filename is self explanatory.</FONT>
+<UL>
+<LI><STRONG><FONT size=2>If log rotation produced multiple log files, which is normal, place them all in the folder specified and the task will automatically combine the log files into a single log for analysis.</FONT></STRONG></LI></UL>
+<LI><FONT size=2>The analyzer&nbsp;output will be a .csv file by default, but it is possible to export as table or json by selecting an option in the dropdown below.&nbsp; </FONT></LI></UL></DIV>
+<DIV><STRONG><FONT size=3>Deployment Notes</FONT></STRONG></DIV><BR><FONT size=2>
+<UL>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>This task can only be run my Master Operators.</FONT></DIV>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>This will only be relevant on BigFix root servers.</FONT></DIV>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Make sure the file that is being analyzed is not a live log file or the&nbsp;analyzer cannot access it.</FONT></DIV>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Run it as a one time action only</FONT>.</DIV>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>The FillDB Performance log analyzer is currently hosted at <A href="https://bigfix-mark.github.io/Tools/MXToolkit.zip">https://bigfix-mark.github.io/Tools/MXToolkit.zip</A></FONT></FONT><FONT size=2>.&nbsp;This task will download and unzip this file in order to&nbsp;access the FillDB Performance analyzer executable. If the download fails it might be due to network restrictions.&nbsp; For AirGap installations, manually download and then&nbsp;copy the file into the ".\BES Server\wwwrootbes\bfmirror\downloads\sha1" folder&nbsp;on your root server. </FONT></DIV></LI>
+<UL>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Download failures can also happen when the tools are updated.&nbsp; You will have to update the prefetch statement file size and file hashes&nbsp;to work with the updated file.</FONT></DIV></LI></UL>
+<LI>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Depending on the total size of the log file(s), this process may take a few minutes. A typical 1 GB total file size across 10 files takes about 5 minutes. The logs must first be combined and then analyzed.</FONT></DIV></LI></UL>
+<DIV><STRONG><FONT size=3>User Input and Parameters</FONT></STRONG></DIV><BR>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>If you need to analyze a log file&nbsp;that is not using the default location (C:\BigFix_Health_Check\Platform\Results\Logs\FillDB_Performance) or default file name (FillDBperf.log) and/or&nbsp;need to change the output from the default of&nbsp;CSV, update the fields below.</FONT></DIV>
+<DIV style="FONT-SIZE: 14px">&nbsp;</DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>FillDB Performance Log File Location:</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><BR><INPUT id=filldbPerfFilePath size=80 value=C:\BigFix_Health_Check\Platform\Results\Logs\FillDB_Performance><BR></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2></FONT>&nbsp;</DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Base FillDB Performance Log File Name</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2><EM><STRONG>Note:</STRONG> File</EM> <EM>must have a .log extension. If there are&nbsp;</EM><EM>multiple log files they&nbsp;</EM><EM>should have the default log rotation extension format&nbsp;like .log_1:</EM></FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><BR><INPUT id=filldbPerfFileName value=FillDBperf.log></DIV>
+<DIV style="FONT-SIZE: 14px"><BR><LABEL for=filldbPerfOutputType><FONT size=2>Choose the FillDB performance log output type:</FONT></LABEL></DIV>
+<DIV style="FONT-SIZE: 14px"><LABEL for=filldbPerfOutputType><FONT size=2></FONT></LABEL>&nbsp;</DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2></FONT><SELECT id=filldbPerfOutputType> <OPTION selected value=csv>CSV</OPTION> <OPTION value=json>JSON</OPTION> <OPTION value=table>Table</OPTION></SELECT><FONT size=2> <BR></FONT><BR><script>document.body.ontakeaction = function(event) {
+    if (event.contentID == 'Action1') {
+
+        if (EvaluateRelevance('master flag of current console user') === "False") {
+            alert('<?jxlat Only Master Operators can run this Task.?>');
+            return false;
+        } else {
+            var thefilldbPerfFilePath = document.getElementById("filldbPerfFilePath").value;
+            var thefilldbPerfFileName = document.getElementById("filldbPerfFileName").value;
+            var thefilldbPerfOutputType = document.getElementById("filldbPerfOutputType").value;
+            var rootServerWindows = EvaluateRelevance(
+                'exists bes computer whose (root server flag of it = true AND operating system of it starts with "Win")'
+            );
+        }
+
+        if (EvaluateRelevance('master flag of current console user') === 'false') {
+            alert("Only Master Operators can run this Task.");
+            return false;
+        } else
+
+        if (rootServerWindows === 'false') {
+            alert("This task can only be run on Windows-based BigFix root servers");
+            return false;
+        } else
+
+        if (thefilldbPerfFilePath == null || thefilldbPerfFilePath == "") {
+            alert("FillDB performance log path field must not be blank.");
+            return false;
+        } else
+
+        var path = thefilldbPerfFilePath.replace(/^\s+|\s+$/g, "");   // IE-safe trim
+
+        var validPath = /^[A-Za-z]:\\[^<>:"|?*]+$/.test(path);
+
+        var path = thefilldbPerfFilePath.replace(/^\s+|\s+$/g, "");
+
+         if (!/^[A-Za-z]:\\[^<>:"|?*]+(\\[^<>:"|?*]+)*$/.test(path)) {
+             alert("Please enter a valid Windows directory path for the FillDB performance log path. Example: D:\\Logs\\FillDBPerf");
+         return false;
+         } else
+
+        if (thefilldbPerfFileName == null || thefilldbPerfFileName == "") {
+            alert("FillDB performance log name field must not be blank.");
+            return false;
+        } else
+
+        var cleanedName = thefilldbPerfFileName.replace(/^\s+|\s+$/g, ""); // IE-safe trim
+
+        if (!/\.log$/i.test(cleanedName)) {
+             alert("FillDB performance log name must end with .log");
+             return false;
+        } else {
+
+            TakeSecureFixletAction(
+                Relevance('id of current fixlet'),
+                Relevance('id of current bes site'),
+                "Action1",
+                {},
+                {
+                    filldbPerfFilePath: thefilldbPerfFilePath,
+                    filldbPerfFileName: thefilldbPerfFileName,
+                    filldbPerfOutputType: thefilldbPerfOutputType
+                }
+            );
+        }
+
+        return false;
+    }
+};</script><BR></DIV>
+<DIV><STRONG><FONT size=3>Supported Platforms</FONT></STRONG></DIV><BR>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>Windows</FONT></DIV><BR>
+<DIV><STRONG><FONT size=3>Version and Release Notes</FONT></STRONG></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2></FONT>&nbsp;</DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>4.0.1 - Added a&nbsp;note about "stitching" up multiple FillDB performance logs into a single log.</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>4.0 - Version sync.&nbsp; Updated prefetch to reflect new version of MXToolkit.</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>3.0.0 - Added MO restriction. Version sync with other HC content.</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>2.0.0 - Re-branded.</FONT></DIV>
+<DIV style="FONT-SIZE: 14px"><FONT size=2>1.0.0 - Initial version.</FONT></DIV></DIV></DIV>]]></Description>
+    <Relevance>/* IS A WINDOWS ROOT SERVER */ (exists main gather service and not exists relay service) AND (windows of operating system)</Relevance>
+    <Category>BigFix Platform Health Check</Category>
+    <Source>HCL BigFix AVP and Professional Services</Source>
+    <SourceID>Experimental</SourceID>
+    <SourceReleaseDate>2025-10-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 21 Nov 2025 20:09:13 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+
+// ====================================================================================================
+//     DESCRIPTION AND NOTES
+//
+//     - This task will execute the filldb perflog analyzer tool against BigFix perflog files.
+// ====================================================================================================
+
+
+// ====================================================================================================
+//     SET SOME PARAMETERS
+//
+//     - Only "driveLetter" should generally be edited.
+//     - Avoid hardcoding any other paths.
+// ====================================================================================================
+
+parameter "driveLetter"="{name of drive of regapp "BESClient.exe"}"
+parameter "checkType"="Platform"
+parameter "rootFolder"="{parameter "driveLetter" & "\BigFix_Health_Check\" & parameter "checkType"}"
+parameter "resultsFolder"="{parameter "rootFolder" & "\Results"}"
+parameter "toolsFolder"="{parameter "rootFolder" & "\Tools"}"
+parameter "backupsFolder"="{parameter "rootFolder" & "\Backup"}"
+parameter "scriptsFolder"="{parameter "rootFolder" & "\Scripts"}"
+parameter "fillDBPerfLogsFolder"="{parameter "filldbPerfFilePath" of action}"
+parameter "fillDBPerfLogsName"="{parameter "filldbPerfFileName" of action}"
+parameter "fillDBPerfLogsFullName"="{parameter "fillDBPerfLogsFolder" & "\" & parameter "fillDBPerfLogsName"}"
+parameter "fillDBPerfLogsFullNameCombined"="{parameter "fillDBPerfLogsFullName" & "_combined"}"
+parameter "fillDBPerfLogsAnalysisToolsFolder"="{parameter "toolsFolder" & "\FillDB_Performance"}"
+parameter "fillDBPerfLogsAnalysisScriptsFolder"="{parameter "scriptsFolder" & "\FillDB_Performance"}"
+parameter "fillDBPerfLogsAnalysisFolder"="{parameter "resultsFolder" & "\FillDB_Performance\Analysis"}"
+parameter "fillDBPerfLogsAnalysisName"="{"FillDB_Perf_Analysis_" & computer name & "_" & (((month of it as two digits & "-" & day_of_month of it as two digits & "-" & year of it as string) of date(local time zone) of it & "_" & (two digit hour of it as string & two digit minute of it as string) of time (local time zone) of it) of now) & "." & parameter "filldbPerfOutputType" of action}"
+parameter "fillDBPerfLogsAnalysisFullName"="{parameter "fillDBPerfLogsAnalysisFolder" & "\" & parameter "fillDBPerfLogsAnalysisName"}"
+parameter "fillDBPerfLogsBackupFolder"="{parameter "backupsFolder" & "\Results\FillDB_Performance\Logs\" & (((month of it as two digits & "-" & day_of_month of it as two digits & "-" & year of it as string) of date(local time zone) of it & "_" & (two digit hour of it as string & two digit minute of it as string) of time (local time zone) of it) of now)}"
+parameter "fillDBPerfLogsAnalysisBackupFolder"="{parameter "backupsFolder" & "\Results\FillDB_Performance\Analysis\"  & (((month of it as two digits & "-" & day_of_month of it as two digits & "-" & year of it as string) of date(local time zone) of it & "_" & (two digit hour of it as string & two digit minute of it as string) of time (local time zone) of it) of now)}"
+
+
+// ====================================================================================================
+//     BACKUP EXISTING ANALYSIS FILES
+// ====================================================================================================
+
+if {exists folder (parameter "fillDBPerfLogsAnalysisFolder")}
+waithidden cmd.exe /C mkdir "{parameter "fillDBPerfLogsAnalysisBackupFolder"}"
+waithidden cmd.exe /C xcopy "{parameter "fillDBPerfLogsAnalysisFolder"}" "{parameter "fillDBPerfLogsAnalysisBackupFolder"}"
+endif
+
+
+// ====================================================================================================
+//     CLEAN OUT OLD FOLDER STRUCTURES
+// ====================================================================================================
+
+waithidden cmd.exe /C rd /s /q "{parameter "fillDBPerfLogsAnalysisScriptsFolder"}"
+waithidden cmd.exe /C rd /s /q "{parameter "fillDBPerfLogsAnalysisToolsFolder"}"
+waithidden cmd.exe /C rd /s /q "{parameter "fillDBPerfLogsAnalysisFolder"}"
+
+
+// ====================================================================================================
+//     REBUILD FOLDER STRUCTURE
+// ====================================================================================================
+
+waithidden cmd.exe /C mkdir "{parameter "rootFolder"}"
+waithidden cmd.exe /C mkdir "{parameter "toolsFolder"}"
+waithidden cmd.exe /C mkdir "{parameter "fillDBPerfLogsAnalysisFolder"}"
+waithidden cmd.exe /C mkdir "{parameter "fillDBPerfLogsAnalysisScriptsFolder"}"
+waithidden cmd.exe /C mkdir "{parameter "fillDBPerfLogsAnalysisToolsFolder"}"
+
+
+// ====================================================================================================
+//     DOWNLOAD & STAGE TOOLS
+// ====================================================================================================
+
+prefetch unzip-5.52.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch MXToolkit.zip sha1:797022f47e4c5b7578d33edbc454efdf42456508 size:14284048 https://bigfix-mark.github.io/Tools/MXToolkit.zip sha256:26d08928c7e7100d9c64cba5a095a96d347993066e6139b9d5cd30c551a078c1
+move "{(pathname of client folder of current site) & "\__Download\MXToolkit.zip"}" "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXToolkit.zip"}"
+move "{(pathname of client folder of current site) & "\__Download\unzip-5.52.exe"}" "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\unzip-5.52.exe"}"
+waithidden "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\unzip-5.52.exe"}" -o "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXToolkit.zip"}" -d "{parameter "fillDBPerfLogsAnalysisToolsFolder"}"
+
+// ====================================================================================================
+//     CREATE & RUN SCRIPTS
+// ====================================================================================================
+
+if {exists file (parameter "fillDBPerfLogsFullName")}
+
+// ----------------------------------------------------------------------------------------------------
+//     MULTIPLE LOG FILES - COMBINE AND ANALYZE
+// ----------------------------------------------------------------------------------------------------
+
+    if {exists files whose (name of it contains "1") of folder (parameter "fillDBPerfLogsFolder")}
+
+		waithidden cmd.exe /C echo Multiple files found..  > "{parameter "fillDBPerfLogsAnalysisFolder" & "\" & (((month of it as two digits & "-" & day_of_month of it as two digits & "-" & year of it as string) of date(local time zone) of it & "_" & (two digit hour of it as string & two digit minute of it as string) of time (local time zone) of it) of now) & "_Analyzer_Log.txt"}"
+
+        // --- Create combine script ---
+        delete __createfile
+        delete bfCombineFiles.bat
+        delete "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfCombineFiles.bat"}"
+
+        createfile until _END_
+@echo off
+setlocal enabledelayedexpansion
+
+set "inputFolder={parameter "fillDBPerfLogsFolder"}"
+set "outputFile={parameter "fillDBPerfLogsFullNameCombined"}"
+
+cd /d "%inputFolder%"
+
+if exist "%outputFile%" del "%outputFile%"
+
+:: Build a list of sorted files by numeric name
+for /f "tokens=* delims=" %%F in ('dir /b /a:-d ^| sort') do (
+    echo Adding %%F
+    type "%%F" >> "%outputFile%"
+    echo. >> "%outputFile%"
+)
+
+endlocal
+_END_
+
+        move __createfile "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfCombineFiles.bat"}"
+
+        // Run combine script
+        waithidden cmd.exe /C "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfCombineFiles.bat"}"
+
+        // Create analyzer script (combined)
+        delete __createfile
+        delete bfRunFillDBPerfLogAnalyzer.bat
+
+        createfile until _END_
+cd "{parameter "fillDBPerfLogsAnalysisFolder"}"
+"{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXFillDBPerf.exe"}" --input "{parameter "fillDBPerfLogsFullNameCombined"}" --format "{parameter "filldbPerfOutputType" of action}" --stats --healthcheck > "{parameter "fillDBPerfLogsAnalysisFullName"}"
+_END_
+
+        move __createfile "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
+
+        // Run analyzer script (combined)
+        waithidden cmd.exe /C "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
+
+    else
+
+// ----------------------------------------------------------------------------------------------------
+//     SINGLE LOG FILE - ANALYZE
+// ----------------------------------------------------------------------------------------------------
+
+        delete __createfile
+        delete bfRunFillDBPerfLogAnalyzer.bat
+
+        createfile until _END_
+cd "{parameter "fillDBPerfLogsAnalysisFolder"}"
+"{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXFillDBPerf.exe"}" --input "{parameter "fillDBPerfLogsFullName"}" --format "{parameter "filldbPerfOutputType" of action}" --stats --healthcheck > "{parameter "fillDBPerfLogsAnalysisFullName"}"
+_END_
+
+        move __createfile "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
+
+        waithidden cmd.exe /C "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
+
+    endif
+
+else
+
+// ----------------------------------------------------------------------------------------------------
+//     NO LOG FILE FOUND
+// ----------------------------------------------------------------------------------------------------
+
+    waithidden cmd.exe /C echo Exit Code 1 --> No matching FillDB performance log was present. The file was "{parameter "fillDBPerfLogsFullName"}". > "{parameter "fillDBPerfLogsAnalysisFolder" & "\_ANALYZER_ERROR_1.txt"}"
+
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

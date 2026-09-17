@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : RedHat 7 Firewalld is Blocking BES Traffic - BES Client
+  ID       : 6221
+  Author   : rexit1982
+  Domain   : BESC
+  Imported : 2015-10-02T18:43:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>RedHat 7 Firewalld is Blocking BES Traffic - BES Client</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>The listed computers have firewalld enabled and are not configured to allow inbound UDP traffic on the port used by BES (BES uses port 52311 by default). </P>
+<P>The BES Server and BES Relays send UDP packets to the BES Clients to notify them that there is new information available such as new Fixlet messages, actions, and computer refreshes. BES Clients on relevant computers will not receive UDP notification packets and therefore will not see new actions or new Fixlet messages until they gather the new actionsite, which is by default, once a day. After configuring&nbsp;firewalld to allow inbound UDP traffic on the BES Listen Port, BES Clients will resume normal communication with the BES Server and BES Relays.</P>
+<P><FONT size=2><STRONG>Note:</STRONG> </FONT>After this action is applied, affected BES Clients will not report until they have performed their standard once-per-day gather or until the BES Client is restarted. </P>
+<P><FONT size=2><STRONG>Note:</STRONG> The&nbsp;firewalld configuration is modified by inserting a new service into /etc/firewalld/services&nbsp;and enabling it on the&nbsp;default zone.</FONT></P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance><![CDATA[version of client >= "6"]]></Relevance>
+    <Relevance><![CDATA[(if (version of client >= "8.0") then (unix of it) else ((it does not start with "Win" AND it does not start with "Mac OS X") of name of it)) of operating system]]></Relevance>
+    <Relevance><![CDATA[version of client >= "7.2"]]></Relevance>
+    <Relevance>exists file &quot;/proc/net/ip_tables_names&quot;</Relevance>
+    <Relevance><![CDATA[NOT exists file "/etc/firewalld/zones/public.xml" whose ( exists ( lines of it ) whose ( it does not start with "#" AND it contains "<service name=%22bigfix%22/>" ) ) AND exists file "/etc/firewalld/zones/public.xml"]]></Relevance>
+    <Relevance>exists match (regex &quot;Linux Red Hat Enterprise (AS|ES|WS|Client|Server|Workstation) (7)&quot;) of name of operating system</Relevance>
+    <Category>Support</Category>
+    <SourceReleaseDate>2015-10-02</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Warn Important</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Wed, 17 Jun 2009 18:18:35 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 03 Oct 2015 01:37:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to leave firewalld enabled, but create a service and enable it on the default zone to allow incoming traffic on the port reserved for BES.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Modify the iptables saved ruleset
+delete __appendfile
+
+appendfile #!/bin/bash
+appendfile echo -e '<?xml version="1.0" encoding="utf-8"?>\n<service>\n  <short>bigfix</short>\n  <description>The BES Server and BES Relays send UDP packets to the BES Clients to notify them that there is new information available such as new Fixlet messages, actions, and computer refreshes.  This service permits that traffic on the port designated by the server.</description>\n  <port protocol="udp" port="{port number of selected server as string}"/>\n</service>' > /etc/firewalld/services/bigfix.xml
+appendfile firewall-cmd --reload
+appendfile firewall-cmd --permanent --add-service=bigfix
+appendfile firewall-cmd --reload
+
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+
+wait "{(client folder of current site as string) & "/__appendfile"}"
+
+//delete delete __appendfile]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action6770">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to disable firewalld.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Disable iptables
+delete __appendfile
+
+appendfile #!/bin/bash
+appendfile systemctl disable firewalld.service
+appendfile systemctl stop firewalld.service
+
+wait chmod +x "{(client folder of current site as string) & "/__appendfile"}"
+
+wait "{(client folder of current site as string) & "/__appendfile"}"
+
+//delete delete __appendfile]]></ActionScript>
+    </Action>
+    <Action ID="Action6771">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> for information on how to make this action a &quot;policy&quot; action that will automatically open the BES port on any computer that has this Fixlet message relevant. </PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://support.bigfix.com/cgi-bin/kbdirect.pl?id=113</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

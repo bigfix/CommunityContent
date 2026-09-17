@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Upload Unknown.csv
+  ID       : 95
+  Author   : danielheth
+  Domain   : LABS
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Upload Unknown.csv</Title>
+    <Description><![CDATA[This is an extra task which lets you upload the Unknown.csv file which can then be imported into the <A href="http://bigfix.me/w7apps/import">http://bigfix.me/w7apps/import</A> database.
+<P><B>Source:</B> <A href="http://bigfix.me/w7apps">http://bigfix.me/w7apps</A></P>
+<P><B>Support:</B> dmoran@us.ibm.com</P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>name of operating system starts with &quot;Win7&quot;</Relevance>
+    <Relevance>exists file &quot;Unknown.csv&quot; of folder &quot;Win7AppCompat&quot; of parent folder of client</Relevance>
+    <Category>Upload</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 17:03:09 +0000</Value>
+    </MIMEField>
+    <Domain>LABS</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to upload the Unknown.csv file.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;current_time&quot;=&quot;{(now - &quot;01 Jan 1970 00:00:00&quot; as local time)/second}&quot;
+// set max size to 20 MB to prevent too much data
+setting &quot;_BESClient_ArchiveManager_MaxArchiveSize&quot;=&quot;20971520&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ArchiveManager_OperatingMode&quot;=&quot;2&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting &quot;_BESClient_ArchiveManager_FileSet-w7apps{parameter &quot;current_time&quot;}&quot;=&quot;{pathname of parent folder of client}\Win7AppCompat\Unknown.csv&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+// send results
+archive now</ActionScript>
+    </DefaultAction>
+    <Action ID="Action246">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more and download the latest versions of Feature Installer tasks.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/w7apps/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure BES Relay to Use Drive with Largest Free Disk Space - Version >= 6.0
+  ID       : 585
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:16:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure BES Relay to Use Drive with Largest Free Disk Space - Version &gt;= 6.0</Title>
+    <Description><![CDATA[
+One or more of your BES Relays is currently installed on a drive that has less free disk space than another drive on the same computer. You can configure the BES Relay to use the drive with more disk space through this Fixlet message. <BR><BR><b>Note:</b> Several DOS windows will appear while the BES Relay is configured. These DOS windows may remain in place for a short period of time while all the files in the relay cache are moved to their new location.<BR><BR><b>Note:</b> To see which drive the BES Client has determined is the drive with the largest free disk space, please create a new retrieved property with the following relevance clause:<BR><BR><b>name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))<BR><BR>Note: </b>Only the "wwwroot" BES Relay data folder will be moved, the BES Relay executable and other program files will remain at its current location.
+]]></Description>
+    <Relevance>NOT exists main gather service</Relevance>
+    <Relevance>exists relay service OR exists main gather service</Relevance>
+    <Relevance><![CDATA[version of client >= "5.1"]]></Relevance>
+    <Relevance>exists setting &quot;ChangeRelayCacheDrive&quot; whose (value of it as lowercase = &quot;yes&quot;) of client</Relevance>
+    <Relevance><![CDATA[(free space of drive (first 2 of (value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of x32 registry as string)) + (sum of (sizes of files of folders of folder ((if(value of setting "_BESRelay_HTTPServer_ServerRootPath" of client) ends with "\" then ((value of setting "_BESRelay_HTTPServer_ServerRootPath" of client) & "bfmirror\downloads") else ((value of setting "_BESRelay_HTTPServer_ServerRootPath" of client) & "\bfmirror\downloads")))))) <free space of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))]]></Relevance>
+    <Category>Optional</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 12 May 2012 00:55:27 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Mon, 01 May 2006 16:30:49 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Component Relay</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action840">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to configure the BES Relay to use the drive with the largest free disk space. (Use the default location &apos;drive:\wwwroot&apos;)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[dos net stop BESRelay
+dos del "{value "ConfigLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry as string &  "\*.bfg"}"
+if {exists relay service AND ((it >= "8.0") of (if (version of client >= "8.0") then (version of relay service) else (version of regapp "besrelay.exe")))}
+dos xcopy /E /Y /I /Q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}\wwwrootbes"
+dos rmdir /s /q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath]" "value"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & "\wwwrootbes\")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server]" "wwwRootFolder"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & "\wwwrootbes\")}"
+else
+dos xcopy /E /Y /I /Q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}\wwwroot"
+dos xcopy /E /Y /I /Q "{value "ContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}\wwwroot\bfmirror\bfsites"
+dos xcopy /E /Y /I /Q "{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client & "\bfmirror\downloads"}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}\wwwroot\bfmirror\downloads"
+dos rmdir /s /q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}"
+dos rmdir /s /q "{value "ContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}"
+dos rmdir /s /q "{value of setting "_BESRelay_HTTPServer_ServerRootPath" of client & "\bfmirror\downloads"}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath]" "value"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & "\wwwroot")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService]" "ContentLocation"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & "\wwwroot\bfmirror\bfsites")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService]" "DownloadContentLocation"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & "\wwwroot\bfmirror\downloads")}"
+endif
+dos net start BESRelay]]></ActionScript>
+    </Action>
+    <Action ID="Action841">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to configure the BES Relay to use the drive with the largest free disk space. (Specify a custom location for the Relay files)</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "RelayLocation" with description "Enter the path without trailing backslashes or spaces to the new Relay location on the drive with the largest free disk space." with default "\Program Files\BigFix Enterprise\BES Relay\wwwroot"
+dos net stop BESRelay
+dos del "{value "ConfigLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry as string &  "\*.bfg"}"
+if {exists relay service AND ((it >= "8.0") of (if (version of client >= "8.0") then (version of relay service) else (version of regapp "besrelay.exe")))}
+dos xcopy /E /Y /I /Q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}{parameter "RelayLocation" of action}"
+dos rmdir /s /q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath]" "value"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & (parameter "RelayLocation" of action) & "\")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server]" "wwwRootFolder"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & (parameter "RelayLocation" of action) & "\")}"
+else
+dos xcopy /E /Y /I /Q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}{parameter "RelayLocation" of action}"
+dos xcopy /E /Y /I /Q "{value "ContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}{parameter "RelayLocation" of action}\bfmirror\bfsites"
+dos xcopy /E /Y /I /Q "{value "DownloadContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}\*.*" "{name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED")))}{parameter "RelayLocation" of action}\bfmirror\downloads"
+dos rmdir /s /q "{value "value" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath" of registry}"
+dos rmdir /s /q "{value "ContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}"
+dos rmdir /s /q "{value "DownloadContentLocation" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService" of registry}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\Settings\Client\_BESRelay_HTTPServer_ServerRootPath]" "value"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & (parameter "RelayLocation" of action))}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService]" "ContentLocation"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & (parameter "RelayLocation" of action) & "\bfmirror\bfsites")}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server\GatherService]" "DownloadContentLocation"="{escapes of (name of drive whose (type of it = "DRIVE_FIXED" AND free space of it = maximum of (free spaces of drives whose (type of it = "DRIVE_FIXED"))) & (parameter "RelayLocation" of action) & "\bfmirror\downloads")}"
+endif
+dos net start BESRelay]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

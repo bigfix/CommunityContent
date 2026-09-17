@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Run Nmap with Custom Scan Options - All Local Subnets - Improved
+  ID       : 3852
+  Author   : JasonWalker
+  Domain   : SYST
+  Imported : 2014-09-03T13:03:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Run Nmap with Custom Scan Options - All Local Subnets - Improved</Title>
+    <Description><![CDATA[<P>This Fixlet was originally created by the BES Asset Scanning Wizard, but has been heavily customized.</P>
+<UL>
+<LI>Relevance was corrected to fix an issue where RHEL 6 (or higher) matched the Windows relevance and generate an error.
+<LI>Relevance and ActionScript updated to handle scanning from multihomed systems
+<LI>Only machines with an IP interface containing a subnet mask of 22-bits or more are relevant
+<LI>
+<P>Only&nbsp;locally-attached networks&nbsp;with subnet masks greater than 22-bits are scanned. </P></LI></UL>
+<P>This Fixlet message will run an Nmap scan over the local subnets of the Scan Point. </P>
+<P>
+<P>The following TCP ports will be scanned: 22 23 80 135 139 235 445 61616
+<P>
+<P>The OS Detection option will be used.
+<P>
+<P>Nmap will run service detection to probe open ports for running services.
+<P>
+<P>The timing policy for this Nmap scan is: 3 (normal)
+<P>
+<P>This Fixlet message is applicable on Windows 7, Vista, 2008, 2003, XP, 2000, and Red Hat Linux.</P>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot; or name of operating system as lowercase contains &quot;red hat&quot;</Relevance>
+    <Relevance><![CDATA[(version of client >= "6.0")]]></Relevance>
+    <Relevance><![CDATA[if windows of operating system  then (( major version of operating system >= 5  AND (exists folder "BESScanner-NMAP" of it AND exists file "nmap.exe" of folder "BESScanner-NMAP\NMAP" of it) of parent folder of regapp "BESClient.exe") AND (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\WinPcap" of x32 registry)) else true]]></Relevance>
+    <Relevance>if name of operating system as lowercase contains &quot;red hat&quot; then (exists folder &quot;BESScanner-NMAP/NMAP&quot; of parent folder of parent folder of client folder of current site) AND ((exists package &quot;nmap&quot; of rpm) OR ((exists file &quot;nmap&quot; of it AND exists file &quot;_nmap&quot; of it) of folder &quot;BESScanner-NMAP&quot; of parent folder of parent folder of client folder of current site)) else true</Relevance>
+    <Relevance><![CDATA[(number of (unique values of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)) >= 1)]]></Relevance>
+    <Relevance><![CDATA[exists ((number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( substrings separated by "." of it)) of ( unique values of (subnet masks of ip interfaces whose (loopback of it = false) of network as string ))) whose (it as integer > 22)]]></Relevance>
+    <SourceReleaseDate>2014-09-03</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-ADCustomFixlet</Name>
+      <Value>Custom Fixlet</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Sep 2014 19:51:55 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run an Nmap scan.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {name of operating system as lowercase contains "win"}
+parameter "current_time"="{(now - "01 Jan 1970 00:00:00" as local time)/second}"
+parameter "nmapXMLFilePath"="{pathname of windows folder}\temp\nmap\nmap-{computer name}-{parameter "current_time"}.xml"
+delete __appendfile
+delete folder.bat
+appendfile @ECHO OFF
+appendfile mkdir "{pathname of windows folder & "\temp\nmap"}" > NUL 2>NUL
+move __appendfile folder.bat
+waithidden folder.bat
+
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]" "LastScanStartTime"="{now}"
+delete nmapquiet.bat
+delete __appendfile
+appendfile @ECHO OFF
+
+// Following line customized 2014-09-03 Jason Walker, Lockheed Martin Corporation
+//     to allow for scanning multiple locally-attached subnets
+//appendfile "{pathname of folder "BESScanner-NMAP\NMAP" of parent folder of regapp "BESClient.exe"}\nmap.exe" -sV -sS -sU -p T:22,T:23,T:80,T:135,T:139,T:235,T:445,T:61616,U:{value "ListenPort" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\GlobalOptions" of x32 registry} --exclude "{concatenation "," of (addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)}"{if (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version = "4.20") of x32 registry) then " -O1 --osscan-guess" else " -O --osscan-guess"} -PE -PA80  -T 3 "{(unique value of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)) & "/" & (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it ) of ( unique value of (subnet masks of ip interfaces whose (loopback of it = false) of network as string )) as string) }" -oX "{parameter "nmapXMLFilePath"}" >NUL 2>NUL
+appendfile "{pathname of folder "BESScanner-NMAP\NMAP" of parent folder of regapp "BESClient.exe"}\nmap.exe" -sV -sS -sU -p T:22,T:23,T:80,T:135,T:139,T:235,T:445,T:61616,U:{value "ListenPort" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\GlobalOptions" of x32 registry} {if (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version = "4.20") of x32 registry) then " -O1 --osscan-guess" else " -O --osscan-guess"} -PE -PA80  -T3 -oX "{parameter "nmapXMLFilePath"}"  {("--exclude %22" & (concatenation "," of (preceding texts of first "," of it) of substrings separated by ";" of it )& "%22 " & concatenation " " of (following texts of first "," of it) of substrings separated by ";" of it ) of concatenation ";" of (address of it as string & "," & subnet address of it as string & "/" & (it as string) of (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it) of (subnet mask of it as string) )) whose (preceding text of first "," of it != "0.0.0.0" and following text of first "/" of it as integer > 22) of ip interfaces whose (loopback of it = false) of network} >NUL 2>NUL
+
+move __appendfile nmapquiet.bat
+waithidden nmapquiet.bat
+// Another customization for multiple subnets
+//regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]" "LastSubnetScanned"="{(unique value of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)) & "/" & (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it ) of ( unique value of (subnet masks of ip interfaces whose (loopback of it = false) of network as string )) as string) }"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]" "LastSubnetScanned"="{(concatenation " " of (following texts of first "," of it) of substrings separated by ";" of it ) of concatenation ";" of (address of it as string & "," & subnet address of it as string & "/" & (it as string) of (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it) of (subnet mask of it as string) )) whose (preceding text of first "," of it != "0.0.0.0" and following text of first "/" of it as integer > 22) of ip interfaces whose (loopback of it = false) of network}"
+
+
+
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]" "LastScanFinishTime"="{now}"
+regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]" "NumberOfScansRun"="{value "NumberOfScansRun" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" of x32 registry as integer + 1}"
+
+continue if {(exists file whose (name of it starts with "nmap-" AND name of it contains (parameter "current_time") AND exists line whose (((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version < "4.52") of x32 registry) AND it as lowercase contains "nmap run completed at") OR ((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version >= "4.52") of x32 registry) AND it as lowercase contains "nmap done at")) of it) of folder (pathname of windows folder & "\temp\nmap"))}
+
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="20971520" on "{parameter "action issue date" of action}" for client
+
+continue if {(exists file whose (name of it starts with "nmap-" AND name of it contains (parameter "current_time") AND exists line whose (((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version < "4.52") of x32 registry) AND it as lowercase contains "nmap run completed at") OR ((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" whose (value "NmapVersion" of it as string as version >= "4.52") of x32 registry) AND it as lowercase contains "nmap done at")) of it AND size of it <= ((value of setting "_BESClient_ArchiveManager_MaxArchiveSize" of client) as integer)) of folder (pathname of windows folder & "\temp\nmap"))}
+
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-nmap{parameter "current_time"}"="{parameter "nmapXMLFilePath"}" on "{parameter "action issue date" of action}" for client
+archive now
+if {exists key whose (name of it = "ArchiveManager-nmap-delete-settings" and exists value whose (name of it = "type" and it = "numeral") of it and exists value whose (name of it = "value") of it) of key "HKLM\SOFTWARE\BigFix\EnterpriseClient" of registry}
+if {exists settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now) of client}
+parameter "CountRange" = "{value whose (name of it = "value") of key whose (name of it = "ArchiveManager-nmap-delete-settings" and exists value whose (name of it = "type" and it = "numeral") of it and exists value whose (name of it = "value") of it) of key "HKLM\SOFTWARE\BigFix\EnterpriseClient" of registry}"
+delete __appendfile
+delete allscans.txt
+appendfile {(concatenation of "[-HKEY_LOCAL_MACHINE\Software\" & (if x64 of operating system then "Wow6432Node\" else "") & "BigFix\EnterpriseClient\Settings\Client\" & it & "]%0d%0a") of unique values of ((names of it) of settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now) of client)}
+move __appendfile allscans.txt
+delete __createfile
+delete createdeletelist.bat
+delete deleteoldscans.reg
+createfile until end-file-creation
+setlocal ENABLEEXTENSIONS
+setlocal ENABLEDELAYEDEXPANSION
+set COUNTER={number of lines whose (it as string starts with "[") of file "allscans.txt" of client folder of current site}
+echo REGEDIT4 >> deleteoldscans.reg
+for /f "delims=" %%A in (allscans.txt) do (
+  if !COUNTER! gtr {parameter "CountRange" as integer} (echo %%A >> deleteoldscans.reg) else (goto DELETESCANS)
+  set /a COUNTER=COUNTER-1
+)
+:DELETESCANS
+regedit -s deleteoldscans.reg
+end-file-creation
+move __createfile createdeletelist.bat
+waithidden createdeletelist.bat
+delete allscans.txt
+delete createdeletelist.bat
+delete deleteoldscans.reg
+endif
+
+elseif {exists key whose (name of it = "ArchiveManager-nmap-delete-settings" and exists value whose (name of it = "type" and it = "temporal") of it and exists value whose (name of it = "value") of it) of key "HKLM\SOFTWARE\BigFix\EnterpriseClient" of registry}
+parameter "DayRange" = "{value whose (name of it = "value") of key whose (name of it = "ArchiveManager-nmap-delete-settings" and exists value whose (name of it = "type" and it = "temporal") of it and exists value whose (name of it = "value") of it) of key "HKLM\SOFTWARE\BigFix\EnterpriseClient" of registry}"
+if {exists settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now-(parameter "DayRange" as integer)*hour) of client}
+delete __appendfile
+delete deleteoldscans.reg
+appendfile REGEDIT4
+appendfile {(concatenation of "[-HKEY_LOCAL_MACHINE\Software\" & (if x64 of operating system then "Wow6432Node\" else "") & "BigFix\EnterpriseClient\Settings\Client\" & it & "]%0d%0a") of (names of it) of settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now-(parameter "DayRange" as integer)*hour) of client}
+appendfile
+move __appendfile deleteoldscans.reg
+waithidden regedit -s deleteoldscans.reg
+delete deleteoldscans.reg
+endif
+else
+if {exists settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now-168*hour) of client}
+delete __appendfile
+delete deleteoldscans.reg
+appendfile REGEDIT4
+appendfile {(concatenation of "[-HKEY_LOCAL_MACHINE\Software\" & (if x64 of operating system then "Wow6432Node\" else "") & "BigFix\EnterpriseClient\Settings\Client\" & it & "]%0d%0a") of (names of it) of settings whose (name of it starts with "_BESClient_ArchiveManager_FileSet-nmap" AND effective date of it < now-168*hour) of client}
+appendfile
+move __appendfile deleteoldscans.reg
+waithidden regedit -s deleteoldscans.reg
+delete deleteoldscans.reg
+endif
+regset "[HKEY_LOCAL_MACHINE\Software\BigFix\EnterpriseClient\ArchiveManager-nmap-delete-settings]" "type"="temporal"
+regset "[HKEY_LOCAL_MACHINE\Software\BigFix\EnterpriseClient\ArchiveManager-nmap-delete-settings]" "value"="168"
+endif
+
+
+elseif {name of operating system as lowercase contains "red hat"}
+
+parameter "current_time"="{(now - "01 Jan 1970 00:00:00" as local time)/second}"
+parameter "nmapXMLFilePath"="{parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP/nmap-" & (computer name as string) & "-" & (parameter "current_time" as string) & ".xml"}"
+continue if {not exists file "/etc/selinux/config" whose (exists line whose (it as lowercase = "selinux=enforcing") of it)}
+wait mkdir {parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP/"}
+delete __appendfile
+appendfile [SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP]
+appendfile InstallTime = {key "InstallTime" of section "SOFTWARE\BigFix\EnterpriseClient\BESScanner-NMAP" of file ((parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config")}
+appendfile LastScanStartTime = {now}
+
+
+// Customized by Jason Walker, Lockheed Martin Corporation
+//wait {if ((exists file "nmap" of it AND exists file "_nmap" of it) of folder "BESScanner-NMAP" of parent folder of parent folder of client folder of current site) then ((parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/nmap") else "nmap"} -sV -sS -sU -p T:22,T:23,T:80,T:135,T:139,T:235,T:445,T:61616,U:{key "ListenPort" of section "SOFTWARE\BigFix\EnterpriseClient\GlobalOptions" of file (parent folder of parent folder of client folder of current site as string & "/besclient.config")} --exclude "{concatenation "," of (addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)}" -O --osscan-guess -PE -PA80  -T 3 {(unique value of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string) as string) & "/" & (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it ) of ( unique value of (subnet masks of ip interfaces whose (loopback of it = false) of network as string ) as string) as string)} -oX "{parameter "nmapXMLFilePath"}"
+wait {if ((exists file "nmap" of it AND exists file "_nmap" of it) of folder "BESScanner-NMAP" of parent folder of parent folder of client folder of current site) then ((parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/nmap") else "nmap"} -sV -sS -sU -p T:22,T:23,T:80,T:135,T:139,T:235,T:445,T:61616,U:{key "ListenPort" of section "SOFTWARE\BigFix\EnterpriseClient\GlobalOptions" of file (parent folder of parent folder of client folder of current site as string & "/besclient.config")} -O --osscan-guess -PE -PA80  -T3 -oX "{parameter "nmapXMLFilePath"}" {("--exclude %22" & (concatenation "," of (preceding texts of first "," of it) of substrings separated by ";" of it )& "%22 " & concatenation " " of (following texts of first "," of it) of substrings separated by ";" of it ) of concatenation ";" of (address of it as string & "," & subnet address of it as string & "/" & (it as string) of (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it) of (subnet mask of it as string) )) whose (preceding text of first "," of it != "0.0.0.0" and following text of first "/" of it as integer > 22) of ip interfaces whose (loopback of it = false) of network}
+
+//appendfile LastSubnetScanned = {(unique value of (subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string) as string) & "/" & (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of (if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it ) of ( unique value of (subnet masks of ip interfaces whose (loopback of it = false) of network as string ) as string) as string)}
+appendfile LastSubnetScanned = {(concatenation " " of (following texts of first "," of it) of substrings separated by ";" of it ) of concatenation ";" of (address of it as string & "," & subnet address of it as string & "/" & (it as string) of (number of bits (0;1;2;3;4;5;6;7) whose (it) of ( it as integer ) of ( if it contains "." then preceding text of first "." of it else it ) of ( it; following texts of substrings "." of it) of (subnet mask of it as string) )) whose (preceding text of first "," of it != "0.0.0.0" and following text of first "/" of it as integer > 22) of ip interfaces whose (loopback of it = false) of network}
+
+appendfile LastScanFinishTime = {now}
+appendfile NumberOfScansRun = {(key "NumberOfScansRun" of section "SOFTWARE\Bigfix\EnterpriseClient\BESScanner-NMAP" of (file ((parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"))) as integer + 1}
+appendfile LastFileCreated = {now}
+appendfile NmapVersion = {if ((exists file "nmap" of it AND exists file "_nmap" of it) of folder "BESScanner-NMAP" of parent folder of parent folder of client folder of current site) then "5.21" else version of package "nmap" of rpm as string}
+delete {(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}
+move __appendfile {(parent folder of parent folder of client folder of current site) as string & "/BESScanner-NMAP/BESScanner-NMAP.config"}
+
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="20971520" on "{parameter "action issue date" of action}" for client
+continue if {(exists file whose (name of it starts with "nmap-" AND name of it contains (parameter "current_time") AND exists line whose (it as lowercase contains "nmap done at") of it AND size of it <= ((value of setting "_BESClient_ArchiveManager_MaxArchiveSize" of client) as integer)) of folder (parent folder of parent folder of client folder of current site as string & "/BESScanner-NMAP/NMAP/"))}
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-nmap{parameter "current_time"}"="{parameter "nmapXMLFilePath"}" on "{parameter "action issue date" of action}" for client
+archive now
+endif]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

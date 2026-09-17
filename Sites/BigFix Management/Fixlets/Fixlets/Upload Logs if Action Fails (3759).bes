@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Upload Logs if Action Fails
+  ID       : 3759
+  Author   : menglish
+  Domain   : BESC
+  Imported : 2014-04-05T06:24:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Upload Logs if Action Fails</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>(name of operating system starts with &quot;Win&quot;)</Relevance>
+    <Source>mike.english@us.ibm.com</Source>
+    <SourceReleaseDate>2014-04-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 05 Apr 2014 12:50:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action4098">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[wait cmd /c FAIL
+if {exit code of action != 0}
+
+// set max size to 2097152 to prevent too much data. If the log files are bigger than 2MB, the upload won't occur
+setting "_BESClient_ArchiveManager_MaxArchiveSize"="2097152" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_OperatingMode"="2" on "{parameter "action issue date" of action}" for client
+setting "_BESClient_ArchiveManager_FileSet-logs"="{pathname of client folder of current site & "\..\__Global\Logs\*.*"}" on "{parameter "action issue date" of action}" for client
+
+if {if (exists setting "_BESClient_EMsg_File" of client) then (exists file (value of setting "_BESClient_EMsg_File" of client)) else false}
+setting "_BESClient_ArchiveManager_FileSet-debuglog"="{value of setting "_BESClient_EMsg_File" of client}" on "{parameter "action issue date" of action}" for client
+endif
+
+// send results
+archive now
+
+exit 123
+
+endif]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

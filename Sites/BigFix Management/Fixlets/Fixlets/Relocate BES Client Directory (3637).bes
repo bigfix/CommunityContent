@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Relocate BES Client Directory
+  ID       : 3637
+  Author   : DavidSmith
+  Domain   : BESC
+  Imported : 2013-10-24T06:35:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Relocate BES Client Directory</Title>
+    <Description><![CDATA[<P>Fixlet used to relocate the BES client directory to a new location. This is typical another file system which has more available disk space. A symbolic link is used.</P>
+<P>The new target directory must already exist and have adaquete free space.</P>]]></Description>
+    <Relevance>name of operating system as lowercase contains &quot;linux&quot;</Relevance>
+    <Relevance>not exists symlink &quot;/var/opt/BESClient&quot;</Relevance>
+    <Category>BES Support</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-10-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 23 Oct 2013 18:37:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[delete __createfile
+
+createfile until _EOF_
+#!/bin/sh
+LOG=/var/tmp/besrelocate.log
+RCCMD=/etc/init.d/besclient
+TDIR=/home
+
+echo "`date` Attempting to relocate BESClient dir to $TDIR" >> $LOG
+if [ ! -d $IDIR ]; then
+   echo "`date` Target directory $TDIR does not exists!" >> $LOG
+   exit 1
+fi
+
+echo "`date` Stopping BES Client" >> $LOG
+$RCCMD stop
+sleep 10
+
+cd /var/opt
+echo "`date` Backing up BESClient directory" >> $LOG
+tar cf /tmp/BESClient.tar BESClient >> $LOG 2>&1
+if [ $? -ne 0 ]; then
+  echo "`date` Error backing up BESClient directory" >> $LOG
+  exit 1
+fi
+
+/bin/rm -rf BESClient
+
+cd $TDIR
+echo "`date` Extracting BESClient directory to $TDIR" >> $LOG
+tar xf /tmp/BESClient.tar >> $LOG 2>&1
+if [ $? -ne 0 ]; then
+  echo "`date` Error extracting BESClient tar file!" >> $LOG
+  /bin/rm -f /tmp/BESClient.tar
+  echo "`date` Restarting bes agent" >> $LOG
+  $RCCMD start
+  exit 1
+fi
+
+echo "`date` Creating symbolic link" >> $LOG
+ln -s $TDIR/BESClient /var/opt/BESClient
+if [ $? -ne 0 ]; then
+  echo "`date` Error creating symbolic link!" >> $LOG
+  echo "`date` Restoring BESClient directory!" >> $LOG
+  cd /var/opt
+  rm -f BESClient
+  tar xf /tmp/BESClient.tar
+  /bin/rm -f /tmp/BESClient.tar
+  echo "`date` Restarting bes agent" >> $LOG
+  $RCCMD start
+  exit 1
+else
+  echo "`date` Restarting BES Client" >> $LOG
+  $RCCMD start
+fi
+echo "`date` BES Client directory successfully relocated to $TDIR" >> $LOG
+exit 0
+_EOF_
+
+delete besreloc.sh
+move __createfile besreloc.sh
+wait sh besreloc.sh
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

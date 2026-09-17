@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Remove Maintenance Window
+  ID       : 303
+  Author   : besSupport
+  Domain   : BESC
+  Imported : 2012-10-17T13:14:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Remove Maintenance Window</Title>
+    <Description><![CDATA[
+<TABLE><TBODY><TR><TD>Use this Task to remove the Maintenance Window from computers. </TD></TR></TBODY></TABLE>
+]]></Description>
+    <Relevance>exists settings whose(name of it = &quot;MaintenanceWindow_StartTime&quot; AND exists value of it) of client</Relevance>
+    <Category>Maintenance Window</Category>
+    <Source>BigFix</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 18 Nov 2010 23:39:31 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>Maintenance Window</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 04 Nov 2011 22:14:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting delete &quot;MaintenanceWindow_Name&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_ID&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_WindowSizeMinutes&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_StartTime&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_RepeatType&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_RepeatInterval&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_DayOrdinal&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+setting delete &quot;MaintenanceWindow_DaysOfWeek&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

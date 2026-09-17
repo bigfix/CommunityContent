@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : BESClient - Set AD Site - Unix - DataCenter
+  ID       : 23804
+  Author   : masonje
+  Domain   : BESC
+  Imported : 2017-03-13T11:08:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>BESClient - Set AD Site - Unix - DataCenter</Title>
+    <Description><![CDATA[<P>Set the "AD Site" for DataCenter for IP addresses between&nbsp;<FONT color=#008080 size=2><FONT color=#008080 size=2><FONT color=#008080 size=2><FONT color=#008080 size=2>"10.1.1.1"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>and</FONT></FONT><FONT size=2>&nbsp;</FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"10.1.5.254"</P></FONT></FONT></FONT></FONT>]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 13 Mar 2017 18:06:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;AD Site&quot;=&quot;DataCenter&quot; on &quot;{parameter &quot;action issue date&quot; of action}&quot; for client
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Example Parameterized Fixlet with SecureParameters
+  ID       : 26939
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-07-19T12:55:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Example Parameterized Fixlet with SecureParameters</Title>
+    <Description><![CDATA[
+<!-- Generic Parameterized Fixlet -->
+<!-- The validation logic uses two custom optional attributes on input fields -->
+<!-- required="true" indicates the value must be supplied -->
+<!-- secure="true" indicates the value should be sent as a Secure Parameter -->
+
+<P style="MARGIN-RIGHT: 0px" dir=ltr>
+<LABEL for=parameters>
+<STRONG><FONT color=#008000 size=3>Customization Options</FONT></STRONG></LABEL>
+</P>
+
+<table>
+<th></th>
+<tr>
+<td>Parameter1</td><td><INPUT id=param1 name=param1 required="true"></td>
+</tr>
+<tr>
+<td>Parameter2</td><td><INPUT id=param2 name=param2></td>
+</tr>
+<tr>
+<td>Secure Parameter3</td><td><INPUT id=param3 name=param3 required="true" type="password" secure="true" required="true"></td>
+</tr>
+</table>
+
+<!-- for testing in browser outside of console -->
+<!-- <button id="submit" onclick=takeAction()>Click Me</button> -->
+
+<script>
+
+ document.body.ontakeaction = function() { return takeAction(); }
+
+ function takeAction() {
+ 	var block_action=false; parameters={}; secureparameters={};
+	var secure=false; input_list=document.body.getElementsByTagName("input");
+	for (i=0; i < input_list.length; i++) {
+        if (toBool(input_list[i].getAttribute("required")) && trim(input_list[i].value)=="") {
+            alert(input_list[i].name + " is required"); block_action=true;
+			return false; }
+
+        // if *any* Secure Parameter is defined, we must send using TakeSecureFixletAction
+		if ( toBool(input_list[i].getAttribute("secure"))  || input_list[i].getAttribute("type")=="password" ) { secureparameters[input_list[i].name]=input_list[i].value; secure=true;
+			} else { parameters[input_list[i].name]=input_list[i].value;
+			}
+
+	}
+	if (toBool(secure)) {
+		TakeSecureFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", parameters, secureparameters );
+		} else {
+		TakeFixletAction( Relevance('id of current fixlet'), Relevance('id of current bes site'), "Action1", parameters );
+		}
+	return false;
+}
+
+function trim (str) {
+    return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
+function toBool(value) {
+  if ( !value ) { return false; }
+
+  switch(value.toString().toLowerCase()) {
+    case "true":
+    case "1":
+    case "on":
+    case "yes":
+      return true;
+    default:
+      return false;
+  }
+}
+
+</script>
+]]></Description>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Category>Example</Category>
+    <Source>Internal</Source>
+    <SourceID>Jason Walker</SourceID>
+    <SourceReleaseDate>2022-07-07</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 20:18:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Take Action </Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+
+action parameter query &quot;param1&quot; with description &quot;parameter 1&quot;
+action parameter query &quot;param2&quot; with description &quot;parameter 2&quot;
+// Secure Parameters should not be queried
+// action parameter query &quot;param3&quot; with description &quot;parameter 3&quot;
+delete __appendfile
+appendfile {parameter &quot;param1&quot;}
+appendfile {parameter &quot;param2&quot;}
+appendfile {parameter &quot;param3&quot;}
+
+</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

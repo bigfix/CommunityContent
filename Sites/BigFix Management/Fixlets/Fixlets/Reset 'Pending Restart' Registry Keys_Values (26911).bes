@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Reset 'Pending Restart' Registry Keys/Values
+  ID       : 26911
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2022-03-05T14:58:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Reset &apos;Pending Restart&apos; Registry Keys/Values</Title>
+    <Description><![CDATA[<P><STRONG><FONT size=4>This task will reset all Registry keys known to be associated with a Status of 'Pending Restart' when taking an action on an endpoint</FONT></STRONG></P>
+<P><FONT color=#ff0000 size=4><STRONG><U>Note:</U><BR></STRONG></FONT><FONT color=#ff0000 size=4>Computers reporting&nbsp;this status&nbsp;may actually require a reboot in order to complete installation of a patch or software.&nbsp; The intent of this task is to attempt to reset '<EM>persistent</EM>' registry keys and values that do not&nbsp;reset on their own after the computer is rebooted.&nbsp; Use this task as a&nbsp;last resort when dealing with&nbsp;computers reporting a <EM>'Pending Restart'</EM>&nbsp; </FONT></P>]]></Description>
+    <Relevance>pending restart</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-12-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Jan 2022 17:26:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[///////////////////////////////////
+// TO SET DIFFERENT FILE NAMES AND
+// LOCATIONS CHANGE THE FOLLOWING
+// PARAMETER VALUES
+///////////////////////////////////
+
+parameter "tasklogfilename" = "{data folder of client as string & "\PendingRestartKeysReset.log"}"
+parameter "Operator" = "{values of headers "action-issuer-name" of action}"
+parameter "ActionID" = "{id of action}"
+
+// -END- PARAMETER DECLARATIONS
+
+
+
+/////////////////////////////////
+// OPTIONAL FEATURES
+////////////////////////////////
+
+// DISABLE LOGGING TO THE BES CLIENT FILE SO A USERS LOOKING FOR CLUES AS TO WHAT THE ACTION DOES
+// WILL NOT SEE WHAT FILES IT IS CREATING OR OTHER ACTIONS IT IS TAKING
+// TO TURN LOGGING *OFF* REMOVE THE TWO LEADING SLASHES FROM THE FRONT OF THE NEXT LINE:
+
+// action log command
+
+
+// TO RE-ENABLE LOGGING, COPY THE LINE BELOW TO WHATEVER POINT IN THE ACTION SCRIPT YOU WISH
+// TO ENABLE LOGGING AGAIN.  ONCE COPIED TO THE LOCATION WHERE YOU WANT TO RE-ENABLE LOGGING,
+// REMOVE THE TWO LEADING SLASHES FROM THE BEGINNING OF THE COPIED LINE (NOT THE ONE BELOW).
+
+//action log all
+
+
+// -END- OPTIONAL FEATURES
+
+
+
+
+
+// Begin New Log Entry before resetting keys
+dos echo {"[" & (now) as string & "] - ===BEGIN NEW ACTION==="} >> "{parameter "tasklogfilename"}"
+dos echo {"[" & (now) as string & "] - Task started by operator: "} {parameter "Operator"} >> "{parameter "tasklogfilename"}"
+dos echo {"[" & (now) as string & "] - BES Console Action ID: "} {parameter "ActionID"} >> "{parameter "tasklogfilename"}"
+
+
+
+// BEGIN EXAMINING AND RESETTING KEYS
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates (32-bit and 64-bit registry hives)
+// Value Name:	UpdateExeVolatile
+// Reset the value to zero (0) if it is not already zero
+
+// Write log detailing what is being done
+dos echo {"[" & (now) as string & "] - Examining Value 'UpdateExeVolatile' in key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates]"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of it and exists value "UpdateExeVolatile" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of it) of registry) and value "UpdateExeVolatile" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of registry != 0}
+	dos echo {"[" & (now) as string & "] - Value exists and is not zero (0)...Resetting"} >> "{parameter "tasklogfilename"}"
+
+	dos echo {"[" & (now) as string & "] - Deleting any existing version of the key"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Updates]" "UpdateExeVolatile"
+
+	dos echo {"[" & (now) as string & "] - recreating the key with a dword value of zero (0)"} >> "{parameter "tasklogfilename"}"
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Updates]" "UpdateExeVolatile"=dword:0
+
+elseif {((exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of it and exists value "UpdateExeVolatile" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of it) of native registry) and value "UpdateExeVolatile" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Updates" of native registry != 0}
+	dos echo {"[" & (now) as string & "] - Value exists and is not zero (0)...Resetting"} >> "{parameter "tasklogfilename"}"
+
+	dos echo {"[" & (now) as string & "] - Deleting any existing version of the key"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates]" "UpdateExeVolatile"
+
+	dos echo {"[" & (now) as string & "] - recreating the key with a dword value of zero (0)"} >> "{parameter "tasklogfilename"}"
+	regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates]" "UpdateExeVolatile"=dword:0
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+
+endif
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager
+// Value Name:	PendingFileRenameOperations
+// Delete Value if It exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager] for value 'PendingFileRenameOperations'"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it AND exists value "PendingFileRenameOperations" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it) of registry)}
+	dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations' exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager]" "PendingFileRenameOperations"
+
+	if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it AND exists value "PendingFileRenameOperations" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it) of registry)}
+		dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'PendingFileRenameOperations' please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+	else
+		dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations' Deleted"} >> "{parameter "tasklogfilename"}"
+	endif
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager
+// Value Name:	PendingFileRenameOperations2
+// Delete Value if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager] for value 'PendingFileRenameOperations2'"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it AND exists value "PendingFileRenameOperations2" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it) of registry)}
+	dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations' exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager]" "PendingFileRenameOperations2"
+
+	if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it AND exists value "PendingFileRenameOperations2" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager" of it) of registry)}
+		dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'PendingFileRenameOperations2' please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+	else
+		dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations2' Deleted"} >> "{parameter "tasklogfilename"}"
+	endif
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired" of registry or exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired" of native registry}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired" of registry or exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired" of native registry}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootRequired] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services\Pending
+// Value Name:	N/A
+// DELETE SUBKEYS CONTAINING 'GUIDS' *** ON HOLD UNTIL BETTER TESTING CAN RULE OUT POTENTIAL ISSUES ***
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting" of registry or exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting" of native registry}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting" of registry or exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting" of native registry}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+// Value Name:	DVDRebootSignal
+// Delete Value if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce] for value 'DVDRebootSignal'"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" of it AND exists value "DVDRebootSignal" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" of it) of registry)}
+	dos echo {"[" & (now) as string & "] - value 'DVDRebootSignal' exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce]" "DVDRebootSignal"
+
+	if {((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" of it AND exists value "DVDRebootSignal" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" of it) of registry)}
+		dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'DVDRebootSignal' please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+	else
+		dos echo {"[" & (now) as string & "] - value 'DVDRebootSignal' Deleted"} >> "{parameter "tasklogfilename"}"
+	endif
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending" of (registry;native registry)}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending" of (registry;native registry)}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\PostRebootReporting] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress" of (registry;native registry)}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress" of (registry;native registry)}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootInProgress] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending" of (registry;native registry)}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending" of (registry;native registry)}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Component Based Servicing\PackagesPending] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts
+// Value Name:	N/A
+// Delete key if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts] for existence"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts" of (registry;native registry)}
+	dos echo {"[" & (now) as string & "] - key exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts" of (registry;native registry)}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ServerManager\CurrentRebootAttempts] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon
+// Value Name:	JoinDomain
+// Delete Value if It exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon] for value 'JoinDomain'"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it AND exists value "JoinDomain" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it) of registry)}
+	dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations' exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon]" "JoinDomain"
+
+	if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it AND exists value "JoinDomain" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it) of registry)}
+		dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'JoinDomain' please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+	else
+		dos echo {"[" & (now) as string & "] - value 'JoinDomain' Deleted"} >> "{parameter "tasklogfilename"}"
+	endif
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon
+// Value Name:	AvoidSpnSet
+// Delete Value if It exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon] for value 'AvoidSpnSet'"} >> "{parameter "tasklogfilename"}"
+
+if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it AND exists value "AvoidSpnSet" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it) of registry)}
+	dos echo {"[" & (now) as string & "] - value 'PendingFileRenameOperations' exists...Deleting"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon]" "AvoidSpnSet"
+
+	if {((exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it AND exists value "AvoidSpnSet" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon" of it) of registry)}
+		dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'AvoidSpnSet' please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+	else
+		dos echo {"[" & (now) as string & "] - value 'AvoidSpnSet' Deleted"} >> "{parameter "tasklogfilename"}"
+	endif
+
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart
+// Value Name:	BESPendingRestart
+// Delete key and value if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart] for existence of value BESPendingRestart"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart" of (registry;native registry) and exists value "BESPendingRestart" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart" of (registry;native registry)}
+	dos echo {"[" & (now) as string & "] - key and value exist...Deleting"} >> "{parameter "tasklogfilename"}"
+	regkeydelete "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart]"
+
+		if {exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart" of (registry;native registry)}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete key [HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\BESPendingRestart] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - key Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+// Key Name:	HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce
+// Value Name:	BESPendingRestart
+// Delete value if it exists
+
+dos echo {"[" & (now) as string & "] - Examining key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce] for existence of value BESPendingRestart"} >> "{parameter "tasklogfilename"}"
+if {exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" of registry and exists value "BESPendingRestart" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" of registry}
+	dos echo {"[" & (now) as string & "] - key and value exist...Deleting value"} >> "{parameter "tasklogfilename"}"
+	regdelete "[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce]" "BESPendingRestart"
+
+		if {(exists key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" of it AND exists value "BESPendingRestart" of key "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce" of it) of registry}
+			dos echo {"[" & (now) as string & "] - *** WARNING *** Unable to delete value 'BESPendingRestart' in key [HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce] please troubleshoot registry key"} >> "{parameter "tasklogfilename"}"
+		else
+			dos echo {"[" & (now) as string & "] - value Deleted"} >> "{parameter "tasklogfilename"}"
+		endif
+else
+	dos echo {"[" & (now) as string & "] - Does not exist...proceeding to next entry"} >> "{parameter "tasklogfilename"}"
+endif
+
+
+
+
+// Key1 Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName
+// Key2 Name:	HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName
+// Value Name:	ComputerName
+// Different contents of value 'ComputerName' will trigger 'Pending Restart' status
+
+if {(exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName" of registry and exists value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName" of registry and exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" of registry and exists value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" of registry)}
+	dos echo {"[" & (now) as string & "] - keys and values exists...validating contents"} >> "{parameter "tasklogfilename"}"
+
+	if {(value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName" of registry = value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" of registry)}
+		dos echo {"[" & (now) as string & "] - Contents of both ComputerName values match...no action required"} >> "{parameter "tasklogfilename"}"
+
+	else
+		dos echo {"[" & (now) as string & "] - ComputerName contents of key 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName' is: "} {value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName" of registry} >> "{parameter "tasklogfilename"}"
+		parameter "timeout" = "{now}"
+		pause while {now < ( ((parameter "timeout" of action ) as time ) + 2 * second)}
+		dos echo {"[" & (now) as string & "] - ComputerName contents of key 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName' is: "} {value "ComputerName" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName" of registry} >> "{parameter "tasklogfilename"}"
+	endif
+
+endif
+
+dos echo {"[" & (now) as string & "] - END of TASK"} >> "{parameter "tasklogfilename"}"
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
