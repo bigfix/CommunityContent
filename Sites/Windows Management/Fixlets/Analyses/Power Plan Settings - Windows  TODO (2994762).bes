@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Power Plan Settings - Windows  TODO
+  ID       : 2994762
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-29T10:51:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Power Plan Settings - Windows TODO</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6.0"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Jan 2015 17:32:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Power Plan Friendly Names" EvaluationPeriod="PT12H">unique values of (preceding texts of lasts &quot;%00&quot; of following texts of lasts &quot;,&quot; of it) of (it as string as trimmed string) of values &quot;FriendlyName&quot; of keys of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes&quot; of (x64 registries;x32 registries)</Property>
+    <Property ID="2" Name="Friendly Name of Preffered Power Plan" EvaluationPeriod="PT12H">unique values of (preceding texts of lasts &quot;%00&quot; of following texts of lasts &quot;,&quot; of it) of (it as string as trimmed string) of values &quot;FriendlyName&quot; of keys whose( (set of unique values of (it as string as trimmed string) of values &quot;PreferredPlan&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\NameSpace\{025A5937-A6BE-4686-A844-36FE4BEC8B6D}&quot; of (x64 registries;x32 registries) ) contains (name of it)) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes&quot; of (x64 registries;x32 registries)</Property>
+    <Property ID="3" Name="Friendly Name of current Power Plan" EvaluationPeriod="PT12H">unique values of (preceding texts of lasts &quot;%00&quot; of following texts of lasts &quot;,&quot; of it) of (it as string as trimmed string) of values &quot;FriendlyName&quot; of keys whose( (set of unique values of (it as string as trimmed string) of values &quot;ActivePowerScheme&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Power\User\PowerSchemes&quot; of (x64 registries;x32 registries) ) contains (name of it) ) of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes&quot; of (x64 registries;x32 registries)</Property>
+  </Analysis>
+</BES>

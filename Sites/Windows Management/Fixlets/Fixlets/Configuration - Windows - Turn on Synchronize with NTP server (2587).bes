@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configuration - Windows - Turn on Synchronize with NTP server
+  ID       : 2587
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-29T14:57:54
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configuration - Windows - Turn on Synchronize with NTP server</Title>
+    <Description>This will turn on NTP time sync in windows if and only if it is currently off.</Description>
+    <Relevance>&quot;NoSync&quot; = value &quot;Type&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\W32Time\Parameters&quot; of registry</Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\W32Time\Parameters&quot; of registry</Relevance>
+    <Relevance>exists value &quot;Type&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\W32Time\Parameters&quot; of registry</Relevance>
+    <Category>Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2011-09-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Aug 2013 21:57:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\W32Time\Parameters]&quot; &quot;Type&quot;=&quot;NTP&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

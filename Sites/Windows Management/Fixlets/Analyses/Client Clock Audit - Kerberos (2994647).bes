@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Client Clock Audit - Kerberos
+  ID       : 2994647
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-14T12:33:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Client Clock Audit - Kerberos</Title>
+    <Description><![CDATA[<P>The amount of clock skew matters for Keberos Authentication. By default requests off by more than 5 minutes are rejected.</P>
+<P>&nbsp;</P>
+<P>References:</P>
+<P><A href="http://technet.microsoft.com/en-us/library/cc779260(v=ws.10).aspx">http://technet.microsoft.com/en-us/library/cc779260(v=ws.10).aspx</A></P>
+<P><A href="http://support.bigfix.com/inspectors/World%20Objects_Any.html">http://support.bigfix.com/inspectors/World%20Objects_Any.html</A></P>
+<P><A href="http://blogs.msdn.com/b/asiatech/archive/2009/04/27/kerberos-authentication-failed-due-to-time-skew.aspx">http://blogs.msdn.com/b/asiatech/archive/2009/04/27/kerberos-authentication-failed-due-to-time-skew.aspx</A></P>
+<P><A href="http://web.mit.edu/kerberos/krb5-1.5/krb5-1.5.4/doc/krb5-admin/Clock-Skew.html">http://web.mit.edu/kerberos/krb5-1.5/krb5-1.5.4/doc/krb5-admin/Clock-Skew.html</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 14 May 2014 18:39:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="~Clock_Skew" EvaluationPeriod="PT30M">(absolute value of (apparent registration server time - now))</Property>
+    <Property ID="2" Name="Skew &lt; 4 min" EvaluationPeriod="PT30M">(absolute value of (apparent registration server time - now)) &lt; (4 * minute)</Property>
+  </Analysis>
+</BES>

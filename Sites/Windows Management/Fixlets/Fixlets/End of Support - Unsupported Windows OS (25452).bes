@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : End of Support - Unsupported Windows OS
+  ID       : 25452
+  Author   : rdshift
+  Domain   : BESC
+  Imported : 2018-04-13T08:19:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>End of Support - Unsupported Windows OS</Title>
+    <Description><![CDATA[<P>This task is designed to notify the users of any workstations with unsupported Operating Systems.&nbsp; The "continue if" line is designed to prevent repeat execution more than once per day, but you can change that time if that is your preference.</P>
+<P><STRONG><U>Please be sure to set "Users" tab to "Run when at least one of the selected users is logged on, and only display the user interface to those users" and "Local users"</U></STRONG></P>
+<P>Windows&nbsp;Lifecycle Fact Sheet: <A href="https://support.microsoft.com/en-us/help/13853/windows-lifecycle-fact-sheet">https://support.microsoft.com/en-us/help/13853/windows-lifecycle-fact-sheet</A>, Some additional server dates excluding 2016: <A href="https://support.microsoft.com/en-us/lifecycle/search/1163">https://support.microsoft.com/en-us/lifecycle/search/1163</A></P>
+<P><A href="https://docs.google.com/spreadsheets/d/1YfC_L_O1M5GM_msyZHZI_GETogTJ3M0DOW2wPOcoobA/edit?usp=sharing">Google Docs: Reference and Relevance Worksheet</A></P>
+<P>Windows 2000, XP, Vista - All support has ended</P>
+<P>Windows Server 2008 - Standard is EOS, SP2 and R2 SP1 extended support ends Tue January 14 2020</P>
+<P>Windows 7 - Mainstream support ended, service pack 1 extended support ends Tue January 14 2020</P>
+<P>Windows 8 - Mainstream support ended, 8.1 requires Update 1 (KB2919355) for support, 8.1 Update 1 extended support ends Tue January 10 2023</P>
+<P>Windows 10 - Mainstream (1507, 1511) support ended.&nbsp; 1607 end of support on&nbsp;Tue April 10 2018.&nbsp;&nbsp;1703 end of support on&nbsp;Tue&nbsp;Oct&nbsp;9 2018.&nbsp; 1709 end of support on&nbsp;Tue&nbsp;April&nbsp;9 2019.</P>
+<P>NOTE: <FONT size=2>value </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"ReleaseID"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> key </FONT><FONT color=#008080 size=2><FONT color=#008080 size=2>"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion"</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> native registry may be a better way of retrieving OS version numbers.&nbsp; Revised to this method.&nbsp; LTSB completely excluded at this time.&nbsp; </FONT><FONT size=2>Enterprise and Educational is included with their 6 month extensions set to the 6 month later Patch Tuesday.</FONT></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry then (NOT (value &quot;Productname&quot; of it as string as lowercase contains &quot;ltsb&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry) else true</Relevance>
+    <Relevance><![CDATA[(version of operating system < "6.1.7601" /* All Windows before Windows 7 SP1 */ AND NOT (name of it contains "Win2008") of operating system /* Exclude Server 2008 & R2 */) OR (if (name of it contains "Win2008" /* Server 2008 variants */) of operating system then (((((name of it = "Win2008R2" AND service pack major version of it = 1) OR (name of it = "Win2008" AND service pack major version of it = 2)) AND (date (local time zone) of (now)) > date ("Tue, Jan 14 2020") /* Server 2008 SP2 & R2 SP1 EOS */) of operating system) OR ((name of it does not contain "R2" AND service pack major version of it < 1) of operating system)) else false) OR (if (date (local time zone) of (now)) > date ("Tue, 14 Jan 2020") then (version of operating system = "6.1" AND (name of it contains "Win7") of operating system) else false /* Windows 7 EOS */) OR ((name of it = "Win8") of operating system and (version of operating system > "6.3.9600") /* Windows 8.0 */) OR (if ((name of it = "Win2012R2" OR name of it = "Win8.1") of operating system) then (not exists key ("Package_for_KB2919355~31bf3856ad364e35~amd64~~6.3.1.14"; "Package_for_KB2919355~31bf3856ad364e35~x86~~6.3.1.14") whose (112 = value "CurrentState" of it as integer) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages" of native registry /* Check for mandatory Win 8.1 & Server 2012 Update 2919355 (aka Update 1) */) else if ((name of it = "Win8.1") of operating system AND (date (local time zone) of (now)) > date ("Tue, Jan 10 2023")/* Windows 8.1 EOS */) then true else false) OR (if (NOT ((name of it = "Win2016" /* Exclude Server 2016 */) of operating system) and (name of it = "Win10") of operating system) then (((if (date (local time zone) of (now)) > date ("Tue, 9 Apr 2019") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1709" /* Windows 10 Version 1709 or lower after EOS date */) else if (date (local time zone) of (now)) > date ("Tue, 9 Oct 2018") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1703" /* Windows 10 Version 1703 or lower after EOS date */) else if (date (local time zone) of (now)) > date ("Tue, 10 Apr 2018") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1607" /* Windows 10 Version 1607 or lower after EOS date */) else ((value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <="1511" /* Windows 10 Version 1511 or lower */) OR ((value "CurrentBuild" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry) as string as version <= "15240"))) OR (if (((value "EditionID" of it as string as lowercase contains "educat") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry) OR ((value "EditionID" of it as string as lowercase contains "enterp") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry)) then ((if (NOT ((name of it = "Win2016" /* Exclude Server 2016 */) of operating system) and (name of it = "Win10") of operating system) then ((if (date (local time zone) of (now)) > date ("Tue, 8 Oct 2019") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1709" /* Windows 10 Version 1709 Edu/Ent or lower after EOS date */) else if (date (local time zone) of (now)) > date ("Tue, 9 Apr 2019") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1703" /* Windows 10 Version 1703 Edu/Ent or lower after EOS date */) else if (date (local time zone) of (now)) > date ("Tue, 9 Oct 2018") then (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <= "1607" /* Windows 10 Version 1607 Edu/Ent or lower after EOS date */) else (value "ReleaseID" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry as string <="1511" /* Windows 10 Version 1511 or lower */)) AND (NOT (name of it contains "2016") of operating system) /* Exclude Server 2016 */) else false)) else false)) AND (NOT (name of it contains "2016") of operating system) /* Exclude Server 2016 */) else false)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-12-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Apr 2018 15:09:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.&amp;nbsp; Please be sure to set user messages and user mode.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// No action; all prompts should be in messages.
+continue if {(not exists last active time of it or (now - last active time of it) > (1 * day)) of action}]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

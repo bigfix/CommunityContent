@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Power Policy - Set to Balanced - Windows
+  ID       : 20557
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-10T07:18:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Power Policy - Set to Balanced - Windows</Title>
+    <Description><![CDATA[Sets the Windows Power Policy to Balanced.
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance><![CDATA[windows of operating system and version of operating system > "5.1"]]></Relevance>
+    <Relevance>string value of selects &quot;ElementName from win32_powerplan where isActive = True&quot; of wmi &quot;Root\CIMV2\power&quot; != &quot;Balanced&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-23</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+wait powercfg -s &quot;381b4222-f694-41f0-9685-ff5bb260df2e&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

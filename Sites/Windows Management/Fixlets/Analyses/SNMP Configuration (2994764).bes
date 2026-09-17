@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SNMP Configuration
+  ID       : 2994764
+  Author   : jimwald
+  Domain   : BESC
+  Imported : 2015-02-10T13:18:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SNMP Configuration</Title>
+    <Description><![CDATA[Analysis to&nbsp;read the state and configuration of SNMP service for Windows Servers.&nbsp; ]]></Description>
+    <Relevance>name of operating system contains &quot;Win2&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 10 Feb 2015 17:56:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SNMP Service State">if exists Service &quot;SNMP&quot; then state of service &quot;SNMP&quot; else &quot;Not Installed&quot;</Property>
+    <Property ID="4" Name="SNMP Valid Communities">if exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities&quot; of native registry then if exists values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities&quot; of native registry then (names of values of it, values of it) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\ValidCommunities&quot; of native registry as string else &quot;Not Configured&quot; else &quot;Not Installed&quot;</Property>
+    <Property ID="5" Name="SNMP Permitted Managers">if exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers&quot; of native registry then if exists values of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers&quot; of native registry then (names of values of it, values of it) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SNMP\Parameters\PermittedManagers&quot; of native registry as string else &quot;Not Configured&quot; else &quot;Not Installed&quot;</Property>
+  </Analysis>
+</BES>

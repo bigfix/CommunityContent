@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : DISM Inventory
+  ID       : 1420
+  Author   : danielheth
+  Domain   : SYST
+  Imported : 2013-04-01T16:10:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>DISM Inventory</Title>
+    <Description><![CDATA[<P>Calls the DISM utility present on Windows computers.</P>
+<P>This will generate a DISM.txt file in the client path.&nbsp; This file will contain the Enabled/Disabled state of all the available features.</P>
+<P>This will also enable many of the feature on/off tasks that are included in this custom site.</P>
+<P>This task also generates a diffDISM.txt file in the client path.&nbsp; This file lists a difference between the features available and the "missing" fixlets in the site.&nbsp;&nbsp; IE:&nbsp; We can't cover every single feature the instant it comes out.&nbsp; This results file is pulled into an analysis so new fixlets can be created (manually) for features we don't already have fixlets for.</P>
+<P><B>Source:</B> <A href="http://bigfix.me/features/">http://bigfix.me/features/</A></P>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>exists file &quot;dism.exe&quot; of system folder</Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-02</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Wed, 17 Oct 2012 09:31:55 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Wed, 26 Dec 2012 14:41:12 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>DISM features fixlets Inventory Calls</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Apr 2013 21:01:53 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run a DISM inventory.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+//FIRST RUN AN INVENTORY AND OUTPUT TO A TEXT FILE WHICH FIXLETS TRIGGER OFF FROM.
+delete __appendfile
+if {version of client < "9.0"}
+	appendfile "{pathname of system folder}\dism.exe" /online /get-features /format:table > "{pathname of parent folder of client}\DISM.txt"
+else
+	appendfile "{pathname of native system folder}\dism.exe" /online /get-features /format:table > "{pathname of parent folder of client}\DISM.txt"
+endif
+delete __Download\dism.bat
+move __appendfile __Download\dism.bat
+action uses wow64 redirection {not x64 of operating system}
+waithidden __Download\dism.bat
+action uses wow64 redirection {x64 of operating system}
+//NOW LOOP THROUGH THE OUTPUT COMPARING TO EXISTING FIXLETS.  OUTPUT A LIST OF FEATURES WE DONT HAVE FIXLETS FOR WHICH AN ANALYSIS WILL PULL IN.
+delete __appendfile
+appendfile Set objFSO = CreateObject("Scripting.FileSystemObject")
+appendfile subFolderName = Replace("CustomSite_{name of current site}"," ","_")
+appendfile objStartFolder = "{pathname of parent folder of client folder of current site}\" & subFolderName & "\"
+appendfile Set objFolder = objFSO.GetFolder(objStartFolder)
+appendfile Set colFiles = objFolder.Files
+appendfile Set dismFile = objFSO.OpenTextFile("{pathname of parent folder of client}\DISM.txt", 1)
+appendfile Set objResults = objFSO.CreateTextFile("{pathname of parent folder of client}\diffDISM.txt", true)
+appendfile headerLine1 = false
+appendfile headerLine2 = false
+appendfile Do Until dismFile.AtEndOfStream
+appendfile 	strAvailableFeature = dismFile.ReadLine
+appendfile 	if NOT(headerLine1) AND NOT(headerLine2) then
+appendfile 		if (InStr(strAvailableFeature, "----------")) then
+appendfile 			headerLine1 = true
+appendfile 		end if
+appendfile 	elseif (headerLine1) AND NOT(headerLine2) then
+appendfile 		if (InStr(strAvailableFeature, "----------")) then
+appendfile 			headerLine2 = true
+appendfile 		end if
+appendfile 	else
+appendfile 		if (InStr(strAvailableFeature, "|")) then
+appendfile 			s = Split(strAvailableFeature)
+appendfile 			strFeatureName = Trim(s(0))
+appendfile 			foundIt = false
+appendfile 			For Each objFile in colFiles
+appendfile 			if UCase(objFSO.GetExtensionName(objFile.name)) = "FXF" then
+appendfile 				Set fixletFile = objFSO.OpenTextFile(objStartFolder & objFile.Name, 1)
+appendfile 				Set objRegEx = CreateObject("VBScript.RegExp")
+appendfile 				objRegEx.Pattern = strFeatureName
+appendfile 				Do Until fixletFile.AtEndOfStream
+appendfile 					strSearchString = fixletFile.ReadLine
+appendfile					Set colMatches = objRegEx.Execute(strSearchString)
+appendfile 					If colMatches.Count > 0 Then
+appendfile 						For Each strMatch in colMatches
+appendfile 							FeatureString = Replace(strSearchString,objRegEx.Pattern,"")
+appendfile 							foundIt = true
+appendfile 							exit do
+appendfile 						Next
+appendfile 					End If
+appendfile 				Loop
+appendfile 				fixletFile.Close
+appendfile 			end if
+appendfile 			Next
+appendfile 			if NOT (foundIt) then
+appendfile 				objResults.WriteLine strFeatureName
+appendfile 			end if
+appendfile 		end if
+appendfile 	end if
+appendfile Loop
+appendfile dismFile.Close
+delete diffDISM.vbs
+move __appendfile diffDISM.vbs
+waithidden cmd /c cscript diffDISM.vbs
+]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">not exists file &quot;DISM.txt&quot; of parent folder of client</SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action211">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about the DISM tool.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://technet.microsoft.com/en-us/library/dd744566(v=ws.10).aspx</ActionScript>
+    </Action>
+    <Action ID="Action212">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more and download the latest versions of Feature Installer tasks.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/winfeatures/</ActionScript>
+    </Action>
+    <Action ID="Action1666">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/cdb/fixlet/68</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

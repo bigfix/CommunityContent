@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : All Users - Files, Shortcuts, RunKey - Windows
+  ID       : 2994785
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T09:35:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>All Users - Files, Shortcuts, RunKey - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>The latest version of this analysis is found here: <A href="http://bigfix.me/analysis/details/2994608"><FONT color=#000080>http://bigfix.me/analysis/details/2994608</FONT></A></P>
+<P>See the task "Delete start menu shortcuts containing "uninstall"" to delete the shortcuts found in the property "All Users Start Menu "Uninstall" shortcuts" of this analysis. The task is found here:&nbsp;<A href="http://bigfix.me/fixlet/details/3657"><FONT color=#000080>http://bigfix.me/fixlet/details/3657</FONT></A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 16:34:10 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="All User Desktop folder" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Desktop&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="2" Name="Files on All User Desktop" EvaluationPeriod="P2D">names whose(it as lowercase != &quot;desktop.ini&quot;) of files of folders (unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Desktop&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries))</Property>
+    <Property ID="3" Name="All Users Start Menu folder" EvaluationPeriod="P2D">unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Start Menu&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="4" Name="All Users Start Menu shortcuts" EvaluationPeriod="P2D">(following text of first (unique value whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Start Menu&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries) &amp; &quot;\&quot;) of it) of pathnames of descendants whose(name of it as lowercase ends with &quot;.lnk&quot;) of folders (unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Start Menu&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries))</Property>
+    <Property ID="5" Name="All Users Start Menu &quot;Uninstall&quot; shortcuts" EvaluationPeriod="P2D">(following text of first ((unique value whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Start Menu&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries)) &amp; &quot;\&quot;) of it) of pathnames of descendants whose(name of it as lowercase ends with &quot;.lnk&quot; AND name of it as lowercase contains &quot;uninstall&quot;) of folders (unique values whose(it != &quot;&quot;) of (it as string as trimmed string) of values &quot;Common Start Menu&quot; of keys &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders&quot; of (x64 registries; x32 registries))</Property>
+    <Property ID="6" Name="All_User Run key" EvaluationPeriod="P2D">unique values of (preceding text of last &quot;%00&quot; of it | it) of (it as string as trimmed string) whose(it != &quot;&quot;) of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="7" Name="All_User RunOnce key" EvaluationPeriod="P2D">unique values of (preceding text of last &quot;%00&quot; of it | it) of (it as string as trimmed string) whose(it != &quot;&quot;) of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="8" Name="All Users Run key" EvaluationPeriod="P2D">(unique values whose(it != &quot;&quot;) of (preceding text of last &quot;%00&quot; of it | it) of (it as string as trimmed string) of values of keys &quot;Software\Microsoft\Windows\CurrentVersion\Run&quot; of keys of keys &quot;HKEY_USERS&quot; of (x64 registries; x32 registries))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Disable AutoAdminLogon
+  ID       : 740
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T14:45:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Disable AutoAdminLogon</Title>
+    <Description><![CDATA[This task will edit the Windows Registry.<VALUE> <BR><BR></VALUE>This task is applicable on:&nbsp;Windows XP, Windows Vista, Windows 7. ]]></Description>
+    <Relevance>name of operating system = &quot;WinXP&quot; OR name of operating system = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; and product type of it = nt workstation product type) of operating system OR name of operating system = &quot;Win7&quot;</Relevance>
+    <Relevance>exists value &quot;AutoAdminLogon&quot; whose (0 != it as integer) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry</Relevance>
+    <Category>Registry Edit</Category>
+    <Source>Windows Registry Wizard</Source>
+    <SourceReleaseDate>2026-09-17</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Windows Registry Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 22 Sep 2011 19:38:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp;</PreLink>
+        <Link>here&amp;nbsp;</Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]&quot; &quot;AutoAdminLogon&quot;=&quot;0&quot;</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

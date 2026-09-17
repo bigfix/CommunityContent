@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : WMI - Windows
+  ID       : 2998282
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:56:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>WMI - Windows</Title>
+    <Description><![CDATA[<P>Provides information on the state of WMI on the endpoint. </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="4" Name="WMI - Query Error - Windows" EvaluationPeriod="PT1H">not exists string values of selects &quot;Domain from Win32_ComputerSystem&quot; of wmi | true</Property>
+    <Property ID="5" Name="WMI - Backup Repository Exists - Windows" EvaluationPeriod="PT1H">exists folders whose (name of it starts with &quot;repository.&quot;) of (folder &quot;wbem&quot; of (if (x64 of operating system) then (system x64 folder) else (system x32 folder)))</Property>
+    <Property ID="6" Name="WMI - Backup Repository Count - Windows" EvaluationPeriod="PT1H">number of folders whose (name of it starts with &quot;repository.&quot;) of (folder &quot;wbem&quot; of (if (x64 of operating system) then (system x64 folder) else (system x32 folder)))</Property>
+    <Property ID="7" Name="WMI - Repository is Large - Windows" EvaluationPeriod="P1D">(size of file &quot;objects.data&quot; of (if (x64 of operating system) then (x64 folder (pathname of windows folder &amp; &quot;\system32\wbem\repository&quot;)) else (folder (pathname of windows folder &amp; &quot;\system32\wbem\repository&quot;)))) &gt; 1 /*byte*/ * 1024 /*KB*/ * 1024 /*MB*/ * 1024 /*GB*/</Property>
+    <Property ID="8" Name="WMI - Repository Size - Windows" EvaluationPeriod="P1D">size of file &quot;objects.data&quot; of (if (x64 of operating system) then (x64 folder (pathname of windows folder &amp; &quot;\system32\wbem\repository&quot;)) else (folder (pathname of windows folder &amp; &quot;\system32\wbem\repository&quot;)))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Start the Windows Management Instrumentation Service
+  ID       : 9285
+  Author   : gearoid
+  Domain   : BES
+  Imported : 2016-03-15T06:02:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Start the Windows Management Instrumentation Service</Title>
+    <Description><![CDATA[<P>Starts the Windows Management Instrumentation Service.&nbsp; This is needed to run a QRadar Vulnerability Manager patch scans.</P>
+<P>For more details see <A href="http://www-01.ibm.com/support/docview.wss?uid=swg27043767">http://www-01.ibm.com/support/docview.wss?uid=swg27043767</A></P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists service &quot;Winmgmt&quot; whose (state of it != &quot;Running&quot;)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-03-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 15 Mar 2016 12:20:57 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+waithidden net start winmgmt</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : PowerShell x86 Status - Windows
+  ID       : 2994540
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-06-26T14:30:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>PowerShell x86 Status - Windows</Title>
+    <Description><![CDATA[<P>Located here: <A href="http://bigfix.me/cdb/analysis/89"><FONT color=#000080>http://bigfix.me/cdb/analysis/89</FONT></A></P>
+<P>Based upon this: <A href="http://bigfix.me/cdb/analysis/20">http://bigfix.me/cdb/analysis/20</A><BR><BR>Pull back status on the PowerShell installation on this system.</P>]]></Description>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Wed, 17 Oct 2012 09:32:22 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Wed, 17 Oct 2012 09:37:41 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>PowerShell Status Pull ApplicationBase PowerShellVersion</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 26 Jun 2013 21:29:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="5" Name="Path" EvaluationPeriod="PT12H">value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of registry</Property>
+    <Property ID="1" Name="ApplicationBase" EvaluationPeriod="PT12H">value &quot;ApplicationBase&quot; of key &quot;PowerShellEngine&quot; of key ((it as string) of maximum of (it as integer) of names of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry</Property>
+    <Property ID="2" Name="PowerShellVersion" EvaluationPeriod="PT12H">value &quot;PowerShellVersion&quot; of key &quot;PowerShellEngine&quot; of key ((it as string) of maximum of (it as integer) of names of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry</Property>
+    <Property ID="3" Name="PSCompatibleVersion" EvaluationPeriod="PT12H">value &quot;PSCompatibleVersion&quot; of key &quot;PowerShellEngine&quot; of key ((it as string) of maximum of (it as integer) of names of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry</Property>
+    <Property ID="4" Name="RuntimeVersion" EvaluationPeriod="PT12H">value &quot;RuntimeVersion&quot; of key &quot;PowerShellEngine&quot; of key ((it as string) of maximum of (it as integer) of names of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell&quot; of registry</Property>
+    <Property ID="6" Name="ExecutionPolicy" EvaluationPeriod="PT1H">if (not exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\ScriptedDiagnostics&quot; whose(exists value &quot;ExecutionPolicy&quot; of it) of registry) then ERROR &quot;no ExecutionPolicy set&quot; else (value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\ScriptedDiagnostics&quot; whose(exists value &quot;ExecutionPolicy&quot; of it) of registry)</Property>
+  </Analysis>
+</BES>

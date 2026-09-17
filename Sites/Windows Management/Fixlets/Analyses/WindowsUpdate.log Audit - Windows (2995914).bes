@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : WindowsUpdate.log Audit - Windows
+  ID       : 2995914
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-29T12:02:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>WindowsUpdate.log Audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists files &quot;WindowsUpdate.log&quot; whose( exists lines of it AND not exists lines whose(it contains &quot;Get-WindowsUpdateLog PowerShell&quot; OR it contains &quot;Checking write access&quot;) of it ) of ( windows folders ; folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of clients )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 29 Mar 2016 19:01:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Last 100 lines of WindowsUpdate.log" EvaluationPeriod="P2D">(item 1 of /* -&gt; This &quot;it&quot; refers to the last 100 lines of the file -&gt; */ it) whose( /* -&gt; remove empty lines, which is why this relevance can return less than 100 lines per file -&gt; */ it as trimmed string != &quot;&quot;) of ( /* -&gt; this is the number of lines of the file from the previous statement -&gt; */ item 1 of it, (lines of /* -&gt; the file object -&gt; */ item 0 of it) ) /* -&gt; This whose statement is responsible for filtering for only the last 100 lines of the file -&gt; */ whose ( (line number of /* -&gt; lines of the file -&gt; */ item 1 of it) &gt; ( /* -&gt; number of lines of the file -&gt; */ item 0 of it - 100 /* &lt;- This is the number of lines to return, which is subtracted from the total # of lines &lt;- */ ) ) of ( /* -&gt; the parent file object itself -&gt; */ it, number of lines of it) of files &quot;WindowsUpdate.log&quot; whose( not exists lines whose(it contains &quot;Get-WindowsUpdateLog PowerShell&quot;) of it ) of ( windows folders ; folders &quot;Logs&quot; of folders &quot;__Global&quot; of data folders of clients)</Property>
+  </Analysis>
+</BES>

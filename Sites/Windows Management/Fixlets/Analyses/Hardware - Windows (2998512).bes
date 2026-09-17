@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hardware - Windows
+  ID       : 2998512
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-01-30T09:15:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hardware - Windows</Title>
+    <Description><![CDATA[Provides hardware information on Windows
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Hardware - Manufacturer - Windows" EvaluationPeriod="P1D">string value of select &quot;Manufacturer from Win32_ComputerSystem&quot; of wmi</Property>
+    <Property ID="3" Name="Hardware - Service Tag - Windows" EvaluationPeriod="P1D">string values of selects &quot;IdentifyingNumber from Win32_ComputerSystemProduct&quot; of wmi</Property>
+    <Property ID="12" Name="Hardware - Video Adapaters - Windows" EvaluationPeriod="P1D">string values of selects &quot;Name from Win32_VideoController&quot; of wmi</Property>
+    <Property ID="13" Name="Hardware - Sound Device - Windows" EvaluationPeriod="P1D">string values of selects &quot;Name from Win32_SoundDevice&quot; of wmi</Property>
+    <Property ID="19" Name="Hardware - Monitors - Windows" EvaluationPeriod="P1D">number of active devices whose(class of it = &quot;Monitor&quot;)</Property>
+    <Property ID="20" Name="Hardware - Hard Drives - Windows" EvaluationPeriod="P1D">string values of selects &quot;Caption from Win32_DiskDrive&quot; of wmi</Property>
+    <Property ID="21" Name="Hardware - Hard Drive Count - Windows" EvaluationPeriod="P1D">number of string values of selects &quot;Caption from Win32_DiskDrive&quot; of wmi</Property>
+    <Property ID="23" Name="Hardware - Monitors - Windows" EvaluationPeriod="P1D">descriptions of active devices whose (class of it = &quot;Monitor&quot;)</Property>
+    <Property ID="24" Name="Hardware - Monitor Count - Windows" EvaluationPeriod="P1D">number of active devices whose(class of it = &quot;Monitor&quot;)</Property>
+    <Property ID="25" Name="Hardware - CD Rom Drives - Windows" EvaluationPeriod="P1D">string values of selects &quot;Caption from Win32_CDROMDrive&quot; of wmi</Property>
+    <Property ID="26" Name="Hardware - CD Rom Drive Count - Windows" EvaluationPeriod="P1D">number of string values of selects &quot;Caption from Win32_CDROMDrive&quot; of wmi</Property>
+    <Property ID="27" Name="Hardware - Monitor Resolution - Windows" EvaluationPeriod="P1D">if (exists select &quot;VideoModeDescription from Win32_VideoController&quot; whose (type of it = 8)  of wmi) then (preceding texts of lasts &quot; x&quot; of (string values of selects &quot;VideoModeDescription from Win32_VideoController&quot; whose (type of it = 8) of wmi)) else (&quot;N/A&quot;)</Property>
+    <Property ID="28" Name="Hardware - RAM Maximum Installable - Windows" EvaluationPeriod="P1D">((it as integer/1024) as string &amp; &quot; MB&quot;) of (string values of selects &quot;MaxCapacity from Win32_PhysicalMemoryArray where Use=&apos;3&apos;&quot; of wmi)</Property>
+    <Property ID="29" Name="Hardware - In Error State - Windows" EvaluationPeriod="PT1H">(description of it | friendly name of it, problem id of it) of active devices whose (exist problem id of it)</Property>
+    <Property ID="30" Name="Hardware - CD Rom Drives Loaded - Windows" EvaluationPeriod="PT12H">number of string values of selects &quot;Caption from Win32_CDROMDrive where MediaLoaded=True&quot; of wmi</Property>
+    <Property ID="31" Name="Hardware - Hard Drives Offline - Windows" EvaluationPeriod="PT1H">string values of properties &quot;FriendlyName&quot; of select objects &quot;* from MSFT_Disk where IsOffline=True&quot; of wmis &quot;ROOT/Microsoft/Windows/Storage&quot;</Property>
+  </Analysis>
+</BES>

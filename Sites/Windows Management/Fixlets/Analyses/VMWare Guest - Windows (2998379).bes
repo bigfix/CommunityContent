@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : VMWare Guest - Windows
+  ID       : 2998379
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-30T19:58:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>VMWare Guest - Windows</Title>
+    <Description><![CDATA[This analysis provides VM Guest where available.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>((value &quot;manufacturer&quot; of structure &quot;system_information&quot; of smbios as string) contains &quot;VMware&quot;)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="VMWare Guest - ID - Universal" EvaluationPeriod="P1D">if ((value &quot;manufacturer&quot; of structure &quot;system_information&quot; of smbios as string) contains &quot;VMware&quot;) then ((if exists property &quot;hexadecimal&quot; then hexadecimal of it else it as string as hexadecimal) of (value &quot;uuid&quot; of structure &quot;system_information&quot; of smbios)) else &quot;N/A&quot;</Property>
+    <Property ID="2" Name="VMWare Tools - Drivers - Windows" EvaluationPeriod="P1D">if (windows of operating system) then ((name of it, substrings between &quot;|&quot; of (it as string)) of values of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\VMWare, Inc.\VMware Drivers&quot; of native registry) else (error &quot;not applicable&quot;)</Property>
+    <Property ID="3" Name="VMWare Tools - Version - Windows" EvaluationPeriod="P1D">if (windows of operating system) then ( valueS &quot;DisplayVersion&quot; of keys whose (value &quot;DisplayName&quot; of it = &quot;VMware Tools&quot;)of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of native registry) else (error &quot;not applicable&quot;)</Property>
+    <Property ID="4" Name="VMWare Tools - State - Windows" EvaluationPeriod="PT1H">if (windows of operating system) then (state of service &quot;VMTools&quot; | &quot;Not Installed&quot;) else (error &quot;not applicable&quot;)</Property>
+  </Analysis>
+</BES>

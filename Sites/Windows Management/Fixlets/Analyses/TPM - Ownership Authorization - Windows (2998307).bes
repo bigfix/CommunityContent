@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : TPM - Ownership Authorization - Windows
+  ID       : 2998307
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:04:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>TPM - Ownership Authorization - Windows</Title>
+    <Description>Grabs the ownership authorization password set when provisioning the TPM on the device.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (file whose (name of it contains &quot;TPMOwnerAuthorization&quot;) of folder &quot;BitLocker&quot; of folder &quot;__Global&quot; of data folder of client)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="TPM - Ownership Password - Windows" EvaluationPeriod="P1D">(preceding text of first &quot;-&quot; of name of it &amp; &quot;:&quot;, following text of first &quot;%ff%fe&quot; of concatenations &quot;&quot; of substrings separated by &quot;%00&quot; of lines of it) of files whose (Name of it contains &quot;TPMOwnerAuthorization.txt&quot;) of folder &quot;BitLocker&quot; of folder &quot;__Global&quot; of data folder of client</Property>
+  </Analysis>
+</BES>

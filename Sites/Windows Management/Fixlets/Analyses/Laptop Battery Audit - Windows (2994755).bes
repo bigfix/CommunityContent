@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Laptop Battery Audit - Windows
+  ID       : 2994755
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-18T12:35:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Laptop Battery Audit - Windows</Title>
+    <Description><![CDATA[<P>This analysis uses a combination of <STRONG>SMBIOS</STRONG>, <STRONG>WMI</STRONG>, and <STRONG>OMCI</STRONG> ( Dell Command | Monitor ) to report on batteries connected to a system. ( in particular laptop batteries, but also&nbsp;battery backups in some cases&nbsp;)</P>
+<P>The best way to determine if a battery needs replaced is to look at the following properties:&nbsp; <FONT size=2><STRONG>"% battery life in capacity</STRONG>", "<STRONG>Battery Status</STRONG>", and "<STRONG>Battery Manufacture Date</STRONG>"</P></FONT>
+<P>In the case of Dell Systems, the best data will be returned if Dell Command | Monitor (also known as OMCI) is installed. See the fixlet available here to install Dell&nbsp;<STRONG>OMCI</STRONG>:&nbsp; <A href="http://bigfix.me/fixlet/details/3918">http://bigfix.me/fixlet/details/3918</A></P>
+<P>There is a related analysis for Apple OS X systems available here:&nbsp; <A href="http://bigfix.me/analysis/details/2994537">http://bigfix.me/analysis/details/2994537</A></P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://dmtf.org/sites/default/files/standards/documents/DSP0134_2.8.0.pdf">http://dmtf.org/sites/default/files/standards/documents/DSP0134_2.8.0.pdf</A></P>
+<P><A href="http://bigfix.me/relevance/details/2999628">http://bigfix.me/relevance/details/2999628</A></P>
+<P><A href="http://www.dell.com/support/Manuals/us/en/19/Topic/dell-opnmang-clnt-instr-v9.0.0/Dell_Command_Monitor_Ref_Guide-v1/en-us/GUID-0176ACFB-3FF2-4895-9521-33C9BC948F0B">http://www.dell.com/support/Manuals/us/en/19/Topic/dell-opnmang-clnt-instr-v9.0.0/Dell_Command_Monitor_Ref_Guide-v1/en-us/GUID-0176ACFB-3FF2-4895-9521-33C9BC948F0B</A></P>
+<P><A href="http://msdn.microsoft.com/en-us/library/aa394074%28v=vs.85%29.aspx">http://msdn.microsoft.com/en-us/library/aa394074%28v=vs.85%29.aspx</A></P>
+<P><A href="http://blogs.technet.com/b/heyscriptingguy/archive/2010/07/31/using-windows-powershell-to-determine-if-a-laptop-is-on-battery-power.aspx">http://blogs.technet.com/b/heyscriptingguy/archive/2010/07/31/using-windows-powershell-to-determine-if-a-laptop-is-on-battery-power.aspx</A></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists structures whose(name of it as lowercase = &quot;portable_battery&quot;) of smbios) OR (exists selects &quot;* from Win32_Battery&quot; of wmi) OR (exists selects &quot;* from Win32_PortableBattery&quot; of wmis) OR (exists selects &quot;* from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 18 Dec 2014 19:32:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="# of batteries" EvaluationPeriod="P2D">maxima of ((number of structures whose(name of it as lowercase = &quot;portable_battery&quot;) of smbios);(maxima of multiplicities of unique values of (preceding texts of firsts &quot;=&quot; of it) of (it as string) of selects &quot;* from Win32_Battery&quot; of wmis);(maxima of multiplicities of unique values of (preceding texts of firsts &quot;=&quot; of it) of (it as string) of selects &quot;* from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;))</Property>
+    <Property ID="2" Name="Raw SMBIOS battery data" EvaluationPeriod="P2D">(name of it as trimmed string &amp; &quot;=&quot; &amp; it as string as trimmed string) of values of structures whose(name of it as lowercase = &quot;portable_battery&quot;) of smbios</Property>
+    <Property ID="4" Name="% battery life in capacity" EvaluationPeriod="P1D">if not exists (selects &quot;FullChargeCapacity from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;) then ERROR &quot;UNKNOWN&quot; else ( (item 0 of it * 100 / item 1 of it) of (integer value of property &quot;FullChargeCapacity&quot; of it, integer value of property &quot;DesignCapacity&quot; of it) of select objects &quot;* from DCIM_Battery&quot; whose(exists integer values of properties &quot;FullChargeCapacity&quot; of it AND exists integer values of properties &quot;DesignCapacity&quot; of it) of wmis &quot;root\dcim\sysman&quot; )</Property>
+    <Property ID="5" Name="Battery Status" EvaluationPeriod="P1D">unique values whose(it != &quot;&quot;) of (it as trimmed string) of string values of (if not exists (selects &quot;Status from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;) then it else (selects &quot;Status from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;)) of (selects &quot;Status from Win32_Battery&quot; of wmis)</Property>
+    <Property ID="6" Name="Max Capacity (Wh)" EvaluationPeriod="PT12H">unique values of (it / 1000) of significance places 2 of (item 0 of it * item 1 of it) of (value &quot;design_capacity&quot; of it as string as trimmed string as integer as floating point, value &quot;design_capacity_multiplier&quot; of it as string as trimmed string as integer as floating point) of structures &quot;portable_battery&quot; of smbios</Property>
+    <Property ID="7" Name="Max Volts" EvaluationPeriod="PT12H">unique values of (it / 1000) of significance places 2 of (it as string as trimmed string as integer as floating point) of values &quot;design_voltage&quot; of structures &quot;portable_battery&quot; of smbios</Property>
+    <Property ID="8" Name="Max Amps" EvaluationPeriod="PT12H">unique values of (it / 100) of significance places 0 of (it * 100) of (item 0 of it / item 1 of it) of (values &quot;design_capacity&quot; of it as string as trimmed string as integer as floating point, values &quot;design_voltage&quot; of it as string as trimmed string as integer as floating point) of structures &quot;portable_battery&quot; of smbios</Property>
+    <Property ID="9" Name="Battery Manufacture Date" EvaluationPeriod="PT12H">unique values of (it as string as trimmed string) of values &quot;manufacture_date&quot; of structures &quot;portable_battery&quot; of smbios</Property>
+    <Property ID="11" Name="Battery Chemistry" EvaluationPeriod="PT12H">(if it != &quot;Unknown&quot; then it else ( if (exists (unique values of (it as string as trimmed string) whose(it != &quot;&quot;) of values &quot;sbds_device_chemistry&quot; of structures &quot;portable_battery&quot; of smbios)) then (unique values of (it as string as trimmed string) whose(it != &quot;&quot;) of values &quot;sbds_device_chemistry&quot; of structures &quot;portable_battery&quot; of smbios) else &quot;Unknown&quot; )) of unique values of ( if exists it then it else &quot;Unknown&quot; ) of (tuple string items ( (it as string as trimmed string as integer) of values &quot;device_chemistry&quot; of structures &quot;portable_battery&quot; of smbios ) of &quot;Unknown, Other, Unknown, Lead Acid, NiCad, NiMH, LION, Zinc Air, LiP&quot;)</Property>
+    <Property ID="12" Name="EstimatedRunTime" EvaluationPeriod="PT1H">unique values whose(it != /* This seems to be what Windows/WMI returns when it doesn&apos;t really have an answer: */ 71582788) of integer values of (if not exists (selects &quot;EstimatedRunTime from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;) whose( (exists integer values of it) AND (71582788 != integer value of it) ) then it else (selects &quot;EstimatedRunTime from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;)) of (selects &quot;EstimatedRunTime from Win32_Battery&quot; of wmis)</Property>
+    <Property ID="13" Name="Names of Batteries" EvaluationPeriod="PT12H">unique values of (it as trimmed string) whose(it != &quot;&quot;) of ((string values of selects &quot;Name from Win32_Battery&quot; of wmis);(string values of selects &quot;Name from DCIM_Battery&quot; of wmis &quot;root\dcim\sysman&quot;);((it as string) of values &quot;device_name&quot; of structures &quot;portable_battery&quot; of smbios))</Property>
+    <Property ID="14" Name="DeviceID from Win32_Battery" EvaluationPeriod="PT12H">unique values of (it as trimmed string) whose(it != &quot;&quot;) of string values of selects &quot;DeviceID from Win32_Battery&quot; of wmis</Property>
+    <Property ID="15" Name="Availability from Win32_Battery" EvaluationPeriod="PT1H">unique values of integer values of selects &quot;Availability from Win32_Battery&quot; of wmis</Property>
+    <Property ID="16" Name="Chemistry from Win32_Battery" EvaluationPeriod="PT12H">unique values of (tuple string items ( integer values of selects &quot;Chemistry from Win32_Battery&quot; of wmis ) of &quot;Unknown, Other, Unknown, Lead Acid, NiCad, NiMH, LION, Zinc Air, LiP, Unknown&quot;)</Property>
+    <Property ID="17" Name="Chemistry from Win32_PortableBattery" EvaluationPeriod="PT12H">unique values of (tuple string items ( integer values of selects &quot;Chemistry from Win32_PortableBattery&quot; of wmis ) of &quot;Unknown, Other, Unknown, Lead Acid, NiCad, NiMH, LION, Zinc Air, LiP, Unknown&quot;)</Property>
+  </Analysis>
+</BES>

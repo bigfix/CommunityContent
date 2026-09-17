@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Windows License Information
+  ID       : 2998636
+  Author   : nathan
+  Domain   : BESC
+  Imported : 2021-01-14T19:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Windows License Information</Title>
+    <Description><![CDATA[<P>Reports Windows Licensing Information, majority of what is shown when running the command&nbsp;<STRONG>slmgr /dli. </STRONG>Includes information about Windows 7 ESU Licensing, including Year 2 ESU License information </P>
+<UL>
+<LI><STRONG>License Name</STRONG>
+<LI><STRONG>Description</STRONG>
+<LI><STRONG>Partial Product Key</STRONG>
+<LI><STRONG>License Status</STRONG>
+<LI><STRONG>License Family</STRONG>
+<LI><STRONG>KMS Server DNS Name</STRONG>
+<LI><STRONG>KMS Server Port</STRONG>
+<LI><STRONG>KMS Server IP Address</STRONG>
+<LI><STRONG>KMS machine extended PID</STRONG>
+<LI><STRONG>Activation Interval</STRONG>
+<LI><STRONG>Renewal Interval</STRONG></LI></UL>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 15 Jan 2021 03:30:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Windows License Status" EvaluationPeriod="PT12H">if ((select &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi) as string contains &quot;1&quot;) then &quot;Licensed&quot; else &quot;Not Licensed&quot;</Property>
+    <Property ID="2" Name="Windows License Name" EvaluationPeriod="PT12H">string value of select &quot;Name from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="3" Name="Windows License Activation KMS Server DNS Name" EvaluationPeriod="PT12H">string value of select &quot;DiscoveredKeyManagementServiceMachineName from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="4" Name="Windows License Family" EvaluationPeriod="PT12H">string value of select &quot;LicenseFamily from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="5" Name="Windows License Activation KMS Server IP Address" EvaluationPeriod="PT12H">(string value of select &quot;DiscoveredKeyManagementServiceMachineIpAddress from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi) | &quot;No IP Address Reported&quot;</Property>
+    <Property ID="6" Name="Windows License Activation Interval" EvaluationPeriod="PT12H">string value of select &quot;VLActivationInterval from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="7" Name="Windows License Renewal Interval" EvaluationPeriod="PT12H">string value of select &quot;VLRenewalInterval from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="8" Name="Windows License KMS machine extended PID" EvaluationPeriod="PT12H">string value of select &quot;KeyManagementServiceProductKeyID from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="9" Name="Windows License Activation KMS Server Port" EvaluationPeriod="PT12H">string value of select &quot;KeyManagementServicePort from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="10" Name="Windows License Partial Product Key" EvaluationPeriod="PT12H">string value of select &quot;PartialProductKey from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="11" Name="Windows License Description" EvaluationPeriod="PT12H">string value of select &quot;Description from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and not (Name LIKE &apos;%25ESU%25&apos;)&quot; of wmi</Property>
+    <Property ID="12" Name="Windows License ESU Name - Year 1" EvaluationPeriod="PT12H">string value of select &quot;Name from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year1%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="13" Name="Windows License ESU Description - Year 1" EvaluationPeriod="PT12H">string value of select &quot;Description from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year1%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="14" Name="Windows License ESU Partial Product Key - Year 1" EvaluationPeriod="PT12H">string value of select &quot;PartialProductKey from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year1%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="15" Name="Windows License ESU Status - Year 1" EvaluationPeriod="PT12H">(if ((string value of select &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year1%25&apos;)&quot; of wmi) as string contains &quot;1&quot;) then &quot;Licensed&quot; else &quot;Not Licensed&quot; ) | &quot;No ESU License&quot;</Property>
+    <Property ID="16" Name="Windows License ESU Name - Year 2" EvaluationPeriod="PT12H">string value of select &quot;Name from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year2%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="17" Name="Windows License ESU Description - Year 2" EvaluationPeriod="PT12H">string value of select &quot;Description from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year2%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="18" Name="Windows License ESU Partial Product Key - Year 2" EvaluationPeriod="PT12H">string value of select &quot;PartialProductKey from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year2%25&apos;)&quot; of wmi | &quot;No ESU License&quot;</Property>
+    <Property ID="19" Name="Windows License ESU Status - Year 2" EvaluationPeriod="PT12H">(if ((string value of select &quot;LicenseStatus from SoftwareLicensingProduct WHERE (PartialProductKey is not null) and (Name LIKE &apos;Windows(R)%25&apos; or Name LIKE &apos;Windows Server(R)%25&apos;) and (Name LIKE &apos;%25ESU-Year2%25&apos;)&quot; of wmi) as string contains &quot;1&quot;) then &quot;Licensed&quot; else &quot;Not Licensed&quot; ) | &quot;No ESU License&quot;</Property>
+  </Analysis>
+</BES>

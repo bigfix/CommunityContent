@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : AAC - Create a Public Desktop Shortcut for all users on Windows
+  ID       : 25073
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2018-02-08T09:22:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AAC - Create a Public Desktop Shortcut for all users on Windows</Title>
+    <Description><![CDATA[<P>Uses Powershell to create&nbsp;a public destop shortcut that works on most modern Windows systems (those&nbsp;supported by&nbsp;powershell)</P>
+<P>When prompted you can provide an application full path or an URL:</P>
+<P dir=ltr>URL example </P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr><A href="https://bigfix.me/"><FONT color=#000080>https://bigfix.me</FONT></A></P></BLOCKQUOTE>
+<P dir=ltr>Application example: </P>
+<BLOCKQUOTE style="MARGIN-RIGHT: 0px" dir=ltr>
+<P dir=ltr><STRONG><EM>C:\Program Files\Notepad++\notepad++.exe</EM></STRONG></P></BLOCKQUOTE>
+<P dir=ltr>When prompted for the name you can enter any valid filename (<STRONG>Warn</STRONG>: no checks are done)</P>
+<P dir=ltr><STRONG><FONT color=#ff0000>Note: </FONT></STRONG>If you use the same name of an existing Public Desktop&nbsp;shortcut, it will be replaced. If you use the same name of a Private Desktop shortcut, two shortcuts will exist&nbsp;on&nbsp;User's desktop.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exist keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; whose (exists value &quot;Path&quot; of it) of native registry</Relevance>
+    <Category>Utility</Category>
+    <Source>andrea.capasso@hcl.com</Source>
+    <SourceReleaseDate>2018-02-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 08 Feb 2018 17:22:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "TargetURL" with description "Enter the URL or the ApplicationFullPath pointed by the Shortcut (for example: C:\Program Files\Notepad++\notepad++.exe )" and with default value "http://bigfix.me"
+action parameter query "ShortcutName" with description "Enter the Name of the Desktop Shortcut" and with default value "Bigfix_Me"
+
+// Retrieve Public Desktop location
+parameter "DesktopPath"="{value "Common Desktop" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" of native registry}"
+
+// locate PowerShell .exe file
+parameter "PowerShellexe"="{value "Path" of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" of native registry}"
+
+if {(parameter "TargetURL") as lowercase starts with "http"}
+	parameter "Shortcut_ext"=".url"
+elseif {(parameter "TargetURL") as lowercase ends with ".exe"}
+	parameter "Shortcut_ext"=".lnk"
+else
+ continue if {false}
+endif
+// build full path of Shortcut
+parameter "ShortcutFile" = "{(parameter "DesktopPath") & "\" & (parameter "ShortcutName") & (parameter "Shortcut_ext")}"
+// create PowerShell script
+delete __createfile
+createfile until __EOF__
+$Target = "{parameter "TargetURL"}"
+# $ShortcutFile = (Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders').'Common Desktop'
+# $ShortcutFile = $ShortcutFile + "{"\" & (parameter "ShortcutName") & ".url" }"
+$ShortcutFile = "{parameter "ShortcutFile"}"
+$WScriptShell = New-Object -ComObject WScript.Shell
+$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)
+$Shortcut.TargetPath = $Target
+$Shortcut.Save()
+__EOF__
+
+delete "shortcut.ps1"
+copy __createfile "shortcut.ps1"
+
+// just in case, remove the old shortcut should it exists
+delete "{parameter "ShortcutFile"}"
+// execute PS script and check we did it or fail
+waithidden "{parameter "PowerShellexe"}" -ExecutionPolicy Bypass ".\shortcut.ps1"
+continue if {exit code of action = 0 }
+continue if {exists file (parameter "ShortcutFile")}]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

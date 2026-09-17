@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Windows 11 Upgrade Eligibility probe
+  ID       : 26878
+  Author   : marjan
+  Domain   : BESC
+  Imported : 2021-10-08T12:58:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Windows 11 Upgrade Eligibility probe</Title>
+    <Description><![CDATA[<FONT size=2> <P><BR>This task runs a dxdiag executable to generate results for Video Card Check property in <?Relevance link of fixlets whose (analysis flag of it AND mime field "x-fixlet-win11-eligibility" of it = "analysis" ) of current bes site ?>  analysis. Please run this task on all of your Windows 10 devices.</P>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>name of operating system as lowercase starts with &quot;win10&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2021-09-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 29 Sep 2021 03:43:54 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-win11-eligibility</Name>
+      <Value>probeTask</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">parameter &quot;folderpath&quot; = &quot;{pathname of parent folder of client}\win11-eligibility&quot;
+
+folder create &quot;{parameter &quot;folderpath&quot;}&quot;
+delete &quot;{parameter &quot;folderpath&quot;}\dxdiag&quot;
+
+wait dxdiag.exe /whql:off /dontskip /t &quot;{parameter &quot;folderpath&quot;}\dxdiag&quot;
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

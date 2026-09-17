@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Operating System Information (Windows) - metric inspector
+  ID       : 2994628
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-01-28T10:17:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Operating System Information (Windows) - metric inspector</Title>
+    <Description><![CDATA[<FONT size=2>
+<P>metric </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&lt;</FONT></FONT><FONT size=2>integer</FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>&gt;</FONT></FONT><FONT size=2> </FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>of</FONT></FONT><FONT size=2> operating system</FONT></P>
+<P><FONT size=2><A href="http://support.bigfix.com/inspectors/System%20Objects_Win.html#operating%20system">http://support.bigfix.com/inspectors/System%20Objects_Win.html#operating%20system</A></P></FONT>
+<P><A href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx</A></P>]]></Description>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 28 Jan 2014 17:13:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SM_CLEANBOOT" EvaluationPeriod="PT12H">metric 67 /* SM_CLEANBOOT */ of operating system</Property>
+    <Property ID="2" Name="SM_SERVERR2" EvaluationPeriod="PT12H">metric 89 /* SM_SERVERR2 */ of operating system</Property>
+    <Property ID="3" Name="SM_SLOWMACHINE" EvaluationPeriod="PT12H">metric 73 /* SM_SLOWMACHINE */ of operating system</Property>
+    <Property ID="4" Name="SM_STARTER" EvaluationPeriod="PT12H">metric 88 /* SM_STARTER */ of operating system</Property>
+    <Property ID="5" Name="SM_MEDIACENTER" EvaluationPeriod="PT12H">metric 87 /* SM_MEDIACENTER */ of operating system</Property>
+    <Property ID="6" Name="SM_TABLETPC" EvaluationPeriod="PT12H">metric 86 /* SM_TABLETPC */ of operating system</Property>
+    <Property ID="7" Name="SM_CMONITORS" EvaluationPeriod="PT12H">metric 80 /* SM_CMONITORS */ of operating system</Property>
+    <Property ID="8" Name="SM_MOUSEPRESENT" EvaluationPeriod="PT12H">metric 19 /* SM_MOUSEPRESENT */ of operating system</Property>
+    <Property ID="9" Name="SM_CMOUSEBUTTONS" EvaluationPeriod="PT12H">metric 43 /* SM_CMOUSEBUTTONS */ of operating system</Property>
+    <Property ID="10" Name="SM_MOUSEHORIZONTALWHEELPRESENT" EvaluationPeriod="PT12H">metric 91 /* SM_MOUSEHORIZONTALWHEELPRESENT */ of operating system</Property>
+    <Property ID="11" Name="SM_MOUSEWHEELPRESENT" EvaluationPeriod="PT12H">metric 75 /* SM_MOUSEWHEELPRESENT */ of operating system</Property>
+    <Property ID="12" Name="SM_IMMENABLED" EvaluationPeriod="PT12H">metric 82 /* SM_IMMENABLED */ of operating system</Property>
+    <Property ID="13" Name="SM_PENWINDOWS" EvaluationPeriod="PT12H">metric 41 /* SM_PENWINDOWS */ of operating system</Property>
+    <Property ID="14" Name="SM_DIGITIZER" EvaluationPeriod="PT12H">metric 94 /* SM_DIGITIZER */ of operating system</Property>
+    <Property ID="15" Name="SM_MAXIMUMTOUCHES" EvaluationPeriod="PT12H">metric 95 /* SM_MAXIMUMTOUCHES */ of operating system</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe Update Server - Windows
+  ID       : 2994671
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-07-16T15:13:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe Update Server - Windows</Title>
+    <Description><![CDATA[<P>This analysis reports on the information&nbsp;about the configured Adobe Update Server</P>
+<P><FONT size=2>&nbsp;</P></FONT>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/update-server-setup-tool.html">http://helpx.adobe.com/creative-cloud/packager/update-server-setup-tool.html</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html">http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/preparing-deploy.html">http://helpx.adobe.com/creative-cloud/packager/preparing-deploy.html</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/creative-cloud-packager.html">http://helpx.adobe.com/creative-cloud/packager/creative-cloud-packager.html</A></P>
+<P><A href="http://www.regexr.com/395i4">http://www.regexr.com/395i4</A></P>
+<P><A href="http://www.regexr.com/395de">http://www.regexr.com/395de</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists lines of files &quot;AdobeUpdater.Overrides&quot; of folders of (folders &quot;ProgramData\Adobe\AAMUpdater&quot; of it;folders &quot;Documents and Settings\All Users\Application Data\Adobe\AAMUpdater&quot; of it) of root folders of drives of system folders</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 16 Jul 2014 22:12:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="AdobeUpdater.Overrides" EvaluationPeriod="P7D">lines of files &quot;AdobeUpdater.Overrides&quot; of folders of (folders &quot;ProgramData\Adobe\AAMUpdater&quot; of it;folders &quot;Documents and Settings\All Users\Application Data\Adobe\AAMUpdater&quot; of it) of root folders of drives of system folders</Property>
+  </Analysis>
+</BES>

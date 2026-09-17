@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - McAfee VirusScan Enterprise is installed but may not be running
+  ID       : 20226
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-04-22T19:36:16
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - McAfee VirusScan Enterprise is installed but may not be running</Title>
+    <Description><![CDATA[<P>This fixlet is relevant if McAfee VirusScan Enterprise is installed but not running.</P>
+<P>This likely indicates an error with the McAfee client.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists folder (pathname of program files folder & "\McAfee\VirusScan Enterprise")]]></Relevance>
+    <Relevance>(not exists running application &quot;vshwin32.exe&quot;) AND (not exists running application &quot;mcshield.exe&quot;)</Relevance>
+    <Category>Anti-Virus</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 19 Apr 2016 18:58:08 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

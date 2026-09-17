@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Fix Unquoted Registry Paths
+  ID       : 24886
+  Author   : CharlieJax
+  Domain   : BESC
+  Imported : 2018-01-16T20:09:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Fix Unquoted Registry Paths</Title>
+    <Description><![CDATA[This task will deploy: Fix Unquoted Registry Paths.<BR><BR>This task uses the PowerShell fix from: <A href="https://gallery.technet.microsoft.com/scriptcenter/Windows-Unquoted-Service-190f0341">https://gallery.technet.microsoft.com/scriptcenter/Windows-Unquoted-Service-190f0341</A>&nbsp;to correct the unquoted service paths with spaces.&nbsp; The relevance looks for machines with out a quote that have a space in the service path.]]></Description>
+    <Relevance>exists services whose (exists (image paths of it as lowercase) whose (it does not start with &quot;%22&quot; and preceding text of first &quot;.exe&quot; of it contains &quot; &quot;))</Relevance>
+    <Category>Software Distribution</Category>
+    <Source>Software Distribution Wizard</Source>
+    <SourceReleaseDate>2018-01-16</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 10 Jan 2018 17:26:19 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//Download the powershell file from https://gallery.technet.microsoft.com/scriptcenter/Windows-Unquoted-Service-190f0341.  You will use that to update the unquoted paths.  Make sure to add that download command here either as a prefetch or download from Microsoft.
+run powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -File __Download\fixpaths.ps1</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SCCM - Windows
+  ID       : 2998488
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-14T15:35:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SCCM - Windows</Title>
+    <Description><![CDATA[This analysis provides information related to the currently installed System Center Configuration Manager Agent for Windows devices.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;CcmExec&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SCCM - Version - Windows" EvaluationPeriod="P1D">version of service &quot;CcmExec&quot;</Property>
+    <Property ID="2" Name="SCCM - Site Code - Windows" EvaluationPeriod="PT12H">value &quot;LastSiteCode&quot; of Key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\CCM\CcmEval&quot; of native registry</Property>
+    <Property ID="3" Name="SCCM - Last Inventory Report - Windows" EvaluationPeriod="PT1H">time value of selects &quot;LastReportDate from InventoryActionStatus where InventoryActionID = &apos;{00000000-0000-0000-0000-000000000001}&apos;&quot; of wmi &quot;root\ccm\InvAgt&quot;</Property>
+    <Property ID="4" Name="SCCM - Management Point - Windows" EvaluationPeriod="PT1H">string value of select &quot;CurrentManagementPoint from SMS_Authority&quot; of wmi &quot;root\ccm&quot;</Property>
+    <Property ID="5" Name="SCCM - Installed Components - Windows" EvaluationPeriod="P1D">unique values of string values of selects &quot;DisplayName from CCM_InstalledComponent&quot; of wmi &quot;root\ccm&quot;</Property>
+    <Property ID="6" Name="SCCM - Client Approved - Windows" EvaluationPeriod="PT6H">boolean value of selects &quot;Approved from CCM_ClientIdentificationInformation&quot; of wmi &quot;root\ccm&quot;</Property>
+    <Property ID="7" Name="SCCM - Proxy Management Point - Windows" EvaluationPeriod="PT12H">string value of select &quot;Name from SMS_LocalMP&quot; of wmi &quot;root\ccm&quot;</Property>
+    <Property ID="8" Name="SCCM - Package Advertisements - Windows" EvaluationPeriod="PT12H">(string value of property &quot;PKG_NAME&quot; of it, string value of property &quot;PolicyID&quot; of it) of select objects &quot;* from CCM_SoftwareDistribution&quot; of wmi &quot;root\ccm\Policy\Machine\RequestedConfig&quot;</Property>
+    <Property ID="9" Name="SCCM - Max Cache Size - Windows" EvaluationPeriod="PT12H">integer value of selects &quot;Size from CacheConfig&quot; of WMI &quot;ROOT\ccm\SoftMgmtAgent&quot;</Property>
+    <Property ID="10" Name="SCCM - Missing Updates - Windows" EvaluationPeriod="PT12H">unique values of string values of selects &quot;Title from CCM_UpdateStatus WHERE Status=&apos;Missing&apos;&quot; of WMI &quot;ROOT\ccm\SoftwareUpdates\UpdatesStore&quot;</Property>
+    <Property ID="11" Name="SCCM - State - Windows" EvaluationPeriod="PT1H">state of service &quot;CcmExec&quot;</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : PowerShell x64 Status
+  ID       : 19
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:32:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>PowerShell x64 Status</Title>
+    <Description>Pull back status on the PowerShell installation on this system. </Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance>x64 of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 21:29:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ApplicationBase" EvaluationPeriod="PT12H">value &quot;ApplicationBase&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine&quot; of x64 registry</Property>
+    <Property ID="2" Name="PowerShellVersion" EvaluationPeriod="PT12H">value &quot;PowerShellVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine&quot; of x64 registry</Property>
+    <Property ID="3" Name="PSCompatibleVersion" EvaluationPeriod="PT12H">value &quot;PSCompatibleVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine&quot; of x64 registry</Property>
+    <Property ID="4" Name="RuntimeVersion" EvaluationPeriod="PT12H">value &quot;RuntimeVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine&quot; of x64 registry</Property>
+    <Property ID="5" Name="Path" EvaluationPeriod="PT12H">value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry</Property>
+    <Property ID="6" Name="ExecutionPolicy">value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\ScriptedDiagnostics&quot; of x64 registry</Property>
+  </Analysis>
+</BES>

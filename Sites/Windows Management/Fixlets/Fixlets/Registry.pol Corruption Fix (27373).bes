@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Registry.pol Corruption Fix
+  ID       : 27373
+  Author   : skyler
+  Domain   : BESC
+  Imported : 2025-02-25T09:10:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Registry.pol Corruption Fix</Title>
+    <Description><![CDATA[<P>Resolves an issue where computers do not retrieve Group Policy updates due to the following file&nbsp;being corrupted:<BR><STRONG>C:\Windows\System32\GroupPolicy\Machine\Registry.pol</STRONG><BR><BR>This fixlet&nbsp;deletes <STRONG>Registry.pol</STRONG> and then runs <STRONG>gpupdate /force</STRONG> to update Group Policy.</P>
+<P>By default this fixlet will remain open, reapply when relevant,&nbsp;and prompt the user to restart 4 hours after the action has finished.</P>]]></Description>
+    <Relevance>exists native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot;</Relevance>
+    <Relevance>(byte 0 of it, byte 1 of it, byte 2 of it, byte 3 of it) of native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot; != (80, 82, 101, 103)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-02-25</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 25 Feb 2025 17:07:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+
+if {exists native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot;}
+	move &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot; &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol.bak&quot;
+	delete &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol.bak&quot;
+endif
+
+waithidden gpupdate /force
+
+continue if {(not exists native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot;) or ((byte 0 of it, byte 1 of it, byte 2 of it, byte 3 of it) of native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot; = (80, 82, 101, 103))}</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

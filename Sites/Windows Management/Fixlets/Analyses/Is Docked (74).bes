@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Is Docked
+  ID       : 74
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-01-29T22:48:03
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Is Docked</Title>
+    <Description>Determines if a computer is docked or not</Description>
+    <Relevance>name of operating system as lowercase contains &quot;win&quot; and exists wmi</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Type">(if it = 1 then &quot;Other&quot; else if it = 2 then &quot;Unknown&quot; else if it = 3 then &quot;Desktop&quot; else if it = 4 then &quot;Low Profile Desktop&quot; else if it = 5 then &quot;Pizza Box&quot; else if it = 6 then &quot;Mini Tower&quot; else if it = 7 then &quot;Tower&quot; else if it = 8 then &quot;Portable&quot; else if it = 9 then &quot;Laptop&quot; else if it = 10 then &quot;Notebook&quot; else if it = 11 then &quot;Hand Held&quot; else if it = 12 then &quot;Docking Station&quot; else if it = 13 then &quot;All in One&quot; else if it = 14 then &quot;Sub Notebook&quot; else if it = 15 then &quot;Space-Saving&quot; else if it = 16 then &quot;Lunch Box&quot; else if it = 17 then &quot;Main System Chassis&quot; else if it = 18 then &quot;Expansion Chassis&quot; else if it = 19 then &quot;SubChassis&quot; else if it = 20 then &quot;Bus Expansion Chassis&quot; else if it = 21 then &quot;Peripheral Chassis&quot; else if it = 22 then &quot;Storage Chassis&quot; else if it = 23 then &quot;Rack Mount Chassis&quot; else if it = 24 then &quot;Sealed-Case PC&quot; else &quot;No Description&quot;) of (integer values of selects &quot;ChassisTypes from Win32_SystemEnclosure&quot; of wmi)</Property>
+    <Property ID="2" Name="Dock State">if exists (integer values of selects &quot;ChassisTypes from Win32_SystemEnclosure&quot; of wmi) whose (it = 12 or it = 18 or it = 20 or it = 21) then &quot;Docked&quot; else &quot;Not Docked&quot;</Property>
+  </Analysis>
+</BES>

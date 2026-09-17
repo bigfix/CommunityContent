@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : PageFile - Windows
+  ID       : 2994592
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-10-31T09:40:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>PageFile - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 31 Oct 2013 16:39:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Initial Page file Size" EvaluationPeriod="P1D">string values of selects &quot;InitialSize from Win32_PageFileSetting&quot; of wmi</Property>
+    <Property ID="2" Name="Maximum Page file Size" EvaluationPeriod="P1D">string values of selects &quot;MaximumSize from Win32_PageFileSetting&quot; of wmi</Property>
+    <Property ID="3" Name="Pagefile Name" EvaluationPeriod="P1D">string values of selects &quot;Name from Win32_PageFileSetting&quot; of wmi</Property>
+    <Property ID="4" Name="Size of pagefile" EvaluationPeriod="PT6H">sum of sizes of files (string values of selects &quot;Name from Win32_PageFileSetting&quot; of wmi)</Property>
+  </Analysis>
+</BES>

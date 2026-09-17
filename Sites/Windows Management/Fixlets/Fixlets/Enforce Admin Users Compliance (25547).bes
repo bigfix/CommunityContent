@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Enforce Admin Users Compliance
+  ID       : 25547
+  Author   : mxc0bbn
+  Domain   : BESC
+  Imported : 2018-09-17T21:35:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Enforce Admin Users Compliance</Title>
+    <Description><![CDATA[<P><FONT size=3 face=Arial>This Fixlet removes users from the local "Administrators" group on a computer if they are not listed in a whitelist file deployed using the task:<BR></FONT><FONT size=3 face=Arial><STRONG>"Deploy ComplianceWhitelist File"</STRONG></FONT></P>
+<P><FONT size=3 face=Arial></FONT>&nbsp;</P>
+<P><FONT size=3><FONT face=Arial><STRONG><U>Action 1:<BR></U></STRONG></FONT><FONT face=Arial>Compares&nbsp;users who are&nbsp;Members of the local Administrators group&nbsp;on a computer with a "Compliant Admins" Whitelist file that exists on the&nbsp;client.&nbsp; It then&nbsp;instructs the endpoint to remove any users that are NOT on the&nbsp;Compliance White List from the Local Administrators group.</FONT></FONT></P>
+<P><FONT size=3><STRONG><U>Action 2:<BR></U></STRONG>Prompts for a User ID that is then removed from the local "Administrators" group of the target endpoint.</FONT></P>
+<P><FONT size=3>&nbsp;</FONT></P>
+<P><FONT size=3><FONT color=#ff0000><STRONG>Note:<BR></STRONG></FONT><FONT color=#ff0000><STRONG>1.&nbsp; Before running this task you must create the file "ComplianceWhitelist.txt" on the BES Server in the following directory: </STRONG></FONT></FONT><FONT color=#ff0000 size=3><STRONG>"&lt;BES Server&gt;\wwwrootbes\CustomDownloads\ComplianceWhitelist"<BR>2.&nbsp; The Task "Deploy ComplianceWhitelist File" must be run before this Fixlet will work properly.</STRONG></FONT></P>]]></Description>
+    <Relevance>true</Relevance>
+    <Category>Utility-Manage Windows Admins</Category>
+    <Source>Mike Consuegra</Source>
+    <SourceReleaseDate>2018-09-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 18 Sep 2018 04:10:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Remove</Link>
+        <PostLink>&amp;nbsp;Users based on a pre-defined whitelist</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[///////////////////////////////////
+// TO SET DIFFERENT FILE NAMES AND
+// LOCATIONS CHANGE THE FOLLOWING
+// PARAMETER VALUES
+///////////////////////////////////
+
+parameter "primarywhitelist" = "{(parent folder of regapp "BESClient.exe" as string) & "\ComplianceWhitelist\ComplianceWhitelist.txt"}"
+parameter "backupwhitelist" = "{(((data folder of client) as string) & "\__Global\__Download\actionsite\_listbackup.txt")}"
+parameter "blacklist" = "{(parent folder of regapp "BESClient.exe" as string) & "\ComplianceWhitelist\blacklist.txt"}"
+
+// -END- PARAMETER DECLARATIONS
+
+
+
+// Verify that the whitelist file folder exists in the client directory
+if "{exists folder (parent folder of regapp "BESClient.exe" as string & "\ComplianceWhitelist")}"
+
+	// Delete any old version of the blacklist file
+	delete "{parameter "blacklist"}"
+
+	// Verify that the whitelist file in the ComplianceWhitelist folder exists
+	if {exists file (parameter "primarywhitelist")}
+
+		// Verify that the whitelist file has not been modified by the user
+		// If the hash of the file in the Client folder is the same as the backup file then remove the out-of-compliance admins.
+		// If the file hashes are different (the ELSE condition), copy the backup file to the client folder and remove the out-of-compliance admins.
+
+		if {sha1 of file (parameter "backupwhitelist") = sha1 of file (parameter "primarywhitelist")}
+
+			// Create the list of users that should NOT be in the Administrators Local Group (blacklist.txt)
+			createfile until EOF
+			{concatenation "%0d%0a" of (elements of (set of ((following texts of firsts "\" of unique values of ((members of local group "Administrators") as string) as lowercase)) - set of (unique values of (lines of file (parameter "primarywhitelist")))))}
+			EOF
+
+			move __createfile "{(parameter "blacklist")}"
+
+			// Wait until the blacklist.txt is created
+			pause while {not exists file (parameter "blacklist")}
+
+			// Delete any users that are not supposed to be in the admin group
+			dos for /F "usebackq tokens=*" %A in ("{(parameter "blacklist")}") do net localgroup administrators "%A" /delete
+
+		else
+			delete "{parameter "primarywhitelist"}"
+
+			dos copy /Y "{parameter "backupwhitelist"}" "{parameter "primarywhitelist"}"
+
+			// Create the list of users that should NOT be in the Administrators Local Group (blacklist.txt)
+			createfile until EOF
+			{concatenation "%0d%0a" of (elements of (set of ((following texts of firsts "\" of unique values of ((members of local group "Administrators") as string) as lowercase)) - set of (unique values of (lines of file (parameter "primarywhitelist")))))}
+			EOF
+
+			move __createfile "{(parameter "blacklist")}"
+
+			// Wait until the blacklist.txt is created
+			pause while {not exists file (parameter "blacklist")}
+
+			// Remove unauthorized users from Admin group
+			dos for /F "usebackq tokens=*" %A in ("{(parameter "blacklist")}") do net localgroup administrators "%A" /delete
+
+		endif
+
+	else
+
+		dos copy /Y "{parameter "backupwhitelist"}" "{parameter "primarywhitelist"}"
+
+		// Create the list of users that should NOT be in the Administrators Local Group (blacklist.txt)
+		createfile until EOF
+		{concatenation "%0d%0a" of (elements of (set of ((following texts of firsts "\" of unique values of ((members of local group "Administrators") as string) as lowercase)) - set of (unique values of (lines of file (parameter "primarywhitelist")))))}
+		EOF
+
+		move __createfile "{(parameter "blacklist")}"
+
+
+		// Wait until the blacklist.txt is created
+		pause while {not exists file (parameter "blacklist")}
+
+		// Remove unauthorized users from Admin group
+		dos for /F "usebackq tokens=*" %A in ("{(parameter "blacklist")}") do net localgroup administrators "%A" /delete
+
+	endif
+
+
+else
+
+	// Create the ComplianceWhitelist folder in the client directory and copy the ComplianceWhitelist file from the backup file created by the "Deploy ComplianceWhitelist" task
+	dos mkdir "{(parent folder of regapp "BESClient.exe" as string) & "\ComplianceWhitelist"}"
+
+	dos copy /Y "{parameter "backupwhitelist"}" "{parameter "primarywhitelist"}"
+
+	// Delete any old version of the blacklist file
+	delete "{parameter "blacklist"}"
+
+	// Create the list of users that should NOT be in the Administrators Local Group (blacklist.txt)
+	createfile until EOF
+	{concatenation "%0d%0a" of (elements of (set of ((following texts of firsts "\" of unique values of ((members of local group "Administrators") as string) as lowercase)) - set of (unique values of (lines of file (parameter "primarywhitelist")))))}
+	EOF
+
+	move __createfile "{(parameter "blacklist")}"
+
+	// Wait until the blacklist.txt is created
+	pause while {not exists file (parameter "blacklist")}
+
+	// Remove unauthorized users from Admin group
+	dos for /F "usebackq tokens=*" %A in ("{(parameter "blacklist")}") do net localgroup administrators "%A" /delete
+
+endif]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action26828">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Remove</Link>
+        <PostLink>&amp;nbsp;the specified User</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Prompt the user for an ID to delete from the Administrators group of every targetted computer
+action parameter query &quot;UserID&quot; with description &quot;Enter the User ID to remove from the local Administrators group of targetted endpoints:&quot;
+
+
+// Remove each user in the &apos;blacklist.txt&apos; file from the Local Admin Group
+dos net localgroup administrators &quot;{parameter &quot;UserID&quot; of action}&quot; /delete</ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </Action>
+  </Fixlet>
+</BES>

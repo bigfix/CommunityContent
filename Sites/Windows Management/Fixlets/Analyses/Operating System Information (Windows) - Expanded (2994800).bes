@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Operating System Information (Windows) - Expanded
+  ID       : 2994800
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-13T07:58:32
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Operating System Information (Windows) - Expanded</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD><FONT size=2><A href="http://support.bigfix.com/inspectors/System%20Objects_Win.html#operating%20system">http://support.bigfix.com/inspectors/System%20Objects_Win.html#operating%20system</A></FONT>
+<P><FONT size=2>This analysis contains information about the Microsoft Windows operating system&nbsp;on BES Client computers. This is an expanded version of the analysis provided by IBM.</P>
+<P><FONT size=2>Since this information&nbsp;does not change much and its evaluation can be resource intensive,&nbsp;most of these properties are only evaluated <STRONG>once per day</STRONG>.</P>
+<P>After activating this analysis, you will see the following properties:</P>
+<UL>
+<LI>Full&nbsp;OS&nbsp;Name and Service Pack Level
+<LI>OS Architecture
+<LI>OS Version Number
+<LI>OS Type
+<LI>Product ID
+<LI>Product Key (Win95, Win98, WinME&nbsp;only)
+<LI>Installation Date
+<LI>Uptime (days) [BES Clients&nbsp;&gt;= 5.1]
+<LI>OS Language (Language of the installed OS)
+<LI>System&nbsp;Language&nbsp;&nbsp;
+<LI>User Language&nbsp;(Default)</LI></UL>
+<P><STRONG>Note:</STRONG> Many of these properties access the Windows Management Interface (WMI) to obtain the hardware properties. The WMI is not usually available on Win9x&nbsp;and WinNT computers so some properties&nbsp;may report back "N/A"&nbsp;on those operating systems.</P>
+<P><STRONG>Note:</STRONG> Some computers may have broken WMI libraries.&nbsp;Inconsistent results&nbsp;and undesired side effects may occur when the BES Client evaluates a WMI query. If you have known problems with WMI in your environment, do not activate this analysis.</P>
+<P></FONT></FONT>&nbsp;</P></TD></TR></TBODY></TABLE>Latest version of this analysis is found here: <A href="http://bigfix.me/analysis/details/2994629">http://bigfix.me/analysis/details/2994629</A> ]]></Description>
+    <Relevance>name of operating system as lowercase starts with &quot;win&quot;</Relevance>
+    <Relevance>(if (name of operating system starts with &quot;Win&quot;) then platform id of operating system != 3 else true) AND (if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance><![CDATA[version of client >= "5.0"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Tue, 31 May 2005 18:57:12 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 28 Jan 2015 19:20:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Full Operating System Name and Service Pack Level - Windows" EvaluationPeriod="P1D">if (exists wmi AND (not (name of operating system = &quot;WinME&quot; ))) then (string value of selects &quot;caption from win32_operatingsystem&quot; of wmi &amp; &quot; &quot; &amp; csd version of operating system) else ( &quot;Windows &quot; &amp; (following text of first &quot;Win&quot; of (name of operating system as string)) &amp; (if (name of operating system = &quot;WinNT&quot; ) then ((if (exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions&quot; whose (exists value &quot;ProductType&quot; of it AND (value &quot;ProductType&quot; of it as string as lowercase = &quot;servernt&quot; OR value &quot;ProductType&quot; of it as string as lowercase = &quot;lanmannt&quot; )) of registry) then (if (exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions&quot; whose (exists value &quot;ProductSuite&quot; of it AND value &quot;ProductSuite&quot; of it as string as lowercase contains &quot;terminal&quot; ) of registry) then &quot; Terminal Server&quot; else &quot; Server&quot; ) else &quot; Workstation&quot; ) &amp; &quot; &quot; &amp; csd version of operating system) else (if (name of operating system = &quot;Win98&quot; ) then (if (csd version of operating system as string contains &quot;A&quot; ) then &quot; Second Edition&quot; else &quot;&quot; ) else (if (name of operating system = &quot;Win95&quot; ) then (if (csd version of operating system as string contains &quot;C&quot; OR csd version of operating system as string contains &quot;B&quot; ) then &quot; OSR2&quot; else &quot;&quot; ) else &quot; &quot; &amp; csd version of operating system ))))</Property>
+    <Property ID="11" Name="OS Architecture - Windows" EvaluationPeriod="P1D">if (ia64 of operating system) then &quot;Itanium 64-bit&quot; else (if (x64 of operating system) then &quot;64-bit&quot; else &quot;32-bit&quot;)</Property>
+    <Property ID="12" Name="OS Version Number - Windows" EvaluationPeriod="P1D">version of operating system</Property>
+    <Property ID="13" Name="OS Type - Windows" EvaluationPeriod="P1D">if (name of operating system as lowercase starts with &quot;win&quot;) then (if (name of operating system = &quot;Win95&quot; OR name of operating system = &quot;Win98&quot; or name of operating system = &quot;WinME&quot;) then &quot;Workstation&quot; else (if (value &quot;ProductType&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions&quot; of registry = &quot;WinNT&quot;) then &quot;Workstation&quot; else &quot;Server&quot;)) else &quot;Unknown - &quot; &amp; name of operating system</Property>
+    <Property ID="14" Name="OS Product ID - Windows" EvaluationPeriod="P1D">(if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; whose (exists value &quot;ProductId&quot; of it) of native registry AND NOT (name of operating system = &quot;WinNT&quot;)) then (value &quot;ProductId&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; of native registry as string) else (if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; whose (exists value &quot;ProductId&quot; of it) of native registry) then (value &quot;ProductId&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry as string) else &quot;Unknown&quot;))</Property>
+    <Property ID="15" Name="OS Product Key - Windows" EvaluationPeriod="P1D">if (name of operating system = &quot;Win95&quot; AND exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; whose (exists value &quot;ProductId&quot; of it) of registry) then (value &quot;ProductId&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; of registry as string) else (if ((name of operating system = &quot;Win98&quot; OR name of operating system = &quot;WinME&quot;) AND exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; whose (exists value &quot;ProductKey&quot; of it) of registry) then (value &quot;ProductKey&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion&quot; of registry as string) else (&quot;Unknown&quot;))</Property>
+    <Property ID="16" Name="OS Installation Date - Windows  (WMI)" EvaluationPeriod="P1D">if (exists wmi AND exists selects &quot;InstallDate from win32_operatingsystem&quot; of wmi AND not ((string value of selects &quot;InstallDate from win32_operatingsystem&quot; of wmi) = &quot;&quot;)) then ((first 4 of (first 8 of string value of (selects &quot;InstallDate from Win32_OperatingSystem&quot; of wmi))) &amp; &quot;-&quot; &amp; (first 2 of (last 4 of (first 8 of string value of (selects &quot;InstallDate from Win32_OperatingSystem&quot; of wmi)))) &amp; &quot;-&quot; &amp; (last 2 of (first 8 of string value of (selects &quot;InstallDate from Win32_OperatingSystem&quot; of wmi)))) else (&quot;N/A&quot;)</Property>
+    <Property ID="17" Name="Uptime - Windows" EvaluationPeriod="PT1H">(if it = 1 then it as string &amp; &quot; day&quot; else it as string &amp; &quot; days&quot;) of ((uptime of operating system) / day) </Property>
+    <Property ID="18" Name="OS Language - Windows" EvaluationPeriod="P2D">language of version block of file &quot;kernel32.dll&quot; of system folder &amp; (if (exists key &quot;HKLM\System\CurrentControlSet\Control\Nls\MUILanguages&quot; of registry AND exists value of key &quot;HKLM\System\CurrentControlSet\Control\Nls\MUILanguages&quot; of registry) then &quot; | MUI Installed&quot; else &quot;&quot;)</Property>
+    <Property ID="19" Name="System Language - Windows" EvaluationPeriod="P2D">system language</Property>
+    <Property ID="20" Name="User Language - Windows" EvaluationPeriod="P2D">user language</Property>
+    <Property ID="21" Name="ProgramFiles EnvVar" EvaluationPeriod="P2D">value of variable &quot;ProgramFiles&quot; of environment</Property>
+    <Property ID="22" Name="OS Architecture - Inspector" EvaluationPeriod="P2D">architecture of operating system</Property>
+    <Property ID="23" Name="Boot Time" EvaluationPeriod="PT1H">boot time of operating system</Property>
+    <Property ID="24" Name="product info string" EvaluationPeriod="P2D">if(version of operating system &gt;= &quot;6.0&quot;) then (product info string of operating system) else NOTHING</Property>
+    <Property ID="25" Name="platform id" EvaluationPeriod="P2D">platform id of operating system</Property>
+    <Property ID="26" Name="product type" EvaluationPeriod="P2D">(if (it = nt workstation product type) then &quot;Workstation&quot; else if (it = nt server product type) then &quot;Server&quot; else if (it = nt domain controller product type) then &quot;DomainController&quot; else &quot;Unknown&quot;) of (product type of operating system)</Property>
+    <Property ID="27" Name="performance counter frequency" EvaluationPeriod="PT12H">performance counter frequency of operating system</Property>
+    <Property ID="28" Name="performance counter" EvaluationPeriod="PT1H">performance counter of operating system</Property>
+    <Property ID="29" Name="ProductName" EvaluationPeriod="PT12H">unique values of (it as string as trimmed string) of values &quot;ProductName&quot; of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of (x32 registries;x64 registries)</Property>
+  </Analysis>
+</BES>

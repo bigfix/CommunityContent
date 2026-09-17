@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : ESET Installed
+  ID       : 76
+  Author   : PaulB
+  Domain   : BES
+  Imported : 2013-02-04T05:38:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>ESET Installed</Title>
+    <Description><![CDATA[<P>This analysis will show Machines that have ESET installed </P>
+<P>pulls back</P>
+<OL>
+<LI>signature of AV db</LI>
+<LI>version of NOD32</LI>
+<LI>Age of AV db</LI></OL>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 04 Feb 2013 11:38:54 +0000</Value>
+    </MIMEField>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="ESET Signature Number">value &quot;ScannerVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry</Property>
+    <Property ID="3" Name="ESET Age">current date - date (( last 2 of (preceding text of first &quot;)&quot; of (following text of first &quot;(&quot; of (value &quot;ScannerVersion&quot; of  key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry as string))) &amp; &quot; &quot; &amp; first 3 of (month (last 2 of first 6 of (preceding text of first &quot;)&quot; of (following text of first &quot;(&quot; of (value &quot;ScannerVersion&quot; of  key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry as string))) as integer) as string) &amp; &quot; &quot; &amp; first 4 of (preceding text of first &quot;)&quot; of (following text of first &quot;(&quot; of (value &quot;ScannerVersion&quot; of  key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry as string)))))</Property>
+    <Property ID="4" Name="ESET Version">value &quot;ProductVersion&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\ESET\ESET Security\CurrentVersion\Info&quot; of native registry</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Applocker cannot run on non-enterprise versions of Windows
+  ID       : 20223
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-04-22T19:36:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Applocker cannot run on non-enterprise versions of Windows</Title>
+    <Description>This fixlet is relevant on Windows computers that cannot run AppLocker because it is not supported by the edition or version of the Operating System. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>(product info string of operating system does not contain &quot;Enterprise&quot; and product info string of operating system does not contain &quot;Server&quot;)</Relevance>
+    <Category>Application Whitelisting</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-19</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 19 Apr 2016 19:00:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

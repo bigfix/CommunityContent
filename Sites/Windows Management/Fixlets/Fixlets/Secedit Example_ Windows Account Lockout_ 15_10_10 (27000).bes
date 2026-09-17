@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Secedit Example: Windows Account Lockout: 15/10/10
+  ID       : 27000
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2023-04-10T16:29:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Secedit Example: Windows Account Lockout: 15/10/10</Title>
+    <Description><![CDATA[<P>Configure Windows Account Lockout Policy (for Workstation or Member Servers, not Domain Controllers).</P>
+<P>15 bad attempts in 10 minutes triggers 10 minute lockout.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>/* no domain controllers */ product type of operating system = nt workstation product type or product type of operating system = nt server product type</Relevance>
+    <Relevance>(account lockout duration of it / minute != 10 or account lockout observation window of it /minute != 10 or  account lockout threshold of it != 15) of security database</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2023-04-10</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 10 Apr 2023 23:28:54 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
+delete __createfile
+createfile until BIGFIX_EOF_MARKER
+[Unicode]
+Unicode=yes
+[System Access]
+LockoutBadCount = 15
+ResetLockoutCount = 10
+LockoutDuration = 10
+[Version]
+signature=&quot;$CHICAGO$&quot;
+Revision=1
+BIGFIX_EOF_MARKER
+
+delete tempdb.sdb
+delete tempcfg.inf
+move __createfile tempcfg.inf
+waithidden secedit.exe /configure /cfg tempcfg.inf /db tempdb.sdb
+continue if {exit code of action = 0}
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

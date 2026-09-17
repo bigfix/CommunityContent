@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SSH Public Keys
+  ID       : 2998546
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-04-18T16:10:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SSH Public Keys</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exists files &quot;id_rsa.pub&quot; of folders &quot;.ssh&quot; of home directory folders of users</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 18 Apr 2017 23:07:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="SSH Public Keys" EvaluationPeriod="PT12H">unique values whose(it as trimmed string != &quot;&quot;) of lines of files &quot;id_rsa.pub&quot; of folders &quot;.ssh&quot; of home directory folders of users</Property>
+  </Analysis>
+</BES>

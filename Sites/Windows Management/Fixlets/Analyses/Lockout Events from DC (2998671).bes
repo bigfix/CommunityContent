@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Lockout Events from DC
+  ID       : 2998671
+  Author   : sonofmalkav
+  Domain   : BESC
+  Imported : 2022-03-23T11:25:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Lockout Events from DC</Title>
+    <Description><![CDATA[<P>This analysis search the domain controllers security event log for the 4740 (lockout user) event&nbsp;ID.&nbsp;It search&nbsp;in the las 24 hour.&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>product type of operating system = nt domain controller product type</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 23 Mar 2022 17:31:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Lockout Users" EvaluationPeriod="PT1H">computer name, ((month of it as two digits &amp; &quot;/&quot; &amp; day_of_month of it as two digits &amp; &quot;/&quot; &amp; year of it as string) of dates (local time zone) of times generated of it, (time of times (local time zone) of times generated of it), concatenation of substrings separated by &quot;%0d%0a&quot; of (preceding text of first &quot;%0d%0a&quot; of following text of last &quot;Account Name:%09%09&quot; of it) of (descriptions of it)) of records whose (event id of it = 4740 and now - time generated of it &lt; 1*day) of (security event log)</Property>
+  </Analysis>
+</BES>

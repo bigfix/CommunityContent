@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Disk Cleanup: Recycle Bin - Remove files deleted more than 7 days ago (Windows Vista and Higher)
+  ID       : 6035
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2015-04-28T11:41:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Disk Cleanup: Recycle Bin - Remove files deleted more than 7 days ago (Windows Vista and Higher)</Title>
+    <Description><![CDATA[<P>Removes any Files/Folders from the Recycle Bin, that were Recycled more than 7 days ago.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
+    <Relevance>(exists folders &quot;$Recycle.Bin&quot; of root folders of drives)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-04-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 28 Apr 2015 18:33:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// See http://dereknewton.com/2010/06/recycle-bin-forensics-in-windows-7-and-vista/ for info on how Windows Vista and higher store recycled files
+// In Windows Vista and higher, the Recycle Bin for each drive is stored in the folder "$Recycle.Bin" in the root folder of each drive
+// Each User gets their own recycle bin - a folder beneath "$Recycle.Bin" named for the user SID
+// Each File deleted is renamed to $R<random string>.<original extension>
+// For each deleted file, there's a matching Index file $I<same string as the file>.<original extension> that gets created
+//
+// We can use the modification time of the $I<*> files to determine how long ago the file was deleted, and then remove both the $I file and the $R file
+//
+// Deleted folders get a whole folder name for $I and $R, and beneath the $R folder the original filenames are kept.  So we can remove whole directories at once
+// based on the timestamp of the matching $I file - timestamped to when the folder was deleted
+
+// The following builds a fully-qualified list of both files & folders to remove
+// (item 0 of it & "\" & item 1 of it; item 0 of it & "\" & item 2 of it) of (pathname of parent folder of it, name of it, "$R" & following text of first "$I" of name of it) of (files of it; folders of it) whose (name of it starts with "$I" and (now - modification time of it) / day > 7 ) of folders of folders "$Recycle.Bin" of root folders of drives
+
+
+delete __appendfile
+
+appendfile {concatenation "%0d%0a" of ("attrib -s -h -r %22" & it & "%22%0d%0adel /q %22" & it & "%22%0d%0ard /s /q %22" & it & "%22") of (item 0 of it & "\" & item 1 of it; item 0 of it & "\" & item 2 of it)  of (pathname of parent folder of it, name of it, "$R" & following text of first "$I" of name of it)of (descendants of it; descendant folders of it) whose (name of it starts with "$I" and (now - modification time of it) / day > 7 ) of folders "$Recycle.Bin" of root folders of drives}
+
+delete "empty_recycle.cmd"
+move __appendfile "empty_recycle.cmd"
+waithidden "empty_recycle.cmd"
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Enable TRIM on Win7 for SSDs
+  ID       : 1385
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-01-18T10:41:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Enable TRIM on Win7 for SSDs</Title>
+    <Description><![CDATA[<P>This should only be done on computers with SSDs that support TRIM properly. Some older SSDs require firmware updates for TRIM to work properly. This task does not detect if a system has an SSD, so it will be applicable on systems that do not need this setting changed.</P>
+<P>&nbsp;</P><A href="http://technet.microsoft.com/en-us/library/cc785435(v=ws.10).aspx">http://technet.microsoft.com/en-us/library/cc785435(v=ws.10).aspx</A>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>&quot;Win7&quot; = name of operating system</Relevance>
+    <Relevance>0 != value &quot;DisableDeleteNotification&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem&quot; of native registry</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-01-18</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 18 Jan 2013 16:43:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">waithidden fsutil behavior set disabledeletenotify 0</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Certificate Audit - Windows
+  ID       : 2994825
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-11-25T21:15:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Certificate Audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates&quot; of (x64 registries; x32 registries)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 26 Nov 2015 04:14:23 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Root CAs in Windows" EvaluationPeriod="PT12H">( concatenations &quot; ; &quot; of (preceding text of first &quot;%82%01&quot; of it | it) whose(it != &quot;&quot; AND it does not contain &quot;%00%00%00%01%00%00%00&quot;) of (preceding text of first &quot;%82%0f&quot; of it | it) of (preceding text of first &quot;0%82&quot; of it | it) of (preceding text of first &quot;0%81&quot; of it | it) of (preceding text of first &quot;0%1e%17&quot; of it | it) of (preceding text of last &quot;1&quot; of it | it) of (following text of (start of first (first matches (regex &quot;[\u1300-\u13ff]&quot;) of it) of it) | it) whose(exists (first matches (regex &quot;[\u1300-\u13ff]&quot;) of it)) of (preceding text of first &quot;%06%03&quot; of it | it) of substrings separated by &quot;U%04&quot; of it) of it whose(it contains &quot;U%04&quot;) of (hexadecimal string it) of ( unique values of (it as string) of values &quot;blob&quot; of keys of keys &quot;Certificates&quot; of keys whose(name of it as uppercase contains &quot;CA&quot; OR name of it as uppercase contains &quot;ROOT&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates&quot; of (x64 registries; x32 registries) )</Property>
+    <Property ID="2" Name="eDellRoot?" EvaluationPeriod="PT6H">exists (hexadecimal string it) whose(it contains &quot;eDellRoot&quot;) of ( unique values of (it as string) of values &quot;blob&quot; of keys of keys &quot;Certificates&quot; of keys whose(name of it as uppercase contains &quot;CA&quot; OR name of it as uppercase contains &quot;ROOT&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates&quot; of (x64 registries; x32 registries) )</Property>
+    <Property ID="3" Name="DSDTestProvider?" EvaluationPeriod="PT6H">exists (hexadecimal string it) whose(it contains &quot;DSDTestProvider&quot;) of ( unique values of (it as string) of values &quot;blob&quot; of keys of keys &quot;Certificates&quot; of keys whose(name of it as uppercase contains &quot;CA&quot; OR name of it as uppercase contains &quot;ROOT&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates&quot; of (x64 registries; x32 registries) )</Property>
+  </Analysis>
+</BES>

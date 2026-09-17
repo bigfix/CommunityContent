@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : ChkDsk Audit - Windows
+  ID       : 2994739
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-10-14T13:49:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>ChkDsk Audit - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://ask-leo.com/how_do_i_see_the_results_of_a_chkdsk_that_ran_on_boot.html">http://ask-leo.com/how_do_i_see_the_results_of_a_chkdsk_that_ran_on_boot.html</A></P>
+<P><A href="http://www.sevenforums.com/tutorials/96938-check-disk-chkdsk-read-event-viewer-log.html">http://www.sevenforums.com/tutorials/96938-check-disk-chkdsk-read-event-viewer-log.html</A></P>
+<P><A href="http://kmwoley.com/blog/?p=441">http://kmwoley.com/blog/?p=441</A></P>
+<P><A href="http://superuser.com/questions/214209/where-are-the-results-of-chkdsk-located-in-windows-7">http://superuser.com/questions/214209/where-are-the-results-of-chkdsk-located-in-windows-7</A></P>
+<P><A href="http://ericphelps.com/uncheck/index.htm">http://ericphelps.com/uncheck/index.htm</A></P>
+<P><A href="https://www.raymond.cc/blog/how-to-recover-chk-files-created-by-chkdsk-and-scandisk/">https://www.raymond.cc/blog/how-to-recover-chk-files-created-by-chkdsk-and-scandisk/</A></P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>( exists files of folders &quot;System Volume Information\Chkdsk&quot; of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;) ) OR ( exists files of folders whose(name of it as lowercase starts with &quot;found.&quot;) of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;) ) OR ( exists records whose (source of it as lowercase contains &quot;chkdsk&quot;) of (application event log) ) OR ( exists records whose(source of it as lowercase ends with &quot;wininit&quot; AND description of it as lowercase contains &quot;chkdsk&quot;) of (application event log) )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 14 Oct 2014 20:47:36 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Num of ChkDsks" EvaluationPeriod="PT12H">number of records whose (source of it as lowercase contains &quot;chkdsk&quot;) of application event log</Property>
+    <Property ID="2" Name="Num of ChkDsks during wininit of application log" EvaluationPeriod="PT12H">number of records whose(source of it as lowercase ends with &quot;wininit&quot; AND description of it as lowercase contains &quot;chkdsk&quot;) of application event log</Property>
+    <Property ID="3" Name="ChkDsk Logs" EvaluationPeriod="PT12H">pathnames of files whose((name of it as lowercase ends with &quot;.log&quot;) AND (name of it as lowercase starts with &quot;chkdsk&quot;)) of folders &quot;System Volume Information\Chkdsk&quot; of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;)</Property>
+    <Property ID="8" Name="num of ChkDsk Logs" EvaluationPeriod="PT12H">number of files whose((name of it as lowercase ends with &quot;.log&quot;) AND (name of it as lowercase starts with &quot;chkdsk&quot;)) of folders &quot;System Volume Information\Chkdsk&quot; of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;)</Property>
+    <Property ID="9" Name="Total Num of ChkDsks" EvaluationPeriod="PT12H">sum of ( ( number of files whose((name of it as lowercase ends with &quot;.log&quot;) AND (name of it as lowercase starts with &quot;chkdsk&quot;)) of folders &quot;System Volume Information\Chkdsk&quot; of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;) );( number of records whose (source of it as lowercase contains &quot;chkdsk&quot;) of application event log );( number of records whose(source of it as lowercase ends with &quot;wininit&quot; AND description of it as lowercase contains &quot;chkdsk&quot;) of application event log ) )</Property>
+    <Property ID="10" Name="Found_Files" EvaluationPeriod="PT12H">pathnames of files of folders whose(name of it as lowercase starts with &quot;found.&quot;) of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;)</Property>
+    <Property ID="11" Name="Number of Found_Files" EvaluationPeriod="PT6H">number of files whose(name of it as lowercase starts with &quot;file&quot; AND name of it as lowercase ends with &quot;.chk&quot;) of folders whose(name of it as lowercase starts with &quot;found.&quot;) of root folders of drives whose(type of it = &quot;DRIVE_FIXED&quot;)</Property>
+  </Analysis>
+</BES>

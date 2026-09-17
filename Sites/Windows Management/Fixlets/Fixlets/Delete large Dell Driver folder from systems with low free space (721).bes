@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Delete large Dell Driver folder from systems with low free space
+  ID       : 721
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-05T11:11:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Delete large Dell Driver folder from systems with low free space</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (folder &quot;dell&quot; of drive of system folder)</Relevance>
+    <Relevance><![CDATA[1000 < ((sum of sizes of descendants of folder "dell" of drive of system folder) / (1024 * 1024))]]></Relevance>
+    <Relevance><![CDATA[4096 > ((free space of drive of system folder)/(1024 * 1024))]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2012-10-01</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 02 Oct 2012 17:35:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/rmdir.mspx?mfr=true
+// cmd rmdir <path> /s /q
+waithidden cmd.exe /C rmdir {pathname of (folder "dell" of drive of system folder)} /s /q]]></ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

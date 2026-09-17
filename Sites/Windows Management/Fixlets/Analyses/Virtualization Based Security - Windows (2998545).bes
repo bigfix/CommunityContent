@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Virtualization Based Security - Windows
+  ID       : 2998545
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-14T07:45:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Virtualization Based Security - Windows</Title>
+    <Description>This analysis provides details regarding the capabilities of a Windows device with regards to Virtualization Based Security (Device Guard, Credential Guard, etc) </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="VBS - Hypervisor Support - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;AvailableSecurityProperties&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 1</Property>
+    <Property ID="2" Name="VBS - Secure Boot Enabled - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;AvailableSecurityProperties&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 2</Property>
+    <Property ID="3" Name="VBS - DMA Protection Available - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;AvailableSecurityProperties&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 3</Property>
+    <Property ID="4" Name="VBS - Credential Guard Configured - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;SecurityServicesConfigured&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 1</Property>
+    <Property ID="5" Name="VBS - HVCI Configured - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;SecurityServicesConfigured&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 2</Property>
+    <Property ID="6" Name="VBS - Credential Guard Running - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;SecurityServicesRunning&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 1</Property>
+    <Property ID="7" Name="VBS - HVCI Running - Windows" EvaluationPeriod="P1D">set of (integer values of property &quot;SecurityServicesRunning&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;) contains 2</Property>
+    <Property ID="8" Name="VBS - Configured - Windows" EvaluationPeriod="P1D"> (it contains 1 or it contains 2) of set of (integer values of property &quot;VirtualizationBasedSecurityStatus&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;)</Property>
+    <Property ID="9" Name="VBS - Running - Windows" EvaluationPeriod="P1D">(it contains 2) of set of (integer values of property &quot;VirtualizationBasedSecurityStatus&quot; of select objects &quot;* from Win32_DeviceGuard&quot; of wmi &quot;root\Microsoft\Windows\DeviceGuard&quot;)</Property>
+    <Property ID="10" Name="VBS - Error Logs - Windows" EvaluationPeriod="P1D">descriptions of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 1000;item 1 of it))) of (record count of it, oldest record number of it)) whose (source of it = &quot;Microsoft-Windows-Wininit&quot; and (event id of it = 15 or event id of it = 16 or event id of it = 17)) of system event log</Property>
+    <Property ID="11" Name="VBS - Remote Credential Guard - Windows" EvaluationPeriod="P1D">exists values &quot;DisableRestrictedAdmin&quot; whose (it = 0) of keys &quot;HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa&quot; of native registry</Property>
+  </Analysis>
+</BES>

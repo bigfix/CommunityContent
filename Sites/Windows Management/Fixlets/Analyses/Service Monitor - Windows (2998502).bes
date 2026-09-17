@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Service Monitor - Windows
+  ID       : 2998502
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-09T18:13:22
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Service Monitor - Windows</Title>
+    <Description><![CDATA[This Analysis will report on the statistics stored by the&nbsp;<STRONG>Fixlet:</STRONG>&nbsp;"Invoke - Service Monitor - Windows". Specifically it will report information related to monitored services started by the BigFix Agent.
+<P>To define a service as, "Monitored" for use by this fixlet:</P>
+<OL>
+<LI>Create a client setting: besservicemonitor-&lt;name&gt;
+<LI>Populate the setting with a semicolon separated list of services to monitor: "<FONT size=2>BESProxyAgent;BESRelay;BESGather;BESPluginService;BESRootServer;BESWebReportsServer"</FONT></LI></OL>
+<P><FONT size=2>This action will then check those services to make sure they are running.</FONT></P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists settings whose (name of it starts with &quot;besservicemonitor-&quot;) of client</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Service Monitor - Configuration - Windows" EvaluationPeriod="PT1H">unique values of ((it as trimmed string) of substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings whose (name of it starts with &quot;besservicemonitor-&quot; and name of it does not start with &quot;besservicemonitor-settings-&quot;) of client)</Property>
+    <Property ID="2" Name="Service Monitor - Recovery Counts - Windows" EvaluationPeriod="PT1H">(name of it, value &quot;count&quot; of it) of keys of keys &quot;Service Monitoring&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\C3 Inventory&quot; of (x32 registries;x64 registries)</Property>
+    <Property ID="3" Name="Service Monitor - Last Recovery Times - Windows" EvaluationPeriod="PT1H">(name of it, value &quot;Last&quot; of it) of keys of keys &quot;Service Monitoring&quot; of keys &quot;HKEY_LOCAL_MACHINE\Software\C3 Inventory&quot; of (x32 registries;x64 registries)</Property>
+    <Property ID="4" Name="Service Monitor - Services Failing to Start - Windows" EvaluationPeriod="PT5M">if (uptime of operating system &gt; (value of settings &quot;besservicemonitor-audit-delay&quot; of client as integer | 5) * minute) then (unique values of ((display name of it &amp; &quot; (&quot; &amp; service name of it &amp; &quot;)&quot;) as string) of services ((it as trimmed string) of elements of (set of (substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings whose (name of it starts with &quot;besservicemonitor-&quot; and name of it does not start with &quot;besservicemonitor-settings-&quot;) of client) - set of (substrings separated by &quot;;&quot; of concatenations &quot;;&quot; whose (it != &quot;&quot;) of values of settings &quot;besservicemonitor-settings-blacklist&quot; of client))) whose (state of it != &quot;Running&quot; and start type of it != &quot;disabled&quot;)) else (nothing)</Property>
+    <Property ID="7" Name="Service Monitor - Audit Delay - Windows" EvaluationPeriod="PT5M">value of settings &quot;besservicemonitor-settings-audit-delay&quot; of client as integer | 5</Property>
+    <Property ID="8" Name="Service Monitor - Remediation Delay - Windows" EvaluationPeriod="PT5M">value of settings &quot;besservicemonitor-settings-remediation-delay&quot; of client as integer | 5</Property>
+    <Property ID="9" Name="Service Monitor - Blacklisted Services - Windows" EvaluationPeriod="PT5M">substrings separated by &quot;;&quot; of values of settings &quot;besservicemonitor-settings-blacklist&quot; of client</Property>
+  </Analysis>
+</BES>

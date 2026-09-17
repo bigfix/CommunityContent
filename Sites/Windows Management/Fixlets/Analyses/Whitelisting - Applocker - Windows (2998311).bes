@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Whitelisting - Applocker - Windows
+  ID       : 2998311
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:05:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Whitelisting - Applocker - Windows</Title>
+    <Description><![CDATA[Provides information on whether or not Applocker is enabled
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "6.1"]]></Relevance>
+    <Relevance>(product info string of operating system = &quot;Enterprise&quot; or product info string of operating system = &quot;Server&quot;)</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Applocker - Enabled - Windows" EvaluationPeriod="P1D">exists key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2&quot; of native registry</Property>
+  </Analysis>
+</BES>

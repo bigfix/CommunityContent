@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Designate ALWAYS On Profile
+  ID       : 2611
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-10-03T19:24:15
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Designate ALWAYS On Profile</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P><LINK rel=stylesheet type=text/css href="descriptionTable.css">
+<P>This Task will make each of the targeted computers a "ALWAYS On Profile" computer.</P>
+<P>Configure a computer's power profile&nbsp;to never enter the system Standby, Hibernate, or hard-disk power management modes actions that would turn the computer off.</P></TD></TR></TBODY></TABLE>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true</Relevance>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else true) AND (name of operating system starts with &quot;Win&quot; OR name of operating system = &quot;Mac OS X&quot;)</Relevance>
+    <Relevance><![CDATA[version of client >= "7.2" AND ((if (name of it= "Mac OS X") then (release of it >= "10.4" as version AND release of it < "10.9" as version) else true) of operating system)]]></Relevance>
+    <Category>Power Options</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 04 Oct 2013 02:16:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Action ID="Action2861">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to apply an ALWAYS On Power Option.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if {name of operating system = "Mac OS X"}
+	wait pmset disksleep 0
+	wait pmset sleep 0
+else
+	if {major version of operating system = 6}
+		waithidden cmd.exe /C powercfg.exe -list > __list
+
+		if{exists file "__list" whose(exists line whose(it contains "(ALWAYS On Profile)" ) of it)}
+			waithidden cmd.exe /C powercfg.exe -setactive {(if(exists lines whose(it contains "(ALWAYS On Profile)")  of it ) then(preceding text of first "(" of following text of first ":" of  concatenations of( lines whose(it contains "(ALWAYS On Profile)") of it)  of  file "__list") else("381b4222-f694-41f0-9685-ff5bb260df2e") ) of  file "__list"}
+			delete __list
+		else
+			waithidden cmd.exe /C powercfg.exe -duplicatescheme 381b4222-f694-41f0-9685-ff5bb260df2e > __guid
+			waithidden cmd.exe /C powercfg.exe -changename {preceding text of last "(" of (following text of first ": " of (line 1 of file "__guid"))} "Last Man Standing"
+			waithidden cmd.exe /C powercfg.exe -setactive {preceding text of last "(" of (following text of first ": " of (line 1 of file "__guid"))}
+			delete __guid
+		endif
+
+		waithidden cmd.exe /C powercfg.exe -change -disk-timeout-ac 0
+		waithidden cmd.exe /C powercfg.exe -change -standby-timeout-ac 0
+		waithidden cmd.exe /C powercfg.exe -hibernate off
+	else
+		if{name of operating system contains "Win"}
+			waithidden "{pathname of system folder & "\powercfg.exe"}" /create "ALWAYS On Profile"
+			waithidden "{pathname of system folder & "\powercfg.exe"}" /setactive "ALWAYS On Profile"
+			waithidden "{pathname of system folder & "\powercfg.exe"}" /change "ALWAYS On Profile" /disk-timeout-ac 0
+			waithidden "{pathname of system folder & "\powercfg.exe"}" /change "ALWAYS On Profile" /standby-timeout-ac 0
+			waithidden "{pathname of system folder & "\powercfg.exe"}" /hibernate off
+		endif
+	endif
+endif
+]]></ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

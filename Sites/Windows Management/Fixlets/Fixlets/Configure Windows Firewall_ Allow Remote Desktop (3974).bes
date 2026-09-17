@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Windows Firewall: Allow Remote Desktop
+  ID       : 3974
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2015-02-04T14:11:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Windows Firewall: Allow Remote Desktop</Title>
+    <Description><![CDATA[<P>Enables the "Remote Desktop" firewall group.&nbsp; Requires at least Windows Vista and an active Firewall to be relevant. </P>
+<P>NOTE: This is Relevant if the current state of "Remote Desktop" is disabled; but the fixlet only changes the local configuration.&nbsp; If the firewall rule set is controlled through Group Policy, this fixlet does not override.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
+    <Relevance>exists firewall whose (firewall enabled of current profile of local policy of firewall)</Relevance>
+    <Relevance>not rule group currently enabled &quot;Remote Desktop&quot; of firewall</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-04-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 04 Feb 2015 21:10:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+action uses wow64 redirection false
+
+waithidden netsh.exe advfirewall firewall set rule group=&quot;remote desktop&quot; new enable=Yes
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

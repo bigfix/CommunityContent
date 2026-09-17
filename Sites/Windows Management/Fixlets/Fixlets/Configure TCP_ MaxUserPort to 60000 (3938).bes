@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure TCP: MaxUserPort to 60000
+  ID       : 3938
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2014-12-21T21:09:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure TCP: MaxUserPort to 60000</Title>
+    <Description>Configures TCP MaxUserPort to 60000 to allow for more user-mode application ports in the pool.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists (value &quot;MaxUserPort&quot; of key &quot;HKLM\System\CurrentControlSet\Services\Tcpip\Parameters&quot; of native registry) whose (it as integer = 60000)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-08-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 09 Sep 2013 19:52:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+action uses wow64 redirection false
+dos reg.exe add &quot;HKLM\System\CurrentControlSet\Services\Tcpip\Parameters&quot; /v &quot;MaxUserPort&quot; /t REG_DWORD /d 60000 /F
+action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

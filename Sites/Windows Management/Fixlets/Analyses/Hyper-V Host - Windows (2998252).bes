@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Hyper-V Host - Windows
+  ID       : 2998252
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:52:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Hyper-V Host - Windows</Title>
+    <Description><![CDATA[Provides information on the virtual machines and switches configured&nbsp;on the Hyper-V Server
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;vmcompute&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Hyper-V - Virtual Switches - Windows" EvaluationPeriod="P1D">(value &quot;FriendlyName&quot; of it as string, name of it as string) of keys of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\vmsmp\parameters\SwitchList&quot; of native registry</Property>
+    <Property ID="2" Name="Hyper-V - Virtual Machines - Windows" EvaluationPeriod="P1D">(string value of property &quot;ElementName&quot; of it, (if (it = &quot;2&quot;) then &quot;Running&quot; else (if (it = &quot;3&quot;) then &quot;Off&quot; else (if (it = &quot;6&quot;) then &quot;Saved&quot; else &quot;Other&quot;))) of (string value of property &quot;EnabledState&quot; of it) , (if (it = &quot;0&quot;) then &quot;No Replication&quot; else (if (it = &quot;1&quot;) then &quot;Healthy&quot; else (if (it = &quot;2&quot;) then &quot;Replication Warning&quot; else &quot;Replication Critical&quot;))) of (string value of property &quot;ReplicationHealth&quot; of it), integer value of property &quot;OnTimeInMilliseconds&quot; of it * millisecond ) of (select objects &quot;* from Msvm_ComputerSystem&quot; of wmi &quot;root\virtualization\v2&quot;) whose (string value of property &quot;Caption&quot; of it does not contain &quot;Hosting&quot;)</Property>
+  </Analysis>
+</BES>

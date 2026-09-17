@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Pagefile - Win\Mac
+  ID       : 2998262
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:53:42
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Pagefile - Win\Mac</Title>
+    <Description><![CDATA[<P>Information about Pagefile across Mac and Windows </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Pagefile - Current Size - Win\Mac" EvaluationPeriod="P1D">sum of sizes of (if (Windows of Operating System) then (files &quot;pagefile.sys&quot; of folders ((name of it &amp; &quot;\&quot;) of drives)) else (if (Mac of Operating System) then (files whose (name of it starts with &quot;swapfile&quot;) of folder &quot;/private/var/vm&quot;) else (ERROR &quot;Unknown&quot;)))</Property>
+  </Analysis>
+</BES>

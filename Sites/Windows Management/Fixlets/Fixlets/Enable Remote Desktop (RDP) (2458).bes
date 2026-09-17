@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Enable Remote Desktop (RDP)
+  ID       : 2458
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-08T12:03:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Enable Remote Desktop (RDP)</Title>
+    <Description>Enable remote desktop settings in the registry. (RDP) </Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists value &quot;fDenyTSConnections&quot; whose (it != 0) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server&quot; of registry</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-05-08</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 08 May 2013 17:02:29 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+regset &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server]&quot; &quot;fDenyTSConnections&quot;=dword:00000000
+//thanks sinucus (http://bigfix.me/user/sinucus) for this great addition:
+waithidden cmd.exe /C netsh firewall set service type= remotedesktop mode = enable
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action898">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this setting.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://technet.microsoft.com/en-us/library/cc782195(v=ws.10).aspx</ActionScript>
+    </Action>
+  </Task>
+</BES>

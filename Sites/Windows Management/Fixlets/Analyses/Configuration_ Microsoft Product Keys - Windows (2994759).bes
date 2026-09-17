@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Configuration: Microsoft Product Keys - Windows
+  ID       : 2994759
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-09T13:45:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Configuration: Microsoft Product Keys - Windows</Title>
+    <Description>This analysis requires this task to be run to have results:  http://bigfix.me/fixlet/details/3941
+</Description>
+    <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>exists file &quot;config_prodkey.xml&quot; of folder &quot;Logs&quot; of folder &quot;__Global&quot; of folder &quot;__BESData&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Jan 2015 20:32:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Products" EvaluationPeriod="P1D">node values of xpaths &quot;/product_key_list/item/product_name/text()&quot; of xml documents of file &quot;config_prodkey.xml&quot; of folder &quot;Logs&quot; of folder &quot;__Global&quot; of folder &quot;__BESData&quot; of parent folder of client</Property>
+    <Property ID="2" Name="Product -- Serial" EvaluationPeriod="P1D">(node value of xpath &quot;product_name/text()&quot; of it &amp; &quot; -- &quot; &amp; node value of xpath &quot;product_key/text()&quot; of it) of xpaths &quot;/product_key_list/item&quot; whose( &quot;Internet Explorer&quot; != node value of xpath &quot;product_name/text()&quot; of it ) of xml documents of file &quot;config_prodkey.xml&quot; of folder &quot;Logs&quot; of folder &quot;__Global&quot; of folder &quot;__BESData&quot; of parent folder of client</Property>
+  </Analysis>
+</BES>

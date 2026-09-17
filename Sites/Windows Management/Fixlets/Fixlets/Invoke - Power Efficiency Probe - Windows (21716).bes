@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Power Efficiency Probe - Windows
+  ID       : 21716
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-24T09:09:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Power Efficiency Probe - Windows</Title>
+    <Description><![CDATA[<P>Invokes PowerCFG on the Endpoint to print out diagnostic information.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-09-23</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+delete run.bat
+
+createfile until _end_
+cd "{pathname of windows folder}\temp"
+powercfg -energy
+powercfg -requests > "energy-requests.txt"
+_end_
+
+move __createfile run.bat
+
+wait run.bat]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Users - Windows
+  ID       : 2998571
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-06-06T09:51:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Users - Windows</Title>
+    <Description><![CDATA[<P>This Analysis provides Windows-specific user information for the currently active user&nbsp;including:</P>
+<UL>
+<LI>Drive Mappings for the currently active user
+<LI>Administrator status of currently active user</LI></UL>
+<P>This Analysis also provides the following general information for users of the system:&nbsp;</P>
+<UL>
+<LI>The previously logged on user for the system
+<LI>The last logon timestamp for each previous user of the system</LI></UL>
+<P><STRONG>Note</STRONG>: OS Upgrades may reset last logon timestamp to the date of the upgrade.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Users - Last Logged on - Windows" EvaluationPeriod="P1D">(sid (it) as string | it ) of (string values whose (set of (&quot;S-1-5-20&quot;;&quot;S-1-5-19&quot;;&quot;S-1-5-18&quot;) does not contain it) of properties &quot;sid&quot; of items 0 of (it whose (preceding text of first &quot;.&quot; of string value of property &quot;LastUseTime&quot; of item 0 of it as integer = item 1 of it) of (select objects &quot;* from Win32_UserProfile&quot; of wmi, it) of (maximum of (preceding text of first &quot;.&quot; of string value of property &quot;LastUseTime&quot; of it as integer) of select objects &quot;* from Win32_UserProfile&quot; of wmi)))</Property>
+    <Property ID="9" Name="Current User - Drive Mappings - Windows" EvaluationPeriod="P1D">(concatenations &quot;\&quot; of substrings separated by &quot;#&quot; of name of it) of keys whose (name of it contains &quot;#&quot;) of keys &quot;Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2&quot; of (current user keys (logged on users) of registry)</Property>
+    <Property ID="10" Name="Users - Last Logon Time - Windows" EvaluationPeriod="PT12H">(sid (string value of property &quot;sid&quot; of it) as string | string value of property &quot;sid&quot; of it, time value of property &quot;LastUseTime&quot; of it) of (select objects &quot;* from Win32_UserProfile&quot; of wmi) whose (set of (&quot;S-1-5-20&quot;;&quot;S-1-5-19&quot;;&quot;S-1-5-18&quot;) does not contain string value of property &quot;sid&quot; of it)</Property>
+    <Property ID="11" Name="Current User - Administrator - Windows" EvaluationPeriod="P1D">exists elements of intersection of ( /*IS THE LOGGED IN USER AN ADMINISTRATOR? */ set of ( /* User&apos;s SID and Group Memberships */ ((sids of groups of logged on user of active directory) as string); /*User Group Memberships */ (sid of logged on user) as string /*Users SID*/ );( set of (/*Users and Groups in Administrators */ sids of members of local group &quot;administrators&quot; as string) ) )</Property>
+  </Analysis>
+</BES>

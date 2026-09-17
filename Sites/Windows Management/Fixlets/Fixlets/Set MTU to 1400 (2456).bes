@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set MTU to 1400
+  ID       : 2456
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-05-08T08:03:23
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set MTU to 1400</Title>
+    <Description>Detects if the MTU for the 10.* interface is NOT set to 1400. If so, this will report as relevant and will change the interface to 1400</Description>
+    <Relevance><![CDATA[(not exists value "MTU" of key ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\" & concatenation "" of (names of it of it whose (exists value "IPAddress" whose (it as string starts with "10.") of it)  of (it; keys of it) of key "HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" of registry)) of registry) OR (exists key ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\" & concatenation "" of (names of it of it whose (exists value "IPAddress" whose (it as string starts with "10.") of it)  of (it; keys of it) of key "HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces" of registry)) whose (value "MTU" of it != 1400) of registry)]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2011-11-07</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 07 Nov 2011 20:59:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+regset &quot;[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\{(names of it) of it whose (exists value &quot;IPAddress&quot; whose (it as string starts with &quot;10.&quot;) of it)  of (it; keys of it) of key &quot;HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces&quot; of registry}]&quot; &quot;MTU&quot;=dword:00000578</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

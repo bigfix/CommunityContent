@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Pagefile - Windows
+  ID       : 2998263
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:53:49
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Pagefile - Windows</Title>
+    <Description><![CDATA[<P>Covers Pagefile configuration for Windows </P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Pagefile - Location and Size - Windows" EvaluationPeriod="P1D">(preceding text of first &quot; &quot; of it | it, preceding text of first &quot; &quot; of following text of first &quot; &quot; of it | &quot;Default&quot;, following text of first &quot; &quot; of following text of first &quot; &quot; of it | &quot;Default&quot;) of (substrings separated by &quot;%00&quot; whose (it != &quot;&quot;) of (value &quot;PagingFiles&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management&quot; of native registry as string))</Property>
+    <Property ID="2" Name="Pagefile - Clear on Shutdown - Windows" EvaluationPeriod="P1D">if (value &quot;ClearPageFileAtShutdown&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management&quot; of native registry as string = &quot;0&quot;) then &quot;Disabled&quot; else &quot;Enabled&quot;</Property>
+  </Analysis>
+</BES>

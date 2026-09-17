@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : HCL Labs:  Run as Local User without or Without Elevation (Interactive)
+  ID       : 26941
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-07-19T13:06:52
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>HCL Labs: Run as Local User without or Without Elevation (Interactive)</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-05-20</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 19 Jul 2022 16:21:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run script without elevation.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+delete __createfile
+createfile until EOF_EOF_EOF
+echo test > %systemroot%\test.out
+EOF_EOF_EOF
+
+
+parameter "user_name"="{(preceding text of first "|" of it | it) of concatenation "|" of names of logged on users}"
+parameter "user_profile"="{(preceding text of first "|" of it | it) of concatenation "|" of profile folders of users of logged on users}"
+// DOMAIN\ should be specified *only* for domain users.  Local users should have not prefix, not even COMPUTERNAME\user
+parameter "user_domain_name"="{(preceding text of first "|" of it | it) of concatenation "|" of ((if exists domain whose (it as lowercase != computer name as lowercase) of it then domain of it & "\" else "") of user of it & name of it) of logged on users}"
+if {exists logged on users}
+
+folder create "{parameter "user_profile"}\BES_Action"
+delete "{parameter "user_profile"}\BES_Action\test.cmd"
+copy __createfile "{parameter "user_profile"}\BES_Action\test.cmd"
+
+// Important - the check for elevation fails in 32-bit mode because \windows\syswow64\config does not exist
+action uses wow64 redirection false
+
+override wait
+hidden=false
+runas=localuser
+user={parameter "user_domain_name"}
+password=impersonate
+wait cmd.exe /C "{parameter "user_profile"}\BES_Action\test.cmd"
+
+else
+ parameter "Skipped"="No logged on user"
+endif
+
+]]></ActionScript>
+    </DefaultAction>
+    <Action ID="Action28260">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to run script with elevation prompt.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+delete __createfile
+createfile until EOF_EOF_EOF
+@REM Check for elevated permissions
+@"%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system" >nul 2>&1
+
+@REM --> If error flag set, we do not have admin.
+@if '%ERRORLEVEL%' NEQ '0' (
+    @echo Requesting administrative privileges...
+    @goto UACPrompt
+) else ( @goto gotAdmin )
+
+:UACPrompt
+    @del /q "%temp%\getadmin.vbs" > NUL 2>&1
+    @IF EXIST "%temp%\getadmin.vbs"  @echo Unable to clear previous getadmin.vbs, aborting... & exit /B 1
+    @echo msgbox "A BigFix Action run in user context requires administrative elevation.  Please accept the following elevation prompt from User Access Control (UAC)",0,"BigFix Elevation Prompt" > "%temp%\getadmin.vbs"
+    @echo Set UAC = CreateObject^("Shell.Application"^) >> "%temp%\getadmin.vbs"
+    @echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+
+    @wscript.exe "%temp%\getadmin.vbs"
+    @exit /B
+
+:gotAdmin
+    @if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+    @pushd "%CD%"
+   @REM CD /D "%~dp0"
+
+@REM ############################################
+@REM Now do the things that required elevation
+
+echo test > %systemroot%\test.out
+exit /B %ERRORLEVEL%
+
+@REM ############ End of batch script ###########
+
+
+EOF_EOF_EOF
+
+//RunAs=currentuser
+//asadmin=interactive
+parameter "user_name"="{(preceding text of first "|" of it | it) of concatenation "|" of names of logged on users}"
+parameter "user_profile"="{(preceding text of first "|" of it | it) of concatenation "|" of profile folders of users of logged on users}"
+// DOMAIN\ should be specified *only* for domain users.  Local users should have not prefix, not even COMPUTERNAME\user
+parameter "user_domain_name"="{(preceding text of first "|" of it | it) of concatenation "|" of ((if exists domain whose (it as lowercase != computer name as lowercase) of it then domain of it & "\" else "") of user of it & name of it) of logged on users}"
+if {exists logged on users}
+
+folder create "{parameter "user_profile"}\BES_Action"
+delete "{parameter "user_profile"}\BES_Action\test.cmd"
+copy __createfile "{parameter "user_profile"}\BES_Action\test.cmd"
+
+// Important - the check for elevation fails in 32-bit mode because \windows\syswow64\config does not exist
+action uses wow64 redirection false
+
+override wait
+hidden=false
+runas=localuser
+user={parameter "user_domain_name"}
+password=impersonate
+wait cmd.exe /C "{parameter "user_profile"}\BES_Action\test.cmd"
+
+else
+ parameter "Skipped"="No logged on user"
+endif
+
+]]></ActionScript>
+    </Action>
+  </Task>
+</BES>

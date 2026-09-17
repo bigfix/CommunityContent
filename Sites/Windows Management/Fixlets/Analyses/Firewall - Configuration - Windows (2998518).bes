@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Firewall - Configuration - Windows
+  ID       : 2998518
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-16T17:17:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Firewall - Configuration - Windows</Title>
+    <Description><![CDATA[<P>Provides information on the current configuration of the Windows Firewall. </P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1"]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Firewall - State - Windows" EvaluationPeriod="P1D">(&quot;Domain&quot;, firewall enabled of domain profile of local policy of firewall and not exists (value &quot;EnableFirewall&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile&quot; of native registry as string | &quot;-1&quot;) whose (it = &quot;0&quot;));(&quot;Public&quot;, firewall enabled of public profile of local policy of firewall and not exists (value &quot;EnableFirewall&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile&quot; of native registry as string | &quot;-1&quot;) whose (it = &quot;0&quot;));(&quot;Private&quot;, firewall enabled of private profile of local policy of firewall and not exists (value &quot;EnableFirewall&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile&quot; of native registry as string | &quot;-1&quot;) whose (it = &quot;0&quot;))</Property>
+    <Property ID="2" Name="Firewall - Current Profiles - Windows" EvaluationPeriod="P1D">profile types of firewall</Property>
+    <Property ID="3" Name="Firewall - Inbound ICMP Echo - Windows" EvaluationPeriod="P1D">allow inbound echo request of icmp settings of current profile of local policy of firewall </Property>
+    <Property ID="4" Name="Firewall - Local Modification Allowed - Windows" EvaluationPeriod="P1D">local policy modify state of firewall = ok firewall local policy modify state</Property>
+    <Property ID="5" Name="Firewall - Group Policy Overrides Local Policy - Windows" EvaluationPeriod="P1D">local policy modify state of firewall = gp override firewall local policy modify state</Property>
+    <Property ID="6" Name="Firewall - All Unsolicited Inbound Traffic Blocked - Windows" EvaluationPeriod="P1D">local policy modify state of firewall = inbound blocked firewall local policy modify state</Property>
+    <Property ID="7" Name="Firewall - Authorized Applications - Windows" EvaluationPeriod="PT12H">(name of it, remote addresses of it, ip version of it, process image file name of it) of authorized applications whose (enabled of it = true) of current profile of local policy of firewall</Property>
+    <Property ID="8" Name="Firewall - Active Inbound Rules - Windows" EvaluationPeriod="PT12H">(name of it, application name of it, local addresses string of it, local ports string of it, remote addresses string of it, remote ports string of it) of rules whose (currently active of it and inbound of it) of firewall</Property>
+    <Property ID="9" Name="Firewall - Active Outbound Rules - Windows" EvaluationPeriod="PT12H">(name of it, application name of it, local addresses string of it, local ports string of it, remote addresses string of it, remote ports string of it) of rules whose (currently active of it and outbound of it) of firewall</Property>
+    <Property ID="10" Name="Firewall - Globally Open Ports - Windows" EvaluationPeriod="PT12H">(name of it, port of it, remote addresses of it) of globally open ports whose (enabled of it) of current profile of local policy of firewall</Property>
+  </Analysis>
+</BES>

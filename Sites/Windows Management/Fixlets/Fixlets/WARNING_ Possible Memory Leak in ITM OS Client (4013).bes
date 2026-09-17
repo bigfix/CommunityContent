@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : WARNING: Possible Memory Leak in ITM OS Client
+  ID       : 4013
+  Author   : zanesand
+  Domain   : BESC
+  Imported : 2015-03-31T20:20:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>WARNING: Possible Memory Leak in ITM OS Client</Title>
+    <Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>The listed computers have ITM OS Agents with high memory usage. This may indicate a possible memory leak. This fixlet message is triggered when the ITM OS Windows&nbsp;agent&nbsp;is using more than 150 MB of memory. The recommended action is to restart the ITM OS Agent in order to free memory.</TD></TR></TBODY></TABLE>
+<P><U><FONT size=2>Revision History</FONT></U></P>
+<UL>
+<LI>31/03/2015 -&nbsp;zanesand&nbsp;- Initial Creation </LI></UL>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance><![CDATA[version of client >= "8.0"]]></Relevance>
+    <Relevance><![CDATA[exists process whose (name of it is "kntcma.exe" AND (((page file usage of it) / (1024*1024)) > 200 OR (ia64 of operating system AND ((page file usage of it) / (1024*1024)) > 300) OR ((page file usage of it) > size of ram / 2)))]]></Relevance>
+    <Category>Support</Category>
+    <Source>BigFix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2015-03-31</SourceReleaseDate>
+    <SourceSeverity>Important</SourceSeverity>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Wed, 17 Oct 2012 13:14:46 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Wed, 17 Oct 2012 13:14:46 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 03 Feb 2011 17:36:14 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-domain_attributes</Name>
+      <Value>BES Warn Important</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>BES Client TABLE TBODY memory</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 31 Mar 2015 22:53:48 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to restart the ITM OS Agent.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">delete __appendfile
+appendfile net stop KNTCMA_Primary
+appendfile net start KNTCMA_Primary
+delete agentRestart.bat
+copy __appendfile agentRestart.bat
+runhidden agentRestart.bat</ActionScript>
+    </DefaultAction>
+    <Action ID="Action4471">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://bigfix.me/cdb/fixlet/306</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

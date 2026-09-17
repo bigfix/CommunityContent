@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Windows Update - Execute Windows Update via PowerShell Install-Module (PS 5.0+ version)
+  ID       : 26617
+  Author   : rdshift
+  Domain   : BESC
+  Imported : 2019-04-11T12:43:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Windows Update - Execute Windows Update via PowerShell Install-Module (PS 5.0+ version)</Title>
+    <Description><![CDATA[<P>This installs the latest Windows updates.</P>
+<P>Last tested on Windows 10 v1803 with PowerShell 5.1.&nbsp; This version requires PS 5.0+ due to module usage.</P>
+<OL>
+<LI>Checks for existing scripting policy LGPO registry item (cannot override GPO)
+<LI>If exists, back up and disable existing policy
+<LI>Install prerequisite: NuGet 2.8.5.201+
+<LI>Install Windows Update PowerShell Module v2.0.0.4 (tested, feel free to drop that requirement)
+<LI>Run Windows Update via newly added module
+<LI>Action 6 is a separate action to uninstall Windows Update PowerShell Module "PSWindowsUpdate" if you would like to scrub the environment.</LI></OL>
+<P>It will not ask questions, and not provide options - it will simply install everything it is able to install in one round.</P>
+<P>This version will NOT install Windows Feature Updates, such as Windows 10 version 1803 to version 1809.</P>
+<P>By running this task you accept the Microsoft TechNet terms of use.</P>
+<P>Module Credit Michal Gajda,&nbsp;source: <A href="https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/">https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/</A></P>]]></Description>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance>x64 of operating system</Relevance>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\3&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance><![CDATA[exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" whose (value "PowerShellVersion" of it as string as version >= "5.0") of registry]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-06-13</SourceReleaseDate>
+    <MIMEField>
+      <Name>bigfixme-added-time</Name>
+      <Value>Mon, 18 Jun 2018 12:07:16 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-modification-time</Name>
+      <Value>Tue, 26 Jun 2018 19:07:42 GMT</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-keywords</Name>
+      <Value>Windows Update Powershell Module MichalGajda</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-ID</Name>
+      <Value>25528</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>bigfixme-versions-ids</Name>
+      <Value>25522,25523,25524,25527</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 11 Apr 2019 19:38:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to install Windows + Microsoft Updates without rebooting or notifying the user.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Powershell
+parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+// Disable script protection
+if {exist (value &quot;EnableScripts&quot; of it = &quot;0&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /t REG_DWORD /d 00000001 /f
+endif
+
+// Disable execution policy in scope of current user (system)
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force&quot;
+
+// Install PowerShell Modules from PSGallery
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-Module -Name PSWindowsUpdate -RequiredVersion 2.0.0.4 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Import-Module -Name PSWindowsUpdate -Force&quot;
+
+// Check for and install Windows Updates
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Get-WindowsUpdate -Install -MicrosoftUpdate -AcceptAll -IgnoreReboot -Confirm:$false&quot;
+
+// Restrict execution policy
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Restricted -Force&quot;
+
+// Re-enable script protection
+if {exist (value &quot;EnableScriptsbackup&quot; of it = &quot;1&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /t REG_DWORD /d 00000000 /f
+endif</ActionScript>
+    </DefaultAction>
+    <Action ID="Action27888">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to install Windows + Microsoft Updates and automatically reboot without asking to reboot.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Powershell
+parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+// Disable script protection
+if {exist (value &quot;EnableScripts&quot; of it = &quot;0&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /t REG_DWORD /d 00000001 /f
+endif
+
+// Disable execution policy in scope of current user (system)
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force&quot;
+
+// Install PowerShell Modules from PSGallery
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-Module -Name PSWindowsUpdate -RequiredVersion 2.0.0.4 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Import-Module -Name PSWindowsUpdate -Force&quot;
+
+// Check for and install Windows Updates
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Get-WindowsUpdate -Install -MicrosoftUpdate -AcceptAll -AutoReboot -Confirm:$false&quot;
+
+// Restrict execution policy
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Restricted -Force&quot;
+
+// Re-enable script protection
+if {exist (value &quot;EnableScriptsbackup&quot; of it = &quot;1&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /t REG_DWORD /d 00000000 /f
+endif</ActionScript>
+    </Action>
+    <Action ID="Action27889">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to install Windows Updates and automatically reboot without asking to reboot.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Powershell
+parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+// Disable script protection
+if {exist (value &quot;EnableScripts&quot; of it = &quot;0&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /t REG_DWORD /d 00000001 /f
+endif
+
+// Disable execution policy in scope of current user (system)
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force&quot;
+
+// Install PowerShell Modules from PSGallery
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-Module -Name PSWindowsUpdate -RequiredVersion 2.0.0.4 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Import-Module -Name PSWindowsUpdate -Force&quot;
+
+// Check for and install Windows Updates
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Get-WindowsUpdate -Install -AcceptAll -AutoReboot -Confirm:$false&quot;
+
+// Restrict execution policy
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Restricted -Force&quot;
+
+// Re-enable script protection
+if {exist (value &quot;EnableScriptsbackup&quot; of it = &quot;1&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /t REG_DWORD /d 00000000 /f
+endif</ActionScript>
+    </Action>
+    <Action ID="Action27890">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to install Windows Updates without rebooting or notifying the user.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Powershell
+parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+// Disable script protection
+if {exist (value &quot;EnableScripts&quot; of it = &quot;0&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /t REG_DWORD /d 00000001 /f
+endif
+
+// Disable execution policy in scope of current user (system)
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force&quot;
+
+// Install PowerShell Modules from PSGallery
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Install-Module -Name PSWindowsUpdate -RequiredVersion 2.0.0.4 -Force&quot;
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Import-Module -Name PSWindowsUpdate -Force&quot;
+
+// Check for and install Windows Updates
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Get-WindowsUpdate -Install -AcceptAll -IgnoreReboot -Confirm:$false&quot;
+
+// Restrict execution policy
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Restricted -Force&quot;
+
+// Re-enable script protection
+if {exist (value &quot;EnableScriptsbackup&quot; of it = &quot;1&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /t REG_DWORD /d 00000000 /f
+endif</ActionScript>
+    </Action>
+    <Action ID="Action27891">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to go to the TechNet page on this PowerShell module.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://gallery.technet.microsoft.com/scriptcenter/2d191bcd-3308-4edd-9de2-88dff796b0bc/</ActionScript>
+    </Action>
+    <Action ID="Action27892">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to uninstall the PowerShell module.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Powershell
+parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+// Disable script protection
+if {exist (value &quot;EnableScripts&quot; of it = &quot;0&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /t REG_DWORD /d 00000001 /f
+endif
+
+// Disable execution policy in scope of current user (system)
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force&quot;
+
+// Install PowerShell Modules from PSGallery
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Uninstall-Module -Name PSWindowsUpdate -Force&quot;
+
+// Restrict execution policy
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -Command &quot;Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Restricted -Force&quot;
+
+// Re-enable script protection
+if {exist (value &quot;EnableScriptsbackup&quot; of it = &quot;1&quot;) of keys &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; of native registry}
+wait cmd /c reg delete &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScriptsBackup&quot; /f
+wait cmd /c reg add &quot;HKLM\Software\Policies\Microsoft\Windows\PowerShell&quot; /v &quot;EnableScripts&quot; /t REG_DWORD /d 00000000 /f
+endif</ActionScript>
+    </Action>
+    <Action ID="Action27893">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to review this task in the bigfix.me Content Database.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">https://bigfix.me/cdb/fixlet/25528</ActionScript>
+    </Action>
+  </Task>
+</BES>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : ~Win10-1803::STAGE3::Cleanup
+  ID       : 25520
+  Author   : Ken
+  Domain   : BESC
+  Imported : 2018-06-06T11:42:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>~Win10-1803::STAGE3::Cleanup</Title>
+    <Description><![CDATA[<P class=FixletMessage>Win10-1803::STAGE1::Stage Installation Files</P>
+<DIV class=FixletMessage>
+<UL>
+<LI>Stage all required installation files to "c:\temp\Win10"&nbsp; (Precache for future deployment)</LI></UL></DIV>
+<P>Win10-1803::STAGE2::INSTALL</P>
+<UL>
+<LI>Perform inplace upgrade to Window 10&nbsp;1803</LI></UL>
+<P>Win10-1803::STAGE3::Cleanup</P>
+<UL>
+<LI>Removes the Stage Installation Files</LI></UL>]]></Description>
+    <Relevance>if exist file &quot;C:\temp\Win10\SW_DVD5_Win_Pro_Ent_Edu_N_10_1803_64BIT_English_-2_MLF_X21-79647.ISO&quot; then true else false</Relevance>
+    <Relevance>version of operating system as string contains &quot;17134&quot;</Relevance>
+    <Category>ARRIS Management</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-07-31</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 04 Jun 2018 09:44:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">folder delete &quot;C:\temp\Win10&quot;</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

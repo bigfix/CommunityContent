@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Ubuntu Available and Installed Packages
+  ID       : 95
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-05-01T21:13:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Ubuntu Available and Installed Packages</Title>
+    <Description>Using our package inventoring task... this analysis will pull in results making them available via WebReports </Description>
+    <Relevance>name of operating system contains &quot;Ubuntu&quot;</Relevance>
+    <Relevance>exists file &quot;availableApps.txt&quot; of parent folder of client OR exists file &quot;installedApps.txt&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 May 2013 02:48:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Installed Packages" EvaluationPeriod="PT1H">if exists file &quot;installedApps.txt&quot; of parent folder of client then lines of file &quot;installedApps.txt&quot; of parent folder of client else &quot;&lt;missing file&gt;&quot;</Property>
+    <Property ID="2" Name="Available Packages" EvaluationPeriod="PT1H">if exists file &quot;availableApps.txt&quot; of parent folder of client then lines of file &quot;availableApps.txt&quot; of parent folder of client else &quot;&lt;missing file&gt;&quot;</Property>
+  </Analysis>
+</BES>

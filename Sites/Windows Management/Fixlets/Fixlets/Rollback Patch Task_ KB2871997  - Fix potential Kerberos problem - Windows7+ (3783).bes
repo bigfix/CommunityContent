@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Rollback Patch Task: KB2871997  - Fix potential Kerberos problem - Windows7+
+  ID       : 3783
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-05-14T12:35:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Rollback Patch Task: KB2871997 - Fix potential Kerberos problem - Windows7+</Title>
+    <Description><![CDATA[<P>This task will roll back the Microsoft Patch: KB2871997.&nbsp; This may fix a recent problem with Kerberos authentication with the dce.psu.edu realm. This may not be required on all systems.<BR><BR>This task is applicable on: Windows 7+</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="https://technet.microsoft.com/library/security/2871997">https://technet.microsoft.com/library/security/2871997</A></P>
+<P><A href="http://support.microsoft.com/kb/262841">http://support.microsoft.com/kb/262841</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows 7 or Higher */ version of operating system >= "6.1"]]></Relevance>
+    <Relevance>(exists key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages&quot; whose ( exists substrings before &quot;~&quot; whose (it contains &quot;KB2871997&quot; as uppercase AND it does not contain &quot;_&quot;) of substrings after &quot;for_&quot; of names of keys whose (name of it contains &quot;for_&quot;) of it) of native registry)</Relevance>
+    <Category>Rollback</Category>
+    <Source>Rollback Task Wizard</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2014-05-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Rollback Task Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 14 May 2014 18:00:21 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to rollback the patch, requires reboot to complete.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+if {x64 of operating system}
+	wait {pathname of windows folder}\sysnative\wusa.exe /uninstall /kb:2871997 /quiet /norestart
+else
+	wait {pathname of system folder}\wusa.exe /uninstall /kb:2871997 /quiet /norestart
+endif
+
+
+dos wuauclt /detectnow
+dos wuauclt /reportnow
+
+action requires restart</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

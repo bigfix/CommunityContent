@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Set LanmanWorkstation service to NOT depend on SMBv1 - Windows
+  ID       : 23441
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-02-14T15:27:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Set LanmanWorkstation service to NOT depend on SMBv1 - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>exists unique values whose(it contains &quot;mrxsmb10&quot;) of (it as string as lowercase) of values &quot;DependOnService&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanWorkstation&quot; of (x64 registries;x32 registries)</Relevance>
+    <Relevance>windows of operating systems</Relevance>
+    <Category>Configuration</Category>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2017-02-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 14 Feb 2017 23:25:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+// https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012
+waithidden sc.exe config lanmanworkstation depend= bowser/mrxsmb20/nsi
+
+action requires restart &quot;SMBv1_LanManDepends&quot;
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

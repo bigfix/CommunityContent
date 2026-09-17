@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Computer as "Always On"
+  ID       : 2570
+  Author   : saylorl
+  Domain   : SYST
+  Imported : 2013-08-27T12:51:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Computer as &quot;Always On&quot;</Title>
+    <Description>This fixlet will &quot;tag&quot; the targeted endpoints with a client setting to exclude it from PowerManagement Settings. </Description>
+    <Relevance>if exists setting &quot;IsAlwaysOn&quot; of client then  value of setting &quot;IsAlwaysOn&quot; of client as boolean != true else true</Relevance>
+    <Category>Power Configuration Flag</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-08-27</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 27 Aug 2013 19:50:23 +0000</Value>
+    </MIMEField>
+    <Domain>SYST</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to configure&amp;nbsp;as an &quot;Always On&quot; computer.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting &quot;IsAlwaysOn&quot;=&quot;true&quot; on &quot;{now}&quot; for client</ActionScript>
+    </DefaultAction>
+    <Action ID="Action2816">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to configure&amp;nbsp;NOT to be an &quot;Always On&quot; computer</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">setting delete &quot;IsAlwaysOn&quot; on &quot;{now}&quot;</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

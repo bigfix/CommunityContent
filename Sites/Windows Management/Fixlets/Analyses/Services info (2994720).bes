@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Services info
+  ID       : 2994720
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2014-09-28T17:53:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Services info</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 05 Sep 2013 19:57:06 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Name" EvaluationPeriod="P1D">(string value of property &quot;name&quot; of it | &quot;n/a&quot;) of select objects &quot;name from win32_service&quot; of wmi</Property>
+    <Property ID="2" Name="PathName">(string value of property &quot;pathname&quot; of it | &quot;n/a&quot;) of select objects &quot;pathname from win32_service&quot; of wmi</Property>
+    <Property ID="3" Name="Description">(string value of property &quot;description&quot; of it | &quot;n/a&quot;) of select objects &quot;description from win32_service&quot; of wmi</Property>
+    <Property ID="4" Name="State">(string value of property &quot;state&quot; of it | &quot;n/a&quot;) of select objects &quot;state from win32_service&quot; of wmi</Property>
+    <Property ID="5" Name="Startup" EvaluationPeriod="P1D">(string value of property &quot;startmode&quot; of it | &quot;n/a&quot;) of select objects &quot;startmode from win32_service&quot; of wmi</Property>
+  </Analysis>
+</BES>

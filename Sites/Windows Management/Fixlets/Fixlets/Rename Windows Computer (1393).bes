@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Rename Windows Computer
+  ID       : 1393
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2013-01-30T13:19:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Rename Windows Computer</Title>
+    <Description><![CDATA[<P>We can rename a windows computer from command line using WMIC computersystem command. Please see the command below</P><PRE>WMIC computersystem where caption='currentname' rename newname</PRE>
+<P>Example: If the current computer name is XP-PC, to change it to Windows7-PC, we can run the below command.</P><PRE>wmic computersystem where caption='xp-pc' rename windows7-pc</PRE>
+<P>After running the command, you need to reboot the computer to make the changes effective.</P>
+<P>This command works on XP, Vista, Windows 7 and also on Server 2003 and Server 2008 editions. </P>]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists file &quot;wmic.exe&quot; of folder &quot;wbem&quot; of system folder</Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2013-01-30</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 30 Jan 2013 19:15:31 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">//ask admin for name of new computer
+action parameter query &quot;newComputerName&quot; with description &quot;Please enter the new Computer Name (Ex: Daniel-PC):&quot; and with default value &quot;&quot;
+//use WMI to change the name
+waithidden wmic computersystem where caption=&apos;{computer name as string}&apos; call rename &apos;{parameter &quot;newComputerName&quot; as string}&apos;
+continue if {exit code of action = 0}
+//flag action as requiring a restart
+action requires restart
+</ActionScript>
+    </DefaultAction>
+    <Action ID="Action1641">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to Command Reference.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.windows-commandline.com/2011/10/change-computer-name-command-line.html</ActionScript>
+    </Action>
+  </Task>
+</BES>

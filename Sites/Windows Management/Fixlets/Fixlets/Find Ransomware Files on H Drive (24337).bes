@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Find Ransomware Files on H Drive
+  ID       : 24337
+  Author   : cjwolford
+  Domain   : BESC
+  Imported : 2017-05-15T19:56:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Find Ransomware Files on H Drive</Title>
+    <Description><![CDATA[Find files with specified extension on&nbsp;H drive. ]]></Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>exists folder &quot;h:\&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-05-04</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 16 May 2017 02:40:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[waithidden cmd /c if exist h:\ransomware_list.txt del h:\ransomware_list.txt /q /f
+waithidden cmd /c dir h:\*.wn h:\*.wcry /a /s >h:\ransomware_list.txt]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

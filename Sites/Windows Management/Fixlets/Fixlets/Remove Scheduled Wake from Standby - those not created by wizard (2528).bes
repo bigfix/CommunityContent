@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Remove Scheduled Wake from Standby - those not created by wizard
+  ID       : 2528
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-07-03T13:07:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Remove Scheduled Wake from Standby - those not created by wizard</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists keys whose(name of it starts with &quot;Wakeup Schedule Weekly &quot; OR name of it starts with &quot;Wakeup Schedule Daily &quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\ScheduledWakeups&quot; of registry)</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgs194</SourceID>
+    <SourceReleaseDate>2013-02-28</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 04 Mar 2013 17:37:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[parameter "numOfValuesToChange" = "{number of keys whose(name of it starts with "Wakeup Schedule Weekly " OR name of it starts with "Wakeup Schedule Daily ") of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\ScheduledWakeups" of registry}"
+prefetch StandbyTool.exe sha1:0cc50ebd3864dba672b659faf4caec7472bc23fa size:1640448 http://software.bigfix.com/download/bes/util/BFStandbyTool-1.4.exe
+utility __Download\StandbyTool.exe
+waithidden __Download\StandbyTool.exe /D "{(preceding text of first "," of (it & ",") of concatenation "," of (names of keys whose(name of it starts with "Wakeup Schedule Weekly " OR name of it starts with "Wakeup Schedule Daily ") of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\ScheduledWakeups" of registry) as string)}"]]></ActionScript>
+      <SuccessCriteria Option="CustomRelevance">(parameter &quot;numOfValuesToChange&quot; of action as integer) &gt; (number of keys whose(name of it starts with &quot;Wakeup Schedule Weekly &quot; OR name of it starts with &quot;Wakeup Schedule Daily &quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\ScheduledWakeups&quot; of registry)</SuccessCriteria>
+    </DefaultAction>
+  </Task>
+</BES>

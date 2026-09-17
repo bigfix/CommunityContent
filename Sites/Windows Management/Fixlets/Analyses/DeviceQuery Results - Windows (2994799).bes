@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : DeviceQuery Results - Windows
+  ID       : 2994799
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-12T13:57:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>DeviceQuery Results - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P><A href="http://bigfix.me/fixlet/details/6060">http://bigfix.me/fixlet/details/6060</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>exists files whose(name of it as lowercase starts with &quot;info_driverquery_&quot; AND name of it as lowercase ends with &quot;.csv&quot;) of folders &quot;Logs&quot; of folders &quot;__Global&quot; of ( (if (exists properties whose(it as string starts with &quot;data folder of &quot; AND it as string contains &quot;client&quot;)) then (data folder of client) else NULL)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client) )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 12 May 2015 20:57:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Signed non-standard drivers" EvaluationPeriod="PT12H">unique values of lines whose(exists (it as trimmed string) whose(it does not end with &quot;,%22Manufacturer%22&quot; AND it does not contain &quot;,%22Microsoft&quot; AND it does not contain &quot;,%22(Standard &quot; AND it does not end with &quot;,%22N/A%22&quot;)) of files &quot;info_driverquery_signed.csv&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of ( (if (exists properties whose(it as string starts with &quot;data folder of &quot; AND it as string contains &quot;client&quot;)) then (data folder of client) else NULL)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client) )</Property>
+    <Property ID="2" Name="devices of (Signed non-standard drivers)" EvaluationPeriod="PT12H">unique values of ((if item 0 of it contains item 1 of it then item 0 of it else item 2 of it) of (tuple string item 0 of it, tuple string item 3 of it, tuple string item 3 of it &amp;&quot; &quot;&amp; tuple string item 0 of it) of concatenations &quot;&quot; of substrings separated by &quot;%22&quot; of concatenations &quot;, &quot; of substrings separated by &quot;,&quot; of it) of (it as trimmed string) of lines whose(exists (it as trimmed string) whose(it does not end with &quot;,%22Manufacturer%22&quot; AND it does not contain &quot;,%22Microsoft&quot; AND it does not contain &quot;,%22(Standard &quot; AND it does not end with &quot;,%22N/A%22&quot;)) of files &quot;info_driverquery_signed.csv&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of ( (if (exists properties whose(it as string starts with &quot;data folder of &quot; AND it as string contains &quot;client&quot;)) then (data folder of client) else NULL)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client) )</Property>
+    <Property ID="3" Name="Unsigned drivers with errors" EvaluationPeriod="PT12H">unique values of (it whose(tuple string item 6 of it != &quot;OK&quot; AND tuple string item 6 of it != &quot;Status&quot;) of concatenations &quot;&quot; of substrings separated by &quot;%22&quot; of concatenations &quot;%22, %22&quot; of (if it does not contain &quot;,&quot; then it else ( concatenations &quot;&quot; of substrings separated by &quot;,&quot; of it )) of (it as trimmed string) of substrings separated by &quot;%22,%22&quot; of it) of (it as trimmed string) of lines whose(exists (it as trimmed string) whose(it does not end with &quot;,%22Manufacturer%22&quot; AND it does not contain &quot;,%22Microsoft&quot; AND it does not contain &quot;,%22(Standard &quot; AND it does not end with &quot;,%22N/A%22&quot;)) of files &quot;info_driverquery_verbose.csv&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of ( (if (exists properties whose(it as string starts with &quot;data folder of &quot; AND it as string contains &quot;client&quot;)) then (data folder of client) else NULL)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client) )</Property>
+    <Property ID="4" Name="names of unsigned drivers" EvaluationPeriod="PT12H">unique values of ( (tuple string item 1 of it; tuple string item 2 of it) of  concatenations &quot;&quot; of substrings separated by &quot;%22&quot; of concatenations &quot;%22, %22&quot; of (if it does not contain &quot;,&quot; then it else ( concatenations &quot;&quot; of substrings separated by &quot;,&quot; of it )) of (it as trimmed string) of substrings separated by &quot;%22,%22&quot; of it) of (it as trimmed string) of lines whose(exists (it as trimmed string) whose(it does not end with &quot;,%22Manufacturer%22&quot; AND it does not contain &quot;,%22Microsoft&quot; AND it does not contain &quot;,%22(Standard &quot; AND it does not end with &quot;,%22N/A%22&quot;)) of files &quot;info_driverquery_verbose.csv&quot; of folders &quot;Logs&quot; of folders &quot;__Global&quot; of ( (if (exists properties whose(it as string starts with &quot;data folder of &quot; AND it as string contains &quot;client&quot;)) then (data folder of client) else NULL)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client) )</Property>
+  </Analysis>
+</BES>

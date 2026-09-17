@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Invoke - Clear TPM using saved Owner Authorization - Windows
+  ID       : 24114
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-22T05:03:14
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Invoke - Clear TPM using saved Owner Authorization - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(boolean value of selects &quot;IsActivated_InitialValue from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;) and (boolean value of selects &quot;IsEnabled_InitialValue from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;) and (boolean value of selects &quot;IsOwned_InitialValue from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;)</Relevance>
+    <Relevance>exists selects &quot;* from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot; /* Require the TPM Exists on the System */</Relevance>
+    <Relevance>file &quot;TPMOwnerAuthorization.txt&quot; of Folder &quot;Bitlocker&quot; of folder &quot;__Global&quot; of data folder of client</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-12-17</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+parameter &quot;Storage&quot;=&quot;{pathname of folder &quot;__Global&quot; of data folder of client}\Bitlocker&quot;
+
+parameter &quot;OwnerAuth&quot;=&quot;{line 0 of file &quot;TPMOwnerAuthorization.txt&quot; of Folder &quot;Bitlocker&quot; of folder &quot;__Global&quot; of data folder of client}&quot;
+
+createfile until _end_
+param (
+	$OwnerAuthorization
+)
+
+$TPM = Get-WmiObject -Class Win32_TPM -Namespace root\CIMV2\Security\MicrosoftTpm
+
+$TPM.Clear($OwnerAuthorization)
+
+_end_
+
+move __createfile clearTPM.ps1
+
+waithidden powershell.exe -executionpolicy bypass -file clearTPM.ps1 -OwnerAuthorization &quot;{parameter &quot;OwnerAuth&quot; of action}&quot;
+
+action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

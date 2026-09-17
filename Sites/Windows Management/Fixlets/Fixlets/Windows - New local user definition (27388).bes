@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Windows - New local user definition
+  ID       : 27388
+  Author   : kapax
+  Domain   : BESC
+  Imported : 2025-10-24T07:35:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Windows - New local user definition</Title>
+    <Description><![CDATA[<DIV id=fixletMessage2 class=FixletMessage>
+<P>There are times when your Windows&nbsp;systems are not joined to a domain and you need to define and use a common user on many systems (e.g.: an specific application user) that cannot be inherited by the Active Directory definition.</P>
+<P>Defining and managing a common local user at scale can be cumbersome or overwhelming.</P>
+<P>This&nbsp;task prompts for user/password combination to define a new windows local user and assigning it to a LocalGroup. Password travels encrypted and is not visible nor reusable.</P>
+<P>User is defined with an attribute to not Expire the given password.</P>
+<P>Error Conditions:</P>
+<DIV>
+<UL>
+<LI>If the user already exists the action will fail
+<LI>If a Password policy enforces the minimum password lenght on the target system, task execution will stop when the provided password is not compliant.</LI></UL></DIV>
+<P>If the specfied&nbsp;local group doesn't exists or the group is not specified, the command will NOT try to create a new group but will proceed successfully without assigning the user to the group.<BR>&nbsp;</P><script>
+    loaded = false;
+    var CODE_SITE_NAME = 'BES Support' ;
+    function loadScript (siteName, callback) {
+      loaded = false;
+      var relevanceQuery ='( value of it) of (mime fields of (bes fixlets whose ( name of it = "Parameterized Fixlet Library" and  name of site of it = \"' + siteName + '\" ))) whose (name of it = "vrt_utils.js")'
+      var code = EvaluateRelevance(relevanceQuery);
+      var head = document.getElementsByTagName("head")[0];
+      var script   = document.createElement("script");
+      script.type  = "text/javascript";
+      script.text = code;
+      head.appendChild(script);
+      callback();
+    }
+    function scriptLoaded(){
+      if (!loaded) {
+        if ( typeof FixletUtils !== 'undefined') {
+           loaded = true;
+           var relQuery = "(messages of it) of bes fixlets whose (name of it = \"Parameterized Fixlet Library\" and ((name of it ) of site of it = \"" + CODE_SITE_NAME +"\" ))";
+           var messages = EvaluateRelevance(relQuery);
+           var regex = /\s*<DIV id=globalizationMessageDiv  style="display:none;">([\x00-\x7F]+)\s*<\/Div>/i;
+           var matches = regex.exec(messages);
+           matches[1]=matches[1].replace(/<br>/gi,"");
+           eval(matches[1]);
+           FixletUtils.initFixletRender();
+        }
+    }
+}
+    loadScript(CODE_SITE_NAME, scriptLoaded);
+  </script>
+<DIV class=FixletProperty>Written by <A href="mailto:andrea.capasso@hcl-software.com">andrea.capasso@hcl-software.com</A> using documentation from <A href="https://bigfix-wiki.hcltechsw.com/wikis/home?lang=en-us#!/wiki/BigFix%20Wiki/page/Creating%20parameterized%20fixlets">BigFix Wiki </A>for <A href="https://bigfix-wiki.hcltechsw.com/wikis/form/anonymous/api/wiki/9800bed4-8101-452b-930b-807aed3eb996/page/7f83cd36-a84c-49b4-9564-2b4706d5fc73/attachment/4475deef-1e3e-4886-95af-a15b1babb022/media/Creating%20parameterized%20fixlets_att_Creating%20Parameterized%20Fixlets%20V1.0.doc">parametrized fixlets</A></DIV></DIV>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists true whose (if true then in proxy agent context else false) then false else true</Relevance>
+    <Category>Utility</Category>
+    <Source>andrea.capasso@hcl-software.com</Source>
+    <SourceReleaseDate>2025-10-24</SourceReleaseDate>
+    <MIMEField>
+      <Name>parametermetadatatag</Name>
+      <Value>
+{
+    &quot;NewUser&quot;: {
+        &quot;Name&quot;: &quot;NewUser&quot;,
+        &quot;Title&quot;: &quot;New User Name: &quot;,
+        &quot;Description&quot;: &quot;Enter the new account name: &quot;,
+        &quot;UIType&quot;: &quot;Textbox&quot;,
+        &quot;Default&quot;: &quot;NewUser&quot;,
+        &quot;Required&quot;: &quot;1&quot;
+    },
+    &quot;RDPW&quot;: {
+        &quot;Name&quot;: &quot;RDPW&quot;,
+        &quot;Title&quot;: &quot;User Password: &quot;,
+        &quot;Description&quot;: &quot;Define user&apos;s access Password: &quot;,
+        &quot;Encrypt&quot;: &quot;true&quot;,
+        &quot;UIType&quot;: &quot;Textbox&quot;,
+        &quot;SubUIType&quot;: &quot;Password&quot;,
+        &quot;Required&quot;: &quot;1&quot;
+    },
+    &quot;Groupname&quot;: {
+        &quot;Name&quot;: &quot;Groupname&quot;,
+        &quot;Title&quot;: &quot;Group Name: &quot;,
+        &quot;Description&quot;: &quot;Enter the group to assign the new account: &quot;,
+        &quot;UIType&quot;: &quot;Textbox&quot;,
+        &quot;Default&quot;: &quot;Guests&quot;,
+        &quot;Required&quot;: &quot;0&quot;
+    },
+    &quot;NewUserDescription&quot;: {
+        &quot;Name&quot;: &quot;NewUserDescription&quot;,
+        &quot;Title&quot;: &quot;New User Description: &quot;,
+        &quot;Description&quot;: &quot;Enter the group to assign the new account: &quot;,
+        &quot;UIType&quot;: &quot;Textbox&quot;,
+        &quot;Default&quot;: &quot;Local User created by BigFix Fixlet&quot;,
+        &quot;Required&quot;: &quot;0&quot;
+    }
+}
+			</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 24 Oct 2025 14:32:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to deploy this action with NET USER.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//action parameter query "NewUser" with description "Enter the new account:" with default "useraccount"
+//action parameter query "Groupname" with description "Enter the group to add the user to:" with default "Administrators"
+//action parameter query "NewUserDescription" with description "Enter the new account Description:" with default "User Description"
+continue if {not exists local user (parameter "NewUser")}
+continue if {minimum password length of security database <= length of (parameter "RDPW")}
+action log command
+waithidden net user "{parameter "NewUser"}" "{parameter "RDPW"}" /ADD /passwordreq:yes /expires:never /COMMENT:"{parameter "NewUserDescription"}"
+continue if {exists local user (parameter "NewUser")}
+action log all
+//Need to use Powershell 64 Bit
+action uses wow64 redirection false
+//waithidden %SystemRoot%\sysnative\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Set-LocalUser -Name '{parameter "NewUser"}' -PasswordNeverExpires:$true"
+waithidden powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Set-LocalUser -Name '{parameter "NewUser"}' -PasswordNeverExpires:$true"
+// waithidden wmic UserAccount where Name="{parameter "NewUser"}" set PasswordExpires=False
+waithidden net user "{parameter "NewUser"}" /Active:YES
+if {parameter "Groupname" as trimmed string is not "" and  exists local group (parameter "Groupname")}
+waithidden net localgroup "{parameter "Groupname"}"  "{parameter "NewUser"}" /ADD
+  // exit code 2 when the user is already there
+continue if {exit code of action as integer = 0 or exit code of action as integer = 2}
+endif]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

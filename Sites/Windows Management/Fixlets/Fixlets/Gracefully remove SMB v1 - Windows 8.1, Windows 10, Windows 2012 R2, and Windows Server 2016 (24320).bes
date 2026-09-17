@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Gracefully remove SMB v1 - Windows 8.1, Windows 10, Windows 2012 R2, and Windows Server 2016
+  ID       : 24320
+  Author   : brolly33
+  Domain   : BESC
+  Imported : 2017-05-15T14:20:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Gracefully remove SMB v1 - Windows 8.1, Windows 10, Windows 2012 R2, and Windows Server 2016</Title>
+    <Description><![CDATA[<SPAN itemprop="description">
+<P>To support WannaCry2.0 SMB workaround if you cannot apply MS17-010 patch.</P>
+<P><A href="https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012"><FONT color=#0066cc>https://support.microsoft.com/en-us/help/2696547/how-to-enable-and-disable-smbv1,-smbv2,-and-smbv3-in-windows-vista,-windows-server-2008,-windows-7,-windows-server-2008-r2,-windows-8,-and-windows-server-2012</FONT></A></P>
+<P>Recommended you apply MS17-010 using the published Fixlets.</P></SPAN>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>(name of it = &quot;Win2012R2&quot; or name of it = &quot;Win8.1&quot; or name of it = &quot;Win2016&quot; or name of it = &quot;Win10&quot;) of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\mrxsmb10&quot; of native registry</Relevance>
+    <Category>Workaround</Category>
+    <Source>brolly33</Source>
+    <SourceReleaseDate>2017-05-15</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 15 May 2017 21:03:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Using Powershell Template https://bigfix.me/fixlet/details/3860
+
+// Disable wow64 redirection on x64 OSes
+action uses wow64 redirection {not x64 of operating system}
+
+delete __createfile
+
+//    CREATEFILE
+createfile until END_OF_FILE
+
+Remove-WindowsFeature -Name FS-SMB1
+
+END_OF_FILE
+
+delete powershell.ps1
+move __createfile powershell.ps1
+
+waithidden { pathname of file ((it as string) of value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of native registry) } -ExecutionPolicy Bypass -File powershell.ps1
+action requires restart</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

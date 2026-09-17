@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Random Access Memory (RAM) Properties (Windows) - Extended
+  ID       : 2994574
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-09-17T11:43:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Random Access Memory (RAM) Properties (Windows) - Extended</Title>
+    <Description><![CDATA[<P>Decoding many of the results of this analysis requires reading the SMBIOS spec found here: <A href="http://dmtf.org/standards/smbios"><FONT color=#000080>http://dmtf.org/standards/smbios</FONT></A> </P>
+<P>If the "smbios" inspector works on other OSes other than Windows, then this analysis should work there too.</P>
+<P>This analysis can be found here: <A href="http://bigfix.me/analysis/details/2994573"><FONT color=#000080>http://bigfix.me/analysis/details/2994573</FONT></A></P>]]></Description>
+    <Relevance>exists smbios</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 17 Sep 2013 18:42:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Type" EvaluationPeriod="P2D">unique values of (values &quot;memory_type&quot; of structures &quot;memory_device&quot; whose(value &quot;speed&quot; of it as string != &quot;0&quot;) of smbios as string)</Property>
+    <Property ID="2" Name="Speed (Mhz)" EvaluationPeriod="P2D">unique values of (values &quot;speed&quot; whose(it as string != &quot;0&quot;) of structures &quot;memory_device&quot; of smbios as string)</Property>
+    <Property ID="3" Name="Manufacturer" EvaluationPeriod="P2D">unique values of (values &quot;manufacturer&quot; whose(it as string != &quot;[Empty]&quot; AND it as string as trimmed string does not start with &quot;FFFFFFFFFFFF&quot; AND it as string as trimmed string != &quot;&quot;) of structures &quot;memory_device&quot; of smbios as string)</Property>
+    <Property ID="4" Name="Form Factor" EvaluationPeriod="P2D">unique values of (values &quot;form_factor&quot; of structures &quot;memory_device&quot; of smbios as string)</Property>
+    <Property ID="5" Name="Part Number" EvaluationPeriod="P2D">unique values of (values &quot;part_number&quot; whose(it as string != &quot;[Empty]&quot; AND it as string as trimmed string != &quot;&quot; AND it as string as trimmed string does not start with &quot;FFFFFF&quot;) of structures &quot;memory_device&quot; of smbios as string)</Property>
+    <Property ID="6" Name="Asset Tag" EvaluationPeriod="P2D">unique values of (values &quot;asset_tag&quot; whose(it as string != &quot;[Empty]&quot; AND it as string as trimmed string != &quot;&quot; AND it as string as trimmed string does not start with &quot;FFFFFF&quot;) of structures &quot;memory_device&quot; of smbios as string)</Property>
+    <Property ID="7" Name="Serial Number" EvaluationPeriod="P2D">unique values of (values &quot;serial_number&quot; whose(it as string != &quot;[Empty]&quot; AND it as string as trimmed string != &quot;&quot; AND it as string as trimmed string != &quot;00000000&quot; AND it as string as trimmed string does not start with &quot;FFFFFF&quot;) of structures &quot;memory_device&quot; of smbios as string)</Property>
+  </Analysis>
+</BES>

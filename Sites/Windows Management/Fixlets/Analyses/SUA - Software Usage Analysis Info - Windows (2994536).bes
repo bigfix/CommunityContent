@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : SUA - Software Usage Analysis Info - Windows
+  ID       : 2994536
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-06-20T13:20:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SUA - Software Usage Analysis Info - Windows</Title>
+    <Description><![CDATA[<P>This Analysis is to gather data about clients who are reporting data to Software Use Analysis. The "Duration of Scan" property will likely report an error if the scan is in progress, and probably for other reasons I have not yet investigated. The "ScanLog-ModTime" property should be the time of the last scan, unless a scan is in progress. The "Time between Scan &amp; Upload" property is the difference of the mod time of the newest upload and the mod time of the scan log, which may be incorrect/negative if a scan is in progresss.</P>
+<P>NOTE: This is "BETA" code and is not fully tested or in full production. This is an attempt to gather helpful feedback on the status of SUA&nbsp;on the client. </P>
+<P>NOTE: This has only been tested on Windows, but should work on other OSes with minor adjustments.</P>
+<P><A href="http://bigfix.me/cdb/analysis/2994536">http://bigfix.me/cdb/analysis/2994536</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 20 Jun 2013 20:02:33 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="ScanLog-ModTime" EvaluationPeriod="PT6H">if(not(exists parent folder of regapp &quot;besclient.exe&quot; AND exists folder (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT&quot;) AND exists file (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT\scan.log&quot;) )) then ERROR &quot;no log&quot; else (modification time of file (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT\scan.log&quot;) as string)</Property>
+    <Property ID="2" Name="Results to Upload?" EvaluationPeriod="PT6H">if (exists value of settings &quot;ITSIT_Scanner_OutDir&quot; of client) then (exists file (computer id as string &amp; &quot;.xml&quot;) of folder (value of settings &quot;ITSIT_Scanner_OutDir&quot; of client)) else (if (name of operating system as lowercase starts with &quot;win&quot;) then (exists file (computer id as string &amp; &quot;.xml&quot;) of folder (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT&quot;)) else (exists file (computer id as string &amp; &quot;.xml&quot;) of folder ((pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;) &amp; &quot;/LMT/ITSIT&quot;)))</Property>
+    <Property ID="4" Name="Last Upload? (i think)" EvaluationPeriod="PT6H">maximum of modification times of files whose(name of it ends with &quot;.xml.bz2&quot;) of folder (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT&quot;)</Property>
+    <Property ID="5" Name="Duration of Scan?" EvaluationPeriod="PT6H">((following text of first &quot;;&quot; of it as string as time)-(preceding text of first &quot;;&quot; of it as string as time)) of concatenation &quot;;&quot; of (it as string) of following texts of firsts &quot;# &quot; of lines whose(it does not contain &quot;Started&quot; AND it does not contain &quot;Complete&quot; AND it contains &quot;:&quot; AND it contains &quot;# &quot;) of file &quot;scan.log&quot; of folder (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT&quot;)</Property>
+    <Property ID="7" Name="Time between Scan &amp; Upload" EvaluationPeriod="PT6H">(maximum of modification times of files whose(name of it ends with &quot;.xml.bz2&quot;) of folder (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT&quot;)) - (modification time of file (pathname of parent folder of regapp &quot;besclient.exe&quot; &amp; &quot;\LMT\ITSIT\scan.log&quot;))</Property>
+    <Property ID="9" Name="CIT Scan Count" EvaluationPeriod="PT6H">if (not exists setting &quot;CIT_Scan_Count&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;CIT_Scan_Count&quot; of client</Property>
+    <Property ID="10" Name="ITSIT Scan Count" EvaluationPeriod="PT6H">if (not exists setting &quot;ITSIT_Scan_Count&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;ITSIT_Scan_Count&quot; of client</Property>
+    <Property ID="11" Name="Version of CIT Scanner" EvaluationPeriod="PT6H">if(exists folder &quot;C:\Program Files\tivoli\cit\properties\version&quot; AND exists file whose(name of it ends with &quot;.cmptag&quot;) of folder &quot;C:\Program Files\tivoli\cit\properties\version&quot;) then ((it as text) of xpaths &quot;/Component/ComponentVersion&quot; of xml document of file whose(name of it ends with &quot;.cmptag&quot;) of folder &quot;C:\Program Files\tivoli\cit\properties\version&quot;) else ERROR &quot;No CIT Scanner&quot;</Property>
+    <Property ID="12" Name="Location of CIT Scanner" EvaluationPeriod="PT12H">if (exists folder &quot;LMT\CIT&quot; of parent folder of client AND exists file &quot;installCITlog.txt&quot; of folder &quot;LMT\CIT&quot; of parent folder of client) then (following text of first &quot;Default dest: &quot; of line whose(it starts with &quot;Default dest: &quot;) of file &quot;installCITlog.txt&quot; of folder &quot;LMT\CIT&quot; of parent folder of client) as trimmed string else ERROR &quot;No CIT Scanner&quot;</Property>
+    <Property ID="13" Name="ITSIT_Scanner_Version file" EvaluationPeriod="PT6H">version of file &quot;itsit.exe&quot; of folder &quot;LMT\ITSIT&quot; of parent folder of client</Property>
+    <Property ID="14" Name="ITSIT_Scanner_Version setting" EvaluationPeriod="PT6H">if (not exists setting &quot;ITSIT_Scanner_Version&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;ITSIT_Scanner_Version&quot; of client</Property>
+    <Property ID="15" Name="_BESClient_UsageManager_EnableAppUsageSummary" EvaluationPeriod="PT6H">if (not exists setting &quot;_BESClient_UsageManager_EnableAppUsageSummary&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;_BESClient_UsageManager_EnableAppUsageSummary&quot; of client</Property>
+    <Property ID="16" Name="_BESClient_UsageManager_EnableAppUsageSummaryApps" EvaluationPeriod="PT6H">if (not exists setting &quot;_BESClient_UsageManager_EnableAppUsageSummaryApps&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;_BESClient_UsageManager_EnableAppUsageSummaryApps&quot; of client</Property>
+    <Property ID="17" Name="ITSIT_Scanner_Debug" EvaluationPeriod="PT6H">if (not exists setting &quot;ITSIT_Scanner_Debug&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;ITSIT_Scanner_Debug&quot; of client</Property>
+    <Property ID="18" Name="ITSIT_Deny" EvaluationPeriod="PT6H">if (not exists setting &quot;ITSIT_Deny&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;ITSIT_Deny&quot; of client</Property>
+    <Property ID="19" Name="ITSIT_Scanner_OutDir" EvaluationPeriod="PT6H">if (not exists setting &quot;ITSIT_Scanner_OutDir&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;ITSIT_Scanner_OutDir&quot; of client</Property>
+    <Property ID="20" Name="CIT_Deny" EvaluationPeriod="PT6H">if (not exists setting &quot;CIT_Deny&quot; whose(exists value of it) of client) then ERROR &quot;not set&quot; else value of setting &quot;CIT_Deny&quot; of client</Property>
+    <Property ID="23" Name="CIT_BuildDate" EvaluationPeriod="PT6H">(following text of first &quot;CIT_BuildDate = &quot; of lines whose(it starts with &quot;CIT_BuildDate = &quot;) of file &quot;cit.ini&quot; of folder &quot;cit&quot; of windows folder) as trimmed string</Property>
+    <Property ID="24" Name="CIT_Exploiters" EvaluationPeriod="PT6H">(following text of first &quot;CIT_Exploiters = &quot; of lines whose(it starts with &quot;CIT_Exploiters = &quot;) of file &quot;cit.ini&quot; of folder &quot;cit&quot; of windows folder) as trimmed string</Property>
+    <Property ID="25" Name="CIT_ConfigRootDirectory" EvaluationPeriod="PT6H">(following text of first &quot;CIT_ConfigRootDirectory = &quot; of lines whose(it starts with &quot;CIT_ConfigRootDirectory = &quot;) of file &quot;cit.ini&quot; of folder &quot;cit&quot; of windows folder) as trimmed string</Property>
+  </Analysis>
+</BES>

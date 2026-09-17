@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : _template XML Editing Template Powershell
+  ID       : 25582
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2018-11-12T10:49:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>_template XML Editing Template Powershell</Title>
+    <Description><![CDATA[<P>Sample template fixlet to modify an XML file.&nbsp; </P>
+<P>This Fixlet demonstrates opening an XML file with PowerShell, and replacing&nbsp;a value in the XML content.</P>
+<P>Originally written to allow removing an NVidia driver without rebooting.&nbsp;&nbsp;NVidia, in their&nbsp;admin-unfriendliness, decided that uninstalling a driver should immediately trigger a reboot without providing any options to delay the reboot or to warn the user that a reboot is going to occur.&nbsp; There are no command-line parameters available to modify this behavior, but we can skip the reboot by modifying a value in their nv.xml configuration file.&nbsp;</P>
+<P>This fixlet, being an example of the PowerShell usage, generates on-the-fly an XML file similar to NVidia's format, and then uses PowerShell to replace one of the attribute values in that file.</P>]]></Description>
+    <Relevance>windows of operating system AND (if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2018-08-23</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 12 Nov 2018 18:48:14 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
+
+// build the powershell script that we will use to modify an XML file
+createfile until EOF_EOF_EOF_EOF
+<#
+
+.Synopsis
+This is a Powershell script to search an XML file for a given node, and replace an attribute value on any matching node(s)
+
+.DESCRIPTION
+$MyInvocation.ScriptName -file <filename.xml> -xpath <xpath_to_search> -name <attribute name to modify> -value <value to set> [-out <filename-out.xml>] [-showdetail]
+
+.EXAMPLE
+powershell -ExecutionPolicy Bypass -File $MyInvocation.ScriptName -file "C:\temp\nv.xml" -xpath "//*[@uninstallReboot='true']" -name uninstallReboot -value false -out "c:\temp\nv-output.xml" -showdetail
+
+.NOTES
+Originally written to change brain-dead NVidia driver uninstallers to not force a reboot without warning on uninstall.  The NVidia XML config files needed to be updated to remove the forced reboot.
+
+
+
+#>
+
+
+
+param (
+	[Parameter(Mandatory=$true)][string]$file,
+	[string]$out=$file,
+	[Parameter(Mandatory=$true)][string]$xpath,
+	[Parameter(Mandatory=$true)][string]$name,
+	[Parameter(Mandatory=$true)][string]$value,
+	[switch]$showdetail=$false
+
+)
+if ($showdetail) {{
+	write-host "Parameters:"
+	write-host "file: $file"
+	write-host "Selection Search: $select"
+	write-host "Node to change: $name"
+	write-host "New value to set: $value"
+	write-host "Output File: $out"
+}
+ #$path=$file
+ [xml]$xml=(Get-Content $file)
+ [System.Xml.XmlElement] $root = $xml.get_DocumentElement()
+ $nodes=$root.SelectNodes($xpath)
+ foreach ($node in $nodes) {{
+    if ($showdetail) {{ write-host "Found node  " $node.OuterXml }
+ 	$node.$name=$value
+	}
+ if ($showdetail) {{ write-host "Saving output to " $out }
+ $xml.save($out)
+ EOF_EOF_EOF_EOF
+
+ delete updatexml.ps1
+ move __createfile updatexml.ps1
+
+
+// Create a sample XML file to update, will change "uninstallReboot" to "false"
+delete __createfile
+createfile until EOF_EOF_EOF_EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<nvi title="Graphics Driver" disposition="critical" versionText="391.74" timestamp="2018-06-05T02:19:48.000" name="Display.Driver" version="391.74">
+<phases>
+	<device deviceProgress="0" fixedProgress="0" phase="installAllDrivers" action="uninstall" when="uninstall" uninstallReboot="true">
+      <inf name="C:\Program Files\NVIDIA Corporation\Installer2\Display.Driver.{{2F1420AC-B99E-4088-ACE3-ACD203A2B05E}\*.inf" />
+      <hwid name="PCI\VEN_10DE" />
+    </device>
+</phases>
+</nvi>
+EOF_EOF_EOF_EOF
+delete sample.xml
+move __createfile sample.xml
+
+// Now, use powershell to modify an attribute within the sample file and output it to a new XML
+waithidden powershell.exe -ExecutionPolicy Bypass -File updatexml.ps1 -file sample.xml -xpath "//*[@uninstallReboot='true']" -name uninstallReboot -value false -out sample-output.xml]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

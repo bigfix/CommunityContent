@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Workaround Undo - Disable the MSDT URL Protocol
+  ID       : 26936
+  Author   : CharlesC
+  Domain   : BESC
+  Imported : 2022-05-31T20:54:37
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Workaround Undo - Disable the MSDT URL Protocol</Title>
+    <Description>Undo workaroud provided by Microsoft for CVE-2022-30190. </Description>
+    <Relevance><![CDATA[(version of client >= "6.0.0.0") AND (exists true whose (if true then (exists (operating system) whose (it as string as lowercase contains "win" as lowercase)) else false))]]></Relevance>
+    <Relevance>exists file &quot;C:\ms-msdt_bak&quot;</Relevance>
+    <Category>Workaround</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2022-06-01</SourceReleaseDate>
+    <CVENames>CVE-2022-30190</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 01 Jun 2022 03:14:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">dos reg import C:\ms-msdt_bak
+dos del C:\ms-msdt_bak</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

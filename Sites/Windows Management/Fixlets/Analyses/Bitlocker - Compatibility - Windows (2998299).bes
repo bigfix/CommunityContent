@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Bitlocker - Compatibility - Windows
+  ID       : 2998299
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:02:41
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Bitlocker - Compatibility - Windows</Title>
+    <Description><![CDATA[<P>Provides information on whether or not the OS is compatible with Bitlocker and whether the WMI node required for Bitlocker exists on the system. </P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Bitlocker">https://github.com/strawgate/C3-Protect/wiki/Bitlocker</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Bitlocker - OS Compatible - Windows" EvaluationPeriod="P1D">(windows of operating system) AND (version of operating system &gt;= &quot;6.0&quot;) AND (( exists product info string whose(it ends with &quot;Enterprise&quot; OR it starts with &quot;Enterprise&quot; OR it ends with &quot;Ultimate&quot; OR it ends with &quot;Server Datacenter&quot;) of operating system ) OR ( (version of operating system &gt;= &quot;6.2&quot;) AND (exists product info string whose(it ends with &quot;Business&quot;) of operating system) ))</Property>
+    <Property ID="2" Name="Bitlocker - Available - Windows" EvaluationPeriod="P1D">if (exists WMI &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) then true else false</Property>
+  </Analysis>
+</BES>

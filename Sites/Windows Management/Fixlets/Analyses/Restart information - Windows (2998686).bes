@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Restart information - Windows
+  ID       : 2998686
+  Author   : andrea.proietto
+  Domain   : BESC
+  Imported : 2023-05-25T04:10:21
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Restart information - Windows</Title>
+    <Description>This analysis shows what could cause a &quot;Pending Restart&quot; status on Windows endpoints</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>in agent context</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 25 May 2023 11:07:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Restart needed">pending restart</Property>
+    <Property ID="2" Name="BigFix key">if exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\BigFix\EnterpriseClient\BESPendingRestart\BESPendingRestart&quot; of native registry then names of values of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\BigFix\EnterpriseClient\BESPendingRestart\BESPendingRestart&quot; of native registry else &quot;No key found&quot;</Property>
+    <Property ID="3" Name="PendingFileRenameOperations">if exists value whose (name of it is &quot;PendingFileRenameOperations&quot;) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager&quot; of native registry then substrings separated by &quot;%00&quot; of (value whose (name of it is &quot;PendingFileRenameOperations&quot;) of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager&quot; of native registry as string) else &quot;No value found&quot;</Property>
+    <Property ID="4" Name="RebootRequired">if exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot; of native registry then (name of it &amp; &quot;|&quot; &amp; it as string) of values of key &quot;Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired&quot; of native registry else &quot;No key found&quot;</Property>
+    <Property ID="5" Name="RebootPending">if exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending&quot; of native registry then (name of it &amp; &quot;|&quot; &amp; it as string) of values of key &quot;Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending&quot; of native registry else &quot;No key found&quot;</Property>
+    <Property ID="6" Name="UpdateExeVolatile">if exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates&quot; of native registry then if exists value whose (name of it is &quot;UpdateExeVolatile&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates&quot; of native registry then value whose (name of it is &quot;UpdateExeVolatile&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Updates&quot; of native registry as string else &quot;No value found&quot; else &quot;Key does not exist&quot;</Property>
+    <Property ID="7" Name="Exclusions">values of settings &quot;_BESClient_ActionManager_PendingRestartExclusions&quot; of client</Property>
+  </Analysis>
+</BES>

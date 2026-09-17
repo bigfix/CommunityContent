@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : TPM - Windows
+  ID       : 2998504
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-12-21T09:25:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>TPM - Windows</Title>
+    <Description><![CDATA[This analysis provides information on the current state of the Trusted Platform Module
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="TPM - Enabled in OS - Windows" EvaluationPeriod="P1D">if (exists wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; and exists selects &quot;* from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot;) then (if (boolean value of select &quot;IsEnabled_InitialValue from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; = true) then &quot;Enabled&quot; ELSE &quot;Disabled&quot;) else ERROR &quot;TPM not visible to OS&quot;</Property>
+    <Property ID="2" Name="TPM - Activated in OS - Windows" EvaluationPeriod="P1D">if (exists wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; and exists selects &quot;* from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot;) then (if (boolean value of select &quot;IsActivated_InitialValue from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; = true) then &quot;Activated&quot; ELSE &quot;Not Activated&quot;) else ERROR &quot;TPM not visible to OS&quot;</Property>
+    <Property ID="3" Name="TPM - Owned in OS - Windows" EvaluationPeriod="P1D">if (exists wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; and exists selects &quot;* from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot;) then (if (boolean value of select &quot;IsActivated_InitialValue from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot; = true) then &quot;Owned&quot; ELSE &quot;Not Owned&quot;) else ERROR &quot;TPM not visible to OS&quot;</Property>
+    <Property ID="4" Name="TPM - Visible to OS - Windows" EvaluationPeriod="P1D">exists selects &quot;* from Win32_Tpm&quot; of wmi &quot;root\CIMV2\Security\MicrosoftTpm&quot;</Property>
+    <Property ID="5" Name="TPM - Version - Windows" EvaluationPeriod="P1D">tuple string item 0 of string value of selects &quot;SpecVersion from Win32_Tpm&quot; of wmis &quot;root\CIMv2\Security\MicrosoftTpm&quot;</Property>
+  </Analysis>
+</BES>

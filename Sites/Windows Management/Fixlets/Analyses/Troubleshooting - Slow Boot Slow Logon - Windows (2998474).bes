@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Troubleshooting - Slow Boot Slow Logon - Windows
+  ID       : 2998474
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-26T07:41:35
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Troubleshooting - Slow Boot Slow Logon - Windows</Title>
+    <Description><![CDATA[<P>Provides information useful for troubleshooting slow boots and slow logons.</P>
+<P>The WMI Analysis may also prove useful: WMI - Windows</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="4" Name="Troubleshooting - Slow Logins - Windows" EvaluationPeriod="P1D">(time generated of it, description of it) of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 500;item 1 of it))) of (record count of it, oldest record number of it)) whose ((event id of it = 6006 or event id of it = 2147489654) and description of it contains &quot;Logon&quot;) of event log &quot;Application&quot;  </Property>
+    <Property ID="5" Name="Troubleshooting - Last Performance Diagnostic - Windows" EvaluationPeriod="P1D">(concatenations &quot;&quot; of substrings separated by &quot;%09&quot; of (it as trimmed string)) of substrings separated by &quot;%0d%0a&quot; of description of record (oldest record number of it + record count of it - 1) of event log &quot;Microsoft-Windows-Diagnostics-Performance/Operational&quot;</Property>
+  </Analysis>
+</BES>

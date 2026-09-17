@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Remote Assistance - Session Logs - Windows
+  ID       : 2998525
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-24T14:01:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Remote Assistance - Session Logs - Windows</Title>
+    <Description><![CDATA[<P>Pulls data from the Remote Assistance session logs in each user's documents folder.</P>
+<P>For&nbsp;ALL&nbsp;incoming connections that are established&nbsp;the following is collected:</P>
+<UL>
+<LI>Full name of originating user
+<LI>IP address of originating request
+<LI>Date of request
+<LI>Time of request</LI></UL>
+<P>For incoming connections where <STRONG>control is granted</STRONG>, the following is collected:</P>
+<UL>
+<LI>Full name of originating user
+<LI>IP address of originating request
+<LI>Date of request
+<LI>Time of request</LI></UL>
+<P>For all sessions, the following is collected:</P>
+<UL>
+<LI>Full name of originating user
+<LI>Date of session start
+<LI>Time of session start
+<LI>Date of session end
+<LI>Time of session end</LI></UL>
+<P>For general information or to report issues with C3 Remote Control content please visit GitHub here: <A href="https://github.com/strawgate/C3-Remote-Control">https://github.com/strawgate/C3-Remote-Control</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[exists (folders "Remote Assistance Logs" of folders "Documents" of folders of folder (name of drive of system folder & "\Users"))]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="3" Name="Remote Assistance - Incoming Connection Established - Windows" EvaluationPeriod="PT6H">(xpath &quot;CONNECTION_ESTABLISHED&quot; of it as text, xpath &quot;INCOMING_IP_ADDRESS&quot; of it as text, node value of attribute &quot;DATE&quot; of xpath &quot;CONNECTION_ESTABLISHED&quot; of it as string, node value of attribute &quot;TIME&quot; of xpath &quot;CONNECTION_ESTABLISHED&quot; of it as string) of  xpaths &quot;/SESSION&quot; of xml documents whose (exists xpath &quot;/SESSION/INVITATION_OPENED&quot; of it) of files of folders &quot;Remote Assistance Logs&quot; of folders &quot;Documents&quot; of folders of folder (name of drive of system folder &amp; &quot;\Users&quot;)</Property>
+    <Property ID="4" Name="Remote Assistance - Incoming Control Granted - Windows" EvaluationPeriod="PT6H">(xpath &quot;CONNECTION_ESTABLISHED&quot; of it as text | &quot;none&quot;, xpath &quot;INCOMING_IP_ADDRESS&quot; of it as text | &quot;none&quot;, node value of attribute &quot;DATE&quot; of xpath &quot;EXPERT_CONTROL_STARTED&quot; of it as string | &quot;none&quot;, node value of attribute &quot;TIME&quot; of xpath &quot;EXPERT_CONTROL_STARTED&quot; of it as string | &quot;none&quot;) of  xpaths &quot;/SESSION&quot; of xml documents whose (exists xpath &quot;/SESSION/EXPERT_CONTROL_STARTED&quot; of it and exists xpath &quot;/SESSION/INVITATION_OPENED&quot; of it) of files of folders &quot;Remote Assistance Logs&quot; of folders &quot;Documents&quot; of folders of folder (name of drive of system folder &amp; &quot;\Users&quot;)</Property>
+    <Property ID="5" Name="Remote Assistance - Incoming Session Times - Windows" EvaluationPeriod="PT6H">(xpath &quot;CONNECTION_ESTABLISHED&quot; of it as text | &quot;none&quot;, attribute &quot;DATE&quot; of xpath &quot;CONNECTION_ESTABLISHED&quot; of it as text | &quot;none&quot;, attribute &quot;TIME&quot; of xpath &quot;CONNECTION_ESTABLISHED&quot; of it as text | &quot;none&quot;, attribute &quot;DATE&quot; of xpath &quot;CONNECTION_ENDED&quot; of it as text | &quot;none&quot;, attribute &quot;TIME&quot; of xpath &quot;CONNECTION_ENDED&quot; of it as text | &quot;none&quot;) of  xpaths &quot;/SESSION&quot; of xml documents whose (exists xpath &quot;/SESSION/INVITATION_OPENED&quot; of it) of files of folders &quot;Remote Assistance Logs&quot; of folders &quot;Documents&quot; of folders of folder (name of drive of system folder &amp; &quot;\Users&quot;)</Property>
+  </Analysis>
+</BES>

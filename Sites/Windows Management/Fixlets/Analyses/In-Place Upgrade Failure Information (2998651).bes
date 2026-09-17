@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : In-Place Upgrade Failure Information
+  ID       : 2998651
+  Author   : 6906AC99-CFAD-4BC2-8B69-999D8150433C
+  Domain   : BESC
+  Imported : 2021-10-22T08:10:24
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>In-Place Upgrade Failure Information</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>exist files &quot;setupdiagresults.xml&quot; of folder &quot;Windows\Logs\SetupDiag&quot; of drive of system folder</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 22 Oct 2021 15:07:26 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Failure Details">preceding texts of lasts &quot;&lt;/FailureDetails&gt;&quot; of following texts of firsts &quot;&lt;FailureDetails&gt;&quot; of lines containing &quot;&lt;FailureDetails&gt;&quot; of files &quot;setupdiagresults.xml&quot; of folder &quot;Windows\Logs\SetupDiag&quot; of drive of system folder</Property>
+    <Property ID="2" Name="Failure Data">preceding texts of lasts &quot;&lt;/FailureData&gt;&quot; of following texts of firsts &quot;&lt;FailureData&gt;&quot; of lines containing &quot;&lt;FailureData&gt;&quot; of files &quot;setupdiagresults.xml&quot; of folder &quot;Windows\Logs\SetupDiag&quot; of drive of system folder</Property>
+    <Property ID="3" Name="Remediation">preceding texts of lasts &quot;&lt;/Remediation&gt;&quot; of following texts of firsts &quot;&lt;Remediation&gt;&quot; of lines containing &quot;&lt;Remediation&gt;&quot; of files &quot;setupdiagresults.xml&quot; of folder &quot;Windows\Logs\SetupDiag&quot; of drive of system folder</Property>
+  </Analysis>
+</BES>

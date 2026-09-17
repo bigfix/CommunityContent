@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Current Memory Configuration
+  ID       : 2995862
+  Author   : Tutankh
+  Domain   : BESC
+  Imported : 2016-03-14T07:36:18
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Current Memory Configuration</Title>
+    <Description>Returns the current configuration of Physical Memory installed. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists wmi</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 14 Mar 2016 14:31:57 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Memory Configuration" EvaluationPeriod="P1D">((((string value of it as integer)/(1024*1024)) as string) &amp; &quot; MB&quot;) of (selects &quot;Capacity from Win32_PhysicalMemory where MemoryType!=&apos;11&apos;&quot; of wmi)</Property>
+  </Analysis>
+</BES>

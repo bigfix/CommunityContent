@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Cleanup Component-Based Servicing (CBS) Logs - Too Large - system may run out of hard drive space
+  ID       : 11930
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2016-04-08T11:38:20
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Cleanup Component-Based Servicing (CBS) Logs - Too Large - system may run out of hard drive space</Title>
+    <Description><![CDATA[<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">We've had repeated instances where a Windows 7 x64 client runs out of hard drive space, and found that C:\Windows\TEMP is being consumed with hundreds of files with names following the pattern "cab_XXXX_X", generally 100 MB each, and these files are constantly generated until the system runs out of space. &nbsp;Upon removing the files &amp; rebooting, the files start being generated again.<BR></P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px"><BR class=k-br></P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">This appears to be&nbsp;caused by large Component-Based Servicing logs. &nbsp;These are stored at C:\Windows\Logs\CBS. &nbsp;The current log file is named "cbs.log". &nbsp;When "cbs.log" reaches a certain size, a cleanup process renames the log to "CbsPersist_YYYYMMDDHHMMSS.log" and then attempts to compress it into a .cab file.<BR class=k-br></P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px"><BR class=k-br></P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">However, when the cbs.log reaches a size of 2 GB before that cleanup process compresses it, the file is to large to be handled by the makecab.exe utility. &nbsp;The log file is renamed to CbsPersist_date_time.log, but when the makecab process attempts to compress it the process fails (but only after consuming some 100 MB under \Windows\Temp). &nbsp;After this, the cleanup process runs repeatedly (approx every 20 minutes in my experience). &nbsp;The process fails every time, and also consumes a new ~ 100 MB in \Windows\Temp before dying. &nbsp;This is repeated until the system runs out of drive space.</P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">&nbsp;</P>
+<P style="MARGIN-BOTTOM: 0px; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(0,33,99); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 15px 'segoe ui', arial, sans-serif; PADDING-LEFT: 0px; WIDOWS: 1; LETTER-SPACING: normal; PADDING-RIGHT: 0px; BACKGROUND-COLOR: rgb(255,255,255); TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px">This Action will remove the log files that are too large to be handled by makecab.exe.&nbsp; Any \Windows\Logs\CBS\CbsPersist_XXX.log file larger than 1,000 MB is removed, as well as any cab_ files from C:\Windows\Temp.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance><![CDATA[version of operating system >= version "6"]]></Relevance>
+    <Relevance><![CDATA[exists files whose (name of it as lowercase starts with "cbspersist" and name of it as lowercase ends with ".log" and size of it / 1024 / 1024 > 1000) of folders "Logs\CBS" of windows folder]]></Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-08-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 27 Aug 2015 16:21:44 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to clean up CBS logs.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection false
+delete __appendfile
+appendfile net stop TrustedInstaller
+appendfile {concatenation "%0d%0a" of ("del /q %22" & it & "%22") of pathnames of files whose (name of it as lowercase starts with "cbspersist" and name of it as lowercase ends with ".log" and size of it / 1024 / 1024 > 1000) of folders "Logs\CBS" of windows folder}
+appendfile {concatenation "%0d%0a" of ("del /q %22" & it & "%22") of pathnames of files whose (name of it as lowercase starts with "cab_" ) of folders "TEMP" of windows folder}
+appendfile net start TrustedInstaller
+
+delete DeleteLog.cmd
+move __appendfile DeleteLog.cmd
+waithidden cmd /c DeleteLog.cmd > {pathname of windows folder}\TEMP\cbscleanup.txt 2>&1
+
+
+pause while {exists files whose (name of it as lowercase starts with "cbspersist" and name of it as lowercase ends with ".log" and size of it / 1024 / 1024 > 2100) of folders "Logs\CBS" of windows folder AND  (now - active start time of action) < (2 * minute)}
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

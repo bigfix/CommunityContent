@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Remove XPS Viewer
+  ID       : 648
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-30T14:53:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Remove XPS Viewer</Title>
+    <Description></Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance><![CDATA[exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" whose (value "PowerShellVersion" of it as string as version >= "2.0") of registry]]></Relevance>
+    <Category>Common Tasks</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2011-04-21</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 30 Oct 2012 19:50:51 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to deploy this action. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
+//============================================================================
+//PowerShell Script...
+//
+//1. Save old ExecutionPolicy value
+parameter &quot;PolicyExisted&quot;=&quot;{exists value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of (if exists x64 registry then x64 registry else registry)}&quot;
+parameter &quot;oldExecutionPolicy&quot;=&quot;{if (parameter &quot;PolicyExisted&quot; as boolean) then (value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of (if exists x64 registry then x64 registry else registry) as string) else &quot;&quot;}&quot;
+//2. set to ExecutionPolicy=Unrestricted  and Pull PowerShell exe from registry... if 64bit then pull PowerShell x64
+if {x64 of operating system}
+	regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;Unrestricted&quot;
+	parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+else
+	//we need to determine what the current execution policy is so we can put it back when we&apos;re done.
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;Unrestricted&quot;
+	parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of registry}&quot;
+endif
+//3. Create PowerShell script and save to a ps1 file
+delete __appendfile
+delete script.ps1
+createfile until END
+Import-Module c:\windows\system32\WindowsPowerShell\v1.0\Modules\ServerManager
+New-Item c:\temp\new_file.txt -type file
+#Remove-XPS Viewer - no reboot required
+$XPS = Get-WindowsFeature XPS-Viewer
+if ($XPS.Installed -eq &quot;True&quot;)
+{
+	Write-Host &quot;&quot;
+	Write-Host &quot;Removing XPS Viewer&quot;
+	Remove-WindowsFeature XPS-Viewer
+	Add-Content c:\temp\new_file.txt &quot;XPS Viewer Uninstalled&quot;
+}
+else
+{
+	Add-Content c:\temp\new_file.txt &quot;XPS Viewer Not Installed&quot;
+}
+END
+move __createfile script.ps1
+//4. Execute PowerShell with ps1 script file
+action uses wow64 redirection false
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -file &quot;{pathname of client folder of current site}\script.ps1&quot;
+action uses wow64 redirection {x64 of operating system}
+//5. Restore ExecutionPolicy back
+if {x64 of operating system}
+	if {parameter &quot;PolicyExisted&quot; as boolean}
+		regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;{parameter &quot;oldExecutionPolicy&quot;}&quot;
+	else
+		regdelete64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;
+	endif
+else
+	if {parameter &quot;PolicyExisted&quot; as boolean}
+		regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;{parameter &quot;oldExecutionPolicy&quot;}&quot;
+	else
+		regdelete &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;
+	endif
+endif
+//============================================================================</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install new wifi certificate - Windows
+  ID       : 6247
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-10-12T13:35:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install new wifi certificate - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "5.1"]]></Relevance>
+    <Relevance>( exists node values of selects &quot;/WLANProfile/name/text()&quot; of xml documents of files whose(name of it as lowercase ends with &quot;.xml&quot;) of folders of folders &quot;C:\ProgramData\Microsoft\Wlansvc\Profiles\Interfaces&quot; )     OR  ( exists wifis of adapters of networks )</Relevance>
+    <Source>Internal</Source>
+    <SourceID>jgstew</SourceID>
+    <SourceReleaseDate>2015-10-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 12 Oct 2015 20:29:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// need prefetch statement here
+
+extract __Download\cert.cat.tmp
+
+waithidden cmd.exe /C { if (x64 of operating system) then ( (pathname of windows folder) & "\sysnative" ) else (pathname of system folder) }\certutil -f -addstore ???? "{ (pathname of file whose(name of it as lowercase ends with ".cat") of folder "__Download" of client folder of current site) }"
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

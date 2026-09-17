@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Custom Patch:Uninstall KB3004394 to clear relevance for KB3024777
+  ID       : 3979
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2015-02-12T12:21:48
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Custom Patch:Uninstall KB3004394 to clear relevance for KB3024777</Title>
+    <Description><![CDATA[<P>Microsoft's patch KB3024777 is to remove the broken patch KB3004394.</P>
+<P>But 3024777 itself fails to install in&nbsp;many instances.&nbsp; </P>
+<P>This&nbsp;Fixlet is to manually uninstall KB3004394 so 3024777 stops appearing Relevant. </P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance>version of operating system = &quot;6.1&quot; as version</Relevance>
+    <Relevance>/* registry says kb3004394 is installed */ exists  keys whose ((following text of last &quot;_&quot; of preceding text of first &quot;~&quot; of it = &quot;kb3004394&quot;) of (name of it as lowercase) AND (exists value &quot;CurrentState&quot; whose ((it = 96 or it = 112 or it = 6 or it = 7) of (it as integer)) of it)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages&quot;  of native registry</Relevance>
+    <Relevance>/* cab files for kb3004394 are present */ exists (folders (following text of first &quot;\\?\&quot; of preceding text of last &quot;\inst&quot; of it)) whose (exists files whose (name of it as lowercase ends with &quot;.cab&quot;) of it) of (values &quot;InstallLocation&quot; of keys whose ((following text of last &quot;_&quot; of preceding text of first &quot;~&quot; of it = &quot;kb3004394&quot;) of (name of it as lowercase) AND (exists value &quot;CurrentState&quot; whose ((it = 96 or it = 112 or it = 6 or it = 7) of (it as integer)) of it)) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages&quot;  of native registry as string)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2015-02-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 12 Feb 2015 19:20:01 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Enter your action script here
+action uses wow64 redirection false
+
+delete __appendfile
+appendfile {concatenation "%0d%0a" of ("dism.exe /online /remove-package /packagepath:%22" & it & "%22 /norestart") of pathnames of files whose (name of it ends with ".cab") of folders (unique values of (following text of first "\\?\" of preceding text of last "\inst" of it) of (values "InstallLocation" of keys whose ((following text of last "_" of preceding text of first "~" of it = "kb3004394") of (name of it as lowercase) AND (exists value "CurrentState" whose ((it = 96 or it = 112 or it = 6 or it = 7) of (it as integer)) of it)) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages"  of native registry as string))}
+delete Remove3004394.cmd
+move __appendfile RemoveKB3004394.cmd
+waithidden cmd /c RemoveKB3004394.cmd
+action requires restart "RemoveKB3004394"
+
+]]></ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

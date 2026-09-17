@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - Pagefile has non-default configuration - Windows
+  ID       : 20537
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-10T07:14:13
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - Pagefile has non-default configuration - Windows</Title>
+    <Description><![CDATA[<P>The system pagefile has a non-default configuration.</P>
+<P>This is normally done as a troubleshooting step but is often not undone after troubleshooting.</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>(value &quot;PagingFiles&quot; of key &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management&quot; of native registry as string) != &quot;?:\pagefile.sys%00%00&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-21</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

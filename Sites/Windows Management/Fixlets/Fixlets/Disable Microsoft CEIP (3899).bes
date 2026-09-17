@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Disable Microsoft CEIP
+  ID       : 3899
+  Author   : gavinmclean
+  Domain   : BESC
+  Imported : 2014-10-28T23:00:00
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Disable Microsoft CEIP</Title>
+    <Description>This fixlet disables the Microsoft Customer Experience Program </Description>
+    <Relevance>name of operating system starts with &quot;Win&quot;</Relevance>
+    <Relevance>(if exists property &quot;in proxy agent context&quot; then (not in proxy agent context) else true) AND (if exists property &quot;android&quot; of type &quot;operating system&quot; then (not android of operating system) else true)</Relevance>
+    <Relevance>not exists (key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\SQMClient\Windows&quot; of native registry) whose (value &quot;CEIPEnable&quot; of it is 0) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Application Experience\AitAgent&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Application Experience\ProgramDataUpdater&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Autochk\Proxy&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\Consolidator&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerCeipAssistant&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleCollector&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleUsageCollector&quot; and enabled of it) OR exists scheduled task whose (path of it is &quot;\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector&quot; and enabled of it)</Relevance>
+    <Category>Configuration</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2014-10-29</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 29 Oct 2014 05:59:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Disable CEIP by registry
+if {x64 of operating system}
+	regset64 &quot;[HKEY_LOCAL_MACHINE\Software\Microsoft\SQMClient\Windows]&quot; &quot;CEIPEnable&quot;=dword:0
+else
+	regset &quot;[HKEY_LOCAL_MACHINE\Software\Microsoft\SQMClient\Windows]&quot; &quot;CEIPEnable&quot;=dword:0
+endif
+
+// Disable associated scheduled tasks
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Application Experience\AitAgent&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Application Experience\ProgramDataUpdater&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Autochk\Proxy&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\Consolidator&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerCeipAssistant&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleCollector&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleUsageCollector&quot; /Disable
+waithidden schtasks /change /TN &quot;\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector&quot; /Disable
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

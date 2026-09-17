@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Bitlocker Info - Windows
+  ID       : 2994754
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-12-12T08:21:09
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Bitlocker Info - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="https://en.wikipedia.org/wiki/BitLocker">https://en.wikipedia.org/wiki/BitLocker</A></P>
+<P><A href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa376483(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/windows/desktop/aa376483(v=vs.85).aspx</A></P>
+<P><A href="http://msdn.microsoft.com/en-us/library/aa376433(v=VS.85).aspx">http://msdn.microsoft.com/en-us/library/aa376433(v=VS.85).aspx</A></P>
+<P><A href="http://www.normanbauer.com/2010/09/28/how-to-get-some-information-on-bitlocker-using-vbscript-and-wmi/">http://www.normanbauer.com/2010/09/28/how-to-get-some-information-on-bitlocker-using-vbscript-and-wmi/</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6.0"]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 12 Dec 2014 15:10:49 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="MicrosoftVolumeEncryption available?" EvaluationPeriod="PT12H">(exists WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;)</Property>
+    <Property ID="2" Name="# of Bitlocker available disks?" EvaluationPeriod="PT12H">number of select objects (&quot;* from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+    <Property ID="3" Name="OS Should Support BitLocker?" EvaluationPeriod="PT12H">(windows of operating system) AND (version of operating system &gt;= &quot;6.0&quot;) AND (( exists product info string whose(it ends with &quot;Enterprise&quot; OR it ends with &quot;Ultimate&quot; OR it ends with &quot;Server Datacenter&quot;) of operating system ) OR ( (version of operating system &gt;= &quot;6.2&quot;) AND (exists product info string whose(it ends with &quot;Business&quot;) of operating system) ))</Property>
+    <Property ID="4" Name="* from win32_EncryptableVolume" EvaluationPeriod="PT12H">selects (&quot;* from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+    <Property ID="5" Name="# of encrypted volumes?" EvaluationPeriod="PT12H">number of integer values whose(it = 1) of selects (&quot;ProtectionStatus from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+    <Property ID="6" Name="ProtectionStatus" EvaluationPeriod="PT12H">tuple string items (integer values of selects (&quot;ProtectionStatus from win32_EncryptableVolume&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;Protection Off, Protection On, Protection Unknown&quot;</Property>
+    <Property ID="7" Name="EncryptionMethod" EvaluationPeriod="PT12H">tuple string items (integer values of selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;EncryptionMethod&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;N/A, AES 128 With Diffuser, AES 256 With Diffuser, AES 128, AES 256&quot;</Property>
+    <Property ID="8" Name="ConversionStatus" EvaluationPeriod="PT12H">tuple string items (integer values of selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;ConversionStatus&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;) of &quot;Fully Decrypted, Fully Encrypted, Encryption In Progress, Decryption In Progress, Encryption Paused, Decryption Paused&quot;</Property>
+    <Property ID="9" Name="VolumeType" EvaluationPeriod="PT12H">(selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;VolumeType&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;)</Property>
+    <Property ID="10" Name="IsVolumeInitializedForProtection" EvaluationPeriod="PT12H">(string values of selects (&quot;* from win32_EncryptableVolume&quot;) whose(name of it = &quot;IsVolumeInitializedForProtection&quot;) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;)</Property>
+    <Property ID="11" Name="Incorrect Values" EvaluationPeriod="PT12H">selects (&quot;* from win32_EncryptableVolume&quot;) whose( (integer value of it &lt; 0) AND (name of it != &quot;IsVolumeInitializedForProtection&quot;) ) of WMIs &quot;root\CIMv2\Security\MicrosoftVolumeEncryption&quot;</Property>
+  </Analysis>
+</BES>

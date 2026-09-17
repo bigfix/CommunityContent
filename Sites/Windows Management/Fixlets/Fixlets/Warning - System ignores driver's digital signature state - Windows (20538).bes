@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Warning - System ignores driver's digital signature state - Windows
+  ID       : 20538
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-05-10T07:14:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Warning - System ignores driver&apos;s digital signature state - Windows</Title>
+    <Description><![CDATA[<P>If this fixlet is relevant then the system is configured to ignore (not prompt on installation) when an attempt is made to install a driver that does not have a digital signature.</P>
+<P>This is&nbsp;a potentially dangerous non-default configuration.&nbsp;</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1"]]></Relevance>
+    <Relevance>(value &quot;Policy&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Non-Driver Signing&quot; of native registry as string) = &quot;00&quot;</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-23</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+  </Fixlet>
+</BES>

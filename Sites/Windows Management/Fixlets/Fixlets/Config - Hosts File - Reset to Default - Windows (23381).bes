@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Config - Hosts File - Reset to Default - Windows
+  ID       : 23381
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-01T19:23:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Config - Hosts File - Reset to Default - Windows</Title>
+    <Description>This Fixlet resets the hosts file to its default configuration on Windows.</Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (lines whose (it does not contain &quot;#&quot; and it does not equal &quot;&quot;) of file &quot;hosts&quot; of folder &quot;drivers\etc&quot; of system x64 folder)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2017-01-31</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+
+parameter &quot;Hosts&quot;=&quot;{pathname of folder &quot;drivers\etc&quot; of system x64 folder}\hosts&quot;
+parameter &quot;HostsBackup&quot;=&quot;{pathname of folder &quot;drivers\etc&quot; of system x64 folder}\hosts.old&quot;
+
+delete __createfile
+
+createfile until _end_
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a &apos;#&apos; symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+_end_
+
+if {exists file (parameter &quot;Hosts&quot;)}
+	delete &quot;{parameter &quot;HostsBackup&quot;}&quot;
+	move &quot;{parameter &quot;Hosts&quot;}&quot; &quot;{parameter &quot;HostsBackup&quot;}&quot;
+endif
+
+copy __createfile &quot;{parameter &quot;Hosts&quot;}&quot;</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

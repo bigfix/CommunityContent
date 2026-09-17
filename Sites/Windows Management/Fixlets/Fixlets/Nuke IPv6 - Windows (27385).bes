@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Nuke IPv6 - Windows
+  ID       : 27385
+  Author   : Jack
+  Domain   : BESC
+  Imported : 2025-09-09T16:18:59
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Nuke IPv6 - Windows</Title>
+    <Description>Does what it says on the box</Description>
+    <Relevance>true</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2025-09-09</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 09 Sep 2025 23:05:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">dos reg add &quot;HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters&quot; /v DisabledComponents /t REG_DWORD /d 255 /f
+dos reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition&quot; /f
+dos reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition&quot; /v Teredo_State /t REG_SZ /d Disabled /f
+dos reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition&quot; /v 6to4_State   /t REG_SZ /d Disabled /f
+dos reg add &quot;HKLM\SOFTWARE\Policies\Microsoft\Windows\TCPIP\v6Transition&quot; /v ISATAP_State /t REG_SZ /d Disabled /f
+
+waithidden cmd.exe /C netsh interface ipv6 uninstall</ActionScript>
+      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

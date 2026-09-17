@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Get AD Description
+  ID       : 3755
+  Author   : menglish
+  Domain   : BESC
+  Imported : 2014-04-05T06:18:53
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Get AD Description</Title>
+    <Description><![CDATA[This task will query Active Directory for the 'Location' field and populate a text file called '<FONT color=#008080 size=2><FONT color=#008080 size=2>ADLocation.txt</FONT></FONT>' located in the client root directory ]]></Description>
+    <Relevance>(not exist file &quot;ADDescription.txt&quot; of parent folder of client) OR (exists file &quot;ADDescription.txt&quot; whose (not exist line 1 of it) of parent folder of client)</Relevance>
+    <Source>IBM (mike.english@us.ibm.com)</Source>
+    <SourceReleaseDate>2013-06-05</SourceReleaseDate>
+    <SourceSeverity>N/A</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 05 Jun 2013 21:52:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Create VB Script
+delete GetADLocation.vbs
+delete __appendfile
+// Begin VBScript Code
+appendfile Dim objFileSystem, objOutputFile
+appendfile Dim strOutputFile
+appendfile Dim oShell, oAdSysInfo,o
+appendfile Dim sDN, sDescription
+appendfile Set oShell = CreateObject("WScript.Shell")
+appendfile Set oAdSysInfo = CreateObject("ADSystemInfo")
+appendfile sDN = oAdSysInfo.ComputerName
+appendfile Set o = GetObject("LDAP://" & sDN)
+appendfile strComputer = "."
+appendfile
+// generate a filename
+appendfile strOutputFile = "{pathname of parent folder of client as string & "\" & "ADDescription.txt"}"
+appendfile
+appendfile Set objFileSystem = CreateObject("Scripting.fileSystemObject")
+appendfile Set objOutputFile = objFileSystem.CreateTextFile(strOutputFile, TRUE)
+appendfile
+appendfile sDescription = o.Description
+appendfile If sDescription <> "" Then
+appendfile 'wscript.echo sDescription
+appendfile objOutputFile.WriteLine(sDescription)
+appendfile objOutputFile.Close
+appendfile
+appendfile Else
+appendfile sDescription = "AD Description could not be obtained"
+appendfile 'wscript.echo sDescription
+appendfile objOutputFile.WriteLine(sDescription)
+appendfile objOutputFile.Close
+appendfile
+appendfile End If
+appendfile
+appendfile Set objFileSystem = Nothing
+appendfile Set oShell = Nothing
+appendfile Set oAdSysInfo = Nothing
+appendfile Set o = Nothing
+appendfile
+appendfile WScript.Quit(0)
+
+move __appendfile GetADDescription.vbs
+
+// Execute the VBScript silently using cscript.exe
+waithidden cscript.exe GetADDescription.vbs
+
+// Delete the VBScript we just created.
+delete GetADDescription.vbs]]></ActionScript>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+    </DefaultAction>
+  </Fixlet>
+</BES>

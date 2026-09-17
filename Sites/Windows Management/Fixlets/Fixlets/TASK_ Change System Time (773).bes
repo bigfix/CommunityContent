@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : TASK: Change System Time
+  ID       : 773
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-12-06T21:37:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>TASK: Change System Time</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance>(name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it)) of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2011-08-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 20 Mar 2012 14:35:38 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// The following syntax can be used to set the clock to any given time
+//waithidden cmd.exe /C time 4:30:00 PM
+// The following will set the clock to the current time of the BES Server
+set clock
+</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

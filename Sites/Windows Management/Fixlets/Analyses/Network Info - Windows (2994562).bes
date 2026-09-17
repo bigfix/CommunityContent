@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Network Info - Windows
+  ID       : 2994562
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2013-08-09T07:36:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Network Info - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>(windows of operating system)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Aug 2013 14:32:45 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="LAN - Link Speed" EvaluationPeriod="P1D">((unique value of it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of link speeds of adapters whose (link speed of it = maximum of link speeds of adapters whose (up of it AND (friendly name of it as lowercase contains &quot;ethernet&quot; OR friendly name of it as lowercase contains &quot;local area connection&quot;)) of networks) of networks</Property>
+    <Property ID="3" Name="Max Link Speed" EvaluationPeriod="P1D">((it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of maximum of link speeds of adapters of networks</Property>
+    <Property ID="4" Name="Max Link Speed of active NICs" EvaluationPeriod="P1D">((it/(1000*1000)) as string &amp; &quot; Mbps&quot;) of maximum of link speeds of adapters whose(up of it) of networks</Property>
+    <Property ID="5" Name="Name of networks" EvaluationPeriod="P1D">friendly names of adapters of networks</Property>
+    <Property ID="6" Name="Networks (SSIDs)" EvaluationPeriod="P1D">if (exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles&quot; of native registry) then (concatenation &quot;; &quot; of unique values of (it as string) of values &quot;Description&quot; whose(it as string does not contain &quot;Network&quot;) of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles&quot; of native registry) else ERROR &quot;no networks found&quot;</Property>
+  </Analysis>
+</BES>

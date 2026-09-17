@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Devices
+  ID       : 50
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2012-11-29T10:32:28
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Devices</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 29 Nov 2012 16:33:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Active Devices" EvaluationPeriod="P7D">(if exists ( position 1000 of it ) then ( preceding text of position 1000 of it ) else it) of concatenation &quot;, &quot; of unique values of friendly names whose (it as string does not contain &quot;ATA Channel&quot; AND it as string does not contain &quot; (LPT&quot; AND it as string does not contain &quot; (COM&quot; AND it as string does not contain &quot;Pseudo-Interface&quot; AND it as string does not contain &quot;Microsoft ISATAP&quot; AND it as string does not contain &quot;VirtualBox&quot; AND (it as string does not contain &quot;Miniport&quot; OR it as string contains &quot;Intel&quot;)) of active devices</Property>
+    <Property ID="2" Name="Bluetooth" EvaluationPeriod="P2D">if exists (friendly names whose (it contains &quot;Bluetooth&quot;) of active devices) then (concatenation &quot;, &quot; of unique values of friendly names whose (it contains &quot;Bluetooth&quot;) of active devices) else &quot;No Bluetooth installed&quot;</Property>
+    <Property ID="3" Name="Inactive Devices" EvaluationPeriod="P2D">concatenation &quot;, &quot; of unique values of ((if (exists property &quot;Name&quot; of it) then property &quot;Name&quot; of it as string else &quot;&lt;none&gt;&quot;) &amp; &quot; - &quot; &amp; property &quot;DeviceID&quot; of it as string) of select objects &quot;Name,DeviceID FROM Win32_PnPEntity WHERE ConfigManagerErrorCode &lt;&gt; 0&quot; of wmi</Property>
+    <Property ID="4" Name="Video Card" EvaluationPeriod="P7D">concatenation &quot;, &quot; of unique values of (selects &quot;Name, DriverVersion, AdapterRam from Win32_VideoController&quot; of wmi as string)</Property>
+  </Analysis>
+</BES>

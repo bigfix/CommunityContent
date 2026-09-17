@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Drivers - Windows
+  ID       : 2998242
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:50:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Drivers - Windows</Title>
+    <Description><![CDATA[This analysis covers the action that Windows takes when loading drivers with invalid or missing digital signatures as well as the install printer drivers on the system.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1"]]></Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Drivers - Behavior on Signature Failure - Windows" EvaluationPeriod="P1D">(if (it = &quot;00&quot;) then (&quot;Ignore&quot;) else (if (it = &quot;01&quot;) then &quot;Warn&quot; else &quot;Block&quot;)) of (value &quot;Policy&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Non-Driver Signing&quot; of native registry as string)</Property>
+  </Analysis>
+</BES>

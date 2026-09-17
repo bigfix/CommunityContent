@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Local Client Administrators
+  ID       : 78
+  Author   : 55FDC13E-285A-4207-97E8-32E29239932A
+  Domain   : BESC
+  Imported : 2013-02-20T10:45:07
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Local Client Administrators</Title>
+    <Description>Local Administrators </Description>
+    <Relevance>name OF operating system AS lowercase starts with &quot;win&quot; AS lowercase</Relevance>
+    <Relevance>NOT(name OF operating system AS lowercase starts with &quot;win200&quot; AS lowercase)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 09 Mar 2012 16:24:02 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Local Client Administrators">members of local group &quot;Administrators&quot;</Property>
+  </Analysis>
+</BES>

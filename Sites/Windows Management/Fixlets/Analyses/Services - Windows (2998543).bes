@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Services - Windows
+  ID       : 2998543
+  Author   : strawgate
+  Domain   : BES
+  Imported : 2017-04-14T07:44:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Services - Windows</Title>
+    <Description><![CDATA[<P>Provides information relating to the Windows services on the system.</P>
+<P><STRONG>Services - Log On As - Windows</STRONG> - Provides the account that the service operates under. For the majority of services this will be a NT Authority\System </P>
+<P><STRONG>Services - Log On As Domain Account - Windows </STRONG>- Provides the services on the system that are running as a domain account</P>
+<P><STRONG>Services - Log On As Local Account - Windows </STRONG>- Provides the services on the system that are running as a local account on the system</P>
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BES </Domain>
+    <Property ID="1" Name="Services - Log On As - Windows" EvaluationPeriod="P1D">(display name of it &amp; &quot; (&quot; &amp; service name of it &amp; &quot;)&quot;, login account of it | &quot;N\A&quot;) of services whose (exists display name of it AND (length of (display name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (display name of it as string) &lt; (length of (display name of it as string))) AND exists service name of it AND (length of (service name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (service name of it as string) &lt; (length of (service name of it as string))) AND exists state of it)</Property>
+    <Property ID="2" Name="Services - Log On As Domain Account - Windows" EvaluationPeriod="P1D">(display name of it &amp; &quot; (&quot; &amp; service name of it &amp; &quot;)&quot;,  login account of it) of it whose (login account of it contains &quot;@&quot;) of (services whose (exists display name of it AND (length of (display name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (display name of it as string) &lt; (length of (display name of it as string))) AND exists service name of it AND (length of (service name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (service name of it as string) &lt; (length of (service name of it as string))) AND exists state of it))</Property>
+    <Property ID="3" Name="Services - Log On As Local Account - Windows" EvaluationPeriod="P1D">(display name of it &amp; &quot; (&quot; &amp; service name of it &amp; &quot;)&quot;,  login account of it) of it whose (login account of it contains &quot;.\&quot;) of (services whose (exists display name of it AND (length of (display name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (display name of it as string) &lt; (length of (display name of it as string))) AND exists service name of it AND (length of (service name of it as string)) &gt; 0 AND (number of substrings &quot; &quot; of (service name of it as string) &lt; (length of (service name of it as string))) AND exists state of it))</Property>
+    <Property ID="4" Name="Services - State - Universal" EvaluationPeriod="PT1H">unique values of (concatenations of (it as string)) of (display name of it &amp; ((&quot; (&quot; &amp; service name of it &amp; &quot;)&quot;) | &quot;&quot;), state of it | &quot;N\A&quot;) of services</Property>
+  </Analysis>
+</BES>

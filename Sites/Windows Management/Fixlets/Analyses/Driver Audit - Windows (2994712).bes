@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Driver Audit - Windows
+  ID       : 2994712
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T11:51:34
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Driver Audit - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 28 Aug 2014 15:31:24 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="5" Name="Number of EPSON trusted publisher certs" EvaluationPeriod="P1D">number of (it) whose(it contains &quot;5345494b4f204550534f4e&quot;) of (values &quot;Blob&quot; of keys of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates\TrustedPublisher\Certificates&quot; of native registry as string)</Property>
+    <Property ID="6" Name="(#, Description) of supported models of installed logitech drivers" EvaluationPeriod="P1D">(multiplicity of it, it) of unique values of (&quot;Logitech &quot; &amp; (it as string)) of (if (it starts with &quot;Logitech &quot;) then (following text of first &quot;Logitech &quot; of it) else it) of (if (it contains &quot;Logitech QuickCam Pro &quot;) then (following text of first &quot;Logitech QuickCam &quot; of it) else it) of (if (it contains &quot;Webcam &quot;) then (following text of first &quot;Webcam &quot; of it) else it) of (if (it contains &quot;)&quot;) then (preceding text of last &quot;)&quot; of it) else it) of (if (it contains &quot;(&quot;) then (following text of first &quot;(&quot; of it) else it) of (preceding text of last &quot;%22&quot; of following text of first &quot;%22&quot; of following text of first &quot;=&quot; of it) of items 3 of (item 0 of it, item 1 of it, minimum of line numbers of item 2 of it, lines of item 0 of it) whose(((item 1 of it) &lt; line number of item 3 of it) AND ((item 2 of it) &gt; (line number of item 3 of it)) AND (item 3 of it contains &quot;PID_&quot;)) of (item 0 of it, item 1 of it, lines whose(it starts with &quot;[&quot; AND it ends with &quot;]&quot;) of item 0 of it) whose(item 1 of it &lt; line number of item 2 of it) of (it, line number of line whose(it starts with &quot;[Strings]&quot;) of it) of items 0 whose(content of it contains &quot;Logitech&quot;) of (files of item 0 of it, item 1 of it) whose(name of item 0 of it as lowercase = item 1 of it) of (it, (it &amp; &quot;.inf&quot;) of preceding text of first &quot;.inf&quot; of (name of it as lowercase)) of folders whose( ((name of it as lowercase starts with &quot;lv&quot;) OR (name of it as lowercase starts with &quot;lpro&quot;)) AND (name of it as lowercase contains &quot;.inf&quot;) ) of folders &quot;DriverStore\FileRepository&quot; of system x64 folder</Property>
+    <Property ID="7" Name="Names of Scanners of Epson Drivers currently installed in system" EvaluationPeriod="PT12H">keys &quot;DSName&quot; of sections &quot;Strings&quot; of items 0 of (files of item 0 of it, item 1 of it) whose(name of item 0 of it as lowercase = item 1 of it) of (it, (it &amp; &quot;.inf&quot;) of preceding text of first &quot;.inf&quot; of (name of it as lowercase)) of folders whose((name of it as lowercase starts with &quot;es&quot;) AND (name of it as lowercase contains &quot;.inf&quot;)) of folders &quot;DriverStore\FileRepository&quot; of system x64 folder</Property>
+    <Property ID="8" Name="NVIDIA" EvaluationPeriod="P2D">unique values of (it as trimmed string) of (preceding text of last &quot;%22&quot; of following text of first &quot;%22&quot; of it) of lines whose(it starts with &quot;NVIDIA_DEV&quot;) of files whose(name of it as lowercase ends with &quot;.inf&quot;) of folders whose(name of it as lowercase starts with &quot;nvlewu&quot;) of folders &quot;DriverStore\FileRepository&quot; of system folder</Property>
+    <Property ID="9" Name="Intel" EvaluationPeriod="P2D">unique values of (it as trimmed string) of (preceding text of last &quot;%22&quot; of following text of first &quot;%22&quot; of it) of (concatenation of characters whose (it != &quot;%00&quot;) of it) of lines whose(exists (concatenation of characters whose (it != &quot;%00&quot;) of it) whose(it starts with &quot;i&quot; AND it contains &quot;Intel(R) &quot;)) of files whose(name of it as lowercase ends with &quot;.inf&quot;) of folders whose(name of it as lowercase starts with &quot;igdlh&quot;) of folders &quot;DriverStore\FileRepository&quot; of system folder</Property>
+  </Analysis>
+</BES>

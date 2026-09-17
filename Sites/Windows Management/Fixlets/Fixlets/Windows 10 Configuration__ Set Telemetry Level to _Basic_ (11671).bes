@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : <Windows 10 Configuration>: Set Telemetry Level to "Basic"
+  ID       : 11671
+  Author   : riffk
+  Domain   : BESC
+  Imported : 2016-04-05T13:10:33
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>&lt;Windows 10 Configuration&gt;: Set Telemetry Level to &quot;Basic&quot;</Title>
+    <Description><![CDATA[<P>Sets the registry value to control the telemetery setting for Windows 10</P>
+<P>Configure telemetry and other settings in your organization (Windows)<BR><A href="https://technet.microsoft.com/en-us/library/mt577208(v=vs.85).aspx">https://technet.microsoft.com/en-us/library/mt577208(v=vs.85).aspx</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance>/* True if not set to Basic */ exists values &quot;AllowTelemetry&quot; whose (it != &quot;1&quot;) of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\DataCollection&quot; of (x32 registries; x64 registries)</Relevance>
+    <Relevance>/* Windows 10 Only */ (version of it as string starts with &quot;10.&quot;) of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-04-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 05 Apr 2016 20:07:03 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Set Registry value to Basic for Windows 10 Telemetry
+
+if {x64 of operating system}
+	regset64 &quot;[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\DataCollection]&quot; &quot;AllowTelemetry&quot;=dword:00000001
+
+	else
+
+		regset &quot;[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\DataCollection]&quot; &quot;AllowTelemetry&quot;=dword:00000001
+
+endif
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

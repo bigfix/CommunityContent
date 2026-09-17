@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Install Microsoft .NET Framework 2.0 Service Pack 2
+  ID       : 106
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Install Microsoft .NET Framework 2.0 Service Pack 2</Title>
+    <Description><![CDATA[The .NET Framework 2.0 Service Pack 2 provides cumulative roll-up updates for customer reported issues found after the release of the .NET Framework 2.0. In addition, this release provides performance improvements, and prerequisite feature support for the .NET Framework 3.5 Service Pack 1. <BR><BR>Please review the supported operating systems for this deployment package in the System Requirements section. The corresponding updates for Windows Vista and Microsoft Windows 2008 are deployed via the full .NET Framework 3.5 service pack 1. ]]></Description>
+    <Relevance>(name of it = &quot;Win2000&quot; OR name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND NOT x64 of it) OR (name of it = &quot;WinVista&quot; AND product type of it = nt workstation product type AND x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND NOT x64 of it) OR ((name of it = &quot;Win2008&quot; or (name of it = &quot;WinVista&quot; and product type of it != nt workstation product type)) AND x64 of it) OR (name of it = &quot;Win7&quot; AND NOT x64 of it) OR (name of it = &quot;Win7&quot; AND x64 of it) OR name of it = &quot;Win2008R2&quot; OR name of it = &quot;WinXPe&quot;) of operating system AND TRUE</Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 16:26:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">if {x64 of operating system}
+	prefetch NetFx20SP2_x64.exe sha1:a7cc6c6e5a4ad9cdf3df16a7d277eb09fec429b7 size:48524296 http://download.microsoft.com/download/c/6/e/c6e88215-0178-4c6c-b5f3-158ff77b1f38/NetFx20SP2_x64.exe
+	wait __Download\NetFx20SP2_x64.exe /quiet /norestart
+else
+	prefetch NetFx20SP2_x86.exe sha1:22d776d4d204863105a5db99e8b8888be23c61a7 size:25001480 http://download.microsoft.com/download/c/6/e/c6e88215-0178-4c6c-b5f3-158ff77b1f38/NetFx20SP2_x86.exe
+	wait __Download\NetFx20SP2_x86.exe /quiet /norestart
+endif</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action263">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.microsoft.com/en-us/download/details.aspx?id=1639</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

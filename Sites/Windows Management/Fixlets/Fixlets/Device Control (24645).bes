@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Device Control
+  ID       : 24645
+  Author   : tstacy
+  Domain   : BESC
+  Imported : 2017-09-26T06:32:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Device Control</Title>
+    <Description><![CDATA[This Fixlet allows only certain USB Devices and denies all others for Windows 10.&nbsp;To change Device Hardware ID's modify the AllowDeviceIDs\n&nbsp;field. ]]></Description>
+    <Relevance>true</Relevance>
+    <Source>Tom Stacy</Source>
+    <SourceReleaseDate>2017-09-26</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 08 Sep 2017 21:03:05 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
+regset &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions&quot; &quot;AllowDeviceIDs&quot;=dword:00000001
+regset &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions&quot; &quot;DenyRemovableDevices&quot;=dword:00000001
+regset &quot;Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\AllowDeviceIDs\1&quot;=sz:&quot;USBSTOR\\DiskUSB_2.0_USB_Flash_Drive_1100&quot;
+regset &quot;Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeviceInstall\Restrictions\DeniedPolicy\SimpleText&quot;=sz:&quot;InfoSec has prevented this PC from mounting this USB.&quot;
+</ActionScript>
+    </DefaultAction>
+  </Fixlet>
+</BES>

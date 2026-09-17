@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Network - Windows
+  ID       : 2998477
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-11-08T11:44:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Network - Windows</Title>
+    <Description><![CDATA[Provides network information
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Network - DHCP Server - Windows" EvaluationPeriod="P1D">(friendly name of it, dhcp server of it as string | &quot;Static IP&quot;) of adapters whose (address of it != &quot;0.0.0.0&quot;) of network as string</Property>
+    <Property ID="2" Name="Network - DNS Servers - Windows" EvaluationPeriod="P1D">unique values of (ipv6 dns servers of it as string; addresses of dns servers of it as string) of adapters of network</Property>
+    <Property ID="3" Name="Network - Domain - Windows" EvaluationPeriod="P1D">string values of selects &quot;Domain from Win32_ComputerSystem&quot; of wmi</Property>
+    <Property ID="5" Name="Network - MAC Addresses - Windows" EvaluationPeriod="P1D">mac addresses of adapters of network</Property>
+    <Property ID="6" Name="Network - Subnet Masks - Windows" EvaluationPeriod="P1D">subnet masks of ip interfaces whose (loopback of it = false) of network</Property>
+    <Property ID="7" Name="Network - Wireless SSID Name - Windows" EvaluationPeriod="P1D">ssids of wifis of adapters of network </Property>
+    <Property ID="8" Name="Network - Wireless SSID Encryption - Windows" EvaluationPeriod="P1D">encryptions of wifis of adapters of network</Property>
+    <Property ID="9" Name="Network - DHCP Lease Obtained - Windows" EvaluationPeriod="P1D">(friendly name of it, lease obtained of it as string) of adapters whose (address of it != &quot;0.0.0.0&quot; and exists lease obtained of it) of network as string</Property>
+    <Property ID="10" Name="Network - DHCP Lease Expires - Windows" EvaluationPeriod="P1D">(friendly name of it, lease expires of it as string) of adapters whose (address of it != &quot;0.0.0.0&quot; and exists lease expires of it) of network as string</Property>
+    <Property ID="11" Name="Network - DHCP Lease Length - Windows" EvaluationPeriod="P1D">(friendly name of it, lease expires of it - lease obtained of it) of adapters whose (address of it != &quot;0.0.0.0&quot; and exists lease obtained of it and exists lease expires of it) of network</Property>
+    <Property ID="12" Name="Network - WINS Servers - Winddows" EvaluationPeriod="P1D">(primary wins servers of it; secondary wins servers of it) of adapters of network</Property>
+  </Analysis>
+</BES>

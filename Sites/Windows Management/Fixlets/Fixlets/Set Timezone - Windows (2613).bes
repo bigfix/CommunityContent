@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Set Timezone - Windows
+  ID       : 2613
+  Author   : sinucus
+  Domain   : BESC
+  Imported : 2013-10-08T13:24:25
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Set Timezone - Windows</Title>
+    <Description><![CDATA[<P>This fixlet will set the timezone on the endpoint. A few popular timezones have been preset but if you need a custom timezone, use the list below. If the timezone needs to have Daylight Saving Time disabled, append the timezone name with _dstoff, i.e. "Pacific Standard Time_dstoff". A list of all valid timezones is below. Copy the name in the right column of the timezone that you want. Do not include any quotes, just the name in the right column.</P>
+<P>
+<TABLE style="WIDTH: 479pt; BORDER-COLLAPSE: collapse" border=0 cellSpacing=0 cellPadding=0 width=638>
+<COLGROUP>
+<COL style="WIDTH: 312pt; mso-width-source: userset; mso-width-alt: 15213" width=416>
+<COL style="WIDTH: 167pt; mso-width-source: userset; mso-width-alt: 8118" width=222>
+<TBODY>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; WIDTH: 312pt; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20 width=416><FONT size=3><FONT face=Calibri>(UTC-12:00) International Date Line West<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; WIDTH: 167pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" width=222><FONT size=3 face=Calibri>Dateline Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-11:00) Coordinated Universal Time-11<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>UTC-11</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-11:00) Samoa<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Samoa Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-10:00) Hawaii<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Hawaiian Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-09:00) Alaska<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Alaskan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-08:00) Baja California<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Pacific Standard Time (Mexico)</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-08:00) Pacific Time (US &amp; Canada)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Pacific Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-07:00) Arizona<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>US Mountain Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-07:00) Chihuahua, La Paz, Mazatlan<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Mountain Standard Time (Mexico)</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-07:00) Mountain Time (US &amp; Canada)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Mountain Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-06:00) Central America<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central America Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-06:00) Central Time (US &amp; Canada)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-06:00) Guadalajara, Mexico City, Monterrey<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Standard Time (Mexico)</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-06:00) Saskatchewan<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Canada Central Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-05:00) Bogota, Lima, Quito<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>SA Pacific Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-05:00) Eastern Time (US &amp; Canada)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Eastern Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-05:00) Indiana (East)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>US Eastern Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:30) Caracas<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Venezuela Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:00) Asuncion<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Paraguay Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:00) Atlantic Time (Canada)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Atlantic Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:00) Cuiaba<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Brazilian Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:00) Georgetown, La Paz, Manaus, San Juan<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>SA Western Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-04:00) Santiago<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Pacific SA Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:30) Newfoundland<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Newfoundland Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:00) Brasilia<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>E. South America Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:00) Buenos Aires<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Argentina Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:00) Cayenne, Fortaleza<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>SA Eastern Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:00) Greenland<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Greenland Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-03:00) Montevideo<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Montevideo Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-02:00) Coordinated Universal Time-02<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>UTC-02</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-02:00) Mid-Atlantic<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Mid-Atlantic Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-01:00) Azores<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Azores Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC-01:00) Cape Verde Is.<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Cape Verde Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC) Casablanca<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Morocco Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC) Coordinated Universal Time<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>UTC</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC) Dublin, Edinburgh, Lisbon, London<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>GMT Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC) Monrovia, Reykjavik<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Greenwich Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>W. Europe Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Europe Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) Brussels, Copenhagen, Madrid, Paris<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Romance Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central European Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) West Central Africa<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>W. Central Africa Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+01:00) Windhoek<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Namibia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Amman<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Jordan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Athens, Bucharest, Istanbul<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>GTB Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Beirut<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Middle East Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Cairo<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Egypt Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Damascus<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Syria Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Harare, Pretoria<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>South Africa Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>FLE Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Jerusalem<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Israel Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+02:00) Minsk<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>E. Europe Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+03:00) Baghdad<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Arabic Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+03:00) Kuwait, Riyadh<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Arab Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+03:00) Moscow, St. Petersburg, Volgograd<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Russian Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+03:00) Nairobi<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>E. Africa Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+03:30) Tehran<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Iran Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:00) Abu Dhabi, Muscat<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Arabian Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:00) Baku<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Azerbaijan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:00) Port Louis<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Mauritius Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:00) Tbilisi<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Georgian Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:00) Yerevan<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Caucasus Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+04:30) Kabul<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Afghanistan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:00) Ekaterinburg<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Ekaterinburg Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:00) Islamabad, Karachi<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Pakistan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:00) Tashkent<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>West Asia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>India Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:30) Sri Jayawardenepura<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Sri Lanka Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+05:45) Kathmandu<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Nepal Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+06:00) Astana<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Asia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+06:00) Dhaka<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Bangladesh Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+06:00) Novosibirsk<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>N. Central Asia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+06:30) Yangon (Rangoon)<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Myanmar Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+07:00) Bangkok, Hanoi, Jakarta<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>SE Asia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+07:00) Krasnoyarsk<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>North Asia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>China Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Irkutsk<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>North Asia East Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Kuala Lumpur, Singapore<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Singapore Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Perth<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>W. Australia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Taipei<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Taipei Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+08:00) Ulaanbaatar<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Ulaanbaatar Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+09:00) Osaka, Sapporo, Tokyo<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Tokyo Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+09:00) Seoul<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Korea Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+09:00) Yakutsk<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Yakutsk Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+09:30) Adelaide<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Cen. Australia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+09:30) Darwin<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>AUS Central Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+10:00) Brisbane<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>E. Australia Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+10:00) Canberra, Melbourne, Sydney<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>AUS Eastern Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+10:00) Guam, Port Moresby<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>West Pacific Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+10:00) Hobart<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Tasmania Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+10:00) Vladivostok<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Vladivostok Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+11:00) Magadan<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Magadan Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+11:00) Solomon Is., New Caledonia<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Central Pacific Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+12:00) Auckland, Wellington<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>New Zealand Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+12:00) Coordinated Universal Time+12<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>UTC+12</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+12:00) Fiji<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Fiji Standard Time</FONT></TD></TR>
+<TR style="HEIGHT: 15pt" height=20>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; HEIGHT: 15pt; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8" height=20><FONT size=3><FONT face=Calibri>(UTC+13:00) Nuku'alofa<SPAN style="mso-spacerun: yes">&nbsp;</SPAN></FONT></FONT></TD>
+<TD style="BORDER-BOTTOM: #d4d0c8; BORDER-LEFT: #d4d0c8; BACKGROUND-COLOR: transparent; BORDER-TOP: #d4d0c8; BORDER-RIGHT: #d4d0c8"><FONT size=3 face=Calibri>Tonga Standard Time</FONT></TD></TR></TBODY></TABLE></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>((name of it = &quot;Win2008R2&quot;) OR (name of it = &quot;Win7&quot;) OR (name of it = &quot;Win8&quot;) OR (name of it = &quot;Win2012&quot;)) of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2013-10-08</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 08 Oct 2013 20:19:55 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Eastern Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait cmd.exe /C tzutil /s &quot;Eastern Standard Time&quot;</ActionScript>
+    </DefaultAction>
+    <Action ID="Action2868">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to custom timezone.</Link>
+        <PostLink>&amp;nbsp;</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;Timezone&quot; with description &quot;Please type the timezone that you&apos;d like to set. Use the list from the fixlet details.&quot;
+
+wait cmd.exe /C tzutil /s &quot;{parameter &quot;Timezone&quot; of action}&quot;</ActionScript>
+    </Action>
+    <Action ID="Action2869">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Central Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait cmd.exe /C tzutil /s &quot;Central Standard Time&quot;</ActionScript>
+    </Action>
+    <Action ID="Action2870">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Mountain Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait cmd.exe /C tzutil /s &quot;Mountain Standard Time&quot;</ActionScript>
+    </Action>
+    <Action ID="Action2871">
+      <Description>
+        <PreLink></PreLink>
+        <Link>Set to Pacific Time.</Link>
+        <PostLink></PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait cmd.exe /C tzutil /s &quot;Pacific Standard Time&quot;</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

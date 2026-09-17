@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : KB5022842 on Win 2022
+  ID       : 2998680
+  Author   : Knut
+  Domain   : BESC
+  Imported : 2023-02-20T05:17:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>KB5022842 on Win 2022</Title>
+    <Description>Only relevant for Win2022.
+Looks up installed hotfix KB5022842 via wmis and checks registry to see check state of secure boot.
+
+Confirmed to work if both values are True.
+It will result in the VM getting tripped up next boot if running on vmware.
+Might happen to all Hypervisors, but none in our environment.
+
+Can be easily modified to look for whatever specific KB you are trying to locate.
+</Description>
+    <Relevance>( (name of it as lowercase = &quot;Win2022&quot; as lowercase ) of operating system)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 20 Feb 2023 12:50:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="KB installed" EvaluationPeriod="PT5M">(exists (string values of properties &quot;HotFixID&quot; of it) whose (it = &quot;KB5022842&quot;) of select objects &quot;HotFixID from Win32_QuickFixEngineering&quot; of wmis) as string</Property>
+    <Property ID="3" Name="Secure Boot Enabled ">exists it whose(1 = it as integer) of unique values of (it as string) of values &quot;UEFISecureBootEnabled&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecureBoot\State&quot; of (x64 registries; x32 registries)</Property>
+  </Analysis>
+</BES>

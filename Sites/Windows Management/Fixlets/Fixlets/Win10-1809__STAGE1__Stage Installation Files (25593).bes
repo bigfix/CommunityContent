@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : ~Win10-1809::STAGE1::Stage Installation Files
+  ID       : 25593
+  Author   : Ken
+  Domain   : BESC
+  Imported : 2019-01-09T03:31:11
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>~Win10-1809::STAGE1::Stage Installation Files</Title>
+    <Description><![CDATA[<DIV class=FixletMessage>
+<P class=FixletMessage>Win10-1809::STAGE1::Stage Installation Files</P>
+<DIV class=FixletMessage>
+<UL>
+<LI>Stage all required installation files to "c:\temp\Win10"&nbsp; (Precache for future deployment)</LI></UL></DIV>
+<P>Win10-1809::STAGE2::INSTALL</P>
+<UL>
+<LI>Perform inplace upgrade to Window 10&nbsp;1809</LI></UL>
+<P>Win10-1809::STAGE3::Cleanup</P>
+<UL>
+<LI>Removes the Stage Installation Files</LI></UL></DIV>]]></Description>
+    <Relevance>(if( name of operating system starts with &quot;Win&quot; ) then platform id of operating system != 3 else false) AND (if exists property &quot;in proxy agent context&quot; then ( not in proxy agent context ) else true )</Relevance>
+    <Relevance>x64 of operating system AND not ia64 of operating system</Relevance>
+    <Relevance>(it starts with &quot;Win&quot; AND it does not start with &quot;Win20&quot;) of name of operating system AND (exists value &quot;CurrentMajorVersionNumber&quot; of it AND value &quot;CurrentMajorVersionNumber&quot; of it as integer = 10) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Relevance>
+    <Relevance>exists regapp &quot;powershell.exe&quot;</Relevance>
+    <Relevance>system ui language as string as lowercase = &quot;English (United States)&quot; as lowercase</Relevance>
+    <Relevance>exists value &quot;EditionID&quot; whose (it as string as lowercase = &quot;EducationN&quot; as lowercase OR it as string as lowercase = &quot;Education&quot; as lowercase OR it as string as lowercase = &quot;ProfessionalN&quot; as lowercase OR it as string as lowercase = &quot;Professional&quot; as lowercase OR it as string as lowercase = &quot;EnterpriseN&quot; as lowercase OR it as string as lowercase = &quot;Enterprise&quot; as lowercase) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; of native registry</Relevance>
+    <Relevance>operating system as string does not contain &quot;1809&quot;</Relevance>
+    <Relevance><![CDATA[(not exists values "ClearCaseMajorVersion" whose (it as string as version < "10") of keys "HKLM\SOFTWARE\Atria\ClearCase\CurrentVersion" of (x32 registries; x64 registries))]]></Relevance>
+    <Relevance>if exist file &quot;C:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO&quot; then false else true</Relevance>
+    <Category>Upgrade</Category>
+    <Source>Microsoft</Source>
+    <SourceID>Unspecified</SourceID>
+    <SourceReleaseDate>2017-10-17</SourceReleaseDate>
+    <SourceSeverity>Unspecified</SourceSeverity>
+    <CVENames>Unspecified</CVENames>
+    <MIMEField>
+      <Name>x-fixlet-first-propagation</Name>
+      <Value>Thu, 02 Nov 2017 11:52:26 +0000</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>no-relevance-health-check</Name>
+      <Value>false</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product-family</Name>
+      <Value>Windows</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-component</Name>
+      <Value>Unspecified</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-product</Name>
+      <Value>Win10</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 07 Jan 2019 15:55:58 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>to execute this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Stage
+begin prefetch block
+  add prefetch item name =SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO sha1=6208B319DE3AAF0D8EC5B8D0F710E2744F89D0B4 size=4994043904 url={value of setting "_BESClient_AllowCustomRepoDownloads" of client   | "http://MANUAL_BES_CACHING_REQUIRED/"}SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO sha256=54B42DBD42C7839B8CF28E256763458AEB1C30CB858ACAA2029A08F8F54E5C28
+end prefetch block
+
+//CLEANUP any old attempts
+waithidden "{pathname of system folder & "\cmd.exe"}" /C rmdir "c:\temp\Win10" /S /Q
+
+//create new installation folders
+if {not exist folder "c:\temp"}
+	waithidden "{pathname of system folder & "\cmd.exe"}" /C mkdir "c:\temp"
+endif
+
+if {not exist folder "c:\temp\Win10"}
+	waithidden "{pathname of system folder & "\cmd.exe"}" /C mkdir "c:\temp\Win10"
+endif
+
+move __Download\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO "c:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO"]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

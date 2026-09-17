@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Whitelisting - Applocker - Logs - Windows
+  ID       : 2998440
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-09-29T11:25:12
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Whitelisting - Applocker - Logs - Windows</Title>
+    <Description><![CDATA[<P>This analysis provides information on blocked or audited launches looking at the last 500 event logs from Applocker.</P>
+<P>Information on using this content is available here: <A href="https://github.com/strawgate/C3-Protect/wiki/Applocker">https://github.com/strawgate/C3-Protect/wiki/Applocker</A></P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>(product info string of operating system = &quot;Enterprise&quot; or product info string of operating system = &quot;Server&quot;)</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\SrpV2&quot; of native registry</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="11" Name="Applocker - Executable and DLL Logs - Windows" EvaluationPeriod="PT6H">(time generated of it, preceding text of last &quot; was &quot; of description of it, (if (event id of it = 8003) then (&quot;Warned&quot;) else (&quot;Blocked&quot;)) of it) of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 500;item 1 of it))) of (record count of it, oldest record number of it)) whose (event id of it = 8003 or event id of it = 8004) of event log &quot;Microsoft-Windows-AppLocker/EXE and DLL&quot;</Property>
+    <Property ID="12" Name="Applocker - MSI and Script Logs - Windows" EvaluationPeriod="PT6H">(time generated of it, preceding text of last &quot; was &quot; of description of it, (if (event id of it = 8006) then (&quot;Warned&quot;) else (&quot;Blocked&quot;)) of it) of records ((integers in(item 0 of it + item 1 of it - 1,maximum of (item 0 of it + item 1 of it - 500;item 1 of it))) of (record count of it, oldest record number of it)) whose (event id of it = 8006 or event id of it = 8007) of event log &quot;Microsoft-Windows-AppLocker/MSI and Script&quot;</Property>
+  </Analysis>
+</BES>

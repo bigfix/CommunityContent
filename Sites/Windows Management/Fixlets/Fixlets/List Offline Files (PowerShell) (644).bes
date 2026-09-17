@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : List Offline Files (PowerShell)
+  ID       : 644
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-26T16:07:08
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>List Offline Files (PowerShell)</Title>
+    <Description><![CDATA[<P>List Offline Files</P>
+<P>This is considered a brute force search since it recursively looks at every file.&nbsp;</P>
+<P>Be careful to try and be specific with which folder to start your search.&nbsp; If you start at the "c:\" folder, the scan is likely to take a very long time... and this task waits for that search to complete... thus your client will be stalled until this search is finished.</P>
+<P><STRONG>The results file is saved in the "parent folder of the client" and named "OfflineFiles.csv".</STRONG></P>]]></Description>
+    <Relevance>name of operating system as string contains &quot;Win&quot;</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1&quot; whose (value &quot;Install&quot; of it as integer = 1) of registry</Relevance>
+    <Relevance><![CDATA[exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" whose (value "PowerShellVersion" of it as string as version >= "2.0") of registry]]></Relevance>
+    <Category>Search</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-26</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 26 Oct 2012 21:05:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click&amp;nbsp; </PreLink>
+        <Link>here </Link>
+        <PostLink>&amp;nbsp;to search for offline folders/files. </PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;startDir&quot; with description &quot;Specify the root folder path you want to scan recursively through:&quot; and with default value &quot;c:\users&quot;
+//============================================================================
+//PowerShell Script...
+//
+//1. Save old ExecutionPolicy value
+parameter &quot;PolicyExisted&quot;=&quot;{exists value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of (if exists x64 registry then x64 registry else registry)}&quot;
+parameter &quot;oldExecutionPolicy&quot;=&quot;{if (parameter &quot;PolicyExisted&quot; as boolean) then (value &quot;ExecutionPolicy&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of (if exists x64 registry then x64 registry else registry) as string) else &quot;&quot;}&quot;
+//2. set to ExecutionPolicy=Unrestricted  and Pull PowerShell exe from registry... if 64bit then pull PowerShell x64
+if {x64 of operating system}
+	regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;Unrestricted&quot;
+	parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of x64 registry}&quot;
+else
+	//we need to determine what the current execution policy is so we can put it back when we&apos;re done.
+	regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;Unrestricted&quot;
+	parameter &quot;PowerShellexe&quot;=&quot;{value &quot;Path&quot; of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell&quot; of registry}&quot;
+endif
+//3. Create PowerShell script and save to a ps1 file
+delete __appendfile
+delete script.ps1
+appendfile Get-ChildItem &quot;{parameter &quot;startDir&quot;}&quot; -recurse | Where-Object {$_.Attributes -eq &apos;offline&apos;} | Export-Csv &quot;{pathname of parent folder of client}\OfflineFiles.csv&quot;
+move __appendfile script.ps1
+//4. Execute PowerShell with ps1 script file
+action uses wow64 redirection false
+waithidden &quot;{parameter &quot;PowerShellexe&quot;}&quot; -file &quot;{pathname of client folder of current site}\script.ps1&quot;
+action uses wow64 redirection {x64 of operating system}
+//5. Restore ExecutionPolicy back
+if {x64 of operating system}
+	if {parameter &quot;PolicyExisted&quot; as boolean}
+		regset64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;{parameter &quot;oldExecutionPolicy&quot;}&quot;
+	else
+		regdelete64 &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;
+	endif
+else
+	if {parameter &quot;PolicyExisted&quot; as boolean}
+		regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;=&quot;{parameter &quot;oldExecutionPolicy&quot;}&quot;
+	else
+		regdelete &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell]&quot; &quot;ExecutionPolicy&quot;
+	endif
+endif
+//============================================================================</ActionScript>
+    </DefaultAction>
+    <Action ID="Action881">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn about Ben Shorehill&apos;s research into the powershell command we&apos;re using.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.symantec.com/connect/downloads/csv-report-all-offline-files-powershell</ActionScript>
+    </Action>
+    <Action ID="Action882">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn about Microsoft&apos;s Offline Files features.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://windows.microsoft.com/en-US/windows-vista/Understanding-offline-files</ActionScript>
+    </Action>
+  </Task>
+</BES>

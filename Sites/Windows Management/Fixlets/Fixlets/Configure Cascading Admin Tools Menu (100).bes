@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Configure Cascading Admin Tools Menu
+  ID       : 100
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Configure Cascading Admin Tools Menu</Title>
+    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Relevance><![CDATA[exists key ("HKEY_USERS\" & (name of key whose (value "Logon User Name" of key "Explorer" of key "CurrentVersion" of key "Windows" of key "Microsoft" of key "Software" of it as string as lowercase = name of current user as string as lowercase) of key "HKEY_USERS" of registry) & "Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced") of registry]]></Relevance>
+    <Category>Configuration</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-01</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Oct 2012 23:09:39 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here</ActionScript>
+    </DefaultAction>
+    <Action ID="Action230">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to article describing enabling this on xp.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.liutilities.com/products/registrybooster/tweaklibrary/tweaks/10226/</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

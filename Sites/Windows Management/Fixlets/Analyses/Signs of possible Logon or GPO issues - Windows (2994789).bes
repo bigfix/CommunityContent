@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Signs of possible Logon or GPO issues - Windows
+  ID       : 2994789
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T10:43:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Signs of possible Logon or GPO issues - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows 7 or later */ version of operating system >= "6.1"]]></Relevance>
+    <Relevance>&quot;Physical&quot; = (if (mac of operating system) then /* the Mac BES client does not currently support the smbios inspector. This needs refinement, but for now just assuming apple devices are physical since virtualiztion of OS X is relatively rare */ &quot;Physical&quot; else (if ((it contains &quot;VMware&quot; or (it contains &quot;Microsoft&quot; AND /* This check is needed to exclude Microsoft Surface devices */ ((value &quot;product_name&quot; of structure &quot;system_information&quot; of smbios) as string contains &quot;Virtual Machine&quot;)) or it contains &quot;Xen&quot; or /* This check is needed to properly identify Parallels VMs as virtual instead of physical */ it contains &quot;Parallels Software&quot;) of (value &quot;manufacturer&quot; of structure &quot;system_information&quot; of smbios as string)) then &quot;Virtual&quot; else &quot;Physical&quot;))</Relevance>
+    <Relevance>&quot;workgroup&quot; != (it as string as lowercase) of (if (exists wmi) then (string value of selects &quot;Domain from Win32_ComputerSystem&quot; of wmi) else (&quot;workgroup&quot;))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 17:42:41 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Time of latest user logon" EvaluationPeriod="PT6H">maximum of times generated of records whose(event id of it = 7001) of system event log</Property>
+    <Property ID="3" Name="Diff of userLO &amp; GPO update" EvaluationPeriod="PT6H">(maximum of times generated of records whose(event id of it = 1073743528 AND source of it = &quot;SceCli&quot;) of application event log) - (maximum of times generated of records whose(event id of it = 7001) of system event log)</Property>
+    <Property ID="4" Name="Diff of userLO &amp; first GPO update after LO" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 1073743528 AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 7001) of system event log)) of application event log)-(maximum of times generated of records whose(event id of it = 7001) of system event log)</Property>
+    <Property ID="5" Name="Time of first GPO update after latest userLO" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 1073743528 AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 7001) of system event log)) of application event log)</Property>
+    <Property ID="6" Name="number of NTP problems" EvaluationPeriod="PT6H">number of records whose(event id of it = 129 AND source of it = &quot;Microsoft-Windows-Time-Service&quot;) of system event log</Property>
+    <Property ID="7" Name="number of DNS problems" EvaluationPeriod="PT6H">number of records whose(event id of it = 1014 AND source of it = &quot;Microsoft-Windows-DNS-Client&quot;) of system event log</Property>
+    <Property ID="8" Name="number of GPO problems" EvaluationPeriod="PT6H">number of records whose(event id of it = 1129 AND source of it = &quot;Microsoft-Windows-GroupPolicy&quot;) of system event log</Property>
+    <Property ID="9" Name="number of DC errors" EvaluationPeriod="PT6H">number of records whose(event id of it = 5719 AND source of it = &quot;NETLOGON&quot;) of system event log</Property>
+    <Property ID="10" Name="number of GPO successes" EvaluationPeriod="PT6H">number of records whose(event id of it = 1073743528 AND source of it = &quot;SceCli&quot;) of application event log</Property>
+    <Property ID="11" Name="NTP 129 error" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 129 AND source of it = &quot;Microsoft-Windows-Time-Service&quot; AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 1 AND source of it = &quot;Microsoft-Windows-Power-Troubleshooter&quot;) of system event log)) of system event log)</Property>
+    <Property ID="12" Name="DNS 1014 error" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 1014 AND source of it = &quot;Microsoft-Windows-DNS-Client&quot; AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 1 AND source of it = &quot;Microsoft-Windows-Power-Troubleshooter&quot;) of system event log)) of system event log)</Property>
+    <Property ID="13" Name="GPO 1129 error" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 1129 AND source of it = &quot;Microsoft-Windows-GroupPolicy&quot; AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 1 AND source of it = &quot;Microsoft-Windows-Power-Troubleshooter&quot;) of system event log)) of system event log)</Property>
+    <Property ID="14" Name="DC 5719 error" EvaluationPeriod="PT6H">(minimum of times generated of records whose(event id of it = 5719 AND source of it = &quot;NETLOGON&quot; AND time generated of it &gt; (maximum of times generated of records whose(event id of it = 1 AND source of it = &quot;Microsoft-Windows-Power-Troubleshooter&quot;) of system event log)) of system event log)</Property>
+  </Analysis>
+</BES>

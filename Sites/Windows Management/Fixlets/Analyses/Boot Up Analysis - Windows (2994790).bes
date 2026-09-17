@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Boot Up Analysis - Windows
+  ID       : 2994790
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-05-06T10:54:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Boot Up Analysis - Windows</Title>
+    <Description><![CDATA[<P>The idea is to include any properties that effect windows boot up time in one place. Many of these properties are applicable to Windows Vista, but this was only tested on Windows 7 &amp; 8. Please suggest additions to the this analysis, it could use some expansion. </P>
+<P><A href="http://www.msfn.org/board/topic/152622-hotfixes-for-faster-windows-7-bootstartup/">http://www.msfn.org/board/topic/152622-hotfixes-for-faster-windows-7-bootstartup/</A></P>
+<P><A href="http://www.msfn.org/board/topic/140262-how-to-speed-up-boot-process-under-windows-vista-or-windows-7/">http://www.msfn.org/board/topic/140262-how-to-speed-up-boot-process-under-windows-vista-or-windows-7/</A></P>
+<P>For best performance, "Size of RdyBoostBootPlan" should be less than 524288.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(it = &quot;Win8&quot; OR it = &quot;Win7&quot; OR it = &quot;WinVista&quot;) of name of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 06 May 2015 17:54:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Size of RdyBoostBootPlan" EvaluationPeriod="PT12H">unique values of sizes of values &quot;BootPlan&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\rdyboost\Parameters&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="2" Name="EnablePrefetcher" EvaluationPeriod="PT12H">values &quot;EnablePrefetcher&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters&quot; of (x64 registries; x32 registries)</Property>
+    <Property ID="3" Name="EnableSuperfetch" EvaluationPeriod="PT12H">values &quot;EnableSuperfetch&quot; of keys &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters&quot; of (x64 registries; x32 registries)</Property>
+  </Analysis>
+</BES>

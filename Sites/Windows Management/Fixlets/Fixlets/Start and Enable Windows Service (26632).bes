@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Start and Enable Windows Service
+  ID       : 26632
+  Author   : AramE
+  Domain   : BESC
+  Imported : 2019-06-20T10:53:31
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Start and Enable Windows Service</Title>
+    <Description>This task will start (and if necessary enable) a given Windows Service. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2019-06-14</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 14 Jun 2019 15:37:52 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Which service?
+action parameter query &quot;svcname&quot; with description &quot;Please enter the service name to start:&quot;
+
+// Is Service Disabled?
+if {start type of service (parameter &quot;svcname&quot; of action) = &quot;disabled&quot;}
+
+	// Enable service (set Start Type to Automatic)
+	waithidden cmd /C sc config {parameter &quot;svcname&quot; of action} start= auto
+
+endif
+
+// Start service
+waithidden cmd /C sc start {parameter &quot;svcname&quot; of action}</ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

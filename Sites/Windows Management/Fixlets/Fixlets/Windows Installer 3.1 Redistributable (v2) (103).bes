@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Fixlet Export
+
+  Title    : Windows Installer 3.1 Redistributable (v2)
+  ID       : 103
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-10-17T09:31:55
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Fixlet>
+    <Title>Windows Installer 3.1 Redistributable (v2)</Title>
+    <Description><![CDATA[This task will deploy: Windows Installer 3.1 Redistributable (v2).<BR><BR>This task is applicable on: Windows 2000, Windows XP, Windows XP x64, Windows 2003 and Windows 2003 x64. ]]></Description>
+    <Relevance>(name of it = &quot;Win2000&quot; OR name of it = &quot;WinXP&quot; OR name of it = &quot;WinXP-2003&quot; OR (name of it = &quot;Win2003&quot; AND NOT x64 of it) OR (name of it = &quot;Win2003&quot; AND x64 of it)) of operating system AND TRUE</Relevance>
+    <Relevance>exists value &quot;InstallerLocation&quot; of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer&quot; of native registry</Relevance>
+    <Relevance>exists file &quot;MSI.DLL&quot; of folder (value &quot;InstallerLocation&quot; of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer&quot; of native registry)</Relevance>
+    <Relevance><![CDATA[version of file "MSI.DLL" of folder (value "InstallerLocation" of key "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer" of native registry) < "3.1.4001.5512"]]></Relevance>
+    <Category>Install</Category>
+    <Source>danielheth@bigfix.me</Source>
+    <SourceID>&lt;Unspecified&gt;</SourceID>
+    <SourceReleaseDate>2012-10-03</SourceReleaseDate>
+    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <MIMEField>
+      <Name>x-fixlet-source</Name>
+      <Value>Software Distribution Wizard</Value>
+    </MIMEField>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 03 Oct 2012 16:07:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here </Link>
+        <PostLink>to initiate the deployment process.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch WindowsInstaller-KB893803-v2-x86.exe sha1:8318455b36ba0a748307459279d46f2f4cdb5a0e size:2585872 http://download.microsoft.com/download/1/4/7/147ded26-931c-4daf-9095-ec7baf996f46/WindowsInstaller-KB893803-v2-x86.exe
+wait __Download\WindowsInstaller-KB893803-v2-x86.exe /quiet /norestart
+</ActionScript>
+      <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
+    </DefaultAction>
+    <Action ID="Action256">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to learn more about this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://www.microsoft.com/en-us/download/details.aspx?id=25</ActionScript>
+    </Action>
+    <Action ID="Action257">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink>&amp;nbsp;to learn more about this software.</PostLink>
+      </Description>
+      <ActionScript MIMEType="text/x-uri">http://msdn.microsoft.com/en-us/library/windows/desktop/aa372856(v=vs.85).aspx</ActionScript>
+    </Action>
+  </Fixlet>
+</BES>

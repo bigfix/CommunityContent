@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Block KB 3114717 - MS Office Issues - Windows
+  ID       : 9143
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-02-12T18:45:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Block KB 3114717 - MS Office Issues - Windows</Title>
+    <Description><![CDATA[<P>BETA. I'm not sure how to write relevance to get this to only be applied when it should, or how to confirm it applied properly. It also seems like it will only successfully block an update that is not installed, but known.</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>not exists keys whose(exists values &quot;DisplayName&quot; whose(it as string as lowercase contains &quot;kb3114717&quot; AND it as string as lowercase contains &quot;32-bit&quot;) of it) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x64 registries;x32 registries)</Relevance>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-02-12</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 13 Feb 2016 01:40:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+delete __createfile
+
+createfile until END_OF_FILE
+If Wscript.Arguments.Count = 0 Then
+    WScript.Echo "Syntax: HideWindowsUpdate.vbs [Hotfix Article ID]" & vbCRLF & _
+                 "Examples:" & vbCRLF & _
+                 "  - Hide KB940157: HideWindowsUpdate.vbs 940157"
+    WScript.Quit 1
+End If
+
+Dim hotfixId
+hotfixId = WScript.Arguments(0)
+
+Dim updateSession, updateSearcher
+Set updateSession = CreateObject("Microsoft.Update.Session")
+Set updateSearcher = updateSession.CreateUpdateSearcher()
+
+Wscript.Stdout.Write "Searching for pending updates..."
+Dim searchResult
+Set searchResult = updateSearcher.Search("IsInstalled=0")
+
+Dim update, kbArticleId, index, index2
+WScript.Echo CStr(searchResult.Updates.Count) & " found."
+For index = 0 To searchResult.Updates.Count - 1
+    Set update = searchResult.Updates.Item(index)
+    For index2 = 0 To update.KBArticleIDs.Count - 1
+        kbArticleId = update.KBArticleIDs(index2)
+        If kbArticleId = hotfixId Then
+            WScript.Echo "Hiding update: " & update.Title
+            update.IsHidden = True
+        End If
+    Next
+Next
+END_OF_FILE
+
+delete __Download\HideWindowsUpdate.vbs
+copy __createfile __Download\HideWindowsUpdate.vbs
+
+waithidden cmd /c cscript __Download\HideWindowsUpdate.vbs 3114717 > __Download\HideWindowsUpdate_3114717.log
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>

@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Task Export
+
+  Title    : Generate Local Group Policy Registry.pol info to Registry (Policy) 1.1
+  ID       : 22387
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2016-10-25T07:22:36
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>Generate Local Group Policy Registry.pol info to Registry (Policy) 1.1</Title>
+    <Description><![CDATA[<P>This Task will export Local Group Policy Registry.pol files into a defined set of Registry keys.&nbsp; </P>
+<P>The purpose is to provide a means of inspecting the Local Group Policy configuration in other Fixlets/Tasks.&nbsp; Originally we had a large number of Fixlets reading values from Registry.pol files directly; but the Relevance for doing so was complex, resource-intensive, and prone to causing issues due to file locking of the Registry.pol files.</P>
+<P>This Task will search for both Computer, User, and MLGPO instances of Registry.pol, export them to text files via Microsoft's "LGPO.exe" utility, and import the results into the Registry under a number of keys.&nbsp; Currently these are exported to HKLM\Software\BES_LGPO with subkeys for "Machine", "User", and (potentially) for each MLGPO-defined policy.</P>
+<P>MLGPO reference: <A href="https://technet.microsoft.com/en-us/library/cc766291%28v=ws.10%29.aspx?f=255&amp;MSPPError=-2147217396">https://technet.microsoft.com/en-us/library/cc766291%28v=ws.10%29.aspx?f=255&amp;MSPPError=-2147217396</A></P>
+<P>This Fixlet adds data at HKLM\Software\BES_LGPO subkeys:</P>
+<UL>
+<LI>Machine
+<LI>User
+<LI>S-&lt;whatever SIDS defined for MLGPO settings&gt;</LI></UL>
+<P>&nbsp;Beneath each of these Keys are a number of Values.&nbsp; The Value Name corresponds to the registy key &amp; value that the LGPO configures; and the Value Data corresponds to the Data Type and Value that the LGPO applies.&nbsp; Example</P>
+<P>[HKEY_LOCAL_MACHINE\SOFTWARE\BES_LGPO\User]</P>
+<P>Software\Policies\Microsoft\Windows\Control Panel\Desktop\ScreenSaveActive</P>
+<P>REG_SZ:"SZ:1"</P>
+<P>&nbsp;</P>
+<P>This Task should be run as a repeating Policy to ensure the registry values are updated periodically.&nbsp; The registry values output will be used by a number of Security Policy fixlets.&nbsp; This should also be added as a task in any Baseline that changes Local Group Policy settings, to ensure the new values are captured after the settings are applied.</P>
+<P>&nbsp;v1.1: Updated to handle XP/2003 using ImportRegPol.exe rather than LGPO.exe</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Category>Data Collection</Category>
+    <Source>Internal</Source>
+    <SourceReleaseDate>2016-07-05</SourceReleaseDate>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 01 Aug 2016 21:16:09 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+ if {version of operating system >= version "6"}
+	add prefetch item name=LGPO.exe sha1=f5a4a8e27b428c2d9a1c1ba7d72ba08b77406a9c size=380208 url=http://MANUAL_BES_CACHING_REQUIRED/LGPO.exe sha256=a8e0b52dea3836071f3f46235c126cb7fe986abdcc3d1b819d7c2cd101999cb3
+  else
+	add prefetch item name=ImportRegPol.exe sha1=69d4881eb10a8f8c121e9ea63323ba6bfc028f31 size=181248 url=http://MANUAL_BES_CACHING_REQUIRED/ImportRegPol.exe
+ endif
+ collect prefetch items
+end prefetch block
+
+
+action uses wow64 redirection false
+if {version of operating system >= version "6"}
+	parameter "LGPO"="{pathname of download file "LGPO.EXE"}"
+	utility __Download\LGPO.exe
+	else
+	parameter "LGPO"="{pathname of download file "ImportRegPol.EXE"}"
+	utility __Download\ImportRegPol.exe
+endif
+
+// Path of each registry.pol file to parse, and the context (Computer|User) for the settings
+// Split via ";", ", /u" refers to User and ", /m" refers to Machine
+// Check Machine\Registry.pol, User\Registry.pol, and each potential MLGPO folder at System32\GroupPolicyUsers
+parameter "Registry.pol"="{pathname of system folder}\GroupPolicy\Machine\Registry.pol, /m;{pathname of system folder}\GroupPolicy\User\Registry.pol, /u{(if it !="" then ";" & it else "") of concatenation ";" of (it & ", /u") of pathnames of files "Registry.pol" of folders of folders "GroupPolicyUsers" of native system folder}"
+
+// Registry key into which we are going to write the output settings -
+parameter "RootKey"="HKEY_LOCAL_MACHINE\Software\BES_LGPO"
+
+// Locate Registry.pol and export it to LGPO Text file
+delete __appendfile
+// This creates a .inf file corresponding to each Registry.pol file found
+// Output .INF files are saved in the __Download folder (taking advantage of the BES Client behavior of keeping the download folder clean)
+// Files are named for the parent folder of Registry.pol - should be "Machine", "User", or the SID for an MLGPO user object
+// Output is generated by LGPO.exe or ImportRegPol.exe depending on OS
+// IF EXIST "PATH\Registry.pol" "PATH\LGPO.EXE" /parse /m "PATH\registry.pol" > __Download\parentdir.inf 2>>__Download\Export_Registry_Pol.err || EXIT /B 1
+if {version of operating system >= version "6"}
+	appendfile {concatenation "%0d%0a" of ("IF EXIST %22" & tuple string item 0 of it & "%22 %22" & parameter "LGPO" & "%22 /parse " & tuple string item 1 of it & " %22" & tuple string item 0 of it & "%22 > __Download\"  & (following text of last "\" of preceding text of last "\" of tuple string item 0 of it) & ".inf 2>>__Download\Export_Registry_Pol.err || EXIT /B 1" ) of substrings separated by ";" of parameter "Registry.pol"}
+else
+	appendfile {concatenation "%0d%0a" of ("IF EXIST %22" & tuple string item 0 of it & "%22 %22" & parameter "LGPO" & "%22 " & tuple string item 1 of it  & "  %22" & tuple string item 0 of it & "%22 /parseOnly /log __Download\"  & (following text of last "\" of preceding text of last "\" of tuple string item 0 of it) & ".inf /error __Download\Export_Registry_Pol.err || EXIT /B 1" ) of substrings separated by ";" of parameter "Registry.pol"}
+endif
+
+delete ExportRegistryPol.cmd
+move __appendfile ExportRegistryPol.cmd
+
+waithidden cmd /c ExportRegistryPol.cmd
+// Check for ExportRegistryPol.cmd error output
+continue if {not exists lines whose (it contains "Error") of files "Export_Registry_Pol.err" of download folder }
+
+// If we failed to export any of the registry.pol files to INF, stop here, leaving the prior Registry entries intact
+continue if {exit code of action = 0}
+
+// All targeted Registry.pol files have been exported.
+// Delete the output Registry key,
+//  insert a new CaptureTime, and import all of the outputted Registry.inf files
+delete __appendfile
+appendfile reg.exe delete "{parameter "RootKey"}" /F
+appendfile reg.exe add "{parameter "RootKey"}" /v __CaptureTime /t REG_SZ /d "{now}" /F
+
+appendfile SET RETCODE=0
+// Include handling for special cases:
+//  if "value name" is empty substitute "(default)"
+//  escape any embedded quotes with backslash (%22 ==> \%22 )
+//  Double-up on any embedded percent signs (  %25 ==> %25%25 )
+//
+
+appendfile {concatenation "%0d%0a" of ("reg.exe add %22HKLM\Software\BES_LGPO\" & preceding text of last ".inf" of name of item 3 of it /* Removed: naming the key for "computer" or "user", that's evident already :: & "\" & item 0 of it */ & "%22 /v %22" & item 1 of it & "%22 /t REG_SZ /d %22" & item 2 of it & "%22 /F || SET RETCODE += 1") of ((item 0 of it, next line of item 0 of it & "\" & (if it as trimmed string = "" then "(default)" else it) of next line of next line of item 0 of it, concatenation "\%22" of substrings separated by "%22" of concatenation "%25%25" of substrings separated by "%25" of  next line of next line of next line of item 0 of it, item 1 of it)) of (lines whose (previous line of it = "" and it as trimmed string as lowercase = "computer" or it as trimmed string as lowercase = "user") of it, it) of files whose (name of it as lowercase ends with ".inf") of download folder}
+appendfile exit /B %RETCODE%
+
+delete regadd.cmd
+move __appendfile regadd.cmd
+waithidden cmd /c regadd.cmd
+
+// If any of the REG ADD commands failed, the batch will return a non-zero code which we should flag here
+continue if {exit code of action = 0}
+
+// Even if we try to force a GPUpdate, the Policies registry key may not update until reboot
+runhidden gpupdate.exe /target:computer /wait:0
+
+
+// ---- Only comments beyond this line ------
+
+// Example .inf file format
+//; ----------------------------------------------------------
+//; PARSING COMPUTER POLICY
+//; Source file:  Registry.pol
+
+//Computer
+//Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+//NoInternetOpenWith
+//DWORD:1
+//
+//Computer
+//Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+//NoOnlinePrintsWizard
+//DWORD:1
+//
+//Computer
+//Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+//PreXPSP2ShellProtocolBehavior
+//DWORD:0
+//
+//Computer
+//Software\Microsoft\Windows\CurrentVersion\Policies\Explorer
+//DisableLocalMachineRunOnce
+//DWORD:1
+//
+// Parsing logic:
+//  * Grab a list of .inf files, and preserve their names (filename is used in naming the output registry key)
+//  * Find a line that is only "Computer" or "User", preceded by an empty line
+//  * Grab that line (Computer|User), and the three lines after it, as items
+//  * The first line (Computer|User) is ignored.  Line 2 and 3 are concatenated to make a registry value name (like Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\DisableLocalMachineRunOnce).  If line 3 is empty replace it with (default)
+//  * The fourth line is used as the value data (DWORD:1).
+// Include handling for special cases:
+//  if "value name" is empty substitute "(default)"
+//  escape any embedded quotes with backslash (%22 ==> \%22 )
+//  Double-up on any embedded percent signs (  %25 ==> %25%25 )
+
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
