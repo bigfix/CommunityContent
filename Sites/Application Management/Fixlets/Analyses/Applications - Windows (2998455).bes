@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Windows
+  ID       : 2998455
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-10-21T12:52:50
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Windows</Title>
+    <Description><![CDATA[Application Inventory for Windows
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Applications - Installed - Windows" EvaluationPeriod="P1D">unique values of (it as string) of (value &quot;DisplayName&quot; of it as string as trimmed string, (value &quot;DisplayVersion&quot; of it as string | &quot;None&quot;)) of keys whose (exists value &quot;DisplayName&quot; of it) of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (if x64 of operating system then (x64 registry;x32 registry) else x32 registry)</Property>
+    <Property ID="2" Name="Applications - Uninstall Strings - Windows" EvaluationPeriod="P1D">unique values of (concatenations of (it as string)) of (value &quot;DisplayName&quot; of it as string | &quot;N\A&quot;, value &quot;UninstallString&quot; of it as string | &quot;N\A&quot;) of (keys of keys &quot;HKLM\software\microsoft\windows\currentversion\uninstall&quot; of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose ((exists (it) and it as string does not contain &quot;Oarpmany.exe&quot;) of value &quot;UninstallString&quot; of it)</Property>
+    <Property ID="3" Name="Applications - Silent Uninstall Strings - Windows" EvaluationPeriod="P1D">unique values of (concatenations of (it as string)) of (value &quot;DisplayName&quot; of it as string | &quot;N\A&quot;, value &quot;QuietUninstallString&quot; of it as string | &quot;N\A&quot;) of (keys of keys &quot;HKLM\software\microsoft\windows\currentversion\uninstall&quot; of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose ((exists (it) and it as string does not contain &quot;Oarpmany.exe&quot;) of value &quot;QuietUninstallString&quot; of it)</Property>
+    <Property ID="4" Name="Applications - Startup - Windows" EvaluationPeriod="P1D">unique values of (names of files whose (name of it does not contain &quot;.ini&quot;) of folder &quot;StartUp&quot; of folder &quot;Programs&quot; of folder &quot;Start Menu&quot; of folder &quot;Windows&quot; of folder &quot;Microsoft&quot; of folder &quot;ProgramData&quot; of folder (name of drive of system folder));(it as string) of values of (key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run&quot; of native registry)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Cb Protection - Agent Details
+  ID       : 2998401
+  Author   : CarbonBlack
+  Domain   : BESC
+  Imported : 2016-09-16T11:50:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Cb Protection - Agent Details</Title>
+    <Description><![CDATA[<P>This analysis returns details of the&nbsp;Carbon Black Protection&nbsp;Agent including:</P>
+<UL>
+<LI>Version
+<LI>Install Date
+<LI>Service State
+<LI>Host Group
+<LI>Backend Server
+<LI>Current Level of Enforcement
+<LI>Unique Files
+<LI>Tamper Protection Status</LI></UL>
+<P><STRONG>Note:</STRONG> The 'Current Level of Enforcement', 'Unique Files', and 'Tamper Protection Status' properties require that the 'Collect Carbon Black Enterprise Protection Agent DasCLI status' task be run before they are able to return data.</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>(exists keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) OR (((value &quot;DisplayVersion&quot; of keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) as string as version | (&quot;0.0&quot; as version)) = (&quot;7.2.2&quot; as version))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Sep 2016 07:41:07 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Version" EvaluationPeriod="PT1H">version of service whose (display name of it = &quot;Bit9 Agent&quot;) as string | &quot;n/a&quot;</Property>
+    <Property ID="2" Name="Install Date" EvaluationPeriod="PT1H">(value &quot;InstallDate&quot; of keys whose (value &quot;DisplayName&quot; of it = &quot;Bit9 Agent&quot;) of key &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry as string) | &quot;n/a&quot;</Property>
+    <Property ID="3" Name="Service State">state of service whose (display name of it = &quot;Bit9 Agent&quot;) | &quot;n/a&quot;</Property>
+    <Property ID="4" Name="Host Group" EvaluationPeriod="PT1H">value &quot;B9_HOSTGROUP&quot; of key &quot;HKLM\Software\Bit9\Parity Agent\ServerSettings&quot; of registry as string | &quot;n/a&quot;</Property>
+    <Property ID="5" Name="Backend Server" EvaluationPeriod="PT1H">(value &quot;B9_SERVER_IP&quot; of it as string &amp; &quot;:&quot; &amp; value &quot;B9_SERVER_PORT&quot; of it as string) of key &quot;HKLM\Software\Bit9\Parity Agent\ServerSettings&quot; of registry | &quot;n/a&quot;</Property>
+    <Property ID="6" Name="Current Level of Enforcement" EvaluationPeriod="PT1H">if (exists file &quot;bit9_dasclistatus.txt&quot; of storage folder of client) then (following text of first &quot;:&quot; of lines whose (it as string contains &quot;Current&quot; AND previous line of it as string contains &quot;Enforcement Information&quot;) of file &quot;bit9_dasclistatus.txt&quot; of (storage folder of client) as trimmed string) else &quot;n/a&quot;</Property>
+    <Property ID="7" Name="Unique Files" EvaluationPeriod="PT1H">if (exists file &quot;bit9_dasclistatus.txt&quot; of storage folder of client) then (preceding text of first &quot; &quot; of (following text of first &quot;:&quot; of lines whose (it as string contains &quot;Unique Files&quot;) of file &quot;bit9_dasclistatus.txt&quot; of (storage folder of client) as trimmed string)) else &quot;n/a&quot;</Property>
+    <Property ID="8" Name="Tamper Protection Status" EvaluationPeriod="PT1H">if (exists file &quot;bit9_dasclistatus.txt&quot; of storage folder of client) then (following text of first &quot;:&quot; of lines whose (it as string contains &quot;Tamper Protection&quot;) of file &quot;bit9_dasclistatus.txt&quot; of (storage folder of client) as trimmed string) else &quot;n/a&quot;</Property>
+  </Analysis>
+</BES>

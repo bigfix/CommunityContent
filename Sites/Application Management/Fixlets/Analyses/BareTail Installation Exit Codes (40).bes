@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : BareTail Installation Exit Codes
+  ID       : 40
+  Author   : danielheth
+  Domain   : BESC
+  Imported : 2012-11-08T16:46:44
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>BareTail Installation Exit Codes</Title>
+    <Description>Analysis put together to pull back exit codes from v2 of baretail installer task.</Description>
+    <Relevance>exists file &quot;baretail_exitcode.log&quot; of parent folder of client</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 08 Nov 2012 22:46:13 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Exit Code" EvaluationPeriod="PT5M">lines of file &quot;baretail_exitcode.log&quot; of parent folder of client</Property>
+  </Analysis>
+</BES>

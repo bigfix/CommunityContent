@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Azure Cloud Data
+  ID       : 2998679
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:12:46
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Azure Cloud Data</Title>
+    <Description>Queries the Azure metadata file using the cloud provider inspector.</Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then true else false) else false</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Azure Resource Group" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then (if (exists path &quot;$.compute.resourceGroupName&quot; of it) then (path &quot;$.compute.resourceGroupName&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="2" Name="Azure Subscription ID" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then (if (exists path &quot;$.compute.subscriptionId&quot; of it) then (path &quot;$.compute.subscriptionId&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="3" Name="Azure Tags" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then (if (exists path &quot;$.compute.tags&quot; of it) then (path &quot;$.compute.tags&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="4" Name="Azure VM Size" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then (if (exists path &quot;$.compute.vmSize&quot; of it) then (path &quot;$.compute.vmSize&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="5" Name="Azure Subnet Address" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Azure&quot;) of cloud provider) then (if (exists path &quot;$.network.interface[0].ipv4.subnet[0].address&quot; of it) then (path &quot;$.network.interface[0].ipv4.subnet[0].address&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+  </Analysis>
+</BES>

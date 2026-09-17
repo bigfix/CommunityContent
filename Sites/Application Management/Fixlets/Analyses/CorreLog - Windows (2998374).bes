@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : CorreLog - Windows
+  ID       : 2998374
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-25T14:05:43
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>CorreLog - Windows</Title>
+    <Description><![CDATA[This analysis provides information related to the currently installed Correlog Event Forwarder for Windows devices.
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists service &quot;CorreLog Message&quot;</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Correlog - Destination Address - Windows" EvaluationPeriod="P1D">following text of last &quot; &quot; of line containing &quot;DestinationAddress&quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+    <Property ID="2" Name="Correlog - Destination Port - Windows" EvaluationPeriod="P1D">following text of last &quot; &quot; of line containing &quot;DestinationPort&quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+    <Property ID="4" Name="Correlog - Listen Authentication Mode - Windows" EvaluationPeriod="P1D">(if (it starts with &quot;#&quot;) then (&quot;Disabled&quot;) else (following text of last &quot; &quot; of it)) of (line containing &quot;ListenAuthMode &quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder)</Property>
+    <Property ID="5" Name="Correlog - Listen Authentication Port - Windows" EvaluationPeriod="P1D">(if (it starts with &quot;#&quot;) then (&quot;Disabled&quot;) else (following text of last &quot; &quot; of it)) of (line containing &quot;ListenPort &quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder)</Property>
+    <Property ID="6" Name="Correlog - Message Encryption - Windows" EvaluationPeriod="P1D">following text of last &quot; &quot; of line containing &quot;EncryptData&quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+    <Property ID="7" Name="Correlog - Monitored Event Logs - Windows" EvaluationPeriod="P1D">parenthesized parts 1 of matches (regex (&quot;EventLog\s{12}(.*)&quot;)) of lines containing &quot;EventLog&quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+    <Property ID="8" Name="Correlog - State - Windows" EvaluationPeriod="PT15M">state of service &quot;CorreLog Message&quot;</Property>
+    <Property ID="9" Name="Correlog - Last Configuration Modification - Windows" EvaluationPeriod="PT12H">modification time of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+    <Property ID="10" Name="Correlog - Marker Frequency - Windows" EvaluationPeriod="P1D">following text of last &quot; &quot; of line containing &quot;MarkerMinutes&quot; of file &quot;CO-sysmsg.cnf&quot; of folder &quot;CorreLog\wintools&quot; of drive of system folder</Property>
+  </Analysis>
+</BES>

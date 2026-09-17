@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Browser Extensions
+  ID       : 2998689
+  Author   : anderdo85
+  Domain   : BESC
+  Imported : 2023-11-03T07:28:27
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Browser Extensions</Title>
+    <Description>Inventory of installed browser extensions in Google Chrome and Microsoft Edge. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 03 Nov 2023 14:23:15 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Chrome Extensions" EvaluationPeriod="P1D"> (    unique values of     (      it as string    )    of values of keys &quot;message&quot; of values of keys     whose    (      (        name of it as lowercase contains &quot;extname&quot;      )     or      (        name of it as lowercase ends with &quot;extnname&quot;      )    )    of jsons of files &quot;messages.json&quot; of folders     whose    (      name of it as lowercase contains &quot;en&quot;    )    of folders &quot;_locales&quot; of it  )  of folders of folders of folders &quot;Extensions&quot; of folders &quot;Default&quot; of   (    folders &quot;AppData\Local\Google\Chrome\User Data&quot; of folders of folders     (      &quot;C:\Users&quot;    )  )</Property>
+    <Property ID="2" Name="Edge Extensions" EvaluationPeriod="P1D"> (    unique values     whose    (      it does not contain &quot;_MSG&quot;    )    of     (      it as string    )    of values of keys &quot;name&quot; of jsons of files &quot;manifest.json&quot; of it; unique values of     (      it as string    )    of values of keys &quot;message&quot; of values of keys &quot;appName&quot; of jsons     whose    (      exists keys &quot;appName&quot; of it    )    of files &quot;messages.json&quot; of folders     whose    (      name of it as lowercase contains &quot;en&quot;    )    of folders &quot;_locales&quot; of it  )  of folders of folders of folders &quot;Extensions&quot; of folders &quot;Default&quot; of   (    folders &quot;AppData\Local\Microsoft\Edge\User Data&quot; of folders of folders     (      &quot;C:\Users&quot;)  )</Property>
+  </Analysis>
+</BES>

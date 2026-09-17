@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Cylance Finds
+  ID       : 2995825
+  Author   : Tutankh
+  Domain   : BESC
+  Imported : 2015-12-07T14:18:04
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Cylance Finds</Title>
+    <Description>Reads information from Cylance logs. </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2E64FC5C-9286-4A31-916B-0D8AE4B22954}&quot; of native registry</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 07 Dec 2015 19:57:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Alerted Files" EvaluationPeriod="P1D">(unique values of (&quot;Alerted File: &quot; &amp; (following text of last &quot;\&quot; of preceding text of last &quot;&apos;&quot; of it) &amp; &quot; SHA256: &quot; &amp; (following text of first &quot;SetCache should block &quot; of preceding text of last &quot; &apos;&quot; of it) &amp; &quot; Path: &quot; &amp; (following text of first &quot;&apos;&quot; of preceding text of last &quot;\&quot; of it)) of lines whose (it contains &quot;SetCache should block&quot; AND it contains &quot;[22]&quot;) of files of (folder &quot;Program Files\Cylance\Desktop\log&quot; of drive of system folder))</Property>
+    <Property ID="2" Name="Blocked Files" EvaluationPeriod="P1D">(unique values of (&quot;File: &quot; &amp; (following text of last &quot;\&quot; of preceding text of last &quot;&apos;&quot; of it) &amp; &quot; SHA256: &quot; &amp; (following text of first &quot;SetCache block &quot; of preceding text of last &quot; &apos;&quot; of it) &amp; &quot; Path: &quot; &amp; (following text of first &quot;&apos;&quot; of preceding text of last &quot;\&quot; of it)) of lines whose (it contains &quot;SetCache block&quot; AND (it contains &quot;[17]&quot; or it contains &quot;[25]&quot;)) of files of (folder &quot;Program Files\Cylance\Desktop\log&quot; of drive of system folder))</Property>
+  </Analysis>
+</BES>

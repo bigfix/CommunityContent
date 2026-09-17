@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Application Usage - Compression - Windows
+  ID       : 2998322
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-08-09T07:34:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Application Usage - Compression - Windows</Title>
+    <Description><![CDATA[<P>This analysis provides information on the usage of compression utilities.</P>
+<P>For general information or to report issues with C3 Application Usage content please visit GitHub here: <A href="https://github.com/strawgate/C3-Application-Usage">https://github.com/strawgate/C3-Application-Usage</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client</Relevance>
+    <Relevance>exists selects &quot;/Usage/Applications&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Application Last Usage - 7zip - Windows" EvaluationPeriod="P1D">maximum of (select &quot;Date&quot; of it as text as date &amp; (select &quot;Time&quot; of it as text as time_of_day &amp; local time zone)) of selects &quot;/Usage/Applications/App[Exe = &apos;7ZFM.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client | error &quot;none&quot;</Property>
+    <Property ID="2" Name="Application Usage Count - 7zip - Windows" EvaluationPeriod="P1D">(sum of (select &quot;Count&quot; of it as text as integer) of selects &quot;/Usage/Applications/App[Exe = &apos;7ZFM.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client)</Property>
+    <Property ID="3" Name="Application Last Usage - WinRAR - Windows" EvaluationPeriod="P1D">maximum of (select &quot;Date&quot; of it as text as date &amp; (select &quot;Time&quot; of it as text as time_of_day &amp; local time zone)) of selects &quot;/Usage/Applications/App[Exe = &apos;WINRAR.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client | error &quot;none&quot;</Property>
+    <Property ID="4" Name="Application Usage Count - WinRAR - Windows" EvaluationPeriod="P1D">(sum of (select &quot;Count&quot; of it as text as integer) of selects &quot;/Usage/Applications/App[Exe = &apos;WINRAR.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client)</Property>
+    <Property ID="5" Name="Application Last Usage - WinZIP - Windows" EvaluationPeriod="P1D">maximum of (select &quot;Date&quot; of it as text as date &amp; (select &quot;Time&quot; of it as text as time_of_day &amp; local time zone)) of selects &quot;/Usage/Applications/App[Exe = &apos;WINZIP.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client | error &quot;none&quot;</Property>
+    <Property ID="6" Name="Application Usage Count - WinZIP - Windows" EvaluationPeriod="P1D">(sum of (select &quot;Count&quot; of it as text as integer) of selects &quot;/Usage/Applications/App[Exe = &apos;WINZIP.EXE&apos;]&quot; of xml document of file &quot;AppUsage.xml&quot; of folder &quot;C3AppUsage&quot; of folder &quot;__Global&quot; of data folder of client)</Property>
+  </Analysis>
+</BES>

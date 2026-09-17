@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Fonts - Win\Mac
+  ID       : 2998244
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T17:50:19
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Fonts - Win\Mac</Title>
+    <Description><![CDATA[Reports on the installed fonts on the system
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Fonts - Installed - Win\Mac" EvaluationPeriod="P7D">unique values of names of files of (if (Windows of operating system) then (folder &quot;C:\Windows\Fonts&quot;) else (folders (&quot;/Library/Fonts/&quot;;&quot;/System/Library/Fonts&quot;)))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Dell - Intel - vPro AMT MEBx etc... Audit - Windows
+  ID       : 2998537
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2017-03-17T21:54:45
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Dell - Intel - vPro AMT MEBx etc... Audit - Windows</Title>
+    <Description><![CDATA[<P>&nbsp;</P>
+<P>This analysis requires that the&nbsp;Dell Command Monitor (OMCI) or equivalent is installed on the client for some of the properties.</P>
+<P>This analysis also requires that you run the task "vPro - Run Intel Platforms Discovery Utility - Windows".</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>/* Some of the properties of this analysis are Dell specific, but not all */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 28 Sep 2015 06:35:53 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Intel AMT?" EvaluationPeriod="PT6H">string values of selects &quot;AMTSupported from DCIM_AMTSettings&quot; of wmis &quot;root\dcim\sysman&quot;</Property>
+    <Property ID="2" Name="DCIM_AMTSettings" EvaluationPeriod="PT6H">selects &quot;* from DCIM_AMTSettings&quot; of wmis &quot;root\dcim\sysman&quot;</Property>
+    <Property ID="3" Name="exists Intel_Platform_Discovery results?" EvaluationPeriod="PT6H">exists files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="4" Name="AMT state" EvaluationPeriod="PT6H">node values of xpaths &quot;/PlatformDiscovery/Solution[@name=&apos;Intel(R) AMT&apos;]/@state&quot; of xml documents of files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="5" Name="Intel Platform states" EvaluationPeriod="PT6H">(&quot;%22&quot; &amp; item 0 of it &amp; &quot;%22=%22&quot; &amp; item 1 of it &amp; &quot;%22&quot;) of ( ( (it as string) of node values of xpaths &quot;@name&quot; of it) , ( (it as string) of node values of xpaths &quot;@state&quot; of it) ) of xpaths &quot;/PlatformDiscovery/Solution[@exist=&apos;true&apos;]&quot; of xml documents of files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="6" Name="Intel Platform related Hardware" EvaluationPeriod="PT6H">unique values of node values whose(it as lowercase does not end with &quot; - not present&quot;) of xpaths &quot;/PlatformDiscovery/Solution/Hardware/@version&quot; of xml documents of files &quot;results_Intel_Platform_Discovery.xml&quot; of folders &quot;__Global/Logs&quot; of ((data folder of client)|(folder &quot;/var/opt/BESClient/__BESData&quot;)|(folder &quot;/Library/Application Support/BigFix/BES Agent/__BESData&quot;)|(folder &quot;__BESData&quot; of parent folder of client))</Property>
+    <Property ID="7" Name="DCIM_VProSettings" EvaluationPeriod="PT12H">selects &quot;* FROM DCIM_VProSettings&quot; of wmis &quot;root/dcim/sysman&quot;</Property>
+    <Property ID="8" Name="BiosSetupPOSTMEBxKey" EvaluationPeriod="PT12H">selects &quot;* FROM DCIM_BIOSEnumeration WHERE InstanceID=&apos;Root/MainSystemChassis/BIOSSetupParent/BiosSetupPOSTMEBxKey&apos;&quot; of wmis &quot;root/dcim/sysman&quot;</Property>
+  </Analysis>
+</BES>

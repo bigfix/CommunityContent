@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : grails-databinding Scan Result Analysis
+  ID       : 2998675
+  Author   : JasonWalker
+  Domain   : BESC
+  Imported : 2022-07-20T09:14:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>grails-databinding Scan Result Analysis</Title>
+    <Description><![CDATA[Learn more about this analysis online: <A href="https://bigfix.me/cdb/analysis/2998672">https://bigfix.me/cdb/analysis/2998672</A><BR><BR>
+<H3>This is Community Content. When you use these solutions, it is incumbent on your organization to test any solutions provided across the broadest available system base including various OS, storage solutions, and application inventory.</H3>
+<P></P>
+<P>Please see the <A href="https://forum.bigfix.com/t/log4j-vulnerability-identification-and-3rd-party-remediation-solution-testing-statement/40273"><FONT color=#0066cc>Community Solution Testing Statement</FONT></A></P>
+<P>This&nbsp;Analysis retrieves results of&nbsp;a filesystem scan to attempt detecting Grails Databinding versions that may be vulnerable to the following vulnerabilty reported in&nbsp;July 2022:</P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"></SPAN>&nbsp;</P><SPAN style="FONT-SIZE: 11pt">
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"></SPAN>&nbsp;</P><SPAN style="FONT-SIZE: 11pt">
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><A href="https://nvd.nist.gov/vuln/detail/CVE-2022-35912"><FONT color=#0066cc>https://nvd.nist.gov/vuln/detail/CVE-2022-35912</FONT></A></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"><?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN></P>
+<P><A href="https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97"><FONT color=#0066cc>https://github.com/grails/grails-core/security/advisories/GHSA-6rh6-x8ww-9h97</FONT></A></P></SPAN></SPAN>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt"></SPAN>&nbsp;</P>
+<P class=MsoNormal style="MARGIN: 0in 0in 0pt"><SPAN style="FONT-SIZE: 11pt">This Analysis attempts to detect the presence and versions of Grails databinding, without distinction between vulnerable or updated versions.&nbsp; These results should be considered only a starting point in determining whether a system is actually vulnerable, along with other information such as the version of Java Virtual Machine and specific application or code configurations as referenced in the security bulletins above.</SPAN></P>]]></Description>
+    <Relevance>if exists property &quot;in proxy agent context&quot; then not in proxy agent context else true</Relevance>
+    <Relevance><![CDATA[exists files "grails-databinding-scan.txt" of folders "Scans" of folders ((if (version of client >= "9" as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site "actionsite")))]]></Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 20 Jul 2022 15:03:00 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="All grails-databinding Detections" EvaluationPeriod="PT30M">(if exists property &quot;locked lines&quot; then locked lines of it else lines of it) whose (it does not start with &quot;::&quot;) of files &quot;grails-databinding-scan.txt&quot; of folders &quot;Scans&quot; of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;))) </Property>
+    <Property ID="2" Name="Number of grails-databinding Detections" EvaluationPeriod="PT30M">number of (if exists property &quot;locked lines&quot; then locked lines of it else lines of it) whose (it does not start with &quot;::&quot;) of files &quot;grails-databinding-scan.txt&quot; of folders &quot;Scans&quot; of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)))</Property>
+    <Property ID="3" Name="Unique grails-databinding Versions Found" EvaluationPeriod="PT30M">unique values of (unique value of following texts of lasts &quot;-&quot; of preceding texts of lasts &quot;.jar&quot; of (it as lowercase) | &quot;unknown&quot;) of lines whose (it does not start with &quot;::&quot;) of files &quot;grails-databinding-scan.txt&quot; of folders &quot;Scans&quot; of folders ((if (version of client &gt;= &quot;9&quot; as version) then (pathname of parent folder of data folder of client) else (pathname of parent folder of parent folder of client folder of site &quot;actionsite&quot;)))</Property>
+  </Analysis>
+</BES>

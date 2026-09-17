@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe Config Audit - pim.db - Windows
+  ID       : 2994714
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T11:52:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe Config Audit - pim.db - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance><![CDATA[version of client >= "9.0"]]></Relevance>
+    <Relevance>exists files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 25 Aug 2014 15:14:20 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="journal table" EvaluationPeriod="P2D">rows of statements &quot;SELECT pkg_name,ACTION,info,time_action,current_status FROM journal&quot; of sqlite databases of files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="2" Name="journal table issues" EvaluationPeriod="PT12H">rows of statements &quot;SELECT * FROM journal WHERE current_status != &apos;success&apos;&quot; of sqlite databases of files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="3" Name="package_installation_info table" EvaluationPeriod="P2D">rows of statements &quot;SELECT name,version FROM package_installation_info&quot; of sqlite databases of files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="4" Name="(#, date) of time_actions" EvaluationPeriod="PT12H">(multiplicity of it, it) of unique values of (preceding text of first &quot; &quot; of (it as string)) of columns &quot;time_action&quot; of rows of statements &quot;SELECT time_action FROM journal&quot; of sqlite databases of files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="5" Name="(#, action) of ACTIONs" EvaluationPeriod="PT12H">(multiplicity of it, it) of unique values of (it as string) of columns &quot;action&quot; of rows of statements &quot;SELECT ACTION FROM journal&quot; of sqlite databases of files &quot;pim.db&quot; of folders &quot;Common Files\Adobe\OOBE\PDApp&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+  </Analysis>
+</BES>

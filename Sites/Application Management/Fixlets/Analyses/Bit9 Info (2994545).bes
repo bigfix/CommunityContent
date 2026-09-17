@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Bit9 Info
+  ID       : 2994545
+  Author   : pcpeteusa
+  Domain   : BESC
+  Imported : 2013-07-08T13:50:02
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Bit9 Info</Title>
+    <Description>This analysis is designed to return the state of the Bit9 Parity server and the version of Bit9 installed.</Description>
+    <Relevance>true</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 08 Jul 2013 20:43:37 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Bit9 Version" EvaluationPeriod="PT30M">((if (exists value &quot;ParityAgentVersion&quot; of it) then (value &quot;ParityAgentVersion&quot; of it as string) else (&quot;&lt;none&gt;&quot;)) &amp; &quot;.&quot; &amp; (if (exists value &quot;ParityAgentBuild&quot; of it) then (value &quot;ParityAgentBuild&quot; of it as string) else (&quot;&lt;none&gt;&quot;))) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix&quot; of registry as version</Property>
+    <Property ID="2" Name="Bit( Service Info" EvaluationPeriod="PT30M">if(exists service &quot;Parity&quot;) then (state of service &quot;Parity&quot;) else (&quot;Bit9 Service Not Found&quot;)</Property>
+  </Analysis>
+</BES>

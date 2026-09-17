@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Avast for Business (Cloud) - Protection - Win\Mac
+  ID       : 2998293
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:01:01
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Avast for Business (Cloud) - Protection - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides information on the current protection state for the Avast for Business (Cloud) client on the device.</P>
+<P>The Self-Defense modules only exist on the Windows platform.</P>
+<P><FONT color=#ff0000><STRONG>NOTE:</STRONG></FONT> On the Windows platform protection will <STRONG>only</STRONG> show as disabled if the user has permanently disabled the protection. Temporary disabling of the shield will not be flagged here but will be flagged on the web interface.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1" /* Supports >WinXP */ or mac of operating system and version of operating system >= "10.6" /* Supports > Snow Leopard */]]></Relevance>
+    <Relevance>if (mac of operating system) then (exists &quot;/Applications/Avast.app&quot; and exists folder &quot;/Library/Application Support/Avast/config/bcc&quot;) else ((exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;Avast Business Security&quot;))) /* Is Avast Installed */</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Avast for Business (Cloud) - File System Shield State - Win\Mac" EvaluationPeriod="P1D">if ((if (Mac of Operating System) then (following text of first &quot;=&quot; of line containing &quot;ENABLED=&quot; of file &quot;com.avast.fileshield.conf&quot; of folder &quot;/Library/Application Support/Avast/config&quot; as string | &quot;1&quot;) else (key &quot;ProviderEnabled&quot; of section &quot;Common&quot; of file &quot;FileSystemShield.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string | &quot;0&quot;))) = &quot;1&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+    <Property ID="2" Name="Avast for Business (Cloud) - Email Shield State - Win\Mac" EvaluationPeriod="P1D">if ((if (Mac of Operating System) then (following text of first &quot;=&quot; of line containing &quot;ENABLED=&quot; of file &quot;com.avast.emailshield.conf&quot; of folder &quot;/Library/Application Support/Avast/config&quot; as string | &quot;1&quot;) else (key &quot;ProviderEnabled&quot; of section &quot;Common&quot; of file &quot;EmailShield.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string | &quot;0&quot;))) = &quot;1&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+    <Property ID="3" Name="Avast for Business (Cloud) - Web Shield State - Win\Mac" EvaluationPeriod="P1D">if ((if (Mac of Operating System) then (following text of first &quot;=&quot; of line containing &quot;ENABLED=&quot; of file &quot;com.avast.webshield.conf&quot; of folder &quot;/Library/Application Support/Avast/config&quot; as string | &quot;1&quot;) else (key &quot;ProviderEnabled&quot; of section &quot;Common&quot; of file &quot;WebShield.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string | &quot;0&quot;))) = &quot;1&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+    <Property ID="4" Name="Avast for Business (Cloud) - Self Defense - Windows" EvaluationPeriod="P1D">if (Windows of operating system) then (if ((key &quot;SelfDefense&quot; of section &quot;SelfDefense&quot; of file &quot;avast5.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string)) = &quot;0&quot;) then &quot;Permanently Disabled&quot; else &quot;Enabled&quot;) else (&quot;Not Applicable&quot;)</Property>
+  </Analysis>
+</BES>

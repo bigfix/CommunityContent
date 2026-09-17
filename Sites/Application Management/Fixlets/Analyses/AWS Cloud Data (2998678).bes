@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : AWS Cloud Data
+  ID       : 2998678
+  Author   : JulesM
+  Domain   : BESC
+  Imported : 2022-12-12T08:12:05
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>AWS Cloud Data</Title>
+    <Description>Queries the AWS metadata file using the cloud provider inspector.</Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then true else false) else false</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="AWS Account ID" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then (if (exists path &quot;$.accountId&quot; of it) then (path &quot;$.accountId&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="2" Name="AWS Instance Type" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then (if (exists path &quot;$.instanceType&quot; of it) then (path &quot;$.instanceType&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="3" Name="AWS Image ID" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then (if (exists path &quot;$.imageId&quot; of it) then (path &quot;$.imageId&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="4" Name="AWS Instance ID" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then (if (exists path &quot;$.instanceId&quot; of it) then (path &quot;$.instanceId&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+    <Property ID="5" Name="AWS Availability Zone" EvaluationPeriod="P1D">if (exists property &quot;cloud provider&quot;) then (if (exists name whose (it contains &quot;Amazon&quot;) of cloud provider) then (if (exists path &quot;$.availabilityZone&quot; of it) then (path &quot;$.availabilityZone&quot; of it) else nothing) of (json of instance data of cloud provider) else nothing) else nothing</Property>
+  </Analysis>
+</BES>

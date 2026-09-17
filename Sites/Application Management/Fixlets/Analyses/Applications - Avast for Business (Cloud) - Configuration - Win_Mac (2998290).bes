@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Avast for Business (Cloud) - Configuration - Win\Mac
+  ID       : 2998290
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2016-07-19T18:00:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Avast for Business (Cloud) - Configuration - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides information on how the Avast for Business (Cloud) client is configured on the device.</P>
+<P>These settings cannot be changed on the client but instead must be changed through the Avast for Business (Cloud) web interface.</P>
+<P><FONT color=#ff0000><STRONG>NOTE:</STRONG></FONT> Debug Logging and Policy Name are only available on the Windows Platform.</P>
+<P>For general information or to report issues with C3 Protect content please visit GitHub here: <A href="https://github.com/strawgate/C3-Protect">https://github.com/strawgate/C3-Protect</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance><![CDATA[windows of operating system and version of operating system >= "5.1" /* Supports >WinXP */ or mac of operating system and version of operating system >= "10.6" /* Supports > Snow Leopard */]]></Relevance>
+    <Relevance>if (mac of operating system) then (exists &quot;/Applications/Avast.app&quot; and exists folder &quot;/Library/Application Support/Avast/config/bcc&quot;) else (exists (keys of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry) whose (value &quot;DisplayName&quot; of it as string starts with &quot;Avast Business Security&quot;)) /* Is Avast Installed? */</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Avast for Business (Cloud) - Definitions Update Method - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (key &quot;VPSUpdate&quot; of section &quot;Common&quot; of file &quot;avast5.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string)) else (if (((following text of first &quot;= &quot; of line containing &quot;VPS_UPDATE_ENABLED = &quot; of it) of file &quot;com.avast.update.conf&quot; of folder &quot;/Library/Application Support/Avast/config&quot;) = &quot;1&quot;) then (&quot;Automatic&quot;) else (&quot;Manual&quot;))</Property>
+    <Property ID="2" Name="Avast for Business (Cloud) - Program Update Method - Win\Mac" EvaluationPeriod="P1D">if (windows of operating system) then (key &quot;ProgramUpdate&quot; of section &quot;Common&quot; of file &quot;avast5.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string)) else (if (((following text of first &quot;= &quot; of line containing &quot;PROGRAM_UPDATE_ENABLED = &quot; of it) of file &quot;com.avast.update.conf&quot; of folder &quot;/Library/Application Support/Avast/config&quot;) = &quot;1&quot;) then (&quot;Automatic&quot;) else (&quot;Manual&quot;))</Property>
+    <Property ID="3" Name="Avast for Business (Cloud) - Debug Logging - Windows" EvaluationPeriod="P1D">if (exists key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry) then (if((parenthesized part of matches (regex &quot;DebugLogging=([0-9])&quot;) of (concatenation &quot;&quot; of substrings separated by &quot;%00&quot; of lines of file &quot;avast5.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string)) as string) | &quot;0&quot; = &quot;1&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;) else &quot;Not Applicable&quot;</Property>
+    <Property ID="4" Name="Avast for Business (Cloud) - Policy Name - Windows" EvaluationPeriod="P1D">if (exists key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry) then (parenthesized part of matches (regex &quot;ConfigName=([0-9a-z_\-]*)&quot;) of (concatenation &quot;&quot; of substrings separated by &quot;%00&quot; of lines of file &quot;avast5.ini&quot; of folder (value &quot;DataFolder&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\AVAST Software\Avast&quot; of x32 registry as string)) as string) else &quot;Not Applicable&quot;</Property>
+  </Analysis>
+</BES>

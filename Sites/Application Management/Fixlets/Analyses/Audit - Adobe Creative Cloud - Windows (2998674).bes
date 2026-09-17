@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Audit - Adobe Creative Cloud - Windows
+  ID       : 2998674
+  Author   : CharlesC
+  Domain   : BESC
+  Imported : 2022-06-18T01:39:58
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Audit - Adobe Creative Cloud - Windows</Title>
+    <Description>Gather information of Adobe CC installation </Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists folders &quot;Adobe\OOBE&quot; of folders of folders &quot;C:\ProgramData&quot;) OR (exists folders of folders &quot;Adobe\Adobe Creative Cloud&quot; of folders whose (name of it starts with &quot;Program Files&quot;) of folders &quot;C:&quot;) OR (exists regapps &quot;Creative Cloud.exe&quot;)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Sat, 18 Jun 2022 07:54:11 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="Adobe CC Version">unique values of ((values &quot;DisplayVersion&quot; of it as string) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;creative cloud&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) </Property>
+    <Property ID="3" Name="Adobe Bridge Version">unique values of ((values &quot;DisplayVersion&quot; of it as string) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;bridge&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) </Property>
+    <Property ID="4" Name="Adobe InDesign Version">unique values of ((values &quot;DisplayVersion&quot; of it as string) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;indesign&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) </Property>
+    <Property ID="5" Name="Adobe Photoshop Version">unique values of ((values &quot;DisplayVersion&quot; of it as string) of keys whose (value &quot;DisplayName&quot; of it as string as lowercase contains &quot;photoshop&quot;) of key &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry) </Property>
+  </Analysis>
+</BES>

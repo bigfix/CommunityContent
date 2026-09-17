@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe License Debugging Audit - oobelib.log - Windows
+  ID       : 2994672
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-07-16T16:12:17
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe License Debugging Audit - oobelib.log - Windows</Title>
+    <Description><![CDATA[<P>This analysis reports on the information found within the <FONT size=2>%temp%\oobelib.log file.</FONT></P>
+<P><FONT size=2>&nbsp;</P></FONT>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html">http://helpx.adobe.com/creative-cloud/packager/provisioning-toolkit-enterprise.html</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/preparing-deploy.html">http://helpx.adobe.com/creative-cloud/packager/preparing-deploy.html</A></P>
+<P><A href="http://helpx.adobe.com/creative-cloud/packager/creative-cloud-packager.html">http://helpx.adobe.com/creative-cloud/packager/creative-cloud-packager.html</A></P>
+<P><A href="http://www.regexr.com/395i4">http://www.regexr.com/395i4</A></P>
+<P><A href="http://www.regexr.com/395de">http://www.regexr.com/395de</A></P>
+<P>&nbsp;</P>
+<P>Find a related analysis here:&nbsp; <A href="http://bigfix.me/analysis/details/2994668">http://bigfix.me/analysis/details/2994668</A></P>
+<P>Find the latest version of this analysis here:&nbsp; <A href="http://bigfix.me/analysis/details/2994667">http://bigfix.me/analysis/details/2994667</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists lines of files &quot;oobelib.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Wed, 16 Jul 2014 23:11:35 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="2" Name="OOBELib: Version" EvaluationPeriod="P7D">unique values of following texts of firsts &quot;  OOBELib: Version &quot; of lines whose(it contains &quot;  OOBELib: Version &quot;) of files &quot;oobelib.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+    <Property ID="3" Name="Adobe LEIDs of file &quot;oobelib.log&quot;" EvaluationPeriod="P7D">unique values of (it as trimmed string) of (if it contains &quot; &quot; then preceding texts of firsts &quot; &quot; of it else it) of (if it starts with &quot;: &quot; then following texts of firsts &quot;: &quot; of it else it) of (if it starts with &quot;is &quot; then following texts of firsts &quot;is &quot; of it else it) of (if it starts with &quot;=&quot; then following texts of firsts &quot;=&quot; of it else it) of (if it contains &quot;, &quot; then preceding texts of firsts &quot;, &quot; of it else it) of (if it contains &quot;{|}&quot; then preceding texts of firsts &quot;{|}&quot; of it else it) of parenthesized parts 1 of matches (regexes &quot; LEI*D* *=*[= ](.+\{\}.+).*&quot;) of lines of files &quot;oobelib.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+    <Property ID="4" Name="Return Codes of file &quot;oobelib.log&quot;" EvaluationPeriod="P2D">unique values whose(it as integer != 0) of parenthesized parts 1 of matches (regexes &quot;return code[: ]\[*([0-9]+)&quot;) of (it as lowercase) of lines whose(it as lowercase contains &quot;return code&quot;) of files &quot;oobelib.log&quot; of ((folders &quot;temp&quot; of windows folders);((folders &quot;AppData\Local\Temp&quot; of folders of folders &quot;Users&quot; of it) of root folders of drives of system folders))</Property>
+  </Analysis>
+</BES>

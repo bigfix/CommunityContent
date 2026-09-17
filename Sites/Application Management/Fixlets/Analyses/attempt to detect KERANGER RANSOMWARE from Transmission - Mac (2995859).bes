@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : attempt to detect KERANGER RANSOMWARE from Transmission - Mac
+  ID       : 2995859
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2016-03-07T13:42:38
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>attempt to detect KERANGER RANSOMWARE from Transmission - Mac</Title>
+    <Description><![CDATA[<P>This analysis attempts to detect signs of the <FONT size=2>KERANGER RANSOMWARE that was installed along with Transmission v2.90</FONT></P>
+<P><FONT size=2></FONT>&nbsp;</P>
+<P><FONT size=2><STRONG>Related:</STRONG></FONT></P>
+<UL>
+<LI><FONT size=2><A href="https://macmule.com/2016/03/07/keranger-ransomware-an-attempt-at-detection-removal-via-the-jss/">https://macmule.com/2016/03/07/keranger-ransomware-an-attempt-at-detection-removal-via-the-jss/</A></FONT>
+<LI><A href="http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/">http://researchcenter.paloaltonetworks.com/2016/03/new-os-x-ransomware-keranger-infected-transmission-bittorrent-client-installer/</A>
+<LI><FONT size=2>
+<P><A href="https://twitter.com/nixcraft/status/706535801497096192">https:</FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>//</FONT></FONT><FONT size=2>twitter.</FONT><FONT size=2>com</FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>/</FONT></FONT><FONT size=2>nixcraft</FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>/</FONT></FONT><FONT size=2>status</FONT><FONT color=#0000ff size=2><FONT color=#0000ff size=2>/</FONT></FONT><FONT color=#800080 size=2><FONT color=#800080 size=2>706535801497096192</A></FONT></FONT><FONT color=#800080 size=2><FONT color=#800080 size=2></FONT></FONT></P>
+<LI>
+<P><FONT color=#800080 size=2><FONT color=#800080 size=2><A href="https://bigfix.me/relevance/details/3006153">https://bigfix.me/relevance/details/3006153</A></FONT></FONT></P>
+<LI>
+<P><FONT color=#800080 size=2><FONT color=#800080 size=2><A href="https://bigfix.me/relevance/details/3006152">https://bigfix.me/relevance/details/3006152</A></P></FONT></FONT></LI></UL>]]></Description>
+    <Relevance>mac of operating system</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 07 Mar 2016 20:40:17 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name=".kernel_time" EvaluationPeriod="PT1H">files &quot;.kernel_time&quot; of folders &quot;Library&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="2" Name=".kernel_pid" EvaluationPeriod="PT1H">files &quot;.kernel_pid&quot; of folders &quot;Library&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="3" Name="kernel_service" EvaluationPeriod="PT1H">files &quot;kernel_service&quot; of folders &quot;Library&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="4" Name="transmission" EvaluationPeriod="PT1H">applications whose(name of it as lowercase contains &quot;transmission&quot;)</Property>
+    <Property ID="5" Name="kernel_" EvaluationPeriod="PT1H">files whose(name of it as lowercase contains &quot;kernel_&quot;) of folders &quot;Library&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="6" Name="Exists downloaded copy of Transmission 2.90" EvaluationPeriod="PT1H">exists files whose(name of it starts with &quot;Transmission&quot; AND name of it contains &quot;2.90&quot;) of folders &quot;Downloads&quot; of folders of folders &quot;/Users&quot;</Property>
+    <Property ID="7" Name="General.rtf" EvaluationPeriod="PT1H">exists files whose(name of it contains &quot;General.rtf&quot;) of folders &quot;Transmission.app/Contents/Resources&quot; of (folders &quot;/Applications&quot;; folders &quot;/Volumes/Transmission&quot;)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe License Debugging Audit - com.adobe.swidtag - Windows
+  ID       : 2994777
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-04-30T08:28:30
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe License Debugging Audit - com.adobe.swidtag - Windows</Title>
+    <Description><![CDATA[<P>audit of the info found within&nbsp; C:\ProgramData\regid.1986-12.com.adobe</P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Thu, 30 Apr 2015 15:24:42 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="names of swidtag files" EvaluationPeriod="PT6H">names of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+    <Property ID="2" Name="Products" EvaluationPeriod="PT6H">unique values of node values of xpaths (&quot;xmlns:swid=&apos;http://standards.iso.org/iso/19770/-2/2008/schema.xsd&apos;&quot;,&quot;/swid:software_identification_tag/swid:product_title/text()&quot;) of xml documents of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+    <Property ID="3" Name="unique_id" EvaluationPeriod="PT6H">unique values of node values of xpaths (&quot;xmlns:swid=&apos;http://standards.iso.org/iso/19770/-2/2008/schema.xsd&apos;&quot;,&quot;/swid:software_identification_tag/swid:software_id/swid:unique_id/text()&quot;) of xml documents of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+    <Property ID="4" Name="serial_number" EvaluationPeriod="PT6H">unique values of node values of xpaths (&quot;xmlns:swid=&apos;http://standards.iso.org/iso/19770/-2/2008/schema.xsd&apos;&quot;,&quot;/swid:software_identification_tag/swid:serial_number/text()&quot;) of xml documents of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+    <Property ID="5" Name="activation_status" EvaluationPeriod="PT6H">unique values of node values of xpaths (&quot;xmlns:swid=&apos;http://standards.iso.org/iso/19770/-2/2008/schema.xsd&apos;&quot;,&quot;/swid:software_identification_tag/swid:license_linkage/swid:activation_status/text()&quot;) of xml documents of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+    <Property ID="6" Name="license type" EvaluationPeriod="PT6H">unique values of node values of child nodes of (it) whose(node name of it as lowercase contains &quot;_type&quot;) of xpaths (&quot;xmlns:swid=&apos;http://standards.iso.org/iso/19770/-2/2008/schema.xsd&apos;&quot;,&quot;/swid:software_identification_tag/swid:license_linkage/*&quot;) of xml documents of (it) whose(name of it as lowercase contains &quot;com.adobe&quot;) of files whose(name of it as lowercase starts with &quot;regid&quot; AND name of it as lowercase ends with &quot;.swidtag&quot;) of folders whose(name of it as lowercase starts with &quot;regid&quot;) of folders &quot;C:\ProgramData&quot;</Property>
+  </Analysis>
+</BES>

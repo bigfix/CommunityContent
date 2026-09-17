@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - 1E - Win\Mac
+  ID       : 2998532
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-03-10T08:40:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - 1E - Win\Mac</Title>
+    <Description><![CDATA[<P>Provides information regarding 1E installation status.</P>
+<P>For general information or to report issues with C3 Power Management content please visit GitHub here: <A href="https://github.com/strawgate/C3-Power-Management">https://github.com/strawgate/C3-Power-Management</A></P>]]></Description>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="NightWatchman - Installed - Win\Mac" EvaluationPeriod="PT1H">if (Windows of Operating System) then (exists file &quot;NightWatchman.exe&quot; of folder (preceding text of last &quot;\&quot; of (it as string) of value &quot;InstallationDirectory&quot; of key &quot;1E\NightWatchman&quot; of key &quot;HKEY_LOCAL_MACHINE\Software&quot; of native registry)) else (exists file &quot;nightwatchman&quot; of folder &quot;/Library/Application Support/1E/NightWatchman&quot;)</Property>
+  </Analysis>
+</BES>

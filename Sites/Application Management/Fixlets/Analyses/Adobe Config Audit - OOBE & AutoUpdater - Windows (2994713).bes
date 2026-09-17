@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe Config Audit - OOBE & AutoUpdater - Windows
+  ID       : 2994713
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2014-09-03T11:52:26
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe Config Audit - OOBE &amp; AutoUpdater - Windows</Title>
+    <Description><![CDATA[<P>This analysis reports on the configuration of different aspects of Adobe Updater, Trials, and other items.</P>
+<P>&nbsp;</P>
+<P><STRONG>References:</STRONG></P>
+<P><A href="http://helpx.adobe.com/creative-suite/kb/disable-auto-updates-application-manager.html">http://helpx.adobe.com/creative-suite/kb/disable-auto-updates-application-manager.html</A></P>
+<P>&nbsp;</P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>(exists files &quot;Common Files\Adobe\OOBE\OOBE.conf&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder) OR (exists files &quot;AdobeUpdaterAdminPrefs.dat&quot; of folders of folders &quot;Common Files\Adobe\AAMUpdaterInventory&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder)</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Mon, 25 Aug 2014 13:52:04 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="OOBE.conf LWA Properties" EvaluationPeriod="P2D">((node value of attribute &quot;name&quot; of it)&amp; &quot;=&quot; &amp; (node value of child node of it)) of xpaths &quot;/Configuration/LWA/Property&quot; of xml documents of files &quot;Common Files\Adobe\OOBE\OOBE.conf&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="2" Name="CustomizedTrial Suppressed?" EvaluationPeriod="P1D">exists xpaths &quot;/Configuration/LWA/Property&quot; whose((&quot;CustomizedTrial&quot; = (node value of attribute &quot;name&quot; of it)) AND (&quot;Suppress&quot;=(node value of child node of it))) of xml documents of files &quot;Common Files\Adobe\OOBE\OOBE.conf&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder</Property>
+    <Property ID="3" Name="Updater Disabled?" EvaluationPeriod="PT12H">exists xpaths &quot;/Preferences/Suppressed&quot; whose(&quot;1&quot; = node value of child node of it) of xml documents of (files &quot;AdobeUpdaterAdminPrefs.dat&quot; of folders of folders &quot;Common Files\Adobe\AAMUpdaterInventory&quot; of folders whose(name of it as lowercase starts with &quot;program files&quot;) of root folder of drive of system folder)</Property>
+  </Analysis>
+</BES>

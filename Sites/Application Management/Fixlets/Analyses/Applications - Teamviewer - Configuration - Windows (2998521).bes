@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Applications - Teamviewer - Configuration - Windows
+  ID       : 2998521
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-02-24T14:00:57
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Applications - Teamviewer - Configuration - Windows</Title>
+    <Description><![CDATA[<P>Covers the configuation of TeamViewer on the client. </P>
+<P>For general information or to report issues with C3 Remote Control content please visit GitHub here: <A href="https://github.com/strawgate/C3-Remote-Control">https://github.com/strawgate/C3-Remote-Control</A></P>]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>exists key &quot;HKEY_LOCAL_MACHINE\software\microsoft\windows\currentversion\uninstall\teamviewer&quot; of x32 registry</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Teamviewer - Always On - Windows" EvaluationPeriod="PT12H">if (value &quot;Always_Online&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\TeamViewer&quot; of x32 registry as string = &quot;1&quot;) then &quot;Enabled&quot; else &quot;Disabled&quot;</Property>
+    <Property ID="2" Name="Teamviewer - Client ID - Windows" EvaluationPeriod="PT12H">value &quot;ClientID&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\TeamViewer&quot; of x32 registry</Property>
+    <Property ID="3" Name="Teamviewer - Installation Date - Windows" EvaluationPeriod="PT12H">value &quot;InstallationDate&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\TeamViewer&quot; of x32 registry</Property>
+    <Property ID="4" Name="Teamviewer - Incoming Sessions - Windows" EvaluationPeriod="PT6H">(tuple string item 0 of it | &quot;None&quot;, tuple string item 1 of it as string &amp; &quot; &quot; &amp; tuple string item 2 of it as string, tuple string item 3 of it as string &amp; &quot; &quot; &amp; tuple string item 4 of it as string, tuple string item 5 of it as string, tuple string item 6 of it as string, tuple string item 7 of it as string) of ((concatenation &quot;, &quot; of substrings separated by &quot; &quot; of concatenation &quot;&quot; of substrings separated by &quot;  &quot; of it) of lines whose (length of it &gt; 0) of files (&quot;Connections.txt&quot;) of folders &quot;TeamViewer&quot; of folders &quot;AppData\Roaming&quot; of folders of folder &quot;Users&quot; of folder (name of drive of system folder)); (tuple string item 0 of it, tuple string item 1 of it, tuple string item 2 of it, tuple string item 3 of it, tuple string item 4 of it, tuple string item 5 of it) of (concatenations &quot;, &quot; of substrings between &quot;%09&quot; of it) of lines whose (length of it &gt; 0) of file &quot;Connections_incoming.txt&quot; of folder (value &quot;InstallationDirectory&quot; of key &quot;HKEY_LOCAL_MACHINE\Software\TeamViewer&quot; of x32 registry as string)</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Groups - Win\Mac
+  ID       : 2998549
+  Author   : strawgate
+  Domain   : BESC
+  Imported : 2017-04-22T05:01:51
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Groups - Win\Mac</Title>
+    <Description><![CDATA[Provides information on the&nbsp;groups defined on the System
+<P>For general information or to report issues with C3 Inventory content please visit GitHub here: <A href="https://github.com/strawgate/C3-Inventory">https://github.com/strawgate/C3-Inventory</A></P>]]></Description>
+    <Relevance>NOT in proxy agent context</Relevance>
+    <Relevance>windows of operating system or mac of operating system</Relevance>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="Groups - Users - Win\Mac" EvaluationPeriod="P1D">unique values of (if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Users&quot;) else ((if (it contains &quot;BUILTIN&quot;) then (&quot;NT AUTHORITY\&quot; &amp; following text of first &quot;\&quot; of it) else (it)) of strings whose (it != &quot;authedusers&quot;) of values of arrays &quot;name&quot; of dictionaries of files &quot;/var/db/dslocal/nodes/Default/groups/authedusers.plist&quot;))</Property>
+    <Property ID="2" Name="Groups - Administrators - Win\Mac" EvaluationPeriod="P1D">((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Administrators&quot;</Property>
+    <Property ID="3" Name="Groups - Remote Desktop Users - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Remote Desktop Users&quot;) else (nothing)</Property>
+    <Property ID="4" Name="Groups - Access Control Assistance Operators - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Access Control Assistance Operators&quot;) else (nothing)</Property>
+    <Property ID="5" Name="Groups - Backup Operators - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Backup Operators&quot;) else (nothing)</Property>
+    <Property ID="6" Name="Groups - Cryptographic Operators - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Cryptographic Operators&quot;) else (nothing)</Property>
+    <Property ID="7" Name="Groups - Event Log Readers - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Event Log Readers&quot;) else (nothing)</Property>
+    <Property ID="8" Name="Groups - Guests - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Guests&quot;) else (nothing)</Property>
+    <Property ID="9" Name="Groups - Hyper-V Administrators - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Hyper-V Administrators&quot;) else (nothing)</Property>
+    <Property ID="10" Name="Groups - Network Configuration Operators - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Network Configuration Operators&quot;) else (nothing)</Property>
+    <Property ID="11" Name="Groups - Performance Log Users - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Performance Log Users&quot;) else (nothing)</Property>
+    <Property ID="12" Name="Groups - Performance Monitor Users - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Performance Monitor Users&quot;) else (nothing)</Property>
+    <Property ID="13" Name="Groups - Power Users - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Power Users&quot;) else (nothing)</Property>
+    <Property ID="14" Name="Groups - Remote Managment Users - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Remote Management Users&quot;) else (nothing)</Property>
+    <Property ID="15" Name="Groups - Replicator - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Replicator&quot;) else (nothing)</Property>
+    <Property ID="16" Name="Groups - Systems Managed Accounts Group - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Systems Managed Accounts Group&quot;) else (nothing)</Property>
+    <Property ID="17" Name="Groups - Offer Remote Assistance Helpers - Windows" EvaluationPeriod="P1D">if (windows of operating system) then (((&quot;.&quot; &amp; following text of first (computer name) of it) | it) of (sid of it as string | it as string) of members of local groups &quot;Offer Remote Assistance Helpers&quot;) else (nothing)</Property>
+    <Property ID="18" Name="Groups - Win\Mac" EvaluationPeriod="P1D">unique values of (if (windows of operating system) then (names of local groups) else (preceding texts of lasts &quot;.plist&quot; of names of files of folder &quot;/var/db/dslocal/nodes/Default/groups&quot;))</Property>
+  </Analysis>
+</BES>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BigFix Analysis Export
+
+  Title    : Adobe Flash Configuration - Windows
+  ID       : 2994758
+  Author   : jgstew
+  Domain   : BESC
+  Imported : 2015-01-06T10:08:10
+  Source   : bigfixm1_main @ BES-Root
+-->
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>Adobe Flash Configuration - Windows</Title>
+    <Description><![CDATA[&lt;enter a description of the analysis here&gt; ]]></Description>
+    <Relevance>/* Windows Only */ windows of operating system</Relevance>
+    <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
+    <Relevance>( exists keys whose(value &quot;DisplayName&quot; of it as string contains &quot;Adobe Flash Player&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;x32 registry) ) OR ( exists folders &quot;Macromed\Flash&quot; of (system wow64 folders;system x64 folders;system folders) )</Relevance>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Tue, 06 Jan 2015 16:32:28 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <Property ID="1" Name="versions" EvaluationPeriod="PT12H">unique values of ( ( versions of files whose ( ((it starts with &quot;flash&quot; and it ends with &quot;.ocx&quot; ) OR (it = &quot;swflash.ocx&quot; )) of (name of it as lowercase) ) of folders &quot;macromed\flash&quot; of (system wow64 folders;system x64 folders;system folders) ) ; ( (it as string as trimmed string as version) of values &quot;DisplayVersion&quot; of keys whose(value &quot;DisplayName&quot; of it as string contains &quot;Adobe Flash Player&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;x32 registry) ) )</Property>
+    <Property ID="2" Name="DisplayVersions" EvaluationPeriod="PT12H">unique values of ( (it as string as trimmed string as version) of values &quot;DisplayVersion&quot; of keys whose(value &quot;DisplayName&quot; of it as string contains &quot;Adobe Flash Player&quot;) of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (native registry;x32 registry) )</Property>
+    <Property ID="3" Name="mms.cfg?" EvaluationPeriod="PT12H">exists files &quot;Macromed\Flash\mms.cfg&quot; of (system wow64 folders;system x64 folders;system folders)</Property>
+    <Property ID="4" Name="lines of mms.cfg" EvaluationPeriod="P1D">unique values of (it as trimmed string) whose(it != &quot;&quot;) of lines whose(it does not start with &quot;#&quot;) of files &quot;Macromed\Flash\mms.cfg&quot; of (system wow64 folders;system x64 folders;system folders)</Property>
+    <Property ID="5" Name="AutoUpdateDisable" EvaluationPeriod="PT12H">unique values of (it as string as trimmed string) of keys &quot;AutoUpdateDisable&quot; of files &quot;Macromed\Flash\mms.cfg&quot; of (system wow64 folders;system x64 folders;system folders)</Property>
+    <Property ID="6" Name="SilentAutoUpdateEnable" EvaluationPeriod="PT12H">unique values of (it as string as trimmed string) of keys &quot;SilentAutoUpdateEnable&quot; of files &quot;Macromed\Flash\mms.cfg&quot; of (system wow64 folders;system x64 folders;system folders)</Property>
+  </Analysis>
+</BES>
