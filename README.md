@@ -24,15 +24,15 @@ An example directory structure may be illustrated as
 ```none
 Sites/
 ├──BigFix Management
-│   ├── Fixlets/
-│   │   ├── Analyses/
-│   │   │    └─ 13- Analysis1.bes
-│   │   ├── Fixlets/
-│   │   │    └─ 21- Fixlet1.bes
-│   │   └── Tasks/
-│   │        └─ 33- Task1.bes
+│   └── Fixlets/
+│       ├── Analyses/
+│       │    └─ 13- Analysis1.bes
+│       ├── Fixlets/
+│       │    └─ 21- Fixlet1.bes
+│       └── Tasks/
+│            └─ 33- Task1.bes
 ├──Mac Software
-│   ├── ...
+│   └── ...
 └──Windows Software
     └── ...
 
