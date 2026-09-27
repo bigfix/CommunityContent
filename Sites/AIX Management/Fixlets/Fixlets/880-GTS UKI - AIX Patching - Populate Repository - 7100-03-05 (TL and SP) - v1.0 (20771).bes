@@ -20,7 +20,7 @@
 <P>&nbsp;NFS share will be : /&lt;repository path&gt;/7100-03-05&nbsp;</P>
 <P>&nbsp;</P>
 <P>Note: Sufficient space must exist in the /var/opt/BESClient filesystem on the target server, to download and extract the filesets, before they are moved to the repository directory structure.</P>]]></Description>
-    <Relevance>true</Relevance>
+    <Relevance>exists match (regex "(AIX)") of name of operating system</Relevance>
     <Category>GTS UKI Patching</Category>
     <Source>GTS UKI</Source>
     <SourceReleaseDate>2015-11-24</SourceReleaseDate>
