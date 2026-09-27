@@ -13,35 +13,35 @@ By submitting a PR to this repository, you agree that your contribution is licen
 This means, among other things, that:
 
 - Anyone may reuse, adapt, and redistribute your contribution, provided they give you (or your designated attribution name) credit and license their own adaptations under CC BY-SA 4.0 or a compatible license.
-    
+
 - You are not granting any patent rights, and you are not required to grant HCL any rights beyond what CC BY-SA 4.0 itself provides.
-    
+
 
 # Contributions that build on migrated content
 
 Some files in this repository were migrated from bigfix.me and remain licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/legalcode.txt) (see the file header or the NOTICE file for the original contributor's attribution). If your PR modifies one of these files:
 
 - The unmodified portions remain under CC BY-SA 3.0, and the original attribution notice must be kept intact.
-    
+
 - Your own modifications may be released under CC BY-SA 4.0, since 3.0 permits adaptations to be shared under a later version with the same license elements (Attribution, ShareAlike).
-    
+
 - Please note in your PR description, and in a comment or header in the file, that the contribution is an adaptation of migrated bigfix.me content, and identify what you changed.
-    
+
 
 # Representations you are making
 
 By submitting a PR, you represent and warrant that:
 
 1. You own the content you are contributing, or you have obtained all rights, releases, and authorizations necessary to submit it and license it as described above.
-    
+
 2. To the best of your knowledge, your contribution does not infringe any copyright, patent, trade secret, or other intellectual property or proprietary right of any third party.
-    
+
 3. Your contribution does not contain any malware, viruses, or other harmful code.
-    
+
 4. Your contribution does not contain any confidential or trade secret information belonging to you or any third party.
-    
+
 5. You are legally entitled to grant the license described above, whether on your own behalf or on behalf of your employer (if your employer has rights to intellectual property you create).
-    
+
 
 If any of the above is not true, please do not submit the PR — contact the maintainers first.
 

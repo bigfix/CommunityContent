@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Task Export
-  
+
   Title    : Update  Zoom for Mac Desktop V4.6.10 (20041.0408)
   ID       : 26687
   Author   : suzib6sw
@@ -11,12 +11,12 @@
 -->
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
-    <Title>Update  Zoom for Mac Desktop V4.6.10 (20041.0408)</Title>
-    <Description>This task will update Zoom&amp;nbsp; V4.6.10 (20041.0408)&lt;BR&gt;&lt;BR&gt;</Description>
-    <Relevance>((system version &gt;= &quot;10.7&quot; AND system version &lt; &quot;10.8&quot;) OR (system version &gt;= &quot;10.8&quot; AND system version &lt; &quot;10.9&quot;) OR (system version &gt;= &quot;10.9&quot; AND system version &lt; &quot;10.10&quot;) OR (system version &gt;= &quot;10.10&quot; AND system version &lt; &quot;10.11&quot;) OR (system version &gt;= &quot;10.11&quot; AND system version &lt; &quot;10.12&quot;) OR (system version &gt;= &quot;10.12&quot; AND system version &lt; &quot;10.13&quot;) OR (system version &gt;= &quot;10.13&quot; AND system version &lt; &quot;10.15&quot;) OR (system version &gt;= &quot;10.15&quot;)) AND TRUE</Relevance>
+    <Title>Update Zoom for Mac Desktop V4.6.10 (20041.0408)</Title>
+    <Description><![CDATA[This task will update Zoom&nbsp; V4.6.10 (20041.0408)<BR><BR>]]></Description>
+    <Relevance><![CDATA[((system version >= "10.7" AND system version < "10.8") OR (system version >= "10.8" AND system version < "10.9") OR (system version >= "10.9" AND system version < "10.10") OR (system version >= "10.10" AND system version < "10.11") OR (system version >= "10.11" AND system version < "10.12") OR (system version >= "10.12" AND system version < "10.13") OR (system version >= "10.13" AND system version < "10.15") OR (system version >= "10.15")) AND TRUE]]></Relevance>
     <Relevance>exists application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
     <Relevance>not exists running application whose (name of it as lowercase = &quot;zoom.us.app&quot; as lowercase)</Relevance>
-    <Relevance>version of regapp &quot;zoom.us.app&quot; &lt; &quot;4.6.10 (20041.0408)&quot; as version</Relevance>
+    <Relevance><![CDATA[version of regapp "zoom.us.app" < "4.6.10 (20041.0408)" as version]]></Relevance>
     <Category>Software Deployment</Category>
     <Source>Zoom</Source>
     <SourceID>PLF</SourceID>
