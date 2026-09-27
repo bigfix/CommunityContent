@@ -10,6 +10,8 @@
 # generic hooks don't know that convention - bes-conventions-check does, and
 # owns that formatting for .bes files instead.
 #
+# Get-ChildItem -Path "Sites/Active Directory Management" -Filter "*.bes" -Recurse | Select-Object -ExpandProperty FullName | ForEach-Object { pre-commit run --files $_ }
+#
 # Every `rev:` below is a full commit SHA, not a tag: a tag is just a
 # mutable ref (its owner can force-move it, or a compromised account could
 # retag it to point at malicious content) while a commit SHA is the content
