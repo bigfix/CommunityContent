@@ -51,7 +51,7 @@
             alert(input_list[i].name + " is required"); block_action=true;
 			return false; }
 
-        // if *any* Secure Parameter is defined, we must send using TakeSecureFixletAction
+        /* if *any* Secure Parameter is defined, we must send using TakeSecureFixletAction */
 		if ( toBool(input_list[i].getAttribute("secure"))  || input_list[i].getAttribute("type")=="password" ) { secureparameters[input_list[i].name]=input_list[i].value; secure=true;
 			} else { parameters[input_list[i].name]=input_list[i].value;
 			}

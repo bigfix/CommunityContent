@@ -87,7 +87,7 @@ action parameter query "ADUser" with description "Please specify the name of the
 action parameter query "ADOU" with description "Please give the OU to place the computer object of enter for none (eg. OU=PLEB Computers,DC=mycompany,DC=com,DC=au)"
 
 parameter "ADFQUser" = "{(parameter "ADUser") & "@" & (parameter "ADDomain")}"
-parameter "OU" = "{(concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
+parameter "OU" = "{unique value of (concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
 
 delete __appendfile
 delete powershell.ps1
@@ -100,7 +100,7 @@ appendfile $domain = "{parameter "ADDomain" of action}"
 appendfile $Secpassword = $Password | ConvertTo-SecureString -asPlainText -Force
 appendfile $credential = New-Object System.Management.Automation.PSCredential($Username,$Secpassword)
 if {parameter "OU" != ""}
-	appendfile $OU = "{(concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
+	appendfile $OU = "{unique value of (concatenations "," of substrings separated by ";" of it) of parameter "ADOU" of action}"
 	appendfile #Try Domain Join with OU -- will fail if object already exists
 	appendfile Add-Computer -DomainName $domain -Credential $credential -OUPath $OU -ErrorAction silentlycontinue
 else

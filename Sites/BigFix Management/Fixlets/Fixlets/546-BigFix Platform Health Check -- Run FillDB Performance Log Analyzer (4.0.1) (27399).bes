@@ -86,7 +86,7 @@
             return false;
         } else
 
-        var path = thefilldbPerfFilePath.replace(/^\s+|\s+$/g, "");   // IE-safe trim
+        var path = thefilldbPerfFilePath.replace(/^\s+|\s+$/g, "");   /* IE-safe trim */
 
         var validPath = /^[A-Za-z]:\\[^<>:"|?*]+$/.test(path);
 
@@ -102,7 +102,7 @@
             return false;
         } else
 
-        var cleanedName = thefilldbPerfFileName.replace(/^\s+|\s+$/g, ""); // IE-safe trim
+        var cleanedName = thefilldbPerfFileName.replace(/^\s+|\s+$/g, ""); /* IE-safe trim */
 
         if (!/\.log$/i.test(cleanedName)) {
              alert("FillDB performance log name must end with .log");

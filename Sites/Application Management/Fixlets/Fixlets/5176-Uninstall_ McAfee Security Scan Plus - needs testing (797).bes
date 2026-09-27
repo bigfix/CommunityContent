@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
   BigFix Fixlet Export
-  
+
   Title    : Uninstall: McAfee Security Scan Plus - needs testing
   ID       : 797
   Author   : jgstew
@@ -17,6 +17,10 @@
     <Category>Uninstall</Category>
     <Source>Internal</Source>
     <SourceReleaseDate>2010-08-03</SourceReleaseDate>
+    <MIMEField>
+    	<Name>x-fixlet-modification-time</Name>
+    	<Value>Sun, 27 Sep 2026 15:21:39 +0000</Value>
+    </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
       <Description>
