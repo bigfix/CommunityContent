@@ -46,8 +46,10 @@ fi
 shopt -s globstar nullglob
 files=()
 for pattern in "$@"; do
-  # shellcheck disable=SC2206 - intentional word-splitting glob expansion
-  matches=( $pattern )
+  # shellcheck disable=SC2206 - intentional glob expansion; IFS= suppresses
+  # word-splitting so a space in a directory/file name isn't mistaken for a
+  # pattern separator.
+  IFS= matches=( $pattern )
   if [ "${#matches[@]}" -eq 0 ]; then
     echo "pattern \"$pattern\" matched no files"
     continue

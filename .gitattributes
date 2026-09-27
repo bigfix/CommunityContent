@@ -1,2 +1,3 @@
 # .bes files should always use CRLF line endings
 *.bes text eol=crlf
+*.sh text eol=lf
