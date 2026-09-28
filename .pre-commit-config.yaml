@@ -58,7 +58,7 @@ repos:
 
       - id: bes-conventions-check
         # autofix by default, but only report errors;
-        args: ["--auto-fix=yes", "--errors-only", "--disable=E200,E202,E204,E206,E207,E209,E212,E217,E220"]
+        args: ["--auto-fix=yes", "--errors-only", "--disable=E200,E204,E206,E207,E209,E212,E217,E220"]
         # [E200] ActionScript has no MIMEType (temporary)
         # [E202] x-fixlet-modification-time (temporary)
         # [E204] ignore missing descriptions on historical content (temporary)

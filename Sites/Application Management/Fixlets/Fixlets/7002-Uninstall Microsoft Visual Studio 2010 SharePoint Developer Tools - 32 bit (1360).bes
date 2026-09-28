@@ -30,7 +30,7 @@
     <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-modification-time</Name>
-      <Value>Mon, 7 Jan 2013 09:38:300</Value>
+      <Value>Mon, 07 Jan 2013 09:38:30 +0000</Value>
     </MIMEField>
     <Domain>BESC</Domain>
     <DefaultAction ID="Action1">
