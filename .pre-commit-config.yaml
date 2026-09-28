@@ -61,12 +61,12 @@ repos:
         args: ["--auto-fix=yes", "--errors-only", "--disable=E200,E202,E204,E206,E207,E209,E212,E217,E220"]
         # [E200] ActionScript has no MIMEType (temporary)
         # [E202] x-fixlet-modification-time (temporary)
-        # E204: ignore missing descriptions on historical content (temporary)
-        # E206: action-ui-metadata malformed (permanent, missing icon is flagged)
-        # E206: ignore missing 'description' on historical content (temporary)
+        # [E204] ignore missing descriptions on historical content (temporary)
+        # [E206] action-ui-metadata malformed (permanent, missing icon is flagged)
+        # [E206] ignore missing 'description' on historical content (temporary)
         # [E207] ActionScript entity-escapes a character (< > &) that requires <![CDATA[ ... ]]> (temporary)
         # [E209] CVENames value invalid (temporary)
-        # E212: relevance is 'true' (temporary)
+        # [E212] relevance is 'true' (temporary)
         # [E217] SuccessCriteria Option="CustomRelevance" has an empty relevance body (temporary)
         # [E220] duplicate Analysis <Property> Name
 
@@ -78,13 +78,11 @@ repos:
         # [W302] warning: command verb not lowercase (temporary)
         # [W303] warning: override option not lowercase (temporary)
 
-#        args: ["--strict"]
-
       - id: bes-actionscript-validate-prefetch
         args: ["--disable=E400,E401,W403"]
         # [E400] invalid prefetch: ERROR: prefetch is invalid, could not be parsed; (temporary)
-        # E401: ignore missing sha256 on downloads for historical reasons (temporary)
-        # [W403] warning: `add nohash prefetch item`
+        # [E401] ignore missing sha256 on downloads for historical reasons (temporary)
+        # [W403] warning: `add nohash prefetch item` (temporary)
 
       - id: bes-actionscript-validate-script
         args: ["--disable=E500,E501,E506,E509,E512,E514,E517,E518,E520,E521,W502,W504,W505,W506,W507"]
