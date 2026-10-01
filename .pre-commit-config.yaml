@@ -87,10 +87,11 @@ repos:
 
       - id: bes-actionscript-validate-prefetch
         # ignore missing sha256 on downloads for historical reasons
-        args: ["--auto-fix=yes", "--disable=E400,E401,E403,W403,W406", "--auto-fix-network=no"]
+        args: ["--auto-fix=yes", "--auto-fix-network=no"]
+        # "--disable=E400,E401,E403,W403,W406",
         # [E400] invalid prefetch: ERROR: prefetch is invalid, could not be parsed; (temporary)
         # [E401] ignore missing sha256 on downloads for historical reasons (temporary)
-        # [E403] invalid prefetch: stray tokens (fixable)
+        # [E403] invalid prefetch: stray tokens (temporary)
         # [W403] warning: `add nohash prefetch item` (temporary)
         # [W406] warning: prefetch names the file differently than the downloaded file (temporary)
 
