@@ -51,8 +51,7 @@ repos:
   # own validate_bes_xml-based check here would just be a second, possibly
   # inconsistent, schema check.
   - repo: https://github.com/jgstew/pre-commit-bigfix
-    rev: 93a6c62b3e9fa5fbbb2b07a36e5c215bd852198a # v1.4.5
-    #rev: 4b42e9a408867442663b9920165972cd8ddf5b7d # v1.0.1
+    rev: ed6788ecbc7fbcc1580c6cd5ae6977e0eadf6bb3 # v1.8.4
     hooks:
       - id: bes-schema-validate
 
@@ -61,11 +60,11 @@ repos:
         args: ["--auto-fix=yes", "--errors-only", "--disable=E204"]
 
       - id: bes-actionscript-lint-schclass
-#        args: ["--strict"]
+        args: ["--auto-fix=yes"]
 
       - id: bes-actionscript-validate-prefetch
         # ignore missing sha256 on downloads for historical reasons
-        args: ["--disable=E401"]
+        args: ["--auto-fix=yes", "--disable=E401", "--auto-fix-network=no"]
 
       - id: bes-actionscript-validate-script
 
