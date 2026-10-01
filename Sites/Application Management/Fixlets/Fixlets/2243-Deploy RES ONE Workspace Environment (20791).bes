@@ -58,7 +58,7 @@ action parameter query "WMserver" with description "Please enter the SQL Server 
 
 delete __createfile
 delete createdb.sql
-IF {(parameter "AuthType" of action as lowercase = "sqlauth")}
+if {(parameter "AuthType" of action as lowercase = "sqlauth")}
 	createfile until __end
 	IF DB_Id('{parameter "WMDB" of action}') IS NULL
 	BEGIN

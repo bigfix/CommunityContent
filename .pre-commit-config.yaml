@@ -75,9 +75,11 @@ repos:
         # [W216] auto-fixed: cleared SourceSeverity "Unspecified" to empty
 
       - id: bes-actionscript-lint-schclass
-        args: ["--auto-fix=yes", "--disable=E300,E301,E302,W301,W302,W303"]
+        args: ["--auto-fix=yes"]
+        # "--disable=E300,E301,E302,W301,W302,W303"
+        #
         # [E300] line does not start with a known ActionScript command
-    # [E301] {...} substitution has no closing } before the end of the line
+        # [E301] {...} substitution has no closing } before the end of the line
         # [E302] createfile until marker (temporary)
         # [W301] warning: unbalanced quotes (temporary)
         # [W302] warning: command verb not lowercase (temporary)

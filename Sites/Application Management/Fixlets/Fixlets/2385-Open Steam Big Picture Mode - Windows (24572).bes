@@ -32,7 +32,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 override run
-RunAs=currentuser
+runas=currentuser
 run &quot;{ unique values of pathnames of files &quot;Steam.exe&quot; of parent folders of (files it) of unique values of (it as string) of values of keys &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam&quot; of (x64 registries; x32 registries) }&quot; -start steam://open/bigpicture
 
 // https://steamcommunity.com/groups/bigpicture/discussions/2/882960163727915929/

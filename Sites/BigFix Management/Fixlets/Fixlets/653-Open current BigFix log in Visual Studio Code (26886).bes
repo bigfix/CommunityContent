@@ -35,8 +35,8 @@ if {windows of operating system}
 // TODO: dynamically get code.exe path including current user path
 
 override run
-RunAs=currentuser
-Hidden=false
+runas=currentuser
+hidden=false
 run CMD /S /C "start "" /B "C:\Program Files\Microsoft VS Code\Code.exe" "{pathname of files whose(name of it as lowercase ends with ((current year as string) & (current month as two digits as string) & (current day_of_month as two digits as string) & ".log")) of folders "Logs" of folders "__Global" of data folders of client}""
 
 endif
@@ -46,7 +46,7 @@ if {not windows of operating system}
 // TODO: Test on non-windows
 
 override run
-RunAs=currentuser
+runas=currentuser
 run code "{pathname of files whose(name of it as lowercase ends with ((current year as string) & (current month as two digits as string) & (current day_of_month as two digits as string) & ".log")) of folders "Logs" of folders "__Global" of data folders of client}"
 
 endif

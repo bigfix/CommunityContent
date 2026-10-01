@@ -56,7 +56,7 @@
 waithidden taskkill /F /IM chrome.exe
 
 //Uninstall Older Versions
-If {exists keys whose (value "Displayname" of it as string as lowercase contains "google chrome" ) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry}
+if {exists keys whose (value "Displayname" of it as string as lowercase contains "google chrome" ) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry}
 waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "google chrome" and name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry} /QN REBOOT=ReallySuppress
 endif
 

@@ -32,11 +32,11 @@
         // Enter your action script here
 
         waithidden cmd /C net stop &quot;res&quot;
-        IF {x64 of operating system}
+        if {x64 of operating system}
         regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager\UpdateGUIDs]&quot; &quot;Global&quot;=&quot;{{00000000-0000-0000-0000-000000000000}&quot;
-        ELSE
+        else
         regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager\UpdateGUIDs]&quot; &quot;Global&quot;=&quot;{{00000000-0000-0000-0000-000000000000}&quot;
-        ENDIF
+        endif
         waithidden cmd /C net start &quot;res&quot;
 </ActionScript>
     </DefaultAction>

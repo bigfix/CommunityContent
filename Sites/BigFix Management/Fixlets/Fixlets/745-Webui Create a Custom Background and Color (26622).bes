@@ -42,7 +42,7 @@ endif
 
 action uses wow64 redirection false
 delete __createfile
-Createfile until END_OF_FILE
+createfile until END_OF_FILE
 
 .container .login-container .login-box {{
     background: {parameter &quot;Color&quot; of action};

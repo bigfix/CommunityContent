@@ -29,7 +29,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection false
 delete __createfile
-Createfile until END_OF_FILE
+createfile until END_OF_FILE
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]

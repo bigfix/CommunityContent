@@ -50,25 +50,25 @@ var dbpassword = EvaluateRelevance('(if (exists shared variable "dbpwd" of bes w
         setting "RES_IEM_Integration_Endpoint"="1" on "{parameter "action issue date" of action}" for client
 
         //Console Install - Checks for RES service or existence of pwrtech.exe file first
-        IF {not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
+        if {not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
 
         prefetch RES-ONE-Workspace-2015.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
 
-IF {(parameter "AuthType" of action as lowercase = "sqlauth") or (parameter "AuthType" of action as lowercase = "mixmode")}
+if {(parameter "AuthType" of action as lowercase = "sqlauth") or (parameter "AuthType" of action as lowercase = "mixmode")}
 	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" /qn
 else
 	waithidden msiexec /i __Download\RES-ONE-Workspace-2015.msi /qn
-	IF {x64 of operating system}
+	if {x64 of operating system}
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBType"="MSSQL"
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
-	ELSE
+	else
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBType"="MSSQL"
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
 	  regset "[HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
-	EndIf
+	endif
 endif
-        ENDIF]]></ActionScript>
+        endif]]></ActionScript>
     </DefaultAction>
   </Task>
 </BES>

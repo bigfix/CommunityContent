@@ -86,7 +86,7 @@ copy __createfile "{value of variable "temp" of environment}\wuid_patch.ps1"
 waithidden powershell.exe -executionpolicy unrestricted -file "{(value of variable "temp" of environment) & "\wuid_patch.ps1"}"
 delete "{value of variable "temp" of environment}\wuid_patch.ps1"
 
-IF {(parameter "DBConn" of action as lowercase = "yes") AND ((parameter "AuthType" of action as lowercase = "winauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "no")))}
+if {(parameter "DBConn" of action as lowercase = "yes") AND ((parameter "AuthType" of action as lowercase = "winauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "no")))}
 
 delete __createfile
 delete "{value of variable "temp" of environment}\relayconfig.xml"
@@ -124,19 +124,19 @@ __done
 copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml"
 wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
 
-IF {x64 of operating system}
+if {x64 of operating system}
    wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn
-ELSE
+else
    wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn
-ENDIF
+endif
 
 
 elseif {(parameter "DBConn" of action as lowercase = "yes") AND ((parameter "AuthType" of action as lowercase = "sqlauth") OR ((parameter "AuthType" of action as lowercase = "mixmode") AND (parameter "UseSQL" of action as lowercase = "yes")))}
-IF {x64 of operating system}
+if {x64 of operating system}
    wait msiexec /i __Download\WMRELAY64.MSI DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" PORT={parameter "RESRELPORT" of action} /qn
-ELSE
+else
    wait msiexec /i __Download\WMRELAY86.MSI DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME="{parameter "WMDB" of action}" DBUSER="{parameter "DBuser" of action}" DBPASSWORD="{parameter "DBPWD" of action}" PORT={parameter "RESRELPORT" of action} /qn
-ENDIF
+endif
 else
 
 delete __createfile
@@ -168,11 +168,11 @@ copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml
 wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
 
 
-IF {x64 of operating system}
+if {x64 of operating system}
    wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn
-ELSE
+else
    wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn
-ENDIF
+endif
 
 endif
 

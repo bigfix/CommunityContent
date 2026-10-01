@@ -33,33 +33,33 @@
 prefetch RESWMAgent.msi sha1:29166d1c2cfe9c9c5cdefef5fd85c49b550d0863 size:35611648 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-Agent-SR1.msi
 //remove console also if it is installed
 prefetch RESWMUninstall.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
-IF {x64 of operating system}
-	If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
-		If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+if {x64 of operating system}
+	if {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		if {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
 			regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
 		else
 			regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
-		EndIf
-	EndIf
-ELSE
-	If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
-		If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		endif
+	endif
+else
+	if {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		if {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
 			regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell%22="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
 		else
 			regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
-		EndIf
-	EndIf
-ENDIF
-If {exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
-   If {exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
-      WAITHIDDEN CMD.EXE /C NET STOP "res"
+		endif
+	endif
+endif
+if {exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
+   if {exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
+      waithidden CMD.EXE /C NET STOP "res"
       wait msiexec /x __Download\RESWMUninstall.msi autoruncomposer=no remove=all reboot=R /qn
    else
-      WAITHIDDEN CMD.EXE /C NET STOP "res"
+      waithidden CMD.EXE /C NET STOP "res"
       wait msiexec /x __Download\RESWMAgent.msi autoruncomposer=no remove=all reboot=R /qn
-   EndIf
-   WAITHIDDEN CMD.EXE /C taskkill /im cpushld.exe /f /t
-EndIf
+   endif
+   waithidden CMD.EXE /C taskkill /im cpushld.exe /f /t
+endif
 ]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>

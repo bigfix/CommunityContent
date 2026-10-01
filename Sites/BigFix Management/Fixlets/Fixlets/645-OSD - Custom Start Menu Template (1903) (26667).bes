@@ -30,7 +30,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action uses wow64 redirection false
 delete __createfile
-Createfile until END_OF_FILE
+createfile until END_OF_FILE
 
 <PASTE XML HERE>
 
