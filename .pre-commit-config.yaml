@@ -120,7 +120,8 @@ repos:
         # [E525] auto-fixed: quoted the folder create path (temporary)
 
       - id: bes-relevance-lint
-        args: ["--disable=E600,E601,E603,E604,E605,W600,W601,W602,W604,E608"]
+        args: []
+        # "--disable=E600,E601,E603,E604,E605,W600,W601,W602,W604,E608"
         # [E600] (parse-error)
         # [E601] unlexable text (error-token))
         # [E603]  (type-error)
