@@ -36,7 +36,7 @@
     <Source>Microsoft</Source>
     <SourceID>Unspecified</SourceID>
     <SourceReleaseDate>2017-10-17</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>x-fixlet-first-propagation</Name>

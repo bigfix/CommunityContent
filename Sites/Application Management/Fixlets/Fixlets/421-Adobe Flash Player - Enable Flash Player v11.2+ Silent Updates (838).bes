@@ -32,7 +32,7 @@
     <Category>Configuration</Category>
     <SourceID>jgstew</SourceID>
     <SourceReleaseDate>2012-12-21</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <SANSID>N/A</SANSID>
     <MIMEField>
       <Name>x-fixlet-first-propagation</Name>

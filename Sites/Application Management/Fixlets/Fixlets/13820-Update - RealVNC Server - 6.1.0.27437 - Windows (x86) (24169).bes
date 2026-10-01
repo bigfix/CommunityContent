@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 19349164 * 2) and (not x64 of operating system) and (exists values "DisplayVersion" whose (it as string as version < "6.1.0.27437") of keys whose (value "DisplayName" of it as string starts with "VNC Server ") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-05-02</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

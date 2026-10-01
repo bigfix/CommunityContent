@@ -32,7 +32,7 @@
     <Source>IBM</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2012-01-09</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-first-propagation</Name>
       <Value>Tue, 31 Jan 2012 21:19:33 +0000</Value>

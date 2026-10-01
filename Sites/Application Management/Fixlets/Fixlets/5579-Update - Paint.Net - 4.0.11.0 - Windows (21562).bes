@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 7042787 * 2) and exists (key of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value "DisplayName" of it as string starts with "paint.net" and value "DisplayVersion" of it as string as version < "4.0.11.0" as version) and (exists (names of keys of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP" of native registry) whose (it as version >= "4.6" as version))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-01-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

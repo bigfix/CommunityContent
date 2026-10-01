@@ -20,7 +20,7 @@ VMWare Workstation Player requires a license for commercial use. This Fixlet wil
     <Source>C3 Patch</Source>
     <SourceID>!FixletID!</SourceID>
     <SourceReleaseDate>2016-01-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

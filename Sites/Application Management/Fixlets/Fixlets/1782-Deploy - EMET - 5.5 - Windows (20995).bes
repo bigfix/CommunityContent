@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4.0" of registry) and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 26816512 * 2) and (not exists (key of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of ( x32 registry; (if exists x64 registry then x64 registry else nothing) )) whose (value "DisplayName" of it as string starts with "EMET"))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-01-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

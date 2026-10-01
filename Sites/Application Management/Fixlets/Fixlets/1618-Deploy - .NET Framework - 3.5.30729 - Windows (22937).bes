@@ -28,7 +28,7 @@
     <Category>Important</Category>
     <Source>BigFix</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>
     	<Value>Thu, 17 Sep 2026 21:46:41 +0000</Value>

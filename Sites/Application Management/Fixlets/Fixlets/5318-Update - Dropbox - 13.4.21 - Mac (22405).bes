@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(mac of operating system) and (version of operating system >= "10.6") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of filesystem of folder (pathname of client) > 94668143 * 2) and (exists version whose (it < "13.4.21") of application "Dropbox.app")]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-10-26</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

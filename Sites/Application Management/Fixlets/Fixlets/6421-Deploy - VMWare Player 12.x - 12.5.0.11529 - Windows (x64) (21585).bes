@@ -19,7 +19,7 @@ VMWare Workstation Player requires a license for commercial use. This Fixlet wil
     <Relevance><![CDATA[(windows of operating system) and (x64 of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 78300200 * 2) and (not exists regapp ("vmplayer.exe"))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-01-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

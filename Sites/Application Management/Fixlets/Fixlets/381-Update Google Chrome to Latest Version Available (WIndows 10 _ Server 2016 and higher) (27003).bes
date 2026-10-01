@@ -34,7 +34,7 @@
     <Source>Google</Source>
     <SourceID>Unspecified</SourceID>
     <SourceReleaseDate>2022-03-20</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <SANSID>Unspecified</SANSID>
     <MIMEField>

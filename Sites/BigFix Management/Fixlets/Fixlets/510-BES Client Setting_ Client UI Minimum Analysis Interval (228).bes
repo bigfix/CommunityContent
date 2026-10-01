@@ -22,7 +22,7 @@ The following setting can be used to improve the responsiveness of BES Clients r
     <Source>BigFix</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2026-09-17</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-domain_attributes</Name>
       <Value>BES Component Client</Value>

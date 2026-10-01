@@ -27,7 +27,7 @@
     <Source>Apple</Source>
     <SourceID>N/A</SourceID>
     <SourceReleaseDate>2015-03-19</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>CVE-2015-1065, CVE-2015-1061</CVENames>
     <MIMEField>
       <Name>x-fixlet-domain_attributes</Name>

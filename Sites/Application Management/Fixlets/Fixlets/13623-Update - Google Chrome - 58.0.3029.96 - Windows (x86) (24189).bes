@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 45736112 * 2) and (not x64 of operating system) and (exists key whose ((set of ("Google %c5%a9%b7%d2";"Google Chrome") contains value "name" of it as string) and value "pv" of it as string as version < "58.0.3029.96") of keys "Software\Google\Update\Clients" of (current user keys (logged on users) of registry;keys "HKEY_LOCAL_MACHINE" of x32 registry))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-05-02</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

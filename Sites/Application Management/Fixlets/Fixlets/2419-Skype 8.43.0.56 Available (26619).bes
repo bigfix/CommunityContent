@@ -32,7 +32,7 @@
     <Source>Skype</Source>
     <SourceID>Unspecified</SourceID>
     <SourceReleaseDate>2019-04-17</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <SANSID>SANS C4</SANSID>
     <MIMEField>
