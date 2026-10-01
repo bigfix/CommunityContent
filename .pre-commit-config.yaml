@@ -57,7 +57,9 @@ repos:
 
       - id: bes-conventions-check
         # autofix by default, but only report errors;  many missing descriptions on historical content
-        args: ["--auto-fix=yes", "--errors-only", "--disable=E200,E202,E204,E206,E207,E209,E212,E215,E217,E220,W210,W216"]
+        args: ["--auto-fix=yes", "--errors-only" ]
+        # "--disable=E202,E204,E206,E207,E209,E212,E215,E217,E220,W210,W216"
+        #
         # [E200] ActionScript has no MIMEType (temporary)
         # [E202] x-fixlet-modification-time (temporary)
         # [E204] ignore missing descriptions on historical content (temporary)
@@ -91,7 +93,7 @@ repos:
         # [W406] warning: prefetch names the file differently than the downloaded file (temporary)
 
       - id: bes-actionscript-validate-script
-        args: ["--disable=E500,E501,E506,E508,E509,E512,E514,E517,E518,E520,E521,E524,E525,W502,W505,W506,W507,W508"]
+        args: ["--disable=E501,E506,E508,E509,E512,E514,E517,E518,E520,E521,E524,E525,W502,W505,W506,W507,W508"]
         # [E500] `if` is never closed by `endif` (temporary)
         # [E501] `endif` with no open `if` (temporary)
         # [E506] second `else` for the same `if` (temporary)
