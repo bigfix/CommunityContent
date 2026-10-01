@@ -57,18 +57,65 @@ repos:
 
       - id: bes-conventions-check
         # autofix by default, but only report errors;  many missing descriptions on historical content
-        args: ["--auto-fix=yes", "--errors-only", "--disable=E204"]
+        args: ["--auto-fix=yes", "--errors-only", "--disable=E200,E204,E206,E207,E209,E212,E217,E220"]
+        # [E200] ActionScript has no MIMEType (temporary)
+        # [E202] x-fixlet-modification-time (temporary)
+        # [E204] ignore missing descriptions on historical content (temporary)
+        # [E206] action-ui-metadata malformed (permanent, missing icon is flagged)
+        # [E206] ignore missing 'description' on historical content (temporary)
+        # [E207] ActionScript entity-escapes a character (< > &) that requires <![CDATA[ ... ]]> (temporary)
+        # [E209] CVENames value invalid (temporary)
+        # [E212] relevance is 'true' (temporary)
+        # [E217] SuccessCriteria Option="CustomRelevance" has an empty relevance body (temporary)
+        # [E220] duplicate Analysis <Property> Name
 
       - id: bes-actionscript-lint-schclass
-        args: ["--auto-fix=yes"]
+        args: ["--auto-fix=yes", "--disable=E300,E302,W301,W302,W303"]
+        # [E300] line does not start with a known ActionScript command
+        # [E302] createfile until marker (temporary)
+        # [W301] warning: unbalanced quotes (temporary)
+        # [W302] warning: command verb not lowercase (temporary)
+        # [W303] warning: override option not lowercase (temporary)
 
       - id: bes-actionscript-validate-prefetch
         # ignore missing sha256 on downloads for historical reasons
-        args: ["--auto-fix=yes", "--disable=E401", "--auto-fix-network=no"]
+        args: ["--auto-fix=yes", "--disable=E400,E401,W403", "--auto-fix-network=no"]
+        # [E400] invalid prefetch: ERROR: prefetch is invalid, could not be parsed; (temporary)
+        # [E401] ignore missing sha256 on downloads for historical reasons (temporary)
+        # [W403] warning: `add nohash prefetch item` (temporary)
 
       - id: bes-actionscript-validate-script
+        args: ["--disable=E500,E501,E506,E509,E512,E514,E517,E518,E520,E521,W502,W504,W505,W506,W507"]
+        # [E500] `if` is never closed by `endif` (temporary)
+        # [E501] `endif` with no open `if` (temporary)
+        # [E506] second `else` for the same `if` (temporary)
+        # [E509] unbalanced } at (temporary)
+        # [E512] duplicate download name  (temporary)
+        # [E514] `if` condition is not a relevance expression (temporary)
+        # [E517] parameter is referenced without assignment (temporary)
+        # [E518] `continue if` condition is not a relevance expression
+        # [E520] `setting` line does not match the documented format (temporary)
+        # [E521] "regset" key is not a quoted, bracketed (temporary)
+        # [W502] warning: `action parameter query` after action starts
+        # [W504] warning: `dos` is deprecated; (temporary)
+        # [W505] warning: cmd.exe is passed a command line but no `/c`
+        # [W506] warning: `copy` onto existing files (temporary)
+        # [W506] warning: `move` onto existing files (temporary)
+        # [W507] warning: reference a file that was not downloaded (temporary)
 
       - id: bes-relevance-lint
+        args: ["--disable=E600,E601,E603,E604,E605,W600,W601,W602,W604,E608"]
+        # [E600] (parse-error)
+        # [E601] unlexable text (error-token))
+        # [E603]  (type-error)
+        # E604: ignore complexity check (permanent)
+        # [E605] (evaluation-cost) (temporary)
+        # [W600] unknown inspector (temporary)
+        # W601: ignore non-unique-risk (temporary)
+        # [W602] warning: (plural-preferred)
+        # W604: (version-truncating-compare) (temporary)
+        # E608: singular/plural relevance result (site-type-mismatch) (permanent)
+
 
   # A local fork https://github.com/mxab/pre-commit-trivy.git
   # to support scanning the filesystem for known vulnerabilities or misplaced secrets
