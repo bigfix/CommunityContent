@@ -120,7 +120,7 @@ __EOF__
 
 copy __createfile "{parameter "install_path"}RES2BES.exe.config"
 
-IF {parameter "AuthType" of action as lowercase = "winauth"}
+if {parameter "AuthType" of action as lowercase = "winauth"}
    waithidden cmd.exe /c {"%22" & name of drive of folder (pathname of parent folder of parent folder of file of service "res") & " %26 cd" & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes%22" & " %26" & " %22"  & pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe%22" & " -u " & parameter "SOAPUSER" of action & " -p " & parameter "SOAPPW" of action & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}"
 else
    waithidden cmd.exe /c {"%22" & name of drive of folder (pathname of parent folder of parent folder of file of service "res") & " %26 cd" & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes%22" & " %26" & " %22"  & pathname of parent folder of parent folder of file of service "res" & "\res2bes\res2bes.exe%22" & " -u " & parameter "SOAPUSER" of action & " -p " & parameter "SOAPPW" of action & " -dbu " & parameter "DBuser" of action & " -dbp " & parameter "DBPWD" of action & " %22" & pathname of parent folder of parent folder of file of service "res" & "\res2bes\settings.config%22"}"

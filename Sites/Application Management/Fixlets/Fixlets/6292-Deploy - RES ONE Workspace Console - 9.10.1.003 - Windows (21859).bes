@@ -219,18 +219,18 @@ endif
 
 action uses wow64 redirection {not x64 of operating system}
 
-If {exists service "res" and exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
-  If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
-    If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+if {exists service "res" and exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
+  if {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+    if {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
       regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
     else
       regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
-    EndIf
-  EndIf
+    endif
+  endif
   waithidden cmd /C net stop "res"
 
   wait msiexec /x __Download\RESWMAgent.msi autoruncomposer=no remove=all reboot=R /qn
-EndIf
+endif
 
 //
 // Install Console with Agent
@@ -249,7 +249,7 @@ action uses wow64 redirection true
 
 wait msiexec /i __Download\RES-ONE-Workspace.msi RSENVGUID="{(parameter "RESEnvGUID" of action)}" RSPASSWORD="{parameter "RESEnvPwdHash" of action}" RSPWHASHED=Yes RSDISCOVER=No RSLIST="{parameter "RelayList"}" DBTYPE=MSSQL DBSERVER="{parameter "dbServer" of action}" DBNAME="{parameter "dbName" of action}" INHERITSETTINGS={parameter "INHERIT"} /qn
 
-waithidden cmd.exe timeout /t 15
+waithidden cmd.exe /c timeout /t 15
 
 waithidden "__Download\Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe"
 notify client forcerefresh

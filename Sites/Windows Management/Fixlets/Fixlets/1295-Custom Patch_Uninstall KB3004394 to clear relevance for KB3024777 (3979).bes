@@ -39,6 +39,7 @@ action uses wow64 redirection false
 delete __appendfile
 appendfile {concatenation "%0d%0a" of ("dism.exe /online /remove-package /packagepath:%22" & it & "%22 /norestart") of pathnames of files whose (name of it ends with ".cab") of folders (unique values of (following text of first "\\?\" of preceding text of last "\inst" of it) of (values "InstallLocation" of keys whose ((following text of last "_" of preceding text of first "~" of it = "kb3004394") of (name of it as lowercase) AND (exists value "CurrentState" whose ((it = 96 or it = 112 or it = 6 or it = 7) of (it as integer)) of it)) of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\Packages"  of native registry as string))}
 delete Remove3004394.cmd
+delete RemoveKB3004394.cmd
 move __appendfile RemoveKB3004394.cmd
 waithidden cmd /c RemoveKB3004394.cmd
 action requires restart "RemoveKB3004394"

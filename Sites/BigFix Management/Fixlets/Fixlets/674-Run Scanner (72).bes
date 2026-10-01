@@ -23,7 +23,7 @@
     <Source>danielheth@bigfix.me</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2011-02-04</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-adcategory</Name>
       <Value>scan</Value>

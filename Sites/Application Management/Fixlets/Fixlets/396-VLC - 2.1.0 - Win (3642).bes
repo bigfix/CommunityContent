@@ -56,6 +56,7 @@ end prefetch block
 parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
 
 // Move files into subfolders and unescape file names
+delete &quot;{parameter &quot;baseFolder&quot;}vlc-2.1.0-win32.exe&quot;
 move &quot;__Download/VLC_2_1_0&quot; &quot;{parameter &quot;baseFolder&quot;}vlc-2.1.0-win32.exe&quot;
 
 wait {parameter &quot;baseFolder&quot;}vlc-2.1.0-win32.exe /S</ActionScript>

@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 101304192 * 2) and (exists regapp ("Evernote.exe") whose (version of it < "6.2.4.3244" as version))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-01-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

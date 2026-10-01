@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (x64 of operating system) and (exists value "UninstallString" whose (it as string contains "MsiExec") of keys whose (value "DisplayName" of it as string contains "TortoiseSVN") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-02-17</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

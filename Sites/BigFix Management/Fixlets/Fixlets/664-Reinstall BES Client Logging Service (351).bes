@@ -135,10 +135,12 @@ endif
 // Download PM Plugin and executable - temporary for development only
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}
 prefetch StandbyPowerTracker.dll sha1:5ba029e15c0123a413cbaf85596a28a5f1debeb5 size:543744 http://software.bigfix.com/download/LoggingService/lib/1.0.11.0/StandbyPowerTracker.dll
+delete "{(pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}"
 copy __Download\StandbyPowerTracker.dll "{(pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}"
 endif // not exists StandByPowerTracker.dll
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}
 prefetch BESPower.exe sha1:b0efd608ebd88bd788f7028a19f8600dcab95acd size:410112 http://software.bigfix.com/download/LoggingService/lib/1.0.11.0/BESPower.exe
+delete "{(pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}"
 copy __Download\BESPower.exe "{(pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}"
 endif // if BESPower.exe does not exist
 //Setup full path of the pluggin files

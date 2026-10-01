@@ -78,6 +78,7 @@ end prefetch block
 parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
 
 // Move files into subfolders and unescape file names
+delete &quot;{parameter &quot;baseFolder&quot;}AdobeAIRInstaller.exe&quot;
 move &quot;__Download/9CA7ADD6BC71A80CC11776E0BCB5C2C43C57E6BF&quot; &quot;{parameter &quot;baseFolder&quot;}AdobeAIRInstaller.exe&quot;
 
 //Remove old versions of AIR

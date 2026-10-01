@@ -168,6 +168,7 @@ log.close()
 print 'Granted Admin Right to ' + userName
 EOF
 folder create "/Library/PSU"
+delete "/Library/PSU/grantAdmin.py"
 move __createfile "/Library/PSU/grantAdmin.py"
 
 wait /usr/bin/python "/Library/PSU/grantAdmin.py"

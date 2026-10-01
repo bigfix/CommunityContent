@@ -24,7 +24,7 @@
     <Source>edurosa</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2025-09-05</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>bigfixme-added-time</Name>
       <Value>Tue, 04 Dec 2012 18:12:38 GMT</Value>

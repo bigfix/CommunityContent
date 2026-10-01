@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(mac of operating system) and (version of operating system >= "10.6") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of filesystem of folder (pathname of client) > 168289430 * 2) and (exists version whose (it < "4.6.3") of application "Eclipse.app")]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-05-06</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

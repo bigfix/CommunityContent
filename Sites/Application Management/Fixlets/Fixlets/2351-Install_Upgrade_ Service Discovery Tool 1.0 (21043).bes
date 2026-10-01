@@ -33,6 +33,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">if {not exists file &quot;/usr/local/bin/sdt.py&quot;}
 	download as sdt.py https://raw.githubusercontent.com/CLCMacTeam/sdt/master/sdt.py
+	delete &quot;/usr/local/bin/sdt.py&quot;
 	move &quot;__Download/sdt.py&quot; &quot;/usr/local/bin/sdt.py&quot;
 	wait chmod 755 &quot;/usr/local/bin/sdt.py&quot;
 endif

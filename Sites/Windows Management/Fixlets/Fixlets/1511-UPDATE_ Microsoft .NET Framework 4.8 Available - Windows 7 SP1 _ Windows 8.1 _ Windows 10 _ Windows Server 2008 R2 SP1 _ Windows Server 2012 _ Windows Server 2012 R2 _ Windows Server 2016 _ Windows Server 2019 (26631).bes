@@ -30,7 +30,7 @@
     <Category>Update</Category>
     <Source>Microsoft</Source>
     <SourceReleaseDate>2018-04-18</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>x-fixlet-first-propagation</Name>

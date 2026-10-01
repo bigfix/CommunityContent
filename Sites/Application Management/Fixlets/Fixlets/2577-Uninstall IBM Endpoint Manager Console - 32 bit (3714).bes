@@ -28,7 +28,7 @@
     <Source>inmyworld</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2014-02-11</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-modification-time</Name>
       <Value>Tue, 11 Feb 2014 02:33:010</Value>

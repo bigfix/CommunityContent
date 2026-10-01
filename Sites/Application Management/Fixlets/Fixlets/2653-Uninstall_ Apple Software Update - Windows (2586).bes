@@ -31,7 +31,7 @@
         <Link>here </Link>
         <PostLink>&amp;nbsp;to deploy this action. </PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string = &quot;Apple Software Update&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string = &quot;Apple Software Update&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

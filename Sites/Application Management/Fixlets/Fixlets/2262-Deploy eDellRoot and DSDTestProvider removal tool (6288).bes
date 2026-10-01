@@ -26,7 +26,7 @@
     <Source>Dell</Source>
     <SourceID>SLN300321</SourceID>
     <SourceReleaseDate>2015-11-24</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>x-fixlet-component</Name>

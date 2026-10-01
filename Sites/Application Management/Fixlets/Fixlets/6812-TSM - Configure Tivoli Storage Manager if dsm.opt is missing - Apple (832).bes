@@ -42,6 +42,7 @@ parameter "NodeSuffix" = ""
 parameter "RandomPassword" = "{((sha1 of (computer name & now as string)) as string)}"
 delete __appendfile
 appendfile SERVERNAME {parameter "TSMserver" of action}
+delete "/Library/Preferences/Tivoli Storage Manager/dsm.opt"
 move __appendfile "/Library/Preferences/Tivoli Storage Manager/dsm.opt"
 delete __createfile
 createfile until END_OF_CREATE_FILE

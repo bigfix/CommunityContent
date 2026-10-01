@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (exists (values "UninstallString" whose (it as string contains "MsiExec") of it;values "QuietUninstallString" of it) of keys whose (value "DisplayName" of it as string is "CDBurnerXP") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-02-16</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>
@@ -46,7 +46,7 @@ hidden=true
 completion=job
 wait {value &quot;QuietUninstallString&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
 
-else if {exists value &quot;UninstallString&quot; whose (it as string contains &quot;MsiExec&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
+elseif {exists value &quot;UninstallString&quot; whose (it as string contains &quot;MsiExec&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
 
 override wait
 hidden=true

@@ -36,7 +36,7 @@
 prefetch baretail.exe sha1:2aa7d3806d614fd9e1e6b099d134784a98b6dd9e size:225280 https://www.baremetalsoft.com/baretail/download.php?p=m sha256:160d6a3bdc9d64677643376f82e559eb4112289e6b6d722b5b3b32699d18bca9
 
 // This folder should already exist. Not sure if there is a better folder option for this.
-folder create C:\ProgramData\BigFix
+folder create "C:\ProgramData\BigFix"
 
 delete C:\ProgramData\BigFix\baretail.exe
 

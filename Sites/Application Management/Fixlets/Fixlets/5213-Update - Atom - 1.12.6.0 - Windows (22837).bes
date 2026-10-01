@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 98410496 * 2) and (exists version whose (it < "1.12.6.0") of file "atom.exe" of folder "Atom Installer" of x32 Program Files)]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-12-01</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

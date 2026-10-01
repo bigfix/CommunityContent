@@ -62,6 +62,7 @@ appendfile 	<key>WorkingDirectory</key>
 appendfile 	<string>/Library/BESAgent/BESAgent.app/Contents/MacOS</string>
 appendfile </dict>
 appendfile </plist>
+delete "{(client folder of current site as string) & "/BESAgentDaemon.plist"}"
 move "{(client folder of current site as string) & "/__appendfile"}" "{(client folder of current site as string) & "/BESAgentDaemon.plist"}"
 appendfile #!/bin/sh
 appendfile /sbin/SystemStarter stop BESAgent

@@ -88,7 +88,7 @@ else
   parameter &quot;result8&quot;=&quot;failure&quot;
 endif
 //REM Uninstalling KB2721691 (MS12-043 - msxml4-KB2721691-enu.exe)
-Waithidden MsiExec.exe /uninstall {{355B5AC0-CEEE-42C5-AD4D-7F3CFD806C36} /quiet
+waithidden MsiExec.exe /uninstall {{355B5AC0-CEEE-42C5-AD4D-7F3CFD806C36} /quiet
 if {exit code of action = 0 or exit code of action = 3010}
   parameter &quot;result9&quot;=&quot;success&quot;
 else

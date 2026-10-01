@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 9211904 * 2) and (x64 of Operating System) and (exists value "DisplayVersion" whose (it as string as version < "4.5.7.6321") of keys whose (value "DisplayName" of it as string is "CDBurnerXP (64 bit)") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-10-16</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

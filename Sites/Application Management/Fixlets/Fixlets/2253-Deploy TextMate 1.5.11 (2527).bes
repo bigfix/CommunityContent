@@ -36,6 +36,7 @@
         <PostLink> to initiate the deployment process.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TextMate_1.5.11_r1635.zip sha1:e3cdd8baaae8a81679932f48fc3af192ed045b16 size:12998020 http://archive.textmate.org/TextMate_1.5.11_r1635.zip
+delete &quot;/tmp/TextMate_1.5.11_r1635.zip&quot;
 move __Download/TextMate_1.5.11_r1635.zip &quot;/tmp/TextMate_1.5.11_r1635.zip&quot;
 continue if {exists file &quot;/tmp/TextMate_1.5.11_r1635.zip&quot;}
 wait /bin/rm -rf &quot;/Applications/TextMate.app&quot;

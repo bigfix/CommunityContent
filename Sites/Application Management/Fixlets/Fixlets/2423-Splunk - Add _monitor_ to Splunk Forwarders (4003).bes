@@ -81,6 +81,7 @@ delete __appendfile
 appendfile {concatenation "%0d%0a" of ( if (it contains (parameter "textToReplace" of action as string)) then ((preceding text of first (parameter "textToReplace" of action as string) of it) & (parameter "newtext" of action) & ("%0d%0a%0d%0a#Change Control: " & (parameter "rfcReference" of action as string) & "%0d%0a[monitor://" & (parameter "sourcePath" of action as string) & "]%0d%0asourcetype = " & (parameter "sourceType" of action as string) & "%0d%0adisabled = 0%0d%0awhitelist = \" & (parameter "whitelist" of action as string) & "$") as string ) else it ) of lines of file (parameter "filePath" of action as string)}
 
 //Backup the old file
+delete "{parameter "filePath"}.bak.{parameter "rfcReference"}"
 copy "{parameter "filePath"}" "{parameter "filePath"}.bak.{parameter "rfcReference"}"
 
 //Replace with the new file

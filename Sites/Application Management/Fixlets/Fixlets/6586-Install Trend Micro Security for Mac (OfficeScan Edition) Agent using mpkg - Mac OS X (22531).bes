@@ -36,6 +36,7 @@
 prefetch tmsminstall.mpkg.zip sha1:d900d36ef19adcc4bbda222ae5baef0d48d3597f size:59422535 http://download.trendmicro.com/MANUAL_BES_CACHING_REQUIRED/tmsminstall.mpkg.zip sha256:b0b54bca011db7e3ed8bcf4d3215c53678d2c7e7681755e7ed184e9fb6d56b65
 
 // move the zip file to a temp directory
+delete &quot;/private/tmp/tmsminstall.mpkg.zip&quot;
 move &quot;{posix path of file &quot;tmsminstall.mpkg.zip&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/tmsminstall.mpkg.zip&quot;
 
 //unzip the tmsminstall.zip folder

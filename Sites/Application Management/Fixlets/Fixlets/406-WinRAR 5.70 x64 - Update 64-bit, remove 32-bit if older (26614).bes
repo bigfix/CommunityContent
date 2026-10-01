@@ -40,6 +40,7 @@ wait __Download\winrar-x64-570.exe /S
 
 // Copy over 32-bit registration key if available
 if {exist file "C:\Program Files (x86)\WinRAR\rarreg.key" and NOT exist file "C:\Program Files\WinRAR\rarreg.key"}
+	delete "C:\Program Files (x86)\WinRAR\rarreg.key"
 	move "C:\Program Files\WinRAR\rarreg.key" "C:\Program Files (x86)\WinRAR\rarreg.key"
 endif
 

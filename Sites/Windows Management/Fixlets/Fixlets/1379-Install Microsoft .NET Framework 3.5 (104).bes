@@ -25,7 +25,7 @@
     <Source>danielheth@bigfix.me</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2012-10-02</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-source</Name>
       <Value>Software Distribution Wizard</Value>

@@ -36,7 +36,7 @@
     <Source>Microsoft</Source>
     <SourceID>Unspecified</SourceID>
     <SourceReleaseDate>2017-10-17</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>x-fixlet-first-propagation</Name>
@@ -86,6 +86,7 @@ if {not exist folder "c:\temp\Win10"}
 	waithidden "{pathname of system folder & "\cmd.exe"}" /C mkdir "c:\temp\Win10"
 endif
 
+delete "c:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO"
 move __Download\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO "c:\temp\Win10\SW_DVD9_Win_Pro_Ent_Edu_N_10_1809_64-bit_English_MLF_X21-96501.ISO"]]></ActionScript>
     </DefaultAction>
   </Task>

@@ -32,6 +32,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action uses wow64 redirection {not x64 of operating system}
 
 if {exists native file &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot;}
+	delete &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol.bak&quot;
 	move &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol&quot; &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol.bak&quot;
 	delete &quot;C:\Windows\System32\GroupPolicy\Machine\Registry.pol.bak&quot;
 endif

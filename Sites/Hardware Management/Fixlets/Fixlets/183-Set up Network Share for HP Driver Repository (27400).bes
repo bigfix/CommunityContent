@@ -24,7 +24,7 @@
     <Category>Drivers</Category>
     <Source>Internal</Source>
     <SourceReleaseDate>2025-12-10</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-modification-time</Name>
       <Value>Tue, 23 Dec 2025 15:35:14 +0000</Value>

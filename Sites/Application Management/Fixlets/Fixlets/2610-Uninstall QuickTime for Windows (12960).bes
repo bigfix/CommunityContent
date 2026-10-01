@@ -34,14 +34,14 @@
         <PostLink>to initiate the deployment process.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Is QuickTime Running
-If (exists running application "quicktimeplayer.exe")
+if (exists running application "quicktimeplayer.exe")
 
 //Kill QuickTime
 waithidden taskkill /F /IM quicktimeplayer.exe
 endif
 
 //Detect QuickTime
-If {exists key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries}
+if {exists key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries}
 
 //Uninstall
 waithidden "{pathname of system folder & "\msiexec.exe"}" /X{name of key whose (value "DisplayName" of it as string as lowercase contains "quicktime" and  name of it starts with "{") of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of x32 registries} /QN

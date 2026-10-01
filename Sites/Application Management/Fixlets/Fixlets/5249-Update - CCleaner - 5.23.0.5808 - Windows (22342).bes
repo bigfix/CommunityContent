@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 8270712 * 2) and (exists value "DisplayVersion" whose (it as string as version < "5.23.0.5808") of keys whose (value "DisplayName" of it as string is "CCleaner") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries; x64 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2016-10-18</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

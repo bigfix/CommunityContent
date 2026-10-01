@@ -49,7 +49,7 @@ setting "_BESClient_Download_NormalStageDiskLimitMB" = "6000" on "{parameter "ac
 setting "_BESClient_Download_MinimumDiskFreeMB" = "500" on "{parameter "action issue date" of action}" for client
 
 //set total download cache limit for the Bigfix core server
-If {exists main gather service}
+if {exists main gather service}
 	//check if free drive space + used download cache space is more than 100gb
 	if {((free space of drive of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)/1024/1024) + (if ( exists folder "bfmirror/downloads/sha1" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)) then ((sum of sizes of files of folder "bfmirror/downloads/sha1" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)) /1024/1024) as integer else 0)) > 100000}
 		setting "_BESGather_Download_CacheLimitMB" = "100000" on "{parameter "action issue date" of action}" for client
@@ -60,7 +60,7 @@ If {exists main gather service}
 endif
 
 //set total download cache limit for relays
-If {exists relay service}
+if {exists relay service}
 	//check if free drive space + used download cache space is more than 20gb, set download cache limit to 20gb
 	if {((free space of drive of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)/1024/1024) + (if ( exists folder "bfmirror/downloads/sha1" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)) then ((sum of sizes of files of folder "bfmirror/downloads/sha1" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client)) /1024/1024) as integer else 0)) > 20000}
 		setting "_BESGather_Download_CacheLimitMB" = "20000" on "{parameter "action issue date" of action}" for client

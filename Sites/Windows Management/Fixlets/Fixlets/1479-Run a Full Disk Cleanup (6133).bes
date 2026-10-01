@@ -39,7 +39,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
 action uses wow64 redirection {not x64 of operating system}
 if {version of operating system as version = "5.1"}
-	Createfile until end-reg-delete-compress-option
+	createfile until end-reg-delete-compress-option
 		Windows Registry Editor Version 5.00
 		[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Compress Old Files]
 	end-reg-delete-compress-option

@@ -78,11 +78,12 @@ $WUID_PATH = {"%22"}HKLM:\SOFTWARE$Arch\Microsoft\Windows\CurrentVersion\WUID{"%
     Set-ItemProperty -Path $WUID_PATH -name '(default)' -Value  ([GUID]::NewGuid()).ToString('B').ToUpper()
     {"%7D"}
 __done
+delete "{value of variable "temp" of environment}\wuid_patch.ps1"
 copy __createfile "{value of variable "temp" of environment}\wuid_patch.ps1"
 waithidden powershell.exe -executionpolicy unrestricted -file "{(value of variable "temp" of environment) & "\wuid_patch.ps1"}"
 delete "{value of variable "temp" of environment}\wuid_patch.ps1"
 
-IF {parameter "DBConn" of action as lowercase = "yes"}
+if {parameter "DBConn" of action as lowercase = "yes"}
 
 delete __createfile
 delete "{value of variable "temp" of environment}\relayconfig.xml"
@@ -120,11 +121,11 @@ __done
 copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml"
 wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
 
-IF {x64 of operating system}
+if {x64 of operating system}
    wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn /log "{(value of variable "temp" of environment) & "\installWMRelay.log"}"
-ELSE
+else
    wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" SERVICEACCOUNTNAME={parameter "serviceaccount" of action} SERVICEACCOUNTPASSWORD={parameter "secret" of action} /qn/log "{(value of variable "temp" of environment) & "\installWMRelay.log"}"
-ENDIF
+endif
 
 
 else
@@ -158,11 +159,11 @@ copy __createfile "{value of variable "temp" of environment}\relayconfigansi.xml
 wait CMD /U /C Type "{value of variable "temp" of environment}\relayconfigansi.xml" >> "{value of variable "temp" of environment}\relayconfig.xml"
 
 
-IF {x64 of operating system}
+if {x64 of operating system}
    wait msiexec /i __Download\WMRELAY64.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn /log "{(value of variable "temp" of environment) & "\installWMRelay.log"}"
-ELSE
+else
    wait msiexec /i __Download\WMRELAY86.MSI ConfigFile="{value of variable "temp" of environment}\relayconfig.xml" /qn /log "{(value of variable "temp" of environment) & "\installWMRelay.log"}"
-ENDIF
+endif
 
 endif
 

@@ -174,6 +174,7 @@ relay select
 // Now we are (finally) ready to reset the Gather State of this relay.
 
 // Attempt to move the folder first, since "move" is more likely than "delete" to succeed (in terms of locked files) and this folder is the most likely one to fail (in terms of locked folder)
+delete "{parameter "bfsites"}.{parameter "timestamp"}"
 move "{parameter "bfsites"}" "{parameter "bfsites"}.{parameter "timestamp"}"
 
 // create a new bfsites folder

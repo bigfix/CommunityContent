@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 27426816 * 2) and (x64 of operating system) and (x64 of operating system) and (exists value "DisplayVersion" whose (it as string as version < "0.5.0.62") of keys whose (value "DisplayName" of it as string starts with "NSClient++") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-01-15</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

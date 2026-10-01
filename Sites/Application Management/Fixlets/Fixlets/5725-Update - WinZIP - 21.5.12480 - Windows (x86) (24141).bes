@@ -16,7 +16,7 @@
     <Relevance><![CDATA[(windows of operating system) and (version of operating system >= "6.1") and (if exists property "in proxy agent context" then ( not in proxy agent context ) else true) and (free space of drive of client > 71016448 * 2) and (exists regapp "iexplore.exe" whose (version of it > "8.0.0.0")) and (exists (names of keys of key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP" of native registry) whose (it as version >= "3.5" as version)) and (exists value "DisplayVersion" whose (it as string as version < "21.5.12480") of keys whose (value "DisplayName" of it as string starts with "WinZip") of keys "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall" of (x32 registries))]]></Relevance>
     <Source>C3 Patch</Source>
     <SourceReleaseDate>2017-04-27</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
       <Name>cpe-id-v2.3</Name>

@@ -19,7 +19,7 @@
     <Source>danielheth@bigfix.me</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2013-01-10</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-source</Name>
       <Value>Software Distribution Wizard</Value>
@@ -41,6 +41,7 @@ prefetch AccessEnum.zip sha1:1e20ed578af7af3ba07d5ae7fa100d42ef689a8c size:51139
 prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\AccessEnum.zip
+delete &quot;{pathname of windows folder}\AccessEnum.exe&quot;
 copy &quot;{pathname of client folder of current site}\__Download\AccessEnum.exe&quot; &quot;{pathname of windows folder}\AccessEnum.exe&quot;
 continue if {version of file &quot;AccessEnum.exe&quot; of windows folder = &quot;1.32.0.0&quot;}
 //Set EULA agreement flags

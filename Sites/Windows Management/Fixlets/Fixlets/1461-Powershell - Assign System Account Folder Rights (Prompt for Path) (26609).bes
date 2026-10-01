@@ -18,7 +18,7 @@
     <Source>OSD</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2019-02-21</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-runAsSystem</Name>
       <Value>{&quot;passwordType&quot;:&quot;required&quot;,&quot;username&quot;:&quot;&quot;,&quot;asAdmin&quot;:&quot;true&quot;,&quot;userType&quot;:&quot;system&quot;,&quot;completion&quot;:&quot;none&quot;,&quot;targetuser&quot;:&quot;&quot;}</Value>

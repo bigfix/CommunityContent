@@ -28,7 +28,7 @@
     <Source>malhar</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2014-10-07</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-modification-time</Name>
       <Value>Tue, 7 Oct 2014 09:28:460</Value>

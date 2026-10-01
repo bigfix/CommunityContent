@@ -42,6 +42,7 @@ createfile until _end_
 <AppLockerPolicy Version="1">
 </AppLockerPolicy>
 _end_
+delete Applocker.xml
 move __createfile Applocker.xml
 
 waithidden "{parameter "PowershellExe"}" -ExecutionPolicy Bypass -command "Import-Module AppLocker;Set-ApplockerPolicy -XMLPolicy ""{pathname of file "Applocker.xml" of client folder of current site}"""

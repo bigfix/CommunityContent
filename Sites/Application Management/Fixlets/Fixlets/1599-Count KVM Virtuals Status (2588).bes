@@ -22,7 +22,7 @@
     <Source>danielheth@bigfix.me</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2013-09-04</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-modification-time</Name>
       <Value>Wed, 04 Sep 2013 15:36:26 +0000</Value>

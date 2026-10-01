@@ -32,11 +32,11 @@
         prefetch WMRELAY86.MSI sha1:e68d4c183d4b6dea4da9e441f7fa08fcc480e0a6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x86)-9.10.1.0.msi
         prefetch WMRELAY64.MSI sha1:79820c3a7ff54a1cd723c7fd670ef1e0deb84bf6 size:2846720 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1-Relay-Server(x64)-9.10.1.0.msi
 
-        IF {x64 of operating system}
+        if {x64 of operating system}
         waithidden msiexec /x __Download\WMRELAY64.MSI /qn /norestart
-        ELSE
+        else
         waithidden msiexec /x __Download\WMRELAY86.MSI /qn /norestart
-        ENDIF
+        endif
 </ActionScript>
     </DefaultAction>
   </Fixlet>

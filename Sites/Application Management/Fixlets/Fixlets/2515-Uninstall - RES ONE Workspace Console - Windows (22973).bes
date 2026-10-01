@@ -36,13 +36,13 @@
 // If the action fails on this line -- composer is running!
 continue if {not exists processes &quot;pfwsmgr.exe&quot;}
 wait net stop res
-WAITHIDDEN CMD.EXE /C taskkill /im cpushld.exe /f /t
-WAITHIDDEN CMD.EXE /C taskkill /im pwrcache.exe /f /t
-WAITHIDDEN CMD.EXE /C taskkill /im resop.exe /f /t
+waithidden CMD.EXE /C taskkill /im cpushld.exe /f /t
+waithidden CMD.EXE /C taskkill /im pwrcache.exe /f /t
+waithidden CMD.EXE /C taskkill /im resop.exe /f /t
 wait {preceding text of first &quot;%00&quot; of (value &quot;UninstallString&quot; of key whose (value &quot;DisplayName&quot; of it as string starts with &quot;RES ONE Workspace&quot; and (value &quot;DisplayName&quot; of it as string does not end with &quot;Relay Server&quot; and value &quot;DisplayName&quot; of it as string does not end with &quot;Agent&quot;)) of key &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registry as string)} /qn
-WAITHIDDEN CMD.EXE /C taskkill /im cpushld.exe /f /t
-WAITHIDDEN CMD.EXE /C taskkill /im pwrcache.exe /f /t
-WAITHIDDEN CMD.EXE /C taskkill /im resop.exe /f /t
+waithidden CMD.EXE /C taskkill /im cpushld.exe /f /t
+waithidden CMD.EXE /C taskkill /im pwrcache.exe /f /t
+waithidden CMD.EXE /C taskkill /im resop.exe /f /t
 </ActionScript>
     </DefaultAction>
   </Fixlet>

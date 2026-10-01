@@ -46,7 +46,7 @@ var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes 
         setting "RES_IEM_Integration_Endpoint"="1" on "{parameter "action issue date" of action}" for client
 
         //Console Install - Checks for RES service or existence of pwrtech.exe file first
-        IF {not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
+        if {not exists service "res" or not exists file (pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}
 
         prefetch RES-ONE-Workspace-2015.msi sha1:4658f00e56b0a94bec013680a1919f42e3385875 size:48315904 http://downloads.ressoftware.com/downloads/cdm/040116/RES-ONE-Workspace-2015-SR1.msi
 
@@ -56,7 +56,7 @@ var ressapwd = EvaluateRelevance('(if (exists shared variable "ressapwd" of bes 
         regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBName"="{parameter "WMDB" of action}"
         regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager]" "DBServer"="{if parameter "WMserver" of action contains "\" then preceding text of first "\" of parameter "WMserver" of action & "\\" & following text of first "\" of parameter "WMserver" of action else parameter "WMserver" of action}"
 
-        ENDIF]]></ActionScript>
+        endif]]></ActionScript>
     </DefaultAction>
   </Task>
 </BES>

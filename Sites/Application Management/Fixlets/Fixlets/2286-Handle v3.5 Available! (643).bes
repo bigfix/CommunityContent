@@ -19,7 +19,7 @@
     <Source>danielheth@bigfix.me</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2012-10-26</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
       <Name>x-fixlet-source</Name>
       <Value>Software Distribution Wizard</Value>
@@ -43,6 +43,7 @@ utility __Download\unzip.exe
 parameter &quot;OPENSSL_FOLDER&quot; = &quot;{pathname of parent folder  of client}\openSSL&quot;
 action uses wow64 redirection false
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of parent folder of client}&quot; __Download\Handle.zip
+delete &quot;{pathname of system x64 folder}\Handle.exe&quot;
 copy &quot;{pathname of parent folder of client}\Handle.exe&quot; &quot;{pathname of system x64 folder}\Handle.exe&quot;
 continue if {version of file &quot;Handle.exe&quot; of system x64 folder = &quot;3.50.0.0&quot;}
 action uses wow64 redirection {x64 of operating system}

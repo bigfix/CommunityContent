@@ -31,7 +31,7 @@
         <PostLink>&amp;nbsp;to deploy this action. </PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// The uninstall of BESR 2010 version 9.0.2.37914 is known to fail. You must use the &quot;BruteForceFix&quot; instead
-Wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string contains &quot;Symantec Backup Exec System Recovery 2010&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
+wait msiexec.exe /X {name of key whose (value &quot;displayname&quot; of it as string contains &quot;Symantec Backup Exec System Recovery 2010&quot; of it and value &quot;uninstallstring&quot; of it as string as lowercase contains &quot;msiexec&quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall&quot; of registry} /qn</ActionScript>
     </DefaultAction>
   </Fixlet>
 </BES>

@@ -52,30 +52,30 @@ prefetch Auto-RES-ONE-Workspace-2015-SR1-Hotfix-9.10.1.003.exe sha1:71B269170D22
 action parameter query "WMDB" with description "Please enter the Workspace Manager Database Name (WorkspaceManager)"
 action parameter query "WMserver" with description "Please enter the SQL Server Name (BigFixServer)"
 
-If {exists service "res"}
-  If {exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
-    IF {x64 of operating system}
-	    If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
-		    If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+if {exists service "res"}
+  if {exists file (pathname of parent folder of parent folder of file of service "res" & "\pfwsmgr.exe")}
+    if {x64 of operating system}
+	    if {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		    if {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
 			    regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
 		    else
 			    regset64 "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
-		    EndIf
-	    EndIf
-    ELSE
-	    If {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
-		    If {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		    endif
+	    endif
+    else
+	    if {exists values "InstallationType" whose (it as string as lowercase contains "server") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
+		    if {exists values "InstallationType" whose (it as string as lowercase contains "core") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion" of native registry}
 			    regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell%22="cmd.exe /c \"cd /d \"%USERPROFILE%\" & start cmd.exe /k runonce.exe /AlternateShellStartup"
 		    else
 			    regset "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]" "Shell"="explorer.exe"
-		    EndIf
-	    EndIf
-    ENDIF
+		    endif
+	    endif
+    endif
     waithidden cmd /C net stop "res"
     wait msiexec /x __Download\RESWMAgent.msi autoruncomposer=no remove=all reboot=R /qn
-  EndIf
-EndIf
-If {(parameter "DNSNAME" of action) != ""}
+  endif
+endif
+if {(parameter "DNSNAME" of action) != ""}
 	wait msiexec /i __Download\RES-ONE-Workspace-2015.msi RSENVGUID={(parameter "GUID" of action)} RSPASSWORD={parameter "RESPW" of action} RSPWHASHED=Yes RSDISCOVER=No RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action} DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME={parameter "WMDB" of action} RSRESOLVE={parameter "DNSNAME" of action} INHERITSETTINGS={parameter "INHERIT" of action} /qn
 else
 	wait msiexec /i __Download\RES-ONE-Workspace-2015.msi RSENVGUID={(parameter "GUID" of action)} RSPASSWORD={parameter "RESPW" of action} RSPWHASHED=Yes RSDISCOVER=No RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1" and it does not contain "::1") of name of registration server) then (name of registration server) else if (exists setting "_BESRelay_PostResults_ParentRelayURL" of client and exists value of setting "_BESRelay_PostResults_ParentRelayURL" of client as string) then (preceding text of first "/" of (following text of first "//" of (value of setting "_BESRelay_PostResults_ParentRelayURL" of client))) else "BES Root Server")}:{parameter "RESRELPORT" of action} DBTYPE=MSSQL DBSERVER={parameter "WMserver" of action} DBNAME={parameter "WMDB" of action} INHERITSETTINGS={parameter "INHERIT" of action} /qn

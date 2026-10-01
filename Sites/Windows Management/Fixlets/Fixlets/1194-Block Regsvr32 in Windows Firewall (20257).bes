@@ -20,7 +20,7 @@
     <Category>Unspecified</Category>
     <SourceID>Unspecified</SourceID>
     <SourceReleaseDate>2016-04-27</SourceReleaseDate>
-    <SourceSeverity>Unspecified</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <CVENames>Unspecified</CVENames>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>

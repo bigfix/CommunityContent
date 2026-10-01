@@ -37,6 +37,7 @@ pause while {exists running application &quot;trc_base.exe&quot;}
 pause while {exists running application &quot;trc_gui.exe&quot;}
 
 if {exists file &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot;}
+delete &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties.bak&quot;
 copy &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot; &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties.bak&quot;
 delete &quot;C:\ProgramData\BigFix\Remote Control\tgt_info.properties&quot;
 endif

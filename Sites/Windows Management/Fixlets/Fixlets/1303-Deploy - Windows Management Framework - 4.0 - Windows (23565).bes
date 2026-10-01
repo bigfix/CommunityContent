@@ -22,7 +22,7 @@
     <Source>Window Management Framework</Source>
     <SourceID>&lt;Unspecified&gt;</SourceID>
     <SourceReleaseDate>2015-01-06</SourceReleaseDate>
-    <SourceSeverity>&lt;Unspecified&gt;</SourceSeverity>
+    <SourceSeverity></SourceSeverity>
     <MIMEField>
     	<Name>x-fixlet-modification-time</Name>
     	<Value>Thu, 17 Sep 2026 21:19:03 +0000</Value>

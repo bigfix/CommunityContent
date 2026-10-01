@@ -77,7 +77,7 @@ relay select
 // ***************************************************************************
 setting &quot;_NetSignature&quot;=&quot;{unique value of concatenations &quot;;&quot; of (it as string) whose(it != &quot;127.0.0.1&quot; and it does not start with &quot;169.&quot;) of addresses of ip interfaces of network as string}&quot; on &quot;{now}&quot; for client
 
-Notify Client ForceRefresh</ActionScript>
+notify client ForceRefresh</ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>
   </Fixlet>

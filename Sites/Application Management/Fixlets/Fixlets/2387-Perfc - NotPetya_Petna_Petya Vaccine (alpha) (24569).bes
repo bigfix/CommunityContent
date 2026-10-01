@@ -44,6 +44,7 @@ delete __createfile
 createfile until _endFile
 #BigFix NotPetya/Petna/Petya Vaccine (alpha)
 _endFile
+delete c:\windows\perfc
 copy __createfile c:\windows\perfc
 endif
 
@@ -52,6 +53,7 @@ delete __createfile
 createfile until _endFile
 #BigFix NotPetya/Petna/Petya Vaccine (alpha)
 _endFile
+delete c:\windows\perfc.dll
 copy __createfile c:\windows\perfc.dll
 endif
 
@@ -60,6 +62,7 @@ delete __createfile
 createfile until _endFile
 #BigFix NotPetya/Petna/Petya Vaccine (alpha)
 _endFile
+delete c:\windows\perfc.dat
 copy __createfile c:\windows\perfc.dat
 endif
 
