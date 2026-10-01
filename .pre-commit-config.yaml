@@ -96,7 +96,8 @@ repos:
         # [W406] warning: prefetch names the file differently than the downloaded file (temporary)
 
       - id: bes-actionscript-validate-script
-        args: ["--disable=E501,E506,E508,E509,E512,E514,E517,E518,E520,E521,E524,E525,W502,W505,W506,W507,W508"]
+        args: []
+        # "--disable=E501,E506,E508,E509,E512,E514,E517,E518,E520,E521,E524,E525,W502,W505,W506,W507,W508"
         # [E500] `if` is never closed by `endif` (temporary)
         # [E501] `endif` with no open `if` (temporary)
         # [E506] second `else` for the same `if` (temporary)

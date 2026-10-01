@@ -45,6 +45,7 @@ parameter "newText" = ""
 appendfile {concatenation "%0d%0a" of ( if (it contains (parameter "textToReplace")) then ((preceding text of first (parameter "textToReplace") of it) & (parameter "newText") ) else it ) of lines of file (parameter "filename")}
 
 //move "{parameter "filename"}" "{parameter "filename"}.bak"
+delete "{parameter "filename"}.bak1"
 move "{parameter "filename"}" "{parameter "filename"}.bak1"
 // replace with the new file
 move __appendfile "{parameter "filename"}"

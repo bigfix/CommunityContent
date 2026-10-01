@@ -77,7 +77,9 @@ waithidden makeDirs.bat
 
 // Move files into subfolders and unescape file names
 move "__Download\A390F0B5AD0E4F6879723EF1141ED4EB443FBF75" "__Download\compressedPackageData.bftemp"
+delete "{parameter "baseFolder"}ClientUpdate.msi"
 move "__Download\360D9E4BC282B8EBDCA982927B47D86021FA5D42" "{parameter "baseFolder"}ClientUpdate.msi"
+delete "{parameter "baseFolder"}build.status"
 move "__Download\53A5687CB26DC41F2AB4033E97E13ADEFD3740D6" "{parameter "baseFolder"}build.status"
 
 

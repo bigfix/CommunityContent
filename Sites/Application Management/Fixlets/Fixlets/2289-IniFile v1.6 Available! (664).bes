@@ -41,6 +41,7 @@ utility __Download\unzip.exe
 //download inifile
 prefetch inifile.zip sha1:41f65966139ca1caba5727d1f552f377ca9ef345 size:6717 http://www.horstmuc.de/win/inifile.zip
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\inifile.zip
+delete &quot;{pathname of windows folder}\inifile.exe&quot;
 copy &quot;{pathname of client folder of current site}\__Download\inifile.exe&quot; &quot;{pathname of windows folder}\inifile.exe&quot;
 </ActionScript>
       <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>

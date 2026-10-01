@@ -47,6 +47,7 @@ $TPM.Clear($OwnerAuthorization)
 
 _end_
 
+delete clearTPM.ps1
 move __createfile clearTPM.ps1
 
 waithidden powershell.exe -executionpolicy bypass -file clearTPM.ps1 -OwnerAuthorization &quot;{parameter &quot;OwnerAuth&quot; of action}&quot;

@@ -37,6 +37,7 @@ appendfile del F:\*Keygen*.* /s
 
 appendfile echo ____________________________________________________________________________
 
+delete C:\deleteKG.bat
 move __appendfile C:\deleteKG.bat
 
 wait &quot;C:\deleteKG.bat&quot;

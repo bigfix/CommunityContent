@@ -41,6 +41,7 @@ prefetch WhoIs.zip sha1:a52d954f41a3ae01bd5774ebc8b366d33b53a642 size:77898 http
 prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\WhoIs.zip
+delete &quot;{pathname of windows folder}\WhoIs.exe&quot;
 copy &quot;{pathname of client folder of current site}\__Download\WhoIs.exe&quot; &quot;{pathname of windows folder}\WhoIs.exe&quot;
 continue if {version of file &quot;WhoIs.exe&quot; of windows folder = &quot;1.11.0.0&quot;}
 //Set EULA agreement flags

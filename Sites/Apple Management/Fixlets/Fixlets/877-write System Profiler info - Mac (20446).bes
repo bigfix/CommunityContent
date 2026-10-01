@@ -32,7 +32,7 @@
 // NOTE: the relevance depends on this target_folder location and should also be changed so they match
 parameter "target_folder" = "/tmp/system_profiler/"
 
-folder create { parameter "target_folder" }
+folder create "{ parameter "target_folder" }"
 
 wait sh -c "system_profiler -listDataTypes > {parameter "target_folder"}_spOut_listDataTypes.txt"
 

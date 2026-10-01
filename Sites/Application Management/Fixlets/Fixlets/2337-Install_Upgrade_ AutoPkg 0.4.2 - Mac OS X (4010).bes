@@ -33,6 +33,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 prefetch autopkg.pkg sha1:2706cb6e1bbe4f5752fe5fa5fba3003ac40a3efa size:74527 https://github.com/autopkg/autopkg/releases/download/v0.4.2/autopkg-0.4.2.pkg
 
+delete &quot;/tmp/autopkg.pkg&quot;
 move &quot;__Download/autopkg.pkg&quot; &quot;/tmp/autopkg.pkg&quot;
 
 wait /usr/sbin/installer -pkg &quot;/tmp/autopkg.pkg&quot; -target /

@@ -222,7 +222,9 @@ waithidden cmd.exe /C mkdir "{parameter "fillDBPerfLogsAnalysisToolsFolder"}"
 
 prefetch unzip-5.52.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 prefetch MXToolkit.zip sha1:797022f47e4c5b7578d33edbc454efdf42456508 size:14284048 https://bigfix-mark.github.io/Tools/MXToolkit.zip sha256:26d08928c7e7100d9c64cba5a095a96d347993066e6139b9d5cd30c551a078c1
+delete "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXToolkit.zip"}"
 move "{(pathname of client folder of current site) & "\__Download\MXToolkit.zip"}" "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXToolkit.zip"}"
+delete "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\unzip-5.52.exe"}"
 move "{(pathname of client folder of current site) & "\__Download\unzip-5.52.exe"}" "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\unzip-5.52.exe"}"
 waithidden "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\unzip-5.52.exe"}" -o "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXToolkit.zip"}" -d "{parameter "fillDBPerfLogsAnalysisToolsFolder"}"
 
@@ -280,6 +282,7 @@ cd "{parameter "fillDBPerfLogsAnalysisFolder"}"
 "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXFillDBPerf.exe"}" --input "{parameter "fillDBPerfLogsFullNameCombined"}" --format "{parameter "filldbPerfOutputType" of action}" --stats --healthcheck > "{parameter "fillDBPerfLogsAnalysisFullName"}"
 _END_
 
+        delete "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
         move __createfile "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
 
         // Run analyzer script (combined)
@@ -299,6 +302,7 @@ cd "{parameter "fillDBPerfLogsAnalysisFolder"}"
 "{parameter "fillDBPerfLogsAnalysisToolsFolder" & "\MXFillDBPerf.exe"}" --input "{parameter "fillDBPerfLogsFullName"}" --format "{parameter "filldbPerfOutputType" of action}" --stats --healthcheck > "{parameter "fillDBPerfLogsAnalysisFullName"}"
 _END_
 
+        delete "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
         move __createfile "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"
 
         waithidden cmd.exe /C "{parameter "fillDBPerfLogsAnalysisScriptsFolder" & "\bfRunFillDBPerfLogAnalyzer.bat"}"

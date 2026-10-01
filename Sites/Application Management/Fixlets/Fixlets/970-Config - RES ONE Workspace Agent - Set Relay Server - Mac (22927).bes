@@ -138,6 +138,7 @@ delete __appendfile
 
 appendfile sed -i 's/RSLIST=.*/RSLIST={parameter "RelayList" of action}/' "/etc/res/reswmad.conf"
 
+delete run.sh
 move __appendfile run.sh
 
 wait sh run.sh

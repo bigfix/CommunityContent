@@ -110,6 +110,7 @@ echo RSLIST={preceding text of first ":" of (if ((it does not contain "127.0.0.1
 sed -i 's/LearningMode=yes/LearningMode=no/g' /etc/res/resauthd.conf
 __end
 
+delete agent_config.sh
 move __createfile agent_config.sh
 wait bash agent_config.sh
 wait /etc/init.d/reswmad start

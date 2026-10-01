@@ -37,7 +37,9 @@ endif
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\7z.exe")}
 		prefetch 7z.dll sha1:ee72ebed1d5db6b4b15cc5d31676aa5f17c8f5f8 size:941568 http://downloads.ressoftware.com/downloads/cdm/7z.dll.txt
 		prefetch 7z.exe sha1:8fbe4a34d3afebb12314207df657993350ed2778 size:168448 http://downloads.ressoftware.com/downloads/cdm/7z.exe.txt
+	delete "{(pathname of parent folder of regapp "besclient.exe" & "\7z.dll")}"
 	copy __Download\7z.dll "{(pathname of parent folder of regapp "besclient.exe" & "\7z.dll")}"
+	delete "{(pathname of parent folder of regapp "besclient.exe" & "\7z.exe")}"
 	copy __Download\7z.exe "{(pathname of parent folder of regapp "besclient.exe" & "\7z.exe")}"
 endif
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\hashmyfiles.exe")}

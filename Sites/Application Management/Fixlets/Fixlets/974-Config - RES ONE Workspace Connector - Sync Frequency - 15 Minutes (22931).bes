@@ -53,6 +53,7 @@ $Config | set-content "{parameter "configFolder"}\res2bes.xml"
 
 _end_
 
+delete updateFrequency.ps1
 move __createfile updateFrequency.ps1
 
 // We use command here so we can get a return code, file doesnt provide us the return code.

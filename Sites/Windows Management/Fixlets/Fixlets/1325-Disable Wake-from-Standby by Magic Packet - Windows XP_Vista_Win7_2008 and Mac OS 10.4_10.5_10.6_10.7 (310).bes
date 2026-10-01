@@ -44,7 +44,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[if{name of operating system = "Mac OS X"}
 	wait pmset -a womp 0
-else if{(it = "WinXP" OR it = "WinXP-2003" OR it = "WinVista" OR it = "Win7" OR it = "Win2008" OR it = "Win2008R2") of name of operating system}
+elseif{(it = "WinXP" OR it = "WinXP-2003" OR it = "WinVista" OR it = "Win7" OR it = "Win2008" OR it = "Win2008R2") of name of operating system}
 	delete __appendfile
 	delete disableWakeFromStandby.reg
 appendfile {"Windows Registry Editor Version 5.00%0d%0a%0d%0a" & concatenation "%0d%0a"  of ( "[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}}\" & name of it &"]%0d%0a%22PnPCapabilities%22=dword:00000030%0d%0a")of keys whose (value "Characteristics" of it as integer  = 132 AND (not exists value "PnPCapabilities"  of it OR value "PnPCapabilities"  of it as integer != 48 )) of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}}" of registry}

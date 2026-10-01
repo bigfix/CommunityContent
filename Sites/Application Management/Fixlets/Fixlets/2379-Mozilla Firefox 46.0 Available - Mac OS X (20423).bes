@@ -59,6 +59,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch Firefox_46.0.dmg sha1:2355d9b87f82ed31bfbcadedd425c76ed14038c2 size:87089754 http://download-installer.cdn.mozilla.net/pub/firefox/releases/46.0/mac/en-US/Firefox%2046.0.dmg sha256:f54b7e3e6bb330754ef4df7f96516fd7279a9fb01aad3db7fd2eadd25d8a279f
 
+delete "/private/tmp/Firefox_46.0.dmg"
 move "{posix path of file "Firefox_46.0.dmg" of folder "__Download" of client folder of current site}" "/private/tmp/Firefox_46.0.dmg"
 
 wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  "/Volumes/Firefox_46.0" "/private/tmp/Firefox_46.0.dmg"
@@ -81,6 +82,7 @@ endif]]></ActionScript>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Firefox_46.0.dmg sha1:2355d9b87f82ed31bfbcadedd425c76ed14038c2 size:87089754 http://download-installer.cdn.mozilla.net/pub/firefox/releases/46.0/mac/en-US/Firefox%2046.0.dmg sha256:f54b7e3e6bb330754ef4df7f96516fd7279a9fb01aad3db7fd2eadd25d8a279f
 
+delete &quot;/private/tmp/Firefox_46.0.dmg&quot;
 move &quot;{posix path of file &quot;Firefox_46.0.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/Firefox_46.0.dmg&quot;
 
 wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint  &quot;/Volumes/Firefox_46.0&quot; &quot;/private/tmp/Firefox_46.0.dmg&quot;

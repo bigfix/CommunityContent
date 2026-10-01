@@ -82,6 +82,7 @@ $WUID_PATH = {"%22"}HKLM:\SOFTWARE$Arch\Microsoft\Windows\CurrentVersion\WUID{"%
     Set-ItemProperty -Path $WUID_PATH -name '(default)' -Value  ([GUID]::NewGuid()).ToString('B').ToUpper()
     {"%7D"}
 __done
+delete "{value of variable "temp" of environment}\wuid_patch.ps1"
 copy __createfile "{value of variable "temp" of environment}\wuid_patch.ps1"
 waithidden powershell.exe -executionpolicy unrestricted -file "{(value of variable "temp" of environment) & "\wuid_patch.ps1"}"
 delete "{value of variable "temp" of environment}\wuid_patch.ps1"

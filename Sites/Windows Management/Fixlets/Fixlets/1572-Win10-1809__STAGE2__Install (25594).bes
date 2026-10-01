@@ -102,6 +102,7 @@ appendfile SET WindowsISO="{parameter "workISO"}"
 appendfile FOR /F "skip=3" %%I IN ('powershell.exe "Get-DiskImage """%WindowsISO%""" | Get-Volume | Select-Object {{$_.DriveLetter}"') DO %%I:\setup.exe /auto upgrade /Compat ScanOnly /DynamicUpdate disable"
 appendfile echo %errorlevel% > "{parameter "workPath"}\out.log"
 
+delete "{(parameter "workPath") & "/upgradeCheck.bat"}"
 move __appendfile "{(parameter "workPath") & "/upgradeCheck.bat"}"
 
 // Create the actual invocation script

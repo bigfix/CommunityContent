@@ -73,6 +73,7 @@ appendfile Set o = Nothing
 appendfile
 appendfile WScript.Quit(0)
 
+delete GetADDescription.vbs
 move __appendfile GetADDescription.vbs
 
 // Execute the VBScript silently using cscript.exe

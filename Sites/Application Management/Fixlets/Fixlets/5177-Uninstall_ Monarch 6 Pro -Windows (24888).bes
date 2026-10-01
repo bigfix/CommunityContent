@@ -53,6 +53,7 @@ appendfile Lang=0009
 appendfile [{{AC4A3E33-D03D-43A4-9E5B-50063405A489}-File Transfer]
 appendfile SharedFile=YesToAll
 appendfile Count=0
+delete "C:\temp\mon6prorem.iss"
 move __appendfile "C:\temp\mon6prorem.iss"
 
 //Prepare the Uninstall parameters

@@ -33,7 +33,7 @@
 
 if {exists process whose (name of it as string as lowercase = (parameter &quot;serviceName&quot;) )}
 
-	folder create /etc/systemd/system/{parameter &quot;serviceName&quot;}.service.d
+	folder create &quot;/etc/systemd/system/{parameter &quot;serviceName&quot;}.service.d&quot;
 
 	createfile until __FileCreate
 	[Service]

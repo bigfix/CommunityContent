@@ -40,7 +40,7 @@ prefetch WmiExplorer.zip sha1:863e81a414ce1427263f04f374155d94563b45c6 size:2260
 parameter &quot;CurrentUserTempFolder&quot; = &quot;{ pathnames of folders &quot;AppData\Local\Temp&quot; of (folders it) of unique value of home directories of users of (current users;logged on users) }\BES&quot;
 
 if{ not exists folders (parameter &quot;CurrentUserTempFolder&quot;) }
-folder create {parameter &quot;CurrentUserTempFolder&quot;}
+folder create &quot;{parameter &quot;CurrentUserTempFolder&quot;}&quot;
 endif
 
 

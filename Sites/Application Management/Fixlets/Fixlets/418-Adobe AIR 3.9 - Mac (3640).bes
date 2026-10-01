@@ -79,6 +79,7 @@ end prefetch block
 parameter &quot;baseFolder&quot; =  &quot;__Download/&quot;
 
 // Move files into subfolders and unescape file names
+delete &quot;{parameter &quot;baseFolder&quot;}AdobeAIR.dmg&quot;
 move &quot;__Download/5A7D72B74BB2D95535D866AD71DB9577129F1E28&quot; &quot;{parameter &quot;baseFolder&quot;}AdobeAIR.dmg&quot;
 
 // Run setup process

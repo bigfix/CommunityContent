@@ -185,6 +185,7 @@ createfile until __end
 	</buildingblock>
 </respowerfuse>
 __end
+delete logretention.xml
 copy __createfile logretention.xml
 waithidden "{(pathname of parent folder of parent folder of file of service "res" & "\pwrtech.exe")}" /add /overwrite logretention.xml
 

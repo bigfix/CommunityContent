@@ -42,6 +42,7 @@ prefetch AdExplorer.zip sha1:f7e154e519ca0b593a55e980715a3a4bbb2d391d size:24932
 prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\AdExplorer.zip
+delete &quot;{pathname of windows folder}\AdExplorer.exe&quot;
 copy &quot;{pathname of client folder of current site}\__Download\AdExplorer.exe&quot; &quot;{pathname of windows folder}\AdExplorer.exe&quot;
 continue if {version of file &quot;AdExplorer.exe&quot; of windows folder = &quot;1.44.0.0&quot;}
 //Set EULA agreement flags

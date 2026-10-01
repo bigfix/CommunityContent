@@ -125,6 +125,7 @@ launchctl load /Library/LaunchDaemons/com.ressoftware.reswmad.plist
 launchctl load /Library/LaunchDaemons/com.ressoftware.resauthd.plist
 __end
 
+delete agent_config.sh
 move __createfile agent_config.sh
 wait bash agent_config.sh
 delete agent_config.sh

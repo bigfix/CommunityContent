@@ -110,6 +110,7 @@ end prefetch block
 // All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
 parameter "baseFolder" =  "__Download/"
 // Move files into subfolders and unescape file names
+delete "{parameter "baseFolder"}AGENT_x64_WinCollect-7.2.2.1018564-setup.exe"
 move "__Download/411267BE3D0C3F692ECB6D24677298ACB0DA4F9C" "{parameter "baseFolder"}AGENT_x64_WinCollect-7.2.2.1018564-setup.exe"
 run "{parameter "baseFolder"}AGENT_x64_WinCollect-7.2.2.1018564-setup.exe" /s /v" /qn INSTALLDIR="C:\IBM\WinCollect" AUTHTOKEN=804e50fb-7cef-4cd0-bfc9-21462be576b6 FULLCONSOLEADDRESS=10.150.126.8:8413 HOSTNAME={hostname} LOG_SOURCE_AUTO_CREATION_ENABLED=True LOG_SOURCE_AUTO_CREATION_PARAMETERS=""Component1.AgentDevice=DeviceWindowsLog&Component1.Action=create&Component1.LogSourceName={hostname}&Component1.LogSourceIdentifier={addresses of adapters whose (cidr string of it = wake on lan subnet cidr string) of network}&Component1.Destination.Name=uskanmqrep01&Component1.CoalesceEvents=False&Component1.StoreEventPayload=True&Component1.Encoding=UTF-8&Component1.Log.Application=True&Component1.Log.Security=True&Component1.Log.System=True&Component1.Log.DNS+Server=False&Component1.Log.Directory+Service=False&Component1.Log.File+Replication+Service=False"""
 parameter "startTime"="{now}"

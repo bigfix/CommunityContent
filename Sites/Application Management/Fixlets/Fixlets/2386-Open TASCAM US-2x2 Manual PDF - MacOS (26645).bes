@@ -34,7 +34,7 @@ prefetch e_us-2x2_4x4_rm_vd.pdf sha1:32196ecf7927b948b13be20e6485f20d669f579b si
 
 delete /Users/Shared/Downloads/e_us-2x2_4x4_rm_vd.pdf
 
-folder create /Users/Shared/Downloads
+folder create "/Users/Shared/Downloads"
 
 copy __Download/e_us-2x2_4x4_rm_vd.pdf /Users/Shared/Downloads/e_us-2x2_4x4_rm_vd.pdf
 

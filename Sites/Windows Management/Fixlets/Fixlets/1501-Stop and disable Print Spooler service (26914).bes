@@ -39,7 +39,7 @@ move __appendfile netquiet.bat
 waithidden "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" netquiet.bat stop "spooler"
 delete netquiet.bat
 waithidden cmd /C sc config spooler start= disabled
-else if {exists not running service "spooler" and not exists start type whose(it = "disabled") of service "spooler"}
+elseif {exists not running service "spooler" and not exists start type whose(it = "disabled") of service "spooler"}
 waithidden cmd /C sc config spooler start= disabled]]></ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>
     </DefaultAction>

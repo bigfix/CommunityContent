@@ -76,6 +76,7 @@ createfile until End_Create_File
 AutoUpdateDisable = 1
 End_Create_File
 
+delete {parameter "sysFolder32" & "\Macromed\Flash\mms.cfg"}
 move __createfile {parameter "sysFolder32" & "\Macromed\Flash\mms.cfg"}
 
 else

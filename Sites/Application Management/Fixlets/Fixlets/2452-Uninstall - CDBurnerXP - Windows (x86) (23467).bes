@@ -46,7 +46,7 @@ hidden=true
 completion=job
 wait {value &quot;QuietUninstallString&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
 
-else if {exists value &quot;UninstallString&quot; whose (it as string contains &quot;MsiExec&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
+elseif {exists value &quot;UninstallString&quot; whose (it as string contains &quot;MsiExec&quot; of keys whose (value &quot;DisplayName&quot; of it as string is &quot;CDBurnerXP&quot;) of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of x32 registries}
 
 override wait
 hidden=true

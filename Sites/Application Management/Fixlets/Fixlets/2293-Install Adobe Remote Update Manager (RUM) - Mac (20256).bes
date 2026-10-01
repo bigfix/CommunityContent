@@ -43,11 +43,13 @@ copy &quot;__Download/{parameter &quot;InstallFile&quot;}&quot; &quot;/tmp/{para
 wait hdiutil attach -quiet -noautoopen -nobrowse -private -mountpoint &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}&quot; &quot;/tmp/{parameter &quot;InstallFile&quot;}&quot;
 
 // Install MAN page
+delete &quot;/usr/share/man/man1/RemoteUpdateManager.1&quot;
 copy &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}/Remote Update Manager/RemoteUpdateManager.1&quot; &quot;/usr/share/man/man1/RemoteUpdateManager.1&quot;
     // following line not needed:
 //wait chmod 444 &quot;/usr/share/man/man1/RemoteUpdateManager.1&quot;
 
 // Install
+delete &quot;/usr/local/bin/RemoteUpdateManager&quot;
 copy &quot;/tmp/BigFixMount_{parameter &quot;app_name&quot;}/Remote Update Manager/RemoteUpdateManager&quot; &quot;/usr/local/bin/RemoteUpdateManager&quot;
 
 // Clean up

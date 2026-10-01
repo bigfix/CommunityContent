@@ -120,6 +120,7 @@ elseif  {parameter "BigFixComponent" is "WebUI"}
 	parameter "TargetDir"="{value of setting "_WebUIAppEnv_WebUI_DIR" of client & "WebUI" }"
 	if { exist file "ssl.crt" of (folder (parameter "TargetDir" as string))}
 	   parameter "WebUIcertname"="{pathname of file "ssl.crt" of folder (parameter "TargetDir")}"
+	   delete "{parameter "WebUIcertname" & "_" & id of current action}"
 	   move "{parameter "WebUIcertname"}" "{parameter "WebUIcertname" & "_" & id of current action}"
 	else
 	   parameter "WebUIcertname"="{(parameter "TargetDir") & (parameter "PathSeparator") & "ssl.crt"}"
@@ -128,6 +129,7 @@ elseif  {parameter "BigFixComponent" is "WebUI"}
 
 	if { exist file "ssl.pvk" of (folder (parameter "TargetDir" as string))}
 	   parameter "WebUIcertKeyname"="{pathname of file "ssl.pvk" of folder (parameter "TargetDir")}"
+	   delete "{parameter "WebUIcertKeyname" & "_" & id of current action}"
 	   move "{parameter "WebUIcertKeyname"}" "{parameter "WebUIcertKeyname" & "_" & id of current action}"
 	else
 	   parameter "WebUIcertKeyname"="{(parameter "TargetDir") & (parameter "PathSeparator") & "ssl.pvk"}"

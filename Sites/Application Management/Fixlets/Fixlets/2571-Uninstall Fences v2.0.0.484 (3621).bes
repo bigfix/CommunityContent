@@ -43,6 +43,7 @@ waithidden {parameter &quot;UninstallString&quot;} /silent
 if {exists folder whose (exists file &quot;Customize Fences.lnk&quot; of it) of folders of folder &quot;c:\users&quot;}
 	delete __appendfiledelete removeShortcuts.bat
 	appendfile for /r c:\users\ %%G IN (*Fences.lnk) DO del &quot;%%G&quot;
+	delete removeShortcuts.bat
 	move __appendfile removeShortcuts.bat
 	waithidden ./removeShortcuts.bat
 endif</ActionScript>

@@ -51,6 +51,7 @@ download http://software.bigfix.com/download/bes/util/BESPropertyIDMapper.exe
 continue if {(size of it = 1941591 AND sha1 of it = "9fd372acea70792362a50178dd9a5378195db70e") of file "BESPropertyIDMapper.exe" of folder "__Download"}
 
 //put into proper location
+delete "{parameter "path"}\BESPropertyIDMapper.exe"
 move __Download\BESPropertyIDMapper.exe "{parameter "path"}\BESPropertyIDMapper.exe"
 
 

@@ -78,12 +78,13 @@ begin prefetch block
 end prefetch block
 // All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.
 parameter "baseFolder" =  "{pathname of windows folder}\MSI\SafetyMonitor_v4.1\"
-folder delete {parameter "baseFolder"}
+folder delete "{parameter "baseFolder"}"
 // Move files into subfolders and unescape file names
 move "__Download/48A759407DB1084F56977B39CB22ABEAE23049B0" "__Download/compressedPackageData.bftemp"
 // extract any compressed files
 extract compressedPackageData.bftemp
 delete "__Download/compressedPackageData.bftemp"
+delete "{parameter "baseFolder"}"
 move "__Download/" "{parameter "baseFolder"}"
 //------------------------------------------------------------->Installation
 //run app. with XP compatibility mode
