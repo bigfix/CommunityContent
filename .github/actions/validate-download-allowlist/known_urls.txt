@@ -179,3 +179,4 @@ https://www\.digicert\.com/util/.*
 https://www\.eclipse\.org/downloads/.*
 https://www\.fosshub\.com/.*
 https://www\.yammer\.com/desktop/.*
+https://github\.com/usebruno/bruno/releases/.*
