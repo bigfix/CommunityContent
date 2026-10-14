@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Install Bruno 4.2.1 x64 for Windows</Title>
+		<Description><![CDATA[<P>This task installs or upgrades Bruno 4.2.1 (x64) for all users.</P><P>Bruno is an open-source API client. This task is applicable on 64-bit Windows computers that do not have Bruno 4.2.1 or later installed.</P>]]></Description>
+		<Relevance>windows of operating system AND (if exists property "in proxy agent context" then not in proxy agent context else true)</Relevance>
+		<Relevance>x64 of operating system</Relevance>
+		<Relevance><![CDATA[not exists keys whose (value "DisplayName" of it as string as lowercase starts with "bruno" AND value "DisplayVersion" of it as string as version >= version "4.2.1") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of (x64 registries; x32 registries)]]></Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>121897928</DownloadSize>
+		<Source>Internal</Source>
+		<SourceReleaseDate>2026-10-14</SourceReleaseDate>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Wed, 14 Oct 2026 00:00:00 +0000</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> to install Bruno 4.2.1.</PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
+add prefetch item name=bruno_4.2.1_x64_win.exe sha1=f03b01124a83e1579eff1665fe92f95083b69576 size=121897928 url=https://github.com/usebruno/bruno/releases/download/v4.2.1/bruno_4.2.1_x64_win.exe sha256=80b0dc5fb89debbe2968f15d27b261c198f58fa26b21ff7e0424fde99a69e79d
+
+collect prefetch items
+end prefetch block
+
+action uses wow64 redirection false
+
+waithidden __Download\bruno_4.2.1_x64_win.exe /S /allusers]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>
