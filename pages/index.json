@@ -48147,6 +48147,25 @@
       "keywords": ""
     },
     {
+      "path": "Sites/Application Management/Fixlets/Fixlets/13966-Install Bruno 4.2.1 x64 for Windows.bes",
+      "name": "13966-Install Bruno 4.2.1 x64 for Windows.bes",
+      "dir": "Sites/Application Management/Fixlets/Fixlets",
+      "type": "Task",
+      "title": "Install Bruno 4.2.1 x64 for Windows",
+      "source": "Internal",
+      "sourceReleaseDate": "2026-10-14",
+      "severity": "",
+      "domain": "BESC",
+      "downloadSize": "121897928",
+      "relevanceCount": 3,
+      "author": "",
+      "id": "",
+      "publisher": "",
+      "productName": "",
+      "release": "",
+      "keywords": ""
+    },
+    {
       "path": "Sites/Application Management/Fixlets/Fixlets/1593-Configuration_ Chrome - Force Incognito Mode (3747).bes",
       "name": "1593-Configuration_ Chrome - Force Incognito Mode (3747).bes",
       "dir": "Sites/Application Management/Fixlets/Fixlets",
