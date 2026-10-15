@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>Install BES Console Right-Click Options (10.0)</Title>
+		<Description><![CDATA[<TABLE>
+<TBODY>
+<TR>
+<TD>
+<P>&nbsp; This task will install additional functionality for the BES Console that will allow you to right-click on a computer in your BES Console and perform common tasks directly on that computer.&nbsp;The new&nbsp;options will appear in the drop-down list when you right-click<STRONG> </STRONG>on a computer in the BES Console.</P>
+<H4>Windows Remote Management</H4>
+<P>&nbsp; The following BES Console right-click options will only be available on Windows computer, the options will be grayed-out for non-Windows systems.&nbsp; These options are designed to help perform direct management of computers quickly.&nbsp; You must to be logged into Windows with an NT Authenticated account with permissions to computers&nbsp;for these options to work.</P>
+<UL>
+<LI><STRONG>Computer Management Console</STRONG> - Opens the Windows Management Console for the selected computer with access to the Services, Event Log and other common management snap-ins.
+<LI><STRONG>Browse Computer</STRONG> - Opens Windows explorer for the selected computer with access to network shares.&nbsp; Also allows you to quickly get to the C$ share from here.
+<LI><STRONG>Remote Desktop</STRONG> - Opens a Windows remote desktop connection for the computer.&nbsp; Computers must report in 'True' for the 'Remote Desktop Enabled' property for this option to be used.</LI></UL>
+<H4>BES Console Tools</H4>
+<P>The following BES Console right-click options are designed to make using the BES Console and diagnosing issues easier.</P>
+<UL>
+<LI><STRONG>Trace Route</STRONG> - Opens a command window and runs a trace route to the selected computer.
+<LI><STRONG>Ping IP(s)</STRONG> - Opens a command window and runs a ping command for each IP Address on the selected computer.
+<LI><STRONG>Copy Hostname</STRONG> - Copies the selected computer(s) hostname into your paste buffer.&nbsp; Press ctrl-v to paste the hostnames into a text editor after selecting the option.
+<LI><STRONG>Open&nbsp;Client Log</STRONG>&nbsp;- Opens the current BES Client log file for the selected computer in a text editor.&nbsp; The option is only available for Windows systems.&nbsp; Requires NT Authentication and access to $ share where the BES Client is installed.</LI></UL>
+<H4>Windows Shell Extensions</H4>
+<P>&nbsp; The following right-click options will appear in the drop-down list when you right-click a file in Windows Explorer (they do not appear in the BES Console).&nbsp; The options are designed to assist custom authoring of Fixlets in the BES Console.</P>
+<UL>
+<LI><STRONG>Copy Sha1</STRONG> - Computes the Sha1 checksum and Size for the selected file and copies the results into your Windows ClipBoard (paste buffer) as a prefetch action command.&nbsp; Use this feature to quickly generate the download command when distributing custom packages through custom Fixlets.</LI></UL>
+<P><STRONG>Note: </STRONG>The installed right-click options will only be available for existing users on a computer.&nbsp; If a new user logs onto the computer, you will need to reinstall the right-click options before they will appear in the BES Console.</P>
+<P><STRONG>Note: </STRONG>Right-click options will be immediately available after installation, or uninstall,&nbsp;even if your BES Console is currently open.</P></TD></TR></TBODY></TABLE>]]></Description>
+		<Relevance>name of operating system as lowercase starts with "win"</Relevance>
+		<Relevance><![CDATA[(exists regapp "BESConsole.exe" whose (version of it >= "10.0"))]]></Relevance>
+		<Category>Support</Category>
+		<DownloadSize>1011799</DownloadSize>
+		<Source>BigFix</Source>
+		<SourceID><![CDATA[<Unspecified>]]></SourceID>
+		<SourceReleaseDate>2026-10-15</SourceReleaseDate>
+		<SourceSeverity></SourceSeverity>
+		<CVENames></CVENames>
+		<SANSID></SANSID>
+		<MIMEField>
+			<Name>x-fixlet-modification-time</Name>
+			<Value>Thu, 15 Oct 2026 15:46:32 -0600</Value>
+		</MIMEField>
+		<Domain>BESC</Domain>
+		<Action ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink><![CDATA[ to install <B>All Right-Click Options</B>.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
+
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+
+wait __Download/BESConsoleRightClickInstall.exe -c -B -w -t -i -n -o -s</ActionScript>
+		</Action>
+		<Action ID="Action2">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink><![CDATA[ to install only the <B>Windows Remote Management</B> context menu extensions.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+
+wait __Download/BESConsoleRightClickInstall.exe -c -B -w</ActionScript>
+		</Action>
+		<Action ID="Action3">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink><![CDATA[ to install only the <B>BES Console Tools</B> context menu extensions.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+
+wait __Download/BESConsoleRightClickInstall.exe -t -i -n -o</ActionScript>
+		</Action>
+		<Action ID="Action4">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink><![CDATA[ to install only the <B>Windows Shell Extensions</B> for custom content authors.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+
+wait __Download/BESConsoleRightClickInstall.exe -s</ActionScript>
+		</Action>
+		<Action ID="Action5">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink><![CDATA[ to <B>Uninstall</B> all right-click options.]]></PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+
+wait __Download/BESConsoleRightClickInstall.exe -u -a</ActionScript>
+		</Action>
+		<Action ID="Link6">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here</Link>
+				<PostLink> for more information on Right-Click Options.</PostLink>
+			</Description>
+			<ActionScript MIMEType="text/x-uri">http://support.bigfix.com/bes/misc/customrightclick.html</ActionScript>
+		</Action>
+	</Task>
+<Property Name="Remote Desktop Enabled" EvaluationPeriod="PT0S">(name of operating system as lowercase starts with "win") AND ((name of operating system = "Win2000" AND (value "TSEnabled" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" of registry = 1)) OR (exists values "fDenyTSConnections" of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" of registry  AND (value "fDenyTSConnections" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" of registry = 0))) </Property>
+</BES>
