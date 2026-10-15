@@ -167068,6 +167068,25 @@
       "keywords": ""
     },
     {
+      "path": "Sites/BigFix Management/Fixlets/Fixlets/13967-Install BES Console Right-Click Options (10.0).bes",
+      "name": "13967-Install BES Console Right-Click Options (10.0).bes",
+      "dir": "Sites/BigFix Management/Fixlets/Fixlets",
+      "type": "Task",
+      "title": "Install BES Console Right-Click Options (10.0)",
+      "source": "BigFix",
+      "sourceReleaseDate": "2026-10-15",
+      "severity": "",
+      "domain": "BESC",
+      "downloadSize": "1011799",
+      "relevanceCount": 2,
+      "author": "",
+      "id": "",
+      "publisher": "",
+      "productName": "",
+      "release": "",
+      "keywords": ""
+    },
+    {
       "path": "Sites/BigFix Management/Fixlets/Fixlets/490-AAC - Dump CVE Relevant PatchFixlets in a File (24404).bes",
       "name": "490-AAC - Dump CVE Relevant PatchFixlets in a File (24404).bes",
       "dir": "Sites/BigFix Management/Fixlets/Fixlets",
