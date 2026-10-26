@@ -189619,6 +189619,25 @@
       "productName": "pac4j-jwt",
       "release": "0.ALL",
       "keywords": "pac4j-jwt, ALL versions"
+    },
+    {
+      "path": "Signatures/software_PHP_all_Affected_by_CVE-2026-109618_and_CVE-2026-109619-0.AFFECTED.xml",
+      "name": "software_PHP_all_Affected_by_CVE-2026-109618_and_CVE-2026-109619-0.AFFECTED.xml",
+      "dir": "Signatures",
+      "type": "Signature",
+      "title": "software_PHP_all_Affected_by_CVE-2026-109618_and_CVE-2026-109619-0.AFFECTED",
+      "source": "",
+      "sourceReleaseDate": "",
+      "severity": "",
+      "domain": "",
+      "downloadSize": "",
+      "relevanceCount": 0,
+      "author": "",
+      "id": "",
+      "publisher": "",
+      "productName": "",
+      "release": "",
+      "keywords": ""
     }
   ]
 }
