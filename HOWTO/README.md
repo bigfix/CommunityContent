@@ -1,6 +1,8 @@
 # Fork and Pull Request Guide: bigfix/CommunityContent
 
-Command-line workflow for contributing to <https://github.com/bigfix/CommunityContent> (default branch: `main`). Read the repo's `CONTRIBUTING.md` and `README.md` first (licence CC BY-SA 4.0, attribution, representations).
+This instruction is based on a Command-line workflow for contributing to <https://github.com/bigfix/CommunityContent> (default branch: `main`). There are many graphical tools and IDEs that handle the Fork-and-Pull Request workflow natively, including Github Desktop and Visual Studio Code.
+
+Read the repo's `CONTRIBUTING.md` and `README.md` first (licence CC BY-SA 4.0, attribution, representations).
 
 > Git itself cannot create a fork or open a pull request; those two actions happen on GitHub (steps 1 and 6).
 
