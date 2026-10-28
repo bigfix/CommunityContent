@@ -22,10 +22,11 @@
 </head>
 <body>
   <header>
-    <div class="brand">
+    <!-- Relative href so this returns to the landing page wherever the viewer is hosted. -->
+    <a class="brand" href="./" title="Back to the Content Viewer home page">
       <span class="brand-logo-wrap"><img class="brand-logo" src="pages/BigFix_Color_Horizontal.svg" alt="BigFix"></span>
       <span class="brand-title">Content Viewer</span>
-    </div>
+    </a>
     <div class="header-actions">
       <button id="theme-toggle-btn" class="theme-toggle-btn" type="button" title="Toggle dark mode" aria-label="Toggle dark mode">
         <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
