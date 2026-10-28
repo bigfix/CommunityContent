@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentityCatalog exportTimeStamp="2026-10-28T07:41:15Z">
+   <Software name="Brotli" vendor="Google" uniqueId="a945fd60-d2a1-11f1-b0db-88a4c2ba6beb" version="*">
+    <Signature uniqueId="a9060e30-d2a1-11f1-b0db-88a4c2ba6beb" modified="2026-10-28T07:31:59Z" created="2026-10-28T07:31:59Z">
+      <AND>
+        <OR>
+         <PackageFilter name="brotli" vendor="*" version="#"/>
+        </OR>
+      </AND>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>
