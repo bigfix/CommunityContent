@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentityCatalog exportTimeStamp="2026-10-28T07:41:15Z">
+   <Software name="Brotli" vendor="Google" uniqueId="988e6600-d2a2-11f1-b0db-88a4c2ba6beb" version="1.ALL">
+    <Signature uniqueId="986978e0-d2a2-11f1-b0db-88a4c2ba6beb" modified="2026-10-28T07:38:40Z" created="2026-10-28T07:38:40Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*brotli*"><FindFilePathEx appendFileName="false" name="METADATA"/></Vector></Iterator><Instance><Variable export="true" name="DETAILED_VER"><StringCrop endString=".dist-info" inputString="$(INSTALL_PATH)" seekFrom="left" startString="brotli-"/></Variable><Variable export="true" name="IS_INSTALLED"><Compare relation="ne" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value=""/></Compare></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+    <Signature uniqueId="cd8e5c70-d2a2-11f1-b0db-88a4c2ba6beb" modified="2026-10-28T07:40:10Z" created="2026-10-28T07:40:10Z">
+      <ExtendedSignature>
+        <![CDATA[<MultipleInstance><Iterator export="true" name="INSTALL_PATH"><Vector filter="*brotli*"><FindFilePathEx appendFileName="false" name="desc"/></Vector></Iterator><Instance><Variable export="true" name="DETAILED_VER"><StringCrop endString="-1" inputString="$(INSTALL_PATH)" seekFrom="left" startString="brotli-"/></Variable><Variable export="true" name="IS_INSTALLED"><Compare relation="ne" type="version"><ValueOf value="$(DETAILED_VER)"/><ValueOf value=""/></Compare></Variable><Condition withVariable="IS_INSTALLED"><Action do="SKIP" onValue="false"/></Condition></Instance></MultipleInstance>]]>
+      </ExtendedSignature>
+    </Signature>
+   </Software>
+</SoftwareIdentityCatalog>
