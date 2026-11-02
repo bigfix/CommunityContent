@@ -55,7 +55,7 @@ endif
 
 // USER LOGGED IN
 if {exists current user}
-	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 https://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
 
 	// DISABLE 'DO YOU WISH TO TRUST THIS PRINTER' DIALOG WINDOW
 	createfile until end
@@ -113,7 +113,7 @@ waithidden cmd.exe /c xcopy AddPrinter.bat "C:\ProgramData\Microsoft\Windows\Sta
 
 // RUN IMMEDIATELY - IF A USER IS LOGGED IN
 if {exists current user}
-	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 https://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
 	waithidden "__Download\RunAsCurrentUser-2.0.3.1.exe" --w --q cmd.exe /C AddPrinter.bat
 
 	// WINXP - KILL PRINTER QUEUE WINDOW WHEN IT OPENS
@@ -153,7 +153,7 @@ endif
 
 // USER LOGGED IN
 if {exists current user}
-	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+	prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 https://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
 
 	// DISABLE 'DO YOU WISH TO TRUST THIS PRINTER' DIALOG WINDOW
 	createfile until end

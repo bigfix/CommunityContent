@@ -63,7 +63,7 @@
         <Link>here</Link>
         <PostLink> to upgrade Adobe Acrobat.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 http://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 https://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
 
 wait msiexec.exe /p &quot;__Download\AcrobatUpd.msp&quot; REINSTALL=ALL REINSTALLMODE=omu /qn
 
@@ -75,7 +75,7 @@ action may require restart &quot;0ed68b8fd911e5f8097ce327404b4f9a6f7929f3&quot;<
         <Link>here</Link>
         <PostLink> to upgrade Adobe Acrobat regardless of whether or not Adobe Acrobat is running.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 http://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AcrobatUpd.msp sha1:0ed68b8fd911e5f8097ce327404b4f9a6f7929f3 size:109166592 https://ardownload.adobe.com/pub/adobe/acrobat/win/Acrobat2015/1500630121/Acrobat2015Upd1500630121.msp sha256:cd9e8f7686d4ba86730bfb9519cd6226793014f19885cc6e5df0fd6bd2286d03
 
 waithidden {if (name of operating system = &quot;WinXP&quot; AND personal bit (suite mask of operating system)) then &quot;tskill acrobat /a&quot; else &quot;taskkill /F /IM acrobat.exe&quot;}
 

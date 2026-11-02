@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:505ef5a4b06706b0ed7aa228f3c020af2273a284 size:8532512 https://downloads.dell.com/FOLDER02375461M/1/O9010A19.exe
+prefetch BIOS_Update.exe sha1:505ef5a4b06706b0ed7aa228f3c020af2273a284 size:8532512 https://downloads.dell.com/FOLDER02375461M/1/O9010A19.exe sha256:b9f6d292abd432fc0dddfe3e59e8c7a245d975fe3aac9c00d6b41ed745724f0c
 
 // -- END:DOWNLOADS ---------------------------
 

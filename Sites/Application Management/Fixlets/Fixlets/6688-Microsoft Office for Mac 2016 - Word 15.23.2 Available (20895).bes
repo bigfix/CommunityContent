@@ -43,7 +43,7 @@
         <PostLink> to update the Microsoft Word only if it is not running.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
+prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
 
 wait cp &quot;{posix path of file &quot;Microsoft_Word_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.23.2_160624_Updater.pkg&quot;
 
@@ -60,7 +60,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.23
         <PostLink> to update the Microsoft Word, asking, then forcing to quit after 1 minute.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
+prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
 
 wait cp &quot;{posix path of file &quot;Microsoft_Word_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.23.2_160624_Updater.pkg&quot;
 
@@ -88,7 +88,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.23
         <PostLink> to run the installer regardless if word is running (not officially supported by Microsoft).</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
+prefetch Microsoft_Word_15.23.2_160624_Updater.pkg sha1:6d743815121630cc5e134a9e5a2aaf15f7427e61 size:1024319165 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.2_160624_Updater.pkg sha256:5bbd65de7644aecfc5d76f89b29eb12e4734611d0152dec0e256e6e9d63de5d6
 
 wait cp &quot;{posix path of file &quot;Microsoft_Word_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.23.2_160624_Updater.pkg&quot;
 

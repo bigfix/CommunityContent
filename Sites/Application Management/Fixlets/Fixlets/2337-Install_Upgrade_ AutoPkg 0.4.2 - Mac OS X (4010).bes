@@ -31,7 +31,7 @@
         <PostLink> to deploy this action.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch autopkg.pkg sha1:2706cb6e1bbe4f5752fe5fa5fba3003ac40a3efa size:74527 https://github.com/autopkg/autopkg/releases/download/v0.4.2/autopkg-0.4.2.pkg
+prefetch autopkg.pkg sha1:2706cb6e1bbe4f5752fe5fa5fba3003ac40a3efa size:74527 https://github.com/autopkg/autopkg/releases/download/v0.4.2/autopkg-0.4.2.pkg sha256:6738aa3ec5a581def164a2511287e5b28180186a0a375aeb17a7228bc15a94ff
 
 delete &quot;/tmp/autopkg.pkg&quot;
 move &quot;__Download/autopkg.pkg&quot; &quot;/tmp/autopkg.pkg&quot;

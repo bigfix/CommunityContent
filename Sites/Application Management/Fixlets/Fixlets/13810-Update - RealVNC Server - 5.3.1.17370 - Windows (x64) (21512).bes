@@ -32,7 +32,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Comment
 
 prefetch AF353A13D677E0139AC171BDAB5F1D96B10FD1DA sha1:AF353A13D677E0139AC171BDAB5F1D96B10FD1DA size:19003476 https://www.realvnc.com/download/file/vnc.files/VNC-5.3.1-Windows-msi.zip sha256:36B186BB6CBA80A98EE440F7F417C3465E2538D6C6F2143570989453A3924D2A
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 utility __Download\unzip.exe
 

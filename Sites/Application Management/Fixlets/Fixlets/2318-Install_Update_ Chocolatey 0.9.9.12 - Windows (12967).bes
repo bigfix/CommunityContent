@@ -36,7 +36,7 @@
 // https://github.com/chocolatey/choco/wiki/DefaultChocolateyInstallReasoning
 //  NOTE: As of 0.9.8.24, Chocolatey&apos;s default install location is C:\ProgramData\Chocolatey
 // https://chocolatey.org/packages/wuinstall
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 prefetch chocolatey.zip sha1:0a7b2db52ec0e69a20ba46804fd2085c87b7d7f0 size:1806795 https://packages.chocolatey.org/chocolatey.0.9.9.12.nupkg sha256:0d515f7ff83785865927c8900eb6750a3a333465c90d13d1220f6354c023ba7d
 
 utility __Download\unzip.exe

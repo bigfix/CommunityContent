@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:1e88cc2ae1fed5d5f66b698b4961ec8c21b3432c size:8482624 https://downloads.dell.com/FOLDER02170220M/1/O7010A18.exe
+prefetch BIOS_Update.exe sha1:1e88cc2ae1fed5d5f66b698b4961ec8c21b3432c size:8482624 https://downloads.dell.com/FOLDER02170220M/1/O7010A18.exe sha256:b36e2965396b6710eede4b7742a469c7867fe7cb20bce3e71595ea69bb2472a4
 
 // -- END:DOWNLOADS ---------------------------
 

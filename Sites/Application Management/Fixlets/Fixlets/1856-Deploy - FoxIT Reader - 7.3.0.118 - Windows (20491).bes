@@ -32,7 +32,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Comment
 
-prefetch 5C6D43C8FF5987724AE59958A988AA58BF741A19 sha1:5C6D43C8FF5987724AE59958A988AA58BF741A19 size:99856384 http://cdn02.foxitsoftware.com/pub/foxit/reader/desktop/win/7.x/7.3/en_us/EnterpriseFoxitReader730.0118_enu.msi sha256:BFC7DFF90291D21F23CB16619E0FF0C18DB400A3B65F5EC98D9E6E137E6DA703
+prefetch 5C6D43C8FF5987724AE59958A988AA58BF741A19 sha1:5C6D43C8FF5987724AE59958A988AA58BF741A19 size:99856384 https://cdn02.foxitsoftware.com/pub/foxit/reader/desktop/win/7.x/7.3/en_us/EnterpriseFoxitReader730.0118_enu.msi sha256:BFC7DFF90291D21F23CB16619E0FF0C18DB400A3B65F5EC98D9E6E137E6DA703
 
 parameter "baseFolder" =  "__Download/"
 

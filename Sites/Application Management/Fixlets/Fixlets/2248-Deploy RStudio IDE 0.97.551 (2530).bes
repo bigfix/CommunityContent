@@ -36,7 +36,7 @@
         <Link>here</Link>
         <PostLink> to initiate the deployment process.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch RStudio-0.97.551.dmg sha1:2a665fcb918f33422337c02eeb0f28ecf30467af size:31392562 http://download1.rstudio.org/RStudio-0.97.551.dmg
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch RStudio-0.97.551.dmg sha1:2a665fcb918f33422337c02eeb0f28ecf30467af size:31392562 https://download1.rstudio.org/RStudio-0.97.551.dmg sha256:ec34c96f1427a8d2b6452a0ad53741931b9bc4ec5cf6b61bc294da5c178610cc
 wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/RSTUDIO&quot; &quot;{posix path of file &quot;RStudio-0.97.551.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;
 continue if {exists folder &quot;/tmp/RSTUDIO/RStudio.app&quot;}
 wait /bin/rm -rf &quot;/Applications/RStudio.app&quot;

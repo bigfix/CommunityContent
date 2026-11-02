@@ -54,7 +54,7 @@
         <PostLink> to install the Trend Micro Endpoint Security Platform Relay to the default location.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 https://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe sha256:2210b76d09758f6662b78fe0819e21b058c60ffb0ecec3416bef3911eeef5cfd
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {7620816  < free space of drive of client folder of current site}
@@ -74,7 +74,7 @@ relay select]]></ActionScript>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "Relay Install Location" with description "Please enter the path where you would like the Trend Micro Endpoint Security Platform Relay installed:" with default value "C:\Program Files\BigFix Enterprise\BES Relay"
 continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 https://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe sha256:2210b76d09758f6662b78fe0819e21b058c60ffb0ecec3416bef3911eeef5cfd
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {7620816  < free space of drive of client folder of current site}
@@ -93,7 +93,7 @@ relay select]]></ActionScript>
         <PostLink> to install the Trend Micro Endpoint Security Platform Relay on the drive with the most free space.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 http://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe
+prefetch BESRelay.exe sha1:730c0236974a9e20ff2acfb296a4ebe6f7f8f940 size:7620816 https://software.bigfix.com/download/bes/82/Trend-BES-Relay-8.2.1310.0.exe sha256:2210b76d09758f6662b78fe0819e21b058c60ffb0ecec3416bef3911eeef5cfd
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {7620816  < free space of drive of client folder of current site}

@@ -44,11 +44,11 @@ prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http:
 
 //  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
 //  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 // Utility to set Dell Ownership & Asset tags
 //    http://www.dell.com/support/home/us/en/04/Drivers/DriversDetails?driverId=7738M
-prefetch PlatformTags.Download sha1:616890ce8e793a670f696eff33a9358f37d1bf05 size:313056 http://downloads.dell.com/FOLDER01410519M/4/PlatformTags%204.006_ZPE.exe
+prefetch PlatformTags.Download sha1:616890ce8e793a670f696eff33a9358f37d1bf05 size:313056 https://downloads.dell.com/FOLDER01410519M/4/PlatformTags%204.006_ZPE.exe sha256:84c7a11a93b734fae7517104334a98f4cc8e8b6e2241f9bdb42590265f87200c
 
 // -- END:DOWNLOADS ---------------------------
 

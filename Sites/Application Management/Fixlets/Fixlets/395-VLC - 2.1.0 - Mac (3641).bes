@@ -34,7 +34,7 @@
         <PostLink> to deploy this action.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
-  add prefetch item name=vlc_2_1_0 sha1=a28961b75ca445ac8daad7944c71d6dbab0c7397 size=31363971 url=http://get.videolan.org/vlc/2.1.0/macosx/vlc-2.1.0.dmg
+  add prefetch item name=vlc_2_1_0 sha1=a28961b75ca445ac8daad7944c71d6dbab0c7397 size=31363971 url=http://get.videolan.org/vlc/2.1.0/macosx/vlc-2.1.0.dmg sha256=0f837df3fa6f86e3253dfba8e49e15d29fdc4e769853cbe0aeb28a97ad9ba2b2
 end prefetch block
 
 

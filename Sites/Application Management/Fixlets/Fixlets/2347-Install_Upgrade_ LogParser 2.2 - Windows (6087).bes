@@ -33,7 +33,7 @@
 //
 // https://www.microsoft.com/en-us/download/details.aspx?id=24659
 // https://technet.microsoft.com/en-us/scriptcenter/dd919274.aspx
-prefetch LogParser.msi sha1:da0d08b14246fd25569443c5612cd78c42cea47f size:1478656 http://download.microsoft.com/download/f/f/1/ff1819f9-f702-48a5-bbc7-c9656bc74de8/LogParser.msi
+prefetch LogParser.msi sha1:da0d08b14246fd25569443c5612cd78c42cea47f size:1478656 https://download.microsoft.com/download/f/f/1/ff1819f9-f702-48a5-bbc7-c9656bc74de8/LogParser.msi sha256:7bbfdfb52a8d92a105ed2fccdf0e44d8fb2ed49f0358390dd921886c14e9e32c
 
 wait msiexec /i &quot;{pathname of client folder of current site}\__Download\LogParser.msi&quot; /qn /norestart</ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>

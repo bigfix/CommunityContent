@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 78255379DF33CDFE5FD3245B18EDC0F14F77BD96.exe sha1:78255379DF33CDFE5FD3245B18EDC0F14F77BD96 size:46232904 http://download3.operacdn.com/pub/opera/desktop/43.0.2442.1144/win/Opera_43.0.2442.1144_Setup.exe sha256:FADA2D23185568FE84D7B5110CC51C92BADC1CF615B993E3ECBFB5A96083786E
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 78255379DF33CDFE5FD3245B18EDC0F14F77BD96.exe sha1:78255379DF33CDFE5FD3245B18EDC0F14F77BD96 size:46232904 https://download3.operacdn.com/pub/opera/desktop/43.0.2442.1144/win/Opera_43.0.2442.1144_Setup.exe sha256:FADA2D23185568FE84D7B5110CC51C92BADC1CF615B993E3ECBFB5A96083786E
 
 override wait
 hidden=true

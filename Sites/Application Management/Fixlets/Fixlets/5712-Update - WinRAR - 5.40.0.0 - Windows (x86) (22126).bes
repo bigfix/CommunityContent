@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 211A19CA4EC3C7562C9844FE6C42E66A521B8BD4.exe sha1:211A19CA4EC3C7562C9844FE6C42E66A521B8BD4 size:1962408 http://www.rarlab.com//rar/wrar540.exe sha256:E81BAA5C2D2771CBAD2D168ECF278F865DC2DE38983C6A169D583949375EA735
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 211A19CA4EC3C7562C9844FE6C42E66A521B8BD4.exe sha1:211A19CA4EC3C7562C9844FE6C42E66A521B8BD4 size:1962408 https://www.rarlab.com//rar/wrar540.exe sha256:E81BAA5C2D2771CBAD2D168ECF278F865DC2DE38983C6A169D583949375EA735
 
 override wait
 hidden=true

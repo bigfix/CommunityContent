@@ -64,7 +64,7 @@
 // http://en.wikipedia.org/wiki/Firefox_release_history
 
 //download Firefox installer
-prefetch FirefoxSetupESR.exe sha1:8e8e9fbff7ff0a9269d1fec1914af674e9e0ca76 size:15865984 http://download-installer.cdn.mozilla.net/pub/firefox/releases/10.0.12esr/win32/en-US/Firefox%20Setup%2010.0.12esr.exe
+prefetch FirefoxSetupESR.exe sha1:8e8e9fbff7ff0a9269d1fec1914af674e9e0ca76 size:15865984 https://download-installer.cdn.mozilla.net/pub/firefox/releases/10.0.12esr/win32/en-US/Firefox%20Setup%2010.0.12esr.exe sha256:7694c31b7596393bcead20f5cb202bbc818d4ff4286de4e3be3c60c0df16de61
 
 // https://wiki.mozilla.org/Installer:Command_Line_Arguments
 //create a config.ini file to configure installation settings

@@ -64,7 +64,7 @@
 // http://en.wikipedia.org/wiki/Firefox_release_history
 
 //download Firefox installer
-prefetch FirefoxSetupESR.exe sha1:88f09bf276c6719d5f1f689869fdfb8b861c7a30 size:19406624 http://download-installer.cdn.mozilla.net/pub/firefox/releases/17.0.11esr/win32/en-US/Firefox%20Setup%2017.0.11esr.exe
+prefetch FirefoxSetupESR.exe sha1:88f09bf276c6719d5f1f689869fdfb8b861c7a30 size:19406624 https://download-installer.cdn.mozilla.net/pub/firefox/releases/17.0.11esr/win32/en-US/Firefox%20Setup%2017.0.11esr.exe sha256:fa6174a5baa41687ed00351bcc5b24b982c746f35513573d1fb561caea297b59
 
 // https://wiki.mozilla.org/Installer:Command_Line_Arguments
 //create a config.ini file to configure installation settings

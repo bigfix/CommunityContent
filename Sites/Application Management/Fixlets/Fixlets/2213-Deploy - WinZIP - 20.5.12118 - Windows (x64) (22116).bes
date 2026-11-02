@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch C9098BF2D2EE4D00E991DF513ADC8A846FF2F208.msi sha1:C9098BF2D2EE4D00E991DF513ADC8A846FF2F208 size:76720640 http://download.winzip.com/winzip205-64.msi sha256:BE4A750B9995609092104C3D1EB94E306BA404529E4F5CE4C4E6C731C272B589
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch C9098BF2D2EE4D00E991DF513ADC8A846FF2F208.msi sha1:C9098BF2D2EE4D00E991DF513ADC8A846FF2F208 size:76720640 https://download.winzip.com/winzip205-64.msi sha256:BE4A750B9995609092104C3D1EB94E306BA404529E4F5CE4C4E6C731C272B589
 
 override wait
 hidden=true

@@ -39,9 +39,9 @@
 // Using a prefetch block to avoid downloading both 32bit & 64bit versions when only one is needed.
 begin prefetch block
 	if {x64 of operating system}
-		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=3014f77a52607c73f71ba9853896b2fb757428d8 size=13270144 url=http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x64_RealESD.exe
+		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=3014f77a52607c73f71ba9853896b2fb757428d8 size=13270144 url=https://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x64_RealESD.exe sha256=f1b58aece46a9ee3724857d12ca933a273eedb636d89292df025ca3f0c5d3811
 	else
-		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=8ba31af0edf1b2b627c13d26ef8545f019d9e1b9 size=12168584 url=http://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x86_RealESD.exe
+		add prefetch item name=OpenTextExceedonDemandClient_RealESD.exe sha1=8ba31af0edf1b2b627c13d26ef8545f019d9e1b9 size=12168584 url=https://mimage.opentext.com/patches/connectivity/eod8/_ed0wn15/OpenTextExceedonDemandClient8SR3_x86_RealESD.exe sha256=0f847e5df13b32b1282b83f2a87c57f5ea6990ba1935a513774335cd7bb94a32
 	endif
 
 	collect prefetch items

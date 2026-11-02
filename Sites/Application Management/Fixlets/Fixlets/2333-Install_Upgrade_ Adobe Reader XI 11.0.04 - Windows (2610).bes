@@ -42,7 +42,7 @@
         <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//download Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe sha256:9660eec000a47c113796a9a351ad0027b7ef515b3fc9d1dd14589c0b0c7bc910
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }

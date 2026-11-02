@@ -36,8 +36,8 @@
         <PostLink>to initiate the deployment process.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch acrobat_ittools_cleaner_p1_040612.zip sha1:43e3e81ca00835f876ae8bb81d070acc2c6e9a28 size:719310 http://labsdownload.adobe.com/pub/labs/acrobat_ittools/acrobat_ittools_cleaner_p1_040612.zip
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch acrobat_ittools_cleaner_p1_040612.zip sha1:43e3e81ca00835f876ae8bb81d070acc2c6e9a28 size:719310 https://labsdownload.adobe.com/pub/labs/acrobat_ittools/acrobat_ittools_cleaner_p1_040612.zip sha256:1e41114e3c9ef0da54e4a1bcb4b3e9dde385e35fba560bc8ce858e5a7a26173d
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 waithidden __Download\unzip.exe -qq -o -d &quot;./&quot; __Download\acrobat_ittools_cleaner_p1_040612.zip
 waithidden AdbeArCleaner.exe /silent /product=1

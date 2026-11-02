@@ -36,7 +36,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 00075.zip sha1:F0B9B673144A4E0EAD3468FD1F24535BC5F98E48 size:7867800 https://downloadmirror.intel.com/26755/eng/Intel-SA-00075%20Detection%20and%20Mitigation%20Tool.zip sha256:AC9D86C677E6006E085E309881A6423384A9D339BEA926D2888BC2D2D96F20D5
 
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 utility __Download\unzip.exe
 

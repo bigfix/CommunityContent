@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:0d0f926306daea8dd5d50fc47146cdc74125064d size:3770496 https://downloads.dell.com/FOLDER02227494M/1/O980-A16.EXE
+prefetch BIOS_Update.exe sha1:0d0f926306daea8dd5d50fc47146cdc74125064d size:3770496 https://downloads.dell.com/FOLDER02227494M/1/O980-A16.EXE sha256:1c45c20a632b9a1cb143c9571d6e330541c1338854d1dc3c3c7522659ca1353f
 
 // -- END:DOWNLOADS ---------------------------
 

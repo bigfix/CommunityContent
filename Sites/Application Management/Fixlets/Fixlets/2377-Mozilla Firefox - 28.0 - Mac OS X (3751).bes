@@ -50,7 +50,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[begin prefetch block
 
-  add prefetch item name=Firefox_28_0 sha1=68c745c0dd4f4cf74f2c3cfb2b4cd134c7020a60 size=49460460 url=http://download-installer.cdn.mozilla.net/pub/firefox/releases/28.0/mac/en-US/Firefox%2028.0.dmg
+  add prefetch item name=Firefox_28_0 sha1=68c745c0dd4f4cf74f2c3cfb2b4cd134c7020a60 size=49460460 url=https://download-installer.cdn.mozilla.net/pub/firefox/releases/28.0/mac/en-US/Firefox%2028.0.dmg sha256=287a90c5d067420fddbee365f4019c6ad5e931678955c5d36c6f4a0033616f9b
 
 end prefetch block
 

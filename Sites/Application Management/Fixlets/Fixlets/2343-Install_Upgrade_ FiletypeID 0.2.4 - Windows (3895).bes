@@ -49,11 +49,11 @@ prefetch 7za.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http:
 
 //  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
 //  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 // DOWNLOAD zipinst
 //   http://www.nirsoft.net/utils/zipinst.html
-prefetch zipinst.exe sha1:6a1290fd85019dc80e34abeb4be5bcbbc742d012 size:39424 http://www.nirsoft.net/utils/zipinst.exe
+prefetch zipinst.exe sha1:6a1290fd85019dc80e34abeb4be5bcbbc742d012 size:39424 https://www.nirsoft.net/utils/zipinst.exe sha256:d5249a08f76092c4b05a3c3295426fe2f481eaa3c11d2ca1dc50c6b323bb6002
 
 // DOWNLOAD
 prefetch FiletypeID.zip sha1:e74ac849f1cc34275cfe0c09101f095d8ce8023e size:10047453 https://filetype-identifier.googlecode.com/files/FiletypeID-0.2.4.zip

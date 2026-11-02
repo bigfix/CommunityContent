@@ -35,7 +35,7 @@
         <Link>here</Link>
         <PostLink> to initiate the deployment process.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch vlc-2.0.7.dmg sha1:ea190de6108f77d5ed9eb775b872eea4ce9eee3c size:44577073 http://get.videolan.org/vlc/2.0.7/macosx/vlc-2.0.7.dmg
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch vlc-2.0.7.dmg sha1:ea190de6108f77d5ed9eb775b872eea4ce9eee3c size:44577073 http://get.videolan.org/vlc/2.0.7/macosx/vlc-2.0.7.dmg sha256:53b5b4786c435e0dd06597139a767cf140f0ef2b54676c8eb5ae62e0f31b3497
 delete &quot;/tmp/vlc-2.0.7.dmg&quot;
 move &quot;{posix path of file &quot;vlc-2.0.7.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/tmp/vlc-2.0.7.dmg&quot;
 wait hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/VLC207&quot; &quot;/tmp/vlc-2.0.7.dmg&quot;

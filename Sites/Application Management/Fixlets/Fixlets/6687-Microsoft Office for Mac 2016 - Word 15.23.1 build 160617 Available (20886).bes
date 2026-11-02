@@ -55,7 +55,7 @@
         <Link>here</Link>
         <PostLink> to update the Microsoft Word to the latest version.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
 
 
 // move the pkg file to a temp directory
@@ -75,7 +75,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.23
         <Link>here</Link>
         <PostLink> to initiate the deployment process regardless of whether the related applications are running. </PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
 
 
 // move the pkg file to a temp directory
@@ -96,7 +96,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Word_15.23
         <Link>here</Link>
         <PostLink> to run the installer while word is running... because you&apos;re a rebel... and it works.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.23.1_160617_Updater.pkg sha1:d65a29b1d3bd12a1335b66b67e8a2cc21e7c7078 size:1024286404 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.23.1_160617_Updater.pkg sha256:a86abe1c4dd5f43dbaefafb23c9fa4a05f68ec5a71ad51fd0714819af215c67f
 
 
 wait cp &quot;{posix path of file &quot;Microsoft_Word_15.23.1_160617_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Word_15.23.1_160617_Updater.pkg&quot;

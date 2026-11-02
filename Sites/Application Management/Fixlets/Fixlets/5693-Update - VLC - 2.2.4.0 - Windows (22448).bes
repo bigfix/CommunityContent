@@ -48,7 +48,7 @@ if {exists keys &quot;VLC media player&quot; of keys &quot;HKLM\Software\Microso
 endif
 
 if {exists keys &quot;VLC media player&quot; of keys &quot;HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall&quot; of (x32 registries)}
-	prefetch 1D2136EB18D86B9EF3AD302E1E78A6D68E97B53B.exe sha1:1D2136EB18D86B9EF3AD302E1E78A6D68E97B53B size:30533688 http://download.videolan.org/pub/videolan/vlc/2.2.4/win32/vlc-2.2.4-win32.exe sha256:F4A4B8897E86F52A319EE4568E62BE9CDA1BCB2341E798DA12E359D81CB36E51
+	prefetch 1D2136EB18D86B9EF3AD302E1E78A6D68E97B53B.exe sha1:1D2136EB18D86B9EF3AD302E1E78A6D68E97B53B size:30533688 https://download.videolan.org/pub/videolan/vlc/2.2.4/win32/vlc-2.2.4-win32.exe sha256:F4A4B8897E86F52A319EE4568E62BE9CDA1BCB2341E798DA12E359D81CB36E51
 
 	override wait
 	hidden=true

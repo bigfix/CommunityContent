@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 76858C813E9974B187EDFD71CE6D83C6506D6A3C.dmg sha1:76858C813E9974B187EDFD71CE6D83C6506D6A3C size:58415011 http://download.gimp.org/mirror/pub/gimp/v2.8/osx/gimp-2.8.18-x86_64.dmg sha256:2430A1A1A12D146B5198175FA1878D9CF556A3903707E536A51C9429BF664ECC
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 76858C813E9974B187EDFD71CE6D83C6506D6A3C.dmg sha1:76858C813E9974B187EDFD71CE6D83C6506D6A3C size:58415011 https://download.gimp.org/mirror/pub/gimp/v2.8/osx/gimp-2.8.18-x86_64.dmg sha256:2430A1A1A12D146B5198175FA1878D9CF556A3903707E536A51C9429BF664ECC
 
 delete &quot;/tmp/76858C813E9974B187EDFD71CE6D83C6506D6A3C.dmg&quot;
 

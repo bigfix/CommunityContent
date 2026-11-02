@@ -52,7 +52,7 @@
         <Link>here</Link>
         <PostLink> to install the Tivoli Endpoint Manager Console to the default location.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch BESConsole.exe sha1:525054e4ae4d7b52cdf2b32583eb4e6a029fbbee size:60703784 http://software.bigfix.com/download/bes/82/BigFix-BES-Console-8.2.1312.0.exe
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch BESConsole.exe sha1:525054e4ae4d7b52cdf2b32583eb4e6a029fbbee size:60703784 https://software.bigfix.com/download/bes/82/BigFix-BES-Console-8.2.1312.0.exe sha256:13a0aa664009eb0384263d2c81a92786da4f958806650b9bc30abfe8a00601f1
 delete __Local\Get\BESConsole.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {60703784  < free space of drive of client folder of current site}

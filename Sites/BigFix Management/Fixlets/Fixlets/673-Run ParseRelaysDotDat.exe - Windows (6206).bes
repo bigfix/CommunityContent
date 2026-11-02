@@ -32,7 +32,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
 // Reference:  https://bigfix.me/fixlet/details/565
-prefetch ParseRelaysDotDat.exe sha1:09406da1a69524af33937339b4ea8c071ccd99e3 size:320512 http://software.bigfix.com/download/bes/util/ParseRelaysDotDat.exe
+prefetch ParseRelaysDotDat.exe sha1:09406da1a69524af33937339b4ea8c071ccd99e3 size:320512 https://software.bigfix.com/download/bes/util/ParseRelaysDotDat.exe sha256:dc80ce17015cca3cc477c7ff53d334c6d8a9d0e915ffa255a1b178afb383631b
 
 utility __Download\ParseRelaysDotDat.exe
 

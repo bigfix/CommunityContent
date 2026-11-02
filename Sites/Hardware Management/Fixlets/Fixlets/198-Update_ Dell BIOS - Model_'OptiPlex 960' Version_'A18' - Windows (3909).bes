@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:9f0301acd8c6be3f58a6f2bb885ab46aa9898e41 size:2603128 https://downloads.dell.com/FOLDER01655045M/1/O960-A18.exe
+prefetch BIOS_Update.exe sha1:9f0301acd8c6be3f58a6f2bb885ab46aa9898e41 size:2603128 https://downloads.dell.com/FOLDER01655045M/1/O960-A18.exe sha256:6c3e6c8478e13247ead2ff381e79617c313b3f6f0ef9edcf0eed51fef33d96e1
 
 // -- END:DOWNLOADS ---------------------------
 

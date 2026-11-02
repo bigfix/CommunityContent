@@ -47,10 +47,10 @@
         <PostLink>.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:9c295c16d374735bf292ef6c630c9ab392c22500 size:50573696 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.04/en_US/AdbeRdr11004_en_US.exe sha256:9660eec000a47c113796a9a351ad0027b7ef515b3fc9d1dd14589c0b0c7bc910
 
 //Adobe Reader XI 11.0.05 is a security update, i.e., no full installer
-prefetch AdbeRdrSecUpd11005.msp sha1:6117f8b7545966b4b57fad13bf9636ca329139c8 size:2682880 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.05/misc/AdbeRdrSecUpd11005.msp
+prefetch AdbeRdrSecUpd11005.msp sha1:6117f8b7545966b4b57fad13bf9636ca329139c8 size:2682880 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.05/misc/AdbeRdrSecUpd11005.msp sha256:53a57b2684e5f522b01feb8f658b6721d5ed85af63b4092d525eb84245ed3edc
 
 // The following should not be needed as the installer should do this by default
 //uninstall previous version of Adobe Reader

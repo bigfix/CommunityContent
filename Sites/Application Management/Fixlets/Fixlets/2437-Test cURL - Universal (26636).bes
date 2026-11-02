@@ -31,7 +31,7 @@
 // if Windows, then download prereqs.
 begin prefetch block
     if { (windows of operating system) AND ( not exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments ) }
-        add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+        add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=https://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
         add prefetch item name=curl.zip sha1=96897edb567daae0e03afa848692fd6541f9a663 sha256=9f3eb94bd1576b0fa2b1628da7d41d5d1599fd7598d1245ee4a858a999c7bbca size=2436504 url=https://raw.githubusercontent.com/jgstew/bigfix-content/726443262c034436e88a77bc3c693eedd5233e84/downloads/curl.zip
     endif
 end prefetch block

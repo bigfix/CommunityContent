@@ -50,7 +50,7 @@
         <PostLink> to deploy the BES Client Logging Service.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//*********************** RUN UPGRADE *******************//
-prefetch BESClientLoggingServiceSetup.exe sha1:31d7160c8a10aeda6b212bf1360802311503a842 size:3338991 http://software.bigfix.com/download/LoggingService/BESClientLoggingServiceSetup-7.1.0.15.exe
+prefetch BESClientLoggingServiceSetup.exe sha1:31d7160c8a10aeda6b212bf1360802311503a842 size:3338991 https://software.bigfix.com/download/LoggingService/BESClientLoggingServiceSetup-7.1.0.15.exe sha256:1f5e23eac40d4b3954dc88443c005b73fd804602a0c452a389a8e4296eef0846
 wait __Download\BESClientLoggingServiceSetup.exe /s /v"/qn REBOOT=REALLYSUPPRESS"
 //*********************** IF LOG SVC EXISTS, STOP IT *******************//
 if {(exists folder (pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService") whose (exists file whose (name of it = "BESClientLoggingService.exe") of it))}
@@ -84,15 +84,15 @@ delete myScript.bat
 endif
 // #AP2
 if {((exist regapp "BigFixAntiPest.exe" whose (version of it >= "0.9.0.34")))}
-prefetch "antipest.dll" sha1:552946f80235b9f6ad8444909424d554bad555f7 size:102400 http://software.bigfix.com/download/LoggingService/lib/antipest.dll
+prefetch "antipest.dll" sha1:552946f80235b9f6ad8444909424d554bad555f7 size:102400 https://software.bigfix.com/download/LoggingService/lib/antipest.dll sha256:a0a21b70c653d900a4748232edaabd8ad71e02a1dc1c314922b25e424f2e4977
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\antipest.dll"
 copy "__Download\antipest.dll" "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\antipest.dll"
 regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\LoggingService\Plugins\Locations]" "CA_AP"="{escape of (pathname of parent folder of file of service "BESClientLoggingService" & "\lib\antipest.dll")}"
 endif
 // #AV
 if {((if (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\ComputerAssociates\eTrustAntivirus\CurrentVersion\Path" whose (exists value "HOME" of it) of registry) then (exists file ((value "HOME" of key "HKEY_LOCAL_MACHINE\SOFTWARE\ComputerAssociates\eTrustAntivirus\CurrentVersion\Path" of registry as string) & "\InoOEM.dll") whose (version of it = "7.1")) else (false)) AND (exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\AntiVirus" of registry))}
-prefetch "antivirus.dll" sha1:7462e0790198d6f2afbe9c79db589e00eeb8d4c6 size:167936 http://software.bigfix.com/download/LoggingService/lib/antivirus.dll
-prefetch "eavrtsdk.dll" sha1:d4e2a29a1d9891e72add0fcb7e47da4e3a57e608 size:241664 http://software.bigfix.com/download/LoggingService/lib/eavrtsdk.dll
+prefetch "antivirus.dll" sha1:7462e0790198d6f2afbe9c79db589e00eeb8d4c6 size:167936 https://software.bigfix.com/download/LoggingService/lib/antivirus.dll sha256:765537620d0ef13df20caea4f7db195f62f08ffea7b0e52e84e8794030a89018
+prefetch "eavrtsdk.dll" sha1:d4e2a29a1d9891e72add0fcb7e47da4e3a57e608 size:241664 https://software.bigfix.com/download/LoggingService/lib/eavrtsdk.dll sha256:f3ee2705b7c72d2c433ca824662ca61f79607908f04f97c9743e1575bf5654d4
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\antivirus.dll"
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\eavrtsdk.dll"
 copy "__Download\antivirus.dll" "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\antivirus.dll"
@@ -102,15 +102,15 @@ regset "[HKEY_LOCAL_MACHINE\Software\BigFix\AntiVirus]" "SDKPath"="{escape of (p
 endif
 // #DLP
 if {(((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\DLP" whose (exists folder (values "installedPath" of it as string) whose (exists file "BESLeakProofCTRL.exe" whose (version of it >= "1.1.0.17") of it)) of registry)))}
-prefetch "dlp.dll" sha1:e5d05be8daedf5143d2ae2b10fe75cc834ae0bad size:110592 http://software.bigfix.com/download/LoggingService/lib/dlp.dll
+prefetch "dlp.dll" sha1:e5d05be8daedf5143d2ae2b10fe75cc834ae0bad size:110592 https://software.bigfix.com/download/LoggingService/lib/dlp.dll sha256:1655c23983a66642d459f3cbd5f53faf37a3fc1e364d761020f7580b6ab958a7
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\dlp.dll"
 copy "__Download\dlp.dll" "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\dlp.dll"
 regset "[HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\LoggingService\Plugins\Locations]" "TM_DLP"="{escape of (pathname of parent folder of file of service "BESClientLoggingService" & "\lib\dlp.dll")}"
 endif
 // #FW
 if {((exists key "HKEY_LOCAL_MACHINE\SOFTWARE\CA\HIPSEngine\Products\BigFixFW" whose (exists value "UninstallCmdLine" of it) of registry))}
-prefetch "compliance.dll" sha1:ba6b4f295a8933584d9c502db54797d839a4ee81 size:151552 http://software.bigfix.com/download/LoggingService/lib/compliance.dll
-prefetch "firewall.dll" sha1:4a010c72c199c4deb302553332a23407b6f8cd49 size:151552 http://software.bigfix.com/download/LoggingService/lib/firewall.dll
+prefetch "compliance.dll" sha1:ba6b4f295a8933584d9c502db54797d839a4ee81 size:151552 https://software.bigfix.com/download/LoggingService/lib/compliance.dll sha256:099f516812ad5b41171869b1906a3923a7823d5af63a2e688bd327415cb27c03
+prefetch "firewall.dll" sha1:4a010c72c199c4deb302553332a23407b6f8cd49 size:151552 https://software.bigfix.com/download/LoggingService/lib/firewall.dll sha256:5a760aef3d1239b993adb7b89bc4e09e70db3b0c7cb619c9dc466c0130e333b5
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\compliance.dll"
 delete "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\firewall.dll"
 copy "__Download\compliance.dll" "{pathname of parent folder of file of service "BESClientLoggingService"}\lib\compliance.dll"
@@ -134,12 +134,12 @@ delete createFolder.bat
 endif
 // Download PM Plugin and executable - temporary for development only
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}
-prefetch StandbyPowerTracker.dll sha1:5ba029e15c0123a413cbaf85596a28a5f1debeb5 size:543744 http://software.bigfix.com/download/LoggingService/lib/1.0.11.0/StandbyPowerTracker.dll
+prefetch StandbyPowerTracker.dll sha1:5ba029e15c0123a413cbaf85596a28a5f1debeb5 size:543744 https://software.bigfix.com/download/LoggingService/lib/1.0.11.0/StandbyPowerTracker.dll sha256:9d6c26f6fa82b34818895c15643e43c9eb799ba19c72df9527bccb35b454643d
 delete "{(pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}"
 copy __Download\StandbyPowerTracker.dll "{(pathname of parent folder of regapp "besclient.exe" & "\BESClientLoggingService\lib\StandbyPowerTracker.dll")}"
 endif // not exists StandByPowerTracker.dll
 if {not exists file (pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}
-prefetch BESPower.exe sha1:b0efd608ebd88bd788f7028a19f8600dcab95acd size:410112 http://software.bigfix.com/download/LoggingService/lib/1.0.11.0/BESPower.exe
+prefetch BESPower.exe sha1:b0efd608ebd88bd788f7028a19f8600dcab95acd size:410112 https://software.bigfix.com/download/LoggingService/lib/1.0.11.0/BESPower.exe sha256:a5a368ff45b26162ff8dc469e87d7d299fe138bc0bbcd92046e97659640fc7d1
 delete "{(pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}"
 copy __Download\BESPower.exe "{(pathname of parent folder of regapp "besclient.exe" & "\Power Management\BESPower.exe")}"
 endif // if BESPower.exe does not exist

@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 1D58133445BB8C0D23B5AC605F4D9CD830BD7F68.dmg sha1:1D58133445BB8C0D23B5AC605F4D9CD830BD7F68 size:46842748 http://download.videolan.org/pub/videolan/vlc/3.0.1/macosx/vlc-3.0.1.dmg sha256:CEEA37FB888B810C1B11C558471F10FA35500C047D6ECA5733F038EEFB16D926
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 1D58133445BB8C0D23B5AC605F4D9CD830BD7F68.dmg sha1:1D58133445BB8C0D23B5AC605F4D9CD830BD7F68 size:46842748 https://download.videolan.org/pub/videolan/vlc/3.0.1/macosx/vlc-3.0.1.dmg sha256:CEEA37FB888B810C1B11C558471F10FA35500C047D6ECA5733F038EEFB16D926
 
 delete &quot;/tmp/1D58133445BB8C0D23B5AC605F4D9CD830BD7F68.dmg&quot;
 

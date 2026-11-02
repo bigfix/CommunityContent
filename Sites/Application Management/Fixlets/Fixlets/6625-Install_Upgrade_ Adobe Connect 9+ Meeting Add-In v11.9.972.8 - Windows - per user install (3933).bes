@@ -73,11 +73,11 @@ continue if {not exists running application whose (name of it as lowercase = &qu
 
 
 // Download UnZip utility
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 
 // Download the Adobe Connect Add-In
-prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip
+prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 https://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip sha256:de09e9d41a0ccc0dea3e19df903e3110f1c3734ebe5183e487b54d9b878e97b1
 
 // Record the current user name, so that it does not change during execution
 parameter &quot;CurrentUserName&quot; = &quot;{name of current user}&quot;
@@ -105,11 +105,11 @@ wait __Download\setup.exe /VERYSILENT /DIR=&quot;C:\Users\{parameter &quot;Curre
 
 
 // Download UnZip utility
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 
 // Download the Adobe Connect Add-In
-prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 http://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip
+prefetch ac_addin_win.zip sha1:97ebdb0c18dbfebbee79fcd749d2f93c7564ba51 size:4187201 https://download.adobe.com/pub/connect/updaters/meeting/9_0/ac_addin_win_972.zip sha256:de09e9d41a0ccc0dea3e19df903e3110f1c3734ebe5183e487b54d9b878e97b1
 
 // Record the current user name, so that it does not change during execution
 parameter &quot;CurrentUserName&quot; = &quot;{name of current user}&quot;

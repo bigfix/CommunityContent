@@ -49,7 +49,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Download all specified files
 begin prefetch block
-  add prefetch item name=VLC_2_1_0 sha1=8f45a84e7ddccc5503bbec6417789f164b00ff83 size=24278649 url=http://get.videolan.org/vlc/2.1.0/win32/vlc-2.1.0-win32.exe
+  add prefetch item name=VLC_2_1_0 sha1=8f45a84e7ddccc5503bbec6417789f164b00ff83 size=24278649 url=http://get.videolan.org/vlc/2.1.0/win32/vlc-2.1.0-win32.exe sha256=30b4788a7ca06bf9f98e8594b5f6fe9337d62dbf36cf1455a601435a4520b561
 end prefetch block
 
 // All SWD files will go into a folder in the clients __BESData folder. This folder gets cleared on every restart.

@@ -45,7 +45,7 @@
         <Link>here</Link>
         <PostLink>&amp;nbsp;to initiate the deployment process through the IBM Endpoint Manager server</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch iTunes12.1.dmg sha1:8da2bb4dcf428b68a34d3cd97f13f3ecadec6cca size:216622065 http://secure-appldnld.apple.com/itunes12/031-19380.20150128.FcvfF/iTunes12.1.dmg sha256:35bbff354891dbe6b0f0fb817cdc74491ba1056caec6a55c26e927c9d04f304d
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch iTunes12.1.dmg sha1:8da2bb4dcf428b68a34d3cd97f13f3ecadec6cca size:216622065 https://secure-appldnld.apple.com/itunes12/031-19380.20150128.FcvfF/iTunes12.1.dmg sha256:35bbff354891dbe6b0f0fb817cdc74491ba1056caec6a55c26e927c9d04f304d
 
 wait cp &quot;{posix path of file &quot;iTunes12.1.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/&quot;
 
@@ -82,7 +82,7 @@ endif</ActionScript>
         <Link>here</Link>
         <PostLink>&amp;nbsp;to upgrade iTunes through the IBM Endpoint Manager server regardless of whether iTunes is running.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch iTunes12.1.dmg sha1:8da2bb4dcf428b68a34d3cd97f13f3ecadec6cca size:216622065 http://secure-appldnld.apple.com/itunes12/031-19380.20150128.FcvfF/iTunes12.1.dmg sha256:35bbff354891dbe6b0f0fb817cdc74491ba1056caec6a55c26e927c9d04f304d
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch iTunes12.1.dmg sha1:8da2bb4dcf428b68a34d3cd97f13f3ecadec6cca size:216622065 https://secure-appldnld.apple.com/itunes12/031-19380.20150128.FcvfF/iTunes12.1.dmg sha256:35bbff354891dbe6b0f0fb817cdc74491ba1056caec6a55c26e927c9d04f304d
 
 wait cp &quot;{posix path of file &quot;iTunes12.1.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/private/tmp/&quot;
 

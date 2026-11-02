@@ -84,7 +84,7 @@
         <PostLink>&amp;nbsp;and disable auto-updates.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
@@ -118,7 +118,7 @@ wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart DISABLE_ARM_SERVI
         <PostLink>.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
@@ -153,7 +153,7 @@ wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES D
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {not exists running application whose (name of it as lowercase = "acrord32.exe")}
 
 //download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
@@ -188,7 +188,7 @@ wait __Download\AdbeRdr_en_US.exe /sAll /l /msi /qn /norestart EULA_ACCEPT=YES D
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {not exists running application whose (name of it as lowercase = "acrord32.exe")}
 
 //download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
@@ -227,7 +227,7 @@ if {exists running application whose (name of it as lowercase = "acrord32.exe")}
 endif
 
 //download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
@@ -266,7 +266,7 @@ if {exists running application whose (name of it as lowercase = "acrord32.exe")}
 endif
 
 //download the Adobe Reader installer
-prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe
+prefetch AdbeRdr_en_US.exe sha1:6a3d5b494b4ed6e11fc7d917afc03eaf05d4a6aa size:50837888 http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.06/en_US/AdbeRdr11006_en_US.exe sha256:7eb5dd2905d5cce9912019efa89e939a187cd099583d0216e517c71bd38dc6a8
 
 //uninstall previous version of Adobe Reader
 if  { exists key "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86-7AD7-1033-7B44-AB0000000001}}" of registry }
