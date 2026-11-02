@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: AutoPkg 0.4.2 - Mac OS X</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Installs AutoPkg 0.4.2 on macOS from the official GitHub release package.</p>]]></Description>
     <Relevance>mac of operating system</Relevance>
     <Relevance><![CDATA[system version >= "10.9"]]></Relevance>
     <Relevance><![CDATA[not exists (strings of values of entries whose(key of it = "Version") of dictionaries of files "/Library/AutoPkg/autopkglib/version.plist") whose(it as version >= "0.4.2" as version)]]></Relevance>

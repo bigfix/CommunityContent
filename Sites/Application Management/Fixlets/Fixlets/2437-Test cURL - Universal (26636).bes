@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Test cURL - Universal</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Runs a cURL command you enter (default: google.com) and saves the output to __Global\Logs\results_Test_cURL.txt. On Windows, cURL is downloaded first if it is not on the PATH.</p>]]></Description>
     <Relevance>/* cURL exists */ (mac of operating system) OR ( /* if cURL is missing, it will be downloaded */ windows of operating system) OR ( exists files whose(name of it as lowercase = &quot;curl&quot; OR name of it as lowercase = &quot;curl.exe&quot;) of (folders it) of unique values of (it as trimmed string) of substrings separated by (&quot;;&quot;;&quot;:&quot;) of values of (variables &quot;PATH&quot; of it; (if (windows of operating system) then (x64 variables &quot;PATH&quot; of it) else NOTHINGS) ) of environments )</Relevance>
     <Source>Internal</Source>
     <SourceReleaseDate>2019-08-01</SourceReleaseDate>

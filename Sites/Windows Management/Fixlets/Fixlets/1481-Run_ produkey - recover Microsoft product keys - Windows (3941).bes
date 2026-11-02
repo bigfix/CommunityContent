@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Run: produkey - recover Microsoft product keys - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Runs NirSoft ProduKey to recover Microsoft product keys and saves them to __Global\Logs\config_prodkey.xml. The output contains license keys, so handle it accordingly.</p>]]></Description>
     <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance><![CDATA[not exists files "config_prodkey.xml" whose(now - modification time of it < 30 * day) of folders "Logs" of folders "__Global" of folders "__BESData" of parent folder of client]]></Relevance>

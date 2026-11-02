@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: TrID 2.10 - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Installs TrID 2.10, a command-line file type identifier, along with its file type definitions.</p>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
     <Relevance><![CDATA[not exists keys whose(value "DisplayName" of it as string contains "TrID" AND value "DisplayVersion" of it as string as version >= "2.10") of keys "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" of registry]]></Relevance>

@@ -91,7 +91,7 @@ continue if {(exists current user) AND (1 = number of logged on users) AND (para
 // do the install of the add-in
 wait __Download\setup.exe /VERYSILENT /DIR=&quot;C:\Users\{parameter &quot;CurrentUserName&quot;}\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\adobeconnectaddin&quot;
 </ActionScript>
-      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
     </DefaultAction>
     <Action ID="Action4340">
       <Description>
@@ -123,7 +123,7 @@ continue if {(exists current user) AND (1 = number of logged on users) AND (para
 // do the install of the add-in
 wait __Download\setup.exe /VERYSILENT /DIR=&quot;C:\Users\{parameter &quot;CurrentUserName&quot;}\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\adobeconnectaddin&quot;
 </ActionScript>
-      <SuccessCriteria Option="CustomRelevance"></SuccessCriteria>
+      <SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
     </Action>
   </Fixlet>
 </BES>

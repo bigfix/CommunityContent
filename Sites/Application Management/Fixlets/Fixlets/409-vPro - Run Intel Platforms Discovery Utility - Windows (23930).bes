@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>vPro - Run Intel Platforms Discovery Utility - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Runs the Intel Platform Discovery Utility to report which Intel platform technologies (such as vPro) the computer supports. Results are saved to __Global\Logs\results_Intel_Platform_Discovery.xml.</p>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance><![CDATA[/* Windows Vista or Higher */ version of operating system >= "6.0"]]></Relevance>
     <Relevance><![CDATA[not exists it whose( (now - (modification time of it)) < 4 * day ) of files "results_Intel_Platform_Discovery.xml" of folders "__Global/Logs" of ((data folder of client)|(folder "/var/opt/BESClient/__BESData")|(folder "/Library/Application Support/BigFix/BES Agent/__BESData")|(folder "__BESData" of parent folder of client))]]></Relevance>

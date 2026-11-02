@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Config - Autologon - Disable - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the problem and the corrective action here&gt; ]]></Description>
+    <Description><![CDATA[<p>Disables Windows automatic logon by running Sysinternals Autologon with blank credentials.</p>]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>exists values &quot;AutoAdminLogon&quot; whose (it as string = &quot;1&quot;) of keys &quot;HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon&quot; of native registry</Relevance>
     <Source>Internal</Source>

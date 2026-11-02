@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Configuration: Set Owner Tag using Dell Platform Tags Utility 4.006 - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Prompts for an owner tag and sets it on a Dell computer with the Dell Platform Tags Utility 4.006. Results are logged to __BESData\__Global\Logs.</p>]]></Description>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance><![CDATA[/* Windows XP or Higher */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* DELL Only */ exists values &quot;vendor&quot; whose(it as string as uppercase contains &quot;DELL&quot;) of structures &quot;bios_information&quot; of smbios</Relevance>

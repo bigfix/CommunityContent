@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Task>
     <Title>Remove Scheduled Wake from Standby - those not created by wizard</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Removes the BigFix client's daily and weekly scheduled wake-from-standby entries that were not created by the wizard, using the BigFix Standby Tool.</p>]]></Description>
     <Relevance>windows of operating system</Relevance>
     <Relevance>(exists keys whose(name of it starts with &quot;Wakeup Schedule Weekly &quot; OR name of it starts with &quot;Wakeup Schedule Daily &quot;) of key &quot;HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\EnterpriseClient\ScheduledWakeups&quot; of registry)</Relevance>
     <Source>Internal</Source>

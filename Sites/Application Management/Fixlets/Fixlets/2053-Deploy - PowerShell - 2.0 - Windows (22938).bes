@@ -23,8 +23,8 @@
 <DIV class=FixletProperty>
 <H4>File Size:</H4>6 MB </DIV>]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>not exists ((it = &quot;1&quot;) of (values &quot;install&quot; of it as string) of keys of keys &quot;HKLM\software\microsoft\powershell\1&quot; of native registry) /* Is Powershell not install */ or true</Relevance>
-    <Relevance><![CDATA[exists (values "Version" of keys of keys "HKLM\software\microsoft\net framework setup\ndp" of native registry) whose (it as string as version >= "3.5.30729" as version) OR (it = "Win8" or it = "Win8.1" or it = "Win2012" or it = "Win2012R2" or it = "Win10") of name of operating system /* Is .Net Installed */ or true]]></Relevance>
+    <Relevance>not exists ((it = &quot;1&quot;) of (values &quot;install&quot; of it as string) of keys of keys &quot;HKLM\software\microsoft\powershell\1&quot; of native registry) /* Is Powershell not install */</Relevance>
+    <Relevance><![CDATA[exists (values "Version" of keys of keys "HKLM\software\microsoft\net framework setup\ndp" of native registry) whose (it as string as version >= "3.5.30729" as version) OR (it = "Win8" or it = "Win8.1" or it = "Win2012" or it = "Win2012R2" or it = "Win10") of name of operating system /* Is .Net Installed */]]></Relevance>
     <Category>Important</Category>
     <Source>BigFix</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>

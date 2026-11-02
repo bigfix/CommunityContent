@@ -26,10 +26,10 @@
     <Relevance><![CDATA[(exists application "iTunes.app" whose (version of it < "12.1" or version of it as string = "12.0"))]]></Relevance>
     <Category>Update</Category>
     <Source>Apple</Source>
-    <SourceID>N/A</SourceID>
+    <SourceID></SourceID>
     <SourceReleaseDate>2015-01-30</SourceReleaseDate>
     <SourceSeverity></SourceSeverity>
-    <CVENames>N/A</CVENames>
+    <CVENames></CVENames>
     <MIMEField>
       <Name>x-fixlet-domain_attributes</Name>
       <Value>PTCH Patch Apple iTunes Application</Value>
