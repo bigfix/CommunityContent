@@ -38,7 +38,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">action parameter query &quot;EULA&quot; with description &quot;Click OK if you agree to the SysInternals EULA (see http://technet.microsoft.com/en-us/sysinternals/bb664922) on behalf of the System Account on the endpoint(s).&quot; and with default value &quot;I AGREE&quot;
 continue if {parameter &quot;EULA&quot; = &quot;I AGREE&quot;}
 prefetch AccessChk.zip sha1:8b9845d28c4bec0824463e2518972eb6ecbd4712 size:112278 http://download.sysinternals.com/files/AccessChk.zip
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 waithidden __Download\unzip.exe -qq -o -d &quot;{pathname of client folder of current site}\__Download&quot; __Download\AccessChk.zip
 delete &quot;{pathname of windows folder}\AccessChk.exe&quot;

@@ -65,15 +65,15 @@ prefetch AcrobatPro_11_Web_WWMUI.exe sha1:d076661ddcf228f4bde5d8745f377641151b9e
 
 // Download Adobe Acrobat Pro 11.0.4 MSP
 // http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.04/misc/AcrobatUpd11004.msp
-prefetch AcrobatUpd11004.msp sha1:fd279a159d3565528a9570caff377169b02a81e3 size:134643712 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.04/misc/AcrobatUpd11004.msp
+prefetch AcrobatUpd11004.msp sha1:fd279a159d3565528a9570caff377169b02a81e3 size:134643712 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.04/misc/AcrobatUpd11004.msp sha256:12a327947a6ae1d3c1c94d7b77bfa4579fcf07cc60fb035fbd93a9c425bde57e
 
 // Download Adobe Acrobat Pro 11.0.5 MSP
 // http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.05/misc/AcrobatSecUpd11005.msp
-prefetch AcrobatSecUpd11005.msp sha1:0a5dc812616af208f028b2ebaee7ffaf5f9da3bb size:8671232 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.05/misc/AcrobatSecUpd11005.msp
+prefetch AcrobatSecUpd11005.msp sha1:0a5dc812616af208f028b2ebaee7ffaf5f9da3bb size:8671232 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.05/misc/AcrobatSecUpd11005.msp sha256:b74221bb69c8e3db9836520dd8207825812181bbe9dfa033b5724cd60b80dbd6
 
 // Download Adobe Acrobat Pro 11.0.6 MSP
 // http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.06/misc/AcrobatUpd11006.msp
-prefetch AcrobatUpd11006.msp sha1:a311d69c7b9ccee366b213f72253a63cb2c649d0 size:142704640 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.06/misc/AcrobatUpd11006.msp
+prefetch AcrobatUpd11006.msp sha1:a311d69c7b9ccee366b213f72253a63cb2c649d0 size:142704640 http://ardownload.adobe.com/pub/adobe/acrobat/win/11.x/11.0.06/misc/AcrobatUpd11006.msp sha256:c217f472eef3d9677bd08e6a6fc7b3b1fc02982713e7385a3cb7ccbecf5c803f
 
 // Extract Installer Files - Must extract to an empty subfolder, all files in folder are deleted
 wait __Download\AcrobatPro_11_Web_WWMUI.exe /a /q /s /x /d "{(pathname of client folder of current site)}\__Download\AcrobatPro"

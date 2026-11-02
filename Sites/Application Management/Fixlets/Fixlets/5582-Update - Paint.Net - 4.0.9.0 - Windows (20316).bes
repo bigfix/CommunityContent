@@ -33,8 +33,8 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[//Comment
 
 prefetch 77715CB9FCC10BD907840DA8A460D14973869FD1 sha1:77715CB9FCC10BD907840DA8A460D14973869FD1 size:6978915 http://www.dotpdn.com/files/paint.net.4.0.9.install.zip sha256:6BF20D70B74F701037ED603F681F6C8E04B1815AA740A0F264F60934FFE565D0
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
-prefetch 7z-1514.zip sha1:0ab816b68b33b26c640c7a3484229977ea391e41 size:1710815 https://raw.githubusercontent.com/strawgate/Patching-Tools/master/Downloads/7-Zip/7z-1514.zip
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch 7z-1514.zip sha1:0ab816b68b33b26c640c7a3484229977ea391e41 size:1710815 https://raw.githubusercontent.com/strawgate/Patching-Tools/master/Downloads/7-Zip/7z-1514.zip sha256:e7b61bd25a20b6603d6909aa14c5a1da7ff1fb6eab7f89f2fbccd44c4cab4811
 
 utility __Download\unzip.exe
 utility __Download\7z-1514.zip

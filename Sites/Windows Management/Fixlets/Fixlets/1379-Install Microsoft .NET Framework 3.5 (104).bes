@@ -41,7 +41,7 @@
         <Link>here </Link>
         <PostLink>to initiate the deployment process.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch dotNetFx35setup.exe sha1:b0ca05c12ebb9a3610206bad7f219e02b7873cbd size:2869264 http://download.microsoft.com/download/7/0/3/703455ee-a747-4cc8-bd3e-98a615c3aedb/dotNetFx35setup.exe
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch dotNetFx35setup.exe sha1:b0ca05c12ebb9a3610206bad7f219e02b7873cbd size:2869264 https://download.microsoft.com/download/7/0/3/703455ee-a747-4cc8-bd3e-98a615c3aedb/dotNetFx35setup.exe sha256:c05a019ce69c2e6973e464f381c2b0b618ad9b135ca5275b052febf64c9f9257
 wait __Download\dotNetFx35setup.exe /norestart /quiet
 </ActionScript>
       <SuccessCriteria Option="OriginalRelevance"></SuccessCriteria>

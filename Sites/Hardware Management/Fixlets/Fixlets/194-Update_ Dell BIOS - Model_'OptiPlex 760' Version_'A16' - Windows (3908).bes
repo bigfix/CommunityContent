@@ -40,7 +40,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:ce2d1255145640b5b51e5952115f75c27712b9d0 size:2522512 https://downloads.dell.com/FOLDER01655581M/1/O760-A16.exe
+prefetch BIOS_Update.exe sha1:ce2d1255145640b5b51e5952115f75c27712b9d0 size:2522512 https://downloads.dell.com/FOLDER01655581M/1/O760-A16.exe sha256:ff4f5b2bb4e90d407884e4884d189920e834e53a76977724e00c90aae9d1560e
 
 // -- END:DOWNLOADS ---------------------------
 

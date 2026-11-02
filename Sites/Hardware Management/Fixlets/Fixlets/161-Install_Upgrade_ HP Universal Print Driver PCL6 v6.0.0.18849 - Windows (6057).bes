@@ -44,7 +44,7 @@
 begin prefetch block
 
 	add prefetch item name=7za.zip sha1=9ce9ce89ebc070fea5d679936f21f9dde25faae0 size=384846 url=http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
-    add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+    add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=https://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 	if{ x64 of operating system }
 		add prefetch item name=upd-pcl6.exe sha1=1e3cc47ac9aa2505bb2d3cbf1164b46b1d76aa8b size=19282160 url=http://ftp.hp.com/pub/softlib/software12/COL40842/ds-99374-10/upd-pcl6-x64-6.0.0.18849.exe

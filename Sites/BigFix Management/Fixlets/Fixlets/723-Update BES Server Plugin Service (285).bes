@@ -47,7 +47,7 @@
         <PostLink> to update the BES Server Plugin Service.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// download new plugin service
-prefetch MFS.exe sha1:680a36d1c4ddcc88d20bb5890a7485a5a487231d size:1811968 http://software.bigfix.com/download/bes/util/mfs-1.0.0.14.exe
+prefetch MFS.exe sha1:680a36d1c4ddcc88d20bb5890a7485a5a487231d size:1811968 https://software.bigfix.com/download/bes/util/mfs-1.0.0.14.exe sha256:e0d5832256205ba7463ab41304dc6e53831753e5a60f1f93bfb8c38a602373b5
 // stop plugin service
 waithidden "{pathname of (folder (value "EnterpriseServerFolder" of key "HKEY_LOCAL_MACHINE\SOFTWARE\BigFix\Enterprise Server" of registry as string & "Applications")) & "\MFS.exe"}" -stop
 // uninstall and remove

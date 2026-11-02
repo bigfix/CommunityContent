@@ -101,7 +101,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download all specified files
 begin prefetch block
 	add prefetch item name=CleanZoom.zip sha1=0c704491749a4672c388936e8f613b45c021b7e4 size=378630 url=https://support.zoom.us/hc/en-us/article_attachments/360069358032/CleanZoom.zip
-	add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=http://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+	add prefetch item name=unzip.exe sha1=84debf12767785cd9b43811022407de7413beb6f size=204800 url=https://software.bigfix.com/download/redist/unzip-6.0.exe sha256=2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 end prefetch block
 
 parameter "baseFolder" =  "__Download/"

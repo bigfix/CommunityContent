@@ -43,7 +43,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
 // DOWNLOAD
-prefetch DSIAPC.msi sha1:d45d6517e663cfc0c002efb195018dbc616d6ce0 size:29349888 http://downloads.dell.com/FOLDER02537188M/1/DSIAPC_1.4.1.353.msi
+prefetch DSIAPC.msi sha1:d45d6517e663cfc0c002efb195018dbc616d6ce0 size:29349888 https://downloads.dell.com/FOLDER02537188M/1/DSIAPC_1.4.1.353.msi sha256:aff9f7691b1f26f9d9fcdcee944a11508198d925de427cf4cc42f0daedb83ce9
 
 // INSTALL
 waithidden "{pathname of system folder & "\msiexec.exe"}" /i "{(pathname of file "DSIAPC.msi" of folder "__Download" of client folder of current site)}" /qn /norestart

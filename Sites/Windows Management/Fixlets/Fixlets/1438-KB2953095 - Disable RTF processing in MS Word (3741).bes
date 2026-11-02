@@ -41,11 +41,11 @@
 prefetch LGPO_Utilities.zip sha1:e849599553425754e2e070014fa7967d75671bdf size:311761 http://blogs.technet.com/cfs-filesystemfile.ashx/__key/telligent-evolution-components-attachments/01-5808-00-00-03-05-16-48/LGPO_2D00_Utilities.zip
 
 // Download UnZip utility
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 
 // Download RunAsCurrentUser utility
-prefetch RunAsCurrentUser.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
+prefetch RunAsCurrentUser.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 https://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
 
 waithidden __Download\unzip.exe -o "{pathname of client folder of current site}\__Download\LGPO_Utilities.zip" -d "{pathname of client folder of current site}\__Download"
 

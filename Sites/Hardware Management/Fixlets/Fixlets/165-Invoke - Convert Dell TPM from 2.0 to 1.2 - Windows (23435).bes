@@ -36,7 +36,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">// Enter your action script here
 
-prefetch DellTPM1.2.exe sha1:236B9B93A2B74142D3020F3DB1E921713E298900 size:574872 http://downloads.dell.com/FOLDER03380191M/1/DellTpm1.2_Fw5.81.0.0.exe sha256:523ABC57585724C1923172269DAC3872BFBFA6275E18A6A61E4B64DEF4EFBFE8
+prefetch DellTPM1.2.exe sha1:236B9B93A2B74142D3020F3DB1E921713E298900 size:574872 https://downloads.dell.com/FOLDER03380191M/1/DellTpm1.2_Fw5.81.0.0.exe sha256:523ABC57585724C1923172269DAC3872BFBFA6275E18A6A61E4B64DEF4EFBFE8
 
 wait __Download\DellTPM1.2.exe /s /l=&quot;{pathname of windows folder}\temp\tpmdowngradelog.txt&quot;
 

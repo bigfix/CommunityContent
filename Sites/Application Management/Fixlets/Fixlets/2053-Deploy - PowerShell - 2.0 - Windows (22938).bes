@@ -23,8 +23,8 @@
 <DIV class=FixletProperty>
 <H4>File Size:</H4>6 MB </DIV>]]></Description>
     <Relevance>windows of operating system</Relevance>
-    <Relevance>not exists ((it = &quot;1&quot;) of (values &quot;install&quot; of it as string) of keys of keys &quot;HKLM\software\microsoft\powershell\1&quot; of native registry) /* Is Powershell not install */ or true</Relevance>
-    <Relevance><![CDATA[exists (values "Version" of keys of keys "HKLM\software\microsoft\net framework setup\ndp" of native registry) whose (it as string as version >= "3.5.30729" as version) OR (it = "Win8" or it = "Win8.1" or it = "Win2012" or it = "Win2012R2" or it = "Win10") of name of operating system /* Is .Net Installed */ or true]]></Relevance>
+    <Relevance>not exists ((it = &quot;1&quot;) of (values &quot;install&quot; of it as string) of keys of keys &quot;HKLM\software\microsoft\powershell\1&quot; of native registry) /* Is Powershell not install */</Relevance>
+    <Relevance><![CDATA[exists (values "Version" of keys of keys "HKLM\software\microsoft\net framework setup\ndp" of native registry) whose (it as string as version >= "3.5.30729" as version) OR (it = "Win8" or it = "Win8.1" or it = "Win2012" or it = "Win2012R2" or it = "Win10") of name of operating system /* Is .Net Installed */]]></Relevance>
     <Category>Important</Category>
     <Source>BigFix</Source>
     <SourceReleaseDate>2016-12-05</SourceReleaseDate>
@@ -42,7 +42,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Source Release Date: 2016-12-05
 if {name of operating system = "WinXP"}
-    prefetch powershell-xp.exe sha1:540d661066953d76a6907b6ee0d1cd4531c1e1c6 size:6156064 http://download.microsoft.com/download/E/C/E/ECE99583-2003-455D-B681-68DB610B44A4/WindowsXP-KB968930-x86-ENG.exe sha256:0ef2a9b4f500b66f418660e54e18f5f525ed8d0a4d7c50ce01c5d1d39767c00c
+    prefetch powershell-xp.exe sha1:540d661066953d76a6907b6ee0d1cd4531c1e1c6 size:6156064 https://download.microsoft.com/download/E/C/E/ECE99583-2003-455D-B681-68DB610B44A4/WindowsXP-KB968930-x86-ENG.exe sha256:0ef2a9b4f500b66f418660e54e18f5f525ed8d0a4d7c50ce01c5d1d39767c00c
 elseif {name of operating system = "WinXP-2003"}
     prefetch powershell-xp.exe sha1:8ba702aa016e4c5aed581814647f4d55635eff5c size:10334496 http://download.microsoft.com/download/B/D/9/BD9BB1FF-6609-4B10-9334-6D0C58066AA7/WindowsServer2003-KB968930-x64-ENG.exe sha256:9f5d24517f860837daaac062e5bf7e6978ceb94e4e9e8567798df6777b56e4c8
 elseif {name of operating system equals "Win2003" AND not x64 of operating system}

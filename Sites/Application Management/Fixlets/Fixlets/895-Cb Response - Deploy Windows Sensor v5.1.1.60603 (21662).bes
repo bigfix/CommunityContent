@@ -37,7 +37,7 @@
 // ("prefetch cbinstaller.zip sha1:" & sha1 of it as string & " size:" & size of it as string & " http://127.0.0.1:52311/Uploads/" & name of it & "  sha256:" & sha256 of it as string) of file "cbinstaller.zip" of folder (value of setting "_BESRelay_HTTPServer_ServerRootPath" of client & "Uploads")
 prefetch cbinstaller.zip sha1:721ad2e574d205dc666b35ebb41932fb433bb01b size:3582843 http://127.0.0.1:52311/Uploads/CarbonBlackGPOInstaller-5.11.60603-Internal%20AWS%20Clients.zip sha256:9fd70b764dc842f9733333139921a169a01b60adfa7d3ec3e8695dd865220a86
 
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 utility __Download\unzip.exe
 
 waithidden __Download\unzip.exe -qq -o -d __Download\ __Download\cbinstaller.zip

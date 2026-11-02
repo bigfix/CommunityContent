@@ -59,7 +59,7 @@ if {(it contains "Win2008R2") of name of operating system}
 endif
 // On 2008 and pre Win 7 need to download and install.
 if {version of operating system < "6.1" or (it contains "Win2008") of name of operating system}
-    prefetch dotnetfx35.exe sha1:3dce66bae0dd71284ac7a971baed07030a186918 size:242743296 http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe sha256:0582515bde321e072f8673e829e175ed2e7a53e803127c50253af76528e66bc1
+    prefetch dotnetfx35.exe sha1:3dce66bae0dd71284ac7a971baed07030a186918 size:242743296 https://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe sha256:0582515bde321e072f8673e829e175ed2e7a53e803127c50253af76528e66bc1
     wait __Download\dotnetfx35.exe /q /norestart
     run "{pathname of client folder of site "BESSupport" & "\RunQuiet.exe"}" "{pathname of client folder of site "BESSupport" & "\qchain.exe"}"
 endif

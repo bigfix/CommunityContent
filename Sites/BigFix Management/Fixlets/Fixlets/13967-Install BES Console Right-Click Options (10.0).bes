@@ -47,15 +47,15 @@
 				<Link>here</Link>
 				<PostLink><![CDATA[ to install <B>All Right-Click Options</B>.]]></PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 https://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
 
-prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 https://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
 
-prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 https://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
 
-prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 https://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
 
-prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 https://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
 
 wait __Download/BESConsoleRightClickInstall.exe -c -B -w -t -i -n -o -s</ActionScript>
 		</Action>
@@ -65,7 +65,7 @@ wait __Download/BESConsoleRightClickInstall.exe -c -B -w -t -i -n -o -s</ActionS
 				<Link>here</Link>
 				<PostLink><![CDATA[ to install only the <B>Windows Remote Management</B> context menu extensions.]]></PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 https://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
 
 wait __Download/BESConsoleRightClickInstall.exe -c -B -w</ActionScript>
 		</Action>
@@ -75,15 +75,15 @@ wait __Download/BESConsoleRightClickInstall.exe -c -B -w</ActionScript>
 				<Link>here</Link>
 				<PostLink><![CDATA[ to install only the <B>BES Console Tools</B> context menu extensions.]]></PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 https://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
 
-prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 http://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
+prefetch CopyFromComputerList.exe sha1:94cb41d251fb7c466ae51531a8db41503ff7b369 size:10240 https://software.bigfix.com/download/bes/util/CopyFromComputerList.exe sha256:d494028670c778cdd04b095b537dcf669be9e425342f6a090388021e7df1974d
 
-prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 https://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
 
-prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 http://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
+prefetch iteratecmd.bat sha1:6c8f31a88fba6ad5b25b9383204bfb2cbc931a40 size:293 https://software.bigfix.com/download/bes/util/iteratecmd.bat sha256:09f983e4db7e7a4c29e01291b6ba1e69f3ec2c257a94da81c90ae4e26c390824
 
-prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 https://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
 
 wait __Download/BESConsoleRightClickInstall.exe -t -i -n -o</ActionScript>
 		</Action>
@@ -93,11 +93,11 @@ wait __Download/BESConsoleRightClickInstall.exe -t -i -n -o</ActionScript>
 				<Link>here</Link>
 				<PostLink><![CDATA[ to install only the <B>Windows Shell Extensions</B> for custom content authors.]]></PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 https://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
 
-prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 http://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
+prefetch RunQuiet.exe sha1:a655065675d32a19cb4ae5170b1992cbb7950f7b size:36864 https://software.bigfix.com/download/bes/util/RunQuiet.exe sha256:22b26741dea4852b942db01b46ecbe4bc85a762379cbe6cb2c4bc1b8a3c3bde5
 
-prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 http://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
+prefetch Sha1.exe sha1:34d3307925caed02f4cc61b5c0fee10ee6ff495a size:374272 https://software.bigfix.com/download/bes/util/Sha1-1.1.2.3.exe sha256:bc2101b81ce5ec1fa29cc0f74598f4842275a4936225aedf7ef2fd349c3bf4d2
 
 wait __Download/BESConsoleRightClickInstall.exe -s</ActionScript>
 		</Action>
@@ -107,7 +107,7 @@ wait __Download/BESConsoleRightClickInstall.exe -s</ActionScript>
 				<Link>here</Link>
 				<PostLink><![CDATA[ to <B>Uninstall</B> all right-click options.]]></PostLink>
 			</Description>
-			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 http://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch BESConsoleRightClickInstall.exe sha1:429c7e47b5c9b20c64aff9b569dd761edb911352 size:1011799 https://software.bigfix.com/download/bes/util/BESConsoleRightClickInstall.exe sha256:f1df2aeef332851ec2c3b453ef6ce7ffe2c75c70ec7cd85f326ab0680af4e675
 
 wait __Download/BESConsoleRightClickInstall.exe -u -a</ActionScript>
 		</Action>

@@ -41,7 +41,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 // http://www.microsoft.com/en-us/download/details.aspx?id=40790
 // http://download.microsoft.com/download/1/D/1/1D16DA35-34C2-47FB-9BA5-35EED9603C42/vstor_redist.exe
-prefetch vstor_redist.exe sha1:d40db6440bd2b5b5aa00da63f408469ff22a9542 size:40058464 http://download.microsoft.com/download/1/D/1/1D16DA35-34C2-47FB-9BA5-35EED9603C42/vstor_redist.exe
+prefetch vstor_redist.exe sha1:d40db6440bd2b5b5aa00da63f408469ff22a9542 size:40058464 https://download.microsoft.com/download/1/D/1/1D16DA35-34C2-47FB-9BA5-35EED9603C42/vstor_redist.exe sha256:768ef6451f9c4ad9375605bada5a339a6a3483201c20ff0d718543a2441f4a86
 
 // Install
 wait __Download\vstor_redist.exe /q /norestart

@@ -30,7 +30,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 http://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch RunAsCurrentUser-2.0.3.1.exe sha1:ee47505ebfb2790b9da8a20ed70e67158e9753d0 size:342528 https://software.bigfix.com/download/bes/util/RunAsCurrentUser-2.0.3.1.exe sha256:1a9b518c775e2a85a7c47801e9b8221df338a65ad8df326485e4cd2aea22fe52
 delete pin.vbs
 delete __createfile
 createfile until end

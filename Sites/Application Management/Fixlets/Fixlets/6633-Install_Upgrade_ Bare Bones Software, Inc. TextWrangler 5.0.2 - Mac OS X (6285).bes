@@ -35,7 +35,7 @@
         <Link>here</Link>
         <PostLink> to take action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TextWrangler.dmg sha1:c8cf70b755fe7699428c4c5f207331be48febf59 size:10000786 https://s3.amazonaws.com/BBSW-download/TextWrangler_5.0.2.dmg
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch TextWrangler.dmg sha1:c8cf70b755fe7699428c4c5f207331be48febf59 size:10000786 https://s3.amazonaws.com/BBSW-download/TextWrangler_5.0.2.dmg sha256:29484008bc95aee2e2731781b514cd60ca1e19fdb5a4b575ac5dbbf79472c346
 parameter &quot;download_format&quot; = &quot;dmg&quot;
 parameter &quot;download_filename&quot; = &quot;TextWrangler_5.0.2.dmg&quot;
 parameter &quot;app_name_key&quot; = &quot;TextWrangler&quot;

@@ -132,7 +132,7 @@ if{ x64 of operating system }
 // Install for x64
 
 //download iTunes installer
-prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe sha256:e1ad381c7492dc79eeeafbd0ddf2ece605f4ee5cbfdc703808fb1fb77e931d58
 
 //extract Setup files
 wait __Download\iTunes64Setup.exe /extract
@@ -158,7 +158,7 @@ else
 // Install for x86
 
 //download iTunes installer
-prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe sha256:331d19febb7d9f8862453053eb776cb6a2a034ec5621e3ed593e69e17c528849
 
 //extract Setup files
 wait __Download\iTunesSetup.exe /extract
@@ -225,7 +225,7 @@ if{ x64 of operating system }
 // Install for x64
 
 //download iTunes installer
-prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe sha256:e1ad381c7492dc79eeeafbd0ddf2ece605f4ee5cbfdc703808fb1fb77e931d58
 
 //extract Setup files
 wait __Download\iTunes64Setup.exe /extract
@@ -250,7 +250,7 @@ else
 // Install for x86
 
 //download iTunes installer
-prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe sha256:331d19febb7d9f8862453053eb776cb6a2a034ec5621e3ed593e69e17c528849
 
 //extract Setup files
 wait __Download\iTunesSetup.exe /extract
@@ -327,7 +327,7 @@ if{ x64 of operating system }
 //Install for x64
 
 //download iTunes installer
-prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe
+prefetch iTunes64Setup.exe sha1:fd9caee83907b9f6aa01d031f63fa9ed9be2bfab size:148904784 https://secure-appldnld.apple.com/iTunes11/031-0759.20140122.T7Gtr/iTunes64Setup.exe sha256:e1ad381c7492dc79eeeafbd0ddf2ece605f4ee5cbfdc703808fb1fb77e931d58
 
 //extract Setup files
 wait __Download\iTunes64Setup.exe /extract
@@ -352,7 +352,7 @@ else
 // Install for x86
 
 //download iTunes installer
-prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe
+prefetch iTunesSetup.exe sha1:3701f3e7f7c44bad05631533f2ab52e08ae0ba1f size:137699664 https://secure-appldnld.apple.com/iTunes11/031-0758.20140122.Ccfr4/iTunesSetup.exe sha256:331d19febb7d9f8862453053eb776cb6a2a034ec5621e3ed593e69e17c528849
 
 //extract Setup files
 wait __Download\iTunesSetup.exe /extract

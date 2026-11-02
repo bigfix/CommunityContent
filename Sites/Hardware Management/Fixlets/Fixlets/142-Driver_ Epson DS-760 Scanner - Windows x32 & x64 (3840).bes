@@ -48,10 +48,10 @@ prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 ht
 
 //  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
 //  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 //  This is the driver from Epson
-prefetch epson_driver_installer.exe sha1:fc8a0f5396c12c2be313dae6ed975608730153ad size:29143752 https://ftp.epson.com/drivers/epson16141.exe
+prefetch epson_driver_installer.exe sha1:fc8a0f5396c12c2be313dae6ed975608730153ad size:29143752 https://ftp.epson.com/drivers/epson16141.exe sha256:cb2a39e606b591c7ca2cd81534a34793477998999439b03e0df40a063c5f5dc7
 
 // END of Downloads
 

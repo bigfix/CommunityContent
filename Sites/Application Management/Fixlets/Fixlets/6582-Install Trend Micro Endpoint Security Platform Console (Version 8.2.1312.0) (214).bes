@@ -52,7 +52,7 @@
         <Link>here</Link>
         <PostLink> to install the Trend Micro Endpoint Security Platform Console to the default location.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch BESConsole.exe sha1:6f87bd8e16c09c95f413836d80c55a3ce4e11e75 size:59830784 http://software.bigfix.com/download/bes/82/Trend-BES-Console-8.2.1312.0.exe
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[prefetch BESConsole.exe sha1:6f87bd8e16c09c95f413836d80c55a3ce4e11e75 size:59830784 https://software.bigfix.com/download/bes/82/Trend-BES-Console-8.2.1312.0.exe sha256:2c9ca9a5b98140e8fbc5eedd8ddc1a74e485a1b581e7081d15c0c0c9cb098d2e
 delete __Local\Get\BESConsole.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {59830784  < free space of drive of client folder of current site}

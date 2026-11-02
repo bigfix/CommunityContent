@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:7d78b7495266fd8a9f7a1f58beaea23177147fff size:2628400 https://downloads.dell.com/FOLDER01655390M/1/O780-A15.exe
+prefetch BIOS_Update.exe sha1:7d78b7495266fd8a9f7a1f58beaea23177147fff size:2628400 https://downloads.dell.com/FOLDER01655390M/1/O780-A15.exe sha256:0bc409834351d6c98bcb70b1c25aea5438f8ff3a436da2b482f877e4f3ed5437
 
 // -- END:DOWNLOADS ---------------------------
 

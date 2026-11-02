@@ -58,9 +58,9 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// For each supported platform, download and install
 if { name of operating system = "SunOS 5.10" }
 	if  { exists processor whose (type of it contains "sparc") }
-		prefetch BESRelay.pkg sha1:db8bb6358e8e70ffbffcf92d5da77e99945b856b size:14203392 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.sparc_sol10.pkg
+		prefetch BESRelay.pkg sha1:db8bb6358e8e70ffbffcf92d5da77e99945b856b size:14203392 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.sparc_sol10.pkg sha256:a3e6dfd66b0200950f90a83a0e1edcf85799a5e18c3a8945bc469043aab61d5d
 	else
-		prefetch BESRelay.pkg sha1:5b8f06dc5237aa2048c59dd37ffc11d305b03c1e size:13868032 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.x86_sol10.pkg
+		prefetch BESRelay.pkg sha1:5b8f06dc5237aa2048c59dd37ffc11d305b03c1e size:13868032 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.x86_sol10.pkg sha256:86984094d2f93fa7d6f21ce1f5eb38fb9f8abaa37647f22136421350912b143c
 	endif
 	delete "{(client folder of current site as string) & "/__appendfile"}"
 	appendfile mail=
@@ -101,7 +101,7 @@ if { name of operating system = "SunOS 5.10" }
 	wait /etc/init.d/besrelay start_skipclientrestart
 	delete /var/tmp/BESRelay.pkg
 elseif {((exists match (regex "AIX (6.1|7.1)") of name of operating system)) AND (architecture of operating system = "ppc64") }
-	prefetch BESRelay.pkg sha1:088745796ca3f50d0bda5147774ff65468415ac6 size:13660160 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc64_aix61.pkg
+	prefetch BESRelay.pkg sha1:088745796ca3f50d0bda5147774ff65468415ac6 size:13660160 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc64_aix61.pkg sha256:9fae77b686a4ee0886780da3cb45e0f6e4118d969f2c42255fc2a5749c7ac243
 	delete "/var/tmp/BESRelay.pkg"
 	// If the next line fails, there is not enough free space to complete this action
 	continue if {14203392 < free space of drive of folder "/var/tmp"}
@@ -110,7 +110,7 @@ elseif {((exists match (regex "AIX (6.1|7.1)") of name of operating system)) AND
 	wait /etc/rc.d/rc2.d/SBESRelayd start_skipclientrestart
 	delete "/var/tmp/BESRelay.pkg"
 elseif { name of operating system = "AIX 5.3" }
-	prefetch BESRelay.pkg sha1:9937387cce228ff489fbc8c283094667dd5334a0 size:12645376 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc_aix53.pkg
+	prefetch BESRelay.pkg sha1:9937387cce228ff489fbc8c283094667dd5334a0 size:12645376 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0.ppc_aix53.pkg sha256:1661cafb11bf93aa1cdacc489b1a0c9b5f9dc1f4ad6b0a7f140c91e4743a681e
 	delete "/var/tmp/BESRelay.pkg"
 	// If the next line fails, there is not enough free space to complete this action
 	continue if {14203392 < free space of drive of folder "/var/tmp"}
@@ -120,9 +120,9 @@ elseif { name of operating system = "AIX 5.3" }
 	delete "/var/tmp/BESRelay.pkg"
 elseif  { exists match (regex "Linux SuSE Enterprise (Desktop|Server) 11") of name of operating system   }
 	if { architecture of operating system = "x86_64" }
-			prefetch BESRelay.rpm sha1:fb7cc5dcb7c398f01ad5bd5a8dec8ac88a0d2624 size:2604425 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.x86_64.rpm
+			prefetch BESRelay.rpm sha1:fb7cc5dcb7c398f01ad5bd5a8dec8ac88a0d2624 size:2604425 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.x86_64.rpm sha256:9cad8d264c74c80dc0f00fbe1ee78511dbfa6b15ca15a18648f5e6cdcbd204f9
 	else
-			prefetch BESRelay.rpm sha1:5c9cb9d295a93fb8ef3d4dde7cd60d63d26a4b55 size:2477716 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.i586.rpm
+			prefetch BESRelay.rpm sha1:5c9cb9d295a93fb8ef3d4dde7cd60d63d26a4b55 size:2477716 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-sle11.i586.rpm sha256:9b26fb940b8519ccb82e66eedae940f2462becfdc6fe0e286d0b9ded69c8709c
 	endif
 	delete "/var/tmp/BESRelay.rpm"
 	move __Download/BESRelay.rpm "/var/tmp/BESRelay.rpm"
@@ -132,15 +132,15 @@ elseif  { exists match (regex "Linux SuSE Enterprise (Desktop|Server) 11") of na
 else
 	if { exists match (regex "Linux Red Hat Enterprise (AS|ES|WS) 4") of name of operating system }
 		if { architecture of operating system = "x86_64" }
-			prefetch BESRelay.rpm sha1:1e5af888b793e0f71cdd05d5a347a8770352f6bd size:3226935 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.x86_64.rpm
+			prefetch BESRelay.rpm sha1:1e5af888b793e0f71cdd05d5a347a8770352f6bd size:3226935 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.x86_64.rpm sha256:167f2718052dbfdbcb92130a559f44dbfb481cfc171de856354dc42cdf72724a
 		else
-			prefetch BESRelay.rpm sha1:83ef2e447203e49f1d2e460c6844de4163ea5c40 size:3057352 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.i386.rpm
+			prefetch BESRelay.rpm sha1:83ef2e447203e49f1d2e460c6844de4163ea5c40 size:3057352 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe4.i386.rpm sha256:b8328fd0f8eb57c4d5e4662cc06c6bfb367e11efc1fd90be4ecb07e3afcce942
 		endif
 	elseif { exists match (regex "Linux Red Hat Enterprise (Server|Client|Workstation) (5|6)") of name of operating system }
 		if { architecture of operating system = "x86_64" }
-			prefetch BESRelay.rpm sha1:794a715ca7f5d81b824cd0011766244fc0074490 size:3164283 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.x86_64.rpm
+			prefetch BESRelay.rpm sha1:794a715ca7f5d81b824cd0011766244fc0074490 size:3164283 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.x86_64.rpm sha256:83a2e0cfb3d83bff3674044c756110ebf90b7e318d568bfad51a54d929a5c2c0
 		else
-			prefetch BESRelay.rpm sha1:78b7418f2cff2fd4685a4a7a8612ccd6f73f4b50 size:3050177 http://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.i386.rpm
+			prefetch BESRelay.rpm sha1:78b7418f2cff2fd4685a4a7a8612ccd6f73f4b50 size:3050177 https://software.bigfix.com/download/bes/82/BESRelay-8.2.1310.0-rhe5.i386.rpm sha256:5771f2630c46f7a08c31e2f81b6cc9eaece06818399300a3473f115027f6efea
 		endif
 	else
 		// Didn't match any known target - error

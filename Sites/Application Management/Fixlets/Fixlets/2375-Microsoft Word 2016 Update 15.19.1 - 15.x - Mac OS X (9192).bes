@@ -31,7 +31,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.19.1_160212_Updater.pkg sha1:9b2c2d7b21f798ac97dd2a744db73d1288312d6a size:969616955 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.19.1_160212_Updater.pkg sha256:6fa7977d6cfa50dca88b84e884fc820048fa59d28a091b1323f5a4b6253b3fdc
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Word_15.19.1_160212_Updater.pkg sha1:9b2c2d7b21f798ac97dd2a744db73d1288312d6a size:969616955 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Word_15.19.1_160212_Updater.pkg sha256:6fa7977d6cfa50dca88b84e884fc820048fa59d28a091b1323f5a4b6253b3fdc
 
 // Delete the Word Update PKG in case it exists
 wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Word_15.19.1_160212_Updater.pkg&apos; &quot;

@@ -31,7 +31,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.19.1_160212_Updater.pkg sha1:a319e14410ad7f2a64a52701413f8d49510f23d3 size:863202898 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.19.1_160212_Updater.pkg sha256:e4e6d06f1cebe6d7c9782841f6291cc02eb1ceb15653a55e8dbf5ae8c6b1da65
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.19.1_160212_Updater.pkg sha1:a319e14410ad7f2a64a52701413f8d49510f23d3 size:863202898 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.19.1_160212_Updater.pkg sha256:e4e6d06f1cebe6d7c9782841f6291cc02eb1ceb15653a55e8dbf5ae8c6b1da65
 
 // Delete the Excel Update PKG in case it exists
 wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Excel_15.19.1_160212_Updater.pkg&apos; &quot;

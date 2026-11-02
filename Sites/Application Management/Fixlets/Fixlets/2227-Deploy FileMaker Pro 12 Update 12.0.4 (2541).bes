@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to initiate the deployment process.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch fm_updater_12.0.4.403.dmg sha1:2f9673946f2bf7cd1f6ccc91acddd2b34c01271a size:586898054 http://fmdl.filemaker.com/UPDT/12/fm_updater_12.0.4.403.dmg
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch fm_updater_12.0.4.403.dmg sha1:2f9673946f2bf7cd1f6ccc91acddd2b34c01271a size:586898054 https://fmdl.filemaker.com/UPDT/12/fm_updater_12.0.4.403.dmg sha256:d61c1ee3008ef3bdb29d600fe1c4283129c19f6e54187937478453be6e710e5d
 delete &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
 move &quot;{posix path of file &quot;fm_updater_12.0.4.403.dmg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot; &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;
 wait /usr/bin/hdiutil attach -quiet -nobrowse -mountpoint &quot;/tmp/FMPROUPDATE1204&quot; &quot;/tmp/fm_updater_12.0.4.403.dmg&quot;

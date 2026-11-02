@@ -38,8 +38,8 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
 // Downloads
 prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
-prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 https://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe sha256:ea9a15136c78ed24a158e0ceda14d0bc809936d80eba91eb3ff47f20db704254
 
 // Download Utilities for automating Local Group Policy management
 //   http://blogs.technet.com/b/fdcc/archive/2008/05/07/lgpo-utilities.aspx
@@ -133,8 +133,8 @@ action parameter query "CDKEY" with description "Enter the Rhino CDKEY:" and wit
 
 // Downloads
 prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
-prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 https://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe sha256:ea9a15136c78ed24a158e0ceda14d0bc809936d80eba91eb3ff47f20db704254
 
 // Add unzip.exe to the client utility cache
 if {exists file (pathname of client folder of current site & "\__Download\unzip.exe")}
@@ -224,8 +224,8 @@ action parameter query "ZOOSERVER" with description "Enter the Rhino Zoo License
 
 // Downloads
 prefetch 7za920.zip sha1:9ce9ce89ebc070fea5d679936f21f9dde25faae0 size:384846 http://softlayer-dal.dl.sourceforge.net/project/sevenzip/7-Zip/9.20/7za920.zip
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
-prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 http://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch rh50_en-us.exe sha1:ef92fba1a913507acd26ec1232e5358394cee1ea size:472280496 https://files.mcneel.com/dujour/exe/20140617/rh50_en-us_5.9.40617.14345.exe sha256:ea9a15136c78ed24a158e0ceda14d0bc809936d80eba91eb3ff47f20db704254
 
 // Add unzip.exe to the client utility cache
 if {exists file (pathname of client folder of current site & "\__Download\unzip.exe")}

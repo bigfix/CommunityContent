@@ -30,7 +30,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// Download Sysmon and unzip utility
 prefetch sysmon.zip sha1:4ed62db2012d9aeae65ac658fb0996588ac186c5 size:1432504 https://download.sysinternals.com/files/Sysmon.zip sha256:9e57180cb4e1c541eabf4f4ee92a43c3035c584aa15dfcc2c411664b32d53910
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 // unzip sysmon
 waithidden __Download\unzip.exe -qq -o -d "{folder "__Download" of client folder of current site}" __Download\sysmon.zip"

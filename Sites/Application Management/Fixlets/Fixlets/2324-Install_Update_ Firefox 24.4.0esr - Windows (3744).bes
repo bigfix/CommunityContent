@@ -71,7 +71,7 @@
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[// http://en.wikipedia.org/wiki/Firefox_release_history
 
 //download Firefox installer
-prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 http://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe
+prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 https://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe sha256:67391cb8f4b45f664a7b25bb58a13c726b70dbe6996683381db372aba3492ef4
 
 
 // https://wiki.mozilla.org/Installer:Command_Line_Arguments
@@ -181,7 +181,7 @@ endif
 // http://en.wikipedia.org/wiki/Firefox_release_history
 
 //download Firefox installer
-prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 http://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe
+prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 https://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe sha256:67391cb8f4b45f664a7b25bb58a13c726b70dbe6996683381db372aba3492ef4
 
 
 // https://wiki.mozilla.org/Installer:Command_Line_Arguments
@@ -297,7 +297,7 @@ continue if {not exists running application whose (name of it as lowercase = "fi
 // http://en.wikipedia.org/wiki/Firefox_release_history
 
 //download Firefox installer
-prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 http://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe
+prefetch FirefoxSetupESR.exe sha1:e6ac726fca28fe6705dd764c9644beeea88dfc82 size:22747768 https://download-installer.cdn.mozilla.net/pub/firefox/releases/24.4.0esr/win32/en-US/Firefox%20Setup%2024.4.0esr.exe sha256:67391cb8f4b45f664a7b25bb58a13c726b70dbe6996683381db372aba3492ef4
 
 
 // https://wiki.mozilla.org/Installer:Command_Line_Arguments

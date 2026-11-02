@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Install/Upgrade: AutoPkg 0.4.2 - Mac OS X</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Installs AutoPkg 0.4.2 on macOS from the official GitHub release package.</p>]]></Description>
     <Relevance>mac of operating system</Relevance>
     <Relevance><![CDATA[system version >= "10.9"]]></Relevance>
     <Relevance><![CDATA[not exists (strings of values of entries whose(key of it = "Version") of dictionaries of files "/Library/AutoPkg/autopkglib/version.plist") whose(it as version >= "0.4.2" as version)]]></Relevance>
@@ -31,7 +31,7 @@
         <PostLink> to deploy this action.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch autopkg.pkg sha1:2706cb6e1bbe4f5752fe5fa5fba3003ac40a3efa size:74527 https://github.com/autopkg/autopkg/releases/download/v0.4.2/autopkg-0.4.2.pkg
+prefetch autopkg.pkg sha1:2706cb6e1bbe4f5752fe5fa5fba3003ac40a3efa size:74527 https://github.com/autopkg/autopkg/releases/download/v0.4.2/autopkg-0.4.2.pkg sha256:6738aa3ec5a581def164a2511287e5b28180186a0a375aeb17a7228bc15a94ff
 
 delete &quot;/tmp/autopkg.pkg&quot;
 move &quot;__Download/autopkg.pkg&quot; &quot;/tmp/autopkg.pkg&quot;

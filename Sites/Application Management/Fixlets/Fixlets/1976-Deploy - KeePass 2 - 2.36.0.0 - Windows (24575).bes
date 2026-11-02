@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 5CECFA817642EA40A84E70EF6C7822A41B7AEB77.exe sha1:5CECFA817642EA40A84E70EF6C7822A41B7AEB77 size:3214640 http://cfhcable.dl.sourceforge.net/project/keepass/KeePass%202.x/2.36/KeePass-2.36-Setup.exe sha256:6E34391F83870404D21666B6689B2A34521B4DB2AB1B007D9347F81B5F7E288B
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch 5CECFA817642EA40A84E70EF6C7822A41B7AEB77.exe sha1:5CECFA817642EA40A84E70EF6C7822A41B7AEB77 size:3214640 https://cfhcable.dl.sourceforge.net/project/keepass/KeePass%202.x/2.36/KeePass-2.36-Setup.exe sha256:6E34391F83870404D21666B6689B2A34521B4DB2AB1B007D9347F81B5F7E288B
 
 override wait
 hidden=true

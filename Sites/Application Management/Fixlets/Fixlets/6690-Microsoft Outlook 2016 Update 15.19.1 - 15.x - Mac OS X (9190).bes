@@ -31,7 +31,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Outlook_15.19.1_160212_Updater.pkg sha1:a2637fe7c718231189b83673c741e60cb1a66eb7 size:726904393 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Outlook_15.19.1_160212_Updater.pkg sha256:56f75c94b2236fe838165ab91026f9ae1f34f093331905a8da100caee53b4bcf
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Outlook_15.19.1_160212_Updater.pkg sha1:a2637fe7c718231189b83673c741e60cb1a66eb7 size:726904393 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Outlook_15.19.1_160212_Updater.pkg sha256:56f75c94b2236fe838165ab91026f9ae1f34f093331905a8da100caee53b4bcf
 
 // Delete the Outlook Update PKG in case it exists
 wait /bin/sh -c &quot;rm &apos;/private/tmp/Microsoft_Outlook_15.19.1_160212_Updater.pkg&apos; &quot;

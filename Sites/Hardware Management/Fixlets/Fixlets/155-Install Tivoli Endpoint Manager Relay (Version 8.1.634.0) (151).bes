@@ -53,7 +53,7 @@
         <PostLink> to install the Tivoli Endpoint Manager Relay to the default location.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 http://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe
+prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 https://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe sha256:f347ab0667b30b2ea9e63916676e4da0ff5ba44125d0093ba3d442a0c8932f49
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {6326856  < free space of drive of client folder of current site}
@@ -74,7 +74,7 @@ relay select]]></ActionScript>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[action parameter query "Relay Install Location" with description "Please enter the path where you would like the Tivoli Endpoint Manager Relay installed:" with default value "C:\Program Files\BigFix Enterprise\BES Relay"
 continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 http://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe
+prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 https://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe sha256:f347ab0667b30b2ea9e63916676e4da0ff5ba44125d0093ba3d442a0c8932f49
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {6326856  < free space of drive of client folder of current site}
@@ -94,7 +94,7 @@ relay select]]></ActionScript>
         <PostLink> to install the Tivoli Endpoint Manager Relay on the drive with the most free space.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[continue if {name of operating system is not "Win2000" or not exists running application "mmc.exe"}
-prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 http://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe
+prefetch BESRelay.exe sha1:08c877763a733086c0bc47e7b3a552d857bc113a size:6326856 https://software.bigfix.com/download/bes/81/BigFix-BES-Relay-8.1.634.0.exe sha256:f347ab0667b30b2ea9e63916676e4da0ff5ba44125d0093ba3d442a0c8932f49
 delete __Local\Get\BESRelay.exe
 // If the next line fails, there is not enough free space to complete this action
 continue if {6326856  < free space of drive of client folder of current site}

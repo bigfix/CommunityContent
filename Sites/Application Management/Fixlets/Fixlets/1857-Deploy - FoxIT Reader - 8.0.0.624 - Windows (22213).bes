@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ABE66DE337AAD51B0C9EA32A1C7090815F3D6DF4.msi sha1:ABE66DE337AAD51B0C9EA32A1C7090815F3D6DF4 size:113860608 http://cdn02.foxitsoftware.com/pub/foxit/reader/desktop/win/8.x/8.0/en_us/FoxitReader80_enu_Setup.msi sha256:AC143538C2E0E700C8EA6F205BF4D811A19CBE0242DDE1641C9BD21ED557A473
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch ABE66DE337AAD51B0C9EA32A1C7090815F3D6DF4.msi sha1:ABE66DE337AAD51B0C9EA32A1C7090815F3D6DF4 size:113860608 https://cdn02.foxitsoftware.com/pub/foxit/reader/desktop/win/8.x/8.0/en_us/FoxitReader80_enu_Setup.msi sha256:AC143538C2E0E700C8EA6F205BF4D811A19CBE0242DDE1641C9BD21ED557A473
 
 override wait
 hidden=true

@@ -55,7 +55,7 @@
         <Link>here</Link>
         <PostLink> to update the Microsoft Excel to the latest version.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
 
 
 
@@ -76,7 +76,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.2
         <Link>here</Link>
         <PostLink> to initiate the deployment process regardless of whether the related applications are running. </PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
 
 
 
@@ -98,7 +98,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.2
         <Link>here</Link>
         <PostLink> to run the installer while Excel is running... because you&apos;re a rebel... and it works.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch Microsoft_Excel_15.23.1_160617_Updater.pkg sha1:89e2a2e7da969bda7e601e77c5a387e76950d58f size:892395195 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.1_160617_Updater.pkg sha256:44b2c132b3d49da28c8320b8bce9336d109b1d6adc1b546ec87eea4c8fa3d9e5
 
 
 

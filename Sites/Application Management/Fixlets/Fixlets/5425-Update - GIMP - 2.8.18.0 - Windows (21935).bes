@@ -37,7 +37,7 @@
         <Link>here</Link>
         <PostLink> to deploy this action.</PostLink>
       </Description>
-      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AE5E9363AFB62CEB31F147ADB0B3379DD73F5635.exe sha1:AE5E9363AFB62CEB31F147ADB0B3379DD73F5635 size:77404656 http://download.gimp.org/mirror/pub/gimp/v2.8/windows/gimp-2.8.18-setup.exe sha256:41E98EF75C2992ACC9B481147BF3DB35652A4C7E1DA70BB06A2D2EC9A0853A2D
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">prefetch AE5E9363AFB62CEB31F147ADB0B3379DD73F5635.exe sha1:AE5E9363AFB62CEB31F147ADB0B3379DD73F5635 size:77404656 https://download.gimp.org/mirror/pub/gimp/v2.8/windows/gimp-2.8.18-setup.exe sha256:41E98EF75C2992ACC9B481147BF3DB35652A4C7E1DA70BB06A2D2EC9A0853A2D
 
 override wait
 hidden=true

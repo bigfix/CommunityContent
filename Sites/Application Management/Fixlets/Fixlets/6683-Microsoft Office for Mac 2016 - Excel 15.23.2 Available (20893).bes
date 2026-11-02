@@ -43,7 +43,7 @@
         <PostLink> to update the Microsoft Excel only if it is not running.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
 
 wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
 
@@ -60,7 +60,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.2
         <PostLink> to update the Microsoft Excel, asking, then forcing to quit after 1 minute.</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
 
 wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
 
@@ -88,7 +88,7 @@ wait /bin/sh -c &quot;/usr/sbin/installer -pkg /private/tmp/Microsoft_Excel_15.2
         <PostLink> to run the installer regardless if Excel is running (not officially supported by Microsoft).</PostLink>
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
-prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 http://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
+prefetch Microsoft_Excel_15.23.2_160624_Updater.pkg sha1:f1b8e0ef675d9b113a4d622c4ed5fd2efdc49f92 size:892366530 https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Excel_15.23.2_160624_Updater.pkg sha256:4a96d7cc687a33632984a6425e602dd38bb4c948269bf0e8bb1d7054a63181fd
 
 wait cp &quot;{posix path of file &quot;Microsoft_Excel_15.23.2_160624_Updater.pkg&quot; of folder &quot;__Download&quot; of client folder of current site}&quot;  &quot;/private/tmp/Microsoft_Excel_15.23.2_160624_Updater.pkg&quot;
 

@@ -36,7 +36,7 @@
 continue if {name of operating system contains &quot;Win&quot;}
 
 //Grab installer and configuration files
-prefetch splunkforwarder.msi sha1:ef91686217fe13d6faf2ac6eb78b56a7ed3b541a size:58499072 http://download.splunk.com/products/universalforwarder/releases/7.1.3/windows/splunkforwarder-7.1.3-51d9cac7b837-x64-release.msi
+prefetch splunkforwarder.msi sha1:ef91686217fe13d6faf2ac6eb78b56a7ed3b541a size:58499072 https://download.splunk.com/products/universalforwarder/releases/7.1.3/windows/splunkforwarder-7.1.3-51d9cac7b837-x64-release.msi sha256:5d604371db87527b883579393177e881a1d4f081fc7aebacaf18c464ed155637
 
 //Parameter defining the version being upgraded to
 parameter &quot;version&quot;=&quot;7.1.3&quot;

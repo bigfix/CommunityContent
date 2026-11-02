@@ -54,7 +54,7 @@
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
-prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 https://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe sha256:6c6e7707bdf464de501a762f894303c42de1295f42ad7dce7eed28957eda0118
 delete __Local\Get\BESRelay.exe
 move __Download\BESRelay.exe __Local\Get\BESRelay.exe
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;
@@ -75,7 +75,7 @@ relay select
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 action parameter query &quot;Relay Install Location&quot; with description &quot;Please enter the path where you would like the BES Relay installed:&quot; with default value &quot;C:\Program Files\BigFix Enterprise\BES Relay&quot;
 continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
-prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 https://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe sha256:6c6e7707bdf464de501a762f894303c42de1295f42ad7dce7eed28957eda0118
 delete __Local\Get\BESRelay.exe
 move __Download\BESRelay.exe __Local\Get\BESRelay.exe
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;
@@ -95,7 +95,7 @@ relay select
       </Description>
       <ActionScript MIMEType="application/x-Fixlet-Windows-Shell">
 continue if {name of operating system is not &quot;Win2000&quot; or not exists running application &quot;mmc.exe&quot;}
-prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 http://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe
+prefetch BESRelay.exe sha1:6e4a9ee464414d135cc1cf7802d5b8dd78dc178c size:6265352 https://software.bigfix.com/download/bes/80/Trend-BES-Relay-8.0.627.0.exe sha256:6c6e7707bdf464de501a762f894303c42de1295f42ad7dce7eed28957eda0118
 delete __Local\Get\BESRelay.exe
 move __Download\BESRelay.exe __Local\Get\BESRelay.exe
 regset &quot;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\windows\Installer]&quot; &quot;Logging&quot;=&quot;voicewarmupx&quot;

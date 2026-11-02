@@ -12,7 +12,7 @@
 <BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
   <Fixlet>
     <Title>Run: produkey - recover Microsoft product keys - Windows</Title>
-    <Description><![CDATA[&lt;enter a description of the task here&gt; ]]></Description>
+    <Description><![CDATA[<p>Runs NirSoft ProduKey to recover Microsoft product keys and saves them to __Global\Logs\config_prodkey.xml. The output contains license keys, so handle it accordingly.</p>]]></Description>
     <Relevance><![CDATA[/* Windows XP or later */ version of operating system >= "5.1"]]></Relevance>
     <Relevance>/* Windows Only */ windows of operating system</Relevance>
     <Relevance><![CDATA[not exists files "config_prodkey.xml" whose(now - modification time of it < 30 * day) of folders "Logs" of folders "__Global" of folders "__BESData" of parent folder of client]]></Relevance>
@@ -35,7 +35,7 @@ prefetch produkey.zip sha1:55344cc446a2fb45ddd05bb3e307fc6cc80c572c size:57206 h
 
 //  - This unzip is a compiled verion of unzip v5.52 fom http://info-zip.org/
 //  - https://www.virustotal.com/en/file/8d9b5190aace52a1db1ac73a65ee9999c329157c8e88f61a772433323d6b7a4a/analysis
-prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 
 utility __Download\unzip.exe
 

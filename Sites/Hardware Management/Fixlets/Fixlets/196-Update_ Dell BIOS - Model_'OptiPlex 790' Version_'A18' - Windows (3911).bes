@@ -39,7 +39,7 @@
 
 // -- START:DOWNLOADS -------------------------
 
-prefetch BIOS_Update.exe sha1:9c67b06f0f1c5b0f850d26adc9e00e0f5a12e6f2 size:5838216 https://downloads.dell.com/FOLDER01765333M/1/O790-A18.exe
+prefetch BIOS_Update.exe sha1:9c67b06f0f1c5b0f850d26adc9e00e0f5a12e6f2 size:5838216 https://downloads.dell.com/FOLDER01765333M/1/O790-A18.exe sha256:8a611e0c96719553a2ae3cdeb45590e92c8c05bdf7181b9ee70c47d1754b672c
 
 // -- END:DOWNLOADS ---------------------------
 

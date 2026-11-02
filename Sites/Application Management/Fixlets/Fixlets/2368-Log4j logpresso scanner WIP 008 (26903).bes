@@ -80,7 +80,7 @@ move "{download path "log4j2-scan.jar"}" "{parameter "log4jscanner"}"
 if {windows of operating system}
 	// download and extract openjdk that is required for running the scanner jar
 	if {not exists folders whose (name of it as lowercase starts with "jdk" and exists file "java.exe" of folder "bin" of it) of folder (parameter "jrefolder") | true}
-		prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 http://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
+		prefetch unzip.exe sha1:84debf12767785cd9b43811022407de7413beb6f size:204800 https://software.bigfix.com/download/redist/unzip-6.0.exe sha256:2122557d350fd1c59fb0ef32125330bde673e9331eb9371b454c2ad2d82091ac
 		if {x64 of operating system}
 			prefetch openjdk.zip sha1:11ddd29c02809c1258e1b7075b0702bbd9f21937 size:42661417 https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.13%2B8/OpenJDK11U-jre_x64_windows_hotspot_11.0.13_8.zip sha256:7b0c07a068506b8539408cfe60e3120f54610af463a2dbd3b2ca42b572dd567e
 		else
