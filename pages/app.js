@@ -85,6 +85,7 @@ const sidebarHideBtn = document.getElementById("sidebar-hide-btn");
 const sidebarShowBtn = document.getElementById("sidebar-show-btn");
 
 let allFiles = []; // [{path, name, dir}]
+let recentContributions = []; // [{path, added, author, login}] - from index.json's "recent"
 let activePath = null;
 
 collapseAllBtn.addEventListener("click", () => {
@@ -132,8 +133,12 @@ async function loadFileList(forceRefresh) {
     if (!res.ok) throw new Error(`Could not load index.json (${res.status})`);
     const data = await res.json();
     allFiles = (data.files || []).slice().sort((a, b) => a.path.localeCompare(b.path));
+    recentContributions = data.recent || []; // absent in an older/CI-less index: welcome page just omits the list
     renderTree(allFiles);
     statusTextEl.textContent = `${allFiles.length} files`;
+    // A manual Refresh while on the welcome page should update its list too
+    // (initial load is handled by init(), which knows whether ?file= is set).
+    if (forceRefresh && !activePath) showWelcome();
   } catch (err) {
     statusTextEl.textContent = "Failed to load file list";
     treeRootEl.innerHTML = "";
@@ -291,8 +296,131 @@ window.addEventListener("popstate", () => {
   if (path) {
     activePath = path;
     loadAndRenderFile(path);
+  } else {
+    // Back to the entry that had no ?file= : the default view.
+    activePath = null;
+    document.querySelectorAll(".tree-file.active").forEach((el) => el.classList.remove("active"));
+    showWelcome();
   }
 });
+
+/* ---------------------------------------------------------------------
+ * Welcome (default) view
+ * Shown when no file is selected: a greeting, a pointer to the source repo
+ * for full search/browse, and the most recent contributions. The list comes
+ * from index.json's "recent" array, which generate_index.py builds from git
+ * history and credits to each file's ORIGINAL author (not the bot that later
+ * renamed it) - this page never talks to GitHub's API.
+ * ------------------------------------------------------------------- */
+
+function showWelcome() {
+  mainEl.innerHTML = "";
+  const root = document.createElement("section");
+  root.className = "welcome";
+
+  const h1 = document.createElement("h1");
+  h1.textContent = "Welcome to the BigFix Community Content Viewer";
+  root.appendChild(h1);
+
+  const lead = document.createElement("p");
+  lead.className = "welcome-lead";
+  lead.textContent =
+    "Browse the Fixlets, Tasks, Analyses, Baselines and Inventory Signatures shared by the BigFix community. " +
+    "Pick an item from the file list to preview its description, relevance and actions.";
+  root.appendChild(lead);
+
+  // The filter box only matches file paths, so be upfront about what this viewer can't do.
+  const notice = document.createElement("div");
+  notice.className = "welcome-notice";
+  const strong = document.createElement("strong");
+  strong.textContent = "Looking for something specific? ";
+  notice.appendChild(strong);
+  notice.appendChild(
+    document.createTextNode(
+      "This viewer is a lightweight preview, and its filter only matches file names. " +
+        "For full searchability and browsing, refer back to the source GitHub repository: "
+    )
+  );
+  const repoA = document.createElement("a");
+  repoA.href = repoLinkEl.href;
+  repoA.target = "_blank";
+  repoA.rel = "noopener";
+  repoA.textContent = repoLinkEl.textContent;
+  notice.appendChild(repoA);
+  notice.appendChild(document.createTextNode("."));
+  root.appendChild(notice);
+
+  const h2 = document.createElement("h2");
+  h2.textContent = "Recent contributions";
+  root.appendChild(h2);
+
+  const byPath = new Map(allFiles.map((f) => [f.path, f]));
+  // Skip anything no longer in the file list (e.g. index.json regenerated mid-session).
+  const items = recentContributions.filter((r) => byPath.has(r.path));
+  if (items.length === 0) {
+    const none = document.createElement("p");
+    none.className = "welcome-empty";
+    none.textContent = "Recent contribution details aren't available right now.";
+    root.appendChild(none);
+  } else {
+    const list = document.createElement("ol");
+    list.className = "recent-list";
+    for (const r of items) list.appendChild(renderRecentItem(r, byPath.get(r.path)));
+    root.appendChild(list);
+  }
+
+  mainEl.appendChild(root);
+  mainEl.scrollTop = 0;
+}
+
+function renderRecentItem(r, file) {
+  const li = document.createElement("li");
+  li.className = "recent-item";
+
+  const dot = document.createElement("span");
+  dot.className = `type-dot ${typeDotClass(file.type)}`;
+  li.appendChild(dot);
+
+  // A real href (the same ?file= URL selectFile pushes) so open-in-new-tab and
+  // copy-link work, while a plain click is handled in-page without a reload.
+  const link = document.createElement("a");
+  const url = new URL(location.href);
+  url.search = "";
+  url.searchParams.set("file", r.path);
+  link.href = url.href;
+  link.className = "recent-title";
+  link.textContent = file.title || file.name.replace(/\.bes$/i, "");
+  link.onclick = (ev) => {
+    if (ev.ctrlKey || ev.metaKey || ev.shiftKey || ev.button !== 0) return;
+    ev.preventDefault();
+    selectFile(r.path);
+  };
+  li.appendChild(link);
+
+  const meta = document.createElement("span");
+  meta.className = "recent-meta";
+  meta.appendChild(document.createTextNode(`${file.type || "Other"} · by `));
+  if (r.login) {
+    const who = document.createElement("a");
+    who.href = `https://${GITHUB_SITE}/${encodeURIComponent(r.login)}`;
+    who.target = "_blank";
+    who.rel = "noopener";
+    who.textContent = r.author || r.login;
+    meta.appendChild(who);
+  } else {
+    meta.appendChild(document.createTextNode(r.author || "unknown"));
+  }
+  const when = new Date(r.added);
+  if (!isNaN(when)) {
+    meta.appendChild(
+      document.createTextNode(
+        ` · ${when.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`
+      )
+    );
+  }
+  li.appendChild(meta);
+  return li;
+}
 
 async function loadAndRenderFile(path) {
   mainEl.innerHTML = `<div class="spinner-line">Loading ${escapeText(path)}…</div>`;
@@ -1002,5 +1130,7 @@ function sanitizeNode(parent) {
     activePath = initialPath;
     renderTree(allFiles);
     loadAndRenderFile(initialPath);
+  } else {
+    showWelcome();
   }
 })();
