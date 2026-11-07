@@ -52,6 +52,10 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
           token: ${{ steps.generate-token.outputs.token }}
+          # Full history: generate_index.py reads git log to credit each file's
+          # original author on the viewer's welcome page (a shallow clone would
+          # attribute everything to the latest commit).
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
