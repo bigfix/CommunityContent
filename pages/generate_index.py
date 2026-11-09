@@ -14,7 +14,9 @@ Run from the repo root:
     python scripts/generate_index.py
 """
 import json
+from datetime import datetime
 import re
+import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -23,6 +25,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_ROOT = REPO_ROOT / "Sites"
 SIGNATURE_ROOT = REPO_ROOT / "Signatures"
 OUTPUT_PATH = REPO_ROOT / "pages" / "index.json"
+
+# How many entries the viewer's welcome page lists under "Recent contributions".
+RECENT_COUNT = 10
+
+# GitHub's privacy-preserving commit emails: "<id>+<login>@users.noreply.github.com"
+# (current) or "<login>@users.noreply.github.com" (legacy). The only place a git
+# commit reveals a GitHub login without calling the API.
+NOREPLY_EMAIL_RE = re.compile(r"^(?:\d+\+)?([^@+]+)@users\.noreply\.github\.com$")
 
 KNOWN_ROOT_TAGS = {"Task", "Fixlet", "Analysis", "Baseline", "TaskCondition", "ComputerGroup"}
 
@@ -164,12 +174,126 @@ def describe_signature(source_rel_path: Path):
     return entry
 
 
+def git(*args):
+    """Run git in the repo and return stdout as text; raises on failure."""
+    result = subprocess.run(
+        ["git", "-c", "core.quotepath=false", *args],
+        cwd=REPO_ROOT, check=True, capture_output=True,
+    )
+    return result.stdout.decode("utf-8", errors="replace")
+
+
+def parse_author(header):
+    """Split a '<name>\\x1f<email>\\x1f<iso date>' record into a contribution dict."""
+    name, email, date = (header.split("\x1f") + ["", "", ""])[:3]
+    m = NOREPLY_EMAIL_RE.match(email)
+    return {
+        "author": name,
+        # Only trust a noreply email for a profile link, and never for bots.
+        "login": m.group(1) if m and not name.endswith("[bot]") else "",
+        "date": date,
+    }
+
+
+def newest_paths_on_main():
+    """Current content paths, most recently landed on main first.
+
+    Replays the first-parent (main line) history oldest -> newest with rename
+    detection, so a file's "landing" position survives the update-index
+    workflow's ID-prefix renames: A(dd) stamps the path with the commit's
+    position, R(ename) carries the stamp to the new path, D(elete) drops it.
+    First-parent (with -m, so merge commits diff against their first parent)
+    keeps the replay linear and correct even when content arrived via a
+    pull-request merge after being deleted and re-added on other branches.
+    This only ORDERS files by recency; who actually authored them is resolved
+    separately (see original_author), because a merge/bot commit's own author
+    is not the contributor.
+    """
+    out = git(
+        "log", "-z", "--first-parent", "-m", "--reverse", "-M", "-l0",
+        "--name-status", "--format=%x01", "--", "Sites", "Signatures",
+    )
+    # With -z, --name-status emits NUL-separated tokens: a "\x01" header per
+    # commit, then per file "<status>", "<path>" (renames: "<old>", "<new>").
+    tokens = [t.lstrip("\n") for t in out.split("\0")]
+    landed: dict[str, int] = {}
+    seq = 0
+    i = 0
+    while i < len(tokens):
+        tok = tokens[i]
+        i += 1
+        if not tok:
+            continue
+        if tok.startswith("\x01"):
+            seq += 1
+            continue
+        status = tok[0]  # A, M, D, R, C, T, ...
+        if status in "RC" and i + 1 < len(tokens):
+            old, new = tokens[i], tokens[i + 1]
+            i += 2
+            landed[new] = landed.pop(old, seq) if status == "R" else seq
+        elif i < len(tokens):
+            path = tokens[i]
+            i += 1
+            if status == "A":
+                landed[path] = seq
+            elif status == "D":
+                landed.pop(path, None)
+    return [p for p, _seq in sorted(landed.items(), key=lambda kv: (kv[1], kv[0]), reverse=True)]
+
+
+def original_author(path):
+    """Who first added `path`, following it back across renames (or None).
+
+    `--follow` walks the file's history through the bot's ID-prefix rename to
+    its original name; --diff-filter=A keeps only the add commits, and the
+    oldest of those is the original contribution.
+    """
+    out = git(
+        "log", "--follow", "--diff-filter=A", "-M", "--format=%an%x1f%ae%x1f%aI", "--", path
+    )
+    lines = [ln for ln in out.splitlines() if ln.strip()]
+    return parse_author(lines[-1]) if lines else None
+
+
+def recent_contributions(existing_paths):
+    """The RECENT_COUNT most recent contributions, newest first, as
+    [{path, added, author, login}], credited to the original author.
+
+    Needs full git history (CI must check out with fetch-depth: 0); returns []
+    with a warning when history is unavailable so the index still builds and
+    the viewer simply omits the list.
+    """
+    try:
+        if git("rev-parse", "--is-shallow-repository").strip() == "true":
+            print("warning: shallow clone - contribution data would be wrong; "
+                  "check out with fetch-depth: 0. Skipping 'recent'.", file=sys.stderr)
+            return []
+        candidates = [p for p in newest_paths_on_main() if p in existing_paths]
+        # A pull request can land many files at once, so look past RECENT_COUNT,
+        # then order by each file's original authored date.
+        rows = []
+        for path in candidates[: RECENT_COUNT * 5]:
+            info = original_author(path)
+            if info and info["date"]:
+                rows.append({"path": path, "added": info["date"],
+                             "author": info["author"], "login": info["login"]})
+    except (OSError, subprocess.CalledProcessError) as e:
+        print(f"warning: git history unavailable, skipping 'recent': {e}", file=sys.stderr)
+        return []
+    rows.sort(key=lambda r: (datetime.fromisoformat(r["added"]), r["path"]), reverse=True)
+    return rows[:RECENT_COUNT]
+
+
 def main():
     rel_paths = list(find_source_bes_files())
     entries = [describe(rel) for rel in rel_paths]
     signature_rel_paths = list(find_source_signature_files())
     entries += [describe_signature(rel) for rel in signature_rel_paths]
     payload = {
+        # Drives the viewer's welcome page; credited to whoever first added each
+        # file, not to the bots/maintainers that later renamed or touched it.
+        "recent": recent_contributions({e["path"] for e in entries}),
         "files": entries,
     }
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)

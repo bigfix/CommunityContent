@@ -318,6 +318,39 @@ header .repo-link:hover { text-decoration: underline; }
 }
 .placeholder h2 { color: var(--text); font-size: 18px; margin-bottom: 8px; }
 
+/* ---------- Welcome (default view) ---------- */
+.welcome { max-width: 760px; margin: 12px auto 0; }
+.welcome h1 { font-size: 24px; color: var(--navy); margin: 0 0 10px; }
+.welcome h2 { font-size: 16px; color: var(--text); margin: 28px 0 10px; }
+.welcome-lead { color: var(--text); line-height: 1.55; margin: 0 0 18px; }
+.welcome-notice {
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-tint-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.welcome a { color: var(--accent); }
+.welcome-empty { color: var(--muted); font-size: 13.5px; }
+.recent-list { list-style: none; margin: 0; padding: 0; }
+.recent-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: baseline;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.recent-item .type-dot { width: 9px; height: 9px; border-radius: 50%; align-self: center; }
+.recent-title { font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+.recent-title:hover { text-decoration: underline; }
+.recent-meta { grid-column: 2; font-size: 12px; color: var(--muted); }
+
 .error-box {
   max-width: 640px;
   margin: 40px auto;
