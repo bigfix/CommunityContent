@@ -181057,6 +181057,25 @@
       "keywords": ""
     },
     {
+      "path": "Sites/Windows Management/Fixlets/Fixlets/13968-AppLocker - Configure BESClient as Managed Installer.bes",
+      "name": "13968-AppLocker - Configure BESClient as Managed Installer.bes",
+      "dir": "Sites/Windows Management/Fixlets/Fixlets",
+      "type": "Task",
+      "title": "AppLocker: Configure BESClient as a Managed Installer",
+      "source": "Internal",
+      "sourceReleaseDate": "2026-11-13",
+      "severity": "",
+      "domain": "BESC",
+      "downloadSize": "",
+      "relevanceCount": 4,
+      "author": "",
+      "id": "",
+      "publisher": "",
+      "productName": "",
+      "release": "",
+      "keywords": ""
+    },
+    {
       "path": "Sites/Windows Management/Fixlets/Fixlets/1397-Invoke - Bitlocker Encrypt System Volume - Windows (23093).bes",
       "name": "1397-Invoke - Bitlocker Encrypt System Volume - Windows (23093).bes",
       "dir": "Sites/Windows Management/Fixlets/Fixlets",
