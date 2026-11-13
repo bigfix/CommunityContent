@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Task>
+    <Title>AppLocker: Configure BESClient as a Managed Installer</Title>
+    <Description><![CDATA[Adds BESClient as a Managed Installer for AppLocker<br>
+          Requires AppLocker to be enabled and running.  Note that AppLocker, unlike WDAC, is still available only on Enterprise, Eduction, or Server editions of Windows
+          AppLocker rulers can be leveraged by WDAC but not on Windows Professional or Business editions.<br>
+
+          ]]></Description>
+    <Relevance>windows of operating system</Relevance>
+    <Relevance>if exists property "in proxy agent context" then not in proxy agent context else
+      true</Relevance>
+    <Relevance><![CDATA[version of operating system >= "6" as version]]></Relevance>
+    <Relevance>not (exists services "AppIDSvc" whose (state of it = "Running")) and not (exists
+      keys "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SrpV2\ManagedInstaller" of
+      native registry)</Relevance>
+    <Category></Category>
+    <Source>Internal</Source>
+    <SourceID></SourceID>
+    <SourceReleaseDate>2026-11-13</SourceReleaseDate>
+    <SourceSeverity></SourceSeverity>
+    <CVENames></CVENames>
+    <SANSID></SANSID>
+    <MIMEField>
+      <Name>x-fixlet-modification-time</Name>
+      <Value>Fri, 13 Nov 2026 18:42:59 +0000</Value>
+    </MIMEField>
+    <Domain>BESC</Domain>
+    <DefaultAction ID="Action1">
+      <Description>
+        <PreLink>Click </PreLink>
+        <Link>here</Link>
+        <PostLink> to deploy this action.</PostLink>
+      </Description>
+      <ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[
+// 1. Disable 32-bit redirection so PowerShell, sc.exe, fsutil, and appidtel run natively in 64-bit context
+action uses wow64 redirection false
+
+// 2. Define working paths - storage folder contains BESClient.exe
+parameter "StorageFolder" = "{pathname of storage folder of client}"
+parameter "BesExePath" = "{parameter "StorageFolder"}\BESClient.exe"
+parameter "WorkDir" = "{pathname of client folder of current site}\__Download"
+parameter "PS1Path" = "{pathname of client folder of current site}\__Download\Configure-BigFixMI.ps1"
+parameter "LogPath" = "{pathname of client folder of current site}\__Download\BigFixMI_Setup.log"
+
+// 3. Clean up any previous run artifacts
+delete "{parameter "PS1Path"}"
+delete "{parameter "LogPath"}"
+
+// 4. Write the self-contained PowerShell configuration & verification script
+createfile until __EOF_PS1__
+$ErrorActionPreference = 'Stop'
+$LogFile = "{parameter "LogPath"}"
+
+function Write-Log ($Message) {{
+    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    "$Timestamp - $Message" | Out-File -FilePath $LogFile -Append -Encoding UTF8
+}
+
+try {{
+    Write-Log "Starting BigFix Managed Installer configuration..."
+
+    # Locate BESClient.exe dynamically
+    $BesExe = "{parameter "BesExePath"}"
+    if (-not (Test-Path "$BesExe")) {{
+        throw "Could not locate BESClient.exe at $BesExe"
+    }
+    Write-Log "Found BESClient.exe at: $BesExe"
+
+    # Extract Publisher info dynamically from the local BESClient.exe
+    $AppInfo = Get-AppLockerFileInformation -Path "$BesExe"
+    if (-not $AppInfo -or -not $AppInfo.Publisher) {{
+        throw "Failed to read Authenticode publisher info from $BesExe"
+    }
+
+    $PubName = $AppInfo.Publisher.PublisherName
+    $ProdName = $AppInfo.Publisher.ProductName
+    $BinName = $AppInfo.Publisher.BinaryName
+    Write-Log "Extracted Publisher: $PubName | Product: $ProdName | Binary: $BinName"
+
+    # Construct the AppLocker ManagedInstaller XML with benign Exe/Dll Audit rules to trigger service tracking
+    $XmlPath = Join-Path (Split-Path $LogFile) "BigFix_ManagedInstaller.xml"
+    $PolicyXml = @"
+<AppLockerPolicy Version="1">
+  <RuleCollection Type="ManagedInstaller" EnforcementMode="AuditOnly">
+    <FilePublisherRule Id="d9a8f1b2-3c4d-4e5f-8a9b-0c1d2e3f4a5b" Name="HCL BigFix BESClient Managed Installer" Description="Trust files written by HCL BigFix Agent" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="$PubName" ProductName="$ProdName" BinaryName="$BinName">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+  </RuleCollection>
+  <RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+    <FilePathRule Id="d9a8f1b2-3c4d-4e5f-8a9b-0c1d2e3f4a5c" Name="MI Service Tracking Placeholder (EXE)" Description="Benign audit rule required to enable service enforcement" UserOrGroupSid="S-1-1-0" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\System32\bigfix_mi_placeholder.exe" />
+      </Conditions>
+    </FilePathRule>
+  </RuleCollection>
+  <RuleCollection Type="Dll" EnforcementMode="AuditOnly">
+    <FilePathRule Id="d9a8f1b2-3c4d-4e5f-8a9b-0c1d2e3f4a5d" Name="MI Service Tracking Placeholder (DLL)" Description="Benign audit rule required to enable DLL service enforcement" UserOrGroupSid="S-1-1-0" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\System32\bigfix_mi_placeholder.dll" />
+      </Conditions>
+    </FilePathRule>
+  </RuleCollection>
+</AppLockerPolicy>
+"@
+    $PolicyXml | Out-File -FilePath $XmlPath -Encoding UTF8 -Force
+    Write-Log "Generated AppLocker XML at $XmlPath"
+
+    # Merge policy into local AppLocker configuration
+    Set-AppLockerPolicy -XmlPolicy $XmlPath -Merge
+    Write-Log "Merged AppLocker policy successfully."
+
+    # Initialize Managed Installer kernel tracking and start AppIDSvc
+    Write-Log "Running appidtel.exe start -mionly..."
+    $AppIdTelOut = & "$env:WINDIR\System32\appidtel.exe" start -mionly 2>&1
+    Write-Log "appidtel output: $AppIdTelOut"
+
+    & "$env:WINDIR\System32\sc.exe" config AppIDSvc start= auto | Out-Null
+    Start-Service -Name "AppIDSvc"
+    Write-Log "AppIDSvc configured to Automatic and started."
+
+    # Allow 3 seconds for kernel filter driver to register the updated SrpV2 policy
+    Start-Sleep -Seconds 3
+
+    # Verification Step: Write a test dummy executable via this BESClient child process and inspect its Extended Attributes
+	$TestProbe = Join-Path (Split-Path $LogFile) "mi_probe_test.exe"
+	Copy-Item -Path "$env:WINDIR\System32\whoami.exe" -Destination $TestProbe -Force
+	$EaOutput = & "$env:WINDIR\System32\fsutil.exe" file queryea $TestProbe 2>&1 | Out-String
+	Remove-Item -Path $TestProbe -Force -ErrorAction SilentlyContinue
+
+    if ($EaOutput -match "SMARTLOCKER\.ORIGINCLAIM") {{
+        Write-Log "SUCCESS: Verified `$KERNEL.SMARTLOCKER.ORIGINCLAIM extended attribute is actively stamping files."
+        exit 0
+    } else {{
+        Write-Log "WARNING: Policy applied, but SMARTLOCKER.ORIGINCLAIM was not detected on probe file. Output: $EaOutput"
+		Write-Log "This can occur if there is no AppLocker policy applied, or AppLocker is not available (i.e. Windows Pro); check AppLocker event log and Get-CimInstance -Namespace root\Microsoft\Windows\DeviceGuard -ClassName Win32_DeviceGuard | Select-Object CodeIntegrityPolicyEnforcementStatus, UsermodeCodeIntegrityPolicyEnforcementStatus"
+        exit 2
+    }
+}
+catch {{
+    Write-Log "ERROR: $($_.Exception.Message)"
+    exit 1
+}
+__EOF_PS1__
+
+move __createfile "{parameter "PS1Path"}"
+
+// 5. Execute the PowerShell script hidden and wait for completion
+waithidden "{pathname of system folder}\WindowsPowerShell\v1.0\powershell.exe" -ExecutionPolicy Bypass -NoProfile -File "{parameter "PS1Path"}"
+
+// 6. Fail the BigFix Action if the PowerShell verification exit code is non-zero
+continue if {exit code of action = 0}
+]]></ActionScript>
+    </DefaultAction>
+  </Task>
+</BES>
