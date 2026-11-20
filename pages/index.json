@@ -1,6 +1,18 @@
 {
   "recent": [
     {
+      "path": "Signatures/software_Brotli_subset_Affected_by_CVE-2026-111497-0.AFFECTED.xml",
+      "added": "2026-11-20T09:06:07-06:00",
+      "author": "Test",
+      "login": ""
+    },
+    {
+      "path": "Sites/Windows Management/Fixlets/Fixlets/13968-AppLocker - Configure BESClient as Managed Installer.bes",
+      "added": "2026-11-13T12:58:45-06:00",
+      "author": "Test",
+      "login": ""
+    },
+    {
       "path": "Signatures/software_Solid_Testimonials_Affected_by_CVE-2026-78527-0.AFFECTED.xml",
       "added": "2026-11-10T18:13:40+05:30",
       "author": "nareshbabu.srinivas",
@@ -45,18 +57,6 @@
     {
       "path": "Signatures/software_Brotli_ANY-0.any_version.xml",
       "added": "2026-10-28T14:05:43-04:00",
-      "author": "JGStew",
-      "login": ""
-    },
-    {
-      "path": "Signatures/software_Node.js_all_Affected_by_CVE-2026-111497-0.AFFECTED.xml",
-      "added": "2026-10-26T21:56:04-04:00",
-      "author": "JGStew",
-      "login": ""
-    },
-    {
-      "path": "Signatures/software_Node.js_ANY-0.any_version.xml",
-      "added": "2026-10-26T21:56:04-04:00",
       "author": "JGStew",
       "login": ""
     }
@@ -189733,6 +189733,25 @@
       "downloadSize": "",
       "relevanceCount": 0,
       "author": "Jwalker107",
+      "id": "",
+      "publisher": "Google",
+      "productName": "Brotli all Affected by CVE-2026-111497",
+      "release": "0.AFFECTED",
+      "keywords": "Brotli, libbrotli, CVE-2026-111497, AFFECTED versions"
+    },
+    {
+      "path": "Signatures/software_Brotli_subset_Affected_by_CVE-2026-111497-0.AFFECTED.xml",
+      "name": "software_Brotli_subset_Affected_by_CVE-2026-111497-0.AFFECTED.xml",
+      "dir": "Signatures",
+      "type": "Signature",
+      "title": "Brotli all Affected by CVE-2026-111497",
+      "source": "",
+      "sourceReleaseDate": "",
+      "severity": "",
+      "domain": "",
+      "downloadSize": "",
+      "relevanceCount": 0,
+      "author": "BigFix Inventory Team",
       "id": "",
       "publisher": "Google",
       "productName": "Brotli all Affected by CVE-2026-111497",
